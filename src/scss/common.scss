@@ -1,0 +1,27 @@
+@mixin bg_blur {
+  &:after {
+    box-shadow: 0 10px 40px 0 rgba(76, 70, 124, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: '';
+    z-index: 1;
+    background: inherit;
+    top: 12%;
+    transform: scale(0.9);
+    border-radius: 20px;
+    opacity: 0.9;
+    filter: blur(15px);
+  }
+  &:before {
+    content: "";
+    background: inherit;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 10px 40px 0 rgba(76, 70, 124, 0.5);
+    display: block;
+    z-index: 2;
+    position: absolute;
+    border-radius: 20px;
+  }
+}

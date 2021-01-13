@@ -1,5 +1,6 @@
 # i-player
 
+![1](/doc/1.png "1")
 ## Project setup
 ```
 yarn install
