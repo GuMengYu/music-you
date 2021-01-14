@@ -71,6 +71,10 @@ export default {
             {
               title: 'Favorite Playlist',
               items: [{
+                title: '私人雷达',
+                to: '/playlist/3136952023',
+                icon: mdiPlaylistMusicOutline,
+              }, {
                 title: '我喜欢的音乐',
                 to: '/playlist/4',
                 icon: mdiPlaylistMusicOutline,
