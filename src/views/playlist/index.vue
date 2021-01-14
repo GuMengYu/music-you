@@ -76,7 +76,12 @@ import SongBar from '@components/songbar';
 export default {
   name: 'PlayList',
   components: {SongBar},
-  props: ['id'],
+  props: {
+    id: {
+      type: String,
+      default: '1',
+    },
+  },
   data() {
     return {
       mdiPlay,
@@ -84,38 +89,25 @@ export default {
       playList: {
         tracks: [],
         coverImgUrl: 'http://p2.music.126.net/Vh9yL2-fN1cuqEsKZkum0w==/1402976853093659.jpg',
-        name: '慵懒小调♀隐于暗夜☆唇齿迷醉',
-        description: `九月开始 喜欢在漫咖里坠
-        音乐有时 比美酒更加让人沉醉
-        其实这也 没有什么不对
-        心情变好 也不必一定为谁
-        有时熬夜 只是纯粹不想睡
-        天气的味道 也好像不太对
-
-        我不喝咖啡
-        也不想解释理由很累
-        我想沉睡
-        偶尔会说一些梦话呓语之类
-        我想去醉
-        我开始喜欢上透明的玻璃杯
-
-        我不想 为任何事做准备
-        谈感情 喜欢我就愿意给
-        我的笑 也可以是很浪费
-        我眼神 偶尔也会很颓废
-        有些爱 纠缠不清最心累
-        无所谓 付出就是要收回
-        让自己 隐于暗夜里享受慵懒迷醉`,
+        name: '',
+        description: '',
       },
     }
   },
+  watch: {
+    id() {
+      this.fetch();
+    },
+  },
   created() {
-    getPlayList(this.id).then(({playlist}) => {
-      this.playList = {...playlist};
-    });
+    this.fetch();
   },
   methods: {
-
+    fetch() {
+      getPlayList(this.id).then(({playlist}) => {
+        this.playList = {...playlist};
+      });
+    },
   },
 }
 </script>

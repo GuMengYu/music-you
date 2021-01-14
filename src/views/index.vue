@@ -19,18 +19,21 @@
         </keep-alive>
       </v-sheet>
     </div>
+    <settings />
   </v-sheet>
 </template>
 
 <script>
-import sideNav from './nav.vue';
-import playBar from './playbar/index';
+import SideNav from './nav.vue';
+import PlayBar from './playbar/index';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PendingList from '@/views/playbar/pending-list';
+import Settings from '@components/settings';
+
 import {debounce} from '@/util/fn';
 export default {
   name: 'Layout',
-  components: {PendingList, sideNav, playBar},
+  components: {PendingList, SideNav, PlayBar, Settings},
   data: () => ({
     openNav: true,
     openSetting: false,
@@ -39,20 +42,20 @@ export default {
   }),
   mounted () {
     this.handleWindowResize();
-    window.onresize = debounce(this.handleWindowResize, 1000, true);
+    window.onresize = debounce(this.handleWindowResize, 500, false);
   },
   methods: {
     handleWindowResize() {
       console.log('resizing');
       const {innerHeight, innerWidth} = window;
       const $app = this.$refs['musicApp'].$el;
-      Object.assign($app.style, {minWidth: innerWidth + 'px', maxHeight : innerHeight + 'px'});
+      Object.assign($app.style, {maxWidth: innerWidth + 'px', maxHeight : innerHeight + 'px'});
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-$playerbarHeight: 80px;
+$playerbarHeight: 62px;
 .music-app {
   width: 100%;
   height: 100%;
@@ -60,7 +63,7 @@ $playerbarHeight: 80px;
   position: relative;
   transform: translate(0%);
   .pending-list {
-    top: 80px!important;
+    top: 62px!important;
     height: calc(100% - #{$playerbarHeight}) !important;
   }
   .content {

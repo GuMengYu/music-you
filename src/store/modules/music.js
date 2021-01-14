@@ -1,15 +1,17 @@
 import {getLyric, getSongData} from '@util/musicService';
 import {Message} from '@/plugins/snackbar';
+import {make} from 'vuex-pathify';
+const state = {
+  playing: false,
+  musicUrl: '',
+  song: {},
+  currentTime: 0,
+  pendingList: [],
+  showList: false,
+};
 export default {
   namespaced: true,
-  state: {
-    playing: false,
-    musicUrl: '',
-    song: {},
-    currentTime: 0,
-    pendingList: [],
-    showList: false,
-  },
+  state,
   getters: {
 
   },
@@ -34,6 +36,7 @@ export default {
     },
   },
   mutations: {
+    ...make.mutations(state),
     UPDATE_PENDING_LIST(state, list) {
       state.pendingList = list;
     },
@@ -44,9 +47,6 @@ export default {
       Object.keys(payload).map(key => {
         state[key] = payload[key];
       });
-    },
-    UPDATE_WAIT_LIST(state, showList = false) {
-      state.showList = showList;
     },
   },
 };

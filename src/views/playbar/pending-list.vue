@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-show="open"
+    v-show="showList"
     fixed
     permanent
     right
@@ -36,6 +36,7 @@
 <script>
 import { mdiClose } from '@mdi/js';
 import { mapState } from 'vuex';
+import {sync} from 'vuex-pathify';
 import SongBar from '@components/songbar';
 export default {
   components: {SongBar},
@@ -46,9 +47,9 @@ export default {
   },
   computed: {
     ...mapState({
-      open: state => state.music.showList === true,
       pendingList: state => state.music.pendingList,
     }),
+    showList: sync('music/showList'),
     currentSong: {
       get() {
         return this.$store.state.music.song?.id;

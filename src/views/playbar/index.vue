@@ -103,8 +103,8 @@
             <span>{{ playTime | formatDuring }}</span>
           </div>
           <v-slider
-            height="20"
             v-model="playTime"
+            height="20"
             class="playing-progress"
             dense
             hide-details
@@ -150,7 +150,7 @@
           icon
           text
           color="blue"
-          @click="toggleWaitList"
+          @click="showList = !showList"
         >
           <v-icon small>
             {{ icon.mdiPlaylistMusic }}
@@ -176,6 +176,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import {sync} from 'vuex-pathify';
 import {
   mdiHeart,
   mdiSkipPrevious,
@@ -230,8 +231,8 @@ export default {
       playing: state => state.music.playing,
       pendingList: state => state.music.pendingList,
       currentTime: state => state.music.currentTime,
-      showList: state => state.music.showList,
     }),
+    showList: sync('music/showList'),
     songIndex() {
       return this.pendingList.findIndex(song => song.id === this.song.id);
     },
@@ -347,9 +348,6 @@ export default {
     playOrder() {
       this.playMode < 3 ? this.playMode++ : (this.playMode = 0);
     },
-    toggleWaitList() {
-      this.$store.commit('music/UPDATE_WAIT_LIST', !this.showList);
-    },
     initMediaSession() {
       // https://developers.google.com/web/updates/2017/02/media-session
       if ('mediaSession' in navigator) {
@@ -386,7 +384,8 @@ export default {
   padding: 5px 5px 0;
   -webkit-app-region: drag;
   .playing-bar__left {
-    max-width: 200px;
+    min-width: 200px;
+    max-width: 220px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -407,7 +406,7 @@ export default {
   }
   .playing-bar__center {
     .playing-control {
-      min-width: 270px;
+      min-width: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;

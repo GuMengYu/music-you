@@ -5,83 +5,34 @@
     permanent
     class="nav"
   >
-    <div class="searchArea">
-      <i-input />
-    </div>
-
-    <v-list
-      dense
-      nav
-    >
-      <v-list-item-group
-        v-model="activeTab"
-      >
-        <template v-for="o in sideBar">
-          <v-list-item-subtitle
-            :key="o.val"
-            class="mt-2 mb-2 pl-2 pr-2 font-weight-bold grey--text text--darken-2"
-          >
-            {{ o.name }}
-          </v-list-item-subtitle>
-          <v-list-item
-            v-for="tab in o.child"
-            :key="tab.val"
-            link
-            :value="tab.val"
-          >
-            <v-list-item-icon class="ml-2 mr-2 mt-1 mb-1 d-flex align-center">
-              <v-icon
-                color="#f9223b"
-                size="18"
-              >
-                {{ tab.icon }}
-              </v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ tab.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list-item-group>
-      <v-list-group
-        v-for="item in playlist"
-        :key="item.val"
-        :value="item.val"
-      >
-        <template v-slot:activator>
-          <v-list-item-subtitle class="font-weight-bold grey--text text--darken-2" v-text="item.name"/>
-        </template>
-        <v-list-item
-          v-for="list in item.child"
-          :key="list.val"
-          link
-          :value="list.val"
-        >
-          <v-list-item-icon class="ml-2 mr-2 mt-1 mb-1 d-flex align-center">
-            <v-icon
-              color="#f9223b"
-              size="18"
-            >
-              {{ list.icon }}
-            </v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ list.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
+    <template #prepend>
+      <div class="system-action">
+        <v-btn icon @click="settings = !settings">
+          <v-icon small color="primary">
+            {{ icon.mdiCog }}
+          </v-icon>
+        </v-btn>
+        <v-btn icon>
+          <v-icon small>
+            {{ icon.mdiBrightness2 }}
+          </v-icon>
+        </v-btn>
+      </div>
+      <div class="searchArea">
+        <i-input />
+      </div>
+    </template>
+    <default-list :items="nav" />
   </v-navigation-drawer>
 </template>
 
 <script>
-import { mdiMotionPlay, mdiMusicNoteEighth, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMicrophoneVariant, mdiHistory, mdiMusicNoteHalfDotted } from '@mdi/js';
+import { mdiMotionPlay, mdiMusicNoteEighth, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMicrophoneVariant, mdiHistory, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness2 } from '@mdi/js';
 import IInput from '@components/input';
-
+import DefaultList from '@components/List';
+import { sync } from 'vuex-pathify';
 export default {
-  components: {IInput},
+  components: {IInput, DefaultList},
   props: {
     open: {
       type: Boolean,
@@ -90,38 +41,48 @@ export default {
   },
   data: function(){
         return {
-          sideBar: [
+          icon: {mdiCog, mdiBrightness2},
+          nav: [
+            { title: 'Music', heading: 'Music' },
+            { icon: mdiMotionPlay, val: 'now', title: '现在就听', color: '#42a5f5', to: '/now' },
+            { icon: mdiMusicNoteEighth, val: 'views', title: '浏览', color: '#66bb6a', to: '/views' },
+            { icon: mdiPodcast, val: 'broadcast', title: '广播', color: '#ffa726', to: '/broadcast' },
+            { title: 'Library', heading: 'Library'},
+            { icon: mdiHistory, val: 'recent', title: '最近添加', color: '#42a5f5', to: '/recent' },
+            { icon: mdiMicrophoneVariant, val: 'stars', title: '艺人', color: '#66bb6a', to: '/stars'},
+            { icon: mdiAlbum, val: 'album', title: '专辑', color: '#ffa726', to: '/album' },
+            { icon: mdiMusicNoteHalfDotted, val: 'music', title: '歌曲', color: '#ffa726', to: '/music' },
             {
-              name: 'Music',
-              val: 'music',
-              child: [
-                { icon: mdiMotionPlay, val: 'now', name: '现在就听', color: '#42a5f5' },
-                { icon: mdiMusicNoteEighth, val: 'views', name: '浏览', color: '#66bb6a'},
-                { icon: mdiPodcast, val: 'broadcast', name: '广播', color: '#ffa726' },
-              ],
+              title: 'Playlist',
+              items: [{
+                title: '我喜欢的音乐',
+                to: '/playlist/119215665',
+                icon: mdiPlaylistMusicOutline,
+              }, {
+                title: '2020年度音乐',
+                to: '/playlist/5414754810',
+                icon: mdiPlaylistMusicOutline,
+              }, {
+                title: 'sleep',
+                to: '/playlist/530442521',
+                icon: mdiPlaylistMusicOutline,
+              }],
             },
             {
-              name: 'Library',
-              val: 'database',
-              child: [
-                { icon: mdiHistory, val: 'recent', name: '最近添加', color: '#42a5f5' },
-                { icon: mdiMicrophoneVariant, val: 'stars', name: '艺人', color: '#66bb6a'},
-                { icon: mdiAlbum, val: 'album', name: '专辑', color: '#ffa726' },
-                { icon: mdiMusicNoteHalfDotted, val: 'music', name: '歌曲', color: '#ffa726' },
-              ],
-            },
-          ],
-          playlist: [
-            {
-              name: 'PlayList',
-              val: 'playlist',
-              child: [
-                { icon: mdiPlaylistMusicOutline, val: 'fav', name: '我喜欢的音乐', color: '#42a5f5' },
-                { icon: mdiPlaylistMusicOutline, val: 'list1', name: '我怀念的', color: '#42a5f5' },
-                { icon: mdiPlaylistMusicOutline, val: 'list2', name: '是无话不说', color: '#42a5f5' },
-                { icon: mdiPlaylistMusicOutline, val: 'list3', name: '我怀恋的', color: '#42a5f5' },
-                { icon: mdiPlaylistMusicOutline, val: 'list4', name: '是一起做梦', color: '#42a5f5' },
-              ],
+              title: 'Favorite Playlist',
+              items: [{
+                title: '我喜欢的音乐',
+                to: '/playlist/4',
+                icon: mdiPlaylistMusicOutline,
+              }, {
+                title: '我怀念的',
+                to: '/playlist/5',
+                icon: mdiPlaylistMusicOutline,
+              }, {
+                title: '是无话不说',
+                to: '/playlist/6',
+                icon: mdiPlaylistMusicOutline,
+              }],
             },
           ],
         };
@@ -135,14 +96,7 @@ export default {
         // this.$router.push({path: val === 'gank' ? `/${val}` : `/v2/tab/${val}`});
       },
     },
-    drawer: {
-      get() {
-        return this.open;
-      },
-      set(val) {
-        this.$emit('left-nav-toggle', val);
-      },
-    },
+    settings: sync('app/settings'),
   },
 };
 </script>
@@ -155,8 +109,14 @@ export default {
       width: 1px;
     }
   }
+  .system-action {
+    display: flex;
+    margin-top: 20px;
+    padding: 0 8px;
+    justify-content: flex-end;
+  }
   .searchArea {
-    padding: 60px 8px 8px;
+    padding: 8px;
     -webkit-app-region: drag
   }
   .v-list-item {
