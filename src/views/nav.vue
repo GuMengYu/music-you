@@ -8,12 +8,12 @@
     <template #prepend>
       <div class="system-action">
         <v-btn icon @click="settings = !settings">
-          <v-icon small color="primary">
+          <v-icon small :color="settings ? 'primary' : ''">
             {{ icon.mdiCog }}
           </v-icon>
         </v-btn>
         <v-btn icon>
-          <v-icon small>
+          <v-icon small :color="mode === 'light' ? 'amber darken-1' : ''">
             {{ icon.mdiBrightness2 }}
           </v-icon>
         </v-btn>
@@ -75,10 +75,6 @@ export default {
                 to: '/playlist/3136952023',
                 icon: mdiPlaylistMusicOutline,
               }, {
-                title: '我喜欢的音乐',
-                to: '/playlist/4',
-                icon: mdiPlaylistMusicOutline,
-              }, {
                 title: '我怀念的',
                 to: '/playlist/5',
                 icon: mdiPlaylistMusicOutline,
@@ -101,6 +97,7 @@ export default {
       },
     },
     settings: sync('app/settings'),
+    mode: sync('app/mode'),
   },
 };
 </script>
@@ -115,9 +112,9 @@ export default {
   }
   .system-action {
     display: flex;
-    margin-top: 20px;
-    padding: 0 8px;
+    padding: 20px 8px 0;
     justify-content: flex-end;
+    -webkit-app-region: drag
   }
   .searchArea {
     padding: 8px;

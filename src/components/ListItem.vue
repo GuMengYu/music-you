@@ -9,7 +9,7 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <v-list-item-icon v-if="item.icon">
+    <v-list-item-icon v-if="item.icon" class="d-flex align-center justify-center">
       <v-icon size="18" color="red">
         {{ item.icon }}
       </v-icon>
