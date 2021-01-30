@@ -7,8 +7,8 @@
   >
     <template #prepend>
       <div class="system-action">
-        <v-btn icon @click="settings = !settings">
-          <v-icon small :color="settings ? 'primary' : ''">
+        <v-btn icon @click="showSettings = !showSettings">
+          <v-icon small :color="showSettings ? 'primary' : ''">
             {{ icon.mdiCog }}
           </v-icon>
         </v-btn>
@@ -96,7 +96,7 @@ export default {
         // this.$router.push({path: val === 'gank' ? `/${val}` : `/v2/tab/${val}`});
       },
     },
-    settings: sync('app/settings'),
+    showSettings: sync('app/showSettings'),
     mode: sync('app/mode'),
   },
 };

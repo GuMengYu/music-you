@@ -23,7 +23,7 @@
                 absolute
               >
                 <v-card-actions>
-                  <v-btn icon @click="showMusic = !showMusic">
+                  <v-btn icon @click="showLyricsPage = !showLyricsPage">
                     <v-icon color="pink">
                       {{ icon.mdiArrowExpand }}
                     </v-icon>
@@ -157,11 +157,6 @@
         @change="handleSlideChange"
       />
     </div>
-    <v-expand-transition>
-      <v-sheet v-show="showMusic" class="musicStation">
-        <play-content :song="song" @close="closeMusic" />
-      </v-sheet>
-    </v-expand-transition>
     <audio
       ref="audio"
       :src="musicUrl"
@@ -196,7 +191,6 @@ import {
 } from '@mdi/js';
 
 import Audio from './audio';
-import PlayContent from '@/views/playbar/play-content';
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -205,7 +199,6 @@ const PLAY_MODE = {
   RANDOM: 3,
 };
 export default {
-  components: {PlayContent},
   data: () => ({
     icon: {
       mdiHeart,
@@ -234,6 +227,7 @@ export default {
       currentTime: state => state.music.currentTime,
     }),
     showList: sync('music/showList'),
+    showLyricsPage: sync('music/showLyricsPage'),
     songIndex() {
       return this.pendingList.findIndex(song => song.id === this.song.id);
     },
@@ -369,7 +363,7 @@ export default {
         ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
       }
     },
-    closeMusic() {
+    toggleLyricsPage() {
       this.showMusic = false;
     },
   },
@@ -452,16 +446,6 @@ export default {
     .playing-progress {
       -webkit-app-region: no-drag
     }
-  }
-  .musicStation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 999;
   }
 }
 </style>

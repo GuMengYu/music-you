@@ -20,6 +20,11 @@
       </v-sheet>
     </div>
     <settings />
+    <v-expand-transition>
+      <v-sheet v-show="showLyricsPage" class="lyricsPage">
+        <play-content :song="song" @close="showLyricsPage = !showLyricsPage" />
+      </v-sheet>
+    </v-expand-transition>
   </v-sheet>
 </template>
 
@@ -29,17 +34,27 @@ import PlayBar from './playbar/index';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PendingList from '@/views/playbar/pending-list';
 import Settings from '@components/settings';
+import PlayContent from '@/views/playbar/play-content';
+import {sync} from 'vuex-pathify';
+
 
 import {debounce} from '@/util/fn';
+import { mapState } from 'vuex'
 export default {
   name: 'Layout',
-  components: {PendingList, SideNav, PlayBar, Settings},
+  components: {PendingList, SideNav, PlayBar, Settings, PlayContent},
   data: () => ({
     openNav: true,
     openSetting: false,
     mdiCogOutline,
     mdiInformation,
   }),
+  computed: {
+    ...mapState({
+      song: state => state.music.song,
+    }),
+    showLyricsPage: sync('music/showLyricsPage'),
+  },
   mounted () {
     this.handleWindowResize();
     window.onresize = debounce(this.handleWindowResize, 500, false);
@@ -73,6 +88,15 @@ $playerbarHeight: 70px;
     max-height: calc(100% - #{$playerbarHeight});
     overflow-y: auto;
     padding: 2vw 2vw 0;
+  }
+  .lyricsPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

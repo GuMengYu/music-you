@@ -4,6 +4,7 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import plugins from './plugins';
+import i18n from './i18n';
 import './mock/index';
 import filters from './filters';
 import './scss/global.scss'
@@ -16,6 +17,7 @@ Vue.use(plugins);
 new Vue({
   store,
   router,
+  i18n,
   vuetify,
   render: h => h(App),
 }).$mount('#app')

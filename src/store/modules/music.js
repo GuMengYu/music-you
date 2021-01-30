@@ -16,6 +16,7 @@ const state = {
   currentTime: 0,
   pendingList: [],
   showList: false,
+  showLyricsPage: false,
 };
 export default {
   namespaced: true,
