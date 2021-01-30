@@ -1,11 +1,7 @@
 <template>
   <v-sheet class="now">
-    <div class="text-h5 font-weight-medium mb-1">
-      现在就听
-    </div>
-    <v-divider />
     <div class="song-list">
-      <div class="text-h7 font-weight-medium mt-2 mb-1">
+      <div class="sub-title font-weight-bold">
         推荐歌单
       </div>
       <div class="item-list">
@@ -13,14 +9,14 @@
           v-for="song in songList"
           :key="song.id"
           :data="song"
-          class="item pb-6"
+          class="item pb-4"
           @play="play"
         />
       </div>
     </div>
     <div class="new-music-list">
-      <div class="text-h7 font-weight-medium mt-2 mb-1">
-        最新歌曲
+      <div class="sub-title font-weight-bold">
+        推荐歌手
       </div>
     </div>
   </v-sheet>
@@ -38,7 +34,7 @@ export default {
   }),
   created() {
     getPersonalized().then(({result: songList}) => {
-      this.songList = songList;
+      this.songList = songList?.filter((i,idx) => idx < 10);
     });
   },
   methods: {
@@ -53,9 +49,17 @@ export default {
 <style lang="scss" scoped>
 .now {
   .item-list {
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
     justify-content: space-between;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 44px 24px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .sub-title {
+    margin-bottom: 20px;
+    font-size: 24px;
   }
 }
 

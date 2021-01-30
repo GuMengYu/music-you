@@ -76,11 +76,11 @@ export default {
                 icon: mdiPlaylistMusicOutline,
               }, {
                 title: '我怀念的',
-                to: '/playlist/5',
+                to: '/playlist/3136952034',
                 icon: mdiPlaylistMusicOutline,
               }, {
                 title: '是无话不说',
-                to: '/playlist/6',
+                to: '/playlist/31369321321',
                 icon: mdiPlaylistMusicOutline,
               }],
             },

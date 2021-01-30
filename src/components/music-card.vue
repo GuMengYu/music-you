@@ -1,18 +1,13 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-sheet
-      max-width="200"
       class="music-card"
     >
       <v-card
-        :img="data.picUrl"
-        min-width="200"
-        min-height="200"
-        max-width="200"
-        max-height="200"
         rounded
-        class="pa-2 d-flex align-end justify-end"
+        class="d-flex align-end justify-end cover-container"
       >
+        <img :src="data.picUrl">
         <v-fade-transition>
           <v-overlay
             :value="hover"
@@ -24,8 +19,7 @@
                 fab
                 color="pink"
                 class="play-fab"
-                width="40"
-                height="40"
+                small
                 @click="play"
               >
                 <v-icon
@@ -92,6 +86,12 @@ export default {
     position: absolute;
     bottom: 8px;
     right: 8px;
+  }
+  .cover-container {
+    width: 100%;
+    img {
+      width: 100%;
+    }
   }
 }
 </style>

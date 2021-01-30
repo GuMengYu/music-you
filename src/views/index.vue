@@ -5,7 +5,7 @@
     elevation="1"
   >
     <side-nav />
-    <div class="content">
+    <div class="right">
       <play-bar />
       <pending-list
         :open="true"
@@ -55,7 +55,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$playerbarHeight: 62px;
+$playerbarHeight: 70px;
 .music-app {
   width: 100%;
   height: 100%;
@@ -66,13 +66,13 @@ $playerbarHeight: 62px;
     top: 62px!important;
     height: calc(100% - #{$playerbarHeight}) !important;
   }
-  .content {
+  .right {
     width: calc(100% - 230px);
   }
   main {
     max-height: calc(100% - #{$playerbarHeight});
     overflow-y: auto;
-    padding: 20px;
+    padding: 2vw 2vw 0;
   }
 }
 </style>

@@ -4,7 +4,15 @@ import {make} from 'vuex-pathify';
 const state = {
   playing: false,
   musicUrl: '',
-  song: {},
+  song: {
+    name: 'That\'s the way it is',
+    ar: [{
+      name: 'Daniel Lanois',
+    }],
+    al: {
+      picUrl: 'http://p4.music.126.net/OT5j1j9SBwcoay4G2VP5Wg==/109951164153921681.jpg?param=100y100',
+    },
+  },
   currentTime: 0,
   pendingList: [],
   showList: false,

@@ -2,61 +2,69 @@
   <v-sheet
     tag="header"
     class="playing-bar"
-    elevation="2"
+    elevation="0"
   >
-    <div
-      class="playing-bar__left"
-    >
-      <v-hover v-slot="{ hover }">
-        <v-card
-          class="playing-cover-card"
-          :img="albumPicUrl"
-          max-height="50"
-          max-width="50"
-          min-width="50"
-          min-height="50"
-        >
-          <v-fade-transition>
-            <v-overlay
-              :value="hover"
-              absolute
+    <div class="playing-control">
+      <div
+        class="playing-bar__left"
+      >
+        <v-hover v-slot="{ hover }">
+          <v-card
+            class="playing-cover-card"
+            :img="albumPicUrl"
+            max-height="46"
+            max-width="46"
+            min-width="46"
+            min-height="46"
+          >
+            <v-fade-transition>
+              <v-overlay
+                :value="hover"
+                absolute
+              >
+                <v-card-actions>
+                  <v-btn icon @click="showMusic = !showMusic">
+                    <v-icon color="pink">
+                      {{ icon.mdiArrowExpand }}
+                    </v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-overlay>
+            </v-fade-transition>
+          </v-card>
+        </v-hover>
+        <div class="song-info">
+          <a>
+            <span
+              class="song-name h-2x"
+              :title="song.name"
             >
-              <v-card-actions>
-                <v-btn icon @click="showMusic = !showMusic">
-                  <v-icon color="pink">
-                    {{ icon.mdiArrowExpand }}
-                  </v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-overlay>
-          </v-fade-transition>
-        </v-card>
-      </v-hover>
-      <div class="song-info">
-        <a>
-          <span
-            class="song-name h-2x"
-            :title="`${song.name} - ${$$(song, 'ar', '0', 'name')}`"
-          >
-            {{ song.name }} - {{ $$(song, 'ar', '0', 'name') }}
-          </span>
-        </a>
+              {{ song.name }}
+            </span>
+          </a>
+          <a>
+            <span
+              class="artist-name h-2x"
+            >
+              {{$$(song, 'ar', '0', 'name')}}
+            </span>
+          </a>
+        </div>
+        <v-btn
+          icon
+          text
+          color="#f9223b"
+          class="ml-4"
+        >
+          <v-icon small>
+            {{ icon.mdiHeartOutline }}
+          </v-icon>
+        </v-btn>
       </div>
-    </div>
-    <div
-      class="playing-bar__center"
-    >
-      <div class="playing-control">
+      <div
+        class="playing-bar__center"
+      >
         <div class="playing-control-buttons">
-          <v-btn
-            icon
-            text
-            color="#f9223b"
-          >
-            <v-icon small>
-              {{ icon.mdiHeart }}
-            </v-icon>
-          </v-btn>
           <v-btn
             icon
             text
@@ -87,44 +95,21 @@
               {{ icon.mdiSkipNext }}
             </v-icon>
           </v-btn>
-          <v-btn
-            icon
-            text
-            color="blue"
-            @click="playOrder"
-          >
-            <v-icon small>
-              {{ orderIconState }}
-            </v-icon>
-          </v-btn>
-        </div>
-        <div class="playing-control-slider">
-          <div class="playing-time mr-1">
-            <span>{{ playTime | formatDuring }}</span>
-          </div>
-          <v-slider
-            v-model="playTime"
-            height="20"
-            class="playing-progress"
-            dense
-            hide-details
-            :max="song.dt"
-            min="0"
-            color="#de7a7b"
-            track-fill-color="#de7a7b"
-            @start="handleChangeTimeStart"
-            @change="handleSlideChange"
-          />
-          <div class="playing-time ml-1">
-            <span>{{ song.dt | formatDuring }}</span>
-          </div>
         </div>
       </div>
-    </div>
-    <div
-      class="playing-bar__right"
-    >
-      <div class="ExtraControls">
+      <div
+        class="playing-bar__right"
+      >
+        <v-btn
+          icon
+          text
+          color="blue"
+          @click="playOrder"
+        >
+          <v-icon small>
+            {{ orderIconState }}
+          </v-icon>
+        </v-btn>
         <div class="volume-bar d-flex align-center">
           <v-btn
             icon
@@ -158,6 +143,20 @@
         </v-btn>
       </div>
     </div>
+    <div class="playing-slider">
+      <v-slider
+        v-model="playTime"
+        class="playing-progress"
+        dense
+        hide-details
+        :max="song.dt"
+        min="0"
+        color="#de7a7b"
+        track-fill-color="#de7a7b"
+        @start="handleChangeTimeStart"
+        @change="handleSlideChange"
+      />
+    </div>
     <v-expand-transition>
       <v-sheet v-show="showMusic" class="musicStation">
         <play-content :song="song" @close="closeMusic" />
@@ -179,6 +178,7 @@ import { mapState } from 'vuex';
 import {sync} from 'vuex-pathify';
 import {
   mdiHeart,
+  mdiHeartOutline,
   mdiSkipPrevious,
   mdiSkipNext,
   mdiPlayCircle,
@@ -209,6 +209,7 @@ export default {
   data: () => ({
     icon: {
       mdiHeart,
+      mdiHeartOutline,
       mdiSkipPrevious,
       mdiSkipNext,
       mdiPlayCircle,
@@ -378,35 +379,39 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/common';
 .playing-bar {
-  display: flex;
-  justify-content: space-between;
-  background: #E0DFDE;
-  padding: 5px 5px 0;
+  background: transparent;
+  backdrop-filter: blur(10px);
   -webkit-app-region: drag;
-  .playing-bar__left {
-    min-width: 200px;
-    max-width: 220px;
-    overflow: hidden;
+  .playing-control {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    .song-info {
+    padding: 5px 2vw;
+    .playing-bar__left {
+      overflow: hidden;
       display: flex;
-      flex-flow: column;
-      margin-left: 10px;
+      flex: 1;
+      align-items: center;
+      justify-content: flex-start;
+      .song-info {
+        display: flex;
+        flex-flow: column;
+        margin-left: 10px;
+      }
+      .song-name {
+        display: inline-block;
+        max-width: 180px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 700;
+        color: #6a737d;
+      }
+      .artist-name {
+        color: #6a737d;
+        font-size: 14px;
+        font-weight: 700;
+      }
     }
-    .song-name {
-      display: inline-block;
-      max-width: 180px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: #6a737d;
-    }
-  }
-  .playing-bar__center {
-    .playing-control {
-      min-width: 280px;
+    .playing-bar__center {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -416,35 +421,35 @@ export default {
         width: 200px;
         justify-content: space-around;
       }
-      .playing-control-slider {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 90%;
-        .playing-time {
-          font-size: 14px;
-          font-weight: 500;
-          font-variant-numeric: tabular-nums;
-          -webkit-font-smoothing: antialiased;
-        }
+    }
+    .playing-bar__right {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: flex-start;
+      .volume-bar {
+        width: 100%;
+        max-width: 140px;
       }
-      .playing-progress {
+
+      .playing-volume {
         -webkit-app-region: no-drag
       }
     }
   }
-  .playing-bar__right {
+  .playing-slider {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    .ExtraControls {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      .volume-bar {
-        width: 130px;
-      }
+    width: 100%;
+    height: 14px;
+    .playing-time {
+      font-size: 14px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
     }
-    .playing-volume {
+    .playing-progress {
       -webkit-app-region: no-drag
     }
   }
