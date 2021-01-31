@@ -4,10 +4,11 @@
       class="music-card"
     >
       <v-card
-        rounded
+        hover
+        rounded="lg"
         class="d-flex align-end justify-end cover-container"
       >
-        <img :src="data.picUrl">
+        <img :src="data.picUrl" alt="">
         <v-fade-transition>
           <v-overlay
             :value="hover"
@@ -34,7 +35,7 @@
         </v-fade-transition>
       </v-card>
       <a>
-        <span class="h-2x mt-2 mb-2 black--text text-caption">{{ data.name }}</span>
+        <span class="h-2x mt-2 mb-2 black--text text-body-1 font-weight-bold">{{ data.name }}</span>
         <span class="h-1x grey--text text-caption">{{ data.copywriter }}</span>
       </a>
     </v-sheet>

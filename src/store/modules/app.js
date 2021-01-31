@@ -6,13 +6,15 @@ const state = {
   scrolling: false,
   search: false,
   showSettings: false,
-  settings: JSON.parse(localStorage.getItem('settings')) || {},
+  settings: JSON.parse(localStorage.getItem('settings')) ?? {},
   version: null,
 }
 
 const mutations = make.mutations(state)
-mutations['updateSetting'] = (state, { key, value }) => {
-  state.settings[key] = value;
+mutations['updateSettings'] = (state, data) => {
+  Object.entries(data).map(([key, value]) => {
+    state.settings[key] = value;
+  });
 };
 const actions = {
   ...make.actions(state),

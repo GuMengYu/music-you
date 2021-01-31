@@ -20,11 +20,13 @@
       </v-sheet>
     </div>
     <settings />
-    <v-expand-transition>
-      <v-sheet v-show="showLyricsPage" class="lyricsPage">
-        <play-content :song="song" @close="showLyricsPage = !showLyricsPage" />
-      </v-sheet>
-    </v-expand-transition>
+    <v-dialog
+      v-model="showLyricsPage"
+      fullscreen
+      transition="dialog-top-transition"
+    >
+      <play-content :song="song" @close="showLyricsPage = !showLyricsPage" />
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -88,15 +90,6 @@ $playerbarHeight: 70px;
     max-height: calc(100% - #{$playerbarHeight});
     overflow-y: auto;
     padding: 2vw 2vw 0;
-  }
-  .lyricsPage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
   }
 }
 </style>

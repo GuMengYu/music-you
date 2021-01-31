@@ -1,213 +1,174 @@
 <template>
   <v-dialog
     v-model="showSettings"
-    persistent
-    max-width="490"
+    fullscreen
+    transition="dialog-top-transition"
   >
     <v-card>
-      <v-card-title class="headline">
-        Settings
-        <v-spacer />
-        <v-btn icon @click="showSettings = false">
+      <v-toolbar
+        dark
+        color="#FF2C44"
+      >
+        <v-btn
+          dark
+          icon
+          @click="cancel"
+        >
           <v-icon>{{ icon.mdiClose }}</v-icon>
         </v-btn>
-      </v-card-title>
-      <div class="container">
-        <div class="user">
-          <div class="left">
-            <v-img class="avatar" />
-            <div class="info">
-              <div class="nickname">Test name</div>
-              <div class="extra-info">
-                <span class="text">很好</span>
-              </div>
-            </div>
-            <div class="right">
-              <v-btn text>logo out</v-btn>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title"> Language </div>
-            </div>
-            <div class="right">
-              <select v-model="settings.lang">
-                <option value="en">🇬🇧 English</option>
-                <option value="zh-CN">🇨🇳 简体中文</option>
-              </select>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title"> {{ $t("settings.musicQuality.text") }} </div>
-            </div>
-            <div class="right">
-              <select v-model="settings.musicQuality">
-                <option value="128000">
-                  {{ $t("settings.musicQuality.low") }} - 128Kbps
-                </option>
-                <option value="192000">
-                  {{ $t("settings.musicQuality.medium") }} - 192Kbps
-                </option>
-                <option value="320000">
-                  {{ $t("settings.musicQuality.high") }} - 320Kbps
-                </option>
-                <option value="999000">
-                  {{ $t("settings.musicQuality.lossless") }} - FLAC
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title">
-                {{ $t("settings.automaticallyCacheSongs") }}
-              </div>
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="automatically-cache-songs"
-                  id="automatically-cache-songs"
-                  v-model="settings.automaticallyCacheSongs"
-                />
-                <label for="automatically-cache-songs"></label>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title">
-                {{
-                  $t("settings.cacheCount", {
-                    song: 2,
-                    size: 123,
-                  })
-                }}</div
-              >
-            </div>
-            <div class="right">
-              <button @click="clearCache('tracks')">
-                {{ $t("settings.clearSongsCache") }}
-              </button>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title">显示歌词翻译</div>
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="show-lyrics-translation"
-                  id="show-lyrics-translation"
-                  v-model="settings.showLyricsTranslation"
-                />
-                <label for="show-lyrics-translation"></label>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title"> {{ $t("settings.showGitHubIcon") }} </div>
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="show-github-icon"
-                  id="show-github-icon"
-                  v-model="showGithubIcon"
-                />
-                <label for="show-github-icon"></label>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title">
-                {{ $t("settings.showUnavailableSongInGreyStyle") }}</div
-              >
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="show-unavailable-song-grey"
-                  id="show-unavailable-song-grey"
-                  v-model="settings.showUnavailableSongInGreyStyle"
-                />
-                <label for="show-unavailable-song-grey"></label>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title">
-                {{ $t("settings.showPlaylistsByAppleMusic") }}</div
-              >
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="show-playlists-by-apple-music"
-                  id="show-playlists-by-apple-music"
-                  v-model="settings.showPlaylistsByAppleMusic"
-                />
-                <label for="show-playlists-by-apple-music"></label>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="left">
-              <div class="title" style="transform: scaleX(-1)">🐈️ 🏳️‍🌈</div>
-            </div>
-            <div class="right">
-              <div class="toggle">
-                <input
-                  type="checkbox"
-                  name="nyancat-style"
-                  id="nyancat-style"
-                  v-model="nyancatStyle"
-                />
-                <label for="nyancat-style"></label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <v-card-actions>
+        <v-toolbar-title>Settings</v-toolbar-title>
         <v-spacer />
-        <v-btn
-          color="green darken-1"
-          text
-          @click="showSettings = false"
+        <v-toolbar-items>
+          <v-btn
+            dark
+            text
+            class="font-weight-bold"
+            @click="saveSetting"
+          >
+            保存
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <div class="container">
+        <v-list
+          subheader
         >
-          Agree
-        </v-btn>
-      </v-card-actions>
+          <v-subheader class="font-weight-bold">
+            未登录
+          </v-subheader>
+
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                语言
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <default-select v-model="settings.lang" :options="langOptions" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                外观
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <default-select v-model="settings.appearance" :options="appearanceOptions" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                音质
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <default-select v-model="settings.quality" :options="qualityOptions" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                本地缓存歌曲
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action class="mr-4">
+              <v-switch v-model="settings.autoCache" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                已缓存 {{ tracksCache.size }} ({{ tracksCache.length }}) 首
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn
+                text
+                color="pink"
+                @click="clearCache"
+              >
+                清除歌曲缓存
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { sync } from 'vuex-pathify'
+import { sync } from 'vuex-pathify';
 import {mdiClose} from '@mdi/js';
+import {mapState} from 'vuex';
+import DefaultSelect from '@components/Select';
 export default {
   name: 'Setting',
+  components: {DefaultSelect},
   data: () => ({
-    dialog: '',
     icon: { mdiClose },
+    tracksCache: {
+      size: '0KB',
+      length: 0,
+    },
+    langOptions: [{
+      title: '🇨🇳简体中文',
+      val: 'zh',
+    }, {
+      title: '🇬🇧English',
+      val: 'en',
+    }],
+    qualityOptions: [{
+      title: 'Low - 128Kbps',
+      val: '128000',
+    }, {
+      title: 'Medium - 192Kbps',
+      val: '192000',
+    }, {
+      title: ' High - 320Kbps',
+      val: '320000',
+    }],
+    appearanceOptions: [{
+      title: '🌑 深色',
+      val: 'dark',
+    }, {
+      title: '🌕 浅色',
+      val: 'light',
+    }, {
+      title: '🌗 自动',
+      val: 'auto',
+    }],
+    settings: {
+      lang: '',
+      quality: '',
+      appearance: '',
+      autoCache: false,
+    },
   }),
   computed: {
+    ...mapState({
+      _settings: state => state.app.settings,
+    }),
     showSettings: sync('app/showSettings'),
-    settings: sync('app/settings'),
+  },
+  created () {
+    if(Object.keys(this._settings).length) {
+      Object.assign(this.settings, this._settings);
+    }
   },
   methods: {
     clearCache() {},
+    saveSetting() {
+      this.showSettings = false;
+      const setting = {...this.settings};
+      this.$store.commit('app/updateSettings', setting);
+    },
+    cancel() {
+      this.settings = {...this._settings};
+      this.showSettings = false;
+    },
   },
 }
 </script>
