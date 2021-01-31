@@ -25,7 +25,7 @@
 import MusicCard from '@components/music-card';
 import {getPersonalized} from '@util/musicService';
 import {getPlayList} from '@util/musicService';
-
+import NProgress from 'nprogress';
 export default {
   name: '',
   components: {MusicCard},
@@ -33,8 +33,10 @@ export default {
     songList: [],
   }),
   created() {
+    NProgress.start();
     getPersonalized().then(({result: songList}) => {
       this.songList = songList?.filter((i,idx) => idx < 10);
+      NProgress.done();
     });
   },
   methods: {

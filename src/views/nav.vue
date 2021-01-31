@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mdiMotionPlay, mdiMusicNoteEighth, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMicrophoneVariant, mdiHistory, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness2 } from '@mdi/js';
+import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder } from '@mdi/js';
 import IInput from '@components/input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
@@ -44,16 +44,15 @@ export default {
           icon: {mdiCog, mdiBrightness2},
           nav: [
             { title: 'Music', heading: 'Music' },
-            { icon: mdiMotionPlay, val: 'now', title: '现在就听', color: '#42a5f5', to: '/now' },
-            { icon: mdiMusicNoteEighth, val: 'views', title: '浏览', color: '#66bb6a', to: '/views' },
-            { icon: mdiPodcast, val: 'broadcast', title: '广播', color: '#ffa726', to: '/broadcast' },
+            { icon: mdiMusicNoteHalfDotted, val: 'now', title: '发现音乐', color: '#42a5f5', to: '/now' },
+            { icon: mdiAppleFinder, val: 'views', title: '浏览', color: '#66bb6a', to: '/views' },
+            { icon: mdiRadioFm, val: 'fm', title: '私人FM', color: '#66bb6a', to: '/fm' },
             { title: 'Library', heading: 'Library'},
-            { icon: mdiHistory, val: 'recent', title: '最近添加', color: '#42a5f5', to: '/recent' },
-            { icon: mdiMicrophoneVariant, val: 'stars', title: '艺人', color: '#66bb6a', to: '/stars'},
-            { icon: mdiAlbum, val: 'album', title: '专辑', color: '#ffa726', to: '/album' },
-            { icon: mdiMusicNoteHalfDotted, val: 'music', title: '歌曲', color: '#ffa726', to: '/music' },
+            { icon: mdiLibrary, val: 'stars', title: '我的收藏', color: '#66bb6a', to: '/stars'},
+            { icon: mdiAlbum, val: 'album', title: '音乐云盘', color: '#ffa726', to: '/disk' },
+            { icon: mdiPodcast, val: 'podcast', title: '我的电台', color: '#ffa726', to: '/podcast' },
             {
-              title: 'Playlist',
+              title: '创建的歌单',
               items: [{
                 title: '我喜欢的音乐',
                 to: '/playlist/119215665',
@@ -69,7 +68,7 @@ export default {
               }],
             },
             {
-              title: 'Favorite Playlist',
+              title: '收藏的歌单',
               items: [{
                 title: '私人雷达',
                 to: '/playlist/3136952023',
