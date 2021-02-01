@@ -33,10 +33,25 @@
         <v-list
           subheader
         >
-          <v-subheader class="font-weight-bold">
-            未登录
-          </v-subheader>
-
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                未登录
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action class="mr-4">
+              <v-btn
+                plain
+                color="green"
+                @click="showLogin = !showLogin"
+              >
+                <v-icon>
+                  {{ icon.mdiLogin }}
+                </v-icon>
+                登入
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">
@@ -101,14 +116,14 @@
 
 <script>
 import { sync } from 'vuex-pathify';
-import {mdiClose} from '@mdi/js';
+import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
 import {mapState} from 'vuex';
 import DefaultSelect from '@components/Select';
 export default {
   name: 'Setting',
   components: {DefaultSelect},
   data: () => ({
-    icon: { mdiClose },
+    icon: { mdiClose, mdiLogin, mdiLogout },
     tracksCache: {
       size: '0KB',
       length: 0,
@@ -152,6 +167,7 @@ export default {
       _settings: state => state.app.settings,
     }),
     showSettings: sync('app/showSettings'),
+    showLogin: sync('app/showLogin'),
   },
   created () {
     if(Object.keys(this._settings).length) {

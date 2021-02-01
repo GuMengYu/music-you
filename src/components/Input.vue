@@ -4,25 +4,36 @@
     dense
     :hide-details="true"
     class="input-field"
-    :class="{'actived': searchInputActived}"
+    :class="{'actived': inputActived}"
+    :prepend-icon="icon"
   >
     <input
-      class="searchInput"
-      placeholder="搜索"
-      @click="searchInputActived = true"
+      class="input"
+      :placeholder="holder"
+      @click="inputActived = true"
     >
   </v-input>
 </template>
 
 <script>
 export default {
-  name: 'Iinput',
+  name: 'Input',
+  props: {
+    icon: {
+      type: String,
+      default: '',
+    },
+    holder: {
+      type: String,
+      default: '',
+    },
+  },
   data: () => ({
-    searchInputActived: false,
+    inputActived: false,
   }),
   methods: {
     onClickOutside() {
-      this.searchInputActived = false;
+      this.inputActived = false;
     },
   },
 };
@@ -32,12 +43,12 @@ export default {
 .input-field {
   height: 32px;
   width: 100%;
-  padding: 0 20px ;
+  padding: 0 10px ;
   border-radius: 4px;
   border: 1px solid #bcbbbd;
-  background-color: #d5d4d4;
+  //background-color: #d5d4d4;
   line-height: 32px;
-  display: inline-block;
+  display: flex;
   font-size: 13px;
   transition: all .1s ease-in-out;
 }
@@ -47,8 +58,8 @@ export default {
     outline: 0;
     box-shadow: 0 0 0 3px #de7a7b;
 }
-.searchInput {
-  max-height: 28px;
-  width: 100%;
-}
+//.input {
+//  max-height: 28px;
+//  width: 100%;
+//}
 </style>

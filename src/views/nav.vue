@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="searchArea">
-        <i-input />
+        <default-input />
       </div>
     </template>
     <default-list :items="nav" />
@@ -42,11 +42,11 @@
 
 <script>
 import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart } from '@mdi/js';
-import IInput from '@components/input';
+import DefaultInput from '@components/Input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
 export default {
-  components: {IInput, DefaultList},
+  components: {DefaultInput, DefaultList},
   data: function(){
     return {
       icon: {mdiCog, mdiBrightness2, mdiChevronLeft, mdiChevronRight},

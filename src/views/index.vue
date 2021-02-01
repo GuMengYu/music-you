@@ -25,6 +25,7 @@
     >
       <play-content :song="song" @close="showLyricsPage = !showLyricsPage" />
     </v-dialog>
+    <login />
   </v-sheet>
 </template>
 
@@ -34,6 +35,7 @@ import PlayBar from './playbar/index';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PlayingList from '@/views/playbar/playing-list';
 import Settings from '@components/settings';
+import Login from '@components/login';
 import PlayContent from '@/views/playbar/play-content';
 import {sync} from 'vuex-pathify';
 
@@ -42,7 +44,7 @@ import {debounce} from '@/util/fn';
 import { mapState } from 'vuex'
 export default {
   name: 'Layout',
-  components: {PlayingList, SideNav, PlayBar, Settings, PlayContent},
+  components: {PlayingList, SideNav, PlayBar, Settings, Login, PlayContent},
   data: () => ({
     openNav: true,
     openSetting: false,

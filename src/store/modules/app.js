@@ -6,6 +6,7 @@ const state = {
   scrolling: false,
   search: false,
   showSettings: false,
+  showLogin: false,
   settings: JSON.parse(localStorage.getItem('settings')) ?? {},
   version: null,
 }
