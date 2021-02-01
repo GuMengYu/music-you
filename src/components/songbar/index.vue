@@ -8,7 +8,7 @@
           </v-btn>
         </v-overlay>
         <v-img
-          :src="`${$$(song, 'al', 'picUrl')}?param=100y100`"
+          :src="$$(song, 'al', 'picUrl')| sizeOfImage(100)"
           max-height="40"
           max-width="40"
         />

@@ -5,10 +5,10 @@
         推荐歌单
       </div>
       <div class="item-list">
-        <music-card
-          v-for="song in songList"
-          :key="song.id"
-          :data="song"
+        <Cover
+          v-for="playList in playLists"
+          :key="playList.id"
+          :data="playList"
           class="item pb-4"
           @play="play"
         />
@@ -18,31 +18,41 @@
       <div class="sub-title font-weight-bold">
         推荐歌手
       </div>
+      <div class="item-list">
+        <Artists
+          v-for="art in artists"
+          :key="art.id"
+          :artists="art"
+          @play="play"
+        />
+      </div>
     </div>
   </v-sheet>
 </template>
 <script>
-import MusicCard from '@components/music-card';
-import {getPersonalized} from '@util/musicService';
-import {getPlayList} from '@util/musicService';
+import Cover from '@components/Cover';
+import Artists from '@components/Artists'
+import {getPlayList, topArtists, getPersonalized} from '@util/musicService';
 import NProgress from 'nprogress';
 export default {
   name: '',
-  components: {MusicCard},
+  components: {Cover, Artists},
   data: () => ({
-    songList: [],
+    playLists: [],
+    artists: [],
   }),
-  created() {
+  async created() {
     NProgress.start();
-    getPersonalized().then(({result: songList}) => {
-      this.songList = songList?.filter((i,idx) => idx < 10);
+    const [playlists, artists] = await Promise.all([getPersonalized(), topArtists()]);
+    console.log(playlists, artists);
+      this.playLists = playlists.result;
+      this.artists = artists.data;
       NProgress.done();
-    });
   },
   methods: {
     async play(id) {
       const {playlist} = await getPlayList(id);
-      this.$store.commit('music/UPDATE_PENDING_LIST', playlist.tracks);
+      this.$store.commit('music/UPDATE_PLAYING_LIST', playlist.tracks);
       await this.$store.dispatch('music/startNewMusic', playlist.tracks[0].id);
     },
   },

@@ -19,7 +19,7 @@
       />
 
       <default-list-group
-        v-else-if="item.items"
+        v-else-if="item.items && item.items.length"
         :key="`group-${i}`"
         :item="item"
       />

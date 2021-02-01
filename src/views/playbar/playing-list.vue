@@ -24,7 +24,7 @@
         color="primary"
       >
         <song-bar
-          v-for="(song, i) in pendingList"
+          v-for="(song, i) in playingList"
           :key="i"
           :song="song"
         />
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapState({
-      pendingList: state => state.music.pendingList,
+      playingList: state => state.music.playingList,
     }),
     showList: sync('music/showList'),
     currentSong: {

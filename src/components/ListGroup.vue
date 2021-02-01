@@ -67,7 +67,7 @@
       },
     },
 
-    data: () => ({ model: null }),
+    data() {return { model: this.item.open }},
 
     computed: {
       group () {

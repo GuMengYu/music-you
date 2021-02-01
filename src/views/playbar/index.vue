@@ -67,31 +67,28 @@
         <div class="playing-control-buttons">
           <v-btn
             icon
-            text
             color="purple"
             @click="playPrev"
           >
-            <v-icon small>
+            <v-icon>
               {{ icon.mdiSkipPrevious }}
             </v-icon>
           </v-btn>
           <v-btn
             icon
-            text
             color="blue"
             @click="playPause"
           >
-            <v-icon x-large>
+            <v-icon large>
               {{ playing ? icon.mdiPauseCircle : icon.mdiPlayCircle }}
             </v-icon>
           </v-btn>
           <v-btn
             icon
-            text
             color="green"
             @click="playNext"
           >
-            <v-icon small>
+            <v-icon>
               {{ icon.mdiSkipNext }}
             </v-icon>
           </v-btn>
@@ -102,7 +99,6 @@
       >
         <v-btn
           icon
-          text
           color="blue"
           @click="playOrder"
         >
@@ -113,7 +109,6 @@
         <div class="volume-bar d-flex align-center">
           <v-btn
             icon
-            text
             color="blue"
             @click="toggleVolume"
           >
@@ -223,19 +218,19 @@ export default {
       song: state => state.music.song,
       musicUrl: state => state.music.musicUrl,
       playing: state => state.music.playing,
-      pendingList: state => state.music.pendingList,
+      playingList: state => state.music.playingList,
       currentTime: state => state.music.currentTime,
     }),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     songIndex() {
-      return this.pendingList.findIndex(song => song.id === this.song.id);
+      return this.playingList.findIndex(song => song.id === this.song.id);
     },
     next() {
-      return this.pendingList[(this.songIndex + 1) === this.pendingList.length ? 0 : this.songIndex + 1];
+      return this.playingList[(this.songIndex + 1) === this.playingList.length ? 0 : this.songIndex + 1];
     },
     prev() {
-      return this.pendingList[this.songIndex  === 0 ? (this.pendingList.length - 1) : this.songIndex - 1];
+      return this.playingList[this.songIndex  === 0 ? (this.playingList.length - 1) : this.songIndex - 1];
     },
     volumeIconState() {
       if (this.volume === 0) {
@@ -291,9 +286,9 @@ export default {
     },
     playNext() {
       let id = this.next.id;
-      const len = this.pendingList.length;
+      const len = this.playingList.length;
       if (this.playMode === PLAY_MODE.RANDOM) {
-        id = this.pendingList[Math.floor(Math.random() * len)]?.id;
+        id = this.playingList[Math.floor(Math.random() * len)]?.id;
       } else if (this.playMode === PLAY_MODE.SINGLE_CYCLE) {
         this.rePlay();
       } else if (this.playMode === PLAY_MODE.ORDER && this.songIndex === len - 1) {

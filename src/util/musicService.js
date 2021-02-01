@@ -23,7 +23,8 @@ const getPlayList = id => xhr.get(`/playlist/detail?id=${id}`);
  * 获取推荐歌单列表
  * 根据歌单id返回歌单详细信息
  */
-const getPersonalized = () => xhr.get('/personalized');
+const getPersonalized = () => xhr.get('/personalized?limit=10');
+const topArtists = () => xhr.get('/toplist/artist?type=2');
 
 const getLyric = id => xhr.get(`/lyric?id=${id}`);
 export {
@@ -32,4 +33,5 @@ export {
   getPlayList,
   getPersonalized,
   getLyric,
+  topArtists,
 };

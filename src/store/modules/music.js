@@ -14,7 +14,7 @@ const state = {
     },
   },
   currentTime: 0,
-  pendingList: [],
+  playingList: [],
   showList: false,
   showLyricsPage: false,
 };
@@ -46,8 +46,8 @@ export default {
   },
   mutations: {
     ...make.mutations(state),
-    UPDATE_PENDING_LIST(state, list) {
-      state.pendingList = list;
+    UPDATE_PLAYING_LIST(state, list) {
+      state.playingList = list;
     },
     UPDATE_SONG(state, song) {
       state.song = song;

@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "info": "新碟《Johnny Cash and The Royal Philharmonic Orchestra》抢鲜上架",
+      "id": 99412,
+      "name": "The Royal Philharmonic Orchestra",
+      "trans": "英国皇家爱乐乐团",
+      "alias": [],
+      "albumSize": 565,
+      "mvSize": 17,
+      "picId": 825733232461814,
+      "picUrl": "https://p2.music.126.net/LkUDNi264UHX-PxygiXFAw==/825733232461814.jpg",
+      "img1v1Url": "https://p1.music.126.net/LkUDNi264UHX-PxygiXFAw==/825733232461814.jpg"
+    },
+    {
+      "info": "新碟《Chemtrails Over The Country Club》抢鲜上架",
+      "id": 66212,
+      "name": "Lana Del Rey",
+      "trans": "拉娜·德蕾",
+      "alias": [
+        "拉娜·德蕾",
+        "Elizabeth Grant"
+      ],
+      "albumSize": 90,
+      "mvSize": 140,
+      "picId": 109951165563569570,
+      "picUrl": "https://p1.music.126.net/BJ0O2U7gDRDOoMowJ_BXIQ==/109951165563569574.jpg",
+      "img1v1Url": "https://p1.music.126.net/BJ0O2U7gDRDOoMowJ_BXIQ==/109951165563569574.jpg"
+    },
+    {
+      "info": "新碟《蓝色星球》抢鲜上架",
+      "id": 9808,
+      "name": "王胜娚",
+      "trans": null,
+      "alias": [
+        "Shannon"
+      ],
+      "albumSize": 42,
+      "mvSize": 6,
+      "picId": 109951165447605730,
+      "picUrl": "https://p1.music.126.net/UP5P6F8j9Mqy8Gj5gxCJKA==/109951165447605721.jpg",
+      "img1v1Url": "https://p1.music.126.net/UP5P6F8j9Mqy8Gj5gxCJKA==/109951165447605721.jpg"
+    },
+    {
+      "info": "新碟《浩气如虹》抢鲜上架",
+      "id": 12023202,
+      "name": "赵方婧",
+      "trans": null,
+      "alias": [],
+      "albumSize": 95,
+      "mvSize": 14,
+      "picId": 109951164470387740,
+      "picUrl": "https://p1.music.126.net/Vu3BIgDh6UwyphaCrcGP6g==/109951164470387750.jpg",
+      "img1v1Url": "https://p1.music.126.net/Vu3BIgDh6UwyphaCrcGP6g==/109951164470387750.jpg"
+    },
+    {
+      "info": "",
+      "id": 7200,
+      "name": "本兮",
+      "trans": null,
+      "alias": [
+        "马晓晨"
+      ],
+      "albumSize": 41,
+      "mvSize": 1,
+      "picId": 18500382650744830,
+      "picUrl": "https://p1.music.126.net/7PYYoNC2IfJY9Z76ZTGhrg==/18500382650744830.jpg",
+      "img1v1Url": "https://p1.music.126.net/7PYYoNC2IfJY9Z76ZTGhrg==/18500382650744830.jpg"
+    },
+    {
+      "info": "新碟《永安二胡 2018翻奏作品》抢鲜上架",
+      "id": 1047093,
+      "name": "永安二胡",
+      "trans": null,
+      "alias": [],
+      "albumSize": 12,
+      "mvSize": 0,
+      "picId": 109951162807036080,
+      "picUrl": "https://p1.music.126.net/Es6yv8tGV-0em3f1QOZaVw==/109951162807036087.jpg",
+      "img1v1Url": "https://p1.music.126.net/Es6yv8tGV-0em3f1QOZaVw==/109951162807036087.jpg"
+    },
+    {
+      "info": "",
+      "id": 7100,
+      "name": "阿悄",
+      "trans": null,
+      "alias": [
+        "肖莎"
+      ],
+      "albumSize": 72,
+      "mvSize": 1,
+      "picId": 3272146613205444,
+      "picUrl": "https://p1.music.126.net/bK2-MR922S0AOWg_Nfh8Fw==/3272146613205444.jpg",
+      "img1v1Url": "https://p1.music.126.net/bK2-MR922S0AOWg_Nfh8Fw==/3272146613205444.jpg"
+    }
+  ],
+  "hasMore": false,
+  "count": 22,
+  "code": 200
+}

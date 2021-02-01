@@ -1,33 +1,40 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-sheet
-      class="music-card"
+      class="cover"
     >
       <v-card
         hover
         rounded="lg"
         class="d-flex align-end justify-end cover-container"
       >
-        <img :src="data.picUrl" alt="">
+        <img :src="data.picUrl" alt="" class="cover-img">
         <v-fade-transition>
           <v-overlay
             :value="hover"
             absolute
           >
-            <v-card-actions>
+            <v-card-actions class="cover-actions">
               <v-btn
-                elevation="0"
-                fab
-                color="pink"
-                class="play-fab"
+                icon
                 small
+                class="cover-btn"
+                :class="{'hover-btn': hover}"
                 @click="play"
               >
-                <v-icon
-                  large
-                  color="white"
-                >
+                <v-icon>
                   {{ mdiPlay }}
+                </v-icon>
+              </v-btn>
+              <v-btn
+                icon
+                small
+                class="cover-btn"
+                :class="{'hover-btn': hover}"
+                @click="play"
+              >
+                <v-icon>
+                  {{ mdiDotsHorizontal }}
                 </v-icon>
               </v-btn>
             </v-card-actions>
@@ -43,9 +50,9 @@
 </template>
 
 <script>
-import {mdiPlay} from '@mdi/js';
+import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
 export default {
-  name: 'MusicCard',
+  name: 'Cover',
   props: {
     data: {
       type: Object,
@@ -67,6 +74,7 @@ export default {
   data() {
     return {
       mdiPlay,
+      mdiDotsHorizontal,
     };
   },
   computed: {
@@ -82,16 +90,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.music-card {
+.cover {
   ::v-deep .v-overlay__content {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
+    flex: 1;
+    align-self: flex-end;
   }
   .cover-container {
     width: 100%;
     img {
       width: 100%;
+    }
+    .cover-actions {
+      justify-content: space-between;
+      .hover-btn {
+        backdrop-filter: blur(20px) brightness(96%);
+        background: transparent;
+      }
+      .cover-btn:hover {
+        background: red;
+      }
+    }
+    .cover-img {
+      border-radius: inherit;
     }
   }
 }

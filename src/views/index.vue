@@ -7,15 +7,13 @@
     <side-nav />
     <div class="right">
       <play-bar />
-      <pending-list
+      <playing-list
         :open="true"
-        class="pending-list"
+        class="playing-list"
       />
       <v-sheet tag="main">
         <keep-alive>
-          <transition>
-            <router-view />
-          </transition>
+          <router-view />
         </keep-alive>
       </v-sheet>
     </div>
@@ -34,7 +32,7 @@
 import SideNav from './nav.vue';
 import PlayBar from './playbar/index';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
-import PendingList from '@/views/playbar/pending-list';
+import PlayingList from '@/views/playbar/playing-list';
 import Settings from '@components/settings';
 import PlayContent from '@/views/playbar/play-content';
 import {sync} from 'vuex-pathify';
@@ -44,7 +42,7 @@ import {debounce} from '@/util/fn';
 import { mapState } from 'vuex'
 export default {
   name: 'Layout',
-  components: {PendingList, SideNav, PlayBar, Settings, PlayContent},
+  components: {PlayingList, SideNav, PlayBar, Settings, PlayContent},
   data: () => ({
     openNav: true,
     openSetting: false,
@@ -79,7 +77,7 @@ $playerbarHeight: 70px;
   margin: 0 auto;
   position: relative;
   transform: translate(0%);
-  .pending-list {
+  .playing-list {
     top: 62px!important;
     height: calc(100% - #{$playerbarHeight}) !important;
   }
