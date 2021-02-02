@@ -11,7 +11,7 @@
       <v-list-item-content>
         <v-list-item-title
           v-if="item.title"
-          class="font-weight-bold grey--text text--darken-2"
+          class="font-weight-bold"
           v-text="item.title"
         />
       </v-list-item-content>
@@ -21,7 +21,7 @@
       <v-subheader
         v-if="child.heading"
         :key="`heading-${i}`"
-        class="text--primary font-weight-bold grey--text text--darken-2"
+        class="font-weight-bold"
         inset
         v-text="child.title"
       />

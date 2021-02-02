@@ -84,7 +84,7 @@ $playerbarHeight: 70px;
     height: calc(100% - #{$playerbarHeight}) !important;
   }
   .right {
-    width: calc(100% - 230px);
+    width: calc(100% - 20%);
   }
   main {
     max-height: calc(100% - #{$playerbarHeight});

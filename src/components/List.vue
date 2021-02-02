@@ -8,7 +8,7 @@
       <v-subheader
         v-if="item.heading"
         :key="`heading-${i}`"
-        class="text--primary font-weight-bold text-uppercase grey--text text--darken-2"
+        class="font-weight-bold text-uppercase"
         v-text="item.heading"
       />
 

@@ -16,7 +16,7 @@
     </v-list-item-icon>
 
     <v-list-item-content>
-      <v-list-item-title class="font-weight-bold grey--text text--darken-2" v-text="item.title" />
+      <v-list-item-title class="font-weight-bold" v-text="item.title" />
     </v-list-item-content>
   </v-list-item>
 </template>

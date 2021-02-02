@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
-    color="#E4E3E2"
-    width="230"
+    width="20%"
     permanent
     class="nav"
   >
@@ -99,6 +98,7 @@ export default {
 .v-navigation-drawer {
   top: 0 !important;
   max-height: 100% !important;
+  //background: linear-gradient(209.21deg, rgb(255, 115, 115) 13.57%, rgb(73, 30, 184) 98.38%);
   ::v-deep .v-navigation-drawer__content {
     &::-webkit-scrollbar {
       width: 0;

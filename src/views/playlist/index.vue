@@ -39,7 +39,7 @@
       <div>
         <v-sheet>
           <div class="playlist-desc">
-            <h6 class="mt-2 mb-2 black--text text-h4 font-weight-bold">
+            <h6 class="mt-2 mb-2 text-h4 font-weight-bold">
               {{ playList.name }}
             </h6>
             <div class="artist text-body-1 mt-2">

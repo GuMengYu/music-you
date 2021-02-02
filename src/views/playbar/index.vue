@@ -391,10 +391,8 @@ export default {
         text-align: center;
         font-size: 14px;
         font-weight: 700;
-        color: #6a737d;
       }
       .artist-name {
-        color: #6a737d;
         font-size: 14px;
         font-weight: 700;
       }
