@@ -3,12 +3,10 @@ import { make } from 'vuex-pathify'
 
 // Data
 const state = {
-  scrolling: false,
-  search: false,
   showSettings: false,
   showLogin: false,
-  settings: JSON.parse(localStorage.getItem('settings')) ?? {},
   version: null,
+  nav: [],
 }
 
 const mutations = make.mutations(state)
@@ -19,6 +17,10 @@ mutations['updateSettings'] = (state, data) => {
 };
 const actions = {
   ...make.actions(state),
+  init: async ({ dispatch }) => {
+    const modules = ['settings/fetch', 'music/fetch']
+    for (const module of modules) dispatch(module, null, {root: true})
+  },
 }
 
 const getters = {}

@@ -25,6 +25,9 @@ export default {
 
   },
   actions: {
+    fetch({commit}) {
+      console.log(commit);
+    },
     async startNewMusic({ commit }, id) {
       commit('UPDATE_PLAYER', {playing: false, currentTime: 0});
       const [song, lyric] = await Promise.all([getSongData([id]).then(res => res.songs?.[0] ?? {}), getLyric(id).then(result => {

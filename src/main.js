@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from './store'
+import { createStore } from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import plugins from './plugins';
@@ -15,7 +15,7 @@ Object.entries(filters).map(([key, fn]) => {
 
 Vue.use(plugins);
 new Vue({
-  store,
+  store: createStore(),
   router,
   i18n: i18n(),
   vuetify,

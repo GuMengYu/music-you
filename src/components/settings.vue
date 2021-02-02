@@ -5,29 +5,14 @@
     transition="dialog-top-transition"
   >
     <v-card>
-      <v-toolbar
-        dark
-        color="#FF2C44"
-      >
+      <v-toolbar>
         <v-btn
-          dark
           icon
-          @click="cancel"
+          @click="showSettings = false"
         >
           <v-icon>{{ icon.mdiClose }}</v-icon>
         </v-btn>
         <v-toolbar-title>Settings</v-toolbar-title>
-        <v-spacer />
-        <v-toolbar-items>
-          <v-btn
-            dark
-            text
-            class="font-weight-bold"
-            @click="saveSetting"
-          >
-            保存
-          </v-btn>
-        </v-toolbar-items>
       </v-toolbar>
       <div class="container">
         <v-list
@@ -59,7 +44,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="settings.lang" :options="langOptions" />
+              <default-select v-model="locale" :options="langOptions" />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -69,7 +54,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="settings.appearance" :options="appearanceOptions" />
+              <default-select v-model="theme" :options="appearanceOptions" />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -79,7 +64,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="settings.quality" :options="qualityOptions" />
+              <default-select v-model="quality" :options="qualityOptions" />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -89,7 +74,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action class="mr-4">
-              <v-switch v-model="settings.autoCache" />
+              <v-switch v-model="autoCache" />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -163,28 +148,17 @@ export default {
     },
   }),
   computed: {
-    ...mapState({
-      _settings: state => state.app.settings,
-    }),
+    ...mapState({}),
     showSettings: sync('app/showSettings'),
     showLogin: sync('app/showLogin'),
+    locale: sync('settings/locale'),
+    quality: sync('settings/quality'),
+    theme: sync('settings/theme'),
+    autoCache: sync('settings/autoCache'),
   },
-  created () {
-    if(Object.keys(this._settings).length) {
-      Object.assign(this.settings, this._settings);
-    }
-  },
+  created () {},
   methods: {
     clearCache() {},
-    saveSetting() {
-      this.showSettings = false;
-      const setting = {...this.settings};
-      this.$store.commit('app/updateSettings', setting);
-    },
-    cancel() {
-      this.settings = {...this._settings};
-      this.showSettings = false;
-    },
   },
 }
 </script>

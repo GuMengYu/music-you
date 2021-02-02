@@ -13,7 +13,7 @@
             </v-icon>
           </v-btn>
           <v-btn icon>
-            <v-icon small :color="mode === 'light' ? 'amber darken-1' : ''">
+            <v-icon small :color="theme === 'light' ? 'amber darken-1' : ''">
               {{ icon.mdiBrightness2 }}
             </v-icon>
           </v-btn>
@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     showSettings: sync('app/showSettings'),
-    mode: sync('app/mode'),
+    theme: sync('settings/theme'),
   },
 };
 </script>
