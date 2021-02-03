@@ -5,13 +5,23 @@
         推荐歌单
       </div>
       <div class="item-list">
-        <Cover
+        <div
           v-for="playList in playLists"
           :key="playList.id"
-          :data="playList"
-          class="item pb-4"
-          @play="play"
-        />
+          class="item"
+        >
+          <Cover
+            :data="playList"
+            class="item"
+            @play="play"
+          />
+          <router-link
+            :to="`/playlist/${playList.id}`"
+            class="text-decoration-none"
+          >
+            <span class="h-2x mt-2 mb-2 text-body-1 font-weight-bold">{{ playList.name }}</span>
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="new-music-list">

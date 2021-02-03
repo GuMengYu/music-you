@@ -12,7 +12,7 @@
         >
           <v-icon>{{ icon.mdiClose }}</v-icon>
         </v-btn>
-        <v-toolbar-title>Settings</v-toolbar-title>
+        <v-toolbar-title>设置</v-toolbar-title>
       </v-toolbar>
       <div class="container">
         <v-list
@@ -39,37 +39,54 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
+              <v-list-item-title
+                class="font-weight-bold"
+              >
                 语言
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="locale" :options="langOptions" />
+              <default-select
+                v-model="locale"
+                :options="langOptions"
+              />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
+              <v-list-item-title
+                class="font-weight-bold"
+              >
                 外观
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="theme" :options="appearanceOptions" />
+              <default-select
+                v-model="theme"
+                :options="appearanceOptions"
+              />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
+              <v-list-item-title
+                class="font-weight-bold"
+              >
                 音质
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
-              <default-select v-model="quality" :options="qualityOptions" />
+              <default-select
+                v-model="quality"
+                :options="qualityOptions"
+              />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
+              <v-list-item-title
+                class="font-weight-bold"
+              >
                 本地缓存歌曲
               </v-list-item-title>
             </v-list-item-content>
@@ -102,7 +119,7 @@
 <script>
 import { sync } from 'vuex-pathify';
 import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
-import {mapState} from 'vuex';
+import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/Select';
 export default {
   name: 'Setting',
@@ -140,25 +157,44 @@ export default {
       title: '🌗 自动',
       val: 'auto',
     }],
-    settings: {
-      lang: '',
-      quality: '',
-      appearance: '',
-      autoCache: false,
-    },
+    dark: false,
   }),
   computed: {
-    ...mapState({}),
-    showSettings: sync('app/showSettings'),
-    showLogin: sync('app/showLogin'),
-    locale: sync('settings/locale'),
-    quality: sync('settings/quality'),
-    theme: sync('settings/theme'),
-    autoCache: sync('settings/autoCache'),
+    ...sync('settings', ['locale', 'quality', 'theme', 'autoCache']),
+    ...sync('app', ['showSettings', 'showLogin']),
+  },
+  watch: {
+    theme(val) {
+      switch (val) {
+        case 'auto':
+          this.dark = new DetectMode().isDark();
+          break;
+        case 'light':
+          this.dark = false;
+          break;
+        case 'dark':
+          this.dark = true;
+          break;
+      }
+    },
+    dark(val) {
+      if (this.$vuetify.theme.dark === val) return;
+      this.$vuetify.theme.dark = val;
+    },
+  },
+  mounted () {
+    this.initMode();
   },
   created () {},
   methods: {
     clearCache() {},
+    initMode() {
+      const detectMode = new DetectMode();
+      this.theme === 'dark' && (this.dark = true);
+      this.theme === 'auto' && (this.dark = detectMode.isDark());
+      detectMode.onChange((e) => { this.theme === 'auto' && (this.dark = e.matches) });
+    },
+
   },
 }
 </script>
