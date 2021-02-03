@@ -1,9 +1,23 @@
 <template>
   <v-sheet
-    tag="header"
+    tag="footer"
     class="playing-bar"
     elevation="0"
   >
+    <div class="playing-slider">
+      <v-slider
+        v-model="playTime"
+        class="playing-progress"
+        dense
+        hide-details
+        :max="song.dt"
+        min="0"
+        color="#de7a7b"
+        track-fill-color="#de7a7b"
+        @start="handleChangeTimeStart"
+        @change="handleSlideChange"
+      />
+    </div>
     <div class="playing-control">
       <div
         class="playing-bar__left"
@@ -137,20 +151,6 @@
           </v-icon>
         </v-btn>
       </div>
-    </div>
-    <div class="playing-slider">
-      <v-slider
-        v-model="playTime"
-        class="playing-progress"
-        dense
-        hide-details
-        :max="song.dt"
-        min="0"
-        color="#de7a7b"
-        track-fill-color="#de7a7b"
-        @start="handleChangeTimeStart"
-        @change="handleSlideChange"
-      />
     </div>
     <audio
       ref="audio"

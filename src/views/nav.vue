@@ -12,10 +12,8 @@
               {{ icon.mdiCog }}
             </v-icon>
           </v-btn>
-          <v-btn icon>
-            <v-icon small :color="theme === 'light' ? 'amber darken-1' : ''">
-              {{ icon.mdiBrightness2 }}
-            </v-icon>
+          <v-btn icon @click="theme = (dark ? 'light' : 'dark')">
+            {{ theme === 'light' ? '🌘' : '🌔' }}
           </v-btn>
         </div>
         <div>
@@ -40,7 +38,7 @@
 </template>
 
 <script>
-import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart } from '@mdi/js';
+import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart } from '@mdi/js';
 import DefaultInput from '@components/Input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
@@ -48,7 +46,7 @@ export default {
   components: {DefaultInput, DefaultList},
   data: function(){
     return {
-      icon: {mdiCog, mdiBrightness2, mdiChevronLeft, mdiChevronRight},
+      icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight},
       nav: [
         { title: 'Music', heading: 'Music' },
         { icon: mdiMusicNoteHalfDotted, val: 'now', title: '发现音乐', color: '#42a5f5', to: '/now' },
@@ -91,6 +89,9 @@ export default {
   computed: {
     showSettings: sync('app/showSettings'),
     theme: sync('settings/theme'),
+    dark() {
+      return this.$vuetify.theme.dark;
+    },
   },
 };
 </script>

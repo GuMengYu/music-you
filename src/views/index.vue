@@ -2,11 +2,10 @@
   <v-sheet
     ref="musicApp"
     class="music-app d-flex"
-    elevation="1"
   >
     <side-nav />
     <div class="right">
-      <play-bar />
+      <play-bar class="playbar" />
       <playing-list
         :open="true"
         class="playing-list"
@@ -85,6 +84,11 @@ $playerbarHeight: 70px;
   }
   .right {
     width: calc(100% - 20%);
+    .playbar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
   }
   main {
     max-height: calc(100% - #{$playerbarHeight});

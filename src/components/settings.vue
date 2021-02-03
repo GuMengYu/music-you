@@ -164,19 +164,6 @@ export default {
     ...sync('app', ['showSettings', 'showLogin']),
   },
   watch: {
-    theme(val) {
-      switch (val) {
-        case 'auto':
-          this.dark = new DetectMode().isDark();
-          break;
-        case 'light':
-          this.dark = false;
-          break;
-        case 'dark':
-          this.dark = true;
-          break;
-      }
-    },
     dark(val) {
       if (this.$vuetify.theme.dark === val) return;
       this.$vuetify.theme.dark = val;
@@ -189,10 +176,26 @@ export default {
   methods: {
     clearCache() {},
     initMode() {
+      const that = this;
       const detectMode = new DetectMode();
       this.theme === 'dark' && (this.dark = true);
       this.theme === 'auto' && (this.dark = detectMode.isDark());
       detectMode.onChange((e) => { this.theme === 'auto' && (this.dark = e.matches) });
+      this.$store.subscribe(mutation => {
+        if (mutation.type === 'settings/theme') {
+          switch (mutation.payload) {
+            case 'auto':
+              that.dark = new DetectMode().isDark();
+              break;
+            case 'light':
+              that.dark = false;
+              break;
+            case 'dark':
+              that.dark = true;
+              break;
+          }
+        }
+      })
     },
 
   },
