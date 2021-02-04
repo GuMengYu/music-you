@@ -19,7 +19,7 @@
             :to="`/playlist/${playList.id}`"
             class="text-decoration-none"
           >
-            <span class="h-2x mt-2 mb-2 text-body-1 font-weight-bold">{{ playList.name }}</span>
+            <span class="h-2x mt-2 mb-2 text-body-1 font-weight-bold text--primary">{{ playList.name }}</span>
           </router-link>
         </div>
       </div>

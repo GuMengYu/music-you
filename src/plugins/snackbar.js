@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import MSnackbar from '@components/MSnackbar.vue';
-import vuetify from './vuetify';
 
 let SnackBarConstructor = Vue.extend(MSnackbar);
 
@@ -20,7 +19,6 @@ const Message = function(options) {
     // };
 
     instance = new SnackBarConstructor({
-      vuetify,
       data: options,
     });
     instance.id = id;

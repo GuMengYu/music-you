@@ -13,7 +13,9 @@
             </v-icon>
           </v-btn>
           <v-btn icon @click="theme = (dark ? 'light' : 'dark')">
-            {{ theme === 'light' ? '🌘' : '🌔' }}
+            <v-icon small :color="dark ? 'amber darken-1' : 'grey'">
+              {{ dark ? icon.mdiBrightness1 : icon.mdiBrightness2 }}
+            </v-icon>
           </v-btn>
         </div>
         <div>

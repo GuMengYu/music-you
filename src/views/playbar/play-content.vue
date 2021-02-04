@@ -13,8 +13,8 @@
         <div class="control_bar d-flex flex-column">
           <div class="song-info d-flex justify-space-between">
             <div class="left d-flex flex-column">
-              <span class="white--text text-subtitle-2">{{ song.name }}</span>
-              <span class="white--text text-subtitle-1">{{ $$(song, 'ar', '0', 'name') }}</span>
+              <span class="text-subtitle-2">{{ song.name }}</span>
+              <span class="text-subtitle-1">{{ $$(song, 'ar', '0', 'name') }}</span>
             </div>
             <div class="right d-flex align-center">
               <v-btn icon color="pink">
@@ -26,8 +26,7 @@
           </div>
           <div class="control_process">
             <v-slider
-              max="100" min="0" color="white"
-              thumb-color="white" track-fill-color="white" track-color="white"
+              max="100" min="0"
             />
           </div>
           <div class="control_btns d-flex">

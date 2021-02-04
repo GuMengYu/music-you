@@ -1,23 +1,34 @@
 import Vue from 'vue'
-import App from './App.vue'
-import { createStore } from './store'
-import router from './router'
-import vuetify from './plugins/vuetify'
-import plugins from './plugins';
-import i18n from './i18n';
-import './mock/index';
-import filters from './filters';
-import './scss/global.scss'
+
+import { createRouter } from '@/router'
+import { createStore } from '@/store'
+import { createVuetify } from '@/vuetify'
+import { createI18n } from '@/i18n';
+
+import plugins from '@/plugins';
+import filters from '@/filters';
+import '@/scss/global.scss'
+import '@/mock/index';
+
+// Application
+import App from '@/App.vue'
+
 Vue.config.productionTip = false
+
+// register vue filter
 Object.entries(filters).map(([key, fn]) => {
   Vue.filter(key, fn);
 });
-
 Vue.use(plugins);
+
+const store = createStore();
+const vuetify = createVuetify(store);
+const i18n = createI18n();
+const router = createRouter();
 new Vue({
-  store: createStore(),
+  store,
   router,
-  i18n: i18n(),
+  i18n,
   vuetify,
   render: h => h(App),
 }).$mount('#app')

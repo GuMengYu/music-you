@@ -5,7 +5,9 @@ import en from './language/en';
 
 Vue.use(VueI18n);
 
-export default (locale = 'zh') => new VueI18n({
+export function createI18n(locale = 'zh') {
+  return new VueI18n({
     locale,
     messages: {zh, en},
-});
+  });
+}

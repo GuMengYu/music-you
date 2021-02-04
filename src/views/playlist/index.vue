@@ -44,7 +44,11 @@
             </h6>
             <div class="artist text-body-1 mt-2">
               Playlist by
-              <a href="https://music.163.com/#/user/home?id=100057734" target="blank"> {{ $$(playList,'creator', 'nickname') }}</a>
+              <router-link :to="`/artists/${playList.creator.id}`">
+                <span class="text--primary">
+                  {{ $$(playList,'creator', 'nickname') }}
+                </span>
+              </router-link>
             </div>
             <div class="date-and-count text-body-2"> last update {{ $dayjs(playList.updateTime).format('YYYY-MM-DD') }} · {{ playList.trackCount }} · songs</div>
             <div class="description text-body-1 mt-2">

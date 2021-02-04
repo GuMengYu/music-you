@@ -14,18 +14,19 @@ const musicRoutes = [{
   component: lazyLoad('playlist'),
   props: true,
   meta: {keepAlive: true},
+},{
+  path: '*',
+  name: '404',
+  component: () => import(/* webpackChunkName: "404" */ '../views/errors/404.vue'),
 }];
-const routes = [
-  {
-    path: '/',
-    component: () => import(/* webpackChunkName: "page" */ '../views/index.vue'),
-    children: musicRoutes,
-    redirect: { path: '/now' },
-  },
-]
 
-const router = new VueRouter({
-  routes,
-})
-
-export default router
+export function createRouter() {
+  return new VueRouter({
+    routes: [{
+      path: '/',
+      component: () => import(/* webpackChunkName: "page" */ '../views/index.vue'),
+      children: musicRoutes,
+      redirect: { path: '/now' },
+    }],
+  });
+}

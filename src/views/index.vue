@@ -87,13 +87,13 @@ $playerbarHeight: 70px;
     .playbar {
       position: fixed;
       bottom: 0;
-      width: 100%;
+      width: calc(100% - 20%);
     }
   }
   main {
-    max-height: calc(100% - #{$playerbarHeight});
+    max-height: 100%;
     overflow-y: auto;
-    padding: 2vw 2vw 0;
+    padding: 3vw 2vw 0;
   }
 }
 </style>

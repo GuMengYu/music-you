@@ -2,7 +2,7 @@
   <v-sheet
     tag="footer"
     class="playing-bar"
-    elevation="0"
+    elevation="1"
   >
     <div class="playing-slider">
       <v-slider
@@ -48,27 +48,27 @@
           </v-card>
         </v-hover>
         <div class="song-info">
-          <a>
+          <router-link to="" class="text-decoration-none">
             <span
-              class="song-name h-2x"
+              class="song-name h-2x text--primary text-body-1"
               :title="song.name"
             >
               {{ song.name }}
             </span>
-          </a>
-          <a>
+          </router-link>
+          <router-link to="" class="text-decoration-none">
             <span
-              class="artist-name h-2x"
+              class="artist-name h-2x text--primary text-caption"
             >
               {{$$(song, 'ar', '0', 'name')}}
             </span>
-          </a>
+          </router-link>
         </div>
         <v-btn
           icon
           text
           color="#f9223b"
-          class="ml-4"
+          class="ml-8"
         >
           <v-icon small>
             {{ icon.mdiHeartOutline }}
@@ -81,7 +81,6 @@
         <div class="playing-control-buttons">
           <v-btn
             icon
-            color="purple"
             @click="playPrev"
           >
             <v-icon>
@@ -90,7 +89,6 @@
           </v-btn>
           <v-btn
             icon
-            color="blue"
             @click="playPause"
           >
             <v-icon large>
@@ -99,7 +97,6 @@
           </v-btn>
           <v-btn
             icon
-            color="green"
             @click="playNext"
           >
             <v-icon>
@@ -113,7 +110,6 @@
       >
         <v-btn
           icon
-          color="blue"
           @click="playOrder"
         >
           <v-icon small>
@@ -123,7 +119,6 @@
         <div class="volume-bar d-flex align-center">
           <v-btn
             icon
-            color="blue"
             @click="toggleVolume"
           >
             <v-icon small>
@@ -143,7 +138,6 @@
         <v-btn
           icon
           text
-          color="blue"
           @click="showList = !showList"
         >
           <v-icon small>
@@ -368,12 +362,14 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/common';
 .playing-bar {
-  background: transparent;
-  backdrop-filter: blur(10px);
+  background-color: var(--v-bar-bg-base);
+  backdrop-filter: blur(30px);
+  opacity: 0.8;
+  z-index: 999;
   -webkit-app-region: drag;
   .playing-control {
     display: flex;
-    padding: 5px 2vw;
+    padding: 1vw 2vw;
     .playing-bar__left {
       overflow: hidden;
       display: flex;
@@ -405,8 +401,10 @@ export default {
       justify-content: center;
       .playing-control-buttons {
         display: flex;
-        width: 200px;
         justify-content: space-around;
+        > .v-btn {
+          margin: 0 8px;
+        }
       }
     }
     .playing-bar__right {
@@ -425,11 +423,13 @@ export default {
     }
   }
   .playing-slider {
+    position: absolute;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 14px;
+    top: -7px;
     .playing-time {
       font-size: 14px;
       font-weight: 500;
@@ -438,6 +438,9 @@ export default {
     }
     .playing-progress {
       -webkit-app-region: no-drag
+    }
+    ::v-deep .v-slider--horizontal {
+      min-height: 14px;
     }
   }
 }
