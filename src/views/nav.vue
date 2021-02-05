@@ -109,7 +109,7 @@ export default {
   }
   .system-action {
     display: flex;
-    padding: 15px 8px 0;
+    padding: 24px 8px 0;
     justify-content: flex-end;
     -webkit-app-region: drag
   }

@@ -50,7 +50,9 @@
                 </span>
               </router-link>
             </div>
-            <div class="date-and-count text-body-2"> last update {{ $dayjs(playList.updateTime).format('YYYY-MM-DD') }} · {{ playList.trackCount }} · songs</div>
+            <div class="date-and-count text-body-2">
+              last update {{ $dayjs(playList.updateTime).format('YYYY-MM-DD') }} · {{ playList.trackCount }} · songs
+            </div>
             <div class="description text-body-1 mt-2">
               <p>
                 {{ playList.description }}
@@ -59,7 +61,10 @@
           </div>
           <div class="playlist-action d-flex justify-start mt-4">
             <v-btn elevation="0" class="red--text mr-4">
-              <v-icon color="#F44336">{{ mdiPlay }}</v-icon> 播放
+              <v-icon color="#F44336">
+                {{ mdiPlay }}
+              </v-icon>
+              播放
             </v-btn>
             <v-btn
               icon

@@ -2,10 +2,10 @@
   <v-container
     class="text-center fill-height"
   >
-    <v-row align="center">
+    <v-row class="align-baseline">
       <v-col>
         <h1 class="display-2 primary--text">
-          妈惹法克 404
+          Whoops, 404
         </h1>
 
         <p>The page you were looking for does not exist</p>
@@ -25,6 +25,6 @@
 <script>
 
   export default {
-    name: 'FourOhFour',
+    name: '404',
   }
 </script>

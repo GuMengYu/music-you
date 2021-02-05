@@ -10,7 +10,7 @@ const state = {
       name: 'Daniel Lanois',
     }],
     al: {
-      picUrl: 'http://p4.music.126.net/OT5j1j9SBwcoay4G2VP5Wg==/109951164153921681.jpg?param=100y100',
+      picUrl: 'http://p4.music.126.net/OT5j1j9SBwcoay4G2VP5Wg==/109951164153921681.jpg',
     },
   },
   currentTime: 0,
@@ -25,9 +25,7 @@ export default {
 
   },
   actions: {
-    fetch({commit}) {
-      console.log(commit);
-    },
+    fetch() {},
     async startNewMusic({ commit }, id) {
       commit('UPDATE_PLAYER', {playing: false, currentTime: 0});
       const [song, lyric] = await Promise.all([getSongData([id]).then(res => res.songs?.[0] ?? {}), getLyric(id).then(result => {

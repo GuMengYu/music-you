@@ -369,7 +369,7 @@ export default {
   -webkit-app-region: drag;
   .playing-control {
     display: flex;
-    padding: 1vw 2vw;
+    padding: 10px;
     .playing-bar__left {
       overflow: hidden;
       display: flex;

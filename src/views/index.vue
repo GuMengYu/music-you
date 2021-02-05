@@ -20,9 +20,9 @@
     <v-dialog
       v-model="showLyricsPage"
       fullscreen
-      transition="dialog-top-transition"
+      transition="dialog-bottom-transition"
     >
-      <play-content :song="song" @close="showLyricsPage = !showLyricsPage" />
+      <track-detail :track="song" @close="showLyricsPage = !showLyricsPage" />
     </v-dialog>
     <login />
   </v-sheet>
@@ -30,12 +30,12 @@
 
 <script>
 import SideNav from './nav.vue';
-import PlayBar from './playbar/index';
+import PlayBar from '@/components/playbar';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
-import PlayingList from '@/views/playbar/playing-list';
+import PlayingList from '@/components/playbar/playing-list';
 import Settings from '@components/settings';
 import Login from '@components/login';
-import PlayContent from '@/views/playbar/play-content';
+import TrackDetail from '@/components/trackdetail';
 import {sync} from 'vuex-pathify';
 
 
@@ -43,7 +43,7 @@ import {debounce} from '@/util/fn';
 import { mapState } from 'vuex'
 export default {
   name: 'Layout',
-  components: {PlayingList, SideNav, PlayBar, Settings, Login, PlayContent},
+  components: {PlayingList, SideNav, PlayBar, Settings, Login, TrackDetail},
   data: () => ({
     openNav: true,
     openSetting: false,
@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     handleWindowResize() {
-      console.log('resizing');
       const {innerHeight, innerWidth} = window;
       const $app = this.$refs['musicApp'].$el;
       Object.assign($app.style, {maxWidth: innerWidth + 'px', maxHeight : innerHeight + 'px'});
@@ -91,9 +90,9 @@ $playerbarHeight: 70px;
     }
   }
   main {
-    max-height: 100%;
     overflow-y: auto;
     padding: 3vw 2vw 0;
+    height: 100vh;
   }
 }
 </style>

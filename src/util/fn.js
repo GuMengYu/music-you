@@ -5,7 +5,6 @@
  * @param {Boolean} immidiate : 是否立即执行
  */
 export const debounce = (fn, wait= 1000, immidiate) => {
-  console.log('debounced');
     let timeout;
     return function() {
         timeout && clearTimeout(timeout);

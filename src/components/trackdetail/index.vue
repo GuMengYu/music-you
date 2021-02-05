@@ -3,18 +3,18 @@
     <div class="frame-header" @click="close" />
     <v-row class="frame-content">
       <v-col lg="5" class="d-flex flex-column justify-center align-center frame-content-left pa-0">
-        <v-card max-height="350" elevation="0" class="rounded-xl album-cover">
+        <v-card class="rounded-lg album-cover">
           <v-img
+            class="cover-img"
             :src="albumPicUrl"
-            max-height="350"
-            max-width="350"
+            max-width="30vw"
           />
         </v-card>
         <div class="control_bar d-flex flex-column">
           <div class="song-info d-flex justify-space-between">
             <div class="left d-flex flex-column">
-              <span class="text-subtitle-2">{{ song.name }}</span>
-              <span class="text-subtitle-1">{{ $$(song, 'ar', '0', 'name') }}</span>
+              <span class="font-weight-bold text-body-1">{{ track.name }}</span>
+              <span class="font-weight-bold text-caption">{{ $$(track, 'ar', '0', 'name') }}</span>
             </div>
             <div class="right d-flex align-center">
               <v-btn icon color="pink">
@@ -74,9 +74,9 @@
 import {mdiSkipPrevious, mdiDotsHorizontal, mdiPauseCircle, mdiSkipNext} from '@mdi/js';
 
 export default {
-  name: 'PlayContent',
+  name: 'TrackDetail',
   props: {
-    song: {
+    track: {
       type: Object,
       default: () => ({}),
     },
@@ -101,10 +101,10 @@ export default {
   }),
   computed: {
     albumPicUrl() {
-      return `${this.song.al?.picUrl}?param=400y400`;
+      return `${this.track.al?.picUrl}?param=512y512`;
     },
     lyric() {
-      return this.song.lyric ?? [];
+      return this.track.lyric ?? [];
     },
   },
   methods: {
@@ -149,7 +149,11 @@ export default {
     .frame-content-left {
       height: 100%;
       z-index: 10;
-      .album-cover {}
+      .album-cover {
+        .cover-img {
+          border: 1px var(--v-secondary-darken1) solid;
+        }
+      }
       .control_bar {
         width: 350px;
         .control_btns {
