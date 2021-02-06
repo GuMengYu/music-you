@@ -80,7 +80,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$playerbarHeight: 70px;
+$playerbarHeight: 66px;
 .music-app {
   width: 100%;
   height: 100%;
@@ -88,7 +88,6 @@ $playerbarHeight: 70px;
   position: relative;
   transform: translate(0%);
   .playing-list {
-    top: 62px!important;
     height: calc(100% - #{$playerbarHeight}) !important;
   }
   .right {
