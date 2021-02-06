@@ -10,11 +10,7 @@ const state = {
 }
 
 const mutations = make.mutations(state)
-mutations['updateSettings'] = (state, data) => {
-  Object.entries(data).map(([key, value]) => {
-    state.settings[key] = value;
-  });
-};
+
 const actions = {
   ...make.actions(state),
   init: async ({ dispatch }) => {

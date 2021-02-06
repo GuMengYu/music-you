@@ -122,7 +122,7 @@ import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/Select';
 export default {
-  name: 'Setting',
+  name: 'DefaultSetting',
   components: {DefaultSelect},
   data: () => ({
     icon: { mdiClose, mdiLogin, mdiLogout },

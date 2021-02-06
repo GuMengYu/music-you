@@ -55,7 +55,7 @@ export default {
         return this.$store.state.music.song?.id;
       },
       set(val) {
-        this.$store.dispatch('music/startNewMusic', val);
+        this.$store.dispatch('music/updateTrack', val);
       },
     },
   },

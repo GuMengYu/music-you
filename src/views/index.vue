@@ -16,15 +16,16 @@
         </keep-alive>
       </v-sheet>
     </div>
-    <settings />
+    <default-setting />
     <v-dialog
       v-model="showLyricsPage"
       fullscreen
       transition="dialog-bottom-transition"
     >
-      <track-detail :track="song" @close="showLyricsPage = !showLyricsPage" />
+      <default-track-detail :track="song" @close="showLyricsPage = !showLyricsPage" />
     </v-dialog>
-    <login />
+    <default-login />
+    <default-snackbar />
   </v-sheet>
 </template>
 
@@ -33,17 +34,26 @@ import SideNav from './nav.vue';
 import PlayBar from '@/components/playbar';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PlayingList from '@/components/playbar/playing-list';
-import Settings from '@components/settings';
-import Login from '@components/login';
-import TrackDetail from '@/components/trackdetail';
+import DefaultSetting from '@components/settings';
+import DefaultLogin from '@components/login';
+import DefaultTrackDetail from '@/components/trackdetail';
+import DefaultSnackbar from '@components/Snackbar'
+
 import {sync} from 'vuex-pathify';
-
-
 import {debounce} from '@/util/fn';
 import { mapState } from 'vuex'
+
 export default {
   name: 'Layout',
-  components: {PlayingList, SideNav, PlayBar, Settings, Login, TrackDetail},
+  components: {
+    DefaultSetting,
+    DefaultSnackbar,
+    PlayingList,
+    SideNav,
+    PlayBar,
+    DefaultLogin,
+    DefaultTrackDetail,
+  },
   data: () => ({
     openNav: true,
     openSetting: false,

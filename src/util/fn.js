@@ -28,7 +28,7 @@ export const debounce = (fn, wait= 1000, immidiate) => {
  * @param {*} wait
  * @param {*} options : {  }
  */
-export const throttle_timeout = (fn, wait) => {
+export const throttle = (fn, wait) => {
     let timeout;
     return function() {
         if (!timeout) {
@@ -79,6 +79,6 @@ export const optionalChaining = (obj, ...rest) => {
 export default {
     optionalChaining,
     debounce,
-    throttle_timeout,
+    throttle,
     throttle_timestamp,
 };

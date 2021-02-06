@@ -54,16 +54,15 @@ export default {
   async created() {
     NProgress.start();
     const [playlists, artists] = await Promise.all([getPersonalized(), topArtists()]);
-    console.log(playlists, artists);
       this.playLists = playlists.result;
       this.artists = artists.data;
       NProgress.done();
   },
   methods: {
-    async play(id) {
-      const {playlist} = await getPlayList(id);
-      this.$store.commit('music/UPDATE_PLAYING_LIST', playlist.tracks);
-      await this.$store.dispatch('music/startNewMusic', playlist.tracks[0].id);
+    async play() {
+      const {playlist} = await getPlayList('119215665');
+      await this.$store.dispatch('music/updatePlayingList', playlist.tracks);
+      await this.$store.dispatch('music/updateTrack', playlist.tracks?.[0]?.id);
     },
   },
 };

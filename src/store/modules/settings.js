@@ -10,6 +10,7 @@ const state = () => {
     quality: '192000',
     autoCache: false,
     theme: 'auto',
+    volume: 0.8,
   }, data)
 }
 

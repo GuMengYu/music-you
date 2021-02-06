@@ -74,7 +74,7 @@
 import {mdiSkipPrevious, mdiDotsHorizontal, mdiPauseCircle, mdiSkipNext} from '@mdi/js';
 
 export default {
-  name: 'TrackDetail',
+  name: 'DefaultTrackDetail',
   props: {
     track: {
       type: Object,

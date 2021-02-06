@@ -31,7 +31,7 @@ import {mdiLock, mdiEmail, mdiPhone} from '@mdi/js';
 import DefaultInput from '@components/Input'
 
 export default {
-  name: 'Login',
+  name: 'DefaultLogin',
   components: { DefaultInput },
   data: () => ({
     icon: {

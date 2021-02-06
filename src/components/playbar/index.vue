@@ -6,11 +6,11 @@
   >
     <div class="playing-slider">
       <v-slider
-        v-model="playTime"
+        v-model="currentTime"
         class="playing-progress"
         dense
         hide-details
-        :max="song.dt"
+        :max="track.dt / 1000"
         min="0"
         color="#de7a7b"
         track-fill-color="#de7a7b"
@@ -50,17 +50,16 @@
         <div class="song-info">
           <router-link to="" class="text-decoration-none">
             <span
-              class="song-name h-2x text--primary text-body-1"
-              :title="song.name"
+              class="song-name text--primary text-body-2 h-1x"
             >
-              {{ song.name }}
+              {{ track.name }}
             </span>
           </router-link>
           <router-link to="" class="text-decoration-none">
             <span
               class="artist-name h-2x text--primary text-caption"
             >
-              {{$$(song, 'ar', '0', 'name')}}
+              {{$$(track, 'ar', '0', 'name')}}
             </span>
           </router-link>
         </div>
@@ -146,20 +145,11 @@
         </v-btn>
       </div>
     </div>
-    <audio
-      ref="audio"
-      :src="musicUrl"
-      @ended="playNext"
-      @canplaythrough="onCanPlayThrough"
-    >
-      Your browser does not support the <code>audio</code> element.
-    </audio>
   </v-sheet>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import {sync} from 'vuex-pathify';
+import {sync, get} from 'vuex-pathify';
 import {
   mdiHeart,
   mdiHeartOutline,
@@ -179,7 +169,7 @@ import {
   mdiArrowExpand,
 } from '@mdi/js';
 
-import Audio from './audio';
+import Player from './player';
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -188,6 +178,7 @@ const PLAY_MODE = {
   RANDOM: 3,
 };
 export default {
+  extends: Player,
   data: () => ({
     icon: {
       mdiHeart,
@@ -199,26 +190,18 @@ export default {
       mdiPlaylistMusic,
       mdiArrowExpand,
     },
-    player: {},
-    interval: null,
-    playTime: 0,
-    volume: 1,
     prevVolume: 1,
     playMode: PLAY_MODE.ORDER,
     showMusic: false,
   }),
   computed: {
-    ...mapState({
-      song: state => state.music.song,
-      musicUrl: state => state.music.musicUrl,
-      playing: state => state.music.playing,
-      playingList: state => state.music.playingList,
-      currentTime: state => state.music.currentTime,
-    }),
+    track: get('music/track'),
+    playingList: get('music/playingList'),
+    playing: get('music/playing'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     songIndex() {
-      return this.playingList.findIndex(song => song.id === this.song.id);
+      return this.playingList.findIndex(track => track.id === this.track.id);
     },
     next() {
       return this.playingList[(this.songIndex + 1) === this.playingList.length ? 0 : this.songIndex + 1];
@@ -246,34 +229,21 @@ export default {
       })[this.playMode];
     },
     albumPicUrl() {
-      return this.song.al ? `${this.song.al?.picUrl}?param=200y200` : '';
+      return this.track.al ? `${this.track.al?.picUrl}?param=200y200` : '';
     },
   },
   watch: {
     playing(val) {
       this.$nextTick(() => {
         if (val) {
-          this.setPlayTime();
-          this.player.play();
+          this.play();
         } else {
-          clearInterval(this.interval);
-          this.player.pause();
+          this.pause();
         }
       });
     },
-    currentTime(val) {
-      this.playTime = val;
-    },
-    volume(val) {
-      this.player.element.volume = val;
-    },
-    song() {
-      this.initMediaSession();
-    },
   },
-  mounted() {
-    this.player = new Audio(this.$refs.audio);
-  },
+  mounted() {},
   methods: {
     playPause() {
       this.$store.commit('music/UPDATE_PLAYER', {playing: !this.playing});
@@ -288,38 +258,24 @@ export default {
       } else if (this.playMode === PLAY_MODE.ORDER && this.songIndex === len - 1) {
         this.$store.commit('music/UPDATE_PLAYER', {currentTime: 0, playing: false});
       } else {
-        this.$store.dispatch('music/startNewMusic', id);
+        this.$store.dispatch('music/updateTrack', id);
       }
     },
     playPrev() {
-      this.$store.dispatch('music/startNewMusic', this.prev.id);
+      this.$store.dispatch('music/updateTrack', this.prev.id);
     },
     rePlay() {
       this.handleSlideChange(0);
     },
-    onCanPlayThrough() {
-      console.log('already can play');
-      this.$store.commit('music/UPDATE_PLAYER', {playing: true});
-    },
-    setPlayTime() {
-      this.interval = setInterval(() => {
-        this.$store.commit('music/UPDATE_PLAYER', {currentTime: this.player.element.currentTime * 1000});
-      }, 500);
-    },
-    // 停止进度条
-    stopPlayTime() {
-      clearInterval(this.interval);
-    },
-    // 拉动进度条的时候，停止时间计时
+    // 拉动进度条的时候，停止计时
     handleChangeTimeStart() {
-      console.log('slider move start');
-      this.stopPlayTime();
+      this.stopTimer()
+      console.debug('slider move start');
     },
-    handleSlideChange(v) {
-      console.log('slider change end');
-      this.player.element.currentTime = v / 1000;
-      this.$store.commit('music/UPDATE_PLAYER', {currentTime: v});
-      this.playing && this.setPlayTime();
+    handleSlideChange() {
+      console.debug('slider change end');
+      this.restoreTimer();
+      this.setSeek(this.currentTime);
     },
     toggleVolume() {
       if (this.volume === 0) {
@@ -331,26 +287,6 @@ export default {
     },
     playOrder() {
       this.playMode < 3 ? this.playMode++ : (this.playMode = 0);
-    },
-    initMediaSession() {
-      // https://developers.google.com/web/updates/2017/02/media-session
-      if ('mediaSession' in navigator) {
-        // eslint-disable-next-line no-undef
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: this.song.name,
-          artist: this.song.ar?.[0]?.name,
-          album: this.song.al?.name,
-          artwork: [
-            { src: this.albumPicUrl, sizes: '512x512', type: 'image/png' },
-          ],
-        });
-        [
-          ['play', this.playPause],
-          ['pause', this.playPause],
-          ['previoustrack', this.playPrev],
-          ['nexttrack', this.playNext],
-        ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
-      }
     },
     toggleLyricsPage() {
       this.showMusic = false;

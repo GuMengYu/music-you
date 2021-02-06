@@ -10,7 +10,13 @@ Mock.mock(/song\/detail/, musicDetail);
 Mock.mock(/song\/url/, songUrl);
 Mock.mock(/playlist\/detail/, ({url}) => {
   const { id } = queryString.parse(url.split('?')[1]);
-  return playlist.find(item => item.id == id);
+  return playlist.find(item => item.id == id) || {
+    'id': 119215665,
+    'code': 200,
+    'playlist': {
+      tracks: [],
+    },
+  };
 });
 Mock.mock(/personalized/, () => recommendPlayList);
 Mock.mock(/lyric/, songLrc);
