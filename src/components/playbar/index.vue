@@ -12,8 +12,7 @@
         hide-details
         :max="track.dt / 1000"
         min="0"
-        color="#de7a7b"
-        track-fill-color="#de7a7b"
+        track-color="rgb(128, 128, 128, .2)"
         @start="handleChangeTimeStart"
         @change="handleSlideChange"
       />
@@ -297,10 +296,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../scss/common';
+.theme--light .playing-bar {
+  background-color: rgba(255, 255, 255, .5);
+}
+.theme--dark .playing-bar {
+  background-color: rgba(0, 0, 0, .5);
+}
 .playing-bar {
-  background-color: var(--v-bar-bg-base);
   backdrop-filter: blur(30px);
-  opacity: 0.8;
   z-index: 999;
   -webkit-app-region: drag;
   .playing-control {
@@ -373,11 +376,18 @@ export default {
       -webkit-font-smoothing: antialiased;
     }
     .playing-progress {
-      -webkit-app-region: no-drag
+      -webkit-app-region: no-drag;
+      ::v-deep .v-slider__thumb-container {
+        visibility: hidden;
+      }
+      ::v-deep .v-slider--horizontal {
+        min-height: 14px;
+        &:hover .v-slider__thumb-container{
+          visibility: visible;
+        }
+      }
     }
-    ::v-deep .v-slider--horizontal {
-      min-height: 14px;
-    }
+
   }
 }
 </style>
