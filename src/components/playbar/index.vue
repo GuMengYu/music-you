@@ -369,12 +369,6 @@ export default {
     width: 100%;
     height: 14px;
     top: -7px;
-    .playing-time {
-      font-size: 14px;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-      -webkit-font-smoothing: antialiased;
-    }
     .playing-progress {
       -webkit-app-region: no-drag;
       ::v-deep .v-slider__thumb-container {

@@ -4,22 +4,27 @@
     max-width="400"
   >
     <v-card>
-      <v-card-title>
+      <v-card-title class="justify-center">
+        <v-img
+          src="@/assets/logo_256x256.png"
+          max-width="60"
+        >
+        </v-img>
       </v-card-title>
-      <div class="form-area">
-        <v-list-item>
+      <div class="form-area mt-4">
+        <v-list-item class="mt-4">
           <default-input v-model="email" :icon="icon.mdiEmail" holder="输入邮箱" />
         </v-list-item>
-        <v-list-item>
+        <v-list-item class="mt-4">
           <default-input v-model="password" :icon="icon.mdiLock" holder="输入密码" />
         </v-list-item>
       </div>
-      <div class="">
-        <v-btn text width="300">
+      <div class="d-flex justify-center mt-4">
+        <v-btn width="300">
           登录
         </v-btn>
       </div>
-      <div>
+      <div class="mt-4">
         声明
       </div>
     </v-card>

@@ -3,7 +3,7 @@ import {make} from 'vuex-pathify';
 const state = {
   playing: false,
   track: JSON.parse(localStorage.getItem('song')) || [],
-  currentTime: 0,
+  currentTime: localStorage.getItem('currentTime') || 0,
   playingList: JSON.parse(localStorage.getItem('playingList')) || [],
   showList: false,
   showLyricsPage: false,

@@ -7,6 +7,7 @@ export default {
   name: 'Player',
   data: () => ({
     progressThrottle: null,
+    saveCurrentTimeThrottle: null,
     // track: {},
     pauseProgress: false,
     howler: null,
@@ -27,13 +28,14 @@ export default {
   },
   mounted() {
     this.progressThrottle = throttle(this.runProgress, 1000);
+    this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
     this.initMediaSession();
     this.howler = this.initHowler(this.track.url);
   },
   methods: {
     initHowler(src) {
       console.log('test');
-      return new Howl({
+      const sound = new Howl({
         src: [src],
         html5: true,
         preload: 'metadata',
@@ -54,7 +56,9 @@ export default {
           // Start updating the progress of the track.
           requestAnimationFrame(this.step);
         },
-      })
+      });
+      sound.seek(this.currentTime);
+      return sound;
     },
     init() {
       Howler.volume(this.volume);
@@ -73,6 +77,7 @@ export default {
     },
     step() {
       this.progressThrottle();
+      this.saveCurrentTimeThrottle();
       if (this.howler.playing() && !this.pauseProgress) requestAnimationFrame(this.step);
     },
     stopTimer() {
@@ -100,6 +105,9 @@ export default {
         //   ['nexttrack', this.playNext],
         // ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
       }
+    },
+    saveCurrentTime() {
+      localStorage.setItem('currentTime', this.currentTime);
     },
   },
 }
