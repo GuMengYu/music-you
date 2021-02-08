@@ -23,7 +23,7 @@ Vue.use(plugins);
 
 const store = createStore();
 const vuetify = createVuetify(store);
-const i18n = createI18n();
+const i18n = createI18n(store);
 const router = createRouter();
 new Vue({
   store,

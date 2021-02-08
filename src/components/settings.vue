@@ -12,7 +12,7 @@
         >
           <v-icon>{{ icon.mdiClose }}</v-icon>
         </v-btn>
-        <v-toolbar-title>设置</v-toolbar-title>
+        <v-toolbar-title>{{ $t('common.setting') }}</v-toolbar-title>
       </v-toolbar>
       <div class="container">
         <v-list
@@ -33,7 +33,7 @@
                 <v-icon>
                   {{ icon.mdiLogin }}
                 </v-icon>
-                登入
+                {{ $t('common.sign_in') }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -42,7 +42,7 @@
               <v-list-item-title
                 class="font-weight-bold"
               >
-                语言
+                {{ $t('common.language') }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -57,7 +57,7 @@
               <v-list-item-title
                 class="font-weight-bold"
               >
-                外观
+                {{ $t('common.theme') }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -72,7 +72,7 @@
               <v-list-item-title
                 class="font-weight-bold"
               >
-                音质
+                {{ $t('common.quality') }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -87,7 +87,7 @@
               <v-list-item-title
                 class="font-weight-bold"
               >
-                本地缓存歌曲
+                {{ $t('common.cache') }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action class="mr-4">
@@ -97,7 +97,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">
-                已缓存 {{ tracksCache.size }} ({{ tracksCache.length }}) 首
+                {{ $t('common.cached', {size: tracksCache.size, length: tracksCache.length}) }}
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
@@ -106,7 +106,7 @@
                 color="primary"
                 @click="clearCache"
               >
-                清除歌曲缓存
+                {{ $t('common.clear_cache') }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -124,41 +124,43 @@ import DefaultSelect from '@components/Select';
 export default {
   name: 'DefaultSetting',
   components: {DefaultSelect},
-  data: () => ({
-    icon: { mdiClose, mdiLogin, mdiLogout },
-    tracksCache: {
-      size: '0KB',
-      length: 0,
-    },
-    langOptions: [{
-      title: '🇨🇳简体中文',
-      val: 'zh',
-    }, {
-      title: '🇬🇧English',
-      val: 'en',
-    }],
-    qualityOptions: [{
-      title: 'Low - 128Kbps',
-      val: '128000',
-    }, {
-      title: 'Medium - 192Kbps',
-      val: '192000',
-    }, {
-      title: ' High - 320Kbps',
-      val: '320000',
-    }],
-    appearanceOptions: [{
-      title: '🌑 深色',
-      val: 'dark',
-    }, {
-      title: '🌕 浅色',
-      val: 'light',
-    }, {
-      title: '🌗 自动',
-      val: 'auto',
-    }],
-    dark: false,
-  }),
+  data() {
+    return {
+      icon: { mdiClose, mdiLogin, mdiLogout },
+      tracksCache: {
+        size: '0KB',
+        length: 0,
+      },
+      langOptions: [{
+        title: '🇨🇳简体中文',
+        val: 'zh',
+      }, {
+        title: '🇬🇧English',
+        val: 'en',
+      }],
+      qualityOptions: [{
+        title: 'Low - 128Kbps',
+        val: '128000',
+      }, {
+        title: 'Medium - 192Kbps',
+        val: '192000',
+      }, {
+        title: ' High - 320Kbps',
+        val: '320000',
+      }],
+      appearanceOptions: [{
+        title: `🌑 ${this.$i18n.t('common.dark')}`,
+        val: 'dark',
+      }, {
+        title: `🌕 ${this.$i18n.t('common.light')}`,
+        val: 'light',
+      }, {
+        title: `🌗 ${this.$i18n.t('common.auto')}`,
+        val: 'auto',
+      }],
+      dark: false,
+    }
+  },
   computed: {
     ...sync('settings', ['locale', 'quality', 'theme', 'autoCache']),
     ...sync('app', ['showSettings', 'showLogin']),
@@ -194,8 +196,11 @@ export default {
               that.dark = true;
               break;
           }
-        } else if (mutation.type === 'setting/locale') {
-          this.$i18n.locale = mutation.payload;
+        } else if (mutation.type === 'settings/locale') {
+          const locale = mutation.payload;
+          this.$i18n.locale = locale;
+          this.$dayjs.locale(locale);
+          location.reload();
         }
       })
     },

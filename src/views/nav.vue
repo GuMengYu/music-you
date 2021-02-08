@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="py-2 px-4">
-        <default-input holder="搜索" :icon="icon.mdiMagnify" />
+        <default-input :holder="$t('common.search')" :icon="icon.mdiMagnify" />
       </div>
     </template>
     <default-list :items="nav" />
@@ -47,20 +47,21 @@ import { sync } from 'vuex-pathify';
 export default {
   components: {DefaultInput, DefaultList},
   data: function(){
+    const _t = key => this.$i18n.t(`main.nav.${key}`);
     return {
       icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify},
       nav: [
-        { title: 'Music', heading: 'Music' },
-        { icon: mdiMusicNoteHalfDotted, val: 'now', title: '发现音乐', color: '#42a5f5', to: '/now' },
-        { icon: mdiAppleFinder, val: 'views', title: '浏览', color: '#66bb6a', to: '/views' },
-        { icon: mdiRadioFm, val: 'fm', title: '私人FM', color: '#66bb6a', to: '/fm' },
-        { icon: mdiHandHeart, val: 'daily', title: '日推', color: '#66bb6a', to: '/daily' },
-        { title: 'Library', heading: 'Library'},
-        { icon: mdiLibrary, val: 'stars', title: '我的收藏', color: '#66bb6a', to: '/stars'},
-        { icon: mdiAlbum, val: 'album', title: '音乐云盘', color: '#ffa726', to: '/disk' },
-        { icon: mdiPodcast, val: 'podcast', title: '我的电台', color: '#ffa726', to: '/podcast' },
+        { title: _t('music'), heading: 'Music' },
+        { icon: mdiMusicNoteHalfDotted, val: 'now', title: _t('now'), olor: '#42a5f5', to: '/now' },
+        { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), color: '#66bb6a', to: '/explore' },
+        { icon: mdiRadioFm, val: 'fm', title: _t('fm'), color: '#66bb6a', to: '/fm' },
+        { icon: mdiHandHeart, val: 'daily', title: _t('daily'), color: '#66bb6a', to: '/daily' },
+        { title: _t('library'), heading: 'Library'},
+        { icon: mdiLibrary, val: 'stars', title: _t('stars'), color: '#66bb6a', to: '/stars'},
+        { icon: mdiAlbum, val: 'disk', title: _t('disk'), color: '#ffa726', to: '/disk' },
+        { icon: mdiPodcast, val: 'podcast', title: _t('podcast'), color: '#ffa726', to: '/podcast' },
         {
-          title: '创建的歌单',
+          title: _t('created_list'),
           open: true,
           items: [{
             title: '我喜欢的音乐',
@@ -77,7 +78,7 @@ export default {
           }],
         },
         {
-          title: '收藏的歌单',
+          title: _t('start_list'),
           open: false,
           items: [{
             title: '私人雷达',

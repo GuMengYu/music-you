@@ -12,7 +12,7 @@
       class="v-app-underline"
     >
       <div class="font-weight-medium text--primary">
-        播放队列
+        {{ $t('main.playing_queue') }}
       </div>
     </v-toolbar>
     <v-list

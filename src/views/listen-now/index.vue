@@ -2,7 +2,7 @@
   <v-sheet class="now">
     <div class="song-list">
       <div class="sub-title font-weight-bold">
-        推荐歌单
+        {{ $t('main.recommend_list') }}
       </div>
       <div class="item-list">
         <div
@@ -26,7 +26,7 @@
     </div>
     <div class="new-music-list">
       <div class="sub-title font-weight-bold">
-        推荐歌手
+        {{ $t('main.recommend_artist') }}
       </div>
       <div class="item-list">
         <Artists
