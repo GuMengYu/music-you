@@ -45,7 +45,6 @@ import Artists from '@components/Artists'
 import {getPlayList, topArtists, getPersonalized} from '@util/musicService';
 import NProgress from 'nprogress';
 export default {
-  name: '',
   components: {Cover, Artists},
   data: () => ({
     playLists: [],

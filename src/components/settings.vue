@@ -27,7 +27,7 @@
             <v-list-item-action class="mr-4">
               <v-btn
                 plain
-                color="green"
+                color="primary"
                 @click="showLogin = !showLogin"
               >
                 <v-icon>
@@ -103,7 +103,7 @@
             <v-list-item-action>
               <v-btn
                 text
-                color="pink"
+                color="primary"
                 @click="clearCache"
               >
                 清除歌曲缓存
@@ -194,6 +194,8 @@ export default {
               that.dark = true;
               break;
           }
+        } else if (mutation.type === 'setting/locale') {
+          this.$i18n.locale = mutation.payload;
         }
       })
     },

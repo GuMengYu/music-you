@@ -31,8 +31,8 @@
           </v-btn>
         </div>
       </div>
-      <div class="searchArea">
-        <default-input />
+      <div class="py-2 px-4">
+        <default-input holder="搜索" :icon="icon.mdiMagnify" />
       </div>
     </template>
     <default-list :items="nav" />
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart } from '@mdi/js';
+import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
 import DefaultInput from '@components/Input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
@@ -48,7 +48,7 @@ export default {
   components: {DefaultInput, DefaultList},
   data: function(){
     return {
-      icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight},
+      icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify},
       nav: [
         { title: 'Music', heading: 'Music' },
         { icon: mdiMusicNoteHalfDotted, val: 'now', title: '发现音乐', color: '#42a5f5', to: '/now' },
@@ -114,7 +114,6 @@ export default {
     -webkit-app-region: drag
   }
   .searchArea {
-    padding: 8px;
     -webkit-app-region: drag
   }
   .v-list-item {

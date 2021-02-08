@@ -12,6 +12,8 @@
         hide-details
         :max="track.dt / 1000"
         min="0"
+        loader-height="30"
+        tick-size="30"
         track-color="rgb(128, 128, 128, .2)"
         @start="handleChangeTimeStart"
         @change="handleSlideChange"
@@ -191,7 +193,6 @@ export default {
     },
     prevVolume: 1,
     playMode: PLAY_MODE.ORDER,
-    showMusic: false,
   }),
   computed: {
     track: get('music/track'),
@@ -287,9 +288,6 @@ export default {
     playOrder() {
       this.playMode < 3 ? this.playMode++ : (this.playMode = 0);
     },
-    toggleLyricsPage() {
-      this.showMusic = false;
-    },
   },
 };
 </script>
@@ -376,12 +374,13 @@ export default {
       }
       ::v-deep .v-slider--horizontal {
         min-height: 14px;
-        &:hover .v-slider__thumb-container{
+        margin: 0;
+        &:hover .v-slider__thumb-container,
+        &:active .v-slider__thumb-container {
           visibility: visible;
         }
       }
     }
-
   }
 }
 </style>

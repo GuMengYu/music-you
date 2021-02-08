@@ -14,13 +14,13 @@ export function createVuetify (store) {
       options: { customProperties: true },
       themes: {
         light: {
-          primary: colors.red.lighten1,
+          primary: colors.red,
           'bar-bg': {
             base: '#FFFFFF',
           },
         },
         dark: {
-          primary: colors.red.lighten2,
+          primary: colors.red,
           'bar-bg': {
             base: '#1E1E1E',
           },

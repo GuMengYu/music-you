@@ -1,24 +1,48 @@
 <template>
-  <v-input
-    v-click-outside="onClickOutside"
+  <v-text-field
+    id="doc-search"
+    ref="search"
+    v-model="model"
+    :background-color="bgColor"
+    class="rounded-lg"
+    :placeholder="placeholder"
+    :type="type"
+    autocomplete="off"
+    color="primary"
     dense
-    :hide-details="true"
-    class="input-field"
-    :class="{'actived': inputActived}"
-    :prepend-icon="icon"
+    hide-details
+    solo
+    flat
+    style="max-width: 450px;"
+    @blur="onBlur"
+    @clear="resetSearch"
+    @focus="onFocus"
+    @keydown.esc="onEsc"
+    @input="$emit('input', model)"
   >
-    <input
-      class="input"
-      :placeholder="holder"
-      @click="inputActived = true"
-    >
-  </v-input>
+    <template #prepend-inner>
+      <v-icon
+        :color="!isFocused ? '' : 'primary'"
+      >
+        {{ icon }}
+      </v-icon>
+    </template>
+  </v-text-field>
 </template>
 
 <script>
 export default {
-  name: 'Input',
+  name: 'DefaultInput',
+  inject: ['theme'],
+  model: {
+    prop: 'value',
+    event: 'input',
+  },
   props: {
+    value: {
+      type: String,
+      default: '',
+    },
     icon: {
       type: String,
       default: '',
@@ -27,39 +51,49 @@ export default {
       type: String,
       default: '',
     },
+    type: {
+      type: String,
+      default: 'text',
+    },
   },
   data: () => ({
-    inputActived: false,
+    model: undefined,
+    isFocused: false,
   }),
+  computed: {
+    placeholder () {
+      return this.isFocused ? '' : this.holder;
+    },
+    bgColor() {
+      let color = void 0;
+      if (this.theme.isDark) {
+        return color;
+      }
+      if (this.isFocused) {
+        color = 'primary lighten-5';
+      } else {
+        color = 'grey lighten-3';
+      }
+      return color;
+    },
+  },
   methods: {
-    onClickOutside() {
-      this.inputActived = false;
+    onBlur () {
+      this.isFocused = false
+      // this.resetSearch()
+    },
+    onEsc () {
+      this.$refs.search.blur()
+    },
+    async onFocus () {
+      this.isFocused = true
+    },
+    resetSearch () {
+      this.$nextTick(() => {
+        this.model = undefined
+        this.isFocused = false
+      })
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.input-field {
-  height: 32px;
-  width: 100%;
-  padding: 0 10px ;
-  border-radius: 4px;
-  border: 1px solid #bcbbbd;
-  //background-color: #d5d4d4;
-  line-height: 32px;
-  display: flex;
-  font-size: 13px;
-  transition: all .1s ease-in-out;
-}
-.actived {
-    border-color: #de7a7b;
-    border-right-width: 1px!important;
-    outline: 0;
-    box-shadow: 0 0 0 3px #de7a7b;
-}
-//.input {
-//  max-height: 28px;
-//  width: 100%;
-//}
-</style>

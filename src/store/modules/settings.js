@@ -11,6 +11,7 @@ const state = () => {
     autoCache: false,
     theme: 'auto',
     volume: 0.8,
+    account: {},
   }, data)
 }
 
@@ -26,6 +27,10 @@ const actions = {
   },
   update ({ state }) {
     localStorage.setItem('settings', JSON.stringify(state))
+  },
+  updateAccount ({commit}, account) {
+    commit('account', account);
+    localStorage.setItem('account', JSON.stringify(account))
   },
 }
 

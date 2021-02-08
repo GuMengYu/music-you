@@ -2,7 +2,7 @@
   <v-hover v-slot="{ hover }">
     <v-card
       hover
-      rounded="lg"
+      rounded="xl"
       class="d-flex align-end justify-end cover-container"
       elevation="0"
     >
@@ -104,6 +104,10 @@ export default {
   ::v-deep .v-overlay__content {
     flex: 1;
     align-self: flex-end;
+  }
+  ::v-deep .v-overlay__scrim {
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(3px);
   }
 }
 </style>
