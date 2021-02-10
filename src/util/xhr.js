@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Message} from '@/plugins/snackbar';
+const BASE_URL = 'localhost:9527';
 // create an axios instance
 const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   const service = axios.create({
@@ -39,4 +40,4 @@ const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   return service;
 };
 
-export const musicXhr = createRequest('http://localhost:3000', 200, true);
+export const musicXhr = createRequest(BASE_URL, 200, true);
