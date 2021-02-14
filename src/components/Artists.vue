@@ -1,27 +1,35 @@
 <template>
-  <v-hover v-slot="{ hover }">
-    <v-avatar color="indigo" size="120">
-      <v-img :src="artists.img1v1Url | sizeOfImage" />
-      <v-overlay
-        :value="hover"
-        absolute
-      >
-        <v-card-actions>
-          <v-btn
-            icon
-            small
-            elevation="0"
-            class="play-btn"
-            :class="{'hover-btn': hover}"
-          >
-            <v-icon>
-              {{ mdiPlay }}
-            </v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-overlay>
-    </v-avatar>
-  </v-hover>
+  <div class="d-flex flex-column align-center">
+    <v-hover v-slot="{ hover }">
+      <v-avatar color="indigo" size="120">
+        <v-img :src="artists.img1v1Url | sizeOfImage" />
+        <v-overlay
+          :value="hover"
+          absolute
+        >
+          <v-card-actions>
+            <v-btn
+              icon
+              small
+              elevation="0"
+              class="play-btn"
+              :class="{'hover-btn': hover}"
+            >
+              <v-icon>
+                {{ mdiPlay }}
+              </v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-overlay>
+      </v-avatar>
+    </v-hover>
+    <router-link
+      :to="`/artist/${artists.id}`"
+      class="title text--primary"
+    >
+      <span class="h-1x mt-2 text-body-2 font-weight-bold">{{ artists.name }}</span>
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -59,6 +67,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.title {
+  text-align: center;
+  text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+}
 .hover-btn {
   backdrop-filter: blur(20px) brightness(96%);
   background: transparent;

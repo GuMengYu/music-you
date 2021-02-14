@@ -1,10 +1,10 @@
 <template>
   <v-sheet class="now">
-    <div class="song-list">
+    <div class="list">
       <div class="sub-title font-weight-bold">
         {{ $t('main.recommend_list') }}
       </div>
-      <div class="item-list">
+      <div class="item-list song-list">
         <div
           v-for="playList in playLists"
           :key="playList.id"
@@ -15,20 +15,14 @@
             class="item"
             @play="play"
           />
-          <router-link
-            :to="`/playlist/${playList.id}`"
-            class="text-decoration-none"
-          >
-            <span class="h-2x mt-2 mb-2 text-body-1 font-weight-bold text--primary">{{ playList.name }}</span>
-          </router-link>
         </div>
       </div>
     </div>
-    <div class="new-music-list">
+    <div class="new-music-list my-4">
       <div class="sub-title font-weight-bold">
         {{ $t('main.recommend_artist') }}
       </div>
-      <div class="item-list">
+      <div class="item-list artist-list">
         <Artists
           v-for="art in artists"
           :key="art.id"
@@ -73,6 +67,9 @@ export default {
     justify-content: space-between;
     grid-template-columns: repeat(5, 1fr);
     gap: 44px 24px;
+  }
+  .artist-list {
+    grid-template-columns: repeat(6, 1fr);
   }
   .title {
     font-size: 28px;

@@ -5,6 +5,7 @@ const BASE_URL = 'localhost:9527';
 const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   const service = axios.create({
     baseURL,
+    withCredentials: true,
     timeout: 15000, // request timeout
   });
 

@@ -14,4 +14,5 @@ export {default as artist_album} from 'NeteaseCloudMusicApi/module/artist_album'
 export {default as artist_desc} from 'NeteaseCloudMusicApi/module/artist_desc';
 export {default as artist_detail} from 'NeteaseCloudMusicApi/module/artist_detail';
 export {default as personalized} from 'NeteaseCloudMusicApi/module/personalized';
+export {default as personalized_newsong} from 'NeteaseCloudMusicApi/module/personalized_newsong';
 

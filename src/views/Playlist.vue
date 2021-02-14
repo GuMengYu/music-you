@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="playlist pl-4 pr-4">
+  <v-sheet class="playlist mt-2">
     <div class="d-flex ma-0 mb-8 ml-4">
       <div class="d-flex playlist-cover mr-10">
         <v-hover v-slot="{ hover }">
@@ -36,48 +36,46 @@
           </v-card>
         </v-hover>
       </div>
-      <div>
-        <v-sheet>
-          <div class="playlist-desc">
-            <h6 class="mt-2 mb-2 text-h4 font-weight-bold">
-              {{ playList.name }}
-            </h6>
-            <div class="artist text-body-1 mt-2">
-              Playlist by
-              <router-link :to="`/artists/${playList.creator.id}`">
-                <span class="text--primary">
-                  {{ $$(playList,'creator', 'nickname') }}
-                </span>
-              </router-link>
-            </div>
-            <div class="date-and-count text-body-2">
-              last update {{ $dayjs(playList.updateTime).format('YYYY-MM-DD') }} · {{ playList.trackCount }} · songs
-            </div>
-            <div class="description text-body-1 mt-2">
-              <p>
-                {{ playList.description }}
-              </p>
-            </div>
+      <v-sheet class="d-flex flex-column justify-space-between">
+        <div class="playlist-desc">
+          <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
+            {{ playList.name }}
+          </h6>
+          <div class="artist text-body-1 mt-2">
+            Playlist by
+            <router-link :to="`/artists/${playList.creator.id}`">
+              <span class="text--primary">
+                {{ $$(playList,'creator', 'nickname') }}
+              </span>
+            </router-link>
           </div>
-          <div class="playlist-action d-flex justify-start mt-4">
-            <v-btn elevation="0" class="red--text mr-4">
-              <v-icon color="#F44336">
-                {{ mdiPlay }}
-              </v-icon>
-              播放
-            </v-btn>
-            <v-btn
-              icon
-              color="#F44336"
-              class="list-delete-button"
-            >
-              <v-icon>
-                {{ mdiDotsHorizontal }}
-              </v-icon>
-            </v-btn>
+          <div class="date-and-count text-body-2">
+            last update {{ $dayjs(playList.updateTime).format('YYYY-MM-DD') }} · {{ playList.trackCount }} · songs
           </div>
-        </v-sheet>
-      </div>
+          <div class="description text-body-1 mt-2">
+            <p>
+              {{ playList.description }}
+            </p>
+          </div>
+        </div>
+        <div class="playlist-action">
+          <v-btn elevation="0" class="red--text mr-4">
+            <v-icon color="#F44336">
+              {{ mdiPlay }}
+            </v-icon>
+            播放
+          </v-btn>
+          <v-btn
+            icon
+            color="#F44336"
+            class="list-delete-button"
+          >
+            <v-icon>
+              {{ mdiDotsHorizontal }}
+            </v-icon>
+          </v-btn>
+        </div>
+      </v-sheet>
     </div>
     <div class="playlist-songs">
       <v-list dense two-line>
@@ -136,7 +134,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../scss/common';
+@import '../scss/common';
 .playlist {
   .playlist-cover {
     .cover {

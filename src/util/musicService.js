@@ -39,3 +39,7 @@ export const getPersonalized = () => xhr.get('/personalized?limit=10');
 export const topArtists = () => xhr.get('/toplist/artist?type=2');
 
 export const getLyric = id => xhr.get(`/lyric?id=${id}`);
+
+export const getArtist = id => xhr.get(`/artists?id=${id}`);
+
+export const getArtistAlbum = id => xhr.get(`/artist/album?id=${id}`);

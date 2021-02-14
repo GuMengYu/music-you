@@ -99,9 +99,13 @@ $playerbarHeight: 66px;
     }
   }
   main {
+    -webkit-app-region: drag;
     overflow-y: auto;
-    padding: 3vw 2vw 0;
+    padding: 24px 12px #{$playerbarHeight};
     height: 100vh;
+    div:first-child {
+      -webkit-app-region: no-drag;
+    }
   }
 }
 </style>

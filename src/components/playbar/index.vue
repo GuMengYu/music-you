@@ -380,6 +380,9 @@ export default {
           visibility: visible;
         }
       }
+      ::v-deep .v-slider__thumb {
+        transition: none;
+      }
     }
   }
 }

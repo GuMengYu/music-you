@@ -17,11 +17,18 @@ export default {
     recommend_list: '推荐歌单',
     recommend_artist: '推荐歌手',
     playing_queue: '播放队列',
+    artist: {
+      latest: '最新发布',
+      hot: '热门歌曲',
+      albums: '专辑',
+      epAndSingle: '单曲与EP',
+    },
   },
   common: {
     sign_in: '登入',
     sign_out: '登出',
     search: '搜索',
+    more: '显示更多',
     translations: '翻译',
     not_support: '暂时不支持哟',
     language: '语言',

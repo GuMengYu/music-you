@@ -1,32 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-const lazyLoad = name => () => import(/* webpackChunkName: "page" */ `../views/${name}/index.vue`);
+
+const lazyLoad = name => () => import(/* webpackChunkName: "page" */ `../views/${name}`)
 
 Vue.use(VueRouter)
 const musicRoutes = [{
   path: 'now/',
   name: 'now',
-  component: lazyLoad('listen-now'),
-  meta: {keepAlive: true},
+  component: lazyLoad('Now'),
+  meta: { keepAlive: true },
 }, {
   path: 'playlist/:id/',
   name: 'playlist',
-  component: lazyLoad('playlist'),
+  component: lazyLoad('Playlist'),
   props: true,
-  meta: {keepAlive: true},
-},{
+  meta: { keepAlive: true },
+}, {
+  path: 'artist/:id/',
+  name: 'artist',
+  component: lazyLoad('Artist'),
+  props: true,
+  meta: { keepAlive: true },
+}, {
   path: '*',
   name: '404',
   component: () => import(/* webpackChunkName: "404" */ '../views/errors/404.vue'),
-}];
+}]
 
-export function createRouter() {
+export function createRouter () {
   return new VueRouter({
     routes: [{
       path: '/',
-      component: () => import(/* webpackChunkName: "page" */ '../views/index.vue'),
+      component: lazyLoad('index'),
       children: musicRoutes,
       redirect: { path: '/now' },
     }],
-  });
+  })
 }

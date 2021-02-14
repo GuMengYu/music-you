@@ -1,45 +1,60 @@
 <template>
-  <v-hover v-slot="{ hover }">
-    <v-card
-      hover
-      rounded="xl"
-      class="d-flex align-end justify-end cover-container"
-      elevation="0"
+  <div>
+    <v-hover v-slot="{ hover }">
+      <v-card
+        hover
+        rounded="lg"
+        class="d-flex align-end justify-end cover-container"
+        elevation="0"
+      >
+        <img :src="data.picUrl" alt="" class="cover-img">
+        <v-fade-transition>
+          <v-overlay
+            :value="hover"
+            absolute
+          >
+            <v-card-actions class="cover-actions">
+              <v-btn
+                icon
+                small
+                class="cover-btn"
+                :class="{'hover-btn': hover}"
+                @click="play"
+              >
+                <v-icon>
+                  {{ mdiPlay }}
+                </v-icon>
+              </v-btn>
+              <v-btn
+                icon
+                small
+                class="cover-btn"
+                :class="{'hover-btn': hover}"
+                @click="play"
+              >
+                <v-icon>
+                  {{ mdiDotsHorizontal }}
+                </v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-overlay>
+        </v-fade-transition>
+      </v-card>
+    </v-hover>
+    <router-link
+      v-if="!noInfo"
+      :to="to"
+      class="title text--primary"
     >
-      <img :src="data.picUrl" alt="" class="cover-img">
-      <v-fade-transition>
-        <v-overlay
-          :value="hover"
-          absolute
-        >
-          <v-card-actions class="cover-actions">
-            <v-btn
-              icon
-              small
-              class="cover-btn"
-              :class="{'hover-btn': hover}"
-              @click="play"
-            >
-              <v-icon>
-                {{ mdiPlay }}
-              </v-icon>
-            </v-btn>
-            <v-btn
-              icon
-              small
-              class="cover-btn"
-              :class="{'hover-btn': hover}"
-              @click="play"
-            >
-              <v-icon>
-                {{ mdiDotsHorizontal }}
-              </v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-overlay>
-      </v-fade-transition>
-    </v-card>
-  </v-hover>
+      <span class="h-2x mt-2 text-body-2 font-weight-bold">{{ data.name }}</span>
+    </router-link>
+    <span
+      v-if="!noInfo"
+      class="h-1x mt-1 text-caption font-weight-bold text--primary"
+    >
+      {{ subTitle }}
+    </span>
+  </div>
 </template>
 
 <script>
@@ -63,6 +78,10 @@ export default {
         'alg': 'cityLevel_unknow',
       }),
     },
+    noInfo: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -71,7 +90,12 @@ export default {
     };
   },
   computed: {
-
+    subTitle() {
+      return this.data.copywriter;
+    },
+    to() {
+      return `/playlist/${this.data.id}`;
+    },
   },
   methods: {
     play() {
@@ -83,6 +107,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 .cover-container {
   width: 100%;
   img {
@@ -104,10 +134,6 @@ export default {
   ::v-deep .v-overlay__content {
     flex: 1;
     align-self: flex-end;
-  }
-  ::v-deep .v-overlay__scrim {
-    background-color: rgba(255,255,255,0.2);
-    backdrop-filter: blur(3px);
   }
 }
 </style>
