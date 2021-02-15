@@ -1,15 +1,11 @@
 
 ## 🌄 预览
 
-[playlist]: doc/playlist.png
-[artist]: doc/artist.png
-[main]: doc/main.png
-[dark]: doc/darkmode.png
-
-[![主要][main]]()
-[![歌手][artist]]()
-[![播放列表][playlist]]()
-[![暗黑模式][dark]]()
+![主要](doc/main.png)
+![歌词](doc/lyric.png)
+![歌手](doc/artist.png)
+![播放列表](doc/playlist.png)
+![暗黑模式](doc/darkmode.png)
 
 
 ## 🔧 Project setup

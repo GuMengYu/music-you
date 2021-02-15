@@ -13,10 +13,18 @@ export default {
       podcast: 'My Radio',
       created_list: 'Playlist Created',
       start_list: 'Favorite playlist ',
+      music: 'Music',
+      library: 'Library',
     },
     recommend_list: 'Recommend List',
     recommend_artist: 'Recommend Artist',
     playing_queue: 'Playing Queue',
+    artist: {
+      latest: 'Latest release',
+      hot: 'Popular song',
+      albums: 'Album',
+      epAndSingle: 'Singles & EP',
+    },
   },
   common: {
     sign_in: 'Sign In',

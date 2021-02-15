@@ -12,12 +12,14 @@
         hide-details
         :max="track.dt / 1000"
         min="0"
-        loader-height="30"
-        tick-size="30"
         track-color="rgb(128, 128, 128, .2)"
         @start="handleChangeTimeStart"
         @change="handleSlideChange"
-      />
+      >
+        <template v-slot:thumb-label="{ value }">
+          {{ value * 1000 | formatDuring }}
+        </template>
+      </v-slider>
     </div>
     <div class="playing-control">
       <div
@@ -60,7 +62,7 @@
             <span
               class="artist-name h-2x text--primary text-caption"
             >
-              {{$$(track, 'ar', '0', 'name')}}
+              {{ $$(track, 'ar', '0', 'name') }}
             </span>
           </router-link>
         </div>
@@ -104,6 +106,9 @@
             </v-icon>
           </v-btn>
         </div>
+        <span class="time-info text-caption">
+          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}
+        </span>
       </div>
       <div
         class="playing-bar__right"
@@ -295,13 +300,13 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/common';
 .theme--light .playing-bar {
-  background-color: rgba(255, 255, 255, .5);
+  background-color: rgba(255, 255, 255, .7);
 }
 .theme--dark .playing-bar {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .7);
 }
 .playing-bar {
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(50px);
   z-index: 999;
   -webkit-app-region: drag;
   .playing-control {
@@ -333,7 +338,6 @@ export default {
     .playing-bar__center {
       flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       .playing-control-buttons {
@@ -348,7 +352,7 @@ export default {
       display: flex;
       flex: 1;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: flex-end;
       .volume-bar {
         width: 100%;
         max-width: 140px;

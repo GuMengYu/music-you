@@ -18,11 +18,17 @@ export function createVuetify (store) {
           'bar-bg': {
             base: '#FFFFFF',
           },
+          'reverse-color': {
+            base: '#363636',
+          },
         },
         dark: {
           primary: colors.red,
           'bar-bg': {
             base: '#1E1E1E',
+          },
+          'reverse-color': {
+            base: '#FFF',
           },
         },
       },

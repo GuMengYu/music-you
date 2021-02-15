@@ -22,7 +22,7 @@
       fullscreen
       transition="dialog-bottom-transition"
     >
-      <default-track-detail :track="song" @close="showLyricsPage = !showLyricsPage" />
+      <default-track-detail @close="showLyricsPage = !showLyricsPage" />
     </v-dialog>
     <default-login />
     <default-snackbar />
@@ -41,7 +41,6 @@ import DefaultSnackbar from '@components/Snackbar'
 
 import {sync} from 'vuex-pathify';
 import {debounce} from '@/util/fn';
-import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
@@ -61,9 +60,6 @@ export default {
     mdiInformation,
   }),
   computed: {
-    ...mapState({
-      song: state => state.music.song,
-    }),
     showLyricsPage: sync('music/showLyricsPage'),
   },
   mounted () {
@@ -94,8 +90,9 @@ $playerbarHeight: 66px;
     width: calc(100% - 20%);
     .playbar {
       position: fixed;
+      left: 0;
+      right: 0;
       bottom: 0;
-      width: calc(100% - 20%);
     }
   }
   main {

@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     initHowler(src) {
-      console.log('test');
       const sound = new Howl({
         src: [src],
         html5: true,

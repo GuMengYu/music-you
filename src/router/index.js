@@ -23,8 +23,8 @@ const musicRoutes = [{
   meta: { keepAlive: true },
 }, {
   path: '*',
-  name: '404',
-  component: () => import(/* webpackChunkName: "404" */ '../views/errors/404.vue'),
+  name: 'FourOhFour',
+  component: () => import(/* webpackChunkName: "FourOhFour" */ '../views/errors/FourOhFour.vue'),
 }]
 
 export function createRouter () {

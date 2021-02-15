@@ -25,6 +25,6 @@
 <script>
 
   export default {
-    name: '404',
+    name: 'FourOhFour',
   }
 </script>

@@ -13,6 +13,8 @@ export default {
       podcast: '我的电台',
       created_list: '创建的歌单',
       start_list: '收藏的歌单',
+      music: '音乐',
+      library: '资料库',
     },
     recommend_list: '推荐歌单',
     recommend_artist: '推荐歌手',
