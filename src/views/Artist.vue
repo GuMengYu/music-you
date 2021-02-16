@@ -4,7 +4,7 @@
       <v-avatar size="190" class="artist-avatar">
         <v-img :src="artist.img1v1Url | sizeOfImage"></v-img>
       </v-avatar>
-      <div class="artist-desc d-flex align-center mt-8 mb-2 px-9">
+      <div class="artist-desc d-flex align-center mt-8 mb-2">
         <v-btn
           color="primary"
           fab
@@ -23,15 +23,13 @@
     </div>
     <v-row>
       <v-col lg="3">
-        <div class="item-title my-3 mx-6">
+        <div class="item-title my-3">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.latest') }}</span>
         </div>
-        <div class="mx-6 d-flex">
-          <Cover :data="latest" />
-        </div>
+        <Cover :data="latest" />
       </v-col>
       <v-col lg="9">
-        <div class="item-title d-flex justify-space-between ml-10 mr-6 my-3">
+        <div class="item-title d-flex justify-space-between my-3">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.hot') }}</span>
           <v-btn
             v-show="hotSongs.length > 6"
@@ -46,37 +44,51 @@
           v-model="showMoreSong"
           tile
           flat
+          readonly
         >
           <v-expansion-panel>
-            <v-expansion-panel-header class="pb-0">
-              <template>
-                <div class="hot-songs">
-                  <song-bar
-                    v-for="track in hotSongs.slice(0, 6)"
-                    :key="track.id"
-                    :song="track"
-                    class="track-item"
-                  />
-                </div>
-              </template>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div class="hot-songs">
-                <song-bar
-                  v-for="track in hotSongs.slice(6, hotSongs.length)"
-                  :key="track.id"
-                  :song="track"
-                  class="track-item"
-                />
-              </div>
-            </v-expansion-panel-content>
+            <v-list
+              nav
+              dense
+            >
+              <v-list-item-group color="primary">
+                <v-expansion-panel-header class="pa-0">
+                  <v-row>
+                    <v-col
+                      v-for="track in hotSongs.slice(0, 6)"
+                      :key="track.id"
+                      cols="6"
+                    >
+                      <song-bar
+                        :song="track"
+                        class="track-item"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col
+                      v-for="track in hotSongs.slice(6, hotSongs.length)"
+                      :key="track.id"
+                      cols="6"
+                    >
+                      <song-bar
+                        :song="track"
+                        class="track-item"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-list-item-group>
+            </v-list>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <div class="item-title d-flex justify-space-between my-3 mx-6">
+        <div class="item-title d-flex justify-space-between my-3">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.albums') }}</span>
           <v-btn
             v-show="hotAlbums.length > 5"
@@ -91,29 +103,14 @@
           v-model="showMoreAlbum"
           tile
           flat
+          readonly
         >
           <v-expansion-panel>
-            <v-expansion-panel-header class="pb-0">
-              <template>
-                <div class="album">
-                  <Cover
-                    v-for="album in albums.slice(0, 5)"
-                    :key="album.id"
-                    :data="album"
-                    class="album-item"
-                  />
-                </div>
-              </template>
+            <v-expansion-panel-header>
+              <CoverList :list="albums.slice(0, 6)" />
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <div class="album">
-                <Cover
-                  v-for="album in albums.slice(5, albums.length)"
-                  :key="album.id"
-                  :data="album"
-                  class="album-item"
-                />
-              </div>
+              <CoverList :list="albums.slice(5, albums.length)" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -121,7 +118,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <div class="item-title d-flex justify-space-between mx-6">
+        <div class="item-title d-flex justify-space-between">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.epAndSingle') }}</span>
           <v-btn
             v-show="epAndSingle.length > 5"
@@ -136,29 +133,14 @@
           v-model="showMoreEps"
           tile
           flat
+          readonly
         >
           <v-expansion-panel>
-            <v-expansion-panel-header class="pb-0">
-              <template>
-                <div class="album">
-                  <Cover
-                    v-for="eps in epAndSingle.slice(0, 5)"
-                    :key="eps.id"
-                    :data="eps"
-                    class="album-item"
-                  />
-                </div>
-              </template>
+            <v-expansion-panel-header>
+              <CoverList :list="epAndSingle.slice(0, 6)" />
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <div class="album">
-                <Cover
-                  v-for="album in epAndSingle.slice(5, epAndSingle.length)"
-                  :key="album.id"
-                  :data="album"
-                  class="album-item"
-                />
-              </div>
+              <CoverList :list="epAndSingle.slice(6, epAndSingle.length)" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -171,9 +153,12 @@ import {getArtist, getArtistAlbum} from '@util/musicService';
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import Cover from '@/components/Cover';
 import SongBar from '@components/songbar';
+import CoverList from '@components/CoverList'
 
 export default {
-  components: {Cover, SongBar},
+  components: {
+    CoverList,
+    Cover, SongBar},
   props: {
     id: {
       type: String,
@@ -223,15 +208,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.theme--light .artist {
-  background: linear-gradient(#FFF, var(--v-primary-lighten5));
-}
-.theme--dark .artist {
-  background: linear-gradient(#000, var(--v-secondary-darken2));
-}
+//.theme--light .artist {
+//  background: linear-gradient(#FFF, var(--v-primary-lighten5));
+//}
+//.theme--dark .artist {
+//  background: linear-gradient(#000, var(--v-secondary-darken2));
+//}
 .artist {
-  margin-left: -12px;
-  margin-right: -12px;
   height: 45vh;
   &-avatar {
 
@@ -244,22 +227,12 @@ export default {
 .item-title {
   margin: 12px 0;
 }
-.hot-songs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  .track-item {
-    width: 300px;
+::v-deep .v-expansion-panel {
+  &-header, &-content__wrap {
+    padding: 0;
   }
-}
-.album {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 44px 24px;
-  .album-item {
-
+  &-header__icon {
+    display: none;
   }
-}
-::v-deep .v-expansion-panel-header__icon {
-  display: none;
 }
 </style>

@@ -1,0 +1,116 @@
+<template>
+  <v-sheet class="py-4 songlist-container">
+    <v-chip-group
+      v-model="cat"
+      active-class="primary--text"
+    >
+      <v-chip
+        v-for="category in defaultCategory"
+        :key="category.val"
+        :value="category.val"
+      >
+        {{ category.text }}
+      </v-chip>
+      <v-btn text plain>
+        more
+      </v-btn>
+    </v-chip-group>
+    <v-row class="mt-4">
+      <v-col
+        v-for="playlist in playlists"
+        :key="playlist.id"
+        cols="2"
+      >
+        <Cover
+          :data="playlist"
+          class="item"
+        />
+      </v-col>
+    </v-row>
+    <div class="playlist-pagination text-center my-8">
+      <v-pagination
+        v-model="page"
+        :length="pageLength"
+        :total-visible="7"
+      />
+    </div>
+  </v-sheet>
+</template>
+<script>
+import { getTopPlaylist } from '@util/musicService';
+import Cover from '@components/Cover'
+export default {
+  name: 'DefaultSongList',
+  components: { Cover },
+  data: () => ({
+    cat: '全部',
+    playlists: [],
+    total: 0,
+    limit: 24,
+    page: 1,
+    defaultCategory: [{
+      text: '全部',
+      val: '全部',
+    }, {
+      text: '华语',
+      val: '华语',
+    }, {
+      text: '流行',
+      val: '流行',
+    }, {
+      text: '乡村',
+      val: '乡村',
+    }, {
+      text: '民谣',
+      val: '民谣',
+    }, {
+      text: '电子',
+      val: '电子',
+    }, {
+      text: '另类/独立',
+      val: '另类/独立',
+    }, {
+      text: '轻音乐',
+      val: '轻音乐',
+    }, {
+      text: '影视原声',
+      val: '影视原声',
+    }],
+  }),
+  computed: {
+    pageLength() {
+      return Math.ceil(this.total / this.limit);
+    },
+    offset() {
+      return (this.page - 1) * this.limit;
+    },
+  },
+  watch: {
+    cat(val) {
+      this.fetch(val);
+    },
+    page() {
+      this.fetch()
+    },
+  },
+  created () {
+    this.fetch(this.cat);
+  },
+  methods: {
+    async fetch(cat) {
+      const condition = { cat, offset: this.offset, limit: this.limit };
+      const { playlists, total } = await getTopPlaylist(condition);
+      this.playlists = playlists;
+      this.total = total;
+    },
+  },
+}
+</script>
+<style lang="scss" scoped>
+.songlist-container {
+  ::v-deep .v-chip {
+    border-radius: 8px !important;
+  }
+}
+
+</style>

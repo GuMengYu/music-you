@@ -1,13 +1,22 @@
 <template>
-  <div>
+  <div class="cover-container">
     <v-hover v-slot="{ hover }">
       <v-card
         hover
         rounded="lg"
-        class="d-flex align-end justify-end cover-container"
+        class="d-flex align-end justify-end cover-card"
         elevation="0"
+        :class="{'cover-hover' : hover}"
       >
-        <img :src="data.picUrl" alt="" class="cover-img">
+        <v-img
+          :src="data.picUrl || data.coverImgUrl | sizeOfImage"
+          class="cover-img"
+          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+        >
+<!--          <v-card-subtitle class="white&#45;&#45;text text-caption">-->
+<!--            {{ data.name }}-->
+<!--          </v-card-subtitle>-->
+        </v-img>
         <v-fade-transition>
           <v-overlay
             :value="hover"
@@ -107,33 +116,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-}
 .cover-container {
-  width: 100%;
-  img {
-    width: 100%;
+  .cover-hover {
+    transition: .5s all ease;
+    transform: scale(1.025);
   }
-  .cover-actions {
-    justify-content: space-between;
-    .hover-btn {
-      backdrop-filter: blur(20px) brightness(96%);
-      background: transparent;
-    }
-    .cover-btn:hover {
-      background: red;
+  .title {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
   }
-  .cover-img {
-    border-radius: inherit;
-  }
-  ::v-deep .v-overlay__content {
-    flex: 1;
-    align-self: flex-end;
+  .cover-card {
+    .cover-actions {
+      justify-content: space-between;
+      .hover-btn {
+        backdrop-filter: blur(30px) brightness(90%);
+        background: transparent;
+      }
+      .cover-btn:hover {
+        background: var(--v-primary-base);
+      }
+    }
+    .cover-img {
+      border-radius: inherit;
+    }
+    ::v-deep .v-overlay__content {
+      flex: 1;
+      align-self: flex-end;
+    }
   }
 }
 </style>

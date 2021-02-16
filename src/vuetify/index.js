@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
-import colors from 'vuetify/lib/util/colors'
 Vue.use(Vuetify)
 
 export function createVuetify (store) {
@@ -14,7 +13,7 @@ export function createVuetify (store) {
       options: { customProperties: true },
       themes: {
         light: {
-          primary: colors.red,
+          primary: '#fe2851',
           'bar-bg': {
             base: '#FFFFFF',
           },
@@ -23,7 +22,7 @@ export function createVuetify (store) {
           },
         },
         dark: {
-          primary: colors.red,
+          primary: '#fe2851',
           'bar-bg': {
             base: '#1E1E1E',
           },

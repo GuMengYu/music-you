@@ -9,6 +9,29 @@ const musicRoutes = [{
   name: 'now',
   component: lazyLoad('Now'),
   meta: { keepAlive: true },
+},{
+  path: 'explore/',
+  name: 'explore',
+  component: lazyLoad('explore'),
+  meta: { keepAlive: true },
+  redirect: { name: 'songlist' },
+  children: [
+    {
+      path: 'singer/',
+      name: 'singer',
+      component: lazyLoad('singer'),
+    },
+    {
+      path: 'leaderboard/',
+      name: 'leaderboard',
+      component: lazyLoad('leaderboard'),
+    },
+    {
+      path: 'songlist/',
+      name: 'songlist',
+      component: lazyLoad('songlist'),
+    },
+  ],
 }, {
   path: 'playlist/:id/',
   name: 'playlist',
