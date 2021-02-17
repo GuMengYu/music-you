@@ -89,14 +89,20 @@
               {{ icon.mdiSkipPrevious }}
             </v-icon>
           </v-btn>
-          <v-btn
-            icon
-            @click="playPause"
-          >
-            <v-icon large>
-              {{ playing ? icon.mdiPauseCircle : icon.mdiPlayCircle }}
-            </v-icon>
-          </v-btn>
+          <v-fab-transition>
+            <v-btn
+              :key="playingState.icon"
+              :color="playingState.color"
+              small
+              fab
+              elevation="0"
+              @click="playPause"
+            >
+              <v-icon>
+                {{ playing ? icon.mdiPause : icon.mdiPlay }}
+              </v-icon>
+            </v-btn>
+          </v-fab-transition>
           <v-btn
             icon
             @click="playNext"
@@ -161,8 +167,8 @@ import {
   mdiHeartOutline,
   mdiSkipPrevious,
   mdiSkipNext,
-  mdiPlayCircle,
-  mdiPauseCircle,
+  mdiPlay,
+  mdiPause,
   mdiRepeat,
   mdiVolumeHigh,
   mdiPlaylistMusic,
@@ -191,8 +197,8 @@ export default {
       mdiHeartOutline,
       mdiSkipPrevious,
       mdiSkipNext,
-      mdiPlayCircle,
-      mdiPauseCircle,
+      mdiPlay,
+      mdiPause,
       mdiPlaylistMusic,
       mdiArrowExpand,
     },
@@ -232,6 +238,9 @@ export default {
         [PLAY_MODE.SINGLE_CYCLE] : mdiRepeatOnce,
         [PLAY_MODE.RANDOM] : mdiMusicNoteOffOutline,
       })[this.playMode];
+    },
+    playingState () {
+      return this.playing ? { color: 'accent', icon: mdiPause } : { color: 'primary', icon: mdiPlay };
     },
     albumPicUrl() {
       return this.track.al ? `${this.track.al?.picUrl}?param=200y200` : '';
@@ -343,6 +352,7 @@ export default {
       .playing-control-buttons {
         display: flex;
         justify-content: space-around;
+        align-items: center;
         > .v-btn {
           margin: 0 8px;
         }

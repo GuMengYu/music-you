@@ -4,7 +4,7 @@ export default {
   },
   main: {
     nav: {
-      now: '发现音乐',
+      discover: '发现音乐',
       explore: '浏览',
       fm: '私人FM',
       daily: '日推',
@@ -25,7 +25,7 @@ export default {
       albums: '专辑',
       epAndSingle: '单曲与EP',
     },
-    song_list: '歌单',
+    playlist_center: '歌单',
     leader_board: '排行榜',
     singer: '歌手',
   },

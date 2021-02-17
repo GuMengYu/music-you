@@ -1,10 +1,10 @@
 <template>
-  <v-sheet class="now">
+  <v-sheet class="discover">
     <div class="list">
       <div class="sub-title font-weight-bold">
         {{ $t('main.recommend_list') }}
       </div>
-      <CoverList :list="playLists" />
+      <CoverList :list="playLists" type="playlist" />
     </div>
     <div class="new-music-list my-4">
       <div class="sub-title font-weight-bold">
@@ -15,7 +15,7 @@
   </v-sheet>
 </template>
 <script>
-import {getPlayList, topArtists, getPersonalized} from '@util/musicService';
+import {topArtists, getPersonalized} from '@util/musicService';
 import NProgress from 'nprogress';
 import CoverList from '@components/CoverList'
 export default {
@@ -31,17 +31,10 @@ export default {
     this.artists = artists.data;
     NProgress.done();
   },
-  methods: {
-    async play() {
-      const {playlist} = await getPlayList('119215665');
-      await this.$store.dispatch('music/updatePlayingList', playlist.tracks);
-      await this.$store.dispatch('music/updateTrack', playlist.tracks?.[0]?.id);
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
-.now {
+.discover {
   .artist-list {
     grid-template-columns: repeat(6, 1fr);
   }

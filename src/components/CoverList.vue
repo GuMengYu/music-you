@@ -13,6 +13,7 @@
         v-else
         :data="item"
         class="item"
+        :type="type"
       />
     </v-col>
   </v-row>
@@ -29,7 +30,7 @@ export default {
     },
     type: {
       type: String,
-      default: '',
+      default: 'album',
     },
     col: {
       type: Number,

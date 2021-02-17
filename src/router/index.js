@@ -5,38 +5,52 @@ const lazyLoad = name => () => import(/* webpackChunkName: "page" */ `../views/$
 
 Vue.use(VueRouter)
 const musicRoutes = [{
-  path: 'now/',
-  name: 'now',
-  component: lazyLoad('Now'),
+  path: 'discover/',
+  name: 'discover',
+  component: lazyLoad('Discover'),
   meta: { keepAlive: true },
-},{
+}, {
   path: 'explore/',
   name: 'explore',
-  component: lazyLoad('explore'),
+  component: lazyLoad('Explore/'),
   meta: { keepAlive: true },
-  redirect: { name: 'songlist' },
+  redirect: { name: 'playlistcenter' },
   children: [
     {
       path: 'singer/',
       name: 'singer',
-      component: lazyLoad('singer'),
+      component: lazyLoad('Explore/Singer'),
     },
     {
       path: 'leaderboard/',
       name: 'leaderboard',
-      component: lazyLoad('leaderboard'),
+      component: lazyLoad('Explore/Leaderboard'),
     },
     {
-      path: 'songlist/',
-      name: 'songlist',
-      component: lazyLoad('songlist'),
+      path: 'playlistcenter/',
+      name: 'playlistcenter',
+      component: lazyLoad('Explore/PlaylistCenter'),
     },
   ],
 }, {
-  path: 'playlist/:id/',
-  name: 'playlist',
-  component: lazyLoad('Playlist'),
-  props: true,
+  path: 'fm',
+  name: 'fm',
+  component: lazyLoad('Fm'),
+  meta: { keepAlive: true },
+}, {
+  path: 'daily',
+  name: 'daily',
+  component: lazyLoad('Daily'),
+  meta: { keepAlive: true },
+}, {
+  path: 'list/:id',
+  alias: ['album/:id', 'playlist/:id'],
+  name: 'list',
+  component: lazyLoad('List'),
+  props: route => {
+    console.log(route);
+    return {id: route.params.id, type: route.matched[1].name}
+  },
   meta: { keepAlive: true },
 }, {
   path: 'artist/:id/',
@@ -44,19 +58,20 @@ const musicRoutes = [{
   component: lazyLoad('Artist'),
   props: true,
   meta: { keepAlive: true },
-}, {
-  path: '*',
-  name: 'FourOhFour',
-  component: () => import(/* webpackChunkName: "FourOhFour" */ '../views/errors/FourOhFour.vue'),
 }]
 
 export function createRouter () {
   return new VueRouter({
+    mode: 'history',
     routes: [{
       path: '/',
       component: lazyLoad('index'),
       children: musicRoutes,
-      redirect: { path: '/now' },
+      redirect: { name: 'discover' },
+    }, {
+      path: '*',
+      name: 'FourOhFour',
+      component: () => import(/* webpackChunkName: "FourOhFour" */ '../views/errors/FourOhFour.vue'),
     }],
   })
 }

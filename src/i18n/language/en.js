@@ -4,7 +4,7 @@ export default {
   },
   main: {
     nav: {
-      now: 'Discover music',
+      discover: 'Discover music',
       explore: 'Explore',
       fm: 'Private FM',
       daily: 'Daily Recommend',
@@ -25,7 +25,7 @@ export default {
       albums: 'Album',
       epAndSingle: 'Singles & EP',
     },
-    song_list: 'Song List',
+    playlist_center: 'Song List',
     leader_board: 'Leader Board',
     singer: 'Singer',
   },

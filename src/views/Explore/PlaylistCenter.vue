@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="py-4 songlist-container">
+  <v-sheet class="py-4 playlist-container">
     <v-chip-group
       v-model="cat"
       active-class="primary--text"
@@ -40,7 +40,7 @@
 import { getTopPlaylist } from '@util/musicService';
 import Cover from '@components/Cover'
 export default {
-  name: 'DefaultSongList',
+  name: 'DefaultPlaylistCenter',
   components: { Cover },
   data: () => ({
     cat: '全部',
@@ -107,7 +107,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.songlist-container {
+.playlist-container {
   ::v-deep .v-chip {
     border-radius: 8px !important;
   }

@@ -45,6 +45,7 @@ import DefaultInput from '@components/Input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
 export default {
+  name: 'DefaultNavBar',
   components: {DefaultInput, DefaultList},
   data: function(){
     const _t = key => this.$i18n.t(`main.nav.${key}`);
@@ -52,7 +53,7 @@ export default {
       icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify},
       nav: [
         { title: _t('music'), heading: 'Music' },
-        { icon: mdiMusicNoteHalfDotted, val: 'now', title: _t('now'), color: '#42a5f5', to: '/now' },
+        { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), color: '#42a5f5', to: '/discover' },
         { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), color: '#66bb6a', to: '/explore' },
         { icon: mdiRadioFm, val: 'fm', title: _t('fm'), color: '#66bb6a', to: '/fm' },
         { icon: mdiHandHeart, val: 'daily', title: _t('daily'), color: '#66bb6a', to: '/daily' },

@@ -3,7 +3,7 @@
     ref="musicApp"
     class="music-app d-flex"
   >
-    <side-nav />
+    <default-nav-bar />
     <div class="right">
       <play-bar class="playbar" />
       <playing-list
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import SideNav from './nav.vue';
+import DefaultNavBar from '@/views/Navbar.vue';
 import PlayBar from '@/components/playbar';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PlayingList from '@/components/playbar/playing-list';
@@ -48,7 +48,7 @@ export default {
     DefaultSetting,
     DefaultSnackbar,
     PlayingList,
-    SideNav,
+    DefaultNavBar,
     PlayBar,
     DefaultLogin,
     DefaultTrackDetail,

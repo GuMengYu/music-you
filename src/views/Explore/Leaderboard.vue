@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="my-4">
+  <v-sheet class="py-4">
     <v-row>
       <v-col
         v-for="toplist in list"
