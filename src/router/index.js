@@ -47,10 +47,7 @@ const musicRoutes = [{
   alias: ['album/:id', 'playlist/:id'],
   name: 'list',
   component: lazyLoad('List'),
-  props: route => {
-    console.log(route);
-    return {id: route.params.id, type: route.matched[1].name}
-  },
+  props: route => ({id: route.params.id, type: route.matched[1]?.name}),
   meta: { keepAlive: true },
 }, {
   path: 'artist/:id/',

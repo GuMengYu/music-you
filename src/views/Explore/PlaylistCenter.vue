@@ -15,7 +15,22 @@
         more
       </v-btn>
     </v-chip-group>
-    <v-row class="mt-4">
+    <v-row
+      v-if="loading"
+      class="mt-4"
+    >
+      <v-col
+        v-for="n in 12"
+        :key="n"
+        cols="2"
+      >
+        <v-skeleton-loader
+          class="mx-auto"
+          type="card"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="mt-4" v-else>
       <v-col
         v-for="playlist in playlists"
         :key="playlist.id"
@@ -48,6 +63,7 @@ export default {
     total: 0,
     limit: 24,
     page: 1,
+    loading: false,
     defaultCategory: [{
       text: '全部',
       val: '全部',
@@ -98,10 +114,12 @@ export default {
   },
   methods: {
     async fetch(cat) {
+      this.loading = true;
       const condition = { cat, offset: this.offset, limit: this.limit };
       const { playlists, total } = await getTopPlaylist(condition);
       this.playlists = playlists;
       this.total = total;
+      this.loading = false;
     },
   },
 }
