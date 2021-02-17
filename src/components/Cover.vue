@@ -2,6 +2,7 @@
   <div class="cover-container">
     <v-hover v-slot="{ hover }">
       <v-card
+        v-ripple
         hover
         rounded="lg"
         class="d-flex align-end justify-end cover-card"
@@ -11,7 +12,7 @@
         <v-img
           :src="data.picUrl || data.coverImgUrl | sizeOfImage"
           class="cover-img"
-          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+          :gradient="hover ? gradient : void 0"
         >
         </v-img>
         <v-fade-transition>
@@ -69,7 +70,9 @@
 
 <script>
 import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
-import { getPlayList } from '@util/musicService'
+import { getPlayList } from '@util/musicService';
+import * as Vibrant from 'node-vibrant'
+
 export default {
   name: 'Cover',
   props: {
@@ -113,6 +116,12 @@ export default {
         'artist': `/artist/${this.data.id}`,
       }[this.type];
     },
+    gradient() {
+      return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
+    },
+  },
+  created () {
+    this.initImgPalette();
   },
   methods: {
     async play() {
@@ -121,6 +130,11 @@ export default {
       await this.$store.dispatch('music/updatePlayingList', playlist.tracks);
       await this.$store.dispatch('music/updateTrack', playlist.tracks?.[0]?.id);
       this.loading = false;
+    },
+    initImgPalette() {
+      Vibrant.from(this.data.picUrl ?? this.data.coverImgUrl).getPalette().then(res => {
+        this.rgb = res.DarkMuted?.['_rgb'];
+      });
     },
   },
 

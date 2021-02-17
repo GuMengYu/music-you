@@ -18,6 +18,7 @@
     <v-list
       dense
       two-line
+      nav
     >
       <v-list-item-group
         v-model="currentSong"

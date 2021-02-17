@@ -21,18 +21,33 @@
         cols="4"
       >
         <v-card
+          v-ripple
           :color="board.color"
         >
-          <div class="d-flex flex-no-wrap justify-space-between">
+          <div
+            class="d-flex flex-no-wrap justify-space-between"
+          >
             <div>
-              <v-card-title :class="board.textColor"> {{ board.name }} </v-card-title>
-              <v-card-subtitle class="board-right d-flex flex-column text-caption font-weight-bold justify-space-around py-0">
-                <span v-for="(track, index) in board.tracks" :key="index" class="h-1x">
-                  {{index + 1}}.{{track.first}}-{{track.second}}
+              <v-card-title
+                :class="board.textColor"
+              >
+                {{ board.name }}
+              </v-card-title>
+              <v-card-subtitle
+                class="board-right d-flex flex-column text-caption font-weight-bold justify-space-around py-0"
+              >
+                <span
+                  v-for="(track, index) in board.tracks"
+                  :key="index"
+                  class="h-1x"
+                >
+                  {{ index + 1 }}.{{ track.first }}-{{ track.second }}
                 </span>
               </v-card-subtitle>
               <v-card-actions>
-                <span class="text-caption font-weight-bold px-2">
+                <span
+                  class="text-caption font-weight-bold px-2"
+                >
                   {{ board.updateFrequency }}
                 </span>
               </v-card-actions>
@@ -42,7 +57,7 @@
               size="120"
               tile
             >
-              <v-img :src="board.coverImgUrl" class="rounded" />
+              <v-img :src="board.coverImgUrl" class="rounded" :gradient="`to top, ${board.color}, rgba(0,0,0,0) ,${board.color}`" />
             </v-avatar>
           </div>
         </v-card>

@@ -309,10 +309,10 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/common';
 .theme--light .playing-bar {
-  background-color: rgba(255, 255, 255, .7);
+  background-color: rgba(255, 255, 255, .5);
 }
 .theme--dark .playing-bar {
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, .5);
 }
 .playing-bar {
   backdrop-filter: blur(50px);

@@ -3,7 +3,11 @@
     <v-list-item :value="song.id">
       <v-card class="mr-4">
         <v-overlay :value="hover" absolute>
-          <v-btn icon @click="play">
+          <v-btn
+            icon
+            color="primary"
+            @click="play"
+          >
             <v-icon>{{ mdiPlay }}</v-icon>
           </v-btn>
         </v-overlay>
@@ -11,6 +15,7 @@
           :src="$$(song, 'al', 'picUrl')| sizeOfImage(100)"
           max-height="40"
           max-width="40"
+          class="rounded"
         />
       </v-card>
       <v-list-item-content>
@@ -19,18 +24,6 @@
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
         <v-btn
-          icon
-          color="red"
-          width="30"
-          height="30"
-          x-small
-          class="list-delete-button"
-        >
-          <v-icon>
-            {{ mdiHeartOutline }}
-          </v-icon>
-        </v-btn>
-        <v-btn
           v-show="hover"
           width="30"
           height="30"
@@ -38,6 +31,7 @@
           color="red"
           x-small
           class="list-delete-button"
+          @click.stop="more"
         >
           <v-icon>
             {{ mdiDotsHorizontal }}
@@ -76,11 +70,9 @@ export default {
     play() {
       // this.$store.dispatch('music/startNewMusic', this.song.id);
     },
+    more() {
+
+    },
   },
 }
 </script>
-<style lang="scss" scoped>
-.song-btns {
-  width: 60px;
-}
-</style>
