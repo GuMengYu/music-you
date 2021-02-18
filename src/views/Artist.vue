@@ -29,7 +29,7 @@
         <Cover :data="latest" />
       </v-col>
       <v-col lg="9">
-        <div class="item-title d-flex justify-space-between my-3">
+        <div class="item-title d-flex justify-space-between my-3 ml-4">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.hot') }}</span>
           <v-btn
             v-show="hotSongs.length > 6"
@@ -208,14 +208,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-//.theme--light .artist {
-//  background: linear-gradient(#FFF, var(--v-primary-lighten5));
-//}
-//.theme--dark .artist {
-//  background: linear-gradient(#000, var(--v-secondary-darken2));
-//}
 .artist {
-  height: 45vh;
+  height: 300px;
   &-avatar {
 
   }

@@ -43,7 +43,7 @@
           </h6>
           <div class="artist text-body-1 mt-2">
             Playlist by
-            <router-link :to="`/artists/${$$(list,'creator', 'id')}`">
+            <router-link :to="`/artists/${$$(list,'creator', 'id')}`" class="text-decoration-none">
               <span class="text--primary">
                 {{ $$(list,'creator', 'nickname') }}
               </span>
@@ -132,7 +132,7 @@ export default {
   methods: {
     fetch() {
       getPlayList(this.id).then(({playlist}) => {
-        this.playList = {...playlist};
+        this.list = {...playlist};
       });
     },
   },

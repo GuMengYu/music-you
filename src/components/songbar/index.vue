@@ -5,7 +5,6 @@
         <v-overlay :value="hover" absolute>
           <v-btn
             icon
-            color="primary"
             @click="play"
           >
             <v-icon>{{ mdiPlay }}</v-icon>
@@ -19,8 +18,8 @@
         />
       </v-card>
       <v-list-item-content>
-        <v-list-item-title v-text="song.name" />
-        <v-list-item-subtitle class="text--primary" v-text="$$(song, 'ar', '0', 'name')" />
+        <v-list-item-title class="font-weight-bold" v-text="song.name" />
+        <v-list-item-subtitle class="font-weight-bold" v-text="$$(song, 'ar', '0', 'name')" />
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
         <v-btn

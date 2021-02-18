@@ -7,7 +7,6 @@
     <div class="right">
       <play-bar class="playbar" />
       <playing-list
-        :open="true"
         class="playing-list"
       />
       <v-sheet tag="main">
@@ -61,6 +60,7 @@ export default {
   }),
   computed: {
     showLyricsPage: sync('music/showLyricsPage'),
+    showList: sync('music/showList'),
   },
   mounted () {
     this.handleWindowResize();
@@ -83,9 +83,6 @@ $playerbarHeight: 66px;
   margin: 0 auto;
   position: relative;
   transform: translate(0%);
-  .playing-list {
-    height: calc(100% - #{$playerbarHeight}) !important;
-  }
   .right {
     width: calc(100% - 20%);
     .playbar {

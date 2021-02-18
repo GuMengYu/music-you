@@ -1,12 +1,15 @@
 
+### 🏗 Work In Progress...
+
 ## 🌄 预览
 
 ![主要](doc/main.png)
 ![歌词](doc/lyric.png)
-![浏览](doc/explore.png)
+![歌单广场](doc/center.png)
+![排行榜](doc/board.png)
 ![歌手](doc/artist.png)
 ![播放列表](doc/playlist.png)
-![暗黑模式](doc/darkmode.png)
+![播放](doc/nextup.png)
 
 
 ## 🔧 Project setup

@@ -18,7 +18,7 @@ export default {
     },
     recommend_list: 'Recommend List',
     recommend_artist: 'Recommend Artist',
-    playing_queue: 'Playing Queue',
+    playing_queue: 'Up Next',
     artist: {
       latest: 'Latest release',
       hot: 'Popular song',
@@ -33,6 +33,7 @@ export default {
     sign_in: 'Sign In',
     sign_out: 'Sign Out',
     search: 'Search',
+    more: 'More',
     translations: 'Translation',
     not_support: 'can not support',
     language: 'Language',

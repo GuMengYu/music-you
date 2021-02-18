@@ -18,7 +18,7 @@ export default {
     },
     recommend_list: '推荐歌单',
     recommend_artist: '推荐歌手',
-    playing_queue: '播放队列',
+    playing_queue: '接下来播放',
     artist: {
       latest: '最新发布',
       hot: '热门歌曲',

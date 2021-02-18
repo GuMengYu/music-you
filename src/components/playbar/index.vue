@@ -27,12 +27,12 @@
       >
         <v-hover v-slot="{ hover }">
           <v-card
-            class="playing-cover-card"
+            class="playing-cover-card ma-1"
             :img="albumPicUrl"
-            max-height="46"
-            max-width="46"
-            min-width="46"
-            min-height="46"
+            max-height="40"
+            max-width="40"
+            min-width="40"
+            min-height="40"
           >
             <v-fade-transition>
               <v-overlay
@@ -50,37 +50,37 @@
             </v-fade-transition>
           </v-card>
         </v-hover>
-        <div class="song-info">
-          <router-link to="" class="text-decoration-none">
+        <div class="song-info mx-2">
+          <router-link to="">
             <span
-              class="song-name text--primary text-body-2 h-1x"
+              class="song-name text--primary h-1x text-subtitle-2"
             >
               {{ track.name }}
             </span>
           </router-link>
-          <router-link to="" class="text-decoration-none">
+          <span class="text--disabled mx-2">-</span>
+          <router-link to="">
             <span
-              class="artist-name h-2x text--primary text-caption"
+              class="artist-name h-1x text-caption text--disabled  font-weight-bold"
             >
               {{ $$(track, 'ar', '0', 'name') }}
             </span>
           </router-link>
         </div>
-        <v-btn
-          icon
-          text
-          color="#f9223b"
-          class="ml-8"
-        >
-          <v-icon small>
-            {{ icon.mdiHeartOutline }}
-          </v-icon>
-        </v-btn>
       </div>
       <div
         class="playing-bar__center"
       >
         <div class="playing-control-buttons">
+          <v-btn
+            icon
+            text
+            class="ml-8"
+          >
+            <v-icon small>
+              {{ icon.mdiHeart }}
+            </v-icon>
+          </v-btn>
           <v-btn
             icon
             @click="playPrev"
@@ -92,13 +92,11 @@
           <v-fab-transition>
             <v-btn
               :key="playingState.icon"
-              :color="playingState.color"
-              small
-              fab
+              icon
               elevation="0"
               @click="playPause"
             >
-              <v-icon>
+              <v-icon :color="playingState.color" large>
                 {{ playing ? icon.mdiPause : icon.mdiPlay }}
               </v-icon>
             </v-btn>
@@ -111,22 +109,22 @@
               {{ icon.mdiSkipNext }}
             </v-icon>
           </v-btn>
+          <v-btn
+            icon
+            @click="playOrder"
+          >
+            <v-icon small>
+              {{ orderIconState }}
+            </v-icon>
+          </v-btn>
         </div>
-        <span class="time-info text-caption">
-          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}
-        </span>
+<!--        <span class="time-info text-caption">-->
+<!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
+<!--        </span>-->
       </div>
       <div
         class="playing-bar__right"
       >
-        <v-btn
-          icon
-          @click="playOrder"
-        >
-          <v-icon small>
-            {{ orderIconState }}
-          </v-icon>
-        </v-btn>
         <div class="volume-bar d-flex align-center">
           <v-btn
             icon
@@ -329,19 +327,16 @@ export default {
       justify-content: flex-start;
       .song-info {
         display: flex;
-        flex-flow: column;
-        margin-left: 10px;
-      }
-      .song-name {
-        display: inline-block;
-        max-width: 180px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 700;
-      }
-      .artist-name {
-        font-size: 14px;
-        font-weight: 700;
+        a {
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          span {
+          }
+        }
+        .song-name {
+          max-width: 13vw;
+        }
       }
     }
     .playing-bar__center {
