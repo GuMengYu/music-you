@@ -21,20 +21,11 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">
-                未登录
+                账号
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action class="mr-4">
-              <v-btn
-                plain
-                color="primary"
-                @click="showLogin = !showLogin"
-              >
-                <v-icon>
-                  {{ icon.mdiLogin }}
-                </v-icon>
-                {{ $t('common.sign_in') }}
-              </v-btn>
+              <DefaultAccount />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>
@@ -121,9 +112,13 @@ import { sync } from 'vuex-pathify';
 import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/Select';
+import DefaultAccount from '@components/Account'
 export default {
   name: 'DefaultSetting',
-  components: {DefaultSelect},
+  components: {
+    DefaultAccount,
+    DefaultSelect,
+  },
   data() {
     return {
       icon: { mdiClose, mdiLogin, mdiLogout },

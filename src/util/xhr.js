@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Message} from '@/plugins/snackbar';
-const BASE_URL = 'localhost:9527';
+const BASE_URL = 'localhost:12138';
 // create an axios instance
 const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   const service = axios.create({

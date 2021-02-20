@@ -32,6 +32,7 @@ export default {
   common: {
     sign_in: '登入',
     sign_out: '登出',
+    personal: '个人中心',
     search: '搜索',
     more: '显示更多',
     translations: '翻译',

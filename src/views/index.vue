@@ -3,9 +3,9 @@
     ref="musicApp"
     class="music-app d-flex"
   >
+    <default-header />
     <default-nav-bar />
     <div class="right">
-      <play-bar class="playbar" />
       <playing-list
         class="playing-list"
       />
@@ -15,6 +15,7 @@
         </keep-alive>
       </v-sheet>
     </div>
+    <play-bar />
     <default-setting />
     <v-dialog
       v-model="showLyricsPage"
@@ -37,6 +38,7 @@ import DefaultSetting from '@components/settings';
 import DefaultLogin from '@components/login';
 import DefaultTrackDetail from '@/components/trackdetail';
 import DefaultSnackbar from '@components/Snackbar'
+import DefaultHeader from '@components/Header'
 
 import {sync} from 'vuex-pathify';
 import {debounce} from '@/util/fn';
@@ -51,6 +53,7 @@ export default {
     PlayBar,
     DefaultLogin,
     DefaultTrackDetail,
+    DefaultHeader,
   },
   data: () => ({
     openNav: true,
@@ -76,7 +79,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$playerbarHeight: 66px;
+@import "../scss/variable";
 .music-app {
   width: 100%;
   height: 100%;
@@ -84,18 +87,18 @@ $playerbarHeight: 66px;
   position: relative;
   transform: translate(0%);
   .right {
-    width: calc(100% - 20%);
-    .playbar {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
+    width: $contentWidth;
+  }
+  .playbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
   main {
     -webkit-app-region: drag;
     overflow-y: auto;
-    padding: 24px 24px #{$playerbarHeight};
+    padding: #{$toolbarHeight} 24px #{$playerbarHeight};
     height: 100vh;
     div:first-child {
       -webkit-app-region: no-drag;

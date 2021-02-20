@@ -1,6 +1,7 @@
 <template>
-  <v-sheet
-    tag="footer"
+  <v-footer
+    fixed
+    padless
     class="playing-bar"
     elevation="1"
   >
@@ -155,7 +156,7 @@
         </v-btn>
       </div>
     </div>
-  </v-sheet>
+  </v-footer>
 </template>
 
 <script>
@@ -317,6 +318,7 @@ export default {
   z-index: 999;
   -webkit-app-region: drag;
   .playing-control {
+    width: 100%;
     display: flex;
     padding: 10px;
     .playing-bar__left {

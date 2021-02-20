@@ -30,7 +30,6 @@ const actions = {
   },
   updateAccount ({commit}, account) {
     commit('account', account);
-    localStorage.setItem('account', JSON.stringify(account))
   },
 }
 

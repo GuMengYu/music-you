@@ -6,7 +6,7 @@ module.exports = {
   configureWebpack: {
     devtool: 'source-map',
     devServer: {
-      port: 3002,
+      port: process.env.SERVER_PORT,
     },
     resolve: {
       alias: {

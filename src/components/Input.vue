@@ -13,7 +13,6 @@
     hide-details
     solo
     flat
-    style="max-width: 450px;"
     @blur="onBlur"
     @clear="resetSearch"
     @focus="onFocus"
@@ -71,8 +70,6 @@ export default {
       }
       if (this.isFocused) {
         color = 'primary lighten-5';
-      } else {
-        color = 'grey lighten-3';
       }
       return color;
     },

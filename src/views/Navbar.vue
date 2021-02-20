@@ -31,9 +31,6 @@
           </v-btn>
         </div>
       </div>
-      <div class="py-2 px-4">
-        <default-input :holder="$t('common.search')" :icon="icon.mdiMagnify" />
-      </div>
     </template>
     <default-list :items="nav" />
   </v-navigation-drawer>
@@ -41,12 +38,11 @@
 
 <script>
 import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
-import DefaultInput from '@components/Input';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
 export default {
   name: 'DefaultNavBar',
-  components: {DefaultInput, DefaultList},
+  components: {DefaultList},
   data: function(){
     const _t = key => this.$i18n.t(`main.nav.${key}`);
     return {
