@@ -5,16 +5,12 @@
   >
     <default-header />
     <default-nav-bar />
-    <div class="right">
-      <playing-list
-        class="playing-list"
-      />
-      <v-sheet tag="main">
-        <keep-alive>
-          <router-view />
-        </keep-alive>
-      </v-sheet>
-    </div>
+    <playing-list />
+    <v-sheet tag="main" class="mx-10">
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    </v-sheet>
     <play-bar />
     <default-setting />
     <v-dialog
@@ -86,9 +82,6 @@ export default {
   margin: 0 auto;
   position: relative;
   transform: translate(0%);
-  .right {
-    width: $contentWidth;
-  }
   .playbar {
     position: fixed;
     left: 0;
@@ -96,9 +89,11 @@ export default {
     bottom: 0;
   }
   main {
+    width: $contentWidth;
     -webkit-app-region: drag;
     overflow-y: auto;
-    padding: #{$toolbarHeight} 24px #{$playerbarHeight};
+    padding-top: $toolbarHeight;
+    padding-bottom: $playerbarHeight;
     height: 100vh;
     div:first-child {
       -webkit-app-region: no-drag;

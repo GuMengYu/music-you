@@ -4,7 +4,7 @@
     ref="search"
     v-model="model"
     :background-color="bgColor"
-    class="rounded-lg"
+    class="rounded-lg text-caption"
     :placeholder="placeholder"
     :type="type"
     autocomplete="off"

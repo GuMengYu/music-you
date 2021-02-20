@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    width="20%"
+    width="18%"
     permanent
     class="nav"
   >
@@ -32,7 +32,7 @@
         </div>
       </div>
     </template>
-    <default-list :items="nav" />
+    <default-list :items="nav" class="px-4" />
   </v-navigation-drawer>
 </template>
 

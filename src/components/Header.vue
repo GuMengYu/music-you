@@ -1,10 +1,10 @@
 <template>
   <v-toolbar
     elevation="0"
-    class="music-toolbar px-4"
+    class="music-toolbar"
     rounded
   >
-    <default-input :holder="$t('common.search')" :icon="icon.mdiMagnify" class="search_input" />
+    <default-input :holder="$t('common.search_type_2')" :icon="icon.mdiMagnify" class="search_input" />
     <v-spacer />
     <DefaultAccount />
   </v-toolbar>
@@ -36,7 +36,7 @@ export default {
 .music-toolbar {
   position: fixed;
   width: $contentWidth;
-  left: 20%;
+  left: 18%;
   z-index: 3;
   .search_input {
     max-width: 20%;

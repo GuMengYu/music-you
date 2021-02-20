@@ -1,34 +1,65 @@
 <template>
   <v-sheet class="discover">
-    <div class="list">
-      <div class="sub-title font-weight-bold">
-        {{ $t('main.recommend_list') }}
-      </div>
-      <CoverList :list="playLists" type="playlist" />
-    </div>
+    <v-row>
+      <v-col cols="6">
+        <div class="title pb-5">
+          <div class="text-h6">
+            {{ $t('main.artist.latest') }}
+          </div>
+        </div>
+        <WideCover
+          :cover="release"
+        />
+      </v-col>
+      <v-col cols="6">
+        <div class="title pb-5">
+          <div class="text-caption grey--text text--lighten-1">
+            {{ $t('main.featured') }}
+          </div>
+          <div class="text-h6">
+            {{ $t('main.for_you') }}
+          </div>
+        </div>
+        <CoverList
+          :list="playLists"
+          type="playlist"
+          :col="2"
+        />
+      </v-col>
+    </v-row>
     <div class="new-music-list my-4">
-      <div class="sub-title font-weight-bold">
+      <div class="font-weight-bold">
         {{ $t('main.recommend_artist') }}
       </div>
-      <CoverList :list="artists" type="artist" />
+      <CoverList
+        :list="artists"
+        type="artist"
+      />
     </div>
   </v-sheet>
 </template>
 <script>
-import {topArtists, getPersonalized} from '@util/musicService';
+import {topArtists, getPersonalized, getNewRelease} from '@util/musicService';
 import NProgress from 'nprogress';
 import CoverList from '@components/CoverList'
+import WideCover from '@components/WideCover';
+
 export default {
-  components: {CoverList},
+  components: {
+    WideCover,
+    CoverList,
+  },
   data: () => ({
     playLists: [],
     artists: [],
+    release: {},
   }),
   async created() {
     NProgress.start();
-    const [playlists, artists] = await Promise.all([getPersonalized(), topArtists()]);
-    this.playLists = playlists.result;
+    const [playlists, artists, release] = await Promise.all([getPersonalized(), topArtists(), getNewRelease()]);
+    this.playLists = playlists.result.slice(0, 4);
     this.artists = artists.data;
+    this.release = release;
     NProgress.done();
   },
 };
@@ -39,11 +70,10 @@ export default {
     grid-template-columns: repeat(6, 1fr);
   }
   .title {
-    font-size: 28px;
-  }
-  .sub-title {
-    margin-bottom: 20px;
-    font-size: 24px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    height: 76px;
   }
 }
 

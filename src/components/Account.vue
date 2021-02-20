@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="profile.userId">
-      <v-avatar size="36">
+      <v-avatar size="30">
         <v-img :src="profile.avatarUrl" />
       </v-avatar>
       <app-menu
@@ -12,6 +12,7 @@
           <v-btn
             text
             plain
+            class="text-caption"
             v-bind="attrs"
             v-on="on"
           >
@@ -31,20 +32,31 @@
             class="v-list-item--default"
             @click="dispatch(item.type)"
           >
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title
+              class="text-caption"
+              v-text="item.title"
+            />
           </v-list-item>
         </template>
       </app-menu>
     </div>
-    <v-btn v-else text plain>
+    <v-btn
+      v-else
+      plain
+      class="text-lowercase font-weight-bold text-caption"
+      @click="showLogin = !showLogin"
+    >
+      <v-icon small>
+        {{ icon.mdiLogin }}
+      </v-icon>
       {{ $t('common.sign_in') }}
     </v-btn>
   </div>
 </template>
 
 <script>
-import {get} from 'vuex-pathify';
-import {mdiChevronDown} from '@mdi/js';
+import { get, sync } from 'vuex-pathify'
+import {mdiChevronDown, mdiLogin} from '@mdi/js';
 import AppMenu from '@components/./Menu';
 export default {
   name: 'DefaultAccount',
@@ -53,6 +65,7 @@ export default {
     return {
       icon: {
         mdiChevronDown,
+        mdiLogin,
       },
       items: [{
         type: 'sign_out',
@@ -65,6 +78,7 @@ export default {
   },
   computed: {
     account: get('settings/account'),
+    showLogin: sync('app/showLogin'),
     profile() {
       return this.account?.profile ?? {}
     },
@@ -72,6 +86,9 @@ export default {
   methods: {
     dispatch() {
 
+    },
+    signIn() {
+      this.showLogin = true;
     },
   },
 }

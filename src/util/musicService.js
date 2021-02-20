@@ -53,6 +53,14 @@ export const topArtists = () => xhr.get('/toplist/artist?type=2');
  offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
 export const getTopPlaylist = (param = {limit:20, cat: '全部', offset: 0}) => xhr.get(`/top/playlist?cat=${param.cat}&limit=20&offset=${param.offset}`);
+
+/**
+ * 获取新歌
+ */
+export const getNewRelease = () => xhr.get('/top/song').then(res => {
+  return res.data?.[2];
+});
+
 /**
  * 获取所有榜单
  */
