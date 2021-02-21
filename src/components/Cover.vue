@@ -10,10 +10,16 @@
         :class="{'cover-hover' : hover}"
       >
         <v-img
-          :src="data.picUrl || data.coverImgUrl | sizeOfImage"
+          :src="coverBgUrl"
           class="cover-img"
           lazy-src="@/assets/default-cover.jpeg"
         />
+        <div
+          v-show="hover || showShadow"
+          class="cover-shadow"
+          :style="`background-image: url('${coverBgUrl}')`"
+        />
+
         <v-fade-transition>
           <v-overlay
             :value="hover"
@@ -75,7 +81,7 @@
 import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
 import { getPlayList } from '@util/musicService';
 import * as Vibrant from 'node-vibrant'
-
+import {sizeOfImage} from '@util/fn';
 export default {
   name: 'Cover',
   props: {
@@ -94,6 +100,10 @@ export default {
       require: true,
     },
     noInfo: {
+      type: Boolean,
+      default: false,
+    },
+    showShadow: {
       type: Boolean,
       default: false,
     },
@@ -119,6 +129,9 @@ export default {
         'playlist': `/playlist/${this.data.id}`,
         'artist': `/artist/${this.data.id}`,
       }[this.type];
+    },
+    coverBgUrl() {
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 256)
     },
     // gradient() {
     //   return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
@@ -150,6 +163,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../scss/common";
 .cover-container {
   .cover-hover {
     transition: .5s all ease;
@@ -175,12 +189,24 @@ export default {
       }
     }
     .cover-img {
-      opacity: 0.9;
       border-radius: inherit;
+      z-index: 1;
     }
     ::v-deep .v-overlay__content {
       flex: 1;
       align-self: flex-end;
+    }
+    .cover-shadow {
+      position: absolute;
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+      top: 12%;
+      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, .5);
+      border-radius: 20px;
+      filter: blur(15px);
+      transform: scale(.9);
+      background-size: cover;
     }
   }
 }

@@ -1,14 +1,14 @@
 /**
  * 函数防抖
- * @param {() => {}} fn
+ * @param fn
  * @param {Integer} wait : 延迟执行毫秒数
- * @param {Boolean} immidiate : 是否立即执行
+ * @param {Boolean} immediate : 是否立即执行
  */
-export const debounce = (fn, wait= 1000, immidiate) => {
+export const debounce = (fn, wait= 1000, immediate) => {
     let timeout;
     return function() {
         timeout && clearTimeout(timeout);
-        if (immidiate) {
+        if (immediate) {
             let callNow = !timeout;
              timeout = setTimeout(() => {
                  timeout = null;
@@ -26,7 +26,6 @@ export const debounce = (fn, wait= 1000, immidiate) => {
  * 函数节流 定时器版
  * @param {*} fn
  * @param {*} wait
- * @param {*} options : {  }
  */
 export const throttle = (fn, wait) => {
     let timeout;
@@ -44,7 +43,6 @@ export const throttle = (fn, wait) => {
  * 函数节流 时间戳版
  * @param {*} fn
  * @param {*} wait
- * @param {*} options : {  }
  */
 export const throttle_timestamp = (fn, wait) => {
     let previous = 0, timeout, context, args;
@@ -76,9 +74,4 @@ export const optionalChaining = (obj, ...rest) => {
     return temp;
 };
 
-export default {
-    optionalChaining,
-    debounce,
-    throttle,
-    throttle_timestamp,
-};
+export {formatDuring, sizeOfImage} from '@/filters'

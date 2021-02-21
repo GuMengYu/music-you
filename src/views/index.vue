@@ -8,7 +8,7 @@
     <playing-list />
     <v-sheet
       tag="main"
-      class="mx-10"
+      class="px-8"
     >
       <keep-alive>
         <router-view />
