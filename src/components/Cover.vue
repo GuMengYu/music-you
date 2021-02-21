@@ -12,7 +12,7 @@
         <v-img
           :src="data.picUrl || data.coverImgUrl | sizeOfImage"
           class="cover-img"
-          :gradient="hover ? gradient : void 0"
+          lazy-src="@/assets/default-cover.jpeg"
         />
         <v-fade-transition>
           <v-overlay
@@ -58,13 +58,13 @@
     <router-link
       v-if="!noInfo"
       :to="to"
-      class="title text--primary"
+      class="title"
     >
-      <span class="h-2x mt-2 text-body-2 font-weight-bold">{{ data.name }}</span>
+      <span class="h-1x mt-2 text-caption font-weight-bold text--primary">{{ data.name }}</span>
     </router-link>
     <span
       v-if="!noInfo"
-      class="h-1x mt-1 text-caption font-weight-bold text--primary"
+      class="h-1x mt-1 text-caption grey--text text--lighten-1 subtitle"
     >
       {{ subTitle }}
     </span>
@@ -106,6 +106,7 @@ export default {
       },
       loading: false,
       rgb: [],
+      rgb2: [],
     };
   },
   computed: {
@@ -119,12 +120,15 @@ export default {
         'artist': `/artist/${this.data.id}`,
       }[this.type];
     },
-    gradient() {
-      return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
-    },
+    // gradient() {
+    //   return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
+    // },
+    // gradient2() {
+    //   return `to bottom right, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgb(${this.rgb2.join()})`;
+    // },
   },
   created () {
-    this.initImgPalette();
+    // this.initImgPalette();
   },
   methods: {
     async play() {
@@ -137,6 +141,7 @@ export default {
     initImgPalette() {
       Vibrant.from(this.data.picUrl ?? this.data.coverImgUrl).getPalette().then(res => {
         this.rgb = res.DarkMuted?.['_rgb'];
+        this.rgb2 = res.DarkVibrant?.['rgb'];
       });
     },
   },
@@ -170,6 +175,7 @@ export default {
       }
     }
     .cover-img {
+      opacity: 0.9;
       border-radius: inherit;
     }
     ::v-deep .v-overlay__content {

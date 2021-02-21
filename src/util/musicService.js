@@ -58,8 +58,13 @@ export const getTopPlaylist = (param = {limit:20, cat: '全部', offset: 0}) => 
  * 获取新歌
  */
 export const getNewRelease = () => xhr.get('/top/song').then(res => {
-  return res.data?.[2];
+  return res.data?.[0];
 });
+
+/**
+ * 获取新歌
+ */
+export const getDailyRecommend = () => xhr.get('/recommend/song');
 
 /**
  * 获取所有榜单

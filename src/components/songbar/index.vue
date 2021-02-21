@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-list-item :value="song.id">
+    <v-list-item :value="song.id" @click="noop">
       <v-card class="mr-4">
         <v-overlay
           :value="hover"
@@ -18,6 +18,7 @@
           max-height="40"
           max-width="40"
           class="rounded"
+          lazy-src="@/assets/default-cover.jpeg"
         />
       </v-card>
       <v-list-item-content>
@@ -57,6 +58,7 @@ import {mdiHeart, mdiDotsHorizontal, mdiHeartOutline, mdiPlay} from '@mdi/js';
 
 
 export default {
+  name: 'SongBar',
   props: {
     song: {
       type: Object,
@@ -81,6 +83,7 @@ export default {
     more() {
 
     },
+    noop() {},
   },
 }
 </script>

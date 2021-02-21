@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { get, sync } from 'vuex-pathify'
+import { sync } from 'vuex-pathify'
 import {mdiChevronDown, mdiLogin} from '@mdi/js';
 import AppMenu from '@components/./Menu';
 export default {
@@ -77,15 +77,22 @@ export default {
     }
   },
   computed: {
-    account: get('settings/account'),
+    account: sync('settings/account'),
     showLogin: sync('app/showLogin'),
     profile() {
       return this.account?.profile ?? {}
     },
   },
   methods: {
-    dispatch() {
-
+    dispatch(type) {
+      switch (type) {
+      case 'sign_out':
+        this.account = {}
+        break;
+      case 'center':
+        console.log('go center');
+        break;
+      }
     },
     signIn() {
       this.showLogin = true;

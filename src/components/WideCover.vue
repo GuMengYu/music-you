@@ -6,7 +6,8 @@
   >
     <v-img
       :aspect-ratio="16/9"
-      :src="album.blurPicUrl"
+      :src="album.blurPicUrl | sizeOfImage"
+      lazy-src="@/assets/default-cover.jpeg"
       class="align-end pa-2"
     >
       <div class="align-self-center">

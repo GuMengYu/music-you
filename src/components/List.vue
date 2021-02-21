@@ -3,6 +3,7 @@
     dense
     expand
     nav
+    v-bind="$attrs"
   >
     <template v-for="(item, i) in items">
       <v-subheader

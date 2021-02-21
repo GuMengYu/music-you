@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
 Vue.use(Vuetify)
 
+import colors from 'vuetify/lib/util/colors'
 export function createVuetify (store) {
 
   return new Vuetify({
@@ -13,7 +14,7 @@ export function createVuetify (store) {
       options: { customProperties: true },
       themes: {
         light: {
-          primary: '#fe2851',
+          primary: colors.amber.darken4,
           'bar-bg': {
             base: '#FFFFFF',
           },

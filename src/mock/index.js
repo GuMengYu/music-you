@@ -12,6 +12,8 @@ import banner from '@/mock/music/banner.json';
 import hotPlaylist from '@/mock/music/hotPlaylist.json'
 import toplist from '@/mock/music/toplist.json';
 import newrelease from '@/mock/music/newrelease.json';
+import dailyRecommed from '@/mock/music/dailyRecommed.json';
+
 Mock.mock(/song\/detail/, musicDetail);
 Mock.mock(/song\/url/, songUrl);
 Mock.mock(/playlist\/detail/, ({url}) => {
@@ -36,3 +38,4 @@ Mock.mock(/banner/, banner);
 Mock.mock(/top\/playlist/, hotPlaylist);
 Mock.mock(/toplist/, toplist);
 Mock.mock(/top\/song/, newrelease);
+Mock.mock(/recommend\/song/, dailyRecommed);

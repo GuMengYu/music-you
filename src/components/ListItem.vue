@@ -15,7 +15,7 @@
     >
       <v-icon
         size="18"
-        color="red"
+        :color="item.color || 'primary'"
       >
         {{ item.icon }}
       </v-icon>
