@@ -2,7 +2,10 @@
   <v-hover v-slot="{ hover }">
     <v-list-item :value="song.id">
       <v-card class="mr-4">
-        <v-overlay :value="hover" absolute>
+        <v-overlay
+          :value="hover"
+          absolute
+        >
           <v-btn
             icon
             @click="play"
@@ -18,8 +21,14 @@
         />
       </v-card>
       <v-list-item-content>
-        <v-list-item-title class="font-weight-bold" v-text="song.name" />
-        <v-list-item-subtitle class="font-weight-bold" v-text="$$(song, 'ar', '0', 'name')" />
+        <v-list-item-title
+          class="font-weight-bold"
+          v-text="song.name"
+        />
+        <v-list-item-subtitle
+          class="font-weight-bold"
+          v-text="$$(song, 'ar', '0', 'name')"
+        />
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
         <v-btn

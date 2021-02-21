@@ -13,15 +13,18 @@
           :src="data.picUrl || data.coverImgUrl | sizeOfImage"
           class="cover-img"
           :gradient="hover ? gradient : void 0"
-        >
-        </v-img>
+        />
         <v-fade-transition>
           <v-overlay
             :value="hover"
             absolute
           >
             <v-card-actions class="cover-actions">
-              <v-progress-circular :indeterminate="loading" color="accent" size="30">
+              <v-progress-circular
+                :indeterminate="loading"
+                color="accent"
+                size="30"
+              >
                 <v-btn
                   x-small
                   fab

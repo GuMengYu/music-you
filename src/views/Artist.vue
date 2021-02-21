@@ -1,8 +1,11 @@
 <template>
   <v-sheet>
     <div class="artist d-flex flex-column align-center justify-end">
-      <v-avatar size="190" class="artist-avatar">
-        <v-img :src="artist.img1v1Url | sizeOfImage"></v-img>
+      <v-avatar
+        size="190"
+        class="artist-avatar"
+      >
+        <v-img :src="artist.img1v1Url | sizeOfImage" />
       </v-avatar>
       <div class="artist-desc d-flex align-center mt-8 mb-2">
         <v-btn
@@ -16,7 +19,10 @@
         <span class="text-h5 font-weight-bold flex-grow-1">
           {{ artist.name }}
         </span>
-        <v-btn icon color="primary">
+        <v-btn
+          icon
+          color="primary"
+        >
           <v-icon>{{ icon.mdiDotsHorizontal }}</v-icon>
         </v-btn>
       </div>
@@ -33,7 +39,9 @@
           <span class="font-weight-bold text-h6">{{ $t('main.artist.hot') }}</span>
           <v-btn
             v-show="hotSongs.length > 6"
-            text plain small
+            text
+            plain
+            small
             color="primary"
             @click="showMoreSong = showMoreSong === void 0 ? 0 : void 0"
           >
@@ -92,7 +100,9 @@
           <span class="font-weight-bold text-h6">{{ $t('main.artist.albums') }}</span>
           <v-btn
             v-show="hotAlbums.length > 5"
-            text plain small
+            text
+            plain
+            small
             color="primary"
             @click="showMoreAlbum = showMoreAlbum === void 0 ? 0 : void 0"
           >
@@ -122,7 +132,9 @@
           <span class="font-weight-bold text-h6">{{ $t('main.artist.epAndSingle') }}</span>
           <v-btn
             v-show="epAndSingle.length > 5"
-            text plain small
+            text
+            plain
+            small
             color="primary"
             @click="showMoreEps = showMoreEps === void 0 ? 0 : void 0"
           >

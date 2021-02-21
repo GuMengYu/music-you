@@ -6,7 +6,10 @@
     <default-header />
     <default-nav-bar />
     <playing-list />
-    <v-sheet tag="main" class="mx-10">
+    <v-sheet
+      tag="main"
+      class="mx-10"
+    >
       <keep-alive>
         <router-view />
       </keep-alive>

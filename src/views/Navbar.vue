@@ -7,24 +7,42 @@
     <template #prepend>
       <div class="system-action d-flex justify-space-between">
         <div>
-          <v-btn icon @click="showSettings = !showSettings">
-            <v-icon small :color="showSettings ? 'primary' : ''">
+          <v-btn
+            icon
+            @click="showSettings = !showSettings"
+          >
+            <v-icon
+              small
+              :color="showSettings ? 'primary' : ''"
+            >
               {{ icon.mdiCog }}
             </v-icon>
           </v-btn>
-          <v-btn icon @click="theme = (dark ? 'light' : 'dark')">
-            <v-icon small :color="dark ? 'amber darken-1' : 'grey'">
+          <v-btn
+            icon
+            @click="theme = (dark ? 'light' : 'dark')"
+          >
+            <v-icon
+              small
+              :color="dark ? 'amber darken-1' : 'grey'"
+            >
               {{ dark ? icon.mdiBrightness1 : icon.mdiBrightness2 }}
             </v-icon>
           </v-btn>
         </div>
         <div>
-          <v-btn icon @click="$router.go(-1)">
+          <v-btn
+            icon
+            @click="$router.go(-1)"
+          >
             <v-icon>
               {{ icon.mdiChevronLeft }}
             </v-icon>
           </v-btn>
-          <v-btn icon @click="$router.go(1)">
+          <v-btn
+            icon
+            @click="$router.go(1)"
+          >
             <v-icon>
               {{ icon.mdiChevronRight }}
             </v-icon>
@@ -32,7 +50,10 @@
         </div>
       </div>
     </template>
-    <default-list :items="nav" class="px-4" />
+    <default-list
+      :items="nav"
+      class="px-4"
+    />
   </v-navigation-drawer>
 </template>
 

@@ -1,5 +1,9 @@
 <template>
-  <v-card rounded="lg" flat dark>
+  <v-card
+    rounded="lg"
+    flat
+    dark
+  >
     <v-img
       :aspect-ratio="16/9"
       :src="album.blurPicUrl"
@@ -21,7 +25,10 @@
           class="now-playing text-caption font-weight-bold mr-2"
           @click="play"
         >
-          <v-icon small class="mr-2">
+          <v-icon
+            small
+            class="mr-2"
+          >
             {{ icon.mdiPlay }}
           </v-icon>
           {{ $t('main.now_playing') }}

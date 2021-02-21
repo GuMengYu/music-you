@@ -4,7 +4,11 @@
     class="music-toolbar"
     rounded
   >
-    <default-input :holder="$t('common.search_type_2')" :icon="icon.mdiMagnify" class="search_input" />
+    <default-input
+      :holder="$t('common.search_type_2')"
+      :icon="icon.mdiMagnify"
+      class="search_input"
+    />
     <v-spacer />
     <DefaultAccount />
   </v-toolbar>

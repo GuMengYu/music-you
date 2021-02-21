@@ -57,7 +57,11 @@
               size="120"
               tile
             >
-              <v-img :src="board.coverImgUrl" class="rounded" :gradient="`to top, ${board.color}, rgba(0,0,0,0) ,${board.color}`" />
+              <v-img
+                :src="board.coverImgUrl"
+                class="rounded"
+                :gradient="`to top, ${board.color}, rgba(0,0,0,0) ,${board.color}`"
+              />
             </v-avatar>
           </div>
         </v-card>

@@ -1,6 +1,9 @@
 <template>
   <v-sheet class="frame">
-    <div class="frame-header" @click="close" />
+    <div
+      class="frame-header"
+      @click="close"
+    />
     <div class="frame-content mt-10 d-flex">
       <div class="frame-content-left">
         <div class="left-container">
@@ -75,7 +78,10 @@
         class="frame-content-right"
       >
         <div class="frame-lyrics pb-4">
-          <div v-for="item in lyric" :key="item.time">
+          <div
+            v-for="item in lyric"
+            :key="item.time"
+          >
             {{ item.sentence }}
           </div>
         </div>

@@ -1,7 +1,11 @@
 <template>
   <div class="d-flex flex-column align-center artists-container">
     <v-hover v-slot="{ hover }">
-      <v-avatar color="indigo" size="120" :class="{'artist-hover': hover}">
+      <v-avatar
+        color="indigo"
+        size="120"
+        :class="{'artist-hover': hover}"
+      >
         <v-img :src="artists.img1v1Url | sizeOfImage" />
         <v-overlay
           :value="hover"

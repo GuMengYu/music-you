@@ -11,7 +11,10 @@
       >
         {{ category.text }}
       </v-chip>
-      <v-btn text plain>
+      <v-btn
+        text
+        plain
+      >
         more
       </v-btn>
     </v-chip-group>
@@ -30,7 +33,10 @@
         />
       </v-col>
     </v-row>
-    <v-row class="mt-4" v-else>
+    <v-row
+      v-else
+      class="mt-4"
+    >
       <v-col
         v-for="playlist in playlists"
         :key="playlist.id"

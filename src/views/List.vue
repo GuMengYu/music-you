@@ -20,8 +20,12 @@
               >
                 <v-card-actions>
                   <v-btn
-                    elevation="0" fab color="pink"
-                    class="play-fab" width="50" height="50"
+                    elevation="0"
+                    fab
+                    color="pink"
+                    class="play-fab"
+                    width="50"
+                    height="50"
                   >
                     <v-icon
                       large
@@ -43,7 +47,10 @@
           </h6>
           <div class="artist text-body-1 mt-2">
             Playlist by
-            <router-link :to="`/artists/${$$(list,'creator', 'id')}`" class="text-decoration-none">
+            <router-link
+              :to="`/artists/${$$(list,'creator', 'id')}`"
+              class="text-decoration-none"
+            >
               <span class="text--primary">
                 {{ $$(list,'creator', 'nickname') }}
               </span>
@@ -59,7 +66,10 @@
           </div>
         </div>
         <div class="list-action">
-          <v-btn elevation="0" class="red--text mr-4">
+          <v-btn
+            elevation="0"
+            class="red--text mr-4"
+          >
             <v-icon color="#F44336">
               {{ mdiPlay }}
             </v-icon>
@@ -78,7 +88,10 @@
       </v-sheet>
     </div>
     <div class="list-songs">
-      <v-list dense two-line>
+      <v-list
+        dense
+        two-line
+      >
         <v-list-item-group>
           <song-bar
             v-for="song in list.tracks"

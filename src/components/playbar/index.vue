@@ -41,7 +41,10 @@
                 absolute
               >
                 <v-card-actions>
-                  <v-btn icon @click="showLyricsPage = !showLyricsPage">
+                  <v-btn
+                    icon
+                    @click="showLyricsPage = !showLyricsPage"
+                  >
                     <v-icon color="pink">
                       {{ icon.mdiArrowExpand }}
                     </v-icon>
@@ -97,7 +100,10 @@
               elevation="0"
               @click="playPause"
             >
-              <v-icon :color="playingState.color" large>
+              <v-icon
+                :color="playingState.color"
+                large
+              >
                 {{ playing ? icon.mdiPause : icon.mdiPlay }}
               </v-icon>
             </v-btn>
@@ -119,9 +125,9 @@
             </v-icon>
           </v-btn>
         </div>
-<!--        <span class="time-info text-caption">-->
-<!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
-<!--        </span>-->
+        <!--        <span class="time-info text-caption">-->
+        <!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
+        <!--        </span>-->
       </div>
       <div
         class="playing-bar__right"
