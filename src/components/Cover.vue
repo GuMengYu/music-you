@@ -24,6 +24,7 @@
           <v-overlay
             :value="hover"
             absolute
+            opacity="0"
           >
             <v-card-actions class="cover-actions">
               <v-progress-circular
@@ -146,7 +147,7 @@ export default {
   methods: {
     async play() {
       this.loading = true;
-      const {playlist} = await getPlayList('119215665');
+      const {playlist} = await getPlayList(this.data.id);
       await this.$store.dispatch('music/updatePlayingList', playlist.tracks);
       await this.$store.dispatch('music/updateTrack', playlist.tracks?.[0]?.id);
       this.loading = false;

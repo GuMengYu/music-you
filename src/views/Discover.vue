@@ -44,26 +44,10 @@
         />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <div class="title my-5">
-          <div class="text-caption grey--text text--lighten-1">
-            may be you like it
-          </div>
-          <div class="text-h6">
-            {{ $t('main.recommend_artist') }}
-          </div>
-        </div>
-        <CoverList
-          :list="artists"
-          type="artist"
-        />
-      </v-col>
-    </v-row>
   </v-sheet>
 </template>
 <script>
-import {topArtists, getPersonalized, getNewRelease, getDailyRecommend} from '@util/musicService';
+import {getPersonalized, getNewRelease, getDailyRecommend} from '@util/musicService';
 import NProgress from 'nprogress';
 import CoverList from '@components/CoverList'
 import WideCover from '@components/WideCover';
@@ -78,7 +62,6 @@ export default {
   },
   data: () => ({
     playLists: [],
-    artists: [],
     release: {},
     dailySong: [],
   }),
@@ -94,12 +77,16 @@ export default {
   },
   async created() {
     NProgress.start();
-    const [playlists, artists, release, daily] = await Promise.all([getPersonalized(), topArtists(), getNewRelease(), getDailyRecommend()]);
-    this.playLists = playlists.result.slice(0, 6);
-    this.artists = artists.data;
-    this.release = release;
-    this.dailySong = daily.data?.dailySongs ?? [];
-    NProgress.done();
+    try {
+      const [playlists, release, daily] = await Promise.all([getPersonalized(), getNewRelease(), getDailyRecommend()]);
+      this.playLists = playlists.result.slice(0, 6);
+      this.release = release;
+      this.dailySong = daily.data?.dailySongs ?? [];
+    } catch(e) {
+      console.log(e);
+    } finally {
+      NProgress.done();
+    }
   },
 };
 </script>

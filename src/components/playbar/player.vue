@@ -1,5 +1,5 @@
 <script>
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 import {sync} from 'vuex-pathify';
 import {throttle} from '@util/fn'
 
@@ -18,8 +18,7 @@ export default {
   },
   watch: {
     'track'(val){
-      this.initMediaSession();
-      this.howler = this.initHowler(val.url);
+      this.init(val.url);
       console.log('song changed');
     },
     volume(val) {
@@ -29,8 +28,7 @@ export default {
   mounted() {
     this.progressThrottle = throttle(this.runProgress, 1000);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
-    this.initMediaSession();
-    this.howler = this.initHowler(this.track.url);
+    this.init(this.track.url);
   },
   methods: {
     initHowler(src) {
@@ -56,11 +54,14 @@ export default {
           requestAnimationFrame(this.step);
         },
       });
+      sound.once('end', this.endCb);
       sound.seek(this.currentTime);
       return sound;
     },
-    init() {
-      Howler.volume(this.volume);
+    init(url) {
+      this.initMediaSession();
+      this.howler = this.initHowler(url);
+      this.howler.volume(this.volume);
     },
     pause() {
       this.howler?.pause();
@@ -83,7 +84,11 @@ export default {
       this.pauseProgress = true;
     },
     restoreTimer() {
-      this.pauseProgress = true;
+      this.pauseProgress = false;
+    },
+    endCb() {
+      // todo update 听歌记录
+      this.playNext();
     },
     initMediaSession() {
       // https://developers.google.com/web/updates/2017/02/media-session
@@ -97,12 +102,12 @@ export default {
             { src: this.albumPicUrl, sizes: '512x512', type: 'image/png' },
           ],
         });
-        // [
-        //   ['play', this.playPause],
-        //   ['pause', this.playPause],
-        //   ['previoustrack', this.playPrev],
-        //   ['nexttrack', this.playNext],
-        // ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
+        [
+          ['play', this.playPause],
+          ['pause', this.playPause],
+          ['previoustrack', this.playPrev],
+          ['nexttrack', this.playNext],
+        ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
       }
     },
     saveCurrentTime() {

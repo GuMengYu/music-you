@@ -61,7 +61,7 @@ export const runMusicApi = () => {
         req.body,
         req.files,
       )
-
+      console.log(query);
       fn(query, request)
         .then((answer) => {
           console.log('[OK]', decodeURIComponent(req.originalUrl))

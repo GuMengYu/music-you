@@ -1,6 +1,6 @@
 // Utilities
 import { make } from 'vuex-pathify'
-
+import Cookie from 'js-cookie';
 
 const state = () => {
   let data = JSON.parse(localStorage.getItem('settings')) || {};
@@ -33,7 +33,12 @@ const actions = {
   },
 }
 
-const getters = {}
+const getters = {
+  logged: state => {
+    const music_u = Cookie.get('MUSIC_U');
+    return music_u && !!state.account.profile;
+  },
+}
 
 export default {
   namespaced: true,

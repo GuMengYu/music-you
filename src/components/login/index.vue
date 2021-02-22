@@ -16,8 +16,8 @@
         <v-list-item class="mt-4">
           <default-input
             v-model="phone"
-            :icon="icon.mdiEmail"
-            holder="输入邮箱"
+            :icon="icon.mdiPhone"
+            holder="输入手机号"
           />
         </v-list-item>
         <v-list-item class="mt-4">
@@ -81,6 +81,7 @@ export default {
       login({
           phone: this.phone.replace(/\s/g, ''),
           md5_password: md5(this.password).toString(),
+          countrycode: '86',
         })
         .then(({code, profile, token}) => {
           if (code !== 502) {

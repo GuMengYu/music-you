@@ -26,8 +26,8 @@ export default {
       commit('playing', false);
       commit('currentTime', 0);
       const [song, lyric] = await Promise.all([getSongData([id]).then(res => res.songs?.[0] ?? {}), getLyric(id).then(result => {
-        const {lrc, uncollected} = result;
-        return uncollected ? [] : lrc.lyric?.split('\n').map(i => {
+        const {lrc, nolyric} = result;
+        return nolyric ? [] : lrc.lyric?.split('\n').map(i => {
           const [time, sentence] = i.split(']');
           return {time, sentence};
         });
