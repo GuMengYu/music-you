@@ -6,16 +6,20 @@
   >
     <v-img
       :aspect-ratio="16/9"
-      :src="album.blurPicUrl | sizeOfImage"
+      :src="picUrl | sizeOfImage"
       lazy-src="@/assets/default-cover.jpeg"
       class="align-end pa-2"
     >
       <div class="align-self-center">
         <v-card-subtitle class="py-0">
-          {{ album.name }}
+          <router-link :to="`/artist/${artist.id}`" class="text-decoration-none">
+            {{ artist.name }}
+          </router-link>
         </v-card-subtitle>
         <v-card-title class="font-weight-bold py-0">
-          {{ cover.name }}
+          <router-link :to="`/playlist/${cover.id}`" class="text-decoration-none">
+            {{ cover.name }}
+          </router-link>
         </v-card-title>
       </div>
       <v-card-actions>
@@ -26,12 +30,10 @@
           class="now-playing text-caption font-weight-bold mr-2"
           @click="play"
         >
-          <v-icon
-            small
-            class="mr-2"
-          >
-            {{ icon.mdiPlay }}
-          </v-icon>
+          <font-awesome-icon
+            icon="play"
+            class="mx-2"
+          />
           {{ $t('main.now_playing') }}
         </v-btn>
         <v-btn
@@ -66,8 +68,11 @@ export default {
     icon: {mdiPlay, mdiHeartOutline},
   }),
   computed: {
-    album() {
-      return this.cover?.album ?? {}
+    picUrl() {
+      return this.cover.picUrl ?? '';
+    },
+    artist() {
+      return this.cover.artist ?? {};
     },
   },
   methods: {

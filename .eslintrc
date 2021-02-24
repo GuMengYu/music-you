@@ -2,7 +2,8 @@
     "rules": {
         "comma-dangle":["error", "always-multiline"],
         "quotes": ["error", "single"],
-        "no-alert": "error"
+        "no-alert": "error",
+        "no-unused-vars": "warn"
     },
     "extends": [
         "eslint:recommended",

@@ -57,9 +57,16 @@ export const getTopPlaylist = (param = {limit:20, cat: '全部', offset: 0}) => 
 /**
  * 获取新歌
  */
-export const getNewRelease = () => xhr.get('/personalized/newsong').then(res => {
-  return res.result?.[0];
-});
+export const getNewRelease = () => xhr.get('/personalized/newsong');
+
+/**
+ * 新专辑
+ */
+export const newAlbums = (params) => {
+  return xhr.get('/album/new', {
+    params,
+  });
+}
 
 /**
  * 获取新歌

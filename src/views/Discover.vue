@@ -10,23 +10,25 @@
         <WideCover
           :cover="release"
         />
-        <div class="title my-5">
-          <div class="text-caption grey--text text--lighten-1">
-            {{ $dayjs().format('MM/DD') }}
+        <div v-if="dailySong.length">
+          <div class="title my-5">
+            <div class="text-caption grey--text text--lighten-1">
+              {{ $dayjs().format('MM/DD') }}
+            </div>
+            <div class="text-h6">
+              {{ $t('main.nav.daily') }}
+            </div>
           </div>
-          <div class="text-h6">
-            {{ $t('main.nav.daily') }}
-          </div>
+          <default-list
+            :items="dailySong"
+            two-line
+            class="daily-song overflow-y-auto pa-0"
+          >
+            <template #item="{ index, item }">
+              <SongBar :song="item" />
+            </template>
+          </default-list>
         </div>
-        <default-list
-          :items="dailySong"
-          two-line
-          class="daily-song overflow-y-auto pa-0"
-        >
-          <template #item="{ index, item }">
-            <SongBar :song="item" />
-          </template>
-        </default-list>
       </v-col>
       <v-col cols="5">
         <div class="title mb-5">
@@ -47,12 +49,13 @@
   </v-sheet>
 </template>
 <script>
-import {getPersonalized, getNewRelease, getDailyRecommend} from '@util/musicService';
-import NProgress from 'nprogress';
+import {getPersonalized, newAlbums, getDailyRecommend} from '@util/musicService';
+import NProgress from 'nprogress'
 import CoverList from '@components/CoverList'
-import WideCover from '@components/WideCover';
+import WideCover from '@components/WideCover'
 import SongBar from '@components/songbar/index'
 import defaultList from '@components/List'
+import {mapGetters} from 'vuex'
 export default {
   components: {
     SongBar,
@@ -74,14 +77,20 @@ export default {
         this.$store.dispatch('music/updateTrack', val);
       },
     },
+    ...mapGetters({
+      logged: 'settings/logged',
+    }),
   },
   async created() {
     NProgress.start();
     try {
-      const [playlists, release, daily] = await Promise.all([getPersonalized(), getNewRelease(), getDailyRecommend()]);
+      if (this.logged) {
+        const { data } = await getDailyRecommend();
+        this.dailySong = data?.dailySongs ?? [];
+      }
+      const [playlists, { albums }] = await Promise.all([getPersonalized(), newAlbums({limit: 1, area: 'EA'})]);
       this.playLists = playlists.result.slice(0, 6);
-      this.release = release;
-      this.dailySong = daily.data?.dailySongs ?? [];
+      this.release = albums?.[0];
     } catch(e) {
       console.log(e);
     } finally {

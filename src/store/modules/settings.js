@@ -2,6 +2,7 @@
 import { make } from 'vuex-pathify'
 import Cookie from 'js-cookie';
 
+const NETEASEFLAG = 'MUSIC_U';
 const state = () => {
   let data = JSON.parse(localStorage.getItem('settings')) || {};
 
@@ -31,11 +32,15 @@ const actions = {
   updateAccount ({commit}, account) {
     commit('account', account);
   },
+  signOut({commit}) {
+    commit('account', {});
+    Cookie.remove(NETEASEFLAG);
+  },
 }
 
 const getters = {
   logged: state => {
-    const music_u = Cookie.get('MUSIC_U');
+    const music_u = Cookie.get(NETEASEFLAG);
     return music_u && !!state.account.profile;
   },
 }

@@ -29,6 +29,14 @@
               {{ dark ? icon.mdiBrightness1 : icon.mdiBrightness2 }}
             </v-icon>
           </v-btn>
+          <v-btn
+            icon
+            @click="reload()"
+          >
+            <v-icon small>
+              {{ icon.mdiReload }}
+            </v-icon>
+          </v-btn>
         </div>
         <div>
           <v-btn
@@ -52,13 +60,13 @@
     </template>
     <default-list
       :items="nav"
-      class="px-4"
+      class="pl-4 nav_list"
     />
   </v-navigation-drawer>
 </template>
 
 <script>
-import {mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
+import {mdiReload, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
 import DefaultList from '@components/List';
 import { sync } from 'vuex-pathify';
 export default {
@@ -67,7 +75,7 @@ export default {
   data: function(){
     const _t = key => this.$i18n.t(`main.nav.${key}`);
     return {
-      icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify},
+      icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify, mdiReload},
       nav: [
         { title: _t('music'), heading: 'Music' },
         { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
@@ -114,6 +122,11 @@ export default {
       return this.$vuetify.theme.dark;
     },
   },
+  methods: {
+    reload() {
+      location.reload();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -138,9 +151,9 @@ export default {
   .v-list-item {
     min-height: 32px !important;
   }
-  .logo {
-    ::v-deep .v-image {
-      margin: auto;
+  .nav_list {
+    ::v-deep .v-list-item--active {
+      border-right: 4px solid;
     }
   }
 }

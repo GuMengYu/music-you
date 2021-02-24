@@ -201,8 +201,8 @@ export default {
     },
   },
   watch: {
-    id(val) {
-      console.log(val);
+    id() {
+      this.load();
     },
   },
   created () {

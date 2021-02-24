@@ -81,17 +81,13 @@
             text
             class="ml-8"
           >
-            <v-icon small>
-              {{ icon.mdiHeart }}
-            </v-icon>
+            <font-awesome-icon icon="heart" />
           </v-btn>
           <v-btn
             icon
             @click="playPrev"
           >
-            <v-icon>
-              {{ icon.mdiSkipPrevious }}
-            </v-icon>
+            <font-awesome-icon icon="backward" />
           </v-btn>
           <v-fab-transition>
             <v-btn
@@ -100,21 +96,19 @@
               elevation="0"
               @click="playPause"
             >
-              <v-icon
-                :color="playingState.color"
-                large
-              >
-                {{ playing ? icon.mdiPause : icon.mdiPlay }}
-              </v-icon>
+              <font-awesome-icon
+                :icon="playing ? 'pause' : 'play'"
+                size="lg"
+              />
             </v-btn>
           </v-fab-transition>
           <v-btn
             icon
             @click="playNext"
           >
-            <v-icon>
-              {{ icon.mdiSkipNext }}
-            </v-icon>
+            <font-awesome-icon
+              icon="forward"
+            />
           </v-btn>
           <v-btn
             icon
@@ -175,11 +169,11 @@ import {
   mdiPlay,
   mdiPause,
   mdiRepeat,
-  mdiVolumeHigh,
   mdiPlaylistMusic,
   mdiVolumeMute,
   mdiVolumeMedium,
   mdiVolumeLow,
+  mdiVolumeHigh,
   mdiReorderHorizontal,
   mdiRepeatOnce,
   mdiMusicNoteOffOutline,
@@ -228,9 +222,9 @@ export default {
     volumeIconState() {
       if (this.volume === 0) {
         return mdiVolumeMute;
-      } else if (this.volume > 0 && this.volume <= 0.4) {
+      } else if (this.volume > 0 && this.volume <= 0.3) {
         return mdiVolumeLow;
-      } else if (this.volume > 0.4 && this.volume <= 0.7) {
+      } else if (this.volume > 0.3 && this.volume <= 0.6) {
         return mdiVolumeMedium;
       } else {
         return mdiVolumeHigh;

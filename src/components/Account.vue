@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="profile.userId">
+    <div v-if="logged">
       <v-avatar size="30">
         <v-img :src="profile.avatarUrl" />
       </v-avatar>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { sync } from 'vuex-pathify'
+import { sync, get, dispatch } from 'vuex-pathify'
 import {mdiChevronDown, mdiLogin} from '@mdi/js';
 import AppMenu from '@components/./Menu';
 export default {
@@ -77,25 +77,23 @@ export default {
     }
   },
   computed: {
-    account: sync('settings/account'),
+    profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
-    profile() {
-      return this.account?.profile ?? {}
-    },
+    logged: vm => vm.$store.getters['settings/logged'],
   },
   methods: {
     dispatch(type) {
       switch (type) {
       case 'sign_out':
-        this.account = {}
+        this.signOut();
         break;
       case 'center':
         console.log('go center');
         break;
       }
     },
-    signIn() {
-      this.showLogin = true;
+    signOut() {
+      dispatch('settings/signOut');
     },
   },
 }
