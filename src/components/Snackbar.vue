@@ -1,8 +1,8 @@
 <template>
   <v-snackbar
     v-model="value"
-    :color="snackbar.color"
-    :timeout="-1"
+    :color="snackbar.color || 'primary'"
+    :timeout="snackbar.timeout"
     top
   >
     <div class="d-flex">
@@ -22,7 +22,7 @@
       <v-btn
         class="mr-2"
         text
-        v-bind="{ ...bind, ...attrs }"
+        v-bind="{...attrs }"
         @click="value = false"
       >
         {{ snackbar.action_text }}
@@ -53,13 +53,13 @@
         'snackbar',
         'value',
       ]),
-      bind () {
-        const { action: href } = this.snackbar
-
-        return href.startsWith('http')
-          ? { href, target: '_blank', rel: 'noopener' }
-          : { to: href }
-      },
+      // bind () {
+      //   const { action: href } = this.snackbar
+      //
+      //   return href.startsWith('http')
+      //     ? { href, target: '_blank', rel: 'noopener' }
+      //     : { to: href }
+      // },
     },
   }
 </script>

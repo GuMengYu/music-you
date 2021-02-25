@@ -40,9 +40,7 @@
                   :class="{'hover-btn': hover}"
                   @click="play"
                 >
-                  <v-icon>
-                    {{ icon.mdiPlay }}
-                  </v-icon>
+                  <font-awesome-icon icon="play" />
                 </v-btn>
               </v-progress-circular>
               <v-btn
@@ -80,7 +78,7 @@
 
 <script>
 import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
-import { getPlayList } from '@util/musicService';
+import { getPlayList } from '@/api';
 import * as Vibrant from 'node-vibrant'
 import {sizeOfImage} from '@util/fn';
 export default {

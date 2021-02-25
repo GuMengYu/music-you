@@ -80,7 +80,7 @@
   </v-sheet>
 </template>
 <script>
-import { getToplist } from '@util/musicService';
+import { getToplist } from '@/api';
 import Cover from '@components/Cover'
 export default {
   name: 'DefaultLeaderBoard',

@@ -4,7 +4,7 @@
       <div class="d-flex list mr-10">
         <v-hover v-slot="{ hover }">
           <v-card
-            :img="list.coverImgUrl"
+            :img="list.coverImgUrl || list.picUrl"
             min-width="250"
             min-height="250"
             max-width="250"
@@ -27,12 +27,10 @@
                     width="50"
                     height="50"
                   >
-                    <v-icon
-                      large
-                      color="white"
-                    >
-                      {{ mdiPlay }}
-                    </v-icon>
+                    <font-awesome-icon
+                      icon="play"
+                      size="lg"
+                    />
                   </v-btn>
                 </v-card-actions>
               </v-overlay>
@@ -60,7 +58,7 @@
             last update {{ $dayjs(list.updateTime).format('YYYY-MM-DD') }} · {{ list.trackCount }} · songs
           </div>
           <div class="description text-body-1 mt-2">
-            <p>
+            <p class="h-3x">
               {{ list.description }}
             </p>
           </div>
@@ -70,9 +68,10 @@
             elevation="0"
             class="red--text mr-4"
           >
-            <v-icon color="#F44336">
-              {{ mdiPlay }}
-            </v-icon>
+            <font-awesome-icon
+              icon="play"
+              class="mx-2"
+            />
             播放
           </v-btn>
           <v-btn
@@ -81,7 +80,7 @@
             class="list-delete-button"
           >
             <v-icon>
-              {{ mdiDotsHorizontal }}
+              {{ icon.mdiDotsHorizontal }}
             </v-icon>
           </v-btn>
         </div>
@@ -105,7 +104,7 @@
 </template>
 <script>
 import {mdiPlay, mdiMusicNoteOffOutline, mdiDotsHorizontal} from '@mdi/js';
-import {getPlayList} from '@util/musicService';
+import {getPlayList, getAlbum} from '@/api';
 import SongBar from '@components/songbar';
 export default {
   name: 'List',
@@ -122,17 +121,22 @@ export default {
   },
   data() {
     return {
-      mdiPlay,
-      mdiMusicNoteOffOutline,
-      mdiDotsHorizontal,
+      icon: {
+        mdiPlay,
+        mdiMusicNoteOffOutline,
+        mdiDotsHorizontal,
+      },
       list: {
         tracks: [],
         songs: [],
-        coverImgUrl: 'http://p2.music.126.net/Vh9yL2-fN1cuqEsKZkum0w==/1402976853093659.jpg',
+        coverImgUrl: '',
         name: '',
         description: '',
       },
     }
+  },
+  computed: {
+    service: vm => vm.type === 'album' ? getAlbum : getPlayList,
   },
   watch: {
     id() {
@@ -143,10 +147,14 @@ export default {
     this.fetch();
   },
   methods: {
-    fetch() {
-      getPlayList(this.id).then(({playlist}) => {
-        this.list = {...playlist};
-      });
+    async fetch() {
+      const { album, songs, playlist} = await this.service(this.id);
+      if (this.type === 'album') {
+        this.list = album;
+        this.list.tracks = songs;
+      } else {
+        this.list = playlist;
+      }
     },
   },
 }

@@ -1,166 +1,179 @@
 <template>
-  <v-footer
-    fixed
-    padless
-    class="playing-bar"
-    elevation="1"
-  >
-    <div class="playing-slider">
-      <v-slider
-        v-model="currentTime"
-        class="playing-progress"
-        dense
-        hide-details
-        :max="track.dt / 1000"
-        min="0"
-        track-color="rgb(128, 128, 128, .2)"
-        @start="handleChangeTimeStart"
-        @change="handleSlideChange"
-      >
-        <template v-slot:thumb-label="{ value }">
-          {{ value * 1000 | formatDuring }}
-        </template>
-      </v-slider>
-    </div>
-    <div class="playing-control">
-      <div
-        class="playing-bar__left"
-      >
-        <v-hover v-slot="{ hover }">
-          <v-card
-            class="playing-cover-card ma-1"
-            :img="albumPicUrl"
-            max-height="40"
-            max-width="40"
-            min-width="40"
-            min-height="40"
-          >
-            <v-fade-transition>
-              <v-overlay
-                :value="hover"
-                absolute
-              >
-                <v-card-actions>
-                  <v-btn
-                    icon
-                    @click="showLyricsPage = !showLyricsPage"
-                  >
-                    <v-icon color="pink">
-                      {{ icon.mdiArrowExpand }}
-                    </v-icon>
-                  </v-btn>
-                </v-card-actions>
-              </v-overlay>
-            </v-fade-transition>
-          </v-card>
-        </v-hover>
-        <div class="song-info mx-2">
-          <router-link to="">
-            <span
-              class="song-name text--primary h-1x text-subtitle-2"
-            >
-              {{ track.name }}
-            </span>
-          </router-link>
-          <span class="text--disabled mx-2">-</span>
-          <router-link to="">
-            <span
-              class="artist-name h-1x text-caption text--disabled  font-weight-bold"
-            >
-              {{ $$(track, 'ar', '0', 'name') }}
-            </span>
-          </router-link>
-        </div>
+  <v-expand-transition>
+    <v-footer
+      v-if="track.url"
+      fixed
+      padless
+      class="playing-bar"
+    >
+      <div class="playing-slider">
+        <v-slider
+          v-model="currentTime"
+          class="playing-progress"
+          dense
+          hide-details
+          :max="track.dt / 1000"
+          min="0"
+          track-color="rgb(128, 128, 128, .2)"
+          @start="handleChangeTimeStart"
+          @change="handleSlideChange"
+        >
+          <template v-slot:thumb-label="{ value }">
+            {{ value * 1000 | formatDuring }}
+          </template>
+        </v-slider>
       </div>
-      <div
-        class="playing-bar__center"
-      >
-        <div class="playing-control-buttons">
+      <div class="playing-control">
+        <div
+          class="playing-bar__left"
+        >
+          <v-hover v-slot="{ hover }">
+            <v-card
+              class="playing-cover-card"
+              :img="albumPicUrl | sizeOfImage(128)"
+              max-height="40"
+              max-width="40"
+              min-width="40"
+              min-height="40"
+              :loading="loading"
+            >
+              <template slot="progress">
+                <v-progress-circular
+                  color="primary"
+                  indeterminate
+                  size="40"
+                />
+              </template>
+              <v-fade-transition>
+                <v-overlay
+                  :value="hover"
+                  absolute
+                >
+                  <v-card-actions>
+                    <v-btn
+                      icon
+                      @click="showLyricsPage = !showLyricsPage"
+                    >
+                      <v-icon color="pink">
+                        {{ icon.mdiArrowExpand }}
+                      </v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-overlay>
+              </v-fade-transition>
+            </v-card>
+          </v-hover>
+          <div class="song-info mx-2">
+            <router-link to="">
+              <span
+                class="song-name text--primary h-1x text-subtitle-2"
+              >
+                {{ track.name }}
+              </span>
+            </router-link>
+            <span class="text--disabled mx-2">-</span>
+            <router-link to="">
+              <span
+                class="artist-name h-1x text-caption text--disabled  font-weight-bold"
+              >
+                {{ $$(track, 'ar', '0', 'name') }}
+              </span>
+            </router-link>
+          </div>
+        </div>
+        <div
+          class="playing-bar__center"
+        >
+          <div class="playing-control-buttons">
+            <v-btn
+              icon
+              text
+              class="ml-8"
+            >
+              <font-awesome-icon icon="heart" />
+            </v-btn>
+            <v-btn
+              icon
+              @click="playPrev"
+            >
+              <font-awesome-icon icon="backward" />
+            </v-btn>
+            <v-fab-transition>
+              <v-btn
+                :key="playingState.icon"
+                icon
+                elevation="0"
+                @click="playPause"
+              >
+                <div :style="`color: ${playingState.color};`">
+                  <font-awesome-icon
+                    :icon="playingState.icon"
+                    size="lg"
+                  />
+                </div>
+              </v-btn>
+            </v-fab-transition>
+            <v-btn
+              icon
+              @click="playNext"
+            >
+              <font-awesome-icon
+                icon="forward"
+              />
+            </v-btn>
+            <v-btn
+              icon
+              @click="playOrder"
+            >
+              <v-icon small>
+                {{ orderIconState }}
+              </v-icon>
+            </v-btn>
+          </div>
+          <!--        <span class="time-info text-caption">-->
+          <!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
+          <!--        </span>-->
+        </div>
+        <div
+          class="playing-bar__right"
+        >
+          <div class="volume-bar d-flex align-center">
+            <v-btn
+              icon
+              @click="toggleVolume"
+            >
+              <v-icon small>
+                {{ volumeIconState }}
+              </v-icon>
+            </v-btn>
+            <v-slider
+              v-model="volume"
+              class="playing-volume"
+              dense
+              hide-details
+              :max="1"
+              min="0"
+              step="0.01"
+            />
+          </div>
           <v-btn
             icon
             text
-            class="ml-8"
-          >
-            <font-awesome-icon icon="heart" />
-          </v-btn>
-          <v-btn
-            icon
-            @click="playPrev"
-          >
-            <font-awesome-icon icon="backward" />
-          </v-btn>
-          <v-fab-transition>
-            <v-btn
-              :key="playingState.icon"
-              icon
-              elevation="0"
-              @click="playPause"
-            >
-              <font-awesome-icon
-                :icon="playing ? 'pause' : 'play'"
-                size="lg"
-              />
-            </v-btn>
-          </v-fab-transition>
-          <v-btn
-            icon
-            @click="playNext"
-          >
-            <font-awesome-icon
-              icon="forward"
-            />
-          </v-btn>
-          <v-btn
-            icon
-            @click="playOrder"
+            @click="showList = !showList"
           >
             <v-icon small>
-              {{ orderIconState }}
+              {{ icon.mdiPlaylistMusic }}
             </v-icon>
           </v-btn>
         </div>
-        <!--        <span class="time-info text-caption">-->
-        <!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
-        <!--        </span>-->
       </div>
-      <div
-        class="playing-bar__right"
-      >
-        <div class="volume-bar d-flex align-center">
-          <v-btn
-            icon
-            @click="toggleVolume"
-          >
-            <v-icon small>
-              {{ volumeIconState }}
-            </v-icon>
-          </v-btn>
-          <v-slider
-            v-model="volume"
-            class="playing-volume"
-            dense
-            hide-details
-            :max="1"
-            min="0"
-            step="0.01"
-          />
-        </div>
-        <v-btn
-          icon
-          text
-          @click="showList = !showList"
-        >
-          <v-icon small>
-            {{ icon.mdiPlaylistMusic }}
-          </v-icon>
-        </v-btn>
-      </div>
-    </div>
-  </v-footer>
+    </v-footer>
+  </v-expand-transition>
 </template>
 
 <script>
 import {sync, get} from 'vuex-pathify';
+import {mapGetters} from 'vuex';
 import {
   mdiHeart,
   mdiHeartOutline,
@@ -168,15 +181,14 @@ import {
   mdiSkipNext,
   mdiPlay,
   mdiPause,
-  mdiRepeat,
   mdiPlaylistMusic,
   mdiVolumeMute,
   mdiVolumeMedium,
   mdiVolumeLow,
   mdiVolumeHigh,
-  mdiReorderHorizontal,
+  mdiRepeat,
+  mdiRepeatOff,
   mdiRepeatOnce,
-  mdiMusicNoteOffOutline,
   mdiArrowExpand,
 } from '@mdi/js';
 
@@ -202,7 +214,7 @@ export default {
       mdiArrowExpand,
     },
     prevVolume: 1,
-    playMode: PLAY_MODE.ORDER,
+    loading: false,
   }),
   computed: {
     track: get('music/track'),
@@ -210,15 +222,11 @@ export default {
     playing: get('music/playing'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
-    songIndex() {
-      return this.playingList.findIndex(track => track.id === this.track.id);
-    },
-    next() {
-      return this.playingList[(this.songIndex + 1) === this.playingList.length ? 0 : this.songIndex + 1];
-    },
-    prev() {
-      return this.playingList[this.songIndex  === 0 ? (this.playingList.length - 1) : this.songIndex - 1];
-    },
+    mode: sync('music/mode'),
+    ...mapGetters({
+      next: 'music/nextTrackId',
+      prev: 'music/prevTrackId',
+    }),
     volumeIconState() {
       if (this.volume === 0) {
         return mdiVolumeMute;
@@ -232,17 +240,16 @@ export default {
     },
     orderIconState() {
       return ({
-        [PLAY_MODE.ORDER] : mdiReorderHorizontal,
+        [PLAY_MODE.ORDER] : mdiRepeatOff,
         [PLAY_MODE.CYCLE] : mdiRepeat,
         [PLAY_MODE.SINGLE_CYCLE] : mdiRepeatOnce,
-        [PLAY_MODE.RANDOM] : mdiMusicNoteOffOutline,
-      })[this.playMode];
+      })[this.mode];
     },
     playingState () {
-      return this.playing ? { color: 'accent', icon: mdiPause } : { color: 'primary', icon: mdiPlay };
+      return this.playing ? { color: 'var(--v-accent-base)', icon: 'pause' } : { color: 'var(--v-primary-base)', icon: 'play' };
     },
     albumPicUrl() {
-      return this.track.al ? `${this.track.al?.picUrl}?param=200y200` : '';
+      return this.track?.al?.picUrl ?? '';
     },
   },
   watch: {
@@ -262,20 +269,10 @@ export default {
       this.$store.commit('music/UPDATE_PLAYER', {playing: !this.playing});
     },
     playNext() {
-      let id = this.next.id;
-      const len = this.playingList.length;
-      if (this.playMode === PLAY_MODE.RANDOM) {
-        id = this.playingList[Math.floor(Math.random() * len)]?.id;
-      } else if (this.playMode === PLAY_MODE.SINGLE_CYCLE) {
-        this.rePlay();
-      } else if (this.playMode === PLAY_MODE.ORDER && this.songIndex === len - 1) {
-        this.$store.commit('music/UPDATE_PLAYER', {currentTime: 0, playing: false});
-      } else {
-        this.$store.dispatch('music/updateTrack', id);
-      }
+      this.$store.dispatch('music/updateTrack', this.next);
     },
     playPrev() {
-      this.$store.dispatch('music/updateTrack', this.prev.id);
+      this.$store.dispatch('music/updateTrack', this.prev);
     },
     rePlay() {
       this.handleSlideChange(0);
@@ -299,7 +296,7 @@ export default {
       }
     },
     playOrder() {
-      this.playMode < 3 ? this.playMode++ : (this.playMode = 0);
+      this.mode < 2 ? this.mode++ : (this.mode = 0);
     },
   },
 };
@@ -315,7 +312,6 @@ export default {
 }
 .playing-bar {
   backdrop-filter: blur(50px);
-  z-index: 999;
   -webkit-app-region: drag;
   .playing-control {
     width: 100%;

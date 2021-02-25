@@ -1,4 +1,4 @@
-import { musicXhr as xhr } from './xhr';
+import { musicXhr as xhr } from '@/util/xhr';
 
 /**
  * 登录
@@ -39,6 +39,14 @@ export const getSongUrl = id => xhr.get(`/song/url?id=${id}`);
  * 根据歌单id返回歌单详细信息
  */
 export const getPlayList = id => xhr.get(`/playlist/detail?id=${id}`);
+
+/**
+ * 获取专辑详情
+ * @param id
+ * 根据歌单id返回歌单详细信息
+ */
+export const getAlbum = id => xhr.get('/album', {params: {id}});
+
 /**
  * 获取推荐歌单列表
  * 根据歌单id返回歌单详细信息

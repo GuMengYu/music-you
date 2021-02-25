@@ -55,7 +55,7 @@
 import {sync} from 'vuex-pathify';
 import {mdiLock, mdiEmail, mdiPhone, mdiSwitch} from '@mdi/js';
 import DefaultInput from '@components/Input'
-import {login} from '@/util/musicService';
+import {login} from '@/api';
 import md5 from 'md5';
 export default {
   name: 'DefaultLogin',

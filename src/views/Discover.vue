@@ -49,7 +49,7 @@
   </v-sheet>
 </template>
 <script>
-import {getPersonalized, newAlbums, getDailyRecommend} from '@util/musicService';
+import {getPersonalized, newAlbums, getDailyRecommend} from '@/api';
 import NProgress from 'nprogress'
 import CoverList from '@components/CoverList'
 import WideCover from '@components/WideCover'

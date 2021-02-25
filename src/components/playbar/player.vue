@@ -17,9 +17,11 @@ export default {
     currentTime: sync('music/currentTime'),
   },
   watch: {
-    'track'(val){
-      this.init(val.url);
-      console.log('song changed');
+    'track'(newTrack, oldTrack){
+      if (newTrack.id !== oldTrack.id) {
+        this.init(newTrack.url);
+        console.log('song changed');
+      }
     },
     volume(val) {
       this.howler.volume(val);
@@ -32,6 +34,7 @@ export default {
   },
   methods: {
     initHowler(src) {
+      this.loading = true;
       const sound = new Howl({
         src: [src],
         html5: true,
@@ -52,6 +55,13 @@ export default {
         onseek: () => {
           // Start updating the progress of the track.
           requestAnimationFrame(this.step);
+        },
+        onload: () => {
+          this.loading = false;
+        },
+        onloaderror: () => {
+          console.log('歌曲加载失败');
+          this.loading = false;
         },
       });
       sound.once('end', this.endCb);

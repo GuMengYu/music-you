@@ -43,9 +43,14 @@ const musicRoutes = [{
   component: lazyLoad('Daily'),
   meta: { keepAlive: true },
 }, {
-  path: 'list/:id',
-  alias: ['album/:id', 'playlist/:id'],
-  name: 'list',
+  path: 'album/:id',
+  name: 'album',
+  component: lazyLoad('List'),
+  props: route => ({id: route.params.id, type: route.matched[1]?.name}),
+  meta: { keepAlive: true },
+},{
+  path: 'playlist/:id',
+  name: 'playlist',
   component: lazyLoad('List'),
   props: route => ({id: route.params.id, type: route.matched[1]?.name}),
   meta: { keepAlive: true },

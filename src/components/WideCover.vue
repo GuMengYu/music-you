@@ -12,12 +12,18 @@
     >
       <div class="align-self-center">
         <v-card-subtitle class="py-0">
-          <router-link :to="`/artist/${artist.id}`" class="text-decoration-none">
+          <router-link
+            :to="`/artist/${artist.id}`"
+            class="text-decoration-none"
+          >
             {{ artist.name }}
           </router-link>
         </v-card-subtitle>
         <v-card-title class="font-weight-bold py-0">
-          <router-link :to="`/playlist/${cover.id}`" class="text-decoration-none">
+          <router-link
+            :to="`/playlist/${cover.id}`"
+            class="text-decoration-none"
+          >
             {{ cover.name }}
           </router-link>
         </v-card-title>
@@ -55,7 +61,7 @@
 </template>
 <script>
 import {mdiPlay, mdiHeartOutline} from '@mdi/js';
-
+import {getAlbum} from '@/api';
 export default {
   name: 'WideCover',
   props: {
@@ -77,7 +83,11 @@ export default {
   },
   methods: {
     fav() {},
-    play() {},
+    async play() {
+      const data = await getAlbum(this.cover.id);
+      console.log(data);
+      // dispatch('music/updateTrack', this.cover.song.id)
+    },
   },
 }
 </script>

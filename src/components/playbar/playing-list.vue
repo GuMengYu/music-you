@@ -31,7 +31,7 @@
         two-line
         nav
         max-height="70vh"
-        max-width="25vw"
+        width="25vw"
         class="overflow-y-auto"
       >
         <v-list-item-group

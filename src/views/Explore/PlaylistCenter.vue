@@ -58,7 +58,7 @@
   </v-sheet>
 </template>
 <script>
-import { getTopPlaylist } from '@util/musicService';
+import { getTopPlaylist } from '@/api';
 import Cover from '@components/Cover'
 export default {
   name: 'DefaultPlaylistCenter',
@@ -112,7 +112,7 @@ export default {
       this.fetch(val);
     },
     page() {
-      this.fetch()
+      this.fetch(this.cat)
     },
   },
   created () {

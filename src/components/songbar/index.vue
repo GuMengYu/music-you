@@ -1,7 +1,13 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-list-item :value="song.id" @click="noop">
-      <v-card class="mr-4">
+    <v-list-item
+      :value="song.id"
+      :data-id="song.id"
+      @click="noop"
+    >
+      <v-card
+        class="mr-4"
+      >
         <v-overlay
           :value="hover"
           absolute
@@ -10,11 +16,11 @@
             icon
             @click="play"
           >
-            <v-icon>{{ mdiPlay }}</v-icon>
+            <font-awesome-icon icon="play" />
           </v-btn>
         </v-overlay>
         <v-img
-          :src="$$(song, 'al', 'picUrl')| sizeOfImage(100)"
+          :src="$$(song, 'al', 'picUrl')| sizeOfImage(128)"
           max-height="40"
           max-width="40"
           class="rounded"
