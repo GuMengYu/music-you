@@ -1,114 +1,87 @@
 <template>
   <v-sheet class="list mt-2">
-    <div class="d-flex ma-0 mb-8 ml-4">
-      <div class="d-flex list mr-10">
-        <v-hover v-slot="{ hover }">
-          <v-card
-            :img="list.coverImgUrl || list.picUrl"
-            min-width="250"
-            min-height="250"
-            max-width="250"
-            max-height="250"
-            rounded
-            elevation="0"
-            class="d-flex align-end justify-end cover"
-          >
-            <v-fade-transition>
-              <v-overlay
-                :value="hover"
-                absolute
+    <v-row>
+      <v-col cols="4">
+        <Cover
+          :data="list"
+          :no-info="true"
+        />
+      </v-col>
+      <v-col cols="8">
+        <v-sheet>
+          <div class="list-desc">
+            <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
+              {{ list.name }}
+            </h6>
+            <div class="artist text-body-1 mt-2">
+              Playlist by
+              <router-link
+                :to="`/artists/${$$(list,'creator', 'id')}`"
+                class="text-decoration-none"
               >
-                <v-card-actions>
-                  <v-btn
-                    elevation="0"
-                    fab
-                    color="pink"
-                    class="play-fab"
-                    width="50"
-                    height="50"
-                  >
-                    <font-awesome-icon
-                      icon="play"
-                      size="lg"
-                    />
-                  </v-btn>
-                </v-card-actions>
-              </v-overlay>
-            </v-fade-transition>
-          </v-card>
-        </v-hover>
-      </div>
-      <v-sheet class="d-flex flex-column justify-space-between">
-        <div class="list-desc">
-          <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
-            {{ list.name }}
-          </h6>
-          <div class="artist text-body-1 mt-2">
-            Playlist by
-            <router-link
-              :to="`/artists/${$$(list,'creator', 'id')}`"
-              class="text-decoration-none"
+                <span class="text--primary">
+                  {{ $$(list,'creator', 'nickname') }}
+                </span>
+              </router-link>
+            </div>
+            <div class="date-and-count text-body-2">
+              last update {{ $dayjs(list.updateTime).format('YYYY-MM-DD') }} · {{ list.trackCount }} · songs
+            </div>
+            <div class="description text-body-1 mt-2">
+              <p class="h-3x">
+                {{ list.description }}
+              </p>
+            </div>
+          </div>
+          <div class="list-action">
+            <v-btn
+              elevation="0"
+              class="red--text mr-4"
             >
-              <span class="text--primary">
-                {{ $$(list,'creator', 'nickname') }}
-              </span>
-            </router-link>
+              <font-awesome-icon
+                icon="play"
+                class="mx-2"
+              />
+              播放
+            </v-btn>
+            <v-btn
+              icon
+              color="#F44336"
+              class="list-delete-button"
+            >
+              <v-icon>
+                {{ icon.mdiDotsHorizontal }}
+              </v-icon>
+            </v-btn>
           </div>
-          <div class="date-and-count text-body-2">
-            last update {{ $dayjs(list.updateTime).format('YYYY-MM-DD') }} · {{ list.trackCount }} · songs
-          </div>
-          <div class="description text-body-1 mt-2">
-            <p class="h-3x">
-              {{ list.description }}
-            </p>
-          </div>
-        </div>
-        <div class="list-action">
-          <v-btn
-            elevation="0"
-            class="red--text mr-4"
-          >
-            <font-awesome-icon
-              icon="play"
-              class="mx-2"
+        </v-sheet>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <default-list
+          :items="list.tracks"
+          two-line
+        >
+          <template #item="{ index, item }">
+            <SongBar
+              :song="item"
             />
-            播放
-          </v-btn>
-          <v-btn
-            icon
-            color="#F44336"
-            class="list-delete-button"
-          >
-            <v-icon>
-              {{ icon.mdiDotsHorizontal }}
-            </v-icon>
-          </v-btn>
-        </div>
-      </v-sheet>
-    </div>
-    <div class="list-songs">
-      <v-list
-        dense
-        two-line
-      >
-        <v-list-item-group>
-          <song-bar
-            v-for="song in list.tracks"
-            :key="song.id"
-            :song="song"
-          />
-        </v-list-item-group>
-      </v-list>
-    </div>
+          </template>
+        </default-list>
+      </v-col>
+    </v-row>
   </v-sheet>
 </template>
 <script>
 import {mdiPlay, mdiMusicNoteOffOutline, mdiDotsHorizontal} from '@mdi/js';
 import {getPlayList, getAlbum} from '@/api';
 import SongBar from '@components/songbar';
+import Cover from '@components/Cover';
+import DefaultList from '@components/List';
 export default {
   name: 'List',
-  components: {SongBar},
+  components: {SongBar, Cover, DefaultList},
   props: {
     id: {
       type: String,

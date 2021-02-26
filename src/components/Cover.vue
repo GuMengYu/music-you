@@ -12,7 +12,7 @@
         <v-img
           :src="coverBgUrl"
           class="cover-img"
-          lazy-src="@/assets/default-cover.jpeg"
+          lazy-src="@/assets/default-cover.png"
         />
         <div
           v-show="hover || showShadow"
@@ -130,7 +130,7 @@ export default {
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 256)
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl)
     },
     // gradient() {
     //   return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
@@ -165,8 +165,8 @@ export default {
 @import "../scss/common";
 .cover-container {
   .cover-hover {
-    transition: .5s all ease;
-    transform: scale(1.025);
+    transition: .3s all ease-in-out;
+    transform: translateY(-1%) scale(1.012);
   }
   .title {
     text-decoration: none;
@@ -203,7 +203,7 @@ export default {
       top: 12%;
       box-shadow: 0 10px 30px 0 rgba(76, 70, 124, .5);
       border-radius: 20px;
-      filter: blur(15px);
+      filter: blur(30px);
       transform: scale(.9);
       background-size: cover;
     }

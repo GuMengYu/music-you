@@ -1,4 +1,6 @@
 import {getTrackDetail} from '@/api/music';
+import {favTrack} from '@/api';
+import {sleep} from '@util/fn';
 import {make} from 'vuex-pathify';
 const PLAY_MODE = {
   ORDER: 0,
@@ -14,6 +16,8 @@ const state = {
   showList: false,
   showLyricsPage: false,
   mode: PLAY_MODE.CYCLE,
+  loadAudio: false,
+  likes: [],
 };
 
 export default {
@@ -37,6 +41,7 @@ export default {
       const index = getters['index'];
       return state.playingList[index  === 0 ? (state.playingList.length - 1) : index - 1]?.id;
     },
+    liked: (state) => !!state.likes.find(i => i === state.track.id),
   },
   actions: {
     fetch() {
@@ -48,8 +53,10 @@ export default {
     },
     async updateTrack({ rootGetters, commit, dispatch, getters }, id) {
       commit('playing', false);
-      commit('currentTime', 0);
+      commit('loadAudio', true);
+      await sleep();
       const track = await getTrackDetail(id, rootGetters['settings/logged']);
+      commit('currentTime', 0);
       commit('track', track);
       localStorage.setItem('track', JSON.stringify(track));
       if (!track.url) {
@@ -57,6 +64,20 @@ export default {
         dispatch('updateTrack', getters['nextTrackId']);
       } else {
         commit('playing', true);
+      }
+    },
+    async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
+      let {likes} = state.likes;
+      if (rootGetters['settings/logged']) {
+        dispatch('snackbar/show', {text: '需要登录', type: 'warning'}, {root: true});
+      } else {
+        await favTrack({ id, like });
+        if (like === false) {
+          likes = likes.filter(i => i !== id);
+        } else {
+          likes.push(id);
+        }
+        commit('likes', likes);
       }
     },
   },

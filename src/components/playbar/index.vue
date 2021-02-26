@@ -1,27 +1,26 @@
 <template>
   <v-expand-transition>
     <v-footer
-      v-if="track.url"
+      v-if="track.id"
       fixed
       padless
       class="playing-bar"
     >
       <div class="playing-slider">
-        <v-slider
+        <vue-slider
+          ref="vueSlider"
           v-model="currentTime"
           class="playing-progress"
-          dense
-          hide-details
-          :max="track.dt / 1000"
-          min="0"
-          track-color="rgb(128, 128, 128, .2)"
-          @start="handleChangeTimeStart"
-          @change="handleSlideChange"
-        >
-          <template v-slot:thumb-label="{ value }">
-            {{ value * 1000 | formatDuring }}
-          </template>
-        </v-slider>
+          :max="~~(track.dt / 1000)"
+          :min="0"
+          :interval="1"
+          :duration="0"
+          :drag-on-click="true"
+          :dot-size="10"
+          :height="2"
+          :tooltip-formatter="formatTime"
+          @drag-end="handleSlideChange"
+        />
       </div>
       <div class="playing-control">
         <div
@@ -35,7 +34,7 @@
               max-width="40"
               min-width="40"
               min-height="40"
-              :loading="loading"
+              :loading="loadAudio"
             >
               <template slot="progress">
                 <v-progress-circular
@@ -89,6 +88,7 @@
               icon
               text
               class="ml-8"
+              @click="likeSong"
             >
               <font-awesome-icon icon="heart" />
             </v-btn>
@@ -193,6 +193,9 @@ import {
 } from '@mdi/js';
 
 import Player from './player';
+import VueSlider from 'vue-slider-component';
+import {formatDuring} from '@util/fn';
+import {dispatch} from 'vuex-pathify';
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -201,6 +204,7 @@ const PLAY_MODE = {
   RANDOM: 3,
 };
 export default {
+  components: {VueSlider},
   extends: Player,
   data: () => ({
     icon: {
@@ -214,18 +218,19 @@ export default {
       mdiArrowExpand,
     },
     prevVolume: 1,
-    loading: false,
   }),
   computed: {
     track: get('music/track'),
     playingList: get('music/playingList'),
     playing: get('music/playing'),
+    loadAudio: sync('music/loadAudio'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     mode: sync('music/mode'),
     ...mapGetters({
       next: 'music/nextTrackId',
       prev: 'music/prevTrackId',
+      liked: 'music/liked',
     }),
     volumeIconState() {
       if (this.volume === 0) {
@@ -277,14 +282,14 @@ export default {
     rePlay() {
       this.handleSlideChange(0);
     },
-    // 拉动进度条的时候，停止计时
-    handleChangeTimeStart() {
-      this.stopTimer()
-      console.debug('slider move start');
-    },
+    // // 拉动进度条的时候，停止计时
+    // handleChangeTimeStart() {
+    //   this.stopTimer()
+    //   console.debug('slider move start');
+    // },
     handleSlideChange() {
-      console.debug('slider change end');
-      this.restoreTimer();
+      this.currentTime = this.$refs['vueSlider'].getValue();
+      console.debug('slider change end', this.currentTime);
       this.setSeek(this.currentTime);
     },
     toggleVolume() {
@@ -297,6 +302,12 @@ export default {
     },
     playOrder() {
       this.mode < 2 ? this.mode++ : (this.mode = 0);
+    },
+    formatTime(val) {
+      return formatDuring(val * 1000);
+    },
+    likeSong() {
+      dispatch('music/favSong', {id: this.track.id, like: this.liked});
     },
   },
 };
@@ -368,29 +379,8 @@ export default {
   }
   .playing-slider {
     position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    top: -6px;
     width: 100%;
-    height: 14px;
-    top: -7px;
-    .playing-progress {
-      -webkit-app-region: no-drag;
-      ::v-deep .v-slider__thumb-container {
-        visibility: hidden;
-      }
-      ::v-deep .v-slider--horizontal {
-        min-height: 14px;
-        margin: 0;
-        &:hover .v-slider__thumb-container,
-        &:active .v-slider__thumb-container {
-          visibility: visible;
-        }
-      }
-      ::v-deep .v-slider__thumb {
-        transition: none;
-      }
-    }
   }
 }
 </style>

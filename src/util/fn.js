@@ -27,7 +27,7 @@ export const debounce = (fn, wait= 1000, immediate) => {
  * @param {*} fn
  * @param {*} wait
  */
-export const throttle = (fn, wait) => {
+export const throttle = (fn, wait = 500) => {
     let timeout;
     return function() {
         if (!timeout) {
@@ -73,5 +73,17 @@ export const optionalChaining = (obj, ...rest) => {
     rest.forEach(key => temp = temp?.[key]);
     return temp;
 };
+/**
+ * 休眠
+ * @param time
+ * @returns {Promise<unknown>}
+ */
+export const sleep = (time = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  })
+}
 
 export {formatDuring, sizeOfImage} from '@/filters'

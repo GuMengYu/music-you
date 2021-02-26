@@ -27,6 +27,7 @@
     "vue": "^2.6.11",
     "vue-i18n": "^8.22.4",
     "vue-router": "^3.2.0",
+    "vue-slider-component": "^3.2.11",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
   },

@@ -91,3 +91,16 @@ export const getLyric = id => xhr.get(`/lyric?id=${id}`);
 export const getArtist = id => xhr.get(`/artists?id=${id}`);
 
 export const getArtistAlbum = id => xhr.get(`/artist/album?id=${id}`);
+
+/**
+ * 标记|取消 喜欢音乐
+ * id, like: true/false
+ * @param {Object} params
+ * @returns Promise
+ */
+export const favTrack = (params) => {
+  params['timestamp'] = new Date().getTime();
+  return xhr.get('/like', {
+    params,
+  });
+}

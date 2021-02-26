@@ -25,7 +25,10 @@
             class="daily-song overflow-y-auto pa-0"
           >
             <template #item="{ index, item }">
-              <SongBar :song="item" />
+              <SongBar
+                :song="item"
+                @played="handleDailyPlayed"
+              />
             </template>
           </default-list>
         </div>
@@ -96,6 +99,9 @@ export default {
     } finally {
       NProgress.done();
     }
+  },
+  methods: {
+    handleDailyPlayed() {},
   },
 };
 </script>

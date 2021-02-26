@@ -28,13 +28,12 @@ export default {
     },
   },
   mounted() {
-    this.progressThrottle = throttle(this.runProgress, 1000);
+    this.progressThrottle = throttle(this.runProgress);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
     this.init(this.track.url);
   },
   methods: {
     initHowler(src) {
-      this.loading = true;
       const sound = new Howl({
         src: [src],
         html5: true,
@@ -57,11 +56,11 @@ export default {
           requestAnimationFrame(this.step);
         },
         onload: () => {
-          this.loading = false;
+          this.loadAudio = false;
         },
         onloaderror: () => {
           console.log('歌曲加载失败');
-          this.loading = false;
+          this.loadAudio = false;
         },
       });
       sound.once('end', this.endCb);
@@ -88,13 +87,7 @@ export default {
     step() {
       this.progressThrottle();
       this.saveCurrentTimeThrottle();
-      if (this.howler.playing() && !this.pauseProgress) requestAnimationFrame(this.step);
-    },
-    stopTimer() {
-      this.pauseProgress = true;
-    },
-    restoreTimer() {
-      this.pauseProgress = false;
+      if (this.howler.playing()) requestAnimationFrame(this.step);
     },
     endCb() {
       // todo update 听歌记录

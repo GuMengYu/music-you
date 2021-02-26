@@ -24,7 +24,7 @@
           max-height="40"
           max-width="40"
           class="rounded"
-          lazy-src="@/assets/default-cover.jpeg"
+          lazy-src="@/assets/default-cover.png"
         />
       </v-card>
       <v-list-item-content>
@@ -61,7 +61,7 @@
 </template>
 <script>
 import {mdiHeart, mdiDotsHorizontal, mdiHeartOutline, mdiPlay} from '@mdi/js';
-
+import {dispatch} from 'vuex-pathify';
 
 export default {
   name: 'SongBar',
@@ -84,6 +84,8 @@ export default {
   },
   methods: {
     play() {
+      dispatch('music/updateTrack', this.song.id);
+      this.$emit('played', this.song.id);
       // this.$store.dispatch('music/startNewMusic', this.song.id);
     },
     more() {

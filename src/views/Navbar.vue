@@ -151,10 +151,5 @@ export default {
   .v-list-item {
     min-height: 32px !important;
   }
-  .nav_list {
-    ::v-deep .v-list-item--active {
-      border-right: 4px solid;
-    }
-  }
 }
 </style>
