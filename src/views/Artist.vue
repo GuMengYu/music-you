@@ -163,9 +163,9 @@
 <script>
 import {getArtist, getArtistAlbum} from '@/api';
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
-import Cover from '@/components/Cover';
-import SongBar from '@components/songbar';
-import CoverList from '@components/CoverList'
+import Cover from '@components/app/Cover';
+import SongBar from '@/components/app/songbar';
+import CoverList from '@components/app/CoverList'
 
 export default {
   components: {

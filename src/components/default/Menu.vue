@@ -42,7 +42,7 @@
 
 <script>
 // Components
-import DefaultList from '@components/List'
+import DefaultList from '@components/default/List'
 
 export default {
   name: 'AppMenu',

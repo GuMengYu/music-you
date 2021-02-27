@@ -68,11 +68,14 @@ export const throttle_timestamp = (fn, wait) => {
         }
     };
 };
-export const optionalChaining = (obj, ...rest) => {
-    let temp = obj;
-    rest.forEach(key => temp = temp?.[key]);
-    return temp;
-};
+
+const reducer = (object, property) => {
+  return object?.[property] ?? undefined;
+}
+export const optional_chain = (...parameters) => {
+  const [source, ...properties] = parameters
+  return properties.reduce(reducer, source);
+}
 /**
  * 休眠
  * @param time

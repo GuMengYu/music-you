@@ -14,25 +14,21 @@ const musicRoutes = [{
   name: 'explore',
   component: lazyLoad('Explore/'),
   meta: { keepAlive: true },
-  redirect: { name: 'playlistcenter' },
-  children: [
-    {
-      path: 'singer/',
-      name: 'singer',
-      component: lazyLoad('Explore/Singer'),
-    },
-    {
-      path: 'leaderboard/',
-      name: 'leaderboard',
-      component: lazyLoad('Explore/Leaderboard'),
-    },
-    {
-      path: 'playlistcenter/',
-      name: 'playlistcenter',
-      component: lazyLoad('Explore/PlaylistCenter'),
-    },
-  ],
-}, {
+},{
+  path: 'singer/',
+  name: 'singer',
+  component: lazyLoad('Explore/Singer'),
+},
+  {
+    path: 'leaderboard/',
+    name: 'leaderboard',
+    component: lazyLoad('Explore/Leaderboard'),
+  },
+  {
+    path: 'playlistcenter/',
+    name: 'playlistcenter',
+    component: lazyLoad('Explore/PlaylistCenter'),
+  }, {
   path: 'fm',
   name: 'fm',
   component: lazyLoad('Fm'),
@@ -54,7 +50,13 @@ const musicRoutes = [{
   component: lazyLoad('List'),
   props: route => ({id: route.params.id, type: route.matched[1]?.name}),
   meta: { keepAlive: true },
-}, {
+},{
+    path: 'video/:id',
+    name: 'video',
+    component: lazyLoad('MV'),
+    props: true,
+    meta: { keepAlive: true },
+  }, {
   path: 'artist/:id/',
   name: 'artist',
   component: lazyLoad('Artist'),

@@ -16,8 +16,8 @@
 
 <script>
 import {get} from 'vuex-pathify';
-import DefaultInput from '@components/Input'
-import DefaultAccount from '@components/Account'
+import DefaultInput from '@components/default/Input'
+import DefaultAccount from '@components/app/Account'
 import {mdiMagnify} from '@mdi/js';
 export default {
   name: 'DefaultHeader',
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../scss/variable";
+@import "src/scss/variable";
 
 .music-toolbar {
   position: fixed;

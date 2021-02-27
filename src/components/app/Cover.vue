@@ -162,7 +162,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/common";
+@import "src/scss/common";
 .cover-container {
   .cover-hover {
     transition: .3s all ease-in-out;

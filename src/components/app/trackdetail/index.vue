@@ -17,7 +17,7 @@
             <div class="song-info d-flex justify-space-between mt-4">
               <div class="left d-flex flex-column text-body-1">
                 <span class="font-weight-bold">{{ track.name }}</span>
-                <span class="font-weight-bold">{{ $$(track, 'ar', '0', 'name') }}</span>
+                <span class="font-weight-bold">{{ $ochain(track, 'ar', '0', 'name') }}</span>
               </div>
               <div class="right d-flex align-center">
                 <v-btn icon>

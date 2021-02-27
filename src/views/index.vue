@@ -30,14 +30,14 @@
 
 <script>
 import DefaultNavBar from '@/views/Navbar.vue';
-import PlayBar from '@/components/playbar';
+import PlayBar from '@/components/app/playbar';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
-import PlayingList from '@/components/playbar/playing-list';
-import DefaultSetting from '@components/settings';
+import PlayingList from '@/components/app/playbar/playing-list';
+import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
 import DefaultTrackDetail from '@/components/trackdetail';
-import DefaultSnackbar from '@components/Snackbar'
-import DefaultHeader from '@components/Header'
+import DefaultSnackbar from '@components/default/Snackbar'
+import DefaultHeader from '@components/Layout/Header'
 
 import {sync} from 'vuex-pathify';
 import {debounce} from '@/util/fn';

@@ -20,7 +20,7 @@
           </v-btn>
         </v-overlay>
         <v-img
-          :src="$$(song, 'al', 'picUrl')| sizeOfImage(128)"
+          :src="$ochain(song, 'al', 'picUrl')| sizeOfImage(128)"
           max-height="40"
           max-width="40"
           class="rounded"
@@ -34,7 +34,7 @@
         />
         <v-list-item-subtitle
           class="font-weight-bold"
-          v-text="$$(song, 'ar', '0', 'name')"
+          v-text="$ochain(song, 'ar', '0', 'name')"
         />
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">

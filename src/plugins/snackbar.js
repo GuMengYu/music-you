@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import MSnackbar from '@components/MSnackbar.vue';
+import MSnackbar from '@components/default/Snackbar.vue';
 
 let SnackBarConstructor = Vue.extend(MSnackbar);
 

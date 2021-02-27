@@ -81,7 +81,7 @@
 </template>
 <script>
 import { getToplist } from '@/api';
-import Cover from '@components/Cover'
+import Cover from '@components/app/Cover'
 export default {
   name: 'DefaultLeaderBoard',
   components: {Cover},

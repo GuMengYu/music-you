@@ -28,7 +28,7 @@
         >
           <v-hover v-slot="{ hover }">
             <v-card
-              class="playing-cover-card"
+              class="playing-cover-card d-flex justify-center align-center"
               :img="albumPicUrl | sizeOfImage(128)"
               max-height="40"
               max-width="40"
@@ -40,7 +40,8 @@
                 <v-progress-circular
                   color="primary"
                   indeterminate
-                  size="40"
+                  size="30"
+                  width="2"
                 />
               </template>
               <v-fade-transition>
@@ -75,7 +76,7 @@
               <span
                 class="artist-name h-1x text-caption text--disabled  font-weight-bold"
               >
-                {{ $$(track, 'ar', '0', 'name') }}
+                {{ $ochain(track, 'ar', '0', 'name') }}
               </span>
             </router-link>
           </div>
@@ -90,7 +91,9 @@
               class="ml-8"
               @click="likeSong"
             >
-              <font-awesome-icon icon="heart" />
+              <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
+                <font-awesome-icon icon="heart" />
+              </div>
             </v-btn>
             <v-btn
               icon
@@ -314,7 +317,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../scss/common';
+@import 'src/scss/common';
 .theme--light .playing-bar {
   background-color: rgba(255, 255, 255, .5);
 }

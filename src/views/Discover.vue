@@ -2,74 +2,66 @@
   <v-sheet class="discover">
     <v-row>
       <v-col cols="7">
-        <div class="title mb-5">
-          <div class="text-h6">
-            {{ $t('main.artist.latest') }}
-          </div>
-        </div>
-        <WideCover
-          :cover="release"
-        />
-        <div v-if="dailySong.length">
-          <div class="title my-5">
-            <div class="text-caption grey--text text--lighten-1">
-              {{ $dayjs().format('MM/DD') }}
-            </div>
-            <div class="text-h6">
-              {{ $t('main.nav.daily') }}
-            </div>
-          </div>
-          <default-list
-            :items="dailySong"
-            two-line
-            class="daily-song overflow-y-auto pa-0"
-          >
-            <template #item="{ index, item }">
-              <SongBar
-                :song="item"
-                @played="handleDailyPlayed"
-              />
-            </template>
-          </default-list>
-        </div>
+        <CustomCol :title="$t('main.artist.latest')">
+          <template slot="content">
+            <WideCover
+              :cover="release"
+            />
+          </template>
+        </CustomCol>
+        <CustomCol
+          class="mt-4"
+          :title="$t('main.recommend_video')"
+        >
+          <template slot="content">
+            <v-row>
+              <v-col
+                v-for="mv in mvs"
+                :key="mv.id"
+                cols="6"
+              >
+                <video-cover :data="mv" />
+              </v-col>
+            </v-row>
+          </template>
+        </CustomCol>
       </v-col>
       <v-col cols="5">
-        <div class="title mb-5">
-          <div class="text-caption grey--text text--lighten-1">
-            {{ $t('main.featured') }}
-          </div>
-          <div class="text-h6">
-            {{ $t('main.for_you') }}
-          </div>
-        </div>
-        <CoverList
-          :list="playLists"
-          type="playlist"
-          :col="2"
-        />
+        <CustomCol
+          :title="$t('main.for_you')"
+          :subtitle="$t('main.featured')"
+        >
+          <template slot="content">
+            <CoverList
+              :list="playLists"
+              type="playlist"
+              :col="2"
+            />
+          </template>
+        </CustomCol>
       </v-col>
     </v-row>
   </v-sheet>
 </template>
 <script>
-import {getPersonalized, newAlbums, getDailyRecommend} from '@/api';
+import {getPersonalized, newAlbums, getMv} from '@/api';
 import NProgress from 'nprogress'
-import CoverList from '@components/CoverList'
-import WideCover from '@components/WideCover'
-import SongBar from '@components/songbar/index'
-import defaultList from '@components/List'
+import CoverList from '@components/app/CoverList'
+import WideCover from '@components/app/WideCover'
 import {mapGetters} from 'vuex'
+import CustomCol from '@components/Layout/Col'
+import VideoCover from '@components/app/VideoCover'
 export default {
   components: {
-    SongBar,
+    VideoCover,
+    CustomCol,
     WideCover,
     CoverList,
-    defaultList,
   },
   data: () => ({
     playLists: [],
     release: {},
-    dailySong: [],
+    mvs: [],
   }),
   computed: {
     currentSong: {
@@ -87,13 +79,10 @@ export default {
   async created() {
     NProgress.start();
     try {
-      if (this.logged) {
-        const { data } = await getDailyRecommend();
-        this.dailySong = data?.dailySongs ?? [];
-      }
-      const [playlists, { albums }] = await Promise.all([getPersonalized(), newAlbums({limit: 1, area: 'EA'})]);
+      const [playlists, { albums }, {result: mvs}] = await Promise.all([getPersonalized(), newAlbums({limit: 1, area: 'EA'}), getMv()]);
       this.playLists = playlists.result.slice(0, 6);
       this.release = albums?.[0];
+      this.mvs =mvs;
     } catch(e) {
       console.log(e);
     } finally {

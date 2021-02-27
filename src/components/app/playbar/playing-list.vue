@@ -53,7 +53,7 @@
 import { mdiCloseCircle } from '@mdi/js';
 import { mapState } from 'vuex';
 import {sync} from 'vuex-pathify';
-import SongBar from '@components/songbar';
+import SongBar from '@components/app/songbar/index';
 export default {
   components: {SongBar},
   data(){

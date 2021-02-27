@@ -19,8 +19,8 @@
   </v-row>
 </template>
 <script>
-import Cover from '@components/Cover';
-import Artists from '@components/Artists'
+import Cover from '@components/app/Cover';
+import Artists from '@components/app/Artists'
 export default {
   components: {Artists, Cover},
   props: {

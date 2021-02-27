@@ -1,5 +1,5 @@
 import {getTrackDetail} from '@/api/music';
-import {favTrack} from '@/api';
+import {favTrack, getLikeList} from '@/api';
 import {sleep} from '@util/fn';
 import {make} from 'vuex-pathify';
 const PLAY_MODE = {
@@ -44,8 +44,9 @@ export default {
     liked: (state) => !!state.likes.find(i => i === state.track.id),
   },
   actions: {
-    fetch() {
-
+    async fetch({commit}) {
+      const res = await getLikeList();
+      commit('likes', res.ids);
     },
     updatePlayingList({commit}, list) {
       localStorage.setItem('playingList', JSON.stringify(list));
@@ -68,10 +69,10 @@ export default {
     },
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
       let {likes} = state.likes;
-      if (rootGetters['settings/logged']) {
+      if (!rootGetters['settings/logged']) {
         dispatch('snackbar/show', {text: '需要登录', type: 'warning'}, {root: true});
       } else {
-        await favTrack({ id, like });
+        await favTrack({ id });
         if (like === false) {
           likes = likes.filter(i => i !== id);
         } else {

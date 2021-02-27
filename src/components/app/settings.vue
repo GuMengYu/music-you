@@ -111,8 +111,8 @@
 import { sync } from 'vuex-pathify';
 import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
 import DetectMode from '@util/detectMode';
-import DefaultSelect from '@components/Select';
-import DefaultAccount from '@components/Account'
+import DefaultSelect from '@components/default/Select';
+import DefaultAccount from '@components/app/Account'
 export default {
   name: 'DefaultSetting',
   components: {

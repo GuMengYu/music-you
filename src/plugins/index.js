@@ -1,12 +1,10 @@
 
-import { Message } from '@/plugins/snackbar';
 import dayjs from '@/plugins/dayjs';
-import { optionalChaining } from '@util/fn';
+import { optional_chain } from '@util/fn';
 
 const install = function(Vue) {
-    Vue.prototype.$message = Message;
     Vue.prototype.$dayjs = dayjs;
-    Vue.prototype.$$ = optionalChaining;
+    Vue.prototype.$ochain = optional_chain;
   };
 
 export default {

@@ -67,7 +67,7 @@
 
 <script>
 import {mdiReload, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
-import DefaultList from '@components/List';
+import DefaultList from '@components/default/List';
 import { sync } from 'vuex-pathify';
 export default {
   name: 'DefaultNavBar',

@@ -57,7 +57,7 @@
 <script>
 import { sync, get, dispatch } from 'vuex-pathify'
 import {mdiChevronDown, mdiLogin} from '@mdi/js';
-import AppMenu from '@components/./Menu';
+import AppMenu from '../default/Menu';
 export default {
   name: 'DefaultAccount',
   components: {AppMenu},

@@ -16,11 +16,11 @@
             <div class="artist text-body-1 mt-2">
               Playlist by
               <router-link
-                :to="`/artists/${$$(list,'creator', 'id')}`"
+                :to="`/artists/${$ochain(list,'creator', 'id')}`"
                 class="text-decoration-none"
               >
                 <span class="text--primary">
-                  {{ $$(list,'creator', 'nickname') }}
+                  {{ $ochain(list,'creator', 'nickname') }}
                 </span>
               </router-link>
             </div>
@@ -76,9 +76,9 @@
 <script>
 import {mdiPlay, mdiMusicNoteOffOutline, mdiDotsHorizontal} from '@mdi/js';
 import {getPlayList, getAlbum} from '@/api';
-import SongBar from '@components/songbar';
-import Cover from '@components/Cover';
-import DefaultList from '@components/List';
+import SongBar from '@components/app/songbar';
+import Cover from '@components/app/Cover';
+import DefaultList from '@components/default/List';
 export default {
   name: 'List',
   components: {SongBar, Cover, DefaultList},

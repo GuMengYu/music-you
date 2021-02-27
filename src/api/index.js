@@ -1,5 +1,4 @@
 import { musicXhr as xhr } from '@/util/xhr';
-
 /**
  * 登录
  * - phone: 手机号
@@ -75,6 +74,27 @@ export const newAlbums = (params) => {
     params,
   });
 }
+/**
+ * 最新专辑
+ * @returns {AxiosPromise}
+ */
+export const hotAlbums = () => {
+  return xhr('/album/newest')
+}
+
+/**
+ * 新歌
+ * @returns {AxiosPromise}
+ */
+export const topSongs = () => {
+  return xhr('/top/songs', {
+    params: {
+      limit: 20,
+      area: 'ALL',
+      type: 'hot',
+    },
+  })
+}
 
 /**
  * 获取新歌
@@ -101,6 +121,81 @@ export const getArtistAlbum = id => xhr.get(`/artist/album?id=${id}`);
 export const favTrack = (params) => {
   params['timestamp'] = new Date().getTime();
   return xhr.get('/like', {
+    params,
+  });
+}
+/**
+ * 获取喜欢列表
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getLikeList = () => xhr.get('/likelist');
+
+export const getCatList = () => xhr.get('/playlist/catlist');
+/**
+ * 获取推荐mv
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getMv = () => xhr.get('/personalized/mv');
+
+/**
+ * 获取新mv
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getNewMv = params => xhr.get('/mv/first', {params});
+
+/**
+ * 获取 mv 数据
+ * @param mvid
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const mvDetail = mvid => {
+  return xhr.get('/mv/detail', {
+    params: {
+      mvid,
+      timestamp: new Date().getTime(),
+    },
+  });
+}
+
+/**
+ * mv 地址
+ * 说明 : 调用此接口 , 传入 mv id,可获取 mv 播放地址
+ * - id: mv id
+ * @param {Object} params
+ * @param {number} params.id
+ * @param {number=} params.r
+ */
+export const mvUrl = params => {
+  return xhr.get('/mv/url', {
+    params,
+  });
+}
+
+/**
+ * 相似 mv
+ * 说明 : 调用此接口 , 传入 mvid 可获取相似 mv
+ * @param {number} mvid
+ */
+export const simiMv = mvid => {
+  return xhr('/simi/mv', {
+    params: {
+      mvid,
+    },
+  });
+}
+
+/**
+ * 收藏 | 取消收藏 MV
+ * - mvid: mv id
+ * - t: 1 为收藏,其他为取消收藏
+ * @param {Object} params
+ * @param {number} params.mvid
+ * @param {number=} params.t
+ */
+
+export function subMV(params) {
+  params.timestamp = new Date().getTime();
+  return xhr.post('/mv/sub', {
     params,
   });
 }

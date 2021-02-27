@@ -69,7 +69,7 @@ export default {
         return color;
       }
       if (this.isFocused) {
-        color = 'primary lighten-5';
+        color = 'secondary lighten-5';
       }
       return color;
     },
