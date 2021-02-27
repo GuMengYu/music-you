@@ -35,7 +35,7 @@ import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import PlayingList from '@/components/app/playbar/playing-list';
 import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
-import DefaultTrackDetail from '@/components/trackdetail';
+import DefaultTrackDetail from '@/components/app/trackdetail';
 import DefaultSnackbar from '@components/default/Snackbar'
 import DefaultHeader from '@components/Layout/Header'
 
