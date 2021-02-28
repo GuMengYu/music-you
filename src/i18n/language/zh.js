@@ -42,6 +42,7 @@ export default {
     playlists: '歌单',
     artists: '歌手',
     mvs: 'MV',
+    my_fav: '我喜欢的音乐',
   },
   common: {
     sign_in: '登入',

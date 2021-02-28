@@ -8,7 +8,7 @@
         class="d-flex align-end justify-end cover-card"
         elevation="0"
         :class="{'cover-hover' : hover}"
-        :to="`/video/${data.id}`"
+        :to="`/video/${id}`"
       >
         <v-img
           :aspect-ratio="16/9"
@@ -47,16 +47,18 @@
     <span
       class="h-1x mt-2 text-caption font-weight-bold text--primary"
     >
-      {{ data.name }}
+      {{ title }}
     </span>
     <span class="h-1x text-caption font-weight-bold">
       <router-link
-        :to="`/artist/${data.artistId}`"
+        v-for="artist in artists"
+        :key="artist.userId"
+        :to="`/artist/${artist.userId}`"
         class="text-decoration-none"
       >
-        {{ data.artistName }}
+        {{ artist.userName }}
+        ·
       </router-link>
-      ·
       {{ $t('main.play_count', [count]) }}
     </span>
   </div>
@@ -87,8 +89,17 @@ export default {
     };
   },
   computed: {
+    id() {
+      return this.data.id ?? this.data.vid ?? '';
+    },
+    title() {
+      return this.data.name ?? this.data.title ?? '';
+    },
     subTitle() {
       return this.data.copywriter;
+    },
+    artists() {
+      return this.data.artistId ? [{userId: this.data.artistId, userName: this.data.artistName}] : this.data.creator;
     },
     to() {
       return {
@@ -98,10 +109,10 @@ export default {
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl || this.data.cover)
+      return sizeOfImage(this.data.picUrl ?? this.data.cover ?? this.data.coverUrl)
     },
     count() {
-      return formatNumber(this.data.playCount);
+      return formatNumber(this.data.playCount ?? this.data.playTime);
     },
   },
   methods: {

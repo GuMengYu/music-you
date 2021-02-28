@@ -36,19 +36,19 @@ html {
 }
 
 /* Let's get this party started */
-::-webkit-scrollbar {
-  width: 0;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-  border-left: 1px solid rgba(128, 128, 128, 0.18);
-  background: var(--color-body-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: var(--color-secondary);
-}
+//::-webkit-scrollbar {
+//  width: 0;
+//}
+//
+//::-webkit-scrollbar-track {
+//  background: transparent;
+//  border-left: 1px solid rgba(128, 128, 128, 0.18);
+//  background: var(--color-body-bg);
+//}
+//
+//::-webkit-scrollbar-thumb {
+//  -webkit-border-radius: 10px;
+//  border-radius: 10px;
+//  background: var(--color-secondary);
+//}
 

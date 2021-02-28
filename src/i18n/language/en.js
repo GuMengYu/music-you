@@ -11,8 +11,8 @@ export default {
       stars: 'My Collection',
       disk: 'My Cloud Disk',
       podcast: 'My Radio',
-      created_list: 'Playlist Created',
-      start_list: 'Favorite playlist ',
+      created_list: 'PLAYLIST',
+      start_list: 'FAVORITE',
       music: 'Music',
       library: 'Library',
     },
@@ -42,6 +42,7 @@ export default {
     playlists: 'Playlists',
     artists: 'Artists',
     mvs: 'MV',
+    my_fav: 'My Favorite',
   },
   common: {
     sign_in: 'Sign In',

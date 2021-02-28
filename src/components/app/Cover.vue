@@ -156,6 +156,8 @@ export default {
       let list = [];
       if (this.type === 'album') {
         list = data.songs;
+      } else if (this.type === 'playlist'){
+        list = data?.playlist?.tracks;
       } else {
         list = data.list;
       }

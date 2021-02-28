@@ -140,7 +140,7 @@ export default {
 <style lang="scss" scoped>
 .video {
   overflow: hidden;
-  max-height: 100vh;
+  max-height: 68vh;
   --plyr-color-main: var(--v-primary-base);
 }
 

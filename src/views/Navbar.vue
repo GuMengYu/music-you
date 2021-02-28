@@ -104,7 +104,7 @@ export default {
         open: true,
         items: created.map(i => {
           let title = i.name;
-          i['specialType'] === 5 && (title = '我喜欢的音乐')
+          i['specialType'] === 5 && (title = this.$t('main.my_fav'));
           return {
             title,
             to: `/playlist/${i.id}`,
