@@ -43,6 +43,9 @@ const getters = {
     const music_u = Cookie.get(NETEASEFLAG);
     return music_u && !!state.account.profile;
   },
+  userId: state => {
+    return state.account?.profile?.userId;
+  },
 }
 
 export default {

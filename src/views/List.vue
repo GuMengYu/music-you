@@ -1,6 +1,32 @@
 <template>
   <v-sheet class="list mt-2">
-    <v-row>
+    <div
+      v-if="loading"
+      class="skeleton"
+    >
+      <v-row>
+        <v-col cols="4">
+          <v-skeleton-loader type="image" />
+        </v-col>
+        <v-col cols="8">
+          <v-skeleton-loader
+            boilerplate
+            type="article"
+          />
+          <v-skeleton-loader type="actions" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <template
+            v-for="i in 3"
+          >
+            <v-skeleton-loader type="list-item-avatar-two-line" :key="i"/>
+          </template>
+        </v-col>
+      </v-row>
+    </div>
+    <v-row v-else>
       <v-col cols="4">
         <Cover
           :data="list"
@@ -106,6 +132,7 @@ export default {
         name: '',
         description: '',
       },
+      loading: true,
     }
   },
   computed: {
@@ -121,6 +148,8 @@ export default {
   },
   methods: {
     async fetch() {
+      this.loading = true;
+      this.list = {};
       const { album, songs, playlist} = await this.service(this.id);
       if (this.type === 'album') {
         this.list = album;
@@ -128,12 +157,19 @@ export default {
       } else {
         this.list = playlist;
       }
+      this.loading = false;
     },
   },
 }
 </script>
 <style lang="scss" scoped>
 @import '../scss/common';
+.skeleton {
+  width:100%;
+  ::v-deep .v-skeleton-loader__actions {
+    text-align: left;
+  }
+}
 .list {
   .list-cover {
     .cover {

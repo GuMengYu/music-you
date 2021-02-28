@@ -80,7 +80,7 @@
   </v-sheet>
 </template>
 <script>
-import { getToplist } from '@/api';
+import { getTopList } from '@/api';
 import Cover from '@components/app/Cover'
 export default {
   name: 'DefaultLeaderBoard',
@@ -96,7 +96,7 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      const {list} = await getToplist();
+      const {list} = await getTopList();
       this.list = list;
       const colors = ['#548FD1', '#4BB7BD' , '#C7466A'];
       const textColors = ['blue--text text--darken-4', 'teal--text text--darken-3' , 'pink--text text--lighten-2'];

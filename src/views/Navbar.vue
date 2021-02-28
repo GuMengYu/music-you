@@ -68,7 +68,8 @@
 <script>
 import {mdiReload, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
 import DefaultList from '@components/default/List';
-import { sync } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
+import {groupBy, filter} from 'lodash';
 export default {
   name: 'DefaultNavBar',
   components: {DefaultList},
@@ -76,50 +77,55 @@ export default {
     const _t = key => this.$i18n.t(`main.nav.${key}`);
     return {
       icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify, mdiReload},
-      nav: [
+      defaultNav: [
         { title: _t('music'), heading: 'Music' },
         { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
         { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), to: '/explore' },
         { icon: mdiRadioFm, val: 'fm', title: _t('fm'), to: '/fm' },
         { icon: mdiHandHeart, val: 'daily', title: _t('daily'), to: '/daily' },
         { title: _t('library'), heading: 'Library'},
-        { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/stars'},
+        { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/library'},
         { icon: mdiAlbum, val: 'disk', title: _t('disk'), to: '/disk' },
         { icon: mdiPodcast, val: 'podcast', title: _t('podcast'), to: '/podcast' },
-        {
-          title: _t('created_list'),
-          open: true,
-          items: [{
-            title: '我喜欢的音乐',
-            to: '/playlist/119215665',
-            icon: mdiPlaylistMusicOutline,
-          }, {
-            title: '2020年度音乐',
-            to: '/playlist/5414754810',
-            icon: mdiPlaylistMusicOutline,
-          }, {
-            title: 'sleep',
-            to: '/playlist/530442521',
-            icon: mdiPlaylistMusicOutline,
-          }],
-        },
-        {
-          title: _t('start_list'),
-          open: false,
-          items: [{
-            title: '私人雷达',
-            to: '/playlist/3136952023',
-            icon: mdiPlaylistMusicOutline,
-          }],
-        },
       ],
     };
   },
   computed: {
     showSettings: sync('app/showSettings'),
     theme: sync('settings/theme'),
+    playlist: get('music/playlist'),
     dark() {
       return this.$vuetify.theme.dark;
+    },
+    nav() {
+      const { false: created, true: subscribed } = groupBy(this.playlist, 'subscribed');
+      const create = created?.length ? {
+        title: this.$t('main.nav.created_list'),
+        open: true,
+        items: created.map(i => {
+          let title = i.name;
+          i['specialType'] === 5 && (title = '我喜欢的音乐')
+          return {
+            title,
+            to: `/playlist/${i.id}`,
+            icon: mdiPlaylistMusicOutline,
+          }
+        }),
+      } : void 0;
+      const sub = subscribed?.length ? {
+        title: this.$t('main.nav.start_list'),
+        open: false,
+        items: subscribed.map(i => {
+          return {
+            title: i.name,
+            to: `/playlist/${i.id}`,
+            icon: mdiPlaylistMusicOutline,
+          }
+        }),
+      } : void 0;
+      // this.defaultNav[9].items = this.playlist;
+      const _new = filter([create, sub]);
+      return this.defaultNav.concat(_new);
     },
   },
   methods: {

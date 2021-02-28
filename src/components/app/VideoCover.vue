@@ -57,14 +57,14 @@
         {{ data.artistName }}
       </router-link>
       ·
-      {{ $t('main.play_count', [data.playCount]) }}
+      {{ $t('main.play_count', [count]) }}
     </span>
   </div>
 </template>
 
 <script>
 import {mdiPlay} from '@mdi/js';
-import {sizeOfImage} from '@util/fn';
+import {sizeOfImage, formatNumber} from '@util/fn';
 export default {
   name: 'VideoCover',
   props: {
@@ -99,6 +99,9 @@ export default {
     },
     coverBgUrl() {
       return sizeOfImage(this.data.picUrl || this.data.cover)
+    },
+    count() {
+      return formatNumber(this.data.playCount);
     },
   },
   methods: {

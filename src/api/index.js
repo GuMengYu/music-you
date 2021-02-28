@@ -75,6 +75,14 @@ export const newAlbums = (params) => {
   });
 }
 /**
+ * 新碟上架
+ * @returns {AxiosPromise}
+ */
+export const newestAlbums = () => {
+  return xhr('/album/newest')
+}
+
+/**
  * 最新专辑
  * @returns {AxiosPromise}
  */
@@ -104,7 +112,7 @@ export const getDailyRecommend = () => xhr.get('/recommend/songs');
 /**
  * 获取所有榜单
  */
-export const getToplist = () => xhr.get('/toplist');
+export const getTopList = () => xhr.get('/toplist');
 
 export const getLyric = id => xhr.get(`/lyric?id=${id}`);
 

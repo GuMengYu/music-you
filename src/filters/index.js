@@ -1,3 +1,4 @@
+import {inRange} from 'lodash';
 export function sizeOfImage(url, size = 512) {
   if (url) {
     return `${url}?param=${size}y${size}`;
@@ -17,9 +18,19 @@ export function formatDuring(val) {
     return '00:00';
   }
 }
+export const formatNumber = number => {
+  if (inRange(number, 1000, 1000000)) {
+    return `${~~(number/1000)}K`;
+  } else if (inRange(number, 1000001, 1000000000)) {
+    return `${~~(number/1000000)}M`;
+  } else {
+    return number;
+  }
+}
 
 export default {
   empty,
   formatDuring,
   sizeOfImage,
+  formatNumber,
 };

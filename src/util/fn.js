@@ -89,4 +89,4 @@ export const sleep = (time = 1000) => {
   })
 }
 
-export {formatDuring, sizeOfImage} from '@/filters'
+export {formatDuring, sizeOfImage, formatNumber} from '@/filters'

@@ -78,7 +78,7 @@
 
 <script>
 import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
-import { getPlayList } from '@/api';
+import { getPlayList, getAlbum, getArtist } from '@/api';
 import * as Vibrant from 'node-vibrant'
 import {sizeOfImage} from '@util/fn';
 export default {
@@ -138,6 +138,13 @@ export default {
     // gradient2() {
     //   return `to bottom right, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgb(${this.rgb2.join()})`;
     // },
+    service() {
+      return {
+        'album': getAlbum,
+        'playlist': getPlayList,
+        'artist': getArtist,
+      }[this.type]
+    },
   },
   created () {
     // this.initImgPalette();
@@ -145,9 +152,15 @@ export default {
   methods: {
     async play() {
       this.loading = true;
-      const {playlist} = await getPlayList(this.data.id);
-      await this.$store.dispatch('music/updatePlayingList', playlist.tracks);
-      await this.$store.dispatch('music/updateTrack', playlist.tracks?.[0]?.id);
+      const data = await this.service(this.data.id);
+      let list = [];
+      if (this.type === 'album') {
+        list = data.songs;
+      } else {
+        list = data.list;
+      }
+      await this.$store.dispatch('music/updatePlayingList', list);
+      await this.$store.dispatch('music/updateTrack', list?.[0]?.id);
       this.loading = false;
     },
     initImgPalette() {

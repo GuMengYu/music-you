@@ -1,5 +1,6 @@
 import {getTrackDetail} from '@/api/music';
-import {favTrack, getLikeList} from '@/api';
+import { favTrack, getLikeList } from '@/api'
+import {getUserPlaylist} from '@/api/user';
 import {sleep} from '@util/fn';
 import {make} from 'vuex-pathify';
 const PLAY_MODE = {
@@ -18,6 +19,7 @@ const state = {
   mode: PLAY_MODE.CYCLE,
   loadAudio: false,
   likes: [],
+  playlist: [],
 };
 
 export default {
@@ -44,9 +46,16 @@ export default {
     liked: (state) => !!state.likes.find(i => i === state.track.id),
   },
   actions: {
-    async fetch({commit}) {
-      const res = await getLikeList();
-      commit('likes', res.ids);
+    async fetch({commit, rootGetters}) {
+      if (rootGetters['settings/logged']) {
+        const [likesRes, playlistRes] = await Promise.all([getLikeList(), getUserPlaylist({
+          timestamp: new Date().getTime(),
+          uid: rootGetters['settings/userId'] ?? '',
+        })]);
+        commit('likes', likesRes.ids);
+        commit('playlist', playlistRes.playlist);
+      }
+
     },
     updatePlayingList({commit}, list) {
       localStorage.setItem('playingList', JSON.stringify(list));

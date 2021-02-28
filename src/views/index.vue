@@ -4,7 +4,7 @@
     class="music-app d-flex"
   >
     <default-header />
-    <default-nav-bar />
+    <default-nav-bar class="left_nav" />
     <playing-list />
     <v-sheet
       tag="main"
@@ -95,6 +95,9 @@ export default {
     div:first-child {
       -webkit-app-region: no-drag;
     }
+  }
+  .left_nav {
+    height: calc(100% - #{$playerbarHeight}) !important;
   }
 }
 </style>

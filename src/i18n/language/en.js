@@ -37,6 +37,11 @@ export default {
     now_playing: 'Now Playing',
     play_count: '{0} Views',
     simi: 'similar',
+    songs: 'Songs',
+    albums: 'Albums',
+    playlists: 'Playlists',
+    artists: 'Artists',
+    mvs: 'MV',
   },
   common: {
     sign_in: 'Sign In',

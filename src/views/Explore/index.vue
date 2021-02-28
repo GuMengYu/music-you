@@ -1,17 +1,5 @@
 <template>
   <v-sheet>
-<!--    <v-tabs height="30">-->
-<!--      <v-tab to="/playlistcenter">-->
-<!--        {{ $t('main.playlist_center') }}-->
-<!--      </v-tab>-->
-<!--      <v-tab to="/leaderboard">-->
-<!--        {{ $t('main.leader_board') }}-->
-<!--      </v-tab>-->
-<!--      <v-tab to="/singer">-->
-<!--        {{ $t('main.singer') }}-->
-<!--      </v-tab>-->
-<!--    </v-tabs>-->
-
     <custom-col
       class="mt-4"
       :title="$t('main.new_releases_album')"
@@ -61,15 +49,25 @@
         </v-row>
       </template>
     </custom-col>
-<!--    <keep-alive>-->
-<!--      <router-view />-->
-<!--    </keep-alive>-->
+    <custom-col
+      class="mt-4"
+      :title="$t('main.leader_board')"
+      subtitle="charts"
+      more="/leader_board/"
+    >
+      <template slot="content">
+        <CoverList
+          :list="topList"
+          type="playlist"
+        />
+      </template>
+    </custom-col>
   </v-sheet>
 </template>
 <script>
-import {getCatList, newAlbums, getNewMv} from '@/api'
+import {getCatList, newestAlbums, getNewMv, getTopList} from '@/api'
 import CustomCol from '@components/Layout/Col'
-import {random} from 'lodash'
+import {random, filter} from 'lodash'
 import CoverList from '@components/app/CoverList'
 import MTag from '@components/app/Tag'
 import VideoCover from '@components/app/VideoCover'
@@ -81,6 +79,7 @@ export default {
       newRelease: [],
       tags: [],
       mvs: [],
+      topList: [],
     }
   },
   created () {
@@ -88,7 +87,7 @@ export default {
   },
   methods: {
     async fetch() {
-      const [{sub}, { albums }, {data: mvs}] = await Promise.all([getCatList(), newAlbums({limit: 6, area: 'ALL'}), getNewMv({limit: 4})])
+      const [{sub}, { albums }, {data: mvs}, {list: topList}] = await Promise.all([getCatList(), newestAlbums(), getNewMv({limit: 4}), getTopList()])
       const colors = ['#cc0000', '#e24b00', '#ffe780', '#0092bf', '#a4c5ff', '#b47bff', '#337dff', '#00a513', '#ffc200', '#a4ffa4', '#b47bff'];
       this.tags = sub.slice(0, 18).map(i => {
         i.color = colors[random(0, 11)];
@@ -96,6 +95,7 @@ export default {
       });
       this.newRelease = albums;
       this.mvs = mvs;
+      this.topList = filter(topList, i => [60198, 11641012, 180106, 19723756, 2884035, 5059661515].includes(i.id));
       // const groups = groupBy(sub, 'category');
     },
   },

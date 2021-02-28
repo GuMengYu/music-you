@@ -37,6 +37,11 @@ export default {
     now_playing: '现在播放',
     play_count: '{0} 次观看',
     simi: '相似推荐',
+    songs: '歌曲',
+    albums: '专辑',
+    playlists: '歌单',
+    artists: '歌手',
+    mvs: 'MV',
   },
   common: {
     sign_in: '登入',

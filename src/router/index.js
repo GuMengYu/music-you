@@ -15,6 +15,11 @@ const musicRoutes = [{
   component: lazyLoad('Explore/'),
   meta: { keepAlive: true },
 },{
+  path: 'library/',
+  name: 'library',
+  component: lazyLoad('Library'),
+  meta: { keepAlive: true },
+},{
   path: 'singer/',
   name: 'singer',
   component: lazyLoad('Explore/Singer'),
