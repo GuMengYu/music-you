@@ -18,31 +18,48 @@
         v-for="t in tabs"
         :key="t.key"
         class="font-weight-bold"
-        @click="loadData(t.key)"
+        @click="loadData"
       >
         {{ t.name }}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab" class="tab_page">
       <v-tab-item>
+        <cover-row-skeleton v-if="loading[type]" />
         <cover-list
+          v-else
           :list="playlist"
           type="playlist"
         />
       </v-tab-item>
       <v-tab-item>
+        <cover-row-skeleton
+          v-if="loading[type]"
+        />
         <cover-list
+          v-else
           :list="albums"
         />
       </v-tab-item>
       <v-tab-item>
+        <cover-row-skeleton
+          v-if="loading[type]"
+          type="avatar"
+        />
         <cover-list
+          v-else
           :list="artists"
           type="artist"
         />
       </v-tab-item>
       <v-tab-item>
-        <v-row>
+        <cover-row-skeleton
+          v-if="loading[type]"
+          type="image"
+        />
+        <v-row
+          v-else
+        >
           <v-col
             v-for="mv in mvs"
             :key="mv.id"
@@ -58,13 +75,14 @@
 
 <script>
 import CustomCol from '@components/Layout/Col'
-import {get} from 'vuex-pathify';
+import {sync} from 'vuex-pathify';
 import CoverList from '@components/app/CoverList'
 import VideoCover from '@components/app/VideoCover'
-import {favAlbums, favArtists, favMVs} from '@/api/user'
+import {favAlbums, favArtists, favMVs, getUserPlaylist} from '@/api/user'
+import CoverRowSkeleton from '../components/skeleton/coverRowSkeleton.vue';
 export default {
   name: 'Library',
-  components: { CoverList, VideoCover, CustomCol },
+  components: { CoverList, VideoCover, CustomCol, CoverRowSkeleton },
   data() {
     return {
       tabs: [
@@ -73,30 +91,55 @@ export default {
         {key: 'artists', name: this.$t('main.artists')},
         {key: 'mvs', name: this.$t('main.mvs')},
       ],
-      tab: null,
+      tab: 0,
       albums: [],
       mvs: [],
       artists: [],
+      loading: {
+        playlists: false,
+        albums: false,
+        artists: false,
+        mvs: false,
+      },
     }
   },
   computed: {
-    playlist: get('music/playlist'),
+    playlist: sync('music/playlist'),
+    type() {
+      return {
+        0: 'playlists',
+        1: 'albums',
+        2: 'artists',
+        3: 'mvs',
+      }[this.tab];
+    },
   },
   methods: {
     async fetch() {},
-    async loadData(type) {
-      if (type === 'albums' && !this.albums.length) {
+    loadData() {
+      this.$nextTick(async () => {
+      // todo 简化以下逻辑
+      if (this.type === 'albums' && !this.albums.length) {
+        this.loading[this.type] = true;
         const { data } = await favAlbums();
         this.albums = data;
-      } else if (type === 'artists' && !this.artists.length) {
+      } else if (this.type === 'artists' && !this.artists.length) {
+        this.loading[this.type] = true;
         const { data } = await favArtists();
         this.artists = data;
-      } else if (type === 'mvs' && !this.mvs.length) {
+      } else if (this.type === 'mvs' && !this.mvs.length) {
+        this.loading[this.type] = true;
         const { data } = await favMVs();
         this.mvs = data;
+       }else if (this.type === 'playlists' && !this.playlist.length) {
+        this.loading[this.type] = true;
+        const { playlist } = await getUserPlaylist();
+        this.playlist = playlist;
       }
+      this.loading[this.type] = false;
       // todo fix
       this.$vuetify.goTo(this.$refs['tabs']);
+      });
     },
   },
 }

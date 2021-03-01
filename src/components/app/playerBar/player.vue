@@ -1,8 +1,7 @@
 <script>
 import { Howl } from 'howler';
 import {sync} from 'vuex-pathify';
-import {throttle} from '@util/fn'
-
+import {throttle} from 'lodash';
 export default {
   name: 'Player',
   data: () => ({
@@ -28,7 +27,7 @@ export default {
     },
   },
   mounted() {
-    this.progressThrottle = throttle(this.runProgress);
+    this.progressThrottle = throttle(this.runProgress, 500);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
     this.init(this.track.url);
   },

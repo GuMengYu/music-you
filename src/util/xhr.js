@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = '/api';
 // create an axios instance
 const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   const service = axios.create({

@@ -7,6 +7,13 @@ module.exports = {
     devtool: 'source-map',
     devServer: {
       port: process.env.SERVER_PORT,
+      proxy: {
+        '/api': {
+          target: process.env.VUE_APP_API_URL,
+          // changeOrigin: true,
+          pathRewrite: {'^/api' : ''},
+        },
+      },
     },
     resolve: {
       alias: {

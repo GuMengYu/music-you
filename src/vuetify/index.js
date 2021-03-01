@@ -43,7 +43,7 @@ export function createVuetify (store) {
           },
         },
         dark: {
-          primary: '#fe2851',
+          primary: colors.amber.darken4,
           'bar-bg': {
             base: '#1E1E1E',
           },

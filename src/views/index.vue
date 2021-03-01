@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="ip-music">
     <default-header />
     <default-nav-bar class="left_nav" />
     <default-view />
@@ -56,3 +56,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.theme--dark.v-application {
+  background: #1E1E1E !important;
+}
+</style>

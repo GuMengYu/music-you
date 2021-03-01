@@ -2,7 +2,10 @@ import { musicXhr as xhr } from '@/util/xhr';
 import {now} from 'lodash';
 export const getUserPlaylist = params => {
   return xhr.get('/user/playlist', {
-    params,
+    params: {
+      ...params,
+      timestamp: now(),
+    },
   })
 }
 

@@ -87,6 +87,7 @@ export default {
           if (code !== 502) {
             this.$store.dispatch('settings/updateAccount', { profile, token });
             this.showLogin = false;
+            location.reload();
           }
         })
         .catch(() => {
