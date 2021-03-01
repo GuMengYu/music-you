@@ -1,8 +1,9 @@
 <template>
-  <v-toolbar
-    elevation="0"
-    class="music-toolbar"
-    rounded
+  <v-app-bar
+    app
+    fixed
+    elevate-on-scroll
+    :color="theme.isDark ? void 0 : 'white'"
   >
     <default-input
       :holder="$t('common.search_type_2')"
@@ -11,7 +12,7 @@
     />
     <v-spacer />
     <DefaultAccount />
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>
@@ -25,6 +26,7 @@ export default {
     DefaultAccount,
     DefaultInput,
   },
+  inject: ['theme'],
   data: () => ({
     icon: {mdiMagnify},
   }),
@@ -33,17 +35,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="scss">
-@import "src/scss/variable";
-
-.music-toolbar {
-  position: fixed;
-  width: $contentWidth;
-  left: 18%;
-  z-index: 3;
-  .search_input {
-    max-width: 20%;
-  }
-}
-</style>

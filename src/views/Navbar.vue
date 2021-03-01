@@ -1,8 +1,9 @@
 <template>
   <v-navigation-drawer
-    width="18%"
     permanent
     class="nav"
+    app
+    fixed
   >
     <template #prepend>
       <div class="system-action d-flex justify-space-between">

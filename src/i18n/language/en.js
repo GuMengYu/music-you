@@ -50,7 +50,7 @@ export default {
     personal: 'Personal',
     search_type_1: 'Search',
     search_type_2: 'Search for songs, artist, etc...',
-    more: 'More',
+    more: 'See All',
     translations: 'Translation',
     not_support: 'can not support',
     language: 'Language',

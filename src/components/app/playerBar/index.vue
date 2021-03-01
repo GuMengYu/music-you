@@ -5,6 +5,7 @@
       fixed
       padless
       class="playing-bar"
+      app
     >
       <div class="playing-slider">
         <vue-slider
@@ -101,7 +102,7 @@
             >
               <font-awesome-icon icon="backward" />
             </v-btn>
-            <v-fab-transition>
+            <v-fab-transition origin="center center">
               <v-btn
                 :key="playingState.icon"
                 icon
@@ -175,7 +176,7 @@
 </template>
 
 <script>
-import {sync, get} from 'vuex-pathify';
+import {sync, get, dispatch, commit} from 'vuex-pathify';
 import {mapGetters} from 'vuex';
 import {
   mdiHeart,
@@ -198,7 +199,6 @@ import {
 import Player from './player';
 import VueSlider from 'vue-slider-component';
 import {formatDuring} from '@util/fn';
-import {dispatch} from 'vuex-pathify';
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -207,6 +207,7 @@ const PLAY_MODE = {
   RANDOM: 3,
 };
 export default {
+  name: 'PlayerBar',
   components: {VueSlider},
   extends: Player,
   data: () => ({
@@ -274,7 +275,7 @@ export default {
   mounted() {},
   methods: {
     playPause() {
-      this.$store.commit('music/UPDATE_PLAYER', {playing: !this.playing});
+      commit('music/playing', !this.playing);
     },
     playNext() {
       this.$store.dispatch('music/updateTrack', this.next);
@@ -310,7 +311,7 @@ export default {
       return formatDuring(val * 1000);
     },
     likeSong() {
-      dispatch('music/favSong', {id: this.track.id, like: this.liked});
+      dispatch('music/favSong', {id: this.track.id, like: !this.liked});
     },
   },
 };
@@ -327,6 +328,7 @@ export default {
 .playing-bar {
   backdrop-filter: blur(50px);
   -webkit-app-region: drag;
+  z-index: 10;
   .playing-control {
     width: 100%;
     display: flex;

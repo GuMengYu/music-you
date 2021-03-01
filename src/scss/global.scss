@@ -31,24 +31,21 @@
 html, body, div, span, header, footer, section, article, a, img {
   font-family: 'Nunito', 'product sans', sans-serif !important;
 }
-html {
-  overflow-y: hidden;
-}
 
 /* Let's get this party started */
-//::-webkit-scrollbar {
-//  width: 0;
-//}
-//
-//::-webkit-scrollbar-track {
-//  background: transparent;
-//  border-left: 1px solid rgba(128, 128, 128, 0.18);
-//  background: var(--color-body-bg);
-//}
-//
-//::-webkit-scrollbar-thumb {
-//  -webkit-border-radius: 10px;
-//  border-radius: 10px;
-//  background: var(--color-secondary);
-//}
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  border-left: 1px solid rgba(128, 128, 128, 0.18);
+  background: var(--v-bar-bg-base);
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: var(--v-primary-lighten1);
+}
 

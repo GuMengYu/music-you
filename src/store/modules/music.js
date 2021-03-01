@@ -77,15 +77,15 @@ export default {
       }
     },
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
-      let {likes} = state.likes;
+      let likes = state.likes;
       if (!rootGetters['settings/logged']) {
         dispatch('snackbar/show', {text: '需要登录', type: 'warning'}, {root: true});
       } else {
-        await favTrack({ id });
-        if (like === false) {
-          likes = likes.filter(i => i !== id);
-        } else {
+        await favTrack({ id, like });
+        if (like) {
           likes.push(id);
+        } else {
+          likes = likes.filter(i => i !== id);
         }
         commit('likes', likes);
       }

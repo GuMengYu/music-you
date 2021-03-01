@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-fade-transition appear>
     <router-view />
-  </v-app>
+  </v-fade-transition>
 </template>
 
 <script>

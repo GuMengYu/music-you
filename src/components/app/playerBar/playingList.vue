@@ -1,11 +1,11 @@
 <template>
   <v-overlay
-    absolute
     :value="showList"
     :opacity="1"
     :dark="theme.isDark"
     :light="!theme.isDark"
     class="playing-container-overlay"
+    z-index="7"
   >
     <v-sheet
       class="rounded-lg playing-container"
@@ -55,6 +55,7 @@ import { mapState } from 'vuex';
 import {sync} from 'vuex-pathify';
 import SongBar from '@components/app/songbar/index';
 export default {
+  name: 'PlayingList',
   components: {SongBar},
   data(){
     return {
@@ -90,9 +91,7 @@ export default {
 <style scoped lang="scss">
 .playing-container {
   right: 20px;
-  z-index: 2;
   height: 60%;
-  bottom: 76px;
   backdrop-filter: blur(30px);
   ::v-deep .v-list {
     background: transparent;
@@ -106,7 +105,7 @@ export default {
   > ::v-deep .v-overlay__content {
     position: absolute;
     right: 24px;
-    bottom: 76px;
+    bottom: 86px;
   }
 }
 .theme--light {
