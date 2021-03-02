@@ -1,7 +1,6 @@
 <template>
   <v-sheet>
     <custom-col
-      class="mt-4"
       :title="$t('main.new_releases_album')"
       subtitle="new release"
       more="/new_releases/albums"

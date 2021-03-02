@@ -26,4 +26,7 @@ export default {
   width: 100%;
   border-left: 6px solid;
 }
+.theme--dark .tag {
+  background: var(--v-secondary-darken1);
+}
 </style>
