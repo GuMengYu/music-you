@@ -80,7 +80,7 @@ export default {
       icon: {mdiCog, mdiBrightness1, mdiBrightness2, mdiChevronLeft, mdiChevronRight, mdiMagnify, mdiReload},
       defaultNav: [
         { title: _t('music'), heading: 'Music' },
-        { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
+        { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/' },
         { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), to: '/explore' },
         { icon: mdiRadioFm, val: 'fm', title: _t('fm'), to: '/fm' },
         { icon: mdiHandHeart, val: 'daily', title: _t('daily'), to: '/daily' },

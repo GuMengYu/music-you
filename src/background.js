@@ -5,13 +5,12 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 import path from 'path'
-import {runMusicApi} from '../electron/netEaseService';
+import {startApiServer} from '../electron/apiserver';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } },
 ])
-
 async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -21,7 +20,7 @@ async function createWindow () {
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      nodeIntegration: true,
     },
     icon: path.join(__static, 'icon.png'),
   })
@@ -64,8 +63,10 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  runMusicApi();
-  createWindow();
+  startApiServer();
+
+  // await proxyApi();
+  await createWindow();
 });
 app.setAboutPanelOptions({
   applicationName: 'IPlayer',
@@ -79,7 +80,7 @@ if (isDevelopment) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {
-        app.quit()
+        app.quit();
       }
     })
   } else {

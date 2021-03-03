@@ -195,7 +195,7 @@ export default {
           const locale = mutation.payload;
           this.$i18n.locale = locale;
           this.$dayjs.locale(locale);
-          location.reload();
+          // location.reload();
         }
       })
     },

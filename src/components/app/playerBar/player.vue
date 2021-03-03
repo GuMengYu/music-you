@@ -29,7 +29,7 @@ export default {
   mounted() {
     this.progressThrottle = throttle(this.runProgress, 500);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
-    this.init(this.track.url);
+    this.track?.url && this.init(this.track.url);
   },
   methods: {
     initHowler(src) {

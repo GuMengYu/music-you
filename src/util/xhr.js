@@ -1,5 +1,15 @@
-import axios from 'axios';
-const BASE_URL = '/api';
+import axios from'axios';
+let BASE_URL = '';
+console.log(process.env);
+if(process.env.IS_ELECTRON) {
+  if (process.env.NODE_ENV === 'development') {
+    BASE_URL = process.env.VUE_APP_API_DEV_ELECTRON;
+  } else {
+    BASE_URL = process.env.VUE_APP_API_PRODUCT;
+  }
+} else {
+  BASE_URL = process.env.VUE_APP_API_DEV_WEB;
+}
 // create an axios instance
 const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   const service = axios.create({
