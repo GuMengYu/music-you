@@ -4,11 +4,11 @@
       {{ type }}
     </h2>
     <custom-col
-      title="精选"
+      :title="$t('main.featured')"
     >
       <template slot="content">
         <cover-list
-          :list="playlists.slice(0, 2)"
+          :list="playlists.slice(0, 3)"
           type="playlist"
         />
       </template>
@@ -18,7 +18,7 @@
     >
       <template slot="content">
         <cover-list
-          :list="playlists.slice(2)"
+          :list="playlists.slice(3)"
           type="playlist"
         />
       </template>

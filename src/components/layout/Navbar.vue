@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import {mdiReload, mdiPodcast, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
+import {mdiReload, mdiRadio, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdiCog, mdiBrightness1, mdiBrightness2, mdiLibrary, mdiRadioFm, mdiAppleFinder, mdiChevronLeft, mdiChevronRight, mdiHandHeart, mdiMagnify } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import { sync, get } from 'vuex-pathify';
 import {groupBy, filter} from 'lodash';
@@ -87,7 +87,7 @@ export default {
         { title: _t('library'), heading: 'Library'},
         { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/library'},
         { icon: mdiAlbum, val: 'disk', title: _t('disk'), to: '/disk' },
-        { icon: mdiPodcast, val: 'podcast', title: _t('podcast'), to: '/podcast' },
+        { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
     };
   },

@@ -76,6 +76,11 @@ const musicRoutes = [{
   component: lazyLoad('MoodsGenres/detail'),
   props: true,
   meta: {keepAlive: true},
+}, {
+  path: 'radio',
+  name: 'radio',
+  component: lazyLoad('Radio'),
+  meta: {keepAlive: true},
 }]
 
 export function createRouter() {

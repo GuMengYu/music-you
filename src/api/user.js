@@ -24,3 +24,10 @@ export const favMVs = () => xhr.get('/mv/sublist', {params: {timestamp: now()}})
  * @returns {*}
  */
 export const favArtists = () => xhr.get('/artist/sublist', {params: {timestamp: now()}});
+
+/**
+ * 获取用户电台
+ * @returns {*}
+ */
+
+export const getUserAudio = () => xhr.get('/dj/sublist');

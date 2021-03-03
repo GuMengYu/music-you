@@ -1,9 +1,11 @@
 <template>
   <v-sheet>
-    <h1
-      class="text-md-h5 text-sm-body-1 mt-4"
+    <h2
+      class="text-md-h5 text-sm-body-1 font-weight-bold"
       :title="title"
-    />
+    >
+      {{ title }}
+    </h2>
     <slot />
   </v-sheet>
 </template>

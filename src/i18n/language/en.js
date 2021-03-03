@@ -10,7 +10,7 @@ export default {
       daily: 'Daily Recommend',
       stars: 'My Collection',
       disk: 'My Cloud Disk',
-      podcast: 'My Radio',
+      radio: 'My Radio',
       created_list: 'PLAYLIST',
       start_list: 'FAVORITE',
       music: 'Music',
