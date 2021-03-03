@@ -9,6 +9,7 @@
       <template slot="content">
         <cover-list
           :list="playlists.slice(0, 2)"
+          type="playlist"
         />
       </template>
     </custom-col>
@@ -18,6 +19,7 @@
       <template slot="content">
         <cover-list
           :list="playlists.slice(2)"
+          type="playlist"
         />
       </template>
     </custom-col>
@@ -27,7 +29,7 @@
 
 <script>
 import { getTopPlaylist } from '@/api';
-import CustomCol from '@components/Layout/Col';
+import CustomCol from '@components/layout/Col';
 import CoverList from '@components/app/CoverList';
 
 export default {

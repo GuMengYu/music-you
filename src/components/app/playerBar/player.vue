@@ -29,6 +29,7 @@ export default {
   mounted() {
     this.progressThrottle = throttle(this.runProgress, 500);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
+    console.log('mountedTrack', this.track?.url);
     this.init(this.track.url);
   },
   methods: {

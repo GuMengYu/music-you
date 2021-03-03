@@ -102,7 +102,7 @@
 <script>
 import {mdiPlay, mdiMusicNoteOffOutline, mdiDotsHorizontal} from '@mdi/js';
 import {getPlayList, getAlbum} from '@/api';
-import SongBar from '@components/app/songbar';
+import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
 import DefaultList from '@components/default/List';
 export default {

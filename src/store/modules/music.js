@@ -11,7 +11,8 @@ const PLAY_MODE = {
 };
 const state = {
   playing: false,
-  track: JSON.parse(localStorage.getItem('track')) ?? {},
+  track: {},
+  currentTrackId: localStorage.getItem('currentTrackId') ?? '',
   currentTime: localStorage.getItem('currentTime') ?? 0,
   playingList: JSON.parse(localStorage.getItem('playingList')) ?? [],
   showList: false,
@@ -61,19 +62,28 @@ export default {
       localStorage.setItem('playingList', JSON.stringify(list));
       commit('playingList', list);
     },
-    async updateTrack({ rootGetters, commit, dispatch, getters }, id) {
+    async updateTrack({ rootGetters, commit, dispatch, getters }, payload) {
+      const {id, option = {autoplay: true, resetProgress: true}} = payload;
       commit('playing', false);
       commit('loadAudio', true);
       await sleep();
       const track = await getTrackDetail(id, rootGetters['settings/logged']);
-      commit('currentTime', 0);
+      if (option.resetProgress) {
+        commit('currentTime', 0);
+      }
       commit('track', track);
-      localStorage.setItem('track', JSON.stringify(track));
+      commit('currentTrackId', track?.id);
+      localStorage.setItem('currentTrackId', track?.id);
       if (!track.url) {
         dispatch('snackbar/show', {text: '歌曲暂时不可用', type: 'warning'}, {root: true});
-        dispatch('updateTrack', getters['nextTrackId']);
+        const next = getters['nextTrackId'] ?? '';
+        if (
+          next && getters['nextTrackId'] !== state.currentTrackId
+        ) dispatch('updateTrack', {id: getters['nextTrackId']});
       } else {
-        commit('playing', true);
+        if (option.autoplay) {
+          commit('playing', true);
+        }
       }
     },
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {

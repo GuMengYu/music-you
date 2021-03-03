@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import CustomCol from '@components/Layout/Col'
+import CustomCol from '@components/layout/Col'
 import DefaultList from '@components/default/List';
-import SongBar from '@components/app/songbar';
+import SongBar from '@components/app/SongBar';
 import { getDailyRecommend } from '@/api'
 export default {
   name: 'Daily',

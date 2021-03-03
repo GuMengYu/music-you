@@ -84,9 +84,8 @@ export default {
   },
   methods: {
     play() {
-      dispatch('music/updateTrack', this.song.id);
+      dispatch('music/updateTrack', {id: this.song?.id});
       this.$emit('played', this.song.id);
-      // this.$store.dispatch('music/startNewMusic', this.song.id);
     },
     more() {
 

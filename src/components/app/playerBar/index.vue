@@ -225,6 +225,7 @@ export default {
   }),
   computed: {
     track: get('music/track'),
+    currentTrackId: get('music/currentTrackId'),
     playingList: get('music/playingList'),
     playing: get('music/playing'),
     loadAudio: sync('music/loadAudio'),
@@ -272,16 +273,20 @@ export default {
       });
     },
   },
+  created () {
+    this.$store.dispatch('music/updateTrack', {id: this.currentTrackId, option: {autoplay: false, resetProgress: false}});
+    console.log('player created', this.currentTrackId);
+  },
   mounted() {},
   methods: {
     playPause() {
       commit('music/playing', !this.playing);
     },
     playNext() {
-      this.$store.dispatch('music/updateTrack', this.next);
+      this.$store.dispatch('music/updateTrack', {id: this.next});
     },
     playPrev() {
-      this.$store.dispatch('music/updateTrack', this.prev);
+      this.$store.dispatch('music/updateTrack', {id: this.prev});
     },
     rePlay() {
       this.handleSlideChange(0);

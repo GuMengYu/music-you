@@ -50,7 +50,7 @@ import { mvDetail, mvUrl, simiMv } from '@/api';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import {sync} from 'vuex-pathify';
-import CustomCol from '@components/Layout/Col'
+import CustomCol from '@components/layout/Col'
 import VideoCover from '@components/app/VideoCover'
 export default {
   name: 'MusicVideo',

@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import CustomCol from '@components/Layout/Col'
+import CustomCol from '@components/layout/Col'
 import {sync} from 'vuex-pathify';
 import CoverList from '@components/app/CoverList'
 import VideoCover from '@components/app/VideoCover'

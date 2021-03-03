@@ -53,7 +53,7 @@
 import { mdiCloseCircle } from '@mdi/js';
 import { mapState } from 'vuex';
 import {sync} from 'vuex-pathify';
-import SongBar from '@components/app/songbar/index';
+import SongBar from '@/components/app/SongBar';
 export default {
   name: 'PlayingList',
   components: {SongBar},
@@ -73,7 +73,7 @@ export default {
         return this.$store.state.music.song?.id;
       },
       set(val) {
-        this.$store.dispatch('music/updateTrack', val);
+        this.$store.dispatch('music/updateTrack', { id: val });
       },
     },
   },

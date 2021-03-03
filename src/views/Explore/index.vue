@@ -79,7 +79,7 @@
 </template>
 <script>
 import {getCatList, newestAlbums, getNewMv, getTopList} from '@/api'
-import CustomCol from '@components/Layout/Col'
+import CustomCol from '@components/layout/Col'
 import {random, filter} from 'lodash'
 import CoverList from '@components/app/CoverList'
 import MTag from '@components/app/Tag'

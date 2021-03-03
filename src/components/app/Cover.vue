@@ -162,7 +162,7 @@ export default {
         list = data.list;
       }
       await this.$store.dispatch('music/updatePlayingList', list);
-      await this.$store.dispatch('music/updateTrack', list?.[0]?.id);
+      await this.$store.dispatch('music/updateTrack', {id: list?.[0]?.id});
       this.loading = false;
     },
     initImgPalette() {

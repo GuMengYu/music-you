@@ -19,15 +19,15 @@
 </template>
 
 <script>
-import DefaultNavBar from '@/views/Navbar.vue';
+import DefaultNavBar from '@/components/layout/Navbar.vue';
 import PlayerBar from '@components/app/playerBar/index'
-import PlayingList from '@/components/app/playerBar/playingList';
+import PlayingList from '@components/app/PlayingList';
 import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
 import DefaultTrackDetail from '@/components/app/trackdetail';
 import DefaultSnackbar from '@components/default/Snackbar'
-import DefaultHeader from '@components/Layout/Header'
-import DefaultView from '@components/Layout/View'
+import DefaultHeader from '@components/layout/Header'
+import DefaultView from '@components/layout/View'
 import {sync} from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 

@@ -49,7 +49,7 @@ import NProgress from 'nprogress'
 import CoverList from '@components/app/CoverList'
 import WideCover from '@components/app/WideCover'
 import {mapGetters} from 'vuex'
-import CustomCol from '@components/Layout/Col'
+import CustomCol from '@components/layout/Col'
 import VideoCover from '@components/app/VideoCover'
 export default {
   components: {
@@ -69,7 +69,7 @@ export default {
         return this.$store.state.music.song?.id;
       },
       set(val) {
-        this.$store.dispatch('music/updateTrack', val);
+        this.$store.dispatch('music/updateTrack', { id: val });
       },
     },
     ...mapGetters({
