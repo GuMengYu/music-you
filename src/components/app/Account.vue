@@ -1,30 +1,18 @@
 <template>
   <div>
     <div v-if="logged">
-      <v-avatar size="30">
-        <v-img :src="profile.avatarUrl" />
-      </v-avatar>
       <app-menu
         :items="items"
         transition="slide-y-transition"
       >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            text
-            plain
-            class="text-caption"
+          <v-avatar
             v-bind="attrs"
             v-on="on"
+            size="30"
           >
-            {{ profile.nickname }}
-            <v-icon
-              right
-              class="ml-0"
-              size="14"
-            >
-              {{ icon.mdiChevronDown }}
-            </v-icon>
-          </v-btn>
+            <v-img :src="profile.avatarUrl" />
+          </v-avatar>
         </template>
         <template #item="{ index, item }">
           <v-list-item
@@ -67,7 +55,7 @@ export default {
         mdiChevronDown,
         mdiLogin,
       },
-      items: [{
+      options: [{
         type: 'sign_out',
         title: this.$t('common.sign_out'),
       }, {
@@ -80,6 +68,12 @@ export default {
     profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
     logged: vm => vm.$store.getters['settings/logged'],
+    items() {
+      return [
+        { heading: this.profile?.nickname },
+        ...this.options,
+      ]
+    },
   },
   methods: {
     dispatch(type) {

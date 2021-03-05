@@ -5,7 +5,7 @@
       icon
       @click="$router.go(-1)"
     >
-      <v-icon>
+      <v-icon small>
         {{ mdiChevronLeft }}
       </v-icon>
     </v-btn>
@@ -14,7 +14,7 @@
       icon
       @click="$router.go(1)"
     >
-      <v-icon>
+      <v-icon small>
         {{ mdiChevronRight }}
       </v-icon>
     </v-btn>

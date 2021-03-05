@@ -6,26 +6,50 @@
     fixed
     :mini-variant="drawermini"
   >
-    <template #prepend>
-      <div
-        style="width: 100%"
-        class="d-flex mt-5"
-        :class="drawermini ? 'justify-center' : 'justify-end'"
+    <v-list
+      nav
+      dense
+      class="system_nav pt-8"
+    >
+      <v-list-item
+        class="d-flex "
+        :class="drawermini ? 'justify-center' : 'justify-space-between'"
       >
-        <v-btn
-          small
-          icon
-          @click="drawermini = !drawermini"
+        <default-account />
+        <div class="nav_actions">
+          <setting-toggle />
+          <theme-toggle />
+          <reload-btn />
+        </div>
+      </v-list-item>
+      <v-list-item-group>
+        <v-subheader
+          v-show="!drawermini"
+          class="font-weight-bold text-uppercase"
         >
-          <v-icon>
-            {{ drawermini ? icon.mdiChevronRight : icon.mdiChevronLeft }}
-          </v-icon>
-        </v-btn>
-      </div>
-    </template>
+          {{ $t('main.nav.music') }}
+        </v-subheader>
+        <default-list-item
+          v-for="i in defaultNav1"
+          :key="i.title"
+          :item="i"
+        />
+        <v-subheader
+          v-show="!drawermini"
+          class="font-weight-bold text-uppercase"
+        >
+          {{ $t('main.nav.library') }}
+        </v-subheader>
+        <default-list-item
+          v-for="i in defaultNav2"
+          :key="i.title"
+          :item="i"
+        />
+      </v-list-item-group>
+    </v-list>
     <default-list
+      v-show="!drawermini"
       :items="nav"
-      class="nav_list"
     />
   </v-navigation-drawer>
 </template>
@@ -35,13 +59,36 @@ import {mdiRadio, mdiPlaylistMusicOutline, mdiAlbum, mdiMusicNoteHalfDotted, mdi
 import DefaultList from '@components/default/List';
 import { sync, get } from 'vuex-pathify';
 import {groupBy, filter} from 'lodash';
+import DefaultListItem from '@components/default/ListItem'
+import SettingToggle from '@components/layout/SettingToggle'
+import ReloadBtn from '@components/layout/ReloadBtn'
+import DefaultAccount from '@components/app/Account'
+import ThemeToggle from '@components/layout/ThemeToggle'
 export default {
   name: 'DefaultNavBar',
-  components: {DefaultList},
+  components: {
+    ThemeToggle,
+    DefaultAccount,
+    ReloadBtn,
+    SettingToggle,
+    DefaultListItem,
+    DefaultList},
   data: function(){
     const _t = key => this.$i18n.t(`main.nav.${key}`);
     return {
       icon: {mdiChevronLeft, mdiChevronRight, mdiMagnify},
+      defaultNav1: [
+        { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
+        { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), to: '/explore' },
+        { icon: mdiRadioFm, val: 'fm', title: _t('fm'), to: '/fm' },
+        { icon: mdiHandHeart, val: 'daily', title: _t('daily'), to: '/daily' },
+      ],
+      defaultNav2: [
+        { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/library'},
+        { icon: mdiAlbum, val: 'disk', title: _t('disk'), to: '/disk' },
+        { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
+      ],
+      defaultNav3: [],
       defaultNav: [
         { title: _t('music'), heading: 'Music' },
         { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
@@ -87,7 +134,7 @@ export default {
       } : void 0;
       // this.defaultNav[9].items = this.playlist;
       const _new = filter([create, sub]);
-      return this.defaultNav.concat(_new);
+      return this.defaultNav3.concat(_new);
     },
   },
 };
@@ -105,14 +152,12 @@ export default {
   ::v-deep .v-navigation-drawer__border {
     width: 0;
   }
-  .system-action {
-    display: flex;
-    padding: 24px 8px 0;
-    justify-content: flex-end;
-    -webkit-app-region: drag
-  }
-  .searchArea {
-    -webkit-app-region: drag
+  .system_nav {
+    -webkit-app-region: drag;
+    .nav_actions {
+      position: absolute;
+      right: 0;
+    }
   }
   .v-list-item {
     min-height: 32px !important;
