@@ -21,7 +21,10 @@
           <template
             v-for="i in 3"
           >
-            <v-skeleton-loader type="list-item-avatar-two-line" :key="i"/>
+            <v-skeleton-loader
+              :key="i"
+              type="list-item-avatar-two-line"
+            />
           </template>
         </v-col>
       </v-row>
@@ -63,6 +66,7 @@
             <v-btn
               elevation="0"
               class="red--text mr-4"
+              @click="play"
             >
               <font-awesome-icon
                 icon="play"
@@ -105,6 +109,7 @@ import {getPlayList, getAlbum} from '@/api';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
 import DefaultList from '@components/default/List';
+import {dispatch} from 'vuex-pathify';
 export default {
   name: 'List',
   components: {SongBar, Cover, DefaultList},
@@ -158,6 +163,10 @@ export default {
         this.list = playlist;
       }
       this.loading = false;
+    },
+    async play() {
+      await dispatch('music/updatePlayingList', this.list.tracks);
+      await dispatch('music/updateTrack', {id: this.list.tracks?.[0]?.id});
     },
   },
 }

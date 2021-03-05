@@ -5,6 +5,7 @@ import { make } from 'vuex-pathify'
 const state = {
   showSettings: false,
   showLogin: false,
+  drawermini: false,
   version: null,
   nav: [],
 }

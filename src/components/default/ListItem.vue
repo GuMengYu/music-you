@@ -4,7 +4,7 @@
     :rel="item.href ? 'nofollow' : undefined"
     :target="item.href ? '_blank' : undefined"
     :to="item.to"
-    class="v-list-item--default"
+    class="v-list-item--default justify-center"
     color="primary"
     v-bind="$attrs"
     v-on="$listeners"

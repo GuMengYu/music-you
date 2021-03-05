@@ -5,8 +5,8 @@ const lazyLoad = name => () => import(/* webpackChunkName: "page" */ `../views/$
 
 Vue.use(VueRouter)
 const musicRoutes = [{
-  path: '/',
-  name: 'home',
+  path: 'discover/',
+  name: 'discover',
   component: lazyLoad('Discover'),
   meta: {keepAlive: true},
 }, {
@@ -85,9 +85,14 @@ const musicRoutes = [{
 
 export function createRouter() {
   return new VueRouter({
-    mode: 'history',
     routes: [
-      ...musicRoutes,
+      {
+        path: '/',
+        name: 'Home',
+        component: () => import('../views/index'),
+        children: musicRoutes,
+        redirect: {path: '/discover'},
+      },
       {
         path: '*',
         name: 'FourOhFour',

@@ -1,16 +1,18 @@
 'use strict'
 /* global __static */
+import path from 'path'
+import Express from 'express';
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
-import path from 'path'
 import {startApiServer} from '../electron/apiserver';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } },
 ])
+let _app = null;
 async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -32,7 +34,7 @@ async function createWindow () {
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    win.loadURL('http://localhost:12137')
   }
 }
 
@@ -64,8 +66,7 @@ app.on('ready', async () => {
     }
   }
   startApiServer();
-
-  // await proxyApi();
+  createServer();
   await createWindow();
 });
 app.setAboutPanelOptions({
@@ -88,4 +89,15 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}
+app.on('quit', () => {
+  _app && _app.close();
+});
+
+function createServer() {
+  const app = new Express();
+  app.use('/', Express.static(__dirname + '/'));
+  _app = app.listen(12137, '', () => {
+    console.log('app run in port 12137');
+  });
 }
