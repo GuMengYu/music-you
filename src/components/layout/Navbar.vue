@@ -5,6 +5,7 @@
     app
     fixed
     :mini-variant="drawermini"
+    width="240"
   >
     <v-list
       nav

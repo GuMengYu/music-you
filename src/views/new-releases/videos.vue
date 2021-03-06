@@ -5,7 +5,7 @@
     <template>
       <cover-row-skeleton
         v-if="loading"
-        cols="3"
+        :cols="3"
       />
       <v-row v-else>
         <v-col

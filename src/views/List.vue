@@ -65,7 +65,7 @@
           <div class="list-action">
             <v-btn
               elevation="0"
-              class="red--text mr-4"
+              class="mr-4"
               @click="play"
             >
               <font-awesome-icon
@@ -104,7 +104,7 @@
   </v-sheet>
 </template>
 <script>
-import {mdiPlay, mdiMusicNoteOffOutline, mdiDotsHorizontal} from '@mdi/js';
+import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
 import {getPlayList, getAlbum} from '@/api';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
@@ -127,7 +127,6 @@ export default {
     return {
       icon: {
         mdiPlay,
-        mdiMusicNoteOffOutline,
         mdiDotsHorizontal,
       },
       list: {

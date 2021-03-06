@@ -24,8 +24,8 @@ const musicRoutes = [{
   name: 'singer',
   component: lazyLoad('explore/Singer'),
 }, {
-  path: '/leaderboard',
-  name: 'leaderboard',
+  path: '/leader_board',
+  name: 'leader_board',
   component: lazyLoad('explore/Leaderboard'),
 }, {
   path: '/playlistcenter',
