@@ -1,7 +1,7 @@
 <template>
   <v-sheet>
     <h2
-      class="text-md-h5 text-sm-body-1 font-weight-bold"
+      class="text-md-h5 text-sm-body-1 font-weight-bold mb-4"
       :title="title"
     >
       {{ title }}

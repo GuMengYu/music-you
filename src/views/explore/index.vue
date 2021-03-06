@@ -38,7 +38,7 @@
       class="mt-4"
       :title="$t('main.new_releases_mv')"
       subtitle="videos"
-      more="/mv/"
+      more="/new_releases/videos/"
     >
       <template slot="content">
         <cover-row-skeleton
@@ -78,7 +78,7 @@
   </v-sheet>
 </template>
 <script>
-import {getCatList, newestAlbums, getNewMv, getTopList} from '@/api'
+import { getCatList, newAlbums, getNewMv, getTopList } from '@/api'
 import CustomCol from '@components/layout/Col'
 import {random, filter} from 'lodash'
 import CoverList from '@components/app/CoverList'
@@ -104,7 +104,7 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      const [{sub}, { albums }, {data: mvs}, {list: topList}] = await Promise.all([getCatList(), newestAlbums(), getNewMv({limit: 4}), getTopList()])
+      const [{sub}, { albums }, {data: mvs}, {list: topList}] = await Promise.all([getCatList(), newAlbums({limit: 6}), getNewMv({limit: 4}), getTopList()])
       this.tags = sub.slice(0, 18).map(i => {
         i.color = this.colors[random(0, this.colors.length)];
         return i;

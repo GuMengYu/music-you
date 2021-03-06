@@ -2,18 +2,18 @@
   <v-app-bar
     app
     fixed
+    dense
     elevate-on-scroll
     :color="theme.isDark ? void 0 : 'white'"
     class="app_header"
   >
     <drawer-toggle />
-    <b-f />
+    <v-spacer />
     <default-input
       :holder="$t('common.search_type_2')"
       :icon="icon.mdiMagnify"
       class="search_input"
     />
-    <v-spacer />
   </v-app-bar>
 </template>
 
@@ -21,13 +21,11 @@
 import { get } from 'vuex-pathify'
 import DefaultInput from '@components/default/Input'
 import { mdiMagnify } from '@mdi/js'
-import BF from '@components/layout/BF'
 import DrawerToggle from '@components/layout/DrawerToggle'
 export default {
   name: 'DefaultHeader',
   components: {
     DrawerToggle,
-    BF,
     DefaultInput,
   },
   inject: ['theme'],

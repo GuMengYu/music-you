@@ -24,7 +24,6 @@
       </template>
     </custom-col>
   </v-sheet>
-
 </template>
 
 <script>

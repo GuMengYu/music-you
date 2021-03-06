@@ -8,8 +8,8 @@
         <template v-slot:activator="{ on, attrs }">
           <v-avatar
             v-bind="attrs"
-            v-on="on"
             size="30"
+            v-on="on"
           >
             <v-img :src="profile.avatarUrl" />
           </v-avatar>
@@ -31,7 +31,7 @@
     <v-btn
       v-else
       plain
-      class="text-lowercase font-weight-bold text-caption"
+      class="text-lowercase font-weight-bold text-caption px-0"
       @click="showLogin = !showLogin"
     >
       <v-icon small>

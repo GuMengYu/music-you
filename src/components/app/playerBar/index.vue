@@ -73,7 +73,7 @@
               </span>
             </router-link>
             <span class="text--disabled mx-2">-</span>
-            <router-link to="">
+            <router-link :to="`/artist/${$ochain(track,'ar', '0', 'id')}`">
               <span
                 class="artist-name h-1x text-caption text--disabled  font-weight-bold"
               >

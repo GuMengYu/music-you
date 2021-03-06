@@ -45,7 +45,7 @@
             <div class="artist text-body-1 mt-2">
               Playlist by
               <router-link
-                :to="`/artists/${$ochain(list,'creator', 'id')}`"
+                :to="`/artist/${$ochain(list,'creator', 'id')}`"
                 class="text-decoration-none"
               >
                 <span class="text--primary">

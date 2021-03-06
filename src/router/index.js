@@ -12,35 +12,35 @@ const musicRoutes = [{
 }, {
   path: '/explore',
   name: 'explore',
-  component: lazyLoad('Explore/'),
+  component: lazyLoad('explore/'),
   meta: {keepAlive: true},
 }, {
   path: '/library',
   name: 'library',
   component: lazyLoad('Library'),
-  meta: {keepAlive: true},
+  meta: {keepAlive: true, needLogin: true},
 }, {
   path: '/singer',
   name: 'singer',
-  component: lazyLoad('Explore/Singer'),
+  component: lazyLoad('explore/Singer'),
 }, {
   path: '/leaderboard',
   name: 'leaderboard',
-  component: lazyLoad('Explore/Leaderboard'),
+  component: lazyLoad('explore/Leaderboard'),
 }, {
   path: '/playlistcenter',
   name: 'playlistcenter',
-  component: lazyLoad('Explore/PlaylistCenter'),
+  component: lazyLoad('explore/PlaylistCenter'),
 }, {
   path: '/fm',
   name: 'fm',
   component: lazyLoad('Fm'),
-  meta: {keepAlive: true},
+  meta: {keepAlive: true, needLogin: true},
 }, {
   path: '/daily',
   name: 'daily',
   component: lazyLoad('Daily'),
-  meta: {keepAlive: true},
+  meta: {keepAlive: true, needLogin: true},
 }, {
   path: '/album/:id',
   name: 'album',
@@ -68,12 +68,23 @@ const musicRoutes = [{
 }, {
   path: '/moods_and_genres',
   name: 'moods_and_genres',
-  component: lazyLoad('MoodsGenres/'),
+  component: lazyLoad('moods-genres/'),
   meta: {keepAlive: true},
 }, {
   path: '/moods_and_genres/:type',
   name: 'moods_and_genres_detail',
-  component: lazyLoad('MoodsGenres/detail'),
+  component: lazyLoad('moods-genres/detail'),
+  props: true,
+  meta: {keepAlive: true},
+},{
+  path: '/new_releases/albums',
+  name: 'new_releases_albums',
+  component: lazyLoad('new-releases/albums'),
+  meta: {keepAlive: true},
+}, {
+  path: '/new_releases/videos',
+  name: 'new_releases_videos',
+  component: lazyLoad('new-releases/videos'),
   props: true,
   meta: {keepAlive: true},
 }, {
@@ -83,8 +94,9 @@ const musicRoutes = [{
   meta: {keepAlive: true},
 }]
 
-export function createRouter() {
-  return new VueRouter({
+export function createRouter(vuetify, store) {
+  const router = new VueRouter({
+    scrollBehavior: (to, from, savedPosition) => (savedPosition || {x: 0, y: 0}),
     routes: [
       {
         path: '/',
@@ -98,5 +110,14 @@ export function createRouter() {
         name: 'FourOhFour',
         component: () => import(/* webpackChunkName: "FourOhFour" */ '../views/errors/FourOhFour.vue'),
       }],
+  });
+  router.beforeEach(({ meta }, from, next) => {
+    const logged = store.getters['settings/logged'];
+    if (meta.needLogin && !logged) {
+      store.commit('app/showLogin', true);
+    } else {
+      next();
+    }
   })
+  return router;
 }

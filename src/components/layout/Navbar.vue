@@ -9,17 +9,20 @@
     <v-list
       nav
       dense
-      class="system_nav pt-8"
+      class="system_nav"
     >
+      <v-list-item class="d-flex justify-end px-0">
+        <div />
+        <b-f />
+      </v-list-item>
       <v-list-item
         class="d-flex "
         :class="drawermini ? 'justify-center' : 'justify-space-between'"
       >
-        <default-account />
+        <default-account :class="drawermini ? 'mb-4' : undefined " />
         <div class="nav_actions">
           <setting-toggle />
           <theme-toggle />
-          <reload-btn />
         </div>
       </v-list-item>
       <v-list-item-group>
@@ -61,15 +64,15 @@ import { sync, get } from 'vuex-pathify';
 import {groupBy, filter} from 'lodash';
 import DefaultListItem from '@components/default/ListItem'
 import SettingToggle from '@components/layout/SettingToggle'
-import ReloadBtn from '@components/layout/ReloadBtn'
 import DefaultAccount from '@components/app/Account'
 import ThemeToggle from '@components/layout/ThemeToggle'
+import BF from '@components/layout/BF'
 export default {
   name: 'DefaultNavBar',
   components: {
+    BF,
     ThemeToggle,
     DefaultAccount,
-    ReloadBtn,
     SettingToggle,
     DefaultListItem,
     DefaultList},
