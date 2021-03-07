@@ -3,6 +3,7 @@
     <v-list-item
       :value="song.id"
       :data-id="song.id"
+      @click="noop"
       @contextmenu.prevent="openMenu"
     >
       <v-card
@@ -32,16 +33,21 @@
           class="font-weight-bold"
           v-text="song.name"
         />
-        <router-link
-          v-for="artist in artists"
-          :key="artist.id"
-          :to="`/artist/${artist.id}`"
-          class="artist-name"
-        >
-          <v-list-item-subtitle
-            v-text="artist.name"
-          />
-        </router-link>
+
+        <v-list-item-subtitle>
+          <span
+            v-for="(artist, index) in artists"
+            :key="index"
+          >
+            <router-link
+              :to="`/artist/${artist.id}`"
+              class="artist-name"
+            >
+              {{ artist.name }}
+            </router-link>
+            <span v-if="index !== artists.length -1"> · </span>
+          </span>
+        </v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
         <v-btn

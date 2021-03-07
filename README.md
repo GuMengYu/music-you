@@ -4,10 +4,9 @@
 ## 🌄 预览
 
 ![主要](doc/main.png)
-![浏览](doc/center.png)
+![浏览](doc/explore.png)
 ![日推](doc/daily.png)
 ![歌手](doc/artist.png)
-![播放列表](doc/playlist.png)
 ![播放](doc/nextup.png)
 ![mv](doc/mv.png)
 
