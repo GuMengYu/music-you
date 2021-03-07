@@ -55,7 +55,7 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      const condition = { cat: this.type, offset: 0, limit: 10 };
+      const condition = { cat: this.type, offset: 0, limit: 20 };
       const { playlists } = await getTopPlaylist(condition);
       this.playlists = playlists;
       this.loading = false;

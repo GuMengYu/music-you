@@ -2,17 +2,30 @@
   <v-sheet>
     <custom-col
       title="recent"
-      subtitle="近期"
-      more="/library/recent"
+      subtitle="activity"
+      class="mb-4"
     >
       <template slot="content">
-        <span>content</span>
+        <cover-row-skeleton v-if="loadingRecent" />
+        <v-row>
+          <v-col
+            v-for="track in recent"
+            :key="track.id"
+            cols="3"
+            class="pa-2"
+          >
+            <song-bar
+              :song="track"
+              class="track-item"
+            />
+          </v-col>
+        </v-row>
       </template>
     </custom-col>
     <v-tabs
       ref="tabs"
       v-model="tab"
-      class="mb-8"
+      class="mb-4"
     >
       <v-tab
         v-for="t in tabs"
@@ -23,7 +36,10 @@
         {{ t.name }}
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab" class="tab_page">
+    <v-tabs-items
+      v-model="tab"
+      class="tab_page pt-4"
+    >
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" />
         <cover-list
@@ -75,14 +91,17 @@
 
 <script>
 import CustomCol from '@components/layout/Col'
-import {sync} from 'vuex-pathify';
+import {sync, get} from 'vuex-pathify';
 import CoverList from '@components/app/CoverList'
 import VideoCover from '@components/app/VideoCover'
 import {favAlbums, favArtists, favMVs, getUserPlaylist} from '@/api/user'
+import {getSongData} from '@/api'
+
 import CoverRowSkeleton from '../components/skeleton/coverRowSkeleton.vue';
+import SongBar from '@components/app/SongBar'
 export default {
   name: 'Library',
-  components: { CoverList, VideoCover, CustomCol, CoverRowSkeleton },
+  components: { SongBar, CoverList, VideoCover, CustomCol, CoverRowSkeleton },
   data() {
     return {
       tabs: [
@@ -95,6 +114,8 @@ export default {
       albums: [],
       mvs: [],
       artists: [],
+      recent: [],
+      loadingRecent: false,
       loading: {
         playlists: false,
         albums: false,
@@ -105,6 +126,7 @@ export default {
   },
   computed: {
     playlist: sync('music/playlist'),
+    recentIds: get('music/recent'),
     type() {
       return {
         0: 'playlists',
@@ -114,8 +136,14 @@ export default {
       }[this.tab];
     },
   },
+  created () {
+    this.fetch();
+  },
   methods: {
-    async fetch() {},
+    async fetch() {
+      const {songs} = await getSongData(this.recentIds.slice(0, 16));
+      this.recent = songs;
+    },
     loadData() {
       this.$nextTick(async () => {
       // todo 简化以下逻辑
@@ -137,7 +165,6 @@ export default {
         this.playlist = playlist;
       }
       this.loading[this.type] = false;
-      // todo fix
       this.$vuetify.goTo(this.$refs['tabs']);
       });
     },
@@ -148,5 +175,8 @@ export default {
 <style scoped lang="scss">
 .tab_page {
   min-height: calc(100vh - 210px);
+}
+.track-item:before {
+  border-radius: 4px;
 }
 </style>

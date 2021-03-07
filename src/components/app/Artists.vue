@@ -2,33 +2,20 @@
   <div class="d-flex flex-column align-center artists-container">
     <v-hover v-slot="{ hover }">
       <v-avatar
-        color="indigo"
-        size="120"
         :class="{'artist-hover': hover}"
+        width="100%"
+        height="100%"
+        @click="go"
       >
-        <v-img :src="artists.img1v1Url | sizeOfImage" />
-        <v-overlay
-          :value="hover"
-          absolute
-        >
-          <v-card-actions>
-            <v-btn
-              icon
-              small
-              class="play-btn"
-              :class="{'hover-btn': hover}"
-            >
-              <v-icon>
-                {{ mdiPlay }}
-              </v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-overlay>
+        <v-img
+          :src="artists.img1v1Url | sizeOfImage"
+          class="artist-image"
+        />
       </v-avatar>
     </v-hover>
     <router-link
-      :to="`/artist/${artists.id}`"
-      class="title text--primary"
+      :to="to"
+      class="title text--primary text-center text-decoration-none"
     >
       <span class="h-1x mt-2 text-body-2 font-weight-bold">{{ artists.name }}</span>
     </router-link>
@@ -48,6 +35,16 @@ export default {
   data: () => ({
     mdiPlay,
   }),
+  computed: {
+    to() {
+      return `/artist/${this.artists.id}`
+    },
+  },
+  methods: {
+    go() {
+      this.$router.push(this.to);
+    },
+  },
 }
 </script>
 
@@ -56,20 +53,7 @@ export default {
   .artist-hover {
     transition: .5s all ease;
     transform: scale(1.025);
-  }
-  .title {
-    text-align: center;
-    text-decoration: none;
-    :hover {
-      text-decoration: underline;
-    }
-  }
-  .hover-btn {
-    backdrop-filter: blur(30px) brightness(90%);
-    background: transparent;
-  }
-  .play-btn:hover {
-    background: var(--v-primary-base);
+    cursor: pointer;
   }
 }
 </style>

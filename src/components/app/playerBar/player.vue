@@ -40,6 +40,7 @@ export default {
         format: ['mp3', 'flac'],
         onplay: () => {
           requestAnimationFrame(this.step);
+          this.saveToRecent();
         },
         // onend: function() {
         //   // Stop the wave animation.
@@ -114,6 +115,9 @@ export default {
     },
     saveCurrentTime() {
       localStorage.setItem('currentTime', this.currentTime);
+    },
+    saveToRecent() {
+      this.$store.dispatch('music/pushRecent', this.track.id);
     },
   },
 }

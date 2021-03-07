@@ -1,18 +1,18 @@
 <template>
   <page
-    title="FM"
+    title="云盘"
   >
   </page>
 </template>
+
 <script>
 import Page from '@components/layout/Page'
 export default {
-  name: 'DefaultFm',
+  name: 'CloudDisk',
   components: { Page },
-  data: () => ({
-  }),
 }
 </script>
-<style>
+
+<style scoped>
 
 </style>

@@ -55,41 +55,34 @@
           readonly
         >
           <v-expansion-panel>
-            <v-list
-              nav
-              dense
-            >
-              <v-list-item-group color="primary">
-                <v-expansion-panel-header class="pa-0">
-                  <v-row>
-                    <v-col
-                      v-for="track in hotSongs.slice(0, 6)"
-                      :key="track.id"
-                      cols="6"
-                    >
-                      <song-bar
-                        :song="track"
-                        class="track-item"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-row>
-                    <v-col
-                      v-for="track in hotSongs.slice(6, hotSongs.length)"
-                      :key="track.id"
-                      cols="6"
-                    >
-                      <song-bar
-                        :song="track"
-                        class="track-item"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-content>
-              </v-list-item-group>
-            </v-list>
+            <v-expansion-panel-header class="pa-0">
+              <v-row>
+                <v-col
+                  v-for="track in hotSongs.slice(0, 9)"
+                  :key="track.id"
+                  cols="4"
+                >
+                  <song-bar
+                    :song="track"
+                    class="track-item"
+                  />
+                </v-col>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-row>
+                <v-col
+                  v-for="track in hotSongs.slice(9, hotSongs.length)"
+                  :key="track.id"
+                  cols="4"
+                >
+                  <song-bar
+                    :song="track"
+                    class="track-item"
+                  />
+                </v-col>
+              </v-row>
+            </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
@@ -228,6 +221,9 @@ export default {
   &-desc {
     width: 100%;
   }
+}
+.track-item:before {
+  border-radius: 4px;
 }
 
 .item-title {

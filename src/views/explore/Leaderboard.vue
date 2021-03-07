@@ -74,6 +74,7 @@
         <Cover
           :data="toplist"
           class="item"
+          type="playlist"
         />
       </v-col>
     </v-row>

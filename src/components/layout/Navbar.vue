@@ -12,8 +12,11 @@
       dense
       class="system_nav"
     >
-      <v-list-item class="d-flex justify-end px-0">
-        <div />
+      <v-list-item
+        class="d-flex px-0"
+        :class="drawermini ? 'justify-center' : 'justify-end'"
+      >
+        <reload-btn />
         <b-f />
       </v-list-item>
       <v-list-item
@@ -68,9 +71,11 @@ import SettingToggle from '@components/layout/SettingToggle'
 import DefaultAccount from '@components/app/Account'
 import ThemeToggle from '@components/layout/ThemeToggle'
 import BF from '@components/layout/BF'
+import ReloadBtn from '@components/layout/ReloadBtn'
 export default {
   name: 'DefaultNavBar',
   components: {
+    ReloadBtn,
     BF,
     ThemeToggle,
     DefaultAccount,
@@ -89,7 +94,7 @@ export default {
       ],
       defaultNav2: [
         { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/library'},
-        { icon: mdiAlbum, val: 'disk', title: _t('disk'), to: '/disk' },
+        { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
         { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       defaultNav3: [],

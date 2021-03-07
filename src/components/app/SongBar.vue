@@ -3,7 +3,7 @@
     <v-list-item
       :value="song.id"
       :data-id="song.id"
-      @click="noop"
+      @contextmenu.prevent="openMenu"
     >
       <v-card
         class="mr-4"
@@ -32,10 +32,16 @@
           class="font-weight-bold"
           v-text="song.name"
         />
-        <v-list-item-subtitle
-          class="font-weight-bold"
-          v-text="$ochain(song, 'ar', '0', 'name')"
-        />
+        <router-link
+          v-for="artist in artists"
+          :key="artist.id"
+          :to="`/artist/${artist.id}`"
+          class="artist-name"
+        >
+          <v-list-item-subtitle
+            v-text="artist.name"
+          />
+        </router-link>
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
         <v-btn
@@ -46,7 +52,7 @@
           color="red"
           x-small
           class="list-delete-button"
-          @click.stop="more"
+          @click.prevent="openMenu"
         >
           <v-icon>
             {{ mdiDotsHorizontal }}
@@ -81,6 +87,18 @@ export default {
     playing() {
       return true;
     },
+    menuItems() {
+      const val = this.song.id;
+      return [
+        {title: '播放', type: 'play', val},
+        {title: '收藏到歌单', type: 'sub', val},
+        {title: '添加到喜欢', type: 'fav', val},
+      ]
+    },
+    artists() {
+      const { ar } = this.song;
+      return ar.map(i => ({id: i.id, name: i.name}));
+    },
   },
   methods: {
     play() {
@@ -91,6 +109,18 @@ export default {
 
     },
     noop() {},
+    openMenu(e) {
+      const {clientX: x, clientY: y} = e;
+      dispatch('contextmenu/show', {x, y, items: this.menuItems})
+    },
   },
 }
 </script>
+<style scoped lang="scss">
+.artist-name {
+  text-decoration: none;
+  &:hover {
+   text-decoration: underline;
+  }
+}
+</style>

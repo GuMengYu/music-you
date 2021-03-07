@@ -5,7 +5,7 @@
       :key="item.id"
       :cols="12/col"
     >
-      <Artists
+      <artists-cover
         v-if="type === 'artist'"
         :artists="item"
       />
@@ -20,9 +20,12 @@
 </template>
 <script>
 import Cover from '@components/app/Cover';
-import Artists from '@components/app/Artists'
+import ArtistsCover from '@components/app/Artists'
 export default {
-  components: {Artists, Cover},
+  components: {
+    ArtistsCover,
+    Cover,
+  },
   props: {
     list: {
       type: Array,

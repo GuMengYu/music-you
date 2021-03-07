@@ -92,6 +92,11 @@ const musicRoutes = [{
   name: 'radio',
   component: lazyLoad('Radio'),
   meta: {keepAlive: true},
+},{
+  path: '/cloud_disk',
+  name: 'cloud_disk',
+  component: lazyLoad('CloudDisk'),
+  meta: {keepAlive: true},
 }]
 
 export function createRouter(vuetify, store) {

@@ -15,6 +15,13 @@
     </v-dialog>
     <default-login />
     <default-snackbar />
+    <context-menu />
+    <v-overlay
+      :value="showList"
+      z-index="2"
+      class="overlay"
+      opacity="1"
+    />
   </v-app>
 </template>
 
@@ -30,10 +37,12 @@ import DefaultHeader from '@components/layout/Header'
 import DefaultView from '@components/layout/View'
 import {sync} from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
+import ContextMenu from '@components/default/ContextMenu'
 
 export default {
   name: 'Layout',
   components: {
+    ContextMenu,
     DefaultView,
     DefaultSetting,
     DefaultSnackbar,
@@ -59,5 +68,11 @@ export default {
 <style lang="scss">
 .theme--dark.v-application {
   background: #1E1E1E !important;
+}
+.overlay {
+  .v-overlay__scrim {
+    backdrop-filter: blur(5px);
+    background-color: rgb(0, 0, 0, .3) !important;
+  }
 }
 </style>

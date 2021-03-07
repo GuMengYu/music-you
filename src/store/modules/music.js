@@ -3,6 +3,7 @@ import { favTrack, getLikeList } from '@/api'
 import {getUserPlaylist} from '@/api/user';
 import {sleep} from '@util/fn';
 import {make} from 'vuex-pathify';
+import {uniqWith, isEqual} from 'lodash';
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -21,6 +22,7 @@ const state = {
   loadAudio: false,
   likes: [],
   playlist: [],
+  recent: JSON.parse(localStorage.getItem('recent')) ?? [],
 };
 
 export default {
@@ -99,6 +101,19 @@ export default {
         }
         commit('likes', likes);
       }
+    },
+    pushRecent({state, commit}, payload) {
+      const recent = uniqWith([payload , ...state.recent], isEqual);
+      const limit = 100, len = recent.length;
+      if (len > limit) {
+        recent.splice(limit, len - limit);
+      }
+      try {
+        localStorage.setItem('recent', JSON.stringify(recent));
+      } catch (e) {
+        console.error(e);
+      }
+      commit('recent', recent);
     },
   },
   mutations: {

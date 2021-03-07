@@ -73,34 +73,34 @@
               />
             </v-list-item-action>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title
-                class="font-weight-bold"
-              >
-                {{ $t('common.cache') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action class="mr-4">
-              <v-switch v-model="autoCache" />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.cached', {size: tracksCache.size, length: tracksCache.length}) }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-btn
-                text
-                color="primary"
-                @click="clearCache"
-              >
-                {{ $t('common.clear_cache') }}
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
+<!--          <v-list-item>-->
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title-->
+<!--                class="font-weight-bold"-->
+<!--              >-->
+<!--                {{ $t('common.cache') }}-->
+<!--              </v-list-item-title>-->
+<!--            </v-list-item-content>-->
+<!--            <v-list-item-action class="mr-4">-->
+<!--              <v-switch v-model="autoCache" />-->
+<!--            </v-list-item-action>-->
+<!--          </v-list-item>-->
+<!--          <v-list-item>-->
+<!--            <v-list-item-content>-->
+<!--              <v-list-item-title class="font-weight-bold">-->
+<!--                {{ $t('common.cached', {size: tracksCache.size, length: tracksCache.length}) }}-->
+<!--              </v-list-item-title>-->
+<!--            </v-list-item-content>-->
+<!--            <v-list-item-action>-->
+<!--              <v-btn-->
+<!--                text-->
+<!--                color="primary"-->
+<!--                @click="clearCache"-->
+<!--              >-->
+<!--                {{ $t('common.clear_cache') }}-->
+<!--              </v-btn>-->
+<!--            </v-list-item-action>-->
+<!--          </v-list-item>-->
         </v-list>
       </div>
     </v-card>

@@ -18,16 +18,13 @@
         {{ mdiChevronRight }}
       </v-icon>
     </v-btn>
-    <reload-btn />
   </div>
 </template>
 
 <script>
 import {mdiChevronRight, mdiChevronLeft} from '@mdi/js';
-import ReloadBtn from '@components/layout/ReloadBtn'
 export default {
   name: 'BF',
-  components: { ReloadBtn },
   data:() => ({mdiChevronRight, mdiChevronLeft}),
 }
 </script>

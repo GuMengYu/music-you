@@ -8,6 +8,8 @@
         class="d-flex align-end justify-end cover-card"
         elevation="0"
         :class="{'cover-hover' : hover}"
+        :to="to"
+        @contextmenu.prevent="openMenu"
       >
         <v-img
           :src="coverBgUrl"
@@ -38,7 +40,7 @@
                   elevation="0"
                   class="cover-btn"
                   :class="{'hover-btn': hover}"
-                  @click="play"
+                  @click.prevent="play"
                 >
                   <font-awesome-icon icon="play" />
                 </v-btn>
@@ -49,7 +51,7 @@
                 fab
                 class="cover-btn"
                 :class="{'hover-btn': hover}"
-                @click="play"
+                @click.prevent="openMenu"
               >
                 <v-icon>
                   {{ icon.mdiDotsHorizontal }}
@@ -79,8 +81,8 @@
 <script>
 import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
 import { getPlayList, getAlbum, getArtist } from '@/api';
-import * as Vibrant from 'node-vibrant'
 import {sizeOfImage} from '@util/fn';
+import { dispatch } from 'vuex-pathify'
 export default {
   name: 'Cover',
   props: {
@@ -132,12 +134,6 @@ export default {
     coverBgUrl() {
       return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl)
     },
-    // gradient() {
-    //   return `to bottom, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgba(0,0,0,0)`;
-    // },
-    // gradient2() {
-    //   return `to bottom right, rgb(${this.rgb.join()}) , rgba(0,0,0,0), rgb(${this.rgb2.join()})`;
-    // },
     service() {
       return {
         'album': getAlbum,
@@ -145,10 +141,16 @@ export default {
         'artist': getArtist,
       }[this.type]
     },
+    menuItems() {
+      const val = this.data.id;
+      return [
+        {title: '播放', type: 'play', val},
+        {title: '收藏', type: 'sub', val},
+        {title: '下一首播放', type: 'next', val},
+      ]
+    },
   },
-  created () {
-    // this.initImgPalette();
-  },
+  created () {},
   methods: {
     async play() {
       this.loading = true;
@@ -165,11 +167,9 @@ export default {
       await this.$store.dispatch('music/updateTrack', {id: list?.[0]?.id});
       this.loading = false;
     },
-    initImgPalette() {
-      Vibrant.from(this.data.picUrl ?? this.data.coverImgUrl).getPalette().then(res => {
-        this.rgb = res.DarkMuted?.['_rgb'];
-        this.rgb2 = res.DarkVibrant?.['rgb'];
-      });
+    openMenu(e) {
+      const {clientX: x, clientY: y} = e;
+      dispatch('contextmenu/show', {x, y, items: this.menuItems})
     },
   },
 
