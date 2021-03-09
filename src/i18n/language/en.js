@@ -60,6 +60,7 @@ export default {
     theme: 'Theme',
     light: 'light',
     dark: 'dark',
+    theme_color: 'Theme color',
     auto: 'auto',
     quality: 'Quality',
     cache: 'Cache Songs',

@@ -10,6 +10,8 @@
         </div>
         <div>
           <v-btn
+            color="primary"
+            elevation="0"
             fab
             small
             @click="play"

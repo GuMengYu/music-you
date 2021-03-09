@@ -28,11 +28,10 @@
       class="playing-container-list overflow-y-auto"
     >
       <v-list-item-group
-        v-model="currentSong"
         color="primary"
       >
         <song-bar
-          v-for="(song, i) in playingList"
+          v-for="(song, i) in nextList"
           :key="i"
           :song="song"
         />
@@ -43,8 +42,7 @@
 
 <script>
 import { mdiCloseCircle } from '@mdi/js';
-import { mapState } from 'vuex';
-import {sync} from 'vuex-pathify';
+import {sync, get} from 'vuex-pathify';
 import SongBar from '@/components/app/SongBar';
 export default {
   name: 'PlayingList',
@@ -56,17 +54,12 @@ export default {
   },
   inject: ['theme'],
   computed: {
-    ...mapState({
-      playingList: state => state.music.playingList,
-    }),
+    playingList: get('music/playingList'),
+    current: get('music/track@id'),
     showList: sync('music/showList'),
-    currentSong: {
-      get() {
-        return this.$store.state.music.song?.id;
-      },
-      set(val) {
-        this.$store.dispatch('music/updateTrack', { id: val });
-      },
+    nextList() {
+      const idx = this.playingList.findIndex(i => i.id === this.current);
+      return this.playingList.slice(idx + 1);
     },
   },
   watch: {

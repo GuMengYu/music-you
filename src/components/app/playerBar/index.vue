@@ -275,7 +275,6 @@ export default {
   },
   created () {
     this.currentTrackId && this.$store.dispatch('music/updateTrack', {id: this.currentTrackId, option: {autoplay: false, resetProgress: false}});
-    console.log('player created', this.currentTrackId);
   },
   mounted() {},
   methods: {

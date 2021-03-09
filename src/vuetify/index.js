@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import themePalettes from './theme'
 import {
   faHeart,
   faBackward,
@@ -22,9 +23,8 @@ library.add(faPlay, faPause, faHeart, faBackward, faForward, faBars, faUndo, faR
 
 Vue.use(Vuetify)
 
-import colors from 'vuetify/lib/util/colors'
 export function createVuetify (store) {
-
+  const palettes = themePalettes[store.state.settings.palettes]?.palette;
   return new Vuetify({
     icons: {
       iconfont: 'mdiSvg',
@@ -34,22 +34,10 @@ export function createVuetify (store) {
       options: { customProperties: true },
       themes: {
         light: {
-          primary: colors.amber.darken4,
-          'bar-bg': {
-            base: '#FFFFFF',
-          },
-          'reverse-color': {
-            base: '#363636',
-          },
+          ...palettes,
         },
         dark: {
-          primary: colors.amber.darken4,
-          'bar-bg': {
-            base: '#1E1E1E',
-          },
-          'reverse-color': {
-            base: '#FFF',
-          },
+          ...palettes,
         },
       },
     },

@@ -30,17 +30,16 @@
         color="primary"
       >
         <v-subheader
+          v-if="subHeader"
           class="font-weight-bold text-uppercase"
-          v-text="$t('common.translations')"
+          v-text="subHeader"
         />
         <v-list-item
           v-for="o in options"
           :key="o.val"
           :value="o.val"
-          class="font-weight-bold"
         >
           <v-list-item-title
-            class="text-lowercase font-weight-bold"
             v-text="o.title"
           />
         </v-list-item>
@@ -65,17 +64,9 @@ export default {
     },
     options : {
       type: Array,
-      default: () => ([
-        {
-          title: '简体中文',
-          val: 'zh',
-        },
-        {
-          title: 'English',
-          val: 'en',
-        },
-      ]),
+      default: () => ([]),
     },
+    subHeader: String,
   },
   data() {
     return {

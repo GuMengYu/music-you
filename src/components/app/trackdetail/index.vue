@@ -171,7 +171,6 @@ export default {
       display: block;
       width: 4em;
       height: 0.6em;
-      background: var(--v-reverse-color-base);
       margin: 0 auto;
       z-index: 10;
       border-radius: 10em;

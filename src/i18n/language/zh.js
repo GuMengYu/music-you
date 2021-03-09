@@ -60,6 +60,7 @@ export default {
     theme: '主题',
     light: '浅色',
     dark: '深色',
+    theme_color: '主题色',
     auto: '跟随系统',
     quality: '音质',
     cache: '本地缓存歌曲',

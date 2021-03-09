@@ -40,6 +40,7 @@
               <default-select
                 v-model="locale"
                 :options="langOptions"
+                sub-header="translation"
               />
             </v-list-item-action>
           </v-list-item>
@@ -55,6 +56,23 @@
               <default-select
                 v-model="theme"
                 :options="appearanceOptions"
+                sub-header="theme"
+              />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                class="font-weight-bold"
+              >
+                {{ $t('common.theme_color') }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <default-select
+                v-model="palettes"
+                :options="themePalette"
+                sub-header="palettes"
               />
             </v-list-item-action>
           </v-list-item>
@@ -70,6 +88,7 @@
               <default-select
                 v-model="quality"
                 :options="qualityOptions"
+                sub-header="quality"
               />
             </v-list-item-action>
           </v-list-item>
@@ -112,6 +131,7 @@ import { sync } from 'vuex-pathify';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select';
 import DefaultAccount from '@components/app/Account'
+import themePalettes from '@/vuetify/theme';
 export default {
   name: 'DefaultSetting',
   components: {
@@ -125,10 +145,10 @@ export default {
         length: 0,
       },
       langOptions: [{
-        title: '🇨🇳简体中文',
+        title: '🇨🇳 简体中文',
         val: 'zh',
       }, {
-        title: '🇬🇧English',
+        title: '🇬🇧 English',
         val: 'en',
       }],
       qualityOptions: [{
@@ -151,11 +171,12 @@ export default {
         title: `🌗 ${this.$i18n.t('common.auto')}`,
         val: 'auto',
       }],
+      themePalette: Object.keys(themePalettes).map(key => ({title: key, val: key})),
       dark: false,
     }
   },
   computed: {
-    ...sync('settings', ['locale', 'quality', 'theme', 'autoCache']),
+    ...sync('settings', ['locale', 'quality', 'theme', 'autoCache', 'palettes']),
     ...sync('app', ['showSettings', 'showLogin']),
   },
   watch: {
@@ -193,6 +214,11 @@ export default {
           const locale = mutation.payload;
           this.$i18n.locale = locale;
           this.$dayjs.locale(locale);
+          // location.reload();
+        } else if (mutation.type === 'settings/palettes') {
+          const palettes = themePalettes[mutation.payload]?.palette;
+          this.$vuetify.theme.themes.light = palettes;
+          this.$vuetify.theme.themes.dark = palettes;
           // location.reload();
         }
       })

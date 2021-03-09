@@ -11,6 +11,7 @@ const state = () => {
     quality: '192000',
     autoCache: false,
     theme: 'auto',
+    palettes: 'radio',
     volume: 0.8,
     account: {},
   }, data)
