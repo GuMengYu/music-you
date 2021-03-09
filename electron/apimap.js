@@ -162,6 +162,7 @@ const video_group = require('NeteaseCloudMusicApi/module/video_group');
 const video_group_list = require('NeteaseCloudMusicApi/module/video_group_list');
 const video_url = require('NeteaseCloudMusicApi/module/video_url');
 
+const others = require('./otherapi')
 module.exports = {
 
 
@@ -309,7 +310,7 @@ module.exports = {
   '/album/detail': generatorFn(album_detail),
   '/album': generatorFn(album),
   '/activate_init_profile': generatorFn(activate_init_profile),
-
+  ...others,
 };
 
 function generatorFn(module) {

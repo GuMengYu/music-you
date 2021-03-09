@@ -35,6 +35,12 @@ export const getSongData = (ids = []) => xhr.get(`/song/detail?ids=${ids.join()}
 export const getSongUrl = id => xhr.get(`/song/url?id=${id}`);
 
 /**
+ * 解锁灰色不可播放歌曲
+ * @param id
+ */
+export const getSongUrlFromUnlockMusic = id => xhr.get('/unlockmusic',{params: {id}});
+
+/**
  * 获取歌单详情
  * @param id
  * 根据歌单id返回歌单详细信息
@@ -120,7 +126,12 @@ export const getLyric = id => xhr.get(`/lyric?id=${id}`);
 
 export const getArtist = id => xhr.get(`/artists?id=${id}`);
 
-export const getArtistAlbum = id => xhr.get(`/artist/album?id=${id}`);
+export const getArtistAlbum = id => xhr.get('/artist/album', {
+  params: {
+    id,
+    limit: 200,
+  },
+});
 
 /**
  * 标记|取消 喜欢音乐

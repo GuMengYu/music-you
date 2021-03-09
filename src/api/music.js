@@ -1,4 +1,4 @@
-import { getLyric, getSongData, getSongUrl } from '@/api/index'
+import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from '@/api/index'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -16,8 +16,9 @@ export const getTrackDetail = async (id, logged = false) => {
   let url;
   if (logged) {
     const { data: [song] } = await getSongUrl(id);
-    if (song?.freeTrialInfo) {
-      url = null;
+    if (song?.freeTrialInfo || !song.url) {
+      const { data } = await getSongUrlFromUnlockMusic(id); // 尝试解锁灰色或者试听歌曲
+      url = data?.url;
     } else {
       url = song.url;
     }

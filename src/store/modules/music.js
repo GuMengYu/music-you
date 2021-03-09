@@ -68,7 +68,7 @@ export default {
       const {id, option = {autoplay: true, resetProgress: true}} = payload;
       commit('playing', false);
       commit('loadAudio', true);
-      await sleep();
+      // await sleep();
       const track = await getTrackDetail(id, rootGetters['settings/logged']);
       if (option.resetProgress) {
         commit('currentTime', 0);
