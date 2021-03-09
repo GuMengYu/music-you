@@ -10,7 +10,7 @@
           icon
           @click="showSettings = false"
         >
-          <v-icon>{{ icon.mdiClose }}</v-icon>
+          <v-icon>$close</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t('common.setting') }}</v-toolbar-title>
       </v-toolbar>
@@ -109,7 +109,6 @@
 
 <script>
 import { sync } from 'vuex-pathify';
-import {mdiClose, mdiLogin, mdiLogout} from '@mdi/js';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select';
 import DefaultAccount from '@components/app/Account'
@@ -121,7 +120,6 @@ export default {
   },
   data() {
     return {
-      icon: { mdiClose, mdiLogin, mdiLogout },
       tracksCache: {
         size: '0KB',
         length: 0,

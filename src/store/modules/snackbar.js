@@ -3,7 +3,7 @@ import { make } from 'vuex-pathify'
 
 const state = {
   snackbar: {
-    action_text: 'Close',
+    action_text: '',
     action: '',
     color: 'success',
     emoji: '',

@@ -44,7 +44,7 @@
 
 <script>
 import { sync, get, dispatch } from 'vuex-pathify'
-import {mdiChevronDown, mdiLogin} from '@mdi/js';
+import {mdiLogin} from '@mdi/js';
 import AppMenu from '../default/Menu';
 export default {
   name: 'DefaultAccount',
@@ -52,7 +52,6 @@ export default {
   data: function () {
     return {
       icon: {
-        mdiChevronDown,
         mdiLogin,
       },
       options: [{

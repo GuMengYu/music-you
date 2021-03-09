@@ -12,8 +12,7 @@
         v-text="snackbar.emoji"
       />
 
-      <p
-        class="mb-n4"
+      <span
         v-text="snackbar.text"
       />
     </div>

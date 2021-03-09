@@ -25,7 +25,7 @@
       nav
       max-height="70vh"
       max-width="350"
-      class="overflow-y-auto"
+      class="playing-container-list overflow-y-auto"
     >
       <v-list-item-group
         v-model="currentSong"
@@ -85,10 +85,13 @@ export default {
   position: fixed;
   right: 20px;
   bottom: 80px;
-  z-index: 3;
+  z-index: 7;
   backdrop-filter: blur(30px);
-  ::v-deep .v-list {
+  .playing-container-list {
     background: transparent;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
   }
 }
 .theme--light {

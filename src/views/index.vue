@@ -18,7 +18,7 @@
     <context-menu />
     <v-overlay
       :value="showList"
-      z-index="2"
+      z-index="6"
       class="overlay"
       opacity="1"
     />

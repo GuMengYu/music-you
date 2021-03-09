@@ -57,6 +57,7 @@ import {mdiLock, mdiEmail, mdiPhone, mdiSwitch} from '@mdi/js';
 import DefaultInput from '@components/default/Input'
 import {login} from '@/api';
 import md5 from 'md5';
+import {dispatch} from 'vuex-pathify';
 export default {
   name: 'DefaultLogin',
   components: { DefaultInput },
@@ -84,18 +85,23 @@ export default {
           countrycode: '86',
         })
         .then(({code, profile, token}) => {
-          if (code !== 502) {
-            this.$store.dispatch('settings/updateAccount', { profile, token });
+          if (code === 200) {
+            dispatch('settings/updateAccount', { profile, token });
             this.showLogin = false;
             location.reload();
+          } else {
+            showError();
           }
         })
         .catch(() => {
-
+          showError();
         })
         .finally(() => {
           this.loading = false;
         });
+      const showError = () => {
+        dispatch('snackbar/show', {text: 'whoops 发生错误，请检查账号密码', type: 'error'});
+      }
     },
   },
 }

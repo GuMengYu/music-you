@@ -1,4 +1,6 @@
 import { musicXhr as xhr } from '@/util/xhr';
+import {now} from 'lodash';
+
 /**
  * 登录
  * - phone: 手机号
@@ -9,7 +11,7 @@ import { musicXhr as xhr } from '@/util/xhr';
  * }
  */
 export const login = params => {
-  return xhr.post('/login/cellphone', params);
+  return xhr.post(`/login/cellphone?timestamp=${now()}`, params);
 }
 /**
  * banner
