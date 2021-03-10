@@ -1,5 +1,5 @@
+import {musicXhr as xhr} from '@/util/xhr'
 import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from '@/api/index'
-
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id: 歌曲id
@@ -26,4 +26,13 @@ export const getTrackDetail = async (id, logged = false) => {
     url = `https://music.163.com/song/media/outer/url?id=${id}`
   }
   return {...track, url, lyric};
+}
+
+export const search = async (keywords, conditions) => {
+  return xhr.get('/cloudsearch', {
+    params: {
+      keywords,
+      ...conditions,
+    },
+  })
 }

@@ -17,6 +17,7 @@
     @clear="resetSearch"
     @focus="onFocus"
     @keydown.esc="onEsc"
+    @keydown.enter="onEnter"
     @input="$emit('input', model)"
   >
     <template #prepend-inner>
@@ -81,6 +82,9 @@ export default {
     },
     onEsc () {
       this.$refs.search.blur()
+    },
+    onEnter () {
+      this.$emit('enter');
     },
     async onFocus () {
       this.isFocused = true

@@ -10,6 +10,7 @@
         <v-img
           :src="artists.img1v1Url | sizeOfImage"
           class="artist-image"
+          aspect-ratio="1"
         />
       </v-avatar>
     </v-hover>

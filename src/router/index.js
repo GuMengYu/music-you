@@ -97,6 +97,18 @@ const musicRoutes = [{
   name: 'cloud_disk',
   component: lazyLoad('CloudDisk'),
   meta: {keepAlive: true},
+},{
+  path: '/search/:keywords?',
+  name: 'search',
+  component: lazyLoad('search'),
+  props: true,
+  meta: {
+    keepAlive: true,
+  },
+},{
+  path: '/search/:keywords/:type',
+  name: 'searchMore',
+  component: lazyLoad('search/more'),
 }]
 
 export function createRouter(vuetify, store) {

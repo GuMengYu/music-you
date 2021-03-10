@@ -10,9 +10,11 @@
     <drawer-toggle />
     <v-spacer />
     <default-input
+      v-model="keywords"
       :holder="$t('common.search_type_2')"
       :icon="icon.mdiMagnify"
       class="search_input"
+      @enter="goSearch"
     />
   </v-app-bar>
 </template>
@@ -31,9 +33,21 @@ export default {
   inject: ['theme'],
   data: () => ({
     icon: {mdiMagnify},
+    keywords: '',
   }),
   computed: {
     account: get('settings/account'),
+  },
+  methods: {
+    goSearch() {
+      const {name, params} = this.$route;
+      if (!this.keywords) return;
+      if (name === 'search' && params.keywords === this.keywords) return;
+      this.$router.push({
+        name: 'search',
+        params: { keywords: this.keywords },
+      });
+    },
   },
 }
 </script>

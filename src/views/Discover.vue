@@ -1,6 +1,7 @@
 <template>
   <v-sheet class="discover">
-    <v-row>
+    <discover-skeleton v-if="loading" />
+    <v-row v-else>
       <v-col cols="7">
         <CustomCol :title="$t('main.artist.latest')">
           <template slot="content">
@@ -51,8 +52,10 @@ import WideCover from '@components/app/WideCover'
 import {mapGetters} from 'vuex'
 import CustomCol from '@components/layout/Col'
 import VideoCover from '@components/app/VideoCover'
+import DiscoverSkeleton from '@components/skeleton/discoverSkeleton'
 export default {
   components: {
+    DiscoverSkeleton,
     VideoCover,
     CustomCol,
     WideCover,
@@ -62,6 +65,7 @@ export default {
     playLists: [],
     release: {},
     mvs: [],
+    loading: false,
   }),
   computed: {
     currentSong: {
@@ -78,6 +82,7 @@ export default {
   },
   async created() {
     NProgress.start();
+    this.loading = true;
     try {
       const [playlists, { albums }, {result: mvs}] = await Promise.all([getPersonalized(), newAlbums({limit: 1, area: 'EA'}), getMv()]);
       this.playLists = playlists.result.slice(0, 6);
@@ -87,6 +92,7 @@ export default {
       console.log(e);
     } finally {
       NProgress.done();
+      this.loading = false;
     }
   },
   methods: {

@@ -32,7 +32,10 @@
         <div class="item-title my-3">
           <span class="font-weight-bold text-h6">{{ $t('main.artist.latest') }}</span>
         </div>
-        <Cover :data="latest" />
+        <Cover
+          :data="latest"
+          style="max-width: 200px"
+        />
       </v-col>
       <v-col lg="9">
         <div class="item-title d-flex justify-space-between my-3 ml-4">
