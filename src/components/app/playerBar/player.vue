@@ -20,6 +20,8 @@ export default {
       if (newTrack.id !== oldTrack.id) {
         this.init(newTrack.url);
         console.log('song changed');
+      } else {
+        this.loadAudio = false;
       }
     },
     volume(val) {

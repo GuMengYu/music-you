@@ -17,8 +17,13 @@ export const getTrackDetail = async (id, logged = false) => {
   if (logged) {
     const { data: [song] } = await getSongUrl(id);
     if (song?.freeTrialInfo || !song.url) {
-      const { data } = await getSongUrlFromUnlockMusic(id); // 尝试解锁灰色或者试听歌曲
-      url = data?.url;
+      try {
+        const { data } = await getSongUrlFromUnlockMusic(id); // 尝试解锁灰色或者试听歌曲
+        url = data?.url;
+      } catch (e) {
+        console.log(e);
+        url = null;
+      }
     } else {
       url = song.url;
     }

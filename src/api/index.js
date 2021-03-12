@@ -38,7 +38,7 @@ export const getSongUrl = id => xhr.get(`/song/url?id=${id}`);
  * 解锁灰色不可播放歌曲
  * @param id
  */
-export const getSongUrlFromUnlockMusic = id => xhr.get('/unlockmusic',{params: {id}});
+export const getSongUrlFromUnlockMusic = id => xhr.get('/unlockmusic',{params: {id}, timeout: 4000});
 
 /**
  * 获取歌单详情
