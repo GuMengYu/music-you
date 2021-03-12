@@ -4,6 +4,7 @@ import { createRouter } from '@/router'
 import { createStore } from '@/store'
 import { createVuetify } from '@/vuetify'
 import { createI18n } from '@/i18n';
+import {registerIpcRenderer} from '../electron/ipcRenderer';
 
 import plugins from '@/plugins';
 import filters from '@/filters';
@@ -25,6 +26,7 @@ const store = createStore();
 const vuetify = createVuetify(store);
 const i18n = createI18n(store);
 const router = createRouter(vuetify, store);
+const ipcrenderer = registerIpcRenderer(store, router);
 new Vue({
   store,
   router,

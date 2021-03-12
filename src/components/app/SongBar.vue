@@ -21,7 +21,7 @@
           </v-btn>
         </v-overlay>
         <v-img
-          :src="$ochain(song, 'al', 'picUrl')| sizeOfImage(128)"
+          :src="$ochain(song, 'al', 'picUrl')| sizeOfImage(32)"
           max-height="40"
           max-width="40"
           class="rounded"
