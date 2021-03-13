@@ -1,7 +1,6 @@
 import {getTrackDetail} from '@/api/music';
-import { favTrack, getLikeList } from '@/api'
+import { favTrack, getLikeList, personalFM } from '@/api'
 import {getUserPlaylist} from '@/api/user';
-import {sleep} from '@util/fn';
 import {make} from 'vuex-pathify';
 import {uniqWith, isEqual} from 'lodash';
 const PLAY_MODE = {
@@ -23,6 +22,9 @@ const state = {
   likes: [],
   playlist: [],
   recent: JSON.parse(localStorage.getItem('recent')) ?? [],
+  isCurrentFm: false,
+  fmTrack: {},
+  fmList: [], // 私人fm列表（3首）
 };
 
 export default {
@@ -31,6 +33,9 @@ export default {
   getters: {
     index(state) {
       return state.playingList.findIndex(track => track.id === state.track.id);
+    },
+    nextFmTrackId() {
+      return state.fmList[0]?.id
     },
     nextTrackId(state, getters) {
       const index = getters['index'];
@@ -62,7 +67,25 @@ export default {
     },
     updatePlayingList({commit}, list) {
       localStorage.setItem('playingList', JSON.stringify(list));
+      commit('isCurrentFm', false);
       commit('playingList', list);
+    },
+    async updatePersonalFmList({commit, state}) {
+      let originList = [...state.fmList];
+      let pop;
+      if (originList.length <= 1) {
+        let { data } = await personalFM();
+        if (originList.length === 1) {
+          pop = originList.shift();
+        } else {
+          pop = data?.shift();
+        }
+        commit('fmList', data);
+      } else {
+        pop = originList.shift();
+        commit('fmList', originList);
+      }
+      return pop;
     },
     async updateTrack({ rootGetters, commit, dispatch, getters }, payload) {
       const {id, option = {autoplay: true, resetProgress: true}} = payload;
@@ -74,6 +97,9 @@ export default {
         commit('currentTime', 0);
       }
       commit('track', track);
+      if (state.isCurrentFm) {
+        commit('fmTrack', track);
+      }
       commit('currentTrackId', track?.id);
       localStorage.setItem('currentTrackId', track?.id);
       if (!track.url) {

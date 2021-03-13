@@ -7,8 +7,6 @@ export default {
   data: () => ({
     progressThrottle: null,
     saveCurrentTimeThrottle: null,
-    // track: {},
-    pauseProgress: false,
     howler: null,
   }),
   computed: {

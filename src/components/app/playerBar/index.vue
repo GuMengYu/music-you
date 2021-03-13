@@ -98,6 +98,7 @@
             </v-btn>
             <v-btn
               icon
+              :disabled="isCurrentFm"
               @click="playPrev"
             >
               <font-awesome-icon icon="backward" />
@@ -127,6 +128,7 @@
             </v-btn>
             <v-btn
               icon
+              :disabled="isCurrentFm"
               @click="playOrder"
             >
               <v-icon small>
@@ -163,6 +165,7 @@
           <v-btn
             icon
             text
+            :disabled="isCurrentFm"
             @click="showList = !showList"
           >
             <v-icon small>
@@ -232,7 +235,9 @@ export default {
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     mode: sync('music/mode'),
+    isCurrentFm: get('music/isCurrentFm'),
     ...mapGetters({
+      nextFmTrackId: 'music/nextFmTrackId',
       next: 'music/nextTrackId',
       prev: 'music/prevTrackId',
       liked: 'music/liked',
@@ -282,10 +287,15 @@ export default {
       commit('music/playing', !this.playing);
     },
     playNext() {
-      this.$store.dispatch('music/updateTrack', {id: this.next});
+      if (this.isCurrentFm) {
+        dispatch('music/updateTrack', {id: this.nextFmTrackId});
+        dispatch('music/updatePersonalFmList');
+      } else {
+        dispatch('music/updateTrack', {id: this.next});
+      }
     },
     playPrev() {
-      this.$store.dispatch('music/updateTrack', {id: this.prev});
+      dispatch('music/updateTrack', {id: this.prev});
     },
     rePlay() {
       this.handleSlideChange(0);
@@ -388,6 +398,7 @@ export default {
   }
   .playing-slider {
     position: absolute;
+    -webkit-app-region: no-drag;
     top: -6px;
     width: 100%;
   }

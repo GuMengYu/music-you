@@ -64,7 +64,7 @@ export default {
       this.daily = data?.dailySongs ?? [];
     },
     async play() {
-      dispatch('music/updatePlaylist', this.daily)
+      dispatch('music/updatePlayingList', this.daily)
       dispatch('music/updateTrack', {id: this.daily?.[0].id})
     },
   },

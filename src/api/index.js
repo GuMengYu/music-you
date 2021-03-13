@@ -173,7 +173,7 @@ export const mvDetail = mvid => {
   return xhr.get('/mv/detail', {
     params: {
       mvid,
-      timestamp: new Date().getTime(),
+      timestamp: now(),
     },
   });
 }
@@ -215,8 +215,22 @@ export const simiMv = mvid => {
  */
 
 export function subMV(params) {
-  params.timestamp = new Date().getTime();
-  return xhr.post('/mv/sub', {
-    params,
+  return xhr.get('/mv/sub', {
+    params: {
+      ...params,
+      timestamp: now(),
+    },
   });
 }
+
+/**
+ * 私人fm
+ */
+
+export const personalFM = () => xhr.get('/personal_fm', {params: {timestamp: now()}});
+
+/**
+ * 私人fm 不喜欢
+ */
+export const fmToTrash = id => xhr.get('/fm_trash', {params: { id}});
+

@@ -40,6 +40,13 @@
             />
           </template>
         </CustomCol>
+        <CustomCol
+          :title="$t('main.nav.fm')"
+        >
+          <template slot="content">
+            <f-m v-if="logged" />
+          </template>
+        </CustomCol>
       </v-col>
     </v-row>
   </v-sheet>
@@ -51,6 +58,7 @@ import CoverList from '@components/app/CoverList'
 import WideCover from '@components/app/WideCover'
 import {mapGetters} from 'vuex'
 import CustomCol from '@components/layout/Col'
+import FM from '@components/app/FM'
 import VideoCover from '@components/app/VideoCover'
 import DiscoverSkeleton from '@components/skeleton/discoverSkeleton'
 export default {
@@ -60,6 +68,7 @@ export default {
     CustomCol,
     WideCover,
     CoverList,
+    FM,
   },
   data: () => ({
     playLists: [],
@@ -85,7 +94,7 @@ export default {
     this.loading = true;
     try {
       const [playlists, { albums }, {result: mvs}] = await Promise.all([getPersonalized(), newAlbums({limit: 1, area: 'EA'}), getMv()]);
-      this.playLists = playlists.result.slice(0, 6);
+      this.playLists = playlists.result.slice(0, 4);
       this.release = albums?.[0];
       this.mvs =mvs;
     } catch(e) {
