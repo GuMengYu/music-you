@@ -8,11 +8,7 @@ import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from '@/
  */
 export const getTrackDetail = async (id, logged = false) => {
   const { songs: [track] } = await getSongData([id]);
-  const {lrc, nolyric, uncollected} = await getLyric(id);
-  const lyric = (uncollected || nolyric) ? [] : lrc.lyric?.split('\n').map(i => {
-    const [time, sentence] = i.split(']');
-    return {time, sentence};
-  });
+  const lyric = await getLyric(id);
   let url;
   if (logged) {
     const { data: [song] } = await getSongUrl(id);

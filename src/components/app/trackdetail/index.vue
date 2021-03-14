@@ -28,15 +28,18 @@
               </div>
             </div>
             <div class="control_process mt-2">
-              <v-slider
+              <vue-slider
+                ref="vueLyricSlider"
                 v-model="currentTime"
                 class="playing-progress"
-                dense
-                hide-details
-                :max="track.dt / 1000"
-                min="0"
-                height="10"
-                track-color="rgb(128, 128, 128, .2)"
+                :max="~~(track.dt / 1000) || 0"
+                :min="0"
+                :interval="1"
+                :duration="0"
+                :drag-on-click="true"
+                :dot-size="10"
+                :height="2"
+                @drag-end="handleSlideChange"
               />
               <div class="time-info d-flex justify-space-between text-caption">
                 <span>{{ currentTime * 1000 | formatDuring }}</span>
@@ -79,6 +82,7 @@
           <div
             v-for="item in lyric"
             :key="item.time"
+            :aria-time="item.time"
           >
             {{ item.sentence }}
           </div>
@@ -91,6 +95,7 @@
 <script>
 import {mdiSkipPrevious, mdiDotsHorizontal, mdiPauseCircle, mdiSkipNext, mdiVolumeLow, mdiVolumeHigh, mdiShuffle, mdiRepeat} from '@mdi/js';
 import { get, sync } from 'vuex-pathify'
+import {formatLyric} from '@/util/fn';
 export default {
   name: 'DefaultTrackDetail',
   data: () => ({
@@ -126,7 +131,14 @@ export default {
       return `${this.track.al?.picUrl}?param=512y512`;
     },
     lyric() {
-      return this.track.lyric ?? [];
+      const {tlyric,lrc} = this.track.lyric ?? {};
+      let lyric = [];
+      if (tlyric?.lyric?.length) {
+        lyric = formatLyric(tlyric.lyric)
+      } else if (lrc?.lyric?.length) {
+        lyric = formatLyric(lrc.lyric);
+      }
+      return lyric;
     },
     volume: sync('settings/volume'),
     currentTime: sync('music/currentTime'),
@@ -140,6 +152,9 @@ export default {
   methods: {
     close() {
       this.$emit('close');
+    },
+    handleSlideChange() {
+      this.currentTime = this.$refs['vueLyricSlider'].getValue();
     },
   },
 };
