@@ -12,7 +12,7 @@
           ref="vueSlider"
           v-model="currentTime"
           class="playing-progress"
-          :max="~~(track.dt / 1000)"
+          :max="~~(track.dt / 1000) || 0"
           :min="0"
           :interval="1"
           :duration="0"

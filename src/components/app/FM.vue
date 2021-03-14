@@ -93,7 +93,7 @@ export default {
       return this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl;
     },
     albumName() {
-      return this.fmTrack.artists[0]?.name ?? this.fmTrack.artists[0]?.name;
+      return this.fmTrack.ar?.[0]?.name ?? this.fmTrack.artists?.[0]?.name;
     },
     ...mapGetters({
       nextFmTrackId: 'music/nextFmTrackId',

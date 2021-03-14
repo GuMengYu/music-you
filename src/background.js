@@ -31,6 +31,8 @@ async function createWindow () {
     },
     icon: path.join(__static, 'icon.png'),
   })
+  // hide menu bar on Windows and Linux
+  win.setMenuBarVisibility(false);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

@@ -27,7 +27,7 @@ export default {
     },
   },
   mounted() {
-    this.progressThrottle = throttle(this.runProgress, 500);
+    this.progressThrottle = throttle(this.runProgress, 1000);
     this.saveCurrentTimeThrottle = throttle(this.saveCurrentTime, 2000);
     this.track?.url && this.init(this.track.url);
   },
@@ -85,9 +85,11 @@ export default {
       this.howler.seek(val);
     },
     step() {
-      this.progressThrottle();
-      this.saveCurrentTimeThrottle();
-      if (this.howler.playing()) requestAnimationFrame(this.step);
+      if (this.howler.playing()) {
+        this.progressThrottle();
+        this.saveCurrentTimeThrottle();
+      }
+      requestAnimationFrame(this.step);
     },
     endCb() {
       // todo update 听歌记录

@@ -37,8 +37,6 @@
                 min="0"
                 height="10"
                 track-color="rgb(128, 128, 128, .2)"
-                @start="handleChangeTimeStart"
-                @change="handleSlideChange"
               />
               <div class="time-info d-flex justify-space-between text-caption">
                 <span>{{ currentTime * 1000 | formatDuring }}</span>
@@ -134,19 +132,14 @@ export default {
     currentTime: sync('music/currentTime'),
     track: get('music/track'),
   },
+  watch: {
+    currentTime() {
+      console.log(this.currentTime);
+    },
+  },
   methods: {
     close() {
       this.$emit('close');
-    },
-    // 拉动进度条的时候，停止计时
-    handleChangeTimeStart() {
-      // this.stopTimer()
-      console.debug('slider move start');
-    },
-    handleSlideChange() {
-      console.debug('slider change end');
-      // this.restoreTimer();
-      // this.setSeek(this.currentTime);
     },
   },
 };
