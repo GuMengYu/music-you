@@ -29,6 +29,14 @@
       </v-col>
       <v-col cols="5">
         <CustomCol
+          v-if="logged"
+          :title="$t('main.nav.fm')"
+        >
+          <template slot="content">
+            <f-m />
+          </template>
+        </CustomCol>
+        <CustomCol
           :title="$t('main.for_you')"
           :subtitle="$t('main.featured')"
         >
@@ -38,13 +46,6 @@
               type="playlist"
               :col="2"
             />
-          </template>
-        </CustomCol>
-        <CustomCol
-          :title="$t('main.nav.fm')"
-        >
-          <template slot="content">
-            <f-m v-if="logged" />
           </template>
         </CustomCol>
       </v-col>

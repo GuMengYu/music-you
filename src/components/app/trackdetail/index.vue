@@ -1,11 +1,16 @@
 <template>
-  <v-sheet class="frame">
+  <v-sheet
+    class="frame"
+    dark
+  >
     <div
-      class="frame-header"
+      class="frame-header mt-6"
       @click="close"
     />
-    <div class="frame-content mt-10 d-flex">
-      <div class="frame-content-left">
+    <v-row class="frame-content d-flex align-center">
+      <v-col
+        class="frame-content-left d-flex justify-center align-center"
+      >
         <div class="left-container">
           <v-card class="rounded-lg album-cover">
             <v-img
@@ -14,10 +19,10 @@
             />
           </v-card>
           <div class="control_bar d-flex flex-column mt-12 justify-space-between">
-            <div class="song-info d-flex justify-space-between mt-4">
-              <div class="left d-flex flex-column text-body-1">
-                <span class="font-weight-bold">{{ track.name }}</span>
-                <span class="font-weight-bold">{{ $ochain(track, 'ar', '0', 'name') }}</span>
+            <div class="d-flex justify-space-between mt-4">
+              <div class="left d-flex flex-column text-body-1 font-weight-bold">
+                <span>{{ track.name }}</span>
+                <span>{{ $ochain(track, 'ar', '0', 'name') }}</span>
               </div>
               <div class="right d-flex align-center">
                 <v-btn icon>
@@ -39,6 +44,7 @@
                 :drag-on-click="true"
                 :dot-size="10"
                 :height="2"
+                tooltip="none"
                 @drag-end="handleSlideChange"
               />
               <div class="time-info d-flex justify-space-between text-caption">
@@ -46,18 +52,7 @@
                 <span>{{ track.dt | formatDuring }}</span>
               </div>
             </div>
-            <div class="control_btns d-flex justify-space-around mt-4">
-              <v-btn
-                v-for="button in controlBtns"
-                :key="button.val"
-                icon
-                text
-              >
-                <v-icon :size="button.size">
-                  {{ button.icon }}
-                </v-icon>
-              </v-btn>
-            </div>
+            <control />
             <div class="control_volume mt-4">
               <v-slider
                 v-model="volume"
@@ -73,21 +68,32 @@
             </div>
           </div>
         </div>
-      </div>
-      <div
+      </v-col>
+      <v-col
         v-if="lyric.length"
         class="frame-content-right"
       >
-        <div class="frame-lyrics pb-4">
+        <div
+          ref="lyricContainer"
+          class="frame-lyrics"
+        >
+          <div class="first"></div>
           <div
-            v-for="item in lyric"
-            :key="item.time"
+            v-for="(item, index) in lyric"
+            :key="index"
             :aria-time="item.time"
+            :aria-index="index"
+            :class="{active: index === activeIdx}"
           >
             {{ item.sentence }}
           </div>
+          <div class="last mb-10"></div>
         </div>
-      </div>
+      </v-col>
+    </v-row>
+    <div class="frame-bg">
+      <img class="bg-color album-artwork" :src="albumPicUrl" />
+      <img class="bg-black album-artwork" :src="albumPicUrl" />
     </div>
   </v-sheet>
 </template>
@@ -96,37 +102,30 @@
 import {mdiSkipPrevious, mdiDotsHorizontal, mdiPauseCircle, mdiSkipNext, mdiVolumeLow, mdiVolumeHigh, mdiShuffle, mdiRepeat} from '@mdi/js';
 import { get, sync } from 'vuex-pathify'
 import {formatLyric} from '@/util/fn';
+import VueSlider from 'vue-slider-component';
+import {findIndex} from 'lodash';
+import Control from '@components/app/Control'
 export default {
   name: 'DefaultTrackDetail',
+  components: {
+    Control,
+    VueSlider},
   data: () => ({
     icon: {
       mdiDotsHorizontal,
       mdiVolumeLow,
       mdiVolumeHigh,
+      mdiShuffle,
+      mdiSkipPrevious,
+      mdiSkipNext,
+      mdiRepeat,
+      mdiPauseCircle,
     },
-    controlBtns: [{
-      val: 1,
-      icon: mdiShuffle,
-      size: '14',
-    }, {
-      val: 2,
-      icon: mdiSkipPrevious,
-      size: '34',
-    }, {
-      val: 3,
-      size: '44',
-      icon: mdiPauseCircle,
-    }, {
-      val: 4,
-      size: '34',
-      icon: mdiSkipNext,
-    }, {
-      val: 5,
-      icon: mdiRepeat,
-      size: '14',
-    }],
+    activeIdx: -1,
+    interval: null,
   }),
   computed: {
+    isCurrentFm: get('music/isCurrentFm'),
     albumPicUrl() {
       return `${this.track.al?.picUrl}?param=512y512`;
     },
@@ -143,13 +142,51 @@ export default {
     volume: sync('settings/volume'),
     currentTime: sync('music/currentTime'),
     track: get('music/track'),
+    showLyricsPage: sync('music/showLyricsPage'),
   },
   watch: {
-    currentTime() {
-      console.log(this.currentTime);
+    showLyricsPage(val) {
+      if (val) {
+        this.initInterval();
+      } else {
+        clearInterval(this.interval);
+      }
     },
   },
+  mounted () {
+    this.initInterval();
+  },
+  destroyed () {
+    clearInterval(this.interval);
+  },
   methods: {
+    initInterval() {
+      this.interval = setInterval(() => {
+        this.calculate();
+      }, 200);
+    },
+    // 计算歌词位置并滚动
+    calculate() {
+      const current = this.currentTime;
+      const prevActiveIdx = this.activeIdx;
+      const activeIdx = findIndex(this.lyric, (o, idx) => {
+        const next = this.lyric[idx + 1];
+        return (next ? current < next.time : true) && current >= o.time
+      });
+      this.activeIdx = activeIdx;
+      // 当前歌词渲染后计算滚动位置
+      this.$nextTick(async () => {
+        if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
+          const container = this.$refs.lyricContainer;
+          const activeEl = document.querySelector('.frame-lyrics .active');
+          if (activeEl) {
+            const newY = activeEl.offsetTop - container.clientHeight / 2 + activeEl.clientHeight;
+            const offset = await this.$vuetify.goTo(newY, { container });
+            console.log('scroll to ' + offset);
+          }
+        }
+      })
+    },
     close() {
       this.$emit('close');
     },
@@ -168,74 +205,105 @@ export default {
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding-top: 2em;
   .frame-header {
-    z-index: 10;
+    z-index: 1;
     display: flex;
     justify-content: center;
     width: 100%;
     &:before {
       content: '';
       display: block;
+      background: #fff;
       width: 4em;
       height: 0.6em;
-      margin: 0 auto;
-      z-index: 10;
+      margin: 1em auto;
+      z-index: 1;
       border-radius: 10em;
       mix-blend-mode: overlay;
       cursor: pointer;
     }
   }
   .frame-content {
+    z-index: 1;
     height: calc(100% - 2.6em - 15px);
     .frame-content-left {
       flex: 1;
       .left-container {
-        max-width: 27vw;
-        margin: auto;
-        .playing-progress {
-          ::v-deep .v-slider__thumb-container {
-            visibility: hidden;
-          }
-          ::v-deep .v-slider--horizontal {
-            min-height: 14px;
-            margin: 0;
-            &:hover .v-slider__thumb-container,
-            &:active .v-slider__thumb-container {
-              visibility: visible;
-            }
-          }
-          ::v-deep .v-slider__thumb {
-            transition: none;
-          }
-        }
+        max-width: 30vw;
+        //.album-cover {
+        //  box-shadow: 4px 9px 20px #403e3e, -7px -6px 20px #565454;
+        //}
       }
     }
     .frame-content-right {
-      height: 100%;
+      height: 80vh;
       flex: 1;
       .frame-lyrics {
         height: 100%;
         position: relative;
-        z-index: 10;
+        z-index: 1;
         font-size: 1.7rem;
         overflow-y: auto;
         font-weight: bold;
         .active {
-          //color: white;
-          font-size: 2rem;
-          margin-top: 0.8em;
+          font-size: 2.3rem;
+        }
+        .first {
+          margin-top: 50%;
+        }
+        .last {
+          margin-bottom: 50%;
         }
         & > div {
           & + div {
+            transition: all .2s;
             margin-top: 0.8em;
           }
         }
         & > div:not(.active) {
-          filter: blur(0.25px);
+          filter: blur(0.7px);
         }
       }
     }
+  }
+  .frame-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    .album-artwork {
+      width: 200%;
+      position: absolute;
+      border-radius: 100em;
+      animation: rotate 120s linear infinite;
+    }
+    .bg-color {
+      right: 0;
+      top: 0;
+      filter: blur(70px) brightness(0.7);
+      z-index: 1;
+      mix-blend-mode: multiply;
+    }
+    .bg-black {
+      left: 0;
+      bottom: 0;
+      filter: blur(70px) brightness(0.7);
+      z-index: 1;
+      animation-direction: reverse;
+      mix-blend-mode: multiply;
+    }
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

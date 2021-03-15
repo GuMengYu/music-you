@@ -34,6 +34,7 @@
         <Cover
           :data="list"
           :no-info="true"
+          :type="type"
         />
       </v-col>
       <v-col cols="8">

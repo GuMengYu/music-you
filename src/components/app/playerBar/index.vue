@@ -81,64 +81,21 @@
               </span>
             </router-link>
           </div>
+          <v-spacer />
+          <v-btn
+            icon
+            text
+            @click="likeSong"
+          >
+            <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
+              <font-awesome-icon icon="heart" />
+            </div>
+          </v-btn>
         </div>
         <div
           class="playing-bar__center"
         >
-          <div class="playing-control-buttons">
-            <v-btn
-              icon
-              text
-              class="ml-8"
-              @click="likeSong"
-            >
-              <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
-                <font-awesome-icon icon="heart" />
-              </div>
-            </v-btn>
-            <v-btn
-              icon
-              :disabled="isCurrentFm"
-              @click="playPrev"
-            >
-              <font-awesome-icon icon="backward" />
-            </v-btn>
-            <v-fab-transition origin="center center">
-              <v-btn
-                :key="playingState.icon"
-                icon
-                elevation="0"
-                @click="playPause"
-              >
-                <div :style="`color: ${playingState.color};`">
-                  <font-awesome-icon
-                    :icon="playingState.icon"
-                    size="lg"
-                  />
-                </div>
-              </v-btn>
-            </v-fab-transition>
-            <v-btn
-              icon
-              @click="playNext"
-            >
-              <font-awesome-icon
-                icon="forward"
-              />
-            </v-btn>
-            <v-btn
-              icon
-              :disabled="isCurrentFm"
-              @click="playOrder"
-            >
-              <v-icon small>
-                {{ orderIconState }}
-              </v-icon>
-            </v-btn>
-          </div>
-          <!--        <span class="time-info text-caption">-->
-          <!--          {{ currentTime * 1000 | formatDuring }} / {{ track.dt | formatDuring }}-->
-          <!--        </span>-->
+          <control />
         </div>
         <div
           class="playing-bar__right"
@@ -202,6 +159,7 @@ import {
 import Player from './player';
 import VueSlider from 'vue-slider-component';
 import {formatDuring} from '@util/fn';
+import Control from '@components/app/Control'
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -211,7 +169,9 @@ const PLAY_MODE = {
 };
 export default {
   name: 'PlayerBar',
-  components: {VueSlider},
+  components: {
+    Control,
+    VueSlider},
   extends: Player,
   data: () => ({
     icon: {
@@ -297,14 +257,6 @@ export default {
     playPrev() {
       dispatch('music/updateTrack', {id: this.prev});
     },
-    rePlay() {
-      this.handleSlideChange(0);
-    },
-    // // 拉动进度条的时候，停止计时
-    // handleChangeTimeStart() {
-    //   this.stopTimer()
-    //   console.debug('slider move start');
-    // },
     handleSlideChange() {
       this.currentTime = this.$refs['vueSlider'].getValue();
       console.debug('slider change end', this.currentTime);
