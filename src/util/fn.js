@@ -26,13 +26,14 @@ export const formatLyric = (lyric = '') => {
     // [00:27.54]The many miles we walked
     // [00:56.33]
     // [00:59.54] That's the way it is
+    // [00:12]
     if (time) {
       const min = Number(time.match(/\[(\d*)/i)[1]);
       const sec = Number(time.match(/:(\d*)/i)[1]);
       const mill = time.match(/\.(\d*)]/i)?.[1];
       const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2);
       time = min * 60 + sec + millToSec;
-      sentence = sentence || '';
+      sentence = sentence || '● ● ●';
     } else {
       sentence = sentence || i;
     }

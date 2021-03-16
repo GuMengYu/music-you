@@ -38,7 +38,6 @@
         </CustomCol>
         <CustomCol
           :title="$t('main.for_you')"
-          :subtitle="$t('main.featured')"
         >
           <template slot="content">
             <CoverList

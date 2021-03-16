@@ -89,13 +89,12 @@ export default {
       defaultNav1: [
         { icon: mdiMusicNoteHalfDotted, val: 'discover', title: _t('discover'), to: '/discover' },
         { icon: mdiAppleFinder, val: 'explore', title: _t('explore'), to: '/explore' },
-        { icon: mdiRadioFm, val: 'fm', title: _t('fm'), to: '/fm' },
         { icon: mdiHandHeart, val: 'daily', title: _t('daily'), to: '/daily' },
       ],
       defaultNav2: [
         { icon: mdiLibrary, val: 'stars', title: _t('stars'), to: '/library'},
-        { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
-        { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
+        // { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
+        // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       defaultNav3: [],
       defaultNav: [

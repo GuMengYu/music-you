@@ -37,9 +37,20 @@ export function createVuetify (store) {
       themes: {
         light: {
           ...palettes,
+          neumorphism: {
+            base: '#e0e0e0',
+            lighten1: '#fff',
+            darken1: '#bebebe',
+          },
         },
         dark: {
           ...palettes,
+          neumorphism: {
+            base: '#363636',
+            lighten1: '#3e3e3e',
+            darken1: '#2e2e2e',
+          },
+
         },
       },
     },

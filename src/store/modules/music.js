@@ -87,12 +87,12 @@ export default {
       }
       return pop;
     },
-    async updateTrack({ rootGetters, commit, dispatch, getters }, payload) {
+    async updateTrack({ rootGetters, commit, dispatch, getters, rootState }, payload) {
       const {id, option = {autoplay: true, resetProgress: true}} = payload;
       commit('playing', false);
       commit('loadAudio', true);
       // await sleep();
-      const track = await getTrackDetail(id, rootGetters['settings/logged']);
+      const track = await getTrackDetail(id, rootState.settings.quality, rootGetters['settings/logged']);
       if (option.resetProgress) {
         commit('currentTime', 0);
       }

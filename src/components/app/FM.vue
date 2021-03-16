@@ -1,6 +1,5 @@
 <template>
   <v-sheet
-    color="#eeeeee"
     class="pa-4 rounded-lg d-flex align-center flex-column fm"
   >
     <v-progress-circular
@@ -129,18 +128,17 @@ export default {
 </script>
 <style scoped lang="scss">
 .fm {
-  //box-shadow:  22px 22px 44px #cacaca,
-  //-22px -22px 44px #ffffff;
+  background-color: var(--v-neumorphism-base);
   .cover {
-    box-shadow:  9px 9px 18px #cacaca,
-    -9px -9px 18px #ffffff;
+    box-shadow:  9px 9px 18px var(--v-neumorphism-darken1),
+    -9px -9px 18px var(--v-neumorphism-lighten1);
   }
   ::v-deep .v-progress-circular__underlay {
     //stroke: none;
   }
   ::v-deep .v-btn {
-    box-shadow:  9px 9px 18px #cacaca,
-    -9px -9px 18px #ffffff;
+    box-shadow:  9px 9px 18px var(--v-neumorphism-darken1),
+    -9px -9px 18px var(--v-neumorphism-lighten1);
   }
 }
 

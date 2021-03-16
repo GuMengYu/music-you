@@ -29,10 +29,12 @@ export const getBanner = () => {
 export const getSongData = (ids = []) => xhr.get(`/song/detail?ids=${ids.join()}`);
 /**
  * 获取歌曲可播放url
- * @param id
+ * @param params
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongUrl = id => xhr.get(`/song/url?id=${id}`);
+export const getSongUrl = params  => xhr.get('/song/url', {
+  params,
+});
 
 /**
  * 解锁灰色不可播放歌曲

@@ -84,6 +84,7 @@
             :aria-time="item.time"
             :aria-index="index"
             :class="{active: index === activeIdx}"
+            v-html="item.sentence"
           >
             {{ item.sentence }}
           </div>
@@ -92,8 +93,11 @@
       </v-col>
     </v-row>
     <div class="frame-bg">
-      <img class="bg-color album-artwork" :src="albumPicUrl" />
-      <img class="bg-black album-artwork" :src="albumPicUrl" />
+      <v-img :src="albumPicUrl" class="bg-color album-artwork"></v-img>
+      <v-img :src="albumPicUrl" class="bg-black album-artwork"></v-img>
+
+<!--      <img class="bg-color album-artwork" :src="albumPicUrl" />-->
+<!--      <img class="bg-black album-artwork" :src="albumPicUrl" />-->
     </div>
   </v-sheet>
 </template>
@@ -131,13 +135,19 @@ export default {
     },
     lyric() {
       const {tlyric,lrc} = this.track.lyric ?? {};
-      let lyric = [];
-      if (tlyric?.lyric?.length) {
-        lyric = formatLyric(tlyric.lyric)
-      } else if (lrc?.lyric?.length) {
-        lyric = formatLyric(lrc.lyric);
+      let lyric = lrc?.lyric ?  formatLyric(lrc.lyric) : [];
+      let _tlyric = tlyric?.lyric ? formatLyric(tlyric.lyric) : [];
+      if (_tlyric.length) {
+        return lyric.map(i => {
+          const _t = _tlyric.find(t => t.time === i.time);
+          return {
+            sentence: `${i.sentence}${_t?.sentence ? `<br>${_t?.sentence}` : ''}`,
+            time: i.time,
+          }
+        })
+      } else {
+        return lyric;
       }
-      return lyric;
     },
     volume: sync('settings/volume'),
     currentTime: sync('music/currentTime'),
@@ -180,7 +190,7 @@ export default {
           const container = this.$refs.lyricContainer;
           const activeEl = document.querySelector('.frame-lyrics .active');
           if (activeEl) {
-            const newY = activeEl.offsetTop - container.clientHeight / 2 + activeEl.clientHeight;
+            const newY = activeEl.offsetTop - activeEl.clientHeight * 2;
             const offset = await this.$vuetify.goTo(newY, { container });
             console.log('scroll to ' + offset);
           }
@@ -214,11 +224,12 @@ export default {
       content: '';
       display: block;
       background: #fff;
+      filter: brightness(0.7);
       width: 4em;
-      height: 0.6em;
+      height: 0.3em;
       margin: 1em auto;
       z-index: 1;
-      border-radius: 10em;
+      border-radius: 15em;
       mix-blend-mode: overlay;
       cursor: pointer;
     }
@@ -236,7 +247,7 @@ export default {
       }
     }
     .frame-content-right {
-      height: 80vh;
+      height: 85vh;
       flex: 1;
       .frame-lyrics {
         height: 100%;
@@ -246,7 +257,7 @@ export default {
         overflow-y: auto;
         font-weight: bold;
         .active {
-          font-size: 2.3rem;
+          font-size: 2.2rem;
         }
         .first {
           margin-top: 50%;
@@ -256,12 +267,12 @@ export default {
         }
         & > div {
           & + div {
-            transition: all .2s;
+            transition: all .25s;
             margin-top: 0.8em;
           }
         }
         & > div:not(.active) {
-          filter: blur(0.7px);
+          filter: blur(0.7px) brightness(0.8);
         }
       }
     }
@@ -279,22 +290,19 @@ export default {
       width: 200%;
       position: absolute;
       border-radius: 100em;
-      animation: rotate 120s linear infinite;
+      animation: rotate 100s ease-in-out infinite;
+      filter: blur(70px) brightness(0.5);
+      mix-blend-mode: multiply;
+      z-index: 1;
     }
     .bg-color {
       right: 0;
       top: 0;
-      filter: blur(70px) brightness(0.7);
-      z-index: 1;
-      mix-blend-mode: multiply;
     }
     .bg-black {
       left: 0;
       bottom: 0;
-      filter: blur(70px) brightness(0.7);
-      z-index: 1;
       animation-direction: reverse;
-      mix-blend-mode: multiply;
     }
   }
 }
