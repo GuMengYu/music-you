@@ -21,7 +21,7 @@
           </v-btn>
         </v-overlay>
         <v-img
-          :src="$ochain(song, 'al', 'picUrl')| sizeOfImage(32)"
+          :src="$ochain(album, 'picUrl')| sizeOfImage(32)"
           max-height="40"
           max-width="40"
           class="rounded"
@@ -102,8 +102,13 @@ export default {
       ]
     },
     artists() {
-      const { ar } = this.song;
-      return ar.map(i => ({id: i.id, name: i.name}));
+      const { ar, artists } = this.song;
+      const art = ar ?? artists ?? [];
+      return art.map(i => ({id: i.id, name: i.name}));
+    },
+    album() {
+      const {al, album} = this.song;
+      return al ?? album;
     },
   },
   methods: {

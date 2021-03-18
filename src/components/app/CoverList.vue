@@ -1,5 +1,5 @@
 <template>
-  <v-row class="song-list">
+  <v-row>
     <v-col
       v-for="item in list"
       :key="item.id"
@@ -42,6 +42,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-
-</style>

@@ -66,5 +66,6 @@ export default {
     cache: '本地缓存歌曲',
     clear_cache: '清除歌曲缓存',
     cached: '已经缓存{size}, {length}首',
+    lastupdate: '最后更新于 {0} · {1} 首歌',
   },
 };

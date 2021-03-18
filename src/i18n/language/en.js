@@ -66,5 +66,6 @@ export default {
     cache: 'Cache Songs',
     clear_cache: 'Clear Cache',
     cached: 'Already cached {size}, and {length} songs',
+    lastupdate: 'last update {0} · {2} songs',
   },
 };

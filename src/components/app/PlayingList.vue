@@ -25,6 +25,7 @@
       nav
       max-height="70vh"
       max-width="350"
+      min-height="50vh"
       class="playing-container-list overflow-y-auto"
     >
       <v-list-item-group

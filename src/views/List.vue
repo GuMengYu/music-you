@@ -37,55 +37,56 @@
           :type="type"
         />
       </v-col>
-      <v-col cols="8">
-        <v-sheet>
-          <div class="list-desc">
-            <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
-              {{ list.name }}
-            </h6>
-            <div class="artist text-body-1 mt-2">
-              Playlist by
-              <router-link
-                :to="`/artist/${$ochain(list,'creator', 'id')}`"
-                class="text-decoration-none"
-              >
-                <span class="text--primary">
-                  {{ $ochain(list,'creator', 'nickname') }}
-                </span>
-              </router-link>
-            </div>
-            <div class="date-and-count text-body-2">
-              last update {{ $dayjs(list.updateTime).format('YYYY-MM-DD') }} · {{ list.trackCount }} · songs
-            </div>
-            <div class="description text-body-1 mt-2">
-              <p class="h-3x">
-                {{ list.description }}
-              </p>
-            </div>
-          </div>
-          <div class="list-action">
-            <v-btn
-              elevation="0"
-              class="mr-4"
-              @click="play"
+      <v-col
+        cols="8"
+        class="d-flex flex-column justify-space-between"
+      >
+        <div class="list-desc">
+          <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
+            {{ list.name }}
+          </h6>
+          <div class="artist text-body-1 mt-2">
+            Playlist by
+            <router-link
+              :to="`/artist/${$ochain(list,'creator', 'id')}`"
+              class="text-decoration-none"
             >
-              <font-awesome-icon
-                icon="play"
-                class="mx-2"
-              />
-              播放
-            </v-btn>
-            <v-btn
-              icon
-              color="#F44336"
-              class="list-delete-button"
-            >
-              <v-icon>
-                {{ icon.mdiDotsHorizontal }}
-              </v-icon>
-            </v-btn>
+              <span class="text--primary">
+                {{ $ochain(list,'creator', 'nickname') }}
+              </span>
+            </router-link>
           </div>
-        </v-sheet>
+          <div class="date-and-count text-body-2 mt-2">
+            {{ $t('common.lastupdate', [$dayjs(list.updateTime).format('YYYY-MM-DD'), list.trackCount]) }}
+          </div>
+          <div class="description text-body-1 mt-2">
+            <p class="h-3x">
+              {{ list.description }}
+            </p>
+          </div>
+        </div>
+        <div class="list-action">
+          <v-btn
+            elevation="0"
+            class="mr-4"
+            @click="play"
+          >
+            <font-awesome-icon
+              icon="play"
+              class="mx-2"
+            />
+            播放
+          </v-btn>
+          <v-btn
+            icon
+            color="#F44336"
+            class="list-delete-button"
+          >
+            <v-icon>
+              {{ icon.mdiDotsHorizontal }}
+            </v-icon>
+          </v-btn>
+        </div>
       </v-col>
     </v-row>
     <v-row>

@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const musicRoutes = [{
   path: 'discover/',
   name: 'discover',
-  component: lazyLoad('Discover'),
+  component: lazyLoad('discover'),
   meta: {keepAlive: true},
 }, {
   path: '/explore',
@@ -109,6 +109,10 @@ const musicRoutes = [{
   path: '/search/:keywords/:type',
   name: 'searchMore',
   component: lazyLoad('search/more'),
+},{
+  path: '/test',
+  name: 'test',
+  component: lazyLoad('test'),
 }]
 
 export function createRouter(vuetify, store) {

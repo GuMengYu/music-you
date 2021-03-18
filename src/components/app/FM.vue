@@ -1,22 +1,22 @@
 <template>
   <v-sheet
-    class="pa-4 rounded-lg d-flex align-center flex-column fm"
+    class="rounded-lg d-flex align-center flex-column fm justify-space-around"
   >
     <v-progress-circular
       :rotate="-90"
       :value="progress"
-      size="208"
+      size="168"
       color="primary lighten-1"
       class="cover rounded-circle"
     >
       <v-img
         :src="albumCoverImgUrl | sizeOfImage(256)"
         class="rounded-circle"
-        max-width="200"
-        max-height="200"
+        max-width="160"
+        max-height="160"
       />
     </v-progress-circular>
-    <div class="d-flex flex-column mt-8 text-center">
+    <div class="d-flex flex-column text-center">
       <span class="text-body-2">
         {{ albumName }}
       </span>
@@ -24,7 +24,7 @@
         {{ fmTrack.name }}
       </span>
     </div>
-    <div class="mt-4">
+    <div class="fm-action">
       <v-btn
         icon
         text
@@ -128,6 +128,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .fm {
+  height: 100%;
   background-color: var(--v-neumorphism-base);
   .cover {
     box-shadow:  9px 9px 18px var(--v-neumorphism-darken1),

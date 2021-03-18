@@ -60,7 +60,10 @@ export const getAlbum = id => xhr.get('/album', {params: {id}});
  * 获取推荐歌单列表
  * 根据歌单id返回歌单详细信息
  */
-export const getPersonalized = () => xhr.get('/personalized?limit=10');
+export const getPersonalized = limit => xhr.get('/personalized', {
+  params: {limit},
+});
+
 export const topArtists = () => xhr.get('/toplist/artist?type=2');
 /**
  * 获取网友精选碟歌单
@@ -72,7 +75,7 @@ export const topArtists = () => xhr.get('/toplist/artist?type=2');
 export const getTopPlaylist = (params = {limit:20, cat: '全部', offset: 0}) => xhr.get('/top/playlist', { params });
 
 /**
- * 获取新歌
+ * 推荐歌曲
  */
 export const getNewRelease = () => xhr.get('/personalized/newsong');
 
