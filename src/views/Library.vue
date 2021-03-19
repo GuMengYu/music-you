@@ -42,11 +42,80 @@
     >
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" />
-        <cover-list
-          v-else
-          :list="playlist"
-          type="playlist"
-        />
+        <v-row>
+          <v-col>
+            <v-dialog
+              v-model="newlistDialog"
+              persistent
+              max-width="400px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-responsive
+                  class="rounded-lg"
+                  aspect-ratio="1"
+                  content-class="new-playlist"
+                  v-on="on"
+                >
+                  <v-btn
+                    icon
+                    v-on="on"
+                  >
+                    <font-awesome-icon
+                      icon="plus"
+                      size="lg"
+                    />
+                  </v-btn>
+                </v-responsive>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">新建歌单</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-text-field
+                      v-model="playlistName"
+                      label="新歌单标题*"
+                      maxlength="40"
+                      required
+                    ></v-text-field>
+                    <v-checkbox
+                      v-model="playlistPrivate"
+                      label="设为隐私歌单"
+                    ></v-checkbox>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+                    @click="newlistDialog = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    text
+                    @click="createNewPlaylist"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <div class="text-caption font-weight-bold mt-2">新建歌单</div>
+          </v-col>
+          <v-col
+            v-for="item in playlist"
+            :key="item.id"
+            :cols="2"
+          >
+            <cover
+              :data="item"
+              class="item"
+              type="playlist"
+            />
+          </v-col>
+        </v-row>
       </v-tab-item>
       <v-tab-item>
         <cover-row-skeleton
@@ -91,17 +160,18 @@
 
 <script>
 import CustomCol from '@components/layout/Col'
-import {sync, get} from 'vuex-pathify';
+import {sync, get, dispatch} from 'vuex-pathify';
 import CoverList from '@components/app/CoverList'
 import VideoCover from '@components/app/VideoCover'
 import {favAlbums, favArtists, favMVs, getUserPlaylist} from '@/api/user'
-import {getSongData} from '@/api'
+import {getSongData, createPlaylist} from '@/api'
 
 import CoverRowSkeleton from '../components/skeleton/coverRowSkeleton.vue';
 import SongBar from '@components/app/SongBar'
+import Cover from '@components/app/Cover'
 export default {
   name: 'Library',
-  components: { SongBar, CoverList, VideoCover, CustomCol, CoverRowSkeleton },
+  components: { Cover, SongBar, CoverList, VideoCover, CustomCol, CoverRowSkeleton },
   data() {
     return {
       tabs: [
@@ -122,6 +192,9 @@ export default {
         artists: false,
         mvs: false,
       },
+      newlistDialog: false,
+      playlistName: '',
+      playlistPrivate: false,
     }
   },
   computed: {
@@ -168,6 +241,15 @@ export default {
       this.$vuetify.goTo(this.$refs['tabs']);
       });
     },
+    async createNewPlaylist() {
+      await createPlaylist({
+        name: this.playlistName,
+        privacy: this.playlistPrivate ? '10' : '',
+      });
+      await dispatch('snackbar/show', {text: '创建成功', type: 'info'});
+      this.newlistDialog = false;
+      await dispatch('music/fetch');
+    },
   },
 }
 </script>
@@ -175,6 +257,13 @@ export default {
 <style scoped lang="scss">
 .tab_page {
   min-height: calc(100vh - 210px);
+  ::v-deep .new-playlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: var(--v-neumorphism-base);
+  }
 }
 .track-item:before {
   border-radius: 4px;

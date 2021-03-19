@@ -20,8 +20,10 @@ let quitFlag = process.platform !== 'darwin';
 async function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1120,
+    width: 1220,
     height: 720,
+    minWidth: 1160,
+    minHeight: 530,
     titleBarStyle: 'hidden',
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone

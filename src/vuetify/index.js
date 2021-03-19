@@ -18,10 +18,12 @@ import {
   faVolumeOff,
   faThumbsUp,
   faThumbsDown,
+  faEllipsisH,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 
 Vue.component('font-awesome-icon', FontAwesomeIcon) // Register component globally
-library.add(faPlay, faPause, faHeart, faBackward, faForward, faBars, faUndo, faRandom, faVolumeDown, faVolumeMute, faVolumeUp, faVolumeOff, faThumbsUp, faThumbsDown);
+library.add(faPlay, faPause, faHeart, faBackward, faForward, faBars, faUndo, faRandom, faVolumeDown, faVolumeMute, faVolumeUp, faVolumeOff, faThumbsUp, faThumbsDown, faEllipsisH, faPlus);
 
 Vue.use(Vuetify)
 

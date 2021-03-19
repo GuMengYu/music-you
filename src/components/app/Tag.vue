@@ -27,6 +27,6 @@ export default {
   border-left: 6px solid;
 }
 .theme--dark .tag {
-  background: var(--v-secondary-darken1);
+  background: var(--v-neumorphism-base);
 }
 </style>

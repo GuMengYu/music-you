@@ -9,6 +9,7 @@
     :position-x="coordinate[0]"
     :position-y="coordinate[1]"
     transition="slide-y-transition"
+    class="contextmenu"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -52,6 +53,11 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.contextmenu {
+  ::v-deep .v-sheet {
+    background: transparent;
+    backdrop-filter: blur(80px);
+  }
+}
 </style>

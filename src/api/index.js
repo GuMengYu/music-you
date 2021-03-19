@@ -50,6 +50,21 @@ export const getSongUrlFromUnlockMusic = id => xhr.get('/unlockmusic',{params: {
 export const getPlayList = id => xhr.get(`/playlist/detail?id=${id}`);
 
 /**
+ * 新建歌单
+ * - name : 歌单名
+ * - privacy : 是否设置为隐私歌单，默认否，'10' 为隐私歌单
+ * - type : 歌单类型
+ * @param {Object} params
+ * @param {string} params.name
+ * @param {number} params.privacy
+ * @param {string} params.type
+ */
+export const createPlaylist = params => xhr.post('/playlist/create', {
+  ...params,
+  timestamp: now(),
+});
+
+/**
  * 获取专辑详情
  * @param id
  * 根据歌单id返回歌单详细信息

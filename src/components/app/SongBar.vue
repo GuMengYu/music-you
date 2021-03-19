@@ -4,6 +4,7 @@
       :value="song.id"
       :data-id="song.id"
       @click="noop"
+      @dblclick="play"
       @contextmenu.prevent="openMenu"
     >
       <v-card

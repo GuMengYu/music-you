@@ -8,22 +8,25 @@
         <v-row class="text-caption">
           <v-col>
             <span>最新专辑</span>
-            <release-card
+            <larger-cover
               :data="release"
               class="mt-2"
             />
           </v-col>
           <v-col>
             <span>你喜欢的</span>
-            <release-card
+            <larger-cover
               :data="radar"
               class="mt-2"
+              type="playlist"
             />
           </v-col>
           <v-col>
             <span>每日推荐</span>
-            <daily-card
+            <larger-cover
+              :data="daily"
               class="mt-2"
+              type="daily"
             />
           </v-col>
           <v-col v-if="logged">
@@ -58,7 +61,7 @@
           <v-col
             v-for="song in songs"
             :key="song.id"
-            cols="4"
+            cols="6"
             class="pa-2"
           >
             <song-bar
@@ -95,28 +98,32 @@ import CustomCol from '@components/layout/Col'
 import FM from '@components/app/FM'
 import VideoCover from '@components/app/VideoCover'
 import DiscoverSkeleton from '@components/skeleton/discoverSkeleton'
-import ReleaseCard from '@components/ReleaseCard';
-import DailyCard from '@components/app/DailyCard';
+import LargerCover from '@components/app/LargerCover';
 import SongBar from '@components/app/SongBar';
 export default {
   components: {
     SongBar,
-    DailyCard,
-    ReleaseCard,
+    LargerCover,
     DiscoverSkeleton,
     VideoCover,
     CustomCol,
     CoverList,
     FM,
   },
-  data: () => ({
-    playLists: [],
-    release: {},
-    radar: {},
-    mvs: [],
-    songs: [],
-    loading: false,
-  }),
+  data() {
+    return {
+      playLists: [],
+      release: {},
+      radar: {},
+      daily: {
+        name: `日推 ${this.$dayjs().format('MM-DD')}`,
+        picUrl: 'https://is5-ssl.mzstatic.com/image/thumb/Music114/v4/4c/0a/9b/4c0a9b7e-48c9-e18b-790f-9aaf664325ec/075679797780.jpg/600x600cc.webp',
+      },
+      mvs: [],
+      songs: [],
+      loading: false,
+    }
+  },
   computed: {
     ...mapGetters({
       logged: 'settings/logged',
