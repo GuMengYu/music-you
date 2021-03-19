@@ -1,7 +1,7 @@
-import axios from'axios';
+import axios from 'axios';
 let BASE_URL = '';
 console.log(process.env);
-if(process.env.IS_ELECTRON) {
+if (process.env.IS_ELECTRON) {
   if (process.env.NODE_ENV === 'development') {
     BASE_URL = process.env.VUE_APP_API_DEV_ELECTRON;
   } else {
@@ -20,11 +20,11 @@ const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
 
   // request interceptor
   service.interceptors.request.use(
-    config => {
+    (config) => {
       // Do something before request is sent
       return config;
     },
-    error => {
+    (error) => {
       // Do something with request error
       console.log(error); // for debug
       Promise.reject(error);
@@ -33,15 +33,15 @@ const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
 
   // respone interceptor
   service.interceptors.response.use(
-    response => {
-      const {code, data, status} = response.data;
-      if(code === successCode || status === 100) {
-        return returnOrigin ? response.data  : data;
+    (response) => {
+      const { code, data, status } = response.data;
+      if (code === successCode || status === 100) {
+        return returnOrigin ? response.data : data;
       } else {
         return Promise.reject(data);
       }
     },
-    error => {
+    (error) => {
       console.log('err' + error); // for debug
       // Message({message: error, type: 'error'});
       return Promise.reject(error);

@@ -1,7 +1,7 @@
 <script>
 import { Howl } from 'howler';
-import {sync} from 'vuex-pathify';
-import {throttle} from 'lodash';
+import { sync } from 'vuex-pathify';
+import { throttle } from 'lodash';
 export default {
   name: 'Player',
   data: () => ({
@@ -14,7 +14,7 @@ export default {
     currentTime: sync('music/currentTime'),
   },
   watch: {
-    'track'(newTrack, oldTrack){
+    track(newTrack, oldTrack) {
       if (newTrack.id !== oldTrack.id) {
         this.init(newTrack.url);
         console.log('song changed');
@@ -104,7 +104,11 @@ export default {
           artist: this.track.ar?.[0]?.name,
           album: this.track.al?.name,
           artwork: [
-            { src: this.albumPicUrl, sizes: '512x512', type: 'image/png' },
+            {
+              src: this.albumPicUrl,
+              sizes: '512x512',
+              type: 'image/png',
+            },
           ],
         });
         [
@@ -112,7 +116,9 @@ export default {
           ['pause', this.playPause],
           ['previoustrack', this.playPrev],
           ['nexttrack', this.playNext],
-        ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
+        ].map(([name, fn]) =>
+          navigator.mediaSession.setActionHandler(name, fn),
+        );
       }
     },
     saveCurrentTime() {
@@ -122,5 +128,5 @@ export default {
       this.$store.dispatch('music/pushRecent', this.track.id);
     },
   },
-}
+};
 </script>

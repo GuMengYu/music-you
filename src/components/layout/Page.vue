@@ -1,9 +1,6 @@
 <template>
   <v-sheet>
-    <h2
-      class="text-md-h5 text-sm-body-1 font-weight-bold mb-4"
-      :title="title"
-    >
+    <h2 class="text-md-h5 text-sm-body-1 font-weight-bold mb-4" :title="title">
       {{ title }}
     </h2>
     <slot />
@@ -20,5 +17,5 @@ export default {
       default: '',
     },
   },
-}
+};
 </script>

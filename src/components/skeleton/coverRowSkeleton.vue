@@ -1,10 +1,6 @@
 <template>
   <v-row>
-    <v-col
-      v-for="n in cols"
-      :key="n"
-      :cols="12/cols"
-    >
+    <v-col v-for="n in cols" :key="n" :cols="12 / cols">
       <v-skeleton-loader :type="type" />
     </v-col>
   </v-row>
@@ -23,5 +19,5 @@ export default {
       default: 6,
     },
   },
-}
+};
 </script>

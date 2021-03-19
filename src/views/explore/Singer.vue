@@ -4,8 +4,6 @@
 <script>
 export default {
   name: 'DefaultSinger',
-}
+};
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

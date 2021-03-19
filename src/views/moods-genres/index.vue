@@ -1,8 +1,6 @@
 <template>
   <v-sheet>
-    <page
-      :title="$t('main.moods_genres')"
-    >
+    <page :title="$t('main.moods_genres')">
       <custom-col
         v-for="(item, index) in items"
         :key="item.title"
@@ -11,15 +9,8 @@
       >
         <template slot="content">
           <v-row>
-            <v-col
-              v-for="tag in item.value"
-              :key="tag.name"
-              cols="2"
-            >
-              <m-tag
-                :name="tag.name"
-                :color="tag.color"
-              />
+            <v-col v-for="tag in item.value" :key="tag.name" cols="2">
+              <m-tag :name="tag.name" :color="tag.color" />
             </v-col>
           </v-row>
         </template>
@@ -28,12 +19,12 @@
   </v-sheet>
 </template>
 <script>
-import {getCatList} from '@/api'
-import {groupBy, entries, random} from 'lodash'
-import CustomCol from '@components/layout/Col'
-import MTag from '@components/app/Tag'
-import {getColorTable} from '@util/metadata';
-import Page from '@components/layout/Page'
+import { getCatList } from '@/api';
+import { groupBy, entries, random } from 'lodash';
+import CustomCol from '@components/layout/Col';
+import MTag from '@components/app/Tag';
+import { getColorTable } from '@util/metadata';
+import Page from '@components/layout/Page';
 
 export default {
   name: 'MoodsGenres',
@@ -51,14 +42,17 @@ export default {
   },
   methods: {
     async fetch() {
-      const {sub, categories} = await getCatList();
-      const items = sub.map(i => {
+      const { sub, categories } = await getCatList();
+      const items = sub.map((i) => {
         i.color = this.colors[random(0, this.colors.length)];
         return i;
-      })
+      });
       const group = groupBy(items, 'category') ?? {};
-      this.items = entries(group).map(([k, v]) => ({title: categories[k], value: v}));
+      this.items = entries(group).map(([k, v]) => ({
+        title: categories[k],
+        value: v,
+      }));
     },
   },
-}
+};
 </script>

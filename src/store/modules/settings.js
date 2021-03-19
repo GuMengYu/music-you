@@ -1,53 +1,56 @@
 // Utilities
-import { make } from 'vuex-pathify'
+import { make } from 'vuex-pathify';
 import Cookie from 'js-cookie';
 
 const NETEASEFLAG = 'MUSIC_U';
 const state = () => {
   let data = JSON.parse(localStorage.getItem('settings')) || {};
 
-  return Object.assign({
-    locale: 'zh',
-    quality: '192000',
-    autoCache: false,
-    theme: 'auto',
-    palettes: 'radio',
-    volume: 0.8,
-    account: {},
-  }, data)
-}
+  return Object.assign(
+    {
+      locale: 'zh',
+      quality: '192000',
+      autoCache: false,
+      theme: 'auto',
+      palettes: 'radio',
+      volume: 0.8,
+      account: {},
+    },
+    data,
+  );
+};
 
-const mutations = make.mutations(state)
+const mutations = make.mutations(state);
 
 const actions = {
-  fetch ({ commit }) {
-    const data = state()
+  fetch({ commit }) {
+    const data = state();
 
     for (const key in data) {
-      commit(key, data[key])
+      commit(key, data[key]);
     }
   },
-  update ({ state }) {
-    localStorage.setItem('settings', JSON.stringify(state))
+  update({ state }) {
+    localStorage.setItem('settings', JSON.stringify(state));
   },
-  updateAccount ({commit}, account) {
+  updateAccount({ commit }, account) {
     commit('account', account);
   },
-  signOut({commit}) {
+  signOut({ commit }) {
     commit('account', {});
     Cookie.remove(NETEASEFLAG);
   },
-}
+};
 
 const getters = {
-  logged: state => {
+  logged: (state) => {
     const music_u = Cookie.get(NETEASEFLAG);
     return music_u && !!state.account.profile;
   },
-  userId: state => {
+  userId: (state) => {
     return state.account?.profile?.userId;
   },
-}
+};
 
 export default {
   namespaced: true,
@@ -55,4 +58,4 @@ export default {
   mutations,
   actions,
   getters,
-}
+};

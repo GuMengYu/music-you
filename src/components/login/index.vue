@@ -1,8 +1,5 @@
 <template>
-  <v-dialog
-    v-model="showLogin"
-    max-width="400"
-  >
+  <v-dialog v-model="showLogin" max-width="400">
     <v-sheet
       class="login-container py-4"
       :color="theme.isDark ? 'grey darken-3' : void 0"
@@ -10,7 +7,7 @@
       <div class="title px-8 d-flex align-center">
         <span class="text-h5 font-weight-bold mr-2">登录</span>
         <span>-</span>
-        <span class="text-caption font-weight-bold ml-2 ">网易云账号</span>
+        <span class="text-caption font-weight-bold ml-2">网易云账号</span>
       </div>
       <div class="form-area mt-4 px-6">
         <v-list-item class="mt-4">
@@ -44,20 +41,18 @@
         </v-btn>
       </div>
       <div class="mt-4 px-8">
-        <p>
-          免责声明
-        </p>
+        <p>免责声明</p>
       </div>
     </v-sheet>
   </v-dialog>
 </template>
 <script>
-import {sync} from 'vuex-pathify';
-import {mdiLock, mdiEmail, mdiPhone, mdiSwitch} from '@mdi/js';
-import DefaultInput from '@components/default/Input'
-import {login} from '@/api';
+import { sync } from 'vuex-pathify';
+import { mdiLock, mdiEmail, mdiPhone, mdiSwitch } from '@mdi/js';
+import DefaultInput from '@components/default/Input';
+import { login } from '@/api';
 import md5 from 'md5';
-import {dispatch} from 'vuex-pathify';
+import { dispatch } from 'vuex-pathify';
 export default {
   name: 'DefaultLogin',
   components: { DefaultInput },
@@ -80,11 +75,11 @@ export default {
     login() {
       this.loading = true;
       login({
-          phone: this.phone.replace(/\s/g, ''),
-          md5_password: md5(this.password).toString(),
-          countrycode: '86',
-        })
-        .then(({code, profile, token}) => {
+        phone: this.phone.replace(/\s/g, ''),
+        md5_password: md5(this.password).toString(),
+        countrycode: '86',
+      })
+        .then(({ code, profile, token }) => {
           if (code === 200) {
             dispatch('settings/updateAccount', { profile, token });
             this.showLogin = false;
@@ -100,11 +95,14 @@ export default {
           this.loading = false;
         });
       const showError = () => {
-        dispatch('snackbar/show', {text: 'whoops 发生错误，请检查账号密码', type: 'error'});
-      }
+        dispatch('snackbar/show', {
+          text: 'whoops 发生错误，请检查账号密码',
+          type: 'error',
+        });
+      };
     },
   },
-}
+};
 </script>
 <style scoped lang="scss">
 .login-container {

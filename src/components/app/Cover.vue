@@ -7,7 +7,7 @@
         rounded="lg"
         class="d-flex align-end justify-end cover-card"
         elevation="0"
-        :class="{'cover-hover' : hover}"
+        :class="{ 'cover-hover': hover }"
         :to="to"
         @contextmenu.prevent="openMenu"
       >
@@ -23,11 +23,7 @@
         />
 
         <v-fade-transition>
-          <v-overlay
-            :value="hover"
-            absolute
-            opacity="0"
-          >
+          <v-overlay :value="hover" absolute opacity="0">
             <v-card-actions class="cover-actions">
               <v-progress-circular
                 :indeterminate="loading"
@@ -39,7 +35,7 @@
                   fab
                   elevation="0"
                   class="cover-btn"
-                  :class="{'hover-btn': hover}"
+                  :class="{ 'hover-btn': hover }"
                   @click.prevent="play"
                 >
                   <font-awesome-icon icon="play" />
@@ -50,7 +46,7 @@
                 icon
                 fab
                 class="cover-btn"
-                :class="{'hover-btn': hover}"
+                :class="{ 'hover-btn': hover }"
                 @click.prevent="openMenu"
               >
                 <v-icon>
@@ -62,12 +58,10 @@
         </v-fade-transition>
       </v-card>
     </v-hover>
-    <router-link
-      v-if="!noInfo"
-      :to="to"
-      class="title"
-    >
-      <span class="h-1x mt-2 text-caption font-weight-bold text--primary">{{ data.name }}</span>
+    <router-link v-if="!noInfo" :to="to" class="title">
+      <span class="h-1x mt-2 text-caption font-weight-bold text--primary">{{
+        data.name
+      }}</span>
     </router-link>
     <span
       v-if="!noInfo"
@@ -79,20 +73,21 @@
 </template>
 
 <script>
-import {mdiPlay, mdiDotsHorizontal} from '@mdi/js';
+import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import { getPlayList, getAlbum, getArtist } from '@/api';
-import {sizeOfImage} from '@util/fn';
-import { dispatch } from 'vuex-pathify'
+import { sizeOfImage } from '@util/fn';
+import { dispatch } from 'vuex-pathify';
 export default {
   name: 'Cover',
   props: {
     data: {
       type: Object,
-      default: () =>({
-        'id': 3117618863,
-        'name': '所以你并没有坚定选择过我.',
-        'copywriter': '热门推荐',
-        'picUrl': 'https://p1.music.126.net/6mnrODz-pMVBq8UReZqfLA==/109951165533152791.jpg',
+      default: () => ({
+        id: 3117618863,
+        name: '所以你并没有坚定选择过我.',
+        copywriter: '热门推荐',
+        picUrl:
+          'https://p1.music.126.net/6mnrODz-pMVBq8UReZqfLA==/109951165533152791.jpg',
       }),
     },
     type: {
@@ -126,31 +121,31 @@ export default {
     },
     to() {
       return {
-        'album': `/album/${this.data.id}`,
-        'playlist': `/playlist/${this.data.id}`,
-        'artist': `/artist/${this.data.id}`,
+        album: `/album/${this.data.id}`,
+        playlist: `/playlist/${this.data.id}`,
+        artist: `/artist/${this.data.id}`,
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl)
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl);
     },
     service() {
       return {
-        'album': getAlbum,
-        'playlist': getPlayList,
-        'artist': getArtist,
-      }[this.type]
+        album: getAlbum,
+        playlist: getPlayList,
+        artist: getArtist,
+      }[this.type];
     },
     menuItems() {
       const val = this.data.id;
       return [
-        {title: '播放', type: 'play', val},
-        {title: '收藏', type: 'sub', val},
-        {title: '下一首播放', type: 'next', val},
-      ]
+        { title: '播放', type: 'play', val },
+        { title: '收藏', type: 'sub', val },
+        { title: '下一首播放', type: 'next', val },
+      ];
     },
   },
-  created () {},
+  created() {},
   methods: {
     async play() {
       this.loading = true;
@@ -158,29 +153,30 @@ export default {
       let list = [];
       if (this.type === 'album') {
         list = data.songs;
-      } else if (this.type === 'playlist'){
+      } else if (this.type === 'playlist') {
         list = data?.playlist?.tracks;
       } else {
         list = data.list;
       }
       await this.$store.dispatch('music/updatePlayingList', list);
-      await this.$store.dispatch('music/updateTrack', {id: list?.[0]?.id});
+      await this.$store.dispatch('music/updateTrack', {
+        id: list?.[0]?.id,
+      });
       this.loading = false;
     },
     openMenu(e) {
-      const {clientX: x, clientY: y} = e;
-      dispatch('contextmenu/show', {x, y, items: this.menuItems})
+      const { clientX: x, clientY: y } = e;
+      dispatch('contextmenu/show', { x, y, items: this.menuItems });
     },
   },
-
 };
 </script>
 
 <style lang="scss" scoped>
-@import "src/scss/common";
+@import 'src/scss/common';
 .cover-container {
   .cover-hover {
-    transition: .3s all ease-in-out;
+    transition: 0.3s all ease-in-out;
     transform: translateY(-1%) scale(1.012);
   }
   .title {
@@ -199,7 +195,7 @@ export default {
       .cover-btn:hover {
         background: var(--v-primary-base);
         transform: scale(0.85);
-        transition: .3s all ease-in-out;
+        transition: 0.3s all ease-in-out;
       }
     }
     .cover-img {
@@ -216,10 +212,10 @@ export default {
       height: 100%;
       width: 100%;
       top: 12%;
-      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, .5);
+      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, 0.5);
       border-radius: 20px;
       filter: blur(30px);
-      transform: scale(.9);
+      transform: scale(0.9);
       background-size: cover;
     }
   }

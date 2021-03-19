@@ -13,27 +13,15 @@
     v-on="$listeners"
   >
     <template #activator="props">
-      <slot
-        name="activator"
-        v-bind="{ ...props }"
-      />
+      <slot name="activator" v-bind="{ ...props }" />
     </template>
 
     <v-sheet :outlined="false">
       <slot v-if="$slots.default" />
 
-      <default-list
-        v-else
-        :items="items"
-      >
-        <template
-          v-if="$scopedSlots.item"
-          #item="props"
-        >
-          <slot
-            name="item"
-            v-bind="{ ...props }"
-          />
+      <default-list v-else :items="items">
+        <template v-if="$scopedSlots.item" #item="props">
+          <slot name="item" v-bind="{ ...props }" />
         </template>
       </default-list>
     </v-sheet>
@@ -42,7 +30,7 @@
 
 <script>
 // Components
-import DefaultList from '@components/default/List'
+import DefaultList from '@components/default/List';
 
 export default {
   name: 'AppMenu',
@@ -52,8 +40,8 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
   },
-}
+};
 </script>

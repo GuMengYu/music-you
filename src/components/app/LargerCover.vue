@@ -5,15 +5,9 @@
       elevation="0"
       class="d-flex justify-lg-space-between flex-column rounded-lg"
     >
-      <v-img
-        :src="data.picUrl || data.coverImgUrl"
-        :aspect-ratio="2/3"
-      >
+      <v-img :src="data.picUrl || data.coverImgUrl" :aspect-ratio="2 / 3">
         <v-fade-transition>
-          <v-overlay
-            :value="hover"
-            absolute
-          >
+          <v-overlay :value="hover" absolute>
             <v-card-actions
               v-if="['album', 'playlist'].includes(type)"
               class="actions justify-space-between align-end"
@@ -28,7 +22,7 @@
                   icon
                   fab
                   class="cover-btn"
-                  :class="{'hover-btn': hover}"
+                  :class="{ 'hover-btn': hover }"
                   @click="play"
                 >
                   <font-awesome-icon icon="play" />
@@ -40,7 +34,7 @@
                 icon
                 fab
                 class="cover-btn"
-                :class="{'hover-btn': hover}"
+                :class="{ 'hover-btn': hover }"
                 @click="openMenu"
               >
                 <v-icon>
@@ -48,10 +42,7 @@
                 </v-icon>
               </v-btn>
             </v-card-actions>
-            <v-card-actions
-              v-else
-              class="actions justify-center"
-            >
+            <v-card-actions v-else class="actions justify-center">
               <v-progress-circular
                 color="accent"
                 size="64"
@@ -61,13 +52,10 @@
                   icon
                   fab
                   class="cover-btn"
-                  :class="{'hover-btn': hover}"
+                  :class="{ 'hover-btn': hover }"
                   @click="play"
                 >
-                  <font-awesome-icon
-                    size="lg"
-                    icon="play"
-                  />
+                  <font-awesome-icon size="lg" icon="play" />
                 </v-btn>
               </v-progress-circular>
             </v-card-actions>
@@ -84,9 +72,9 @@
 </template>
 
 <script>
-import {mdiDotsHorizontal} from '@mdi/js';
-import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api'
-import { dispatch } from 'vuex-pathify'
+import { mdiDotsHorizontal } from '@mdi/js';
+import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
+import { dispatch } from 'vuex-pathify';
 export default {
   name: 'ReleaseCard',
   props: {
@@ -107,11 +95,11 @@ export default {
     menuItems() {
       const val = this.data.id;
       return [
-        {title: '添加到播放列表', type: 'to_playlist', val},
-        {title: '收藏', type: 'sub', val},
-        {title: '插播', type: 'next', val},
-        {title: '待播', type: 'wait', val},
-      ]
+        { title: '添加到播放列表', type: 'to_playlist', val },
+        { title: '收藏', type: 'sub', val },
+        { title: '插播', type: 'next', val },
+        { title: '待播', type: 'wait', val },
+      ];
     },
   },
   methods: {
@@ -123,29 +111,31 @@ export default {
         list = data?.dailySongs ?? [];
       } else {
         const request = {
-          'album': getAlbum,
-          'playlist': getPlayList,
-          'artist': getArtist,
-        }[this.type]
+          album: getAlbum,
+          playlist: getPlayList,
+          artist: getArtist,
+        }[this.type];
         const data = await request(this.data.id);
         if (this.type === 'album') {
           list = data.songs;
-        } else if (this.type === 'playlist'){
+        } else if (this.type === 'playlist') {
           list = data?.playlist?.tracks;
         } else {
           list = data.list;
         }
       }
       await this.$store.dispatch('music/updatePlayingList', list);
-      await this.$store.dispatch('music/updateTrack', {id: list?.[0]?.id});
+      await this.$store.dispatch('music/updateTrack', {
+        id: list?.[0]?.id,
+      });
       this.loading = false;
     },
     openMenu(e) {
-      const {clientX: x, clientY: y} = e;
-      dispatch('contextmenu/show', {x, y, items: this.menuItems})
+      const { clientX: x, clientY: y } = e;
+      dispatch('contextmenu/show', { x, y, items: this.menuItems });
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -173,7 +163,7 @@ export default {
   }
   .cover-btn:hover {
     background: var(--v-primary-base);
-    transition: .3s all ease-in-out;
+    transition: 0.3s all ease-in-out;
   }
   ::v-deep .v-progress-circular__underlay {
     stroke: none;

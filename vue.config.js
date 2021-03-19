@@ -1,8 +1,6 @@
 const path = require('path');
 module.exports = {
-  transpileDependencies: [
-    'vuetify',
-  ],
+  transpileDependencies: ['vuetify'],
   configureWebpack: {
     devtool: 'source-map',
     devServer: {
@@ -28,4 +26,4 @@ module.exports = {
       nodeIntegration: true, // https://github.com/electron/electron/issues/9920#issuecomment-653978691
     },
   },
-}
+};

@@ -14,19 +14,14 @@
     v-on="$listeners"
   >
     <v-sheet :outlined="false">
-      <default-list
-        :items="items"
-      >
+      <default-list :items="items">
         <template #item="{ index, item }">
           <v-list-item
             :key="index"
             class="v-list-item--default"
             @click="_dispatch(item.type)"
           >
-            <v-list-item-title
-              class="text-caption"
-              v-text="item.title"
-            />
+            <v-list-item-title class="text-caption" v-text="item.title" />
           </v-list-item>
         </template>
       </default-list>
@@ -35,8 +30,8 @@
 </template>
 
 <script>
-import DefaultList from '@components/default/List'
-import {sync} from 'vuex-pathify'
+import DefaultList from '@components/default/List';
+import { sync } from 'vuex-pathify';
 export default {
   name: 'ContextMenu',
   components: { DefaultList },
@@ -46,11 +41,9 @@ export default {
     coordinate: sync('contextmenu/coordinate'),
   },
   methods: {
-    _dispatch(type) {
-
-    },
+    _dispatch() {},
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

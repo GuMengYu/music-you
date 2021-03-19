@@ -3,9 +3,9 @@ const infoColor = {
   info: '#2196F3',
   success: '#4CAF50',
   warning: '#FFC107',
-}
+};
 export default {
-  'vuetify': {
+  vuetify: {
     name: 'vuetify',
     palette: {
       // 所有的键将生成主题样式,
@@ -17,7 +17,7 @@ export default {
       ...infoColor,
     },
   },
-  'tomato': {
+  tomato: {
     name: 'tomato',
     palette: {
       primary: '#F14843',
@@ -26,7 +26,7 @@ export default {
       ...infoColor,
     },
   },
-  'sea': {
+  sea: {
     name: 'sea',
     palette: {
       primary: '#5668FF',
@@ -35,16 +35,16 @@ export default {
       ...infoColor,
     },
   },
-  'begonia': {
+  begonia: {
     name: 'begonia',
     palette: {
-      primary:  '#D2AAB2',
+      primary: '#D2AAB2',
       secondary: '#D1919F',
       accent: '#C83E3E',
       ...infoColor,
     },
   },
-  'radio': {
+  radio: {
     name: 'radio',
     palette: {
       primary: '#E50914',
@@ -53,7 +53,7 @@ export default {
       ...infoColor,
     },
   },
-  'square': {
+  square: {
     name: 'square',
     palette: {
       primary: '#0A0662',
@@ -62,4 +62,4 @@ export default {
       ...infoColor,
     },
   },
-}
+};

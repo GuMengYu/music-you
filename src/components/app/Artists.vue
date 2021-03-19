@@ -2,7 +2,7 @@
   <div class="d-flex flex-column align-center artists-container">
     <v-hover v-slot="{ hover }">
       <v-avatar
-        :class="{'artist-hover': hover}"
+        :class="{ 'artist-hover': hover }"
         width="100%"
         height="100%"
         @click="go"
@@ -18,13 +18,15 @@
       :to="to"
       class="title text--primary text-center text-decoration-none"
     >
-      <span class="h-1x mt-2 text-body-2 font-weight-bold">{{ artists.name }}</span>
+      <span class="h-1x mt-2 text-body-2 font-weight-bold">{{
+        artists.name
+      }}</span>
     </router-link>
   </div>
 </template>
 
 <script>
-import {mdiPlay} from '@mdi/js';
+import { mdiPlay } from '@mdi/js';
 export default {
   name: 'ArtistsCover',
   props: {
@@ -38,7 +40,7 @@ export default {
   }),
   computed: {
     to() {
-      return `/artist/${this.artists.id}`
+      return `/artist/${this.artists.id}`;
     },
   },
   methods: {
@@ -46,13 +48,13 @@ export default {
       this.$router.push(this.to);
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
 .artists-container {
   .artist-hover {
-    transition: .5s all ease;
+    transition: 0.5s all ease;
     transform: scale(1.025);
     cursor: pointer;
   }

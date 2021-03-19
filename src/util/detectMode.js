@@ -1,6 +1,6 @@
-
 class ModeDetect {
-  mediaList = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+  mediaList =
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
   constructor() {}
   currentMode() {
     return this.mediaList.matches ? 'dark' : 'light';

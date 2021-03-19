@@ -8,14 +8,7 @@
         <div class="text-h6 font-weight-bold">
           {{ title }}
         </div>
-        <v-btn
-          v-if="more"
-          text
-          plain
-          small
-          class="font-weight-bold"
-          :to="more"
-        >
+        <v-btn v-if="more" text plain small class="font-weight-bold" :to="more">
           {{ $t('common.more') }}
         </v-btn>
       </div>
@@ -32,7 +25,7 @@ export default {
     subtitle: String,
     more: String,
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -1,8 +1,8 @@
-import {getTrackDetail} from '@/api/music';
-import { favTrack, getLikeList, personalFM } from '@/api'
-import {getUserPlaylist} from '@/api/user';
-import {make} from 'vuex-pathify';
-import {uniqWith, isEqual} from 'lodash';
+import { getTrackDetail } from '@/api/music';
+import { favTrack, getLikeList, personalFM } from '@/api';
+import { getUserPlaylist } from '@/api/user';
+import { make } from 'vuex-pathify';
+import { uniqWith, isEqual } from 'lodash';
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -32,45 +32,55 @@ export default {
   state,
   getters: {
     index(state) {
-      return state.playingList.findIndex(track => track.id === state.track.id);
+      return state.playingList.findIndex(
+        (track) => track.id === state.track.id,
+      );
     },
     nextFmTrackId() {
-      return state.fmList[0]?.id
+      return state.fmList[0]?.id;
     },
     nextTrackId(state, getters) {
       const index = getters['index'];
       let id = state.track.id;
       const len = state.playingList.length;
-      const {mode, playingList} = state;
-      if (mode === PLAY_MODE.CYCLE || (mode === PLAY_MODE.ORDER && len -1 !== index)){ // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
-        id = playingList[(index + 1) === playingList.length ? 0 : index + 1]?.id;
+      const { mode, playingList } = state;
+      if (
+        mode === PLAY_MODE.CYCLE ||
+        (mode === PLAY_MODE.ORDER && len - 1 !== index)
+      ) {
+        // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
+        id = playingList[index + 1 === playingList.length ? 0 : index + 1]?.id;
       }
       return id;
     },
     prevTrackId(state, getters) {
       const index = getters['index'];
-      return state.playingList[index  === 0 ? (state.playingList.length - 1) : index - 1]?.id;
+      return state.playingList[
+        index === 0 ? state.playingList.length - 1 : index - 1
+      ]?.id;
     },
-    liked: (state) => !!state.likes.find(i => i === state.track.id),
+    liked: (state) => !!state.likes.find((i) => i === state.track.id),
   },
   actions: {
-    async fetch({commit, rootGetters}) {
+    async fetch({ commit, rootGetters }) {
       if (rootGetters['settings/logged']) {
-        const [likesRes, playlistRes] = await Promise.all([getLikeList(), getUserPlaylist({
-          timestamp: new Date().getTime(),
-          uid: rootGetters['settings/userId'] ?? '',
-        })]);
+        const [likesRes, playlistRes] = await Promise.all([
+          getLikeList(),
+          getUserPlaylist({
+            timestamp: new Date().getTime(),
+            uid: rootGetters['settings/userId'] ?? '',
+          }),
+        ]);
         commit('likes', likesRes.ids);
         commit('playlist', playlistRes.playlist);
       }
-
     },
-    updatePlayingList({commit}, list) {
+    updatePlayingList({ commit }, list) {
       localStorage.setItem('playingList', JSON.stringify(list));
       commit('isCurrentFm', false);
       commit('playingList', list);
     },
-    async updatePersonalFmList({commit, state}) {
+    async updatePersonalFmList({ commit, state }) {
       let originList = [...state.fmList];
       let pop;
       if (originList.length <= 1) {
@@ -87,12 +97,19 @@ export default {
       }
       return pop;
     },
-    async updateTrack({ rootGetters, commit, dispatch, getters, rootState }, payload) {
-      const {id, option = {autoplay: true, resetProgress: true}} = payload;
+    async updateTrack(
+      { rootGetters, commit, dispatch, getters, rootState },
+      payload,
+    ) {
+      const { id, option = { autoplay: true, resetProgress: true } } = payload;
       commit('playing', false);
       commit('loadAudio', true);
       // await sleep();
-      const track = await getTrackDetail(id, rootState.settings.quality, rootGetters['settings/logged']);
+      const track = await getTrackDetail(
+        id,
+        rootState.settings.quality,
+        rootGetters['settings/logged'],
+      );
       if (option.resetProgress) {
         commit('currentTime', 0);
       }
@@ -103,11 +120,14 @@ export default {
       commit('currentTrackId', track?.id);
       localStorage.setItem('currentTrackId', track?.id);
       if (!track.url) {
-        dispatch('snackbar/show', {text: '歌曲暂时不可用', type: 'warning'}, {root: true});
+        dispatch(
+          'snackbar/show',
+          { text: '歌曲暂时不可用', type: 'warning' },
+          { root: true },
+        );
         const next = getters['nextTrackId'] ?? '';
-        if (
-          next && getters['nextTrackId'] !== state.currentTrackId
-        ) dispatch('updateTrack', {id: getters['nextTrackId']});
+        if (next && getters['nextTrackId'] !== state.currentTrackId)
+          dispatch('updateTrack', { id: getters['nextTrackId'] });
       } else {
         if (option.autoplay) {
           commit('playing', true);
@@ -117,20 +137,25 @@ export default {
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
       let likes = state.likes;
       if (!rootGetters['settings/logged']) {
-        dispatch('snackbar/show', {text: '需要登录', type: 'warning'}, {root: true});
+        dispatch(
+          'snackbar/show',
+          { text: '需要登录', type: 'warning' },
+          { root: true },
+        );
       } else {
         await favTrack({ id, like });
         if (like) {
           likes.push(id);
         } else {
-          likes = likes.filter(i => i !== id);
+          likes = likes.filter((i) => i !== id);
         }
         commit('likes', likes);
       }
     },
-    pushRecent({state, commit}, payload) {
-      const recent = uniqWith([payload , ...state.recent], isEqual);
-      const limit = 100, len = recent.length;
+    pushRecent({ state, commit }, payload) {
+      const recent = uniqWith([payload, ...state.recent], isEqual);
+      const limit = 100,
+        len = recent.length;
       if (len > limit) {
         recent.splice(limit, len - limit);
       }
@@ -148,7 +173,7 @@ export default {
       state.playingList = list;
     },
     UPDATE_PLAYER(state, payload) {
-      Object.keys(payload).map(key => {
+      Object.keys(payload).map((key) => {
         state[key] = payload[key];
       });
     },

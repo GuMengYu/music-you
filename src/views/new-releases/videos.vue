@@ -1,18 +1,9 @@
 <template>
-  <page
-    :title="$t('main.new_releases_album')"
-  >
+  <page :title="$t('main.new_releases_album')">
     <template>
-      <cover-row-skeleton
-        v-if="loading"
-        :cols="3"
-      />
+      <cover-row-skeleton v-if="loading" :cols="3" />
       <v-row v-else>
-        <v-col
-          v-for="video in videos"
-          :key="video.id"
-          cols="3"
-        >
+        <v-col v-for="video in videos" :key="video.id" cols="3">
           <video-cover :data="video" />
         </v-col>
       </v-row>
@@ -21,10 +12,10 @@
 </template>
 
 <script>
-import { getNewMv } from '@/api'
-import Page from '@components/layout/Page'
-import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton'
-import VideoCover from '@components/app/VideoCover'
+import { getNewMv } from '@/api';
+import Page from '@components/layout/Page';
+import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton';
+import VideoCover from '@components/app/VideoCover';
 export default {
   name: 'NewReleasesVideos',
   components: {
@@ -47,9 +38,7 @@ export default {
       this.loading = false;
     },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

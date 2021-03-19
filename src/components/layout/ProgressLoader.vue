@@ -8,15 +8,13 @@
 </template>
 
 <script>
-import {get} from 'vuex-pathify';
+import { get } from 'vuex-pathify';
 export default {
   name: 'ProgressLoader',
   computed: {
     loading: get('app/loading'),
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -25,12 +25,7 @@
       </span>
     </div>
     <div class="fm-action">
-      <v-btn
-        icon
-        text
-        class="mx-2"
-        @click="trash"
-      >
+      <v-btn icon text class="mx-2" @click="trash">
         <div>
           <font-awesome-icon icon="thumbs-down" />
         </div>
@@ -46,47 +41,41 @@
           @click="play"
         >
           <div :style="`color: ${playingState.color};`">
-            <font-awesome-icon
-              :icon="playingState.icon"
-              size="lg"
-            />
+            <font-awesome-icon :icon="playingState.icon" size="lg" />
           </div>
         </v-btn>
       </v-fab-transition>
-      <v-btn
-        icon
-        class="mx-2"
-        @click="next"
-      >
-        <font-awesome-icon
-          icon="forward"
-        />
+      <v-btn icon class="mx-2" @click="next">
+        <font-awesome-icon icon="forward" />
       </v-btn>
     </div>
   </v-sheet>
 </template>
 <script>
-import { get, sync, dispatch, commit } from 'vuex-pathify'
-import { mapGetters } from 'vuex'
-import {fmToTrash} from '@/api';
+import { get, sync, dispatch, commit } from 'vuex-pathify';
+import { mapGetters } from 'vuex';
+import { fmToTrash } from '@/api';
 export default {
   name: 'FM',
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     fmTrack: get('music/fmTrack'),
     track: get('music/track'),
     isCurrentFm: sync('music/isCurrentFm'),
     playerPlaying: get('music/playing'),
     fmPlaying() {
-      return this.playerPlaying && this.isCurrentFm
+      return this.playerPlaying && this.isCurrentFm;
     },
-    playingState () {
-      return this.fmPlaying ? { color: 'var(--v-accent-base)', icon: 'pause' } : { color: 'var(--v-primary-base)', icon: 'play' };
+    playingState() {
+      return this.fmPlaying
+        ? { color: 'var(--v-accent-base)', icon: 'pause' }
+        : { color: 'var(--v-primary-base)', icon: 'play' };
     },
     currentTime: get('music/currentTime'),
     progress() {
-      return this.isCurrentFm ? ~~(this.currentTime * 1000) / ~~(this.track?.dt / 100) : 0;
+      return this.isCurrentFm
+        ? ~~(this.currentTime * 1000) / ~~(this.track?.dt / 100)
+        : 0;
     },
     albumCoverImgUrl() {
       return this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl;
@@ -98,7 +87,7 @@ export default {
       nextFmTrackId: 'music/nextFmTrackId',
     }),
   },
-  created () {
+  created() {
     this.fetch();
   },
   methods: {
@@ -109,14 +98,14 @@ export default {
     async play() {
       if (this.fmTrack.id !== this.track.id) {
         commit('music/isCurrentFm', true);
-        await dispatch('music/updateTrack', {id: this.fmTrack.id});
+        await dispatch('music/updateTrack', { id: this.fmTrack.id });
       } else {
         commit('music/playing', !this.fmPlaying);
       }
     },
     async next() {
       commit('music/isCurrentFm', true);
-      await dispatch('music/updateTrack', {id: this.nextFmTrackId});
+      await dispatch('music/updateTrack', { id: this.nextFmTrackId });
       await dispatch('music/updatePersonalFmList');
     },
     async trash() {
@@ -124,23 +113,22 @@ export default {
       await this.next();
     },
   },
-}
+};
 </script>
 <style scoped lang="scss">
 .fm {
   height: 100%;
   background-color: var(--v-neumorphism-base);
   .cover {
-    box-shadow:  9px 9px 18px var(--v-neumorphism-darken1),
-    -9px -9px 18px var(--v-neumorphism-lighten1);
+    box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
+      -9px -9px 18px var(--v-neumorphism-lighten1);
   }
   ::v-deep .v-progress-circular__underlay {
     //stroke: none;
   }
   ::v-deep .v-btn {
-    box-shadow:  9px 9px 18px var(--v-neumorphism-darken1),
-    -9px -9px 18px var(--v-neumorphism-lighten1);
+    box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
+      -9px -9px 18px var(--v-neumorphism-lighten1);
   }
 }
-
 </style>

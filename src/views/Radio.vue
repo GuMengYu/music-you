@@ -1,13 +1,11 @@
 <template>
-  <page title="电台">
-
-  </page>
+  <page title="电台"> </page>
 </template>
 
 <script>
-import {getUserAudio} from '@/api/user'
-import {mapGetters} from 'vuex';
-import Page from '@components/layout/Page'
+import { getUserAudio } from '@/api/user';
+import { mapGetters } from 'vuex';
+import Page from '@components/layout/Page';
 export default {
   name: 'DJ',
   components: { Page },
@@ -19,7 +17,7 @@ export default {
       uid: 'settings/userId',
     }),
   },
-  created () {
+  created() {
     this.fetch();
   },
   methods: {
@@ -28,9 +26,7 @@ export default {
       this.radios = djRadios;
     },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

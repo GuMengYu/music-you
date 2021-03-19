@@ -1,19 +1,11 @@
 <template>
   <div>
-    <v-btn
-      small
-      icon
-      @click="$router.go(-1)"
-    >
+    <v-btn small icon @click="$router.go(-1)">
       <v-icon>
         {{ mdiChevronLeft }}
       </v-icon>
     </v-btn>
-    <v-btn
-      small
-      icon
-      @click="$router.go(1)"
-    >
+    <v-btn small icon @click="$router.go(1)">
       <v-icon>
         {{ mdiChevronRight }}
       </v-icon>
@@ -22,9 +14,9 @@
 </template>
 
 <script>
-import {mdiChevronRight, mdiChevronLeft} from '@mdi/js';
+import { mdiChevronRight, mdiChevronLeft } from '@mdi/js';
 export default {
   name: 'BF',
-  data:() => ({mdiChevronRight, mdiChevronLeft}),
-}
+  data: () => ({ mdiChevronRight, mdiChevronLeft }),
+};
 </script>

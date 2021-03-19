@@ -40,70 +40,66 @@
         sub-group
       />
 
-      <default-list-item
-        v-else
-        :key="`child-${i}`"
-        :item="child"
-      />
+      <default-list-item v-else :key="`child-${i}`" :item="child" />
     </template>
   </v-list-group>
 </template>
 
 <script>
-  // Components
-  import DefaultListItem from './ListItem'
+// Components
+import DefaultListItem from './ListItem';
 
-  export default {
-    name: 'DefaultListGroup',
+export default {
+  name: 'DefaultListGroup',
 
-    components: {
-      DefaultListItem,
+  components: {
+    DefaultListItem,
+  },
+
+  props: {
+    item: {
+      type: Object,
+      default: () => ({}),
     },
+  },
 
-    props: {
-      item: {
-        type: Object,
-        default: () => ({}),
-      },
+  data() {
+    return { model: this.item.open };
+  },
+
+  computed: {
+    group() {
+      return this.genGroup(this.item.items);
     },
+    icon() {
+      if (!this.item.icon) return undefined;
 
-    data() {return { model: this.item.open }},
+      const [off, on] = this.item.icon.split(':');
 
-    computed: {
-      group () {
-        return this.genGroup(this.item.items)
-      },
-      icon () {
-        if (!this.item.icon) return undefined
-
-        const [off, on] = this.item.icon.split(':')
-
-        return this.model ? (on || off) : off
-      },
+      return this.model ? on || off : off;
     },
+  },
 
-    methods: {
-      genGroup (items) {
-        return items.reduce((acc, cur) => {
-          acc.push(
-            cur.items
-              ? this.genGroup(cur.items)
-              : cur.to,
-          )
+  methods: {
+    genGroup(items) {
+      return items
+        .reduce((acc, cur) => {
+          acc.push(cur.items ? this.genGroup(cur.items) : cur.to);
 
-          return acc
-        }, []).join('|')
-      },
+          return acc;
+        }, [])
+        .join('|');
     },
-  }
+  },
+};
 </script>
 
 <style lang="sass">
-  .v-list-group.v-list-group--default
-    .v-list-group__header
-      min-height: 32px
+.v-list-group.v-list-group--default
+  .v-list-group__header
+    min-height: 32px
 
-      > .v-list-item__icon
-        margin-bottom: 6px
-        margin-top: 6px
+    > .v-list-item__icon
+      margin-bottom: 6px
+      margin-top: 6px
 </style>

@@ -1,14 +1,6 @@
 <template>
-  <v-sheet
-    v-show="showList"
-    class="rounded-lg playing-container"
-  >
-    <v-toolbar
-      tag="header"
-      flat
-      class="rounded-lg"
-      color="transparent"
-    >
+  <v-sheet v-show="showList" class="rounded-lg playing-container">
+    <v-toolbar tag="header" flat class="rounded-lg" color="transparent">
       <div class="font-weight-bold">
         {{ $t('main.playing_queue') }}
       </div>
@@ -28,14 +20,8 @@
       min-height="50vh"
       class="playing-container-list overflow-y-auto"
     >
-      <v-list-item-group
-        color="primary"
-      >
-        <song-bar
-          v-for="(song, i) in nextList"
-          :key="i"
-          :song="song"
-        />
+      <v-list-item-group color="primary">
+        <song-bar v-for="(song, i) in nextList" :key="i" :song="song" />
       </v-list-item-group>
     </v-list>
   </v-sheet>
@@ -43,14 +29,14 @@
 
 <script>
 import { mdiCloseCircle } from '@mdi/js';
-import {sync, get} from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import SongBar from '@/components/app/SongBar';
 export default {
   name: 'PlayingList',
-  components: {SongBar},
-  data(){
+  components: { SongBar },
+  data() {
     return {
-      icon: {mdiCloseCircle},
+      icon: { mdiCloseCircle },
     };
   },
   inject: ['theme'],
@@ -59,18 +45,13 @@ export default {
     current: get('music/track@id'),
     showList: sync('music/showList'),
     nextList() {
-      const idx = this.playingList.findIndex(i => i.id === this.current);
+      const idx = this.playingList.findIndex((i) => i.id === this.current);
       return this.playingList.slice(idx + 1);
     },
   },
-  watch: {
-  },
-  created() {
-
-  },
-  methods: {
-
-  },
+  watch: {},
+  created() {},
+  methods: {},
 };
 </script>
 
@@ -90,12 +71,12 @@ export default {
 }
 .theme--light {
   .playing-container {
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, 0.5);
   }
 }
 .theme--dark {
   .playing-container {
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 </style>

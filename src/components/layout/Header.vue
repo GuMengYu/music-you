@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import { get } from 'vuex-pathify'
-import DefaultInput from '@components/default/Input'
-import { mdiMagnify } from '@mdi/js'
-import DrawerToggle from '@components/layout/DrawerToggle'
+import { get } from 'vuex-pathify';
+import DefaultInput from '@components/default/Input';
+import { mdiMagnify } from '@mdi/js';
+import DrawerToggle from '@components/layout/DrawerToggle';
 export default {
   name: 'DefaultHeader',
   components: {
@@ -32,7 +32,7 @@ export default {
   },
   inject: ['theme'],
   data: () => ({
-    icon: {mdiMagnify},
+    icon: { mdiMagnify },
     keywords: '',
   }),
   computed: {
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     goSearch() {
-      const {name, params} = this.$route;
+      const { name, params } = this.$route;
       if (!this.keywords) return;
       if (name === 'search' && params.keywords === this.keywords) return;
       this.$router.push({
@@ -49,7 +49,7 @@ export default {
       });
     },
   },
-}
+};
 </script>
 <style scoped lang="scss">
 .app_header {

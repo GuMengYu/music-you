@@ -3,24 +3,14 @@
     <h2 class="text-md-h5 text-sm-body-1">
       {{ type }}
     </h2>
-    <custom-col
-      :title="$t('main.featured')"
-    >
+    <custom-col :title="$t('main.featured')">
       <template slot="content">
-        <cover-list
-          :list="playlists.slice(0, 3)"
-          type="playlist"
-        />
+        <cover-list :list="playlists.slice(0, 3)" type="playlist" />
       </template>
     </custom-col>
-    <custom-col
-      title="播放列表"
-    >
+    <custom-col title="播放列表">
       <template slot="content">
-        <cover-list
-          :list="playlists.slice(3)"
-          type="playlist"
-        />
+        <cover-list :list="playlists.slice(3)" type="playlist" />
       </template>
     </custom-col>
   </v-sheet>
@@ -33,7 +23,7 @@ import CoverList from '@components/app/CoverList';
 
 export default {
   name: 'MoodsGenresDetail',
-  components: {CoverList, CustomCol},
+  components: { CoverList, CustomCol },
   props: {
     type: {
       type: String,
@@ -61,9 +51,7 @@ export default {
       this.loading = false;
     },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

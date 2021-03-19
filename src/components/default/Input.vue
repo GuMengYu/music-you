@@ -21,9 +21,7 @@
     @input="$emit('input', model)"
   >
     <template #prepend-inner>
-      <v-icon
-        :color="!isFocused ? '' : 'primary'"
-      >
+      <v-icon :color="!isFocused ? '' : 'primary'">
         {{ icon }}
       </v-icon>
     </template>
@@ -61,7 +59,7 @@ export default {
     isFocused: false,
   }),
   computed: {
-    placeholder () {
+    placeholder() {
       return this.isFocused ? '' : this.holder;
     },
     bgColor() {
@@ -76,24 +74,24 @@ export default {
     },
   },
   methods: {
-    onBlur () {
-      this.isFocused = false
+    onBlur() {
+      this.isFocused = false;
       // this.resetSearch()
     },
-    onEsc () {
-      this.$refs.search.blur()
+    onEsc() {
+      this.$refs.search.blur();
     },
-    onEnter () {
+    onEnter() {
       this.$emit('enter');
     },
-    async onFocus () {
-      this.isFocused = true
+    async onFocus() {
+      this.isFocused = true;
     },
-    resetSearch () {
+    resetSearch() {
       this.$nextTick(() => {
-        this.model = undefined
-        this.isFocused = false
-      })
+        this.model = undefined;
+        this.isFocused = false;
+      });
     },
   },
 };

@@ -18,7 +18,7 @@ export default {
     color: String,
     name: String,
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

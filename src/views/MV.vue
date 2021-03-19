@@ -1,15 +1,10 @@
 <template>
   <v-sheet>
-    <custom-col
-      :title="video.data.name"
-    >
+    <custom-col :title="video.data.name">
       <template slot="content">
         <div>
           <div class="video rounded-lg">
-            <video
-              ref="videoPlayer"
-              class="plyr"
-            />
+            <video ref="videoPlayer" class="plyr" />
           </div>
           <div class="d-flex mt-4">
             <div class="font-weight-bold">
@@ -27,16 +22,10 @@
         </div>
       </template>
     </custom-col>
-    <custom-col
-      :title="$t('main.simi')"
-    >
+    <custom-col :title="$t('main.simi')">
       <template slot="content">
         <v-row>
-          <v-col
-            v-for="mv in simi"
-            :key="mv.id"
-            cols="3"
-          >
+          <v-col v-for="mv in simi" :key="mv.id" cols="3">
             <video-cover :data="mv" />
           </v-col>
         </v-row>
@@ -49,9 +38,9 @@
 import { mvDetail, mvUrl, simiMv } from '@/api';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
-import {sync} from 'vuex-pathify';
-import CustomCol from '@components/layout/Col'
-import VideoCover from '@components/app/VideoCover'
+import { sync } from 'vuex-pathify';
+import CustomCol from '@components/layout/Col';
+import VideoCover from '@components/app/VideoCover';
 export default {
   name: 'MusicVideo',
   components: {
@@ -110,21 +99,21 @@ export default {
     async fetch() {
       const _video = await mvDetail(this.id);
       this.video = _video;
-      const {name: title, cover} = _video.data;
+      const { name: title, cover } = _video.data;
       const sources = await this.getAllUrl([1080, 720], this.id);
       this.player.source = {
         type: 'video',
         title,
         sources,
         poster: cover.replace(/^http:/, 'https:'),
-      }
+      };
       const { mvs } = await simiMv(this.id);
       this.simi = mvs;
     },
     async getAllUrl(qualities, id) {
-      const fns = qualities.map(quality => {
-        return mvUrl({id, r: quality})
-      })
+      const fns = qualities.map((quality) => {
+        return mvUrl({ id, r: quality });
+      });
       const urls = await Promise.all(fns);
       return urls.map((result) => {
         return {
@@ -143,5 +132,4 @@ export default {
   max-height: 68vh;
   --plyr-color-main: var(--v-primary-base);
 }
-
 </style>

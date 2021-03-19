@@ -1,11 +1,7 @@
 <template>
-  <v-card
-    rounded="lg"
-    flat
-    dark
-  >
+  <v-card rounded="lg" flat dark>
     <v-img
-      :aspect-ratio="16/9"
+      :aspect-ratio="16 / 9"
       :src="picUrl | sizeOfImage"
       lazy-src="@/assets/default-cover.png"
       class="align-end pa-2"
@@ -36,10 +32,7 @@
           class="now-playing text-caption font-weight-bold mr-2"
           @click="play"
         >
-          <font-awesome-icon
-            icon="play"
-            class="mx-2"
-          />
+          <font-awesome-icon icon="play" class="mx-2" />
           {{ $t('main.now_playing') }}
         </v-btn>
         <v-btn
@@ -60,9 +53,9 @@
   </v-card>
 </template>
 <script>
-import {mdiPlay, mdiHeartOutline} from '@mdi/js';
-import {getAlbum} from '@/api';
-import {dispatch} from 'vuex-pathify';
+import { mdiPlay, mdiHeartOutline } from '@mdi/js';
+import { getAlbum } from '@/api';
+import { dispatch } from 'vuex-pathify';
 export default {
   name: 'WideCover',
   props: {
@@ -72,7 +65,7 @@ export default {
     },
   },
   data: () => ({
-    icon: {mdiPlay, mdiHeartOutline},
+    icon: { mdiPlay, mdiHeartOutline },
   }),
   computed: {
     picUrl() {
@@ -83,20 +76,22 @@ export default {
     },
   },
   methods: {
-    fav() {
-
-    },
+    fav() {},
     async play() {
       const { songs } = await getAlbum(this.cover.id);
       dispatch('music/updatePlayingList', songs);
-      dispatch('music/updateTrack', {id: songs?.[0].id})
+      dispatch('music/updateTrack', { id: songs?.[0].id });
     },
   },
-}
+};
 </script>
 <style scoped lang="scss">
 .now-playing {
-  background: linear-gradient(to right, var(--v-primary-base), var(--v-primary-darken1));
+  background: linear-gradient(
+    to right,
+    var(--v-primary-base),
+    var(--v-primary-darken1)
+  );
 }
 .favorite {
   opacity: 0.8;

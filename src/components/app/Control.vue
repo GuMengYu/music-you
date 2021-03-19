@@ -1,21 +1,11 @@
 <template>
   <div class="d-flex justify-center align-center control-buttons">
-    <v-btn
-      icon
-      class="mx-2"
-      :disabled="isCurrentFm"
-      @click="playOrder"
-    >
+    <v-btn icon class="mx-2" :disabled="isCurrentFm" @click="playOrder">
       <v-icon small>
         {{ orderIconState }}
       </v-icon>
     </v-btn>
-    <v-btn
-      class="mx-2"
-      icon
-      :disabled="isCurrentFm"
-      @click="playPrev"
-    >
+    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
       <font-awesome-icon icon="backward" />
     </v-btn>
     <v-fab-transition origin="center center">
@@ -27,28 +17,14 @@
         @click="playPause"
       >
         <div :style="`color: ${playingState.color};`">
-          <font-awesome-icon
-            :icon="playingState.icon"
-            size="lg"
-          />
+          <font-awesome-icon :icon="playingState.icon" size="lg" />
         </div>
       </v-btn>
     </v-fab-transition>
-    <v-btn
-      class="mx-2"
-      icon
-      @click="playNext"
-    >
-      <font-awesome-icon
-        icon="forward"
-      />
+    <v-btn class="mx-2" icon @click="playNext">
+      <font-awesome-icon icon="forward" />
     </v-btn>
-    <v-btn
-      class="mx-2"
-      icon
-      :disabled="isCurrentFm"
-      @click="playOrder"
-    >
+    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playOrder">
       <v-icon small>
         {{ orderIconState }}
       </v-icon>
@@ -57,9 +33,9 @@
 </template>
 
 <script>
-import { commit, dispatch, get, sync } from 'vuex-pathify'
-import { mapGetters } from 'vuex'
-import { mdiRepeat, mdiRepeatOff, mdiRepeatOnce } from '@mdi/js'
+import { commit, dispatch, get, sync } from 'vuex-pathify';
+import { mapGetters } from 'vuex';
+import { mdiRepeat, mdiRepeatOff, mdiRepeatOnce } from '@mdi/js';
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -78,14 +54,16 @@ export default {
       prev: 'music/prevTrackId',
     }),
     orderIconState() {
-      return ({
-        [PLAY_MODE.ORDER] : mdiRepeatOff,
-        [PLAY_MODE.CYCLE] : mdiRepeat,
-        [PLAY_MODE.SINGLE_CYCLE] : mdiRepeatOnce,
-      })[this.mode];
+      return {
+        [PLAY_MODE.ORDER]: mdiRepeatOff,
+        [PLAY_MODE.CYCLE]: mdiRepeat,
+        [PLAY_MODE.SINGLE_CYCLE]: mdiRepeatOnce,
+      }[this.mode];
     },
-    playingState () {
-      return this.playing ? { color: 'var(--v-accent-base)', icon: 'pause' } : { color: 'var(--v-primary-base)', icon: 'play' };
+    playingState() {
+      return this.playing
+        ? { color: 'var(--v-accent-base)', icon: 'pause' }
+        : { color: 'var(--v-primary-base)', icon: 'play' };
     },
   },
   methods: {
@@ -97,19 +75,17 @@ export default {
     },
     playNext() {
       if (this.isCurrentFm) {
-        dispatch('music/updateTrack', {id: this.nextFmTrackId});
+        dispatch('music/updateTrack', { id: this.nextFmTrackId });
         dispatch('music/updatePersonalFmList');
       } else {
-        dispatch('music/updateTrack', {id: this.next});
+        dispatch('music/updateTrack', { id: this.next });
       }
     },
     playPrev() {
-      dispatch('music/updateTrack', {id: this.prev});
+      dispatch('music/updateTrack', { id: this.prev });
     },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -8,6 +8,6 @@ Vue.use(VueI18n);
 export function createI18n(store) {
   return new VueI18n({
     locale: store.state.settings?.locale,
-    messages: {zh, en},
+    messages: { zh, en },
   });
 }

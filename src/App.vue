@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import {call} from 'vuex-pathify';
+import { call } from 'vuex-pathify';
 import NProgress from 'nprogress';
 export default {
   name: 'App',
   data: () => ({}),
-  async mounted () {
+  async mounted() {
     NProgress.start();
     await this.init();
     NProgress.done();
@@ -18,5 +18,5 @@ export default {
   methods: {
     init: call('app/init'),
   },
-}
+};
 </script>

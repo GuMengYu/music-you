@@ -1,12 +1,6 @@
 <template>
   <v-expand-transition>
-    <v-footer
-      v-if="track.id"
-      fixed
-      padless
-      class="playing-bar"
-      app
-    >
+    <v-footer v-if="track.id" fixed padless class="playing-bar" app>
       <div class="playing-slider">
         <vue-slider
           ref="vueSlider"
@@ -24,9 +18,7 @@
         />
       </div>
       <div class="playing-control">
-        <div
-          class="playing-bar__left"
-        >
+        <div class="playing-bar__left">
           <v-hover v-slot="{ hover }">
             <v-card
               class="playing-cover-card d-flex justify-center align-center"
@@ -46,15 +38,9 @@
                 />
               </template>
               <v-fade-transition>
-                <v-overlay
-                  :value="hover"
-                  absolute
-                >
+                <v-overlay :value="hover" absolute>
                   <v-card-actions>
-                    <v-btn
-                      icon
-                      @click="showLyricsPage = !showLyricsPage"
-                    >
+                    <v-btn icon @click="showLyricsPage = !showLyricsPage">
                       <v-icon color="pink">
                         {{ icon.mdiArrowExpand }}
                       </v-icon>
@@ -66,45 +52,32 @@
           </v-hover>
           <div class="song-info mx-2">
             <router-link to="">
-              <span
-                class="song-name text--primary h-1x text-subtitle-2"
-              >
+              <span class="song-name text--primary h-1x text-subtitle-2">
                 {{ track.name }}
               </span>
             </router-link>
             <span class="text--disabled mx-2">-</span>
-            <router-link :to="`/artist/${$ochain(track,'ar', '0', 'id')}`">
+            <router-link :to="`/artist/${$ochain(track, 'ar', '0', 'id')}`">
               <span
-                class="artist-name h-1x text-caption text--disabled  font-weight-bold"
+                class="artist-name h-1x text-caption text--disabled font-weight-bold"
               >
                 {{ $ochain(track, 'ar', '0', 'name') }}
               </span>
             </router-link>
           </div>
           <v-spacer />
-          <v-btn
-            icon
-            text
-            @click="likeSong"
-          >
+          <v-btn icon text @click="likeSong">
             <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
               <font-awesome-icon icon="heart" />
             </div>
           </v-btn>
         </div>
-        <div
-          class="playing-bar__center"
-        >
+        <div class="playing-bar__center">
           <control />
         </div>
-        <div
-          class="playing-bar__right"
-        >
+        <div class="playing-bar__right">
           <div class="volume-bar d-flex align-center">
-            <v-btn
-              icon
-              @click="toggleVolume"
-            >
+            <v-btn icon @click="toggleVolume">
               <v-icon small>
                 {{ volumeIconState }}
               </v-icon>
@@ -136,8 +109,8 @@
 </template>
 
 <script>
-import {sync, get, dispatch, commit} from 'vuex-pathify';
-import {mapGetters} from 'vuex';
+import { sync, get, dispatch, commit } from 'vuex-pathify';
+import { mapGetters } from 'vuex';
 import {
   mdiHeart,
   mdiHeartOutline,
@@ -158,8 +131,8 @@ import {
 
 import Player from './player';
 import VueSlider from 'vue-slider-component';
-import {formatDuring} from '@util/fn';
-import Control from '@components/app/Control'
+import { formatDuring } from '@util/fn';
+import Control from '@components/app/Control';
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -171,7 +144,8 @@ export default {
   name: 'PlayerBar',
   components: {
     Control,
-    VueSlider},
+    VueSlider,
+  },
   extends: Player,
   data: () => ({
     icon: {
@@ -214,14 +188,16 @@ export default {
       }
     },
     orderIconState() {
-      return ({
-        [PLAY_MODE.ORDER] : mdiRepeatOff,
-        [PLAY_MODE.CYCLE] : mdiRepeat,
-        [PLAY_MODE.SINGLE_CYCLE] : mdiRepeatOnce,
-      })[this.mode];
+      return {
+        [PLAY_MODE.ORDER]: mdiRepeatOff,
+        [PLAY_MODE.CYCLE]: mdiRepeat,
+        [PLAY_MODE.SINGLE_CYCLE]: mdiRepeatOnce,
+      }[this.mode];
     },
-    playingState () {
-      return this.playing ? { color: 'var(--v-accent-base)', icon: 'pause' } : { color: 'var(--v-primary-base)', icon: 'play' };
+    playingState() {
+      return this.playing
+        ? { color: 'var(--v-accent-base)', icon: 'pause' }
+        : { color: 'var(--v-primary-base)', icon: 'play' };
     },
     albumPicUrl() {
       return this.track?.al?.picUrl ?? '';
@@ -238,8 +214,12 @@ export default {
       });
     },
   },
-  created () {
-    this.currentTrackId && this.$store.dispatch('music/updateTrack', {id: this.currentTrackId, option: {autoplay: false, resetProgress: false}});
+  created() {
+    this.currentTrackId &&
+      this.$store.dispatch('music/updateTrack', {
+        id: this.currentTrackId,
+        option: { autoplay: false, resetProgress: false },
+      });
   },
   mounted() {},
   methods: {
@@ -248,14 +228,14 @@ export default {
     },
     playNext() {
       if (this.isCurrentFm) {
-        dispatch('music/updateTrack', {id: this.nextFmTrackId});
+        dispatch('music/updateTrack', { id: this.nextFmTrackId });
         dispatch('music/updatePersonalFmList');
       } else {
-        dispatch('music/updateTrack', {id: this.next});
+        dispatch('music/updateTrack', { id: this.next });
       }
     },
     playPrev() {
-      dispatch('music/updateTrack', {id: this.prev});
+      dispatch('music/updateTrack', { id: this.prev });
     },
     handleSlideChange() {
       this.currentTime = this.$refs['vueSlider'].getValue();
@@ -277,7 +257,7 @@ export default {
       return formatDuring(val * 1000);
     },
     likeSong() {
-      dispatch('music/favSong', {id: this.track.id, like: !this.liked});
+      dispatch('music/favSong', { id: this.track.id, like: !this.liked });
     },
   },
 };
@@ -286,10 +266,10 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .theme--light .playing-bar {
-  background-color: rgba(255, 255, 255, .5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .theme--dark .playing-bar {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .playing-bar {
   backdrop-filter: blur(50px);
@@ -344,7 +324,7 @@ export default {
       }
 
       .playing-volume {
-        -webkit-app-region: no-drag
+        -webkit-app-region: no-drag;
       }
     }
   }

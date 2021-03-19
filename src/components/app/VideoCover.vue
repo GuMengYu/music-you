@@ -7,11 +7,11 @@
         rounded="lg"
         class="d-flex align-end justify-end cover-card"
         elevation="0"
-        :class="{'cover-hover' : hover}"
+        :class="{ 'cover-hover': hover }"
         :to="`/video/${id}`"
       >
         <v-img
-          :aspect-ratio="16/9"
+          :aspect-ratio="16 / 9"
           :src="coverBgUrl"
           class="cover-img align-end"
           lazy-src="@/assets/default-cover.png"
@@ -23,18 +23,14 @@
         />
 
         <v-fade-transition>
-          <v-overlay
-            :value="hover"
-            absolute
-            opacity="0"
-          >
+          <v-overlay :value="hover" absolute opacity="0">
             <v-card-actions class="cover-actions">
               <v-btn
                 x-small
                 fab
                 elevation="0"
                 class="cover-btn"
-                :class="{'hover-btn': hover}"
+                :class="{ 'hover-btn': hover }"
                 @click="play"
               >
                 <font-awesome-icon icon="play" />
@@ -44,9 +40,7 @@
         </v-fade-transition>
       </v-card>
     </v-hover>
-    <span
-      class="h-1x mt-2 text-caption font-weight-bold text--primary"
-    >
+    <span class="h-1x mt-2 text-caption font-weight-bold text--primary">
       {{ title }}
     </span>
     <span class="h-1x text-caption font-weight-bold">
@@ -65,18 +59,19 @@
 </template>
 
 <script>
-import {mdiPlay} from '@mdi/js';
-import {sizeOfImage, formatNumber} from '@util/fn';
+import { mdiPlay } from '@mdi/js';
+import { sizeOfImage, formatNumber } from '@util/fn';
 export default {
   name: 'VideoCover',
   props: {
     data: {
       type: Object,
-      default: () =>({
+      default: () => ({
         artistName: 'Willie Gomez',
         id: 14257948,
         name: 'Salvaje',
-        picUrl: 'https://p2.music.126.net/Yc0acfKEG7KhCVo2iWD6bA==/109951165763294506.jpg',
+        picUrl:
+          'https://p2.music.126.net/Yc0acfKEG7KhCVo2iWD6bA==/109951165763294506.jpg',
         type: 5,
       }),
     },
@@ -99,36 +94,42 @@ export default {
       return this.data.copywriter;
     },
     artists() {
-      return this.data.artistId ? [{userId: this.data.artistId, userName: this.data.artistName}] : this.data.creator;
+      return this.data.artistId
+        ? [
+            {
+              userId: this.data.artistId,
+              userName: this.data.artistName,
+            },
+          ]
+        : this.data.creator;
     },
     to() {
       return {
-        'album': `/album/${this.data.id}`,
-        'playlist': `/playlist/${this.data.id}`,
-        'artist': `/artist/${this.data.id}`,
+        album: `/album/${this.data.id}`,
+        playlist: `/playlist/${this.data.id}`,
+        artist: `/artist/${this.data.id}`,
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.cover ?? this.data.coverUrl)
+      return sizeOfImage(
+        this.data.picUrl ?? this.data.cover ?? this.data.coverUrl,
+      );
     },
     count() {
       return formatNumber(this.data.playCount ?? this.data.playTime);
     },
   },
   methods: {
-    async play() {
-
-    },
+    async play() {},
   },
-
 };
 </script>
 
 <style lang="scss" scoped>
-@import "src/scss/common";
+@import 'src/scss/common';
 .cover-container {
   .cover-hover {
-    transition: .3s all ease-in-out;
+    transition: 0.3s all ease-in-out;
     transform: translateY(-1%) scale(1.012);
   }
   .title {
@@ -147,7 +148,7 @@ export default {
       .cover-btn:hover {
         background: var(--v-primary-base);
         transform: scale(0.85);
-        transition: .3s all ease-in-out;
+        transition: 0.3s all ease-in-out;
       }
     }
     .cover-img {
@@ -160,10 +161,10 @@ export default {
       height: 100%;
       width: 100%;
       top: 12%;
-      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, .5);
+      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, 0.5);
       border-radius: 20px;
       filter: blur(30px);
-      transform: scale(.9);
+      transform: scale(0.9);
       background-size: cover;
     }
   }

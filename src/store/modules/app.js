@@ -1,5 +1,5 @@
 // Pathify
-import { make } from 'vuex-pathify'
+import { make } from 'vuex-pathify';
 
 // Data
 const state = {
@@ -8,23 +8,23 @@ const state = {
   drawermini: false,
   version: null,
   nav: [],
-}
+};
 
-const mutations = make.mutations(state)
+const mutations = make.mutations(state);
 
 const actions = {
   ...make.actions(state),
   init: async ({ dispatch }) => {
-    const modules = ['settings/fetch', 'music/fetch']
-    for (const module of modules) dispatch(module, null, {root: true})
+    const modules = ['settings/fetch', 'music/fetch'];
+    for (const module of modules) dispatch(module, null, { root: true });
   },
-}
+};
 
-const getters = {}
+const getters = {};
 export default {
   namespaced: true,
   state,
   mutations,
   actions,
   getters,
-}
+};

@@ -1,19 +1,19 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
-import { createRouter } from '@/router'
-import { createStore } from '@/store'
-import { createVuetify } from '@/vuetify'
+import { createRouter } from '@/router';
+import { createStore } from '@/store';
+import { createVuetify } from '@/vuetify';
 import { createI18n } from '@/i18n';
 
 import plugins from '@/plugins';
 import filters from '@/filters';
-import '@/scss/global.scss'
+import '@/scss/global.scss';
 import '@/mock/index';
 
 // Application
-import App from '@/App.vue'
+import App from '@/App.vue';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 // register vue filter
 Object.entries(filters).map(([key, fn]) => {
@@ -35,5 +35,5 @@ new Vue({
   router,
   i18n,
   vuetify,
-  render: h => h(App),
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');

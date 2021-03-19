@@ -1,16 +1,9 @@
 <template>
   <div>
     <div v-if="logged">
-      <app-menu
-        :items="items"
-        transition="slide-y-transition"
-      >
+      <app-menu :items="items" transition="slide-y-transition">
         <template v-slot:activator="{ on, attrs }">
-          <v-avatar
-            v-bind="attrs"
-            size="30"
-            v-on="on"
-          >
+          <v-avatar v-bind="attrs" size="30" v-on="on">
             <v-img :src="profile.avatarUrl" />
           </v-avatar>
         </template>
@@ -20,10 +13,7 @@
             class="v-list-item--default"
             @click="dispatch(item.type)"
           >
-            <v-list-item-title
-              class="text-caption"
-              v-text="item.title"
-            />
+            <v-list-item-title class="text-caption" v-text="item.title" />
           </v-list-item>
         </template>
       </app-menu>
@@ -43,55 +33,53 @@
 </template>
 
 <script>
-import { sync, get, dispatch } from 'vuex-pathify'
-import {mdiLogin} from '@mdi/js';
+import { sync, get, dispatch } from 'vuex-pathify';
+import { mdiLogin } from '@mdi/js';
 import AppMenu from '../default/Menu';
 export default {
   name: 'DefaultAccount',
-  components: {AppMenu},
+  components: { AppMenu },
   data: function () {
     return {
       icon: {
         mdiLogin,
       },
-      options: [{
-        type: 'sign_out',
-        title: this.$t('common.sign_out'),
-      }, {
-        type: 'center',
-        title: this.$t('common.personal'),
-      }],
-    }
+      options: [
+        {
+          type: 'sign_out',
+          title: this.$t('common.sign_out'),
+        },
+        {
+          type: 'center',
+          title: this.$t('common.personal'),
+        },
+      ],
+    };
   },
   computed: {
     profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
-    logged: vm => vm.$store.getters['settings/logged'],
+    logged: (vm) => vm.$store.getters['settings/logged'],
     items() {
-      return [
-        { heading: this.profile?.nickname },
-        ...this.options,
-      ]
+      return [{ heading: this.profile?.nickname }, ...this.options];
     },
   },
   methods: {
     dispatch(type) {
       switch (type) {
-      case 'sign_out':
-        this.signOut();
-        break;
-      case 'center':
-        console.log('go center');
-        break;
+        case 'sign_out':
+          this.signOut();
+          break;
+        case 'center':
+          console.log('go center');
+          break;
       }
     },
     signOut() {
       dispatch('settings/signOut');
     },
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

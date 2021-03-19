@@ -1,10 +1,5 @@
 <template>
-  <v-list
-    dense
-    expand
-    nav
-    v-bind="$attrs"
-  >
+  <v-list dense expand nav v-bind="$attrs">
     <template v-for="(item, i) in items">
       <v-subheader
         v-if="item.heading"
@@ -25,40 +20,31 @@
         :item="item"
       />
 
-      <slot
-        v-else-if="$scopedSlots.item"
-        name="item"
-        :index="i"
-        :item="item"
-      />
+      <slot v-else-if="$scopedSlots.item" name="item" :index="i" :item="item" />
 
-      <default-list-item
-        v-else
-        :key="`item-${i}`"
-        :item="item"
-      />
+      <default-list-item v-else :key="`item-${i}`" :item="item" />
     </template>
   </v-list>
 </template>
 
 <script>
-  // Components
-  import DefaultListGroup from './ListGroup'
-  import DefaultListItem from './ListItem'
+// Components
+import DefaultListGroup from './ListGroup';
+import DefaultListItem from './ListItem';
 
-  export default {
-    name: 'DefaultList',
+export default {
+  name: 'DefaultList',
 
-    components: {
-      DefaultListGroup,
-      DefaultListItem,
+  components: {
+    DefaultListGroup,
+    DefaultListItem,
+  },
+
+  props: {
+    items: {
+      type: Array,
+      default: () => [],
     },
-
-    props: {
-      items: {
-        type: Array,
-        default: () => ([]),
-      },
-    },
-  }
+  },
+};
 </script>

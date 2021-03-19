@@ -1,4 +1,4 @@
-import Colors from 'vuetify/lib/util/colors'
+import Colors from 'vuetify/lib/util/colors';
 export const officialPlaylist = {
   2829816518: {
     title: '欧美私人订制',
@@ -30,7 +30,7 @@ export const officialPlaylist = {
   2860654884: {
     title: '独立女声精选',
   },
-}
+};
 
 export const specialType = {
   5: {
@@ -39,7 +39,7 @@ export const specialType = {
   100: {
     title: '私人雷达',
   },
-}
+};
 
 export function getColorTable() {
   const o = {};

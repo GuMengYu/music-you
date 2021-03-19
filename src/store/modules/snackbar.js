@@ -1,5 +1,5 @@
 // Utilities
-import { make } from 'vuex-pathify'
+import { make } from 'vuex-pathify';
 
 const state = {
   snackbar: {
@@ -12,19 +12,22 @@ const state = {
     timeout: '-1',
   },
   value: false,
-}
+};
 
-const mutations = make.mutations(state)
+const mutations = make.mutations(state);
 
 const actions = {
-  show({commit, state}, payload) {
-    const {type, text} = payload;
-    commit('snackbar', {...state.snackbar, ...{text, timeout: 1000, color: type}});
+  show({ commit, state }, payload) {
+    const { type, text } = payload;
+    commit('snackbar', {
+      ...state.snackbar,
+      ...{ text, timeout: 1000, color: type },
+    });
     commit('value', true);
   },
-}
+};
 
-const getters = {}
+const getters = {};
 
 export default {
   namespaced: true,
@@ -32,4 +35,4 @@ export default {
   mutations,
   actions,
   getters,
-}
+};
