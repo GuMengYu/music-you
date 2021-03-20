@@ -34,12 +34,13 @@ npm run electron:build
 
 ## 🌄 预览
 
-![主要](doc/main.png)
+![主要](doc/discover.png)
 ![浏览](doc/explore.png)
-![日推](doc/daily.png)
+![收藏](doc/library.png)
 ![歌手](doc/artist.png)
 ![播放](doc/nextup.png)
 ![lyric](doc/lyric.png)
+![mv](doc/mv.png)
 
 
 ### 📄 License
