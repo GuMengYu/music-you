@@ -5,9 +5,9 @@ import Express from 'express';
 import { app, protocol, BrowserWindow } from 'electron';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-import { createElectronMenu } from '../electron/menu';
-import { startApiServer } from '../electron/apiserver';
-import { registerIpcMain } from '../electron/ipcMain';
+import { createElectronMenu } from './electron/menu';
+import { startApiServer } from './electron/apiserver';
+import { registerIpcMain } from './electron/ipcMain';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Scheme must be registered before the app is ready

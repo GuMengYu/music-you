@@ -63,7 +63,6 @@ const history_recommend_songs_detail = require('NeteaseCloudMusicApi/module/hist
 const like = require('NeteaseCloudMusicApi/module/like');
 const likelist = require('NeteaseCloudMusicApi/module/likelist');
 
-
 const login = require('NeteaseCloudMusicApi/module/login');
 const login_cellphone = require('NeteaseCloudMusicApi/module/login_cellphone');
 
@@ -74,8 +73,6 @@ const register_cellphone = require('NeteaseCloudMusicApi/module/register_cellpho
 
 const lyric = require('NeteaseCloudMusicApi/module/lyric');
 
-
-
 const mv_all = require('NeteaseCloudMusicApi/module/mv_all');
 const mv_detail = require('NeteaseCloudMusicApi/module/mv_detail');
 const mv_detail_info = require('NeteaseCloudMusicApi/module/mv_detail_info');
@@ -83,7 +80,6 @@ const mv_first = require('NeteaseCloudMusicApi/module/mv_first');
 const mv_sub = require('NeteaseCloudMusicApi/module/mv_sub');
 const mv_sublist = require('NeteaseCloudMusicApi/module/mv_sublist');
 const mv_url = require('NeteaseCloudMusicApi/module/mv_url');
-
 
 const personal_fm = require('NeteaseCloudMusicApi/module/personal_fm');
 const personalized = require('NeteaseCloudMusicApi/module/personalized');
@@ -127,7 +123,6 @@ const simi_playlist = require('NeteaseCloudMusicApi/module/simi_playlist');
 const simi_song = require('NeteaseCloudMusicApi/module/simi_song');
 const simi_user = require('NeteaseCloudMusicApi/module/simi_user');
 
-
 const song_detail = require('NeteaseCloudMusicApi/module/song_detail');
 const song_order_update = require('NeteaseCloudMusicApi/module/song_order_update');
 const song_url = require('NeteaseCloudMusicApi/module/song_url');
@@ -139,7 +134,6 @@ const top_playlist = require('NeteaseCloudMusicApi/module/top_playlist');
 const top_playlist_highquality = require('NeteaseCloudMusicApi/module/top_playlist_highquality');
 const top_song = require('NeteaseCloudMusicApi/module/top_song');
 const toplist = require('NeteaseCloudMusicApi/module/toplist');
-
 
 const user_account = require('NeteaseCloudMusicApi/module/user_account');
 const user_audio = require('NeteaseCloudMusicApi/module/user_audio');
@@ -162,12 +156,12 @@ const video_group = require('NeteaseCloudMusicApi/module/video_group');
 const video_group_list = require('NeteaseCloudMusicApi/module/video_group_list');
 const video_url = require('NeteaseCloudMusicApi/module/video_url');
 
-const others = require('./otherapi')
+const others = require('./otherapi');
 module.exports = {
-
-
   '/fm_trash': generatorFn(fm_trash),
-  '/history/recommend/songs/detail': generatorFn(history_recommend_songs_detail),
+  '/history/recommend/songs/detail': generatorFn(
+    history_recommend_songs_detail,
+  ),
   '/history/recommend/songs': generatorFn(history_recommend_songs),
   '/like': generatorFn(like),
   '/likelist': generatorFn(likelist),
@@ -189,7 +183,9 @@ module.exports = {
   '/personalized/djprogram': generatorFn(personalized_djprogram),
   '/personalized/newsong': generatorFn(personalized_newsong),
   '/personalized/privatecontent': generatorFn(personalized_privatecontent),
-  '/personalized/privatecontent/list': generatorFn(personalized_privatecontent_list),
+  '/personalized/privatecontent/list': generatorFn(
+    personalized_privatecontent_list,
+  ),
   '/personalized': generatorFn(personalized),
   '/playlist/catlist': generatorFn(playlist_catlist),
   '/playlist/cover/update': generatorFn(playlist_cover_update),
@@ -251,7 +247,6 @@ module.exports = {
   '/video/group/list': generatorFn(video_group_list),
   '/video/group': generatorFn(video_group),
   '/video/url': generatorFn(video_url),
-
 
   '/dj/category/recommend': generatorFn(dj_category_recommend),
   '/dj/category/excludehot': generatorFn(dj_category_excludehot),
@@ -326,19 +321,19 @@ function generatorFn(module) {
       req.files,
     );
     module(query, request)
-      .then(answer => {
-        console.log('[OK]', decodeURIComponent(req.originalUrl))
-        res.append('Set-Cookie', answer.cookie)
-        res.status(answer.status).send(answer.body)
+      .then((answer) => {
+        console.log('[OK]', decodeURIComponent(req.originalUrl));
+        res.append('Set-Cookie', answer.cookie);
+        res.status(answer.status).send(answer.body);
       })
-      .catch(answer => {
+      .catch((answer) => {
         console.log('[ERR]', decodeURIComponent(req.originalUrl), {
           status: answer.status,
           body: answer.body,
-        })
-        if (answer.body.code == '301') answer.body.msg = '需要登录'
-        res.append('Set-Cookie', answer.cookie)
-        res.status(answer.status).send(answer.body)
-      })
-  }
+        });
+        if (answer.body.code == '301') answer.body.msg = '需要登录';
+        res.append('Set-Cookie', answer.cookie);
+        res.status(answer.status).send(answer.body);
+      });
+  };
 }

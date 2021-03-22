@@ -1,6 +1,6 @@
 const { app, Menu } = require('electron');
 const isMac = process.platform === 'darwin';
-export const createElectronMenu = window => {
+export const createElectronMenu = (window) => {
   const template = [
     ...(isMac
       ? [
@@ -117,4 +117,4 @@ export const createElectronMenu = window => {
     },
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-}
+};

@@ -1,7 +1,7 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cache = require('NeteaseCloudMusicApi/util/apicache').middleware
-const fileUpload = require('express-fileupload')
+const express = require('express');
+const bodyParser = require('body-parser');
+const cache = require('NeteaseCloudMusicApi/util/apicache').middleware;
+const fileUpload = require('express-fileupload');
 const apiMap = require('./apimap');
 export const startApiServer = () => {
   const app = express();
@@ -14,43 +14,41 @@ export const startApiServer = () => {
         'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
         'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
         'Content-Type': 'application/json; charset=utf-8',
-      })
+      });
     }
-    req.method === 'OPTIONS' ? res.status(204).end() : next()
-  })
+    req.method === 'OPTIONS' ? res.status(204).end() : next();
+  });
 
   // cookie parser
   app.use((req, res, next) => {
-    req.cookies = {}
-    ;(req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => {
-      let crack = pair.indexOf('=')
-      if (crack < 1 || crack == pair.length - 1) return
+    req.cookies = {};
+    (req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => {
+      let crack = pair.indexOf('=');
+      if (crack < 1 || crack == pair.length - 1) return;
       req.cookies[
         decodeURIComponent(pair.slice(0, crack)).trim()
-        ] = decodeURIComponent(pair.slice(crack + 1)).trim()
-    })
-    next()
-  })
+      ] = decodeURIComponent(pair.slice(crack + 1)).trim();
+    });
+    next();
+  });
 
   // body parser
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
 
-  app.use(fileUpload())
+  app.use(fileUpload());
 
   // cache
-  app.use(cache('2 minutes', (req, res) => res.statusCode === 200))
+  app.use(cache('2 minutes', (req, res) => res.statusCode === 200));
 
   Object.entries(apiMap).map(([k, v]) => {
     app.use(k, v);
   });
 
-  const port = process.env.API_PORT || 12138
+  const port = process.env.API_PORT || 12138;
   const host = process.env.HOST || '127.0.0.1';
 
   app.server = app.listen(port, host, () => {
     console.log(`server running @ http://${host ? host : 'localhost'}:${port}`);
   });
-}
-
-
+};

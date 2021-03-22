@@ -26,7 +26,7 @@ const vuetify = createVuetify(store);
 const i18n = createI18n(store);
 const router = createRouter(vuetify, store);
 if (process.env.IS_ELECTRON) {
-  import('../electron/ipcRenderer').then(({ registerIpcRenderer }) => {
+  import('./electron/ipcRenderer').then(({ registerIpcRenderer }) => {
     registerIpcRenderer(store, router);
   });
 }

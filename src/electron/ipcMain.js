@@ -1,4 +1,4 @@
-const {ipcMain} = require('electron');
+const { ipcMain } = require('electron');
 export const registerIpcMain = (window) => {
   ipcMain.on('zoom-window', () => {
     if (window.isMaximized()) {
@@ -6,5 +6,5 @@ export const registerIpcMain = (window) => {
     } else {
       window.maximize();
     }
-  })
-}
+  });
+};
