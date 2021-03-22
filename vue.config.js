@@ -5,13 +5,6 @@ module.exports = {
     devtool: 'source-map',
     devServer: {
       port: process.env.SERVER_PORT,
-      // proxy: {
-      //   '/api': {
-      //     target: process.env.VUE_APP_API_DEV_WEB,
-      //     // changeOrigin: true,
-      //     pathRewrite: {'^/api' : ''},
-      //   },
-      // },
     },
     resolve: {
       alias: {
@@ -24,6 +17,40 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       nodeIntegration: true, // https://github.com/electron/electron/issues/9920#issuecomment-653978691
+      builderOptions: {
+        productName: 'VPlayer',
+        asar: true,
+        win: {
+          target: [
+            {
+              target: 'nsis',
+              arch: ['x64'],
+            },
+            {
+              target: 'portable',
+              arch: ['x64'],
+            },
+          ],
+        },
+        mac: {
+          target: 'dmg',
+          category: 'public.app-category.music',
+          artifactName: '${productName}_${version}.${ext}',
+          darkModeSupport: true,
+        },
+        linux: {
+          target: [
+            'AppImage',
+            'snap',
+            'deb',
+            'rpm',
+            'freebsd',
+            'pacman',
+            'tar.xz',
+          ],
+          category: 'Audio',
+        },
+      },
     },
   },
 };

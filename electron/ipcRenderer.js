@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-export const registerIpcRenderer = (store, router) => {
+export const registerIpcRenderer = (store) => {
   ipcRenderer.on('open-settings', () => {
     store.commit('app/showSettings', true);
   });

@@ -1,7 +1,7 @@
 
 ### 没错！ 又是一个烂大街的播放器
 #### 开发基于vue全家桶 + vuetify + [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) + electron套壳
-下载客户端[安装包](https://github.com/GuMengYu/i-player/releases) 
+下载客户端[安装包](https://github.com/GuMengYu/v-player/releases) 
 
 ## 🎨 已有功能
 

@@ -95,9 +95,9 @@ app.on('ready', async () => {
   registerIpcMain(win);
 });
 app.setAboutPanelOptions({
-  applicationName: 'IPlayer',
+  applicationName: 'VPlayer',
   iconPath: path.join(__static, 'icon.png'),
-  applicationVersion: '0.0.1-alpha',
+  applicationVersion: '0.1.0-alpha',
   copyright: 'Copyright © 2021',
 });
 
