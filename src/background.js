@@ -43,7 +43,7 @@ async function createWindow() {
   } else {
     createProtocol('app');
     // Load the index.html when not in development
-    win.loadURL('http://localhost:12137');
+    win.loadURL('http://127.0.0.1:12137');
   }
   createElectronMenu(win);
   win.on('minimize', () => {
