@@ -5,6 +5,8 @@ import { createStore } from '@/store';
 import { createVuetify } from '@/vuetify';
 import { createI18n } from '@/i18n';
 
+import { createSnackbar } from '@/plugins/snackbar';
+
 import plugins from '@/plugins';
 import filters from '@/filters';
 import '@/scss/global.scss';
@@ -25,6 +27,8 @@ const store = createStore();
 const vuetify = createVuetify(store);
 const i18n = createI18n(store);
 const router = createRouter(vuetify, store);
+Vue.prototype.$message = createSnackbar(vuetify);
+
 if (process.env.IS_ELECTRON) {
   import('./electron/ipcRenderer').then(({ registerIpcRenderer }) => {
     registerIpcRenderer(store, router);

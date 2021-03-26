@@ -20,9 +20,12 @@
       min-height="50vh"
       class="playing-container-list overflow-y-auto"
     >
-      <v-list-item-group color="primary">
+      <v-list-item-group color="primary" v-if="nextList.length">
         <song-bar v-for="(song, i) in nextList" :key="i" :song="song" />
       </v-list-item-group>
+      <v-list-item v-else>
+        {{ $t('common.empty_playing_list') }}
+      </v-list-item>
     </v-list>
   </v-sheet>
 </template>

@@ -53,6 +53,7 @@ export default {
     more: '显示更多',
     translations: '翻译',
     not_support: '暂时不支持哟',
+    empty_playing_list: '无待播歌曲',
     language: '语言',
     zh: '中文',
     en: 'English',
