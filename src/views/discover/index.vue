@@ -3,20 +3,20 @@
     <discover-skeleton v-if="loading" />
     <custom-col title="精选推荐">
       <template slot="content">
-        <v-row class="text-caption">
-          <v-col>
+        <v-row class="text-caption mini-card-box">
+          <v-col class="mini-card">
             <span>最新专辑</span>
             <larger-cover :data="release" class="mt-2" />
           </v-col>
-          <v-col>
+          <v-col class="mini-card">
             <span>你喜欢的</span>
             <larger-cover :data="radar" class="mt-2" type="playlist" />
           </v-col>
-          <v-col>
+          <v-col class="mini-card">
             <span>每日推荐</span>
             <larger-cover :data="daily" class="mt-2" type="daily" />
           </v-col>
-          <v-col v-if="logged">
+          <v-col v-if="logged" class="mini-card">
             <span>私人FM</span>
             <v-responsive :aspect-ratio="2 / 3" class="mt-2">
               <f-m />
@@ -144,5 +144,20 @@ export default {
     justify-content: flex-end;
     height: 52px;
   }
+  //.mini-card-box {
+  //  .mini-card {
+  //    transition: all .2s ease-in-out;
+  //    padding: 1.5rem;
+  //    &:not(:first-child) {
+  //      margin-left: -100px;
+  //    }
+  //    &:hover {
+  //    transform: translateY(-1rem) rotate(3deg);
+  //      &~.mini-card {
+  //        transform: translateX(100px);
+  //      }
+  //    }
+  //  }
+  //}
 }
 </style>

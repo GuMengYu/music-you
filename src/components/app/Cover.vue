@@ -211,11 +211,11 @@ export default {
       z-index: 0;
       height: 100%;
       width: 100%;
-      top: 12%;
-      box-shadow: 0 10px 30px 0 rgba(76, 70, 124, 0.5);
-      border-radius: 20px;
-      filter: blur(30px);
-      transform: scale(0.9);
+      top: 15%;
+      //box-shadow: 0 10px 30px 0 rgba(76, 70, 124, 0.5);
+      //border-radius: 20px;
+      filter: blur(15px);
+      transform: scale(0.8);
       background-size: cover;
     }
   }
