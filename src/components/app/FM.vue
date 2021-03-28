@@ -1,30 +1,38 @@
 <template>
-  <v-sheet
-    class="rounded-lg d-flex align-center flex-column fm justify-space-around"
+  <v-card
+    elevation="0"
+    class="d-flex justify-lg-space-between flex-column rounded-lg fm"
   >
-    <v-progress-circular
-      :rotate="-90"
-      :value="progress"
-      size="168"
-      color="primary lighten-1"
-      class="cover rounded-circle"
-    >
-      <v-img
-        :src="albumCoverImgUrl | sizeOfImage(256)"
-        class="rounded-circle"
-        max-width="160"
-        max-height="160"
-      />
-    </v-progress-circular>
-    <div class="d-flex flex-column text-center">
-      <span class="text-body-2">
-        {{ albumName }}
-      </span>
-      <span class="mt-2 text-body-1">
-        {{ fmTrack.name }}
-      </span>
-    </div>
-    <div class="fm-action">
+    <v-img :src="albumCoverImgUrl" :aspect-ratio="1" class="cover-wrapper">
+      <div
+        style="width: 100%; height: 100%"
+        class="d-flex justify-center align-center flex-column"
+      >
+        <v-progress-circular
+          :rotate="-90"
+          :value="progress"
+          size="168"
+          color="primary lighten-1"
+          class="cover rounded-circle"
+        >
+          <v-img
+            :src="albumCoverImgUrl"
+            class="rounded-circle"
+            max-width="160"
+            max-height="160"
+          />
+        </v-progress-circular>
+        <div class="d-flex flex-column text-center mt-2">
+          <span class="text-body-2">
+            {{ albumName }}
+          </span>
+          <span class="mt-2 text-body-1">
+            {{ fmTrack.name }}
+          </span>
+        </div>
+      </div>
+    </v-img>
+    <div class="fm-action d-flex align-center justify-center">
       <v-btn icon text class="mx-2" @click="trash">
         <div>
           <font-awesome-icon icon="thumbs-down" />
@@ -49,12 +57,14 @@
         <font-awesome-icon icon="forward" />
       </v-btn>
     </div>
-  </v-sheet>
+  </v-card>
 </template>
 <script>
 import { get, sync, dispatch, commit } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
 import { fmToTrash } from '@/api';
+import {sizeOfImage} from '@/util/fn';
+
 export default {
   name: 'FM',
   data: () => ({}),
@@ -78,7 +88,7 @@ export default {
         : 0;
     },
     albumCoverImgUrl() {
-      return this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl;
+      return sizeOfImage(this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl, 256);
     },
     albumName() {
       return this.fmTrack.ar?.[0]?.name ?? this.fmTrack.artists?.[0]?.name;
@@ -117,18 +127,25 @@ export default {
 </script>
 <style scoped lang="scss">
 .fm {
-  height: 100%;
   background-color: var(--v-neumorphism-base);
+  .cover-wrapper {
+    > ::v-deep .v-image__image {
+      background: var(--v-neumorphism-base) !important;
+    }
+  }
   .cover {
     box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
       -9px -9px 18px var(--v-neumorphism-lighten1);
   }
-  ::v-deep .v-progress-circular__underlay {
-    //stroke: none;
-  }
-  ::v-deep .v-btn {
-    box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
-      -9px -9px 18px var(--v-neumorphism-lighten1);
+  .fm-action {
+    height: 68px;
+    ::v-deep .v-progress-circular__underlay {
+      stroke: none;
+    }
+    ::v-deep .v-btn {
+      box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
+        -9px -9px 18px var(--v-neumorphism-lighten1);
+    }
   }
 }
 </style>

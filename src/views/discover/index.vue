@@ -18,9 +18,7 @@
           </v-col>
           <v-col v-if="logged" class="mini-card">
             <span>私人FM</span>
-            <v-responsive :aspect-ratio="2 / 3" class="mt-2">
-              <f-m />
-            </v-responsive>
+            <f-m class="mt-2" />
           </v-col>
         </v-row>
       </template>
@@ -85,7 +83,7 @@ export default {
       daily: {
         name: `日推 ${this.$dayjs().format('MM-DD')}`,
         picUrl:
-          'https://is5-ssl.mzstatic.com/image/thumb/Music114/v4/4c/0a/9b/4c0a9b7e-48c9-e18b-790f-9aaf664325ec/075679797780.jpg/600x600cc.webp',
+          'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
       },
       mvs: [],
       songs: [],

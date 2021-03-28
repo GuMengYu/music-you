@@ -3,9 +3,11 @@
     <v-card
       dark
       elevation="0"
-      class="d-flex justify-lg-space-between flex-column rounded-lg"
+      class="d-flex justify-lg-space-between flex-column rounded-lg cover"
+      :img="data.picUrl || data.coverImgUrl"
+      :class="{ 'cover-hover': hover }"
     >
-      <v-img :src="data.picUrl || data.coverImgUrl" :aspect-ratio="2 / 3">
+      <v-img :src="data.picUrl || data.coverImgUrl" :aspect-ratio="1">
         <v-fade-transition>
           <v-overlay :value="hover" absolute>
             <v-card-actions
@@ -61,12 +63,12 @@
             </v-card-actions>
           </v-overlay>
         </v-fade-transition>
-        <div class="desc pa-2">
-          <span class="text-caption">
-            {{ data.name }}
-          </span>
-        </div>
       </v-img>
+      <div class="desc pa-2">
+        <span class="text-caption">
+          {{ data.name }}
+        </span>
+      </div>
     </v-card>
   </v-hover>
 </template>
@@ -75,6 +77,7 @@
 import { mdiDotsHorizontal } from '@mdi/js';
 import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
 import { dispatch } from 'vuex-pathify';
+import { sizeOfImage } from '@util/fn'
 export default {
   name: 'ReleaseCard',
   props: {
@@ -100,6 +103,9 @@ export default {
         { title: '插播', type: 'next', val },
         { title: '待播', type: 'wait', val },
       ];
+    },
+    coverImgUrl() {
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 256);
     },
   },
   methods: {
@@ -142,13 +148,14 @@ export default {
 ::v-deep .v-overlay__content {
   display: flex;
   position: absolute;
-  height: calc(100% - 68px);
+  height: 100%;
   width: 100%;
   top: 0;
 }
 .desc {
-  position: absolute;
-  bottom: 0;
+  //position: absolute;
+  //bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
   width: 100%;
   display: flex;
   align-items: center;
