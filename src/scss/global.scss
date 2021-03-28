@@ -48,3 +48,65 @@ html, body, div, span, header, footer, section, article, a, img {
   background: var(--v-primary-lighten1);
 }
 
+// xs
+@media (max-width: 599px) {
+  html {
+    --ytmusic-content-width: 1264px;
+    //--ytmusic-divider-height: 56px;
+    //--ytmusic-player-bar-height: 72px;
+    //--ytmusic-header-padding: 32px 0 16px 0;
+    //--ytmusic-search-width: 860px;
+    //--ytmusic-migration-width: 704px;
+  }
+}
+
+// sm
+@media (min-width: 600px) and (max-width: 959px){
+  html {
+    --ytmusic-content-width: 1264px;
+    //--ytmusic-divider-height: 56px;
+    //--ytmusic-player-bar-height: 72px;
+    //--ytmusic-header-padding: 32px 0 16px 0;
+    //--ytmusic-search-width: 860px;
+    //--ytmusic-migration-width: 704px;
+  }
+}
+
+// md
+@media (min-width: 960px) and (max-width: 1263px) {
+  html {
+    --ytmusic-content-width: calc(1264px - 64px);
+    //--ytmusic-divider-height: 56px;
+    //--ytmusic-player-bar-height: 72px;
+    //--ytmusic-header-padding: 32px 0 16px 0;
+    //--ytmusic-search-width: 860px;
+    //--ytmusic-migration-width: 704px;
+  }
+}
+
+// lg
+@media (min-width: 1264px) and (max-width: 1903px){
+  html {
+    --ytmusic-content-width: calc(1185px - 64px);
+    //--ytmusic-divider-height: 56px;
+    //--ytmusic-player-bar-height: 72px;
+    //--ytmusic-header-padding: 32px 0 16px 0;
+    //--ytmusic-search-width: 860px;
+    //--ytmusic-migration-width: 704px;
+  }
+  .yt-carousel {
+    --ytmusic-carousel-item-margin-right: 24px;
+    --ytmusic-carousel-item-base-width: calc( ( var(--ytmusic-content-width) - 4 * var(--ytmusic-carousel-item-margin-right) ) / 5 );
+  }
+}
+// xl
+@media (min-width: 1904px) {
+  html {
+    --ytmusic-content-width: 1478px;
+    //--ytmusic-divider-height: 64px;
+    //--ytmusic-player-bar-height: 72px;
+    //--ytmusic-header-padding: 32px 0 24px 0;
+    //--ytmusic-search-width: 860px;
+    //--ytmusic-migration-width: 704px;
+  }
+}

@@ -1,23 +1,23 @@
 <template>
   <v-sheet class="discover">
     <discover-skeleton v-if="loading" />
-    <custom-col title="精选推荐">
+    <custom-col :title="$t('main.discover.featured')">
       <template slot="content">
         <v-row class="text-caption mini-card-box">
           <v-col class="mini-card">
-            <span>最新专辑</span>
+            <span>{{ $t('main.discover.new_releases_album') }}</span>
             <larger-cover :data="release" class="mt-2" />
           </v-col>
           <v-col class="mini-card">
-            <span>你喜欢的</span>
+            <span>{{ $t('main.discover.you_liked') }}</span>
             <larger-cover :data="radar" class="mt-2" type="playlist" />
           </v-col>
           <v-col class="mini-card">
-            <span>每日推荐</span>
+            <span>{{ $t('main.discover.daily') }}</span>
             <larger-cover :data="daily" class="mt-2" type="daily" />
           </v-col>
           <v-col v-if="logged" class="mini-card">
-            <span>私人FM</span>
+            <span>{{ $t('main.discover.fm') }}</span>
             <f-m class="mt-2" />
           </v-col>
         </v-row>
@@ -25,10 +25,14 @@
     </custom-col>
     <CustomCol :title="$t('main.for_you')">
       <template slot="content">
-        <CoverList :list="playLists" type="playlist" :col="6" />
+        <carousel>
+          <carousel-item v-for="list in playLists" :key="list.id">
+            <cover :data="list" type="playlist" />
+          </carousel-item>
+        </carousel>
       </template>
     </CustomCol>
-    <CustomCol class="mt-4" title="推荐新音乐">
+    <CustomCol class="mt-4" :title="$t('main.discover.recommend_songs')">
       <template slot="content">
         <v-row>
           <v-col v-for="song in songs" :key="song.id" cols="6" class="pa-2">
@@ -57,7 +61,6 @@ import {
   getPlayList,
 } from '@/api';
 import NProgress from 'nprogress';
-import CoverList from '@components/app/CoverList';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col';
 import FM from '@components/app/FM';
@@ -65,14 +68,19 @@ import VideoCover from '@components/app/VideoCover';
 import DiscoverSkeleton from '@components/skeleton/discoverSkeleton';
 import LargerCover from '@components/app/LargerCover';
 import SongBar from '@components/app/SongBar';
+import Carousel from '@components/layout/Carousel'
+import CarouselItem from '@components/layout/CarouselItem'
+import Cover from '@components/app/Cover'
 export default {
   components: {
+    Cover,
+    CarouselItem,
+    Carousel,
     SongBar,
     LargerCover,
     DiscoverSkeleton,
     VideoCover,
     CustomCol,
-    CoverList,
     FM,
   },
   data() {
