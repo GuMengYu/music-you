@@ -1,50 +1,57 @@
 <template>
-  <div class="yt-carousel">
-    <v-btn
-      fab
-      x-small
-      color="white"
-      class="previous-items-btn carousel"
-      @click="scrollTo(true)"
-      v-show="showPrevious"
-    >
-      <v-icon color="black">
-        {{ mdiChevronLeft }}
-      </v-icon>
-    </v-btn>
-    <div class="item-wrapper">
+  <div class="shelf-grid" :data-grid="gridStyle">
+    <div class="shelf-grid-nav">
+      <v-btn
+        fab
+        x-small
+        color="white"
+        class="previous-items-btn carousel"
+        @click="scrollTo(true)"
+        v-show="showPrevious"
+      >
+        <v-icon color="black">
+          {{ mdiChevronLeft }}
+        </v-icon>
+      </v-btn>
+      <v-btn
+        fab
+        x-small
+        color="white"
+        class="next-items-btn carousel"
+        @click="scrollTo(false)"
+        v-show="showNext"
+      >
+        <v-icon color="black">
+          {{ mdiChevronRight }}
+        </v-icon>
+      </v-btn>
+    </div>
+    <div class="shelf-grid-body">
       <ul
         ref="coverCardList"
-        class="yt-carousel-items pl-0"
+        class="shelf-grid__list pl-0"
+        :style="`--grid-rows: ${rows}; --grid-column-gap: 20px;`"
         v-scroll.self="onScroll"
       >
         <slot></slot>
       </ul>
     </div>
-    <v-btn
-      fab
-      x-small
-      color="white"
-      class="next-items-btn carousel"
-      @click="scrollTo(false)"
-      v-show="showNext"
-    >
-      <v-icon color="black">
-        {{ mdiChevronRight }}
-      </v-icon>
-    </v-btn>
   </div>
 </template>
 
 <script>
-import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 
 export default {
   name: 'Carousel',
   props: {
-    items: {
+    rows: {
       type: Number,
-      default: 0,
+      default: 1,
+    },
+    gridStyle: {
+      type: String,
+      default: 'B',
     },
   },
   data() {
@@ -130,51 +137,137 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.yt-carousel {
-  position: relative;
-  .item-wrapper {
-    .cover-list-content {
-      flex-wrap: nowrap;
-      overflow: hidden;
-      overflow-x: scroll;
-      &::-webkit-scrollbar {
-        height: 0;
-      }
-      .cover-card {
-        &:last-child {
-          margin-right: 0 !important;
-        }
-      }
+@mixin --grid-template-rows {
+  grid-template-rows: repeat(var(--grid-rows), max-content);
+  grid-column-gap: var(--grid-column-gap);
+}
+@mixin --grid-1 {
+  @include --grid-template-rows;
+  grid-auto-columns: 100%;
+}
+@mixin --grid-2 {
+  @include --grid-template-rows;
+  grid-auto-columns: calc((100% - var(--grid-column-gap)) / 2);
+}
+@mixin --grid-3 {
+  @include --grid-template-rows;
+  grid-auto-columns: calc((100% - 2 * var(--grid-column-gap)) / 3);
+}
+@mixin --grid-4 {
+  @include --grid-template-rows;
+  grid-auto-columns: calc((100% - 3 * var(--grid-column-gap)) / 4);
+}
+@mixin --grid-5 {
+  @include --grid-template-rows;
+  grid-auto-columns: calc((100% - 4 * var(--grid-column-gap)) / 5);
+}
+@mixin --grid-6 {
+  @include --grid-template-rows;
+  grid-auto-columns: calc((100% - 5 * var(--grid-column-gap)) / 6);
+}
+
+// xs
+@media (max-width: 599px) {
+  [data-grid='A'],
+  [data-grid='C'] {
+    .shelf-grid__list {
+      @include --grid-1;
     }
   }
-  .carousel {
-    position: absolute;
-    z-index: 2;
-    top: calc((var(--ytmusic-carousel-item-base-width) - 32px) / 2);
+  [data-grid='B'] {
+    .shelf-grid__list {
+      @include --grid-2;
+    }
   }
-  .previous-items-btn {
-    left: 0;
-    transform: translate3d(-50%, 0, 0);
+}
+
+// sm
+@media (min-width: 600px) and (max-width: 959px) {
+  [data-grid='A'],
+  [data-grid='C'] {
+    .shelf-grid__list {
+      @include --grid-2;
+    }
   }
-  .next-items-btn {
-    right: 0;
-    transform: translate3d(50%, 0, 0);
+  [data-grid='B'] {
+    .shelf-grid__list {
+      @include --grid-3;
+    }
   }
-  .yt-carousel-items {
-    width: var(--ytmusic-content-width);
+}
+
+// md
+@media (min-width: 960px) and (max-width: 1263px) {
+  [data-grid='A'],
+  [data-grid='C'] {
+    .shelf-grid__list {
+      @include --grid-3;
+    }
+  }
+  [data-grid='B'] {
+    .shelf-grid__list {
+      @include --grid-4;
+    }
+  }
+}
+
+// lg
+@media (min-width: 1264px) and (max-width: 1903px) {
+  [data-grid='A'],
+  [data-grid='C'] {
+    .shelf-grid__list {
+      @include --grid-4;
+    }
+  }
+  [data-grid='B'] {
+    .shelf-grid__list {
+      @include --grid-5;
+    }
+  }
+}
+// xl
+@media (min-width: 1904px) {
+  [data-grid='A'] {
+    .shelf-grid__list {
+      @include --grid-4;
+    }
+  }
+  [data-grid='B'] {
+    .shelf-grid__list {
+      @include --grid-6;
+    }
+  }
+  [data-grid='C'] {
+    .shelf-grid__list {
+      @include --grid-5;
+    }
+  }
+}
+.shelf-grid {
+  position: relative;
+  .shelf-grid__list {
+    display: grid;
+    grid-auto-flow: column;
     overflow: hidden;
     overflow-x: scroll;
     white-space: nowrap;
     &::-webkit-scrollbar {
       height: 0;
     }
-    > .yt-carousel-item {
-      margin-right: var(--ytmusic-carousel-item-margin-right);
-      display: inline-block;
-      width: var(--ytmusic-carousel-item-base-width);
-      &:last-child {
-        margin-right: 0;
-      }
+  }
+  .shelf-grid-nav {
+    .carousel {
+      position: absolute;
+      z-index: 2;
+      top: calc(50% - 32px);
+    }
+    .next-items-btn {
+      right: 0;
+      transform: translateX(50%);
+    }
+    .previous-items-btn {
+      left: 0;
+      transform: translateX(-50%);
     }
   }
 }

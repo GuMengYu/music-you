@@ -99,7 +99,8 @@ export const getTopPlaylist = (
 /**
  * 推荐歌曲
  */
-export const getNewRelease = () => xhr.get('/personalized/newsong');
+export const getNewRelease = (params) =>
+  xhr.get('/personalized/newsong', { params });
 
 /**
  * 新专辑

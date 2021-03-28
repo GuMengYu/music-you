@@ -23,11 +23,8 @@
           />
         </v-progress-circular>
         <div class="d-flex flex-column text-center mt-2">
-          <span class="text-body-2">
-            {{ albumName }}
-          </span>
-          <span class="mt-2 text-body-1">
-            {{ fmTrack.name }}
+          <span class="text-body-2 h-1x">
+            {{ albumName }} - {{ fmTrack.name }}
           </span>
         </div>
       </div>
@@ -130,7 +127,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .fm {
-  background-color: var(--v-neumorphism-base);
+  background-color: var(--v-neumorphism-base) !important;
   .cover-wrapper {
     > ::v-deep .v-image__image {
       background: var(--v-neumorphism-base) !important;

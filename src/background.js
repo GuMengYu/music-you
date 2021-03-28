@@ -20,8 +20,8 @@ let quitFlag = process.platform !== 'darwin';
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1220,
-    height: 720,
+    width: 1420,
+    height: 850,
     minWidth: 1160,
     minHeight: 530,
     titleBarStyle: 'hidden',

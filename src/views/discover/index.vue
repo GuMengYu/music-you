@@ -3,24 +3,24 @@
     <discover-skeleton v-if="loading" />
     <custom-col :title="$t('main.discover.featured')">
       <template slot="content">
-        <v-row class="text-caption mini-card-box">
-          <v-col class="mini-card">
+        <carousel grid-style="A">
+          <carousel-item>
             <span>{{ $t('main.discover.new_releases_album') }}</span>
             <larger-cover :data="release" class="mt-2" />
-          </v-col>
-          <v-col class="mini-card">
+          </carousel-item>
+          <carousel-item>
             <span>{{ $t('main.discover.you_liked') }}</span>
             <larger-cover :data="radar" class="mt-2" type="playlist" />
-          </v-col>
-          <v-col class="mini-card">
+          </carousel-item>
+          <carousel-item>
             <span>{{ $t('main.discover.daily') }}</span>
             <larger-cover :data="daily" class="mt-2" type="daily" />
-          </v-col>
-          <v-col v-if="logged" class="mini-card">
+          </carousel-item>
+          <carousel-item>
             <span>{{ $t('main.discover.fm') }}</span>
             <f-m class="mt-2" />
-          </v-col>
-        </v-row>
+          </carousel-item>
+        </carousel>
       </template>
     </custom-col>
     <CustomCol :title="$t('main.for_you')">
@@ -34,20 +34,20 @@
     </CustomCol>
     <CustomCol class="mt-4" :title="$t('main.discover.recommend_songs')">
       <template slot="content">
-        <v-row>
-          <v-col v-for="song in songs" :key="song.id" cols="6" class="pa-2">
+        <carousel :rows="4" grid-style="C">
+          <carousel-item v-for="song in songs" :key="song.id">
             <song-bar :song="song" />
-          </v-col>
-        </v-row>
+          </carousel-item>
+        </carousel>
       </template>
     </CustomCol>
     <CustomCol class="mt-4" :title="$t('main.recommend_video')">
       <template slot="content">
-        <v-row>
-          <v-col v-for="mv in mvs" :key="mv.id" cols="3">
+        <carousel grid-style="C">
+          <carousel-item v-for="mv in mvs" :key="mv.id">
             <video-cover :data="mv" />
-          </v-col>
-        </v-row>
+          </carousel-item>
+        </carousel>
       </template>
     </CustomCol>
   </v-sheet>
@@ -68,9 +68,9 @@ import VideoCover from '@components/app/VideoCover';
 import DiscoverSkeleton from '@components/skeleton/discoverSkeleton';
 import LargerCover from '@components/app/LargerCover';
 import SongBar from '@components/app/SongBar';
-import Carousel from '@components/layout/Carousel'
-import CarouselItem from '@components/layout/CarouselItem'
-import Cover from '@components/app/Cover'
+import Carousel from '@components/layout/Carousel';
+import CarouselItem from '@components/layout/CarouselItem';
+import Cover from '@components/app/Cover';
 export default {
   components: {
     Cover,
@@ -118,7 +118,7 @@ export default {
         getPersonalized(12),
         newAlbums({ limit: 1, area: 'EA' }),
         getMv(),
-        getNewRelease(),
+        getNewRelease({ limit: 20 }),
       ]);
       this.playLists = playlists;
       this.release = albums?.[0];
