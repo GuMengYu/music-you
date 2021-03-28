@@ -77,7 +77,7 @@
 import { mdiDotsHorizontal } from '@mdi/js';
 import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
 import { dispatch } from 'vuex-pathify';
-import { sizeOfImage } from '@util/fn'
+import { sizeOfImage } from '@util/fn';
 export default {
   name: 'ReleaseCard',
   props: {

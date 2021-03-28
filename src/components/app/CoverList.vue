@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="cover-list"
-  >
+  <div class="cover-list">
     <v-btn
       fab
       x-small
@@ -14,9 +12,7 @@
         {{ mdiChevronLeft }}
       </v-icon>
     </v-btn>
-    <div
-      class="item-wrapper"
-    >
+    <div class="item-wrapper">
       <v-row
         no-gutters
         ref="coverCardList"
@@ -78,7 +74,7 @@ export default {
       scrollLeft: 0,
       scrollWidth: 0,
       clientWidth: 0,
-    }
+    };
   },
   methods: {
     scrollTo(reverse) {
@@ -92,48 +88,60 @@ export default {
       }
     },
     goto(container, targetLocation) {
-      const startTime = performance.now()
-      const startLocation = container.scrollLeft
+      const startTime = performance.now();
+      const startLocation = container.scrollLeft;
 
-      const ease = t => t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+      const ease = (t) =>
+        t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
-      return new Promise(resolve => requestAnimationFrame(function step (currentTime) {
-        const timeElapsed = currentTime - startTime
-        const progress = Math.abs(Math.min(timeElapsed / 500, 1));
+      return new Promise((resolve) =>
+        requestAnimationFrame(function step(currentTime) {
+          const timeElapsed = currentTime - startTime;
+          const progress = Math.abs(Math.min(timeElapsed / 500, 1));
 
-        container.scrollLeft = Math.floor(startLocation + (targetLocation - startLocation) * ease(progress))
+          container.scrollLeft = Math.floor(
+            startLocation + (targetLocation - startLocation) * ease(progress),
+          );
 
-        const clientWidth = container.clientWidth
-        if (progress === 1 || clientWidth + container.scrollLeft === container.scrollWidth) {
-          return resolve(targetLocation)
-        }
+          const clientWidth = container.clientWidth;
+          if (
+            progress === 1 ||
+            clientWidth + container.scrollLeft === container.scrollWidth
+          ) {
+            return resolve(targetLocation);
+          }
 
-        requestAnimationFrame(step)
-      }))
+          requestAnimationFrame(step);
+        }),
+      );
     },
     onScroll(e) {
       this.scrollLeft = e.target.scrollLeft;
     },
     init() {
-      console.log('init')
+      console.log('init');
       this.$nextTick(() => {
         this.scrollWidth = this.$refs['coverCardList'].scrollWidth;
         this.clientWidth = this.$refs['coverCardList'].clientWidth;
-      })
+      });
     },
   },
   computed: {
     overflowX() {
-      return this.scrollWidth - this.clientWidth
+      return this.scrollWidth - this.clientWidth;
     },
     showPrevious() {
       return this.scrollLeft > 0 && this.scrollWidth > this.clientWidth;
     },
     showNext() {
-      return this.scrollWidth > this.clientWidth && (this.scrollLeft === 0 || this.scrollLeft + this.clientWidth < this.scrollWidth);
+      return (
+        this.scrollWidth > this.clientWidth &&
+        (this.scrollLeft === 0 ||
+          this.scrollLeft + this.clientWidth < this.scrollWidth)
+      );
     },
   },
-  mounted () {
+  mounted() {
     this.init();
   },
   watch: {
@@ -175,5 +183,4 @@ export default {
     transform: translate3d(50%, 0, 0);
   }
 }
-
 </style>

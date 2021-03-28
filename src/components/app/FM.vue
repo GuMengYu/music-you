@@ -63,7 +63,7 @@
 import { get, sync, dispatch, commit } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
 import { fmToTrash } from '@/api';
-import {sizeOfImage} from '@/util/fn';
+import { sizeOfImage } from '@/util/fn';
 
 export default {
   name: 'FM',
@@ -88,7 +88,10 @@ export default {
         : 0;
     },
     albumCoverImgUrl() {
-      return sizeOfImage(this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl, 256);
+      return sizeOfImage(
+        this.fmTrack.al?.picUrl ?? this.fmTrack.album?.picUrl,
+        256,
+      );
     },
     albumName() {
       return this.fmTrack.ar?.[0]?.name ?? this.fmTrack.artists?.[0]?.name;

@@ -90,9 +90,7 @@ export default {
   },
   mounted() {},
   methods: {
-    destroyElement() {
-
-    },
+    destroyElement() {},
     close() {
       this.closed = true;
       if (typeof this.onClose === 'function') {

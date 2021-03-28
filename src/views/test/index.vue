@@ -1,8 +1,6 @@
 <template>
   <div>
-    <v-btn @click="show">
-      show toast
-    </v-btn>
+    <v-btn @click="show"> show toast </v-btn>
   </div>
 </template>
 
