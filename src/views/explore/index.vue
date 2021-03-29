@@ -7,7 +7,11 @@
     >
       <template slot="content">
         <cover-row-skeleton v-if="loading" />
-        <CoverList v-else :list="newRelease" />
+        <carousel v-else>
+          <carousel-item v-for="release in newRelease" :key="release.id">
+            <cover :data="release" />
+          </carousel-item>
+        </carousel>
       </template>
     </custom-col>
     <custom-col
@@ -17,11 +21,11 @@
       more="/moods_and_genres/"
     >
       <template slot="content">
-        <v-row>
-          <v-col v-for="tag in tags" :key="tag.name" cols="2">
-            <m-tag :name="tag.name" :color="tag.color" />
-          </v-col>
-        </v-row>
+        <carousel :rows="3" grid-style="C">
+          <carousel-item v-for="tag in tags" :key="tag.name">
+            <m-tag :name="tag.name" :color="tag.color" class="my-2" />
+          </carousel-item>
+        </carousel>
       </template>
     </custom-col>
     <custom-col
@@ -32,12 +36,11 @@
     >
       <template slot="content">
         <cover-row-skeleton v-if="loading" :cols="6" />
-
-        <v-row v-else>
-          <v-col v-for="mv in mvs" :key="mv.id" cols="3">
+        <carousel v-else grid-style="C">
+          <carousel-item v-for="mv in mvs" :key="mv.id">
             <video-cover :data="mv" />
-          </v-col>
-        </v-row>
+          </carousel-item>
+        </carousel>
       </template>
     </custom-col>
     <custom-col
@@ -48,7 +51,11 @@
     >
       <template slot="content">
         <cover-row-skeleton v-if="loading" type="image" />
-        <CoverList v-else :list="topList" type="playlist" />
+        <carousel v-else>
+          <carousel-item v-for="top in topList" :key="top.id">
+            <cover :data="top" />
+          </carousel-item>
+        </carousel>
       </template>
     </custom-col>
   </v-sheet>
@@ -57,13 +64,23 @@
 import { getCatList, newAlbums, getNewMv, getTopList } from '@/api';
 import CustomCol from '@components/layout/Col';
 import { random, filter } from 'lodash';
-import CoverList from '@components/app/CoverList';
 import MTag from '@components/app/Tag';
 import VideoCover from '@components/app/VideoCover';
 import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton';
 import { getColorTable } from '@/util/metadata';
+import Carousel from '@components/layout/Carousel';
+import CarouselItem from '@components/layout/CarouselItem';
+import Cover from '@components/app/Cover';
 export default {
-  components: { CoverRowSkeleton, CoverList, CustomCol, MTag, VideoCover },
+  components: {
+    Cover,
+    CarouselItem,
+    Carousel,
+    CoverRowSkeleton,
+    CustomCol,
+    MTag,
+    VideoCover,
+  },
   data() {
     return {
       newRelease: [],

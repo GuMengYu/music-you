@@ -104,7 +104,7 @@ export default {
       this.scrollLeft = e.target.scrollLeft;
     },
     onResize(e) {
-      this.resizeThrottle(e);
+      this.resizeThrottle?.(e);
     },
     init() {
       console.debug('init carousel');
@@ -175,7 +175,8 @@ export default {
 // xs
 @media (max-width: 599px) {
   [data-grid='A'],
-  [data-grid='C'] {
+  [data-grid='C'],
+  [data-grid='1-1-2-3'] {
     .shelf-grid__list {
       @include --grid-1;
     }
@@ -200,6 +201,11 @@ export default {
       @include --grid-3;
     }
   }
+  [data-grid='1-1-2-3'] {
+    .shelf-grid__list {
+      @include --grid-1;
+    }
+  }
 }
 
 // md
@@ -215,6 +221,11 @@ export default {
       @include --grid-4;
     }
   }
+  [data-grid='1-1-2-3'] {
+    .shelf-grid__list {
+      @include --grid-1;
+    }
+  }
 }
 
 // lg
@@ -228,6 +239,11 @@ export default {
   [data-grid='B'] {
     .shelf-grid__list {
       @include --grid-5;
+    }
+  }
+  [data-grid='1-1-2-3'] {
+    .shelf-grid__list {
+      @include --grid-2;
     }
   }
 }
@@ -246,6 +262,11 @@ export default {
   [data-grid='C'] {
     .shelf-grid__list {
       @include --grid-5;
+    }
+  }
+  [data-grid='1-1-2-3'] {
+    .shelf-grid__list {
+      @include --grid-3;
     }
   }
 }

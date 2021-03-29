@@ -1,5 +1,5 @@
 <template>
-  <div class="yt-carousel-item">
+  <div>
     <slot></slot>
   </div>
 </template>

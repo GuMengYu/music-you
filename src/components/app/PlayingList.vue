@@ -64,6 +64,7 @@ export default {
   right: 20px;
   bottom: 80px;
   z-index: 7;
+  min-width: 25vw;
   backdrop-filter: blur(30px);
   .playing-container-list {
     background: transparent;
