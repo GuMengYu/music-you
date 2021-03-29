@@ -1,46 +1,49 @@
 <template>
-  <div class="shelf-grid" :data-grid="gridStyle">
-    <div class="shelf-grid-nav">
-      <v-btn
-        fab
-        x-small
-        color="white"
-        class="previous-items-btn carousel"
-        @click="scrollTo(true)"
-        v-show="showPrevious"
-      >
-        <v-icon color="black">
-          {{ mdiChevronLeft }}
-        </v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        x-small
-        color="white"
-        class="next-items-btn carousel"
-        @click="scrollTo(false)"
-        v-show="showNext"
-      >
-        <v-icon color="black">
-          {{ mdiChevronRight }}
-        </v-icon>
-      </v-btn>
+  <v-hover v-slot="{ hover }">
+    <div class="shelf-grid" :data-grid="gridStyle" v-resize.self="onResize">
+      <div class="shelf-grid-nav">
+        <v-btn
+          fab
+          x-small
+          color="white"
+          class="previous-items-btn carousel"
+          @click="scrollTo(true)"
+          v-show="showPrevious && hover"
+        >
+          <v-icon color="black">
+            {{ mdiChevronLeft }}
+          </v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          x-small
+          color="white"
+          class="next-items-btn carousel"
+          @click="scrollTo(false)"
+          v-show="showNext && hover"
+        >
+          <v-icon color="black">
+            {{ mdiChevronRight }}
+          </v-icon>
+        </v-btn>
+      </div>
+      <div class="shelf-grid-body">
+        <ul
+          ref="coverCardList"
+          class="shelf-grid__list pl-0"
+          :style="`--grid-rows: ${rows}; --grid-column-gap: 20px;`"
+          v-scroll.self="onScroll"
+        >
+          <slot></slot>
+        </ul>
+      </div>
     </div>
-    <div class="shelf-grid-body">
-      <ul
-        ref="coverCardList"
-        class="shelf-grid__list pl-0"
-        :style="`--grid-rows: ${rows}; --grid-column-gap: 20px;`"
-        v-scroll.self="onScroll"
-      >
-        <slot></slot>
-      </ul>
-    </div>
-  </div>
+  </v-hover>
 </template>
 
 <script>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
+import { throttle } from 'lodash';
 
 export default {
   name: 'Carousel',
@@ -61,18 +64,13 @@ export default {
       scrollLeft: 0,
       scrollWidth: 0,
       clientWidth: 0,
+      resizeThrottle: null,
     };
   },
   methods: {
-    scrollTo(reverse) {
+    scrollTo(forward) {
       const container = this.$refs['coverCardList'];
-
-      if (reverse) {
-        this.goto(container, 0);
-      } else {
-        this.goto(container, this.overflowX);
-        // container.scrollLeft = this.overflowX;
-      }
+      this.goto(container, forward ? 0 : this.overflowX);
     },
     goto(container, targetLocation) {
       const startTime = performance.now();
@@ -105,7 +103,11 @@ export default {
     onScroll(e) {
       this.scrollLeft = e.target.scrollLeft;
     },
+    onResize(e) {
+      this.resizeThrottle(e);
+    },
     init() {
+      console.debug('init carousel');
       this.$nextTick(() => {
         this.scrollWidth = this.$refs['coverCardList'].scrollWidth;
         this.clientWidth = this.$refs['coverCardList'].clientWidth;
@@ -129,6 +131,10 @@ export default {
   },
   mounted() {
     this.init();
+    this.resizeThrottle = throttle(this.init, 1000, {
+      leading: false,
+      trailing: true,
+    });
   },
   updated() {
     this.init();
