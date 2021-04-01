@@ -5,7 +5,6 @@
     app
     fixed
     :mini-variant="drawermini"
-    width="240"
   >
     <v-list nav dense class="system_nav">
       <v-list-item
@@ -156,6 +155,9 @@ export default {
   },
   computed: {
     drawermini: sync('app/drawermini'),
+    isMobile() {
+      return this.$vuetify.breakpoint.mobile;
+    },
     playlist: get('music/playlist'),
     nav() {
       const { false: created, true: subscribed } = groupBy(

@@ -143,130 +143,103 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@mixin --grid-template-rows {
+@mixin --grid-rows-gap-columns($rows) {
   grid-template-rows: repeat(var(--grid-rows), max-content);
   grid-column-gap: var(--grid-column-gap);
-}
-@mixin --grid-1 {
-  @include --grid-template-rows;
-  grid-auto-columns: 100%;
-}
-@mixin --grid-2 {
-  @include --grid-template-rows;
-  grid-auto-columns: calc((100% - var(--grid-column-gap)) / 2);
-}
-@mixin --grid-3 {
-  @include --grid-template-rows;
-  grid-auto-columns: calc((100% - 2 * var(--grid-column-gap)) / 3);
-}
-@mixin --grid-4 {
-  @include --grid-template-rows;
-  grid-auto-columns: calc((100% - 3 * var(--grid-column-gap)) / 4);
-}
-@mixin --grid-5 {
-  @include --grid-template-rows;
-  grid-auto-columns: calc((100% - 4 * var(--grid-column-gap)) / 5);
-}
-@mixin --grid-6 {
-  @include --grid-template-rows;
-  grid-auto-columns: calc((100% - 5 * var(--grid-column-gap)) / 6);
+  grid-auto-columns: calc(
+    (100% - #{$rows - 1} * var(--grid-column-gap)) / #{$rows}
+  );
 }
 
-// xs
-@media (max-width: 599px) {
-  [data-grid='A'],
-  [data-grid='C'],
-  [data-grid='1-1-2-3'] {
-    .shelf-grid__list {
-      @include --grid-1;
+.shelf-grid__list {
+  // xs
+  @media (max-width: 599px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(1);
+    }
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(1);
+    }
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(2);
+    }
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(1);
     }
   }
-  [data-grid='B'] {
-    .shelf-grid__list {
-      @include --grid-2;
+  // sm
+  @media (min-width: 600px) and (max-width: 959px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(2);
+    }
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(2);
+    }
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(3);
+    }
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(1);
     }
   }
-}
-
-// sm
-@media (min-width: 600px) and (max-width: 959px) {
-  [data-grid='A'],
-  [data-grid='C'] {
-    .shelf-grid__list {
-      @include --grid-2;
+  // md
+  @media (min-width: 960px) and (max-width: 1263px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(3);
+    }
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(3);
+    }
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(4);
+    }
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(1);
     }
   }
-  [data-grid='B'] {
-    .shelf-grid__list {
-      @include --grid-3;
+  // lg
+  @media (min-width: 1264px) and (max-width: 1903px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(4);
+    }
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(4);
+    }
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(5);
+    }
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(2);
     }
   }
-  [data-grid='1-1-2-3'] {
-    .shelf-grid__list {
-      @include --grid-1;
+  // lg
+  @media (min-width: 1264px) and (max-width: 1903px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(4);
+    }
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(4);
+    }
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(5);
+    }
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(2);
     }
   }
-}
-
-// md
-@media (min-width: 960px) and (max-width: 1263px) {
-  [data-grid='A'],
-  [data-grid='C'] {
-    .shelf-grid__list {
-      @include --grid-3;
+  // xl
+  @media screen and (min-width: 1940px) {
+    [data-grid='A'] & {
+      @include --grid-rows-gap-columns(4);
     }
-  }
-  [data-grid='B'] {
-    .shelf-grid__list {
-      @include --grid-4;
+    [data-grid='B'] & {
+      @include --grid-rows-gap-columns(6);
     }
-  }
-  [data-grid='1-1-2-3'] {
-    .shelf-grid__list {
-      @include --grid-1;
+    [data-grid='C'] & {
+      @include --grid-rows-gap-columns(5);
     }
-  }
-}
-
-// lg
-@media (min-width: 1264px) and (max-width: 1903px) {
-  [data-grid='A'],
-  [data-grid='C'] {
-    .shelf-grid__list {
-      @include --grid-4;
-    }
-  }
-  [data-grid='B'] {
-    .shelf-grid__list {
-      @include --grid-5;
-    }
-  }
-  [data-grid='1-1-2-3'] {
-    .shelf-grid__list {
-      @include --grid-2;
-    }
-  }
-}
-// xl
-@media (min-width: 1904px) {
-  [data-grid='A'] {
-    .shelf-grid__list {
-      @include --grid-4;
-    }
-  }
-  [data-grid='B'] {
-    .shelf-grid__list {
-      @include --grid-6;
-    }
-  }
-  [data-grid='C'] {
-    .shelf-grid__list {
-      @include --grid-5;
-    }
-  }
-  [data-grid='1-1-2-3'] {
-    .shelf-grid__list {
-      @include --grid-3;
+    [data-grid='1-1-2-3'] & {
+      @include --grid-rows-gap-columns(3);
     }
   }
 }

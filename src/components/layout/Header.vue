@@ -58,4 +58,11 @@ export default {
     max-width: 15vw;
   }
 }
+@media (max-width: 960px) {
+  .app_header {
+    .search_input {
+      max-width: initial;
+    }
+  }
+}
 </style>
