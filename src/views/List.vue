@@ -137,9 +137,9 @@ export default {
       this.loading = false;
     },
     async play() {
-      await dispatch('music/updatePlayingList', this.list.tracks);
-      await dispatch('music/updateTrack', {
-        id: this.list.tracks?.[0]?.id,
+      await dispatch('music/updatePlayingList', {
+        list: this.list.tracks,
+        autoplay: true,
       });
     },
   },

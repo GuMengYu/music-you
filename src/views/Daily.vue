@@ -9,9 +9,9 @@
           {{ $t('main.nav.daily') }}
         </div>
         <div>
-          <v-btn color="primary" elevation="0" fab small @click="play">
+          <default-fab @fab-click="play" :loading="loading">
             <font-awesome-icon icon="play" class="mx-2" size="lg" />
-          </v-btn>
+          </default-fab>
         </div>
       </div>
     </div>
@@ -33,15 +33,17 @@ import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import SongBar from '@components/app/SongBar';
 import { getDailyRecommend } from '@/api';
+import DefaultFab from '@components/default/Fab';
 export default {
   name: 'Daily',
-  components: { DefaultList, SongBar },
+  components: { DefaultFab, DefaultList, SongBar },
   data: () => ({
     daily: [],
     icon: {
       mdiPlay,
       mdiDotsHorizontal,
     },
+    loading: false,
   }),
   created() {
     this.fetch();
@@ -52,8 +54,12 @@ export default {
       this.daily = data?.dailySongs ?? [];
     },
     async play() {
-      dispatch('music/updatePlayingList', this.daily);
-      dispatch('music/updateTrack', { id: this.daily?.[0].id });
+      this.loading = true;
+      await dispatch('music/updatePlayingList', {
+        list: this.daily,
+        autoplay: true,
+      });
+      this.loading = false;
     },
   },
 };

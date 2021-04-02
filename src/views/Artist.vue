@@ -4,10 +4,10 @@
       <v-avatar size="190" class="artist-avatar">
         <v-img :src="artist.img1v1Url | sizeOfImage" />
       </v-avatar>
-      <div class="artist-desc d-flex align-center mt-8 mb-2">
-        <v-btn color="primary" fab small class="mr-4">
-          <v-icon>{{ icon.mdiPlay }}</v-icon>
-        </v-btn>
+      <div class="artist-desc d-flex align-center mt-10 mb-2">
+        <default-fab @fab-click="play" class="mr-2" :loading="playLoading">
+          <font-awesome-icon icon="play" />
+        </default-fab>
         <span class="text-h5 font-weight-bold flex-grow-1">
           {{ artist.name }}
         </span>
@@ -135,9 +135,12 @@ import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import Cover from '@components/app/Cover';
 import SongBar from '@components/app/SongBar';
 import CoverList from '@components/app/CoverList';
+import { dispatch } from 'vuex-pathify';
+import DefaultFab from '@components/default/Fab'
 
 export default {
   components: {
+    DefaultFab,
     CoverList,
     Cover,
     SongBar,
@@ -159,6 +162,7 @@ export default {
     showMoreSong: void 0,
     showMoreAlbum: void 0,
     showMoreEps: void 0,
+    playLoading: false,
   }),
   computed: {
     latest() {
@@ -191,12 +195,24 @@ export default {
       this.hotSongs = artist.hotSongs;
       this.hotAlbums = album.hotAlbums;
     },
+    async play() {
+      this.playLoading = true;
+      await dispatch('music/updatePlayingList', {
+        list: this.hotSongs,
+        autoplay: true,
+      });
+      this.playLoading = false;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
+@import '../scss/common';
 .artist {
-  height: 300px;
+  height: 342px;
+  @media screen and (min-width: 1000px) {
+    height: 386px;
+  }
   &-avatar {
   }
   &-desc {

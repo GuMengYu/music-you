@@ -77,7 +77,7 @@
         </div>
       </v-col>
     </v-row>
-    <div class="frame-bg">
+    <div class="frame-bg" v-show="showLyricsPage">
       <v-img :src="albumPicUrl" class="bg-color album-artwork"></v-img>
       <v-img :src="albumPicUrl" class="bg-black album-artwork"></v-img>
 

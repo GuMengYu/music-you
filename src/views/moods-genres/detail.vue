@@ -4,14 +4,10 @@
       {{ type }}
     </h2>
     <custom-col :title="$t('main.featured')">
-      <template slot="content">
-        <cover-list :list="playlists.slice(0, 3)" type="playlist" />
-      </template>
+      <cover-list :list="playlists.slice(0, 3)" type="playlist" />
     </custom-col>
     <custom-col title="播放列表">
-      <template slot="content">
-        <cover-list :list="playlists.slice(3)" type="playlist" />
-      </template>
+      <cover-list :list="playlists.slice(3)" type="playlist" />
     </custom-col>
   </v-sheet>
 </template>

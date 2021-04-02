@@ -75,10 +75,14 @@ export default {
         commit('playlist', playlistRes.playlist);
       }
     },
-    updatePlayingList({ commit }, list) {
+    async updatePlayingList({ commit, dispatch }, payload) {
+      const { autoplay = false, list } = payload;
       localStorage.setItem('playingList', JSON.stringify(list));
       commit('isCurrentFm', false);
       commit('playingList', list);
+      if (autoplay) {
+        await dispatch('updateTrack', list?.[0]);
+      }
     },
     async updatePersonalFmList({ commit, state }) {
       let originList = [...state.fmList];
@@ -133,6 +137,7 @@ export default {
           commit('playing', true);
         }
       }
+      return track;
     },
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
       let likes = state.likes;

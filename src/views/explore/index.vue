@@ -5,12 +5,14 @@
       subtitle="new release"
       more="/new_releases/albums"
     >
-      <template slot="content">
+      <template>
         <cover-row-skeleton v-if="loading" />
         <carousel v-else>
-          <carousel-item v-for="release in newRelease" :key="release.id">
-            <cover :data="release" />
-          </carousel-item>
+          <cover
+            v-for="release in newRelease"
+            :key="release.id"
+            :data="release"
+          />
         </carousel>
       </template>
     </custom-col>
@@ -20,13 +22,15 @@
       subtitle="moon"
       more="/moods_and_genres/"
     >
-      <template slot="content">
-        <carousel :rows="3" grid-style="C">
-          <carousel-item v-for="tag in tags" :key="tag.name">
-            <m-tag :name="tag.name" :color="tag.color" class="my-2" />
-          </carousel-item>
-        </carousel>
-      </template>
+      <carousel :rows="3" grid-style="C">
+        <m-tag
+          v-for="tag in tags"
+          :key="tag.name"
+          :name="tag.name"
+          :color="tag.color"
+          class="my-2"
+        />
+      </carousel>
     </custom-col>
     <custom-col
       class="mt-4"
@@ -34,12 +38,10 @@
       subtitle="videos"
       more="/new_releases/videos/"
     >
-      <template slot="content">
+      <template>
         <cover-row-skeleton v-if="loading" :cols="6" />
         <carousel v-else grid-style="C">
-          <carousel-item v-for="mv in mvs" :key="mv.id">
-            <video-cover :data="mv" />
-          </carousel-item>
+          <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </carousel>
       </template>
     </custom-col>
@@ -49,12 +51,10 @@
       subtitle="charts"
       more="/leader_board/"
     >
-      <template slot="content">
+      <template>
         <cover-row-skeleton v-if="loading" type="image" />
         <carousel v-else>
-          <carousel-item v-for="top in topList" :key="top.id">
-            <cover :data="top" />
-          </carousel-item>
+          <cover v-for="top in topList" :key="top.id" :data="top" />
         </carousel>
       </template>
     </custom-col>
@@ -66,15 +66,13 @@ import CustomCol from '@components/layout/Col';
 import { random, filter } from 'lodash';
 import MTag from '@components/app/Tag';
 import VideoCover from '@components/app/VideoCover';
-import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
 import { getColorTable } from '@/util/metadata';
 import Carousel from '@components/layout/Carousel';
-import CarouselItem from '@components/layout/CarouselItem';
 import Cover from '@components/app/Cover';
 export default {
   components: {
     Cover,
-    CarouselItem,
     Carousel,
     CoverRowSkeleton,
     CustomCol,

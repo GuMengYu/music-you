@@ -3,41 +3,31 @@
     <cover-row-skeleton v-show="loading" />
     <page v-show="!loading" title="搜索结果:">
       <custom-col v-show="songs.length" title="歌曲" more="/search/song">
-        <template slot="content">
-          <v-row>
-            <v-col v-for="song in songs" :key="song.id" cols="3" class="pa-2">
-              <song-bar :song="song" class="track-item" />
-            </v-col>
-          </v-row>
-        </template>
+        <v-row>
+          <v-col v-for="song in songs" :key="song.id" cols="3" class="pa-2">
+            <song-bar :song="song" class="track-item" />
+          </v-col>
+        </v-row>
       </custom-col>
       <custom-col v-show="artists.length" title="歌手" more="/search/artist">
-        <template slot="content">
-          <cover-list type="artist" :list="artists" />
-        </template>
+        <cover-list type="artist" :list="artists" />
       </custom-col>
       <custom-col v-show="albums.length" title="专辑" more="/search/album">
-        <template slot="content">
-          <cover-list :list="albums" />
-        </template>
+        <cover-list :list="albums" />
       </custom-col>
       <custom-col
         v-show="playlists.length"
         title="歌单"
         more="/search/playlist"
       >
-        <template slot="content">
-          <cover-list type="playlist" :list="playlists" />
-        </template>
+        <cover-list type="playlist" :list="playlists" />
       </custom-col>
       <custom-col v-show="mvs.length" title="视频" more="/search/mv">
-        <template slot="content">
-          <v-row>
-            <v-col v-for="mv in mvs" :key="mv.id" cols="3" class="pa-2">
-              <video-cover :data="mv" />
-            </v-col>
-          </v-row>
-        </template>
+        <v-row>
+          <v-col v-for="mv in mvs" :key="mv.id" cols="3" class="pa-2">
+            <video-cover :data="mv" />
+          </v-col>
+        </v-row>
       </custom-col>
     </page>
   </div>
@@ -51,7 +41,7 @@ import SongBar from '@components/app/SongBar';
 import VideoCover from '@components/app/VideoCover';
 import Page from '@components/layout/Page';
 import NProgress from 'nprogress';
-import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
 const TypeMap = {
   song: { type: 1, limit: 8 },
   album: { type: 10, limit: 6 },

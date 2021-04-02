@@ -14,7 +14,7 @@
 <script>
 import { getNewMv } from '@/api';
 import Page from '@components/layout/Page';
-import CoverRowSkeleton from '@components/skeleton/coverRowSkeleton';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
 import VideoCover from '@components/app/VideoCover';
 export default {
   name: 'NewReleasesVideos',

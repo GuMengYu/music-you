@@ -1,7 +1,7 @@
 <template>
   <v-sheet>
     <custom-col title="recent" subtitle="activity" class="mb-4">
-      <template slot="content">
+      <template>
         <cover-row-skeleton v-if="loadingRecent" />
         <v-row>
           <v-col v-for="track in recent" :key="track.id" cols="3" class="pa-2">
@@ -98,7 +98,7 @@ import VideoCover from '@components/app/VideoCover';
 import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
 import { getSongData, createPlaylist } from '@/api';
 
-import CoverRowSkeleton from '../components/skeleton/coverRowSkeleton.vue';
+import CoverRowSkeleton from '../components/skeleton/CoverRowSkeleton.vue';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
 export default {

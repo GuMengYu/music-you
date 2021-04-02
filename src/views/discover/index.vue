@@ -2,53 +2,44 @@
   <v-sheet class="discover">
     <discover-skeleton v-if="loading" />
     <custom-col :title="$t('main.discover.featured')">
-      <template slot="content">
-        <carousel grid-style="A">
-          <carousel-item>
-            <span>{{ $t('main.discover.new_releases_album') }}</span>
-            <larger-cover :data="release" class="mt-2" />
-          </carousel-item>
-          <carousel-item>
-            <span>{{ $t('main.discover.you_liked') }}</span>
-            <larger-cover :data="radar" class="mt-2" type="playlist" />
-          </carousel-item>
-          <carousel-item>
-            <span>{{ $t('main.discover.daily') }}</span>
-            <larger-cover :data="daily" class="mt-2" type="daily" />
-          </carousel-item>
-          <carousel-item>
-            <span>{{ $t('main.discover.fm') }}</span>
-            <f-m class="mt-2" />
-          </carousel-item>
-        </carousel>
-      </template>
+      <carousel grid-style="A">
+        <carousel-item>
+          <span>{{ $t('main.discover.new_releases_album') }}</span>
+          <larger-cover :data="release" class="mt-2" />
+        </carousel-item>
+        <carousel-item>
+          <span>{{ $t('main.discover.you_liked') }}</span>
+          <larger-cover :data="radar" class="mt-2" type="playlist" />
+        </carousel-item>
+        <carousel-item>
+          <span>{{ $t('main.discover.daily') }}</span>
+          <larger-cover :data="daily" class="mt-2" type="daily" />
+        </carousel-item>
+        <carousel-item>
+          <span>{{ $t('main.discover.fm') }}</span>
+          <f-m class="mt-2" />
+        </carousel-item>
+      </carousel>
     </custom-col>
     <CustomCol :title="$t('main.for_you')">
-      <template slot="content">
-        <carousel>
-          <carousel-item v-for="list in playLists" :key="list.id">
-            <cover :data="list" type="playlist" />
-          </carousel-item>
-        </carousel>
-      </template>
+      <carousel>
+        <cover
+          v-for="list in playLists"
+          :key="list.id"
+          :data="list"
+          type="playlist"
+        />
+      </carousel>
     </CustomCol>
     <CustomCol class="mt-4" :title="$t('main.discover.recommend_songs')">
-      <template slot="content">
-        <carousel :rows="4" grid-style="C">
-          <carousel-item v-for="song in songs" :key="song.id">
-            <song-bar :song="song" />
-          </carousel-item>
-        </carousel>
-      </template>
+      <carousel :rows="4" grid-style="C">
+        <song-bar v-for="song in songs" :key="song.id" :song="song" />
+      </carousel>
     </CustomCol>
     <CustomCol class="mt-4" :title="$t('main.recommend_video')">
-      <template slot="content">
-        <carousel grid-style="C">
-          <carousel-item v-for="mv in mvs" :key="mv.id">
-            <video-cover :data="mv" />
-          </carousel-item>
-        </carousel>
-      </template>
+      <carousel grid-style="C">
+        <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
+      </carousel>
     </CustomCol>
   </v-sheet>
 </template>
@@ -65,7 +56,7 @@ import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col';
 import FM from '@components/app/FM';
 import VideoCover from '@components/app/VideoCover';
-import DiscoverSkeleton from '@components/skeleton/discoverSkeleton';
+import DiscoverSkeleton from '@components/skeleton/DiscoverSkeleton';
 import LargerCover from '@components/app/LargerCover';
 import SongBar from '@components/app/SongBar';
 import Carousel from '@components/layout/Carousel';

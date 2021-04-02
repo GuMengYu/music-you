@@ -163,7 +163,6 @@ export default {
   computed: {
     track: get('music/track'),
     currentTrackId: get('music/currentTrackId'),
-    playingList: get('music/playingList'),
     playing: get('music/playing'),
     loadAudio: sync('music/loadAudio'),
     showList: sync('music/showList'),

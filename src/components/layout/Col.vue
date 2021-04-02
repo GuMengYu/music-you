@@ -13,7 +13,7 @@
         </v-btn>
       </div>
     </div>
-    <slot name="content" />
+    <slot />
   </v-sheet>
 </template>
 

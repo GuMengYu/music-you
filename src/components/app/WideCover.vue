@@ -79,8 +79,10 @@ export default {
     fav() {},
     async play() {
       const { songs } = await getAlbum(this.cover.id);
-      dispatch('music/updatePlayingList', songs);
-      dispatch('music/updateTrack', { id: songs?.[0].id });
+      await dispatch('music/updatePlayingList', {
+        list: songs,
+        autoplay: true,
+      });
     },
   },
 };

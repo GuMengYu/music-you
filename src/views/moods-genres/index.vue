@@ -7,13 +7,11 @@
         :class="index !== 0 ? 'mt-4' : void 0"
         :title="item.title"
       >
-        <template slot="content">
-          <v-row>
-            <v-col v-for="tag in item.value" :key="tag.name" cols="2">
-              <m-tag :name="tag.name" :color="tag.color" />
-            </v-col>
-          </v-row>
-        </template>
+        <v-row>
+          <v-col v-for="tag in item.value" :key="tag.name" cols="2">
+            <m-tag :name="tag.name" :color="tag.color" />
+          </v-col>
+        </v-row>
       </custom-col>
     </page>
   </v-sheet>

@@ -1,35 +1,31 @@
 <template>
   <v-sheet>
     <custom-col :title="video.data.name">
-      <template slot="content">
-        <div>
-          <div class="video rounded-lg">
-            <video ref="videoPlayer" class="plyr" />
+      <div>
+        <div class="video rounded-lg">
+          <video ref="videoPlayer" class="plyr" />
+        </div>
+        <div class="d-flex mt-4">
+          <div class="font-weight-bold">
+            <router-link :to="'/artist/' + video.data.artistId">
+              {{ video.data.artistName }}
+            </router-link>
+            ·
+            {{ video.data.playCount }} Views ·
+            {{ video.data.publishTime }}
           </div>
-          <div class="d-flex mt-4">
-            <div class="font-weight-bold">
-              <router-link :to="'/artist/' + video.data.artistId">
-                {{ video.data.artistName }}
-              </router-link>
-              ·
-              {{ video.data.playCount }} Views ·
-              {{ video.data.publishTime }}
-            </div>
-            <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
-              <font-awesome-icon icon="heart" />
-            </div>
+          <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
+            <font-awesome-icon icon="heart" />
           </div>
         </div>
-      </template>
+      </div>
     </custom-col>
     <custom-col :title="$t('main.simi')">
-      <template slot="content">
-        <v-row>
-          <v-col v-for="mv in simi" :key="mv.id" cols="3">
-            <video-cover :data="mv" />
-          </v-col>
-        </v-row>
-      </template>
+      <v-row>
+        <v-col v-for="mv in simi" :key="mv.id" cols="3">
+          <video-cover :data="mv" />
+        </v-col>
+      </v-row>
     </custom-col>
   </v-sheet>
 </template>
