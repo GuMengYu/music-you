@@ -79,18 +79,18 @@
               />
             </v-list-item-action>
           </v-list-item>
-          <!--          <v-list-item>-->
-          <!--            <v-list-item-content>-->
-          <!--              <v-list-item-title-->
-          <!--                class="font-weight-bold"-->
-          <!--              >-->
-          <!--                {{ $t('common.cache') }}-->
-          <!--              </v-list-item-title>-->
-          <!--            </v-list-item-content>-->
-          <!--            <v-list-item-action class="mr-4">-->
-          <!--              <v-switch v-model="autoCache" />-->
-          <!--            </v-list-item-action>-->
-          <!--          </v-list-item>-->
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title
+                class="font-weight-bold"
+              >
+                {{ $t('common.dynamicBg') }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action class="mr-4">
+              <v-switch v-model="dynamicBg" />
+            </v-list-item-action>
+          </v-list-item>
           <!--          <v-list-item>-->
           <!--            <v-list-item-content>-->
           <!--              <v-list-item-title class="font-weight-bold">-->
@@ -183,6 +183,7 @@ export default {
       'theme',
       'autoCache',
       'palettes',
+      'dynamicBg',
     ]),
     ...sync('app', ['showSettings', 'showLogin']),
   },

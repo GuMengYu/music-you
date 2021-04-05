@@ -30,6 +30,9 @@ export const registerIpcRenderer = (store) => {
     }
   });
   ipcRenderer.on('like', () => {});
+  ipcRenderer.on('fullscreen', (e, fullscreen) => {
+    store.commit('music/showLyricsPage', fullscreen);
+  });
   return ipcRenderer;
 };
 

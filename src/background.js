@@ -49,6 +49,14 @@ async function createWindow() {
   win.on('minimize', () => {
     win.hide();
   });
+  win.on('enter-full-screen', () => {
+    console.log('enter-full-screen');
+    win.webContents.send('fullscreen', true);
+  });
+  win.on('leave-full-screen', () => {
+    console.log('leave-full-screen');
+    win.webContents.send('fullscreen', false);
+  });
   win.on('close', (e) => {
     console.log('window close');
     if (quitFlag) {

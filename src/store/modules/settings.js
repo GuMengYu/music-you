@@ -14,6 +14,7 @@ const state = () => {
       theme: 'auto',
       palettes: 'radio',
       volume: 0.8,
+      dynamicBg: false,
       account: {},
     },
     data,

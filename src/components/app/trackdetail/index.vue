@@ -44,23 +44,22 @@
               </div>
             </div>
             <control />
-            <div class="control_volume mt-4">
-              <v-slider
-                v-model="volume"
-                class="playing-volume"
-                dense
-                hide-details
-                :max="1"
-                min="0"
-                step="0.01"
-                :append-icon="icon.mdiVolumeHigh"
-                :prepend-icon="icon.mdiVolumeLow"
-              />
+            <div class="d-flex justify-space-between mt-4">
+              <v-btn @click="showLyric = !showLyric" icon>
+                <v-icon>
+                  {{ icon.mdiPodcast }}
+                </v-icon>
+              </v-btn>
+              <v-btn v-if="lyric.length" @click="showLyric = !showLyric" icon :color="showLyric ? 'accent' : void 0">
+                <v-icon>
+                  {{ icon.mdiCommentQuoteOutline }}
+                </v-icon>
+              </v-btn>
             </div>
           </div>
         </div>
       </v-col>
-      <v-col v-if="lyric.length" class="frame-content-right">
+      <v-col v-if="enableLyric" class="frame-content-right">
         <div ref="lyricContainer" class="frame-lyrics">
           <div class="first"></div>
           <div
@@ -77,7 +76,7 @@
         </div>
       </v-col>
     </v-row>
-    <div class="frame-bg" v-show="showLyricsPage">
+    <div class="frame-bg" v-if="showLyricsPage && dynamicBg">
       <v-img :src="albumPicUrl" class="bg-color album-artwork"></v-img>
       <v-img :src="albumPicUrl" class="bg-black album-artwork"></v-img>
 
@@ -93,10 +92,10 @@ import {
   mdiDotsHorizontal,
   mdiPauseCircle,
   mdiSkipNext,
-  mdiVolumeLow,
-  mdiVolumeHigh,
   mdiShuffle,
   mdiRepeat,
+  mdiPodcast,
+  mdiCommentQuoteOutline,
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
 import { formatLyric } from '@/util/fn';
@@ -112,16 +111,17 @@ export default {
   data: () => ({
     icon: {
       mdiDotsHorizontal,
-      mdiVolumeLow,
-      mdiVolumeHigh,
       mdiShuffle,
       mdiSkipPrevious,
       mdiSkipNext,
       mdiRepeat,
       mdiPauseCircle,
+      mdiPodcast,
+      mdiCommentQuoteOutline,
     },
     activeIdx: -1,
     interval: null,
+    showLyric: true,
   }),
   computed: {
     isCurrentFm: get('music/isCurrentFm'),
@@ -146,10 +146,13 @@ export default {
         return lyric;
       }
     },
-    volume: sync('settings/volume'),
     currentTime: sync('music/currentTime'),
     track: get('music/track'),
     showLyricsPage: sync('music/showLyricsPage'),
+    dynamicBg: sync('settings/dynamicBg'),
+    enableLyric() {
+      return this.lyric.length && this.showLyric;
+    },
   },
   watch: {
     showLyricsPage(val) {
@@ -168,9 +171,11 @@ export default {
   },
   methods: {
     initInterval() {
-      this.interval = setInterval(() => {
-        this.calculate();
-      }, 200);
+      if (this.enableLyric) {
+        this.interval = setInterval(() => {
+          this.calculate();
+        }, 500);
+      }
     },
     // 计算歌词位置并滚动
     calculate() {

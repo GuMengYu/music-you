@@ -72,6 +72,7 @@ export default {
     auto: 'auto',
     quality: 'Quality',
     cache: 'Cache Songs',
+    dynamicBg: 'Dynamic Background',
     clear_cache: 'Clear Cache',
     cached: 'Already cached {size}, and {length} songs',
     lastupdate: 'last update {0} · {2} songs',

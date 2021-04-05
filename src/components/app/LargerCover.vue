@@ -4,10 +4,10 @@
       dark
       elevation="0"
       class="d-flex justify-lg-space-between flex-column rounded-lg cover"
-      :img="data.picUrl || data.coverImgUrl"
+      :img="coverImgUrl"
       :class="{ 'cover-hover': hover }"
     >
-      <v-img :src="data.picUrl || data.coverImgUrl" :aspect-ratio="1">
+      <v-img :src="coverImgUrl" :aspect-ratio="1">
         <v-fade-transition>
           <v-overlay :value="hover" absolute>
             <v-card-actions

@@ -13,7 +13,7 @@
     "electron:build:win": "vue-cli-service electron:build -p never -win",
     "electron:build:linux": "vue-cli-service electron:build -p never --linux",
     "electron:serve": "vue-cli-service electron:serve",
-    "electron:generate-icons": "electron-icon-builder --input=./public/icons/icon.png --output=build --flatten",
+    "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=./public --flatten",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
