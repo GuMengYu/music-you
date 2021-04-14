@@ -173,8 +173,10 @@ export default {
       nextFmTrackId: 'music/nextFmTrackId',
       next: 'music/nextTrackId',
       prev: 'music/prevTrackId',
-      liked: 'music/liked',
     }),
+    liked() {
+      return this.$store.getters['music/liked'](this.track.id);
+    },
     volumeIconState() {
       if (this.volume === 0) {
         return mdiVolumeMute;

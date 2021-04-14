@@ -11,7 +11,7 @@
         <span class="text-h5 font-weight-bold flex-grow-1">
           {{ artist.name }}
         </span>
-        <v-btn icon color="primary">
+        <v-btn icon color="primary" @click="openMenu">
           <v-icon>{{ icon.mdiDotsHorizontal }}</v-icon>
         </v-btn>
       </div>
@@ -136,7 +136,7 @@ import Cover from '@components/app/Cover';
 import SongBar from '@components/app/SongBar';
 import CoverList from '@components/app/CoverList';
 import { dispatch } from 'vuex-pathify';
-import DefaultFab from '@components/default/Fab'
+import DefaultFab from '@components/default/Fab';
 
 export default {
   components: {
@@ -151,19 +151,33 @@ export default {
       default: '',
     },
   },
-  data: () => ({
-    icon: { mdiPlay, mdiDotsHorizontal },
-    artist: {
-      img1v1Url:
-        'https://p1.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg',
-    },
-    hotSongs: [],
-    hotAlbums: [],
-    showMoreSong: void 0,
-    showMoreAlbum: void 0,
-    showMoreEps: void 0,
-    playLoading: false,
-  }),
+  data() {
+    return {
+      icon: { mdiPlay, mdiDotsHorizontal },
+      artist: {
+        img1v1Url:
+          'https://p1.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg',
+      },
+      hotSongs: [],
+      hotAlbums: [],
+      showMoreSong: void 0,
+      showMoreAlbum: void 0,
+      showMoreEps: void 0,
+      playLoading: false,
+      menu: [
+        {
+          title: '收藏歌手',
+          action: 'sub',
+          metadata: { type: 'artist', id: this.id },
+        },
+        {
+          title: '播放热门歌曲',
+          action: 'play',
+          metadata: { type: 'artist', id: this.id, cb: this.play },
+        },
+      ],
+    };
+  },
   computed: {
     latest() {
       return this.albums?.[0];
@@ -202,6 +216,10 @@ export default {
         autoplay: true,
       });
       this.playLoading = false;
+    },
+    openMenu(e) {
+      const { clientX: x, clientY: y } = e;
+      dispatch('contextmenu/show', { x, y, items: this.menu });
     },
   },
 };

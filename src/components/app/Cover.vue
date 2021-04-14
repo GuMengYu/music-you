@@ -75,6 +75,7 @@
 <script>
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import { getPlayList, getAlbum, getArtist } from '@/api';
+import { getList } from '@/api/music';
 import { sizeOfImage } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
 export default {
@@ -138,26 +139,29 @@ export default {
     },
     menuItems() {
       const val = this.data.id;
-      return [
-        { title: '播放', type: 'play', val },
-        { title: '收藏', type: 'sub', val },
-        { title: '下一首播放', type: 'next', val },
+      const metadata = {
+        id: val,
+        type: this.type,
+      };
+      const items = [
+        { title: '播放', action: 'play', metadata },
+        { title: '收藏', action: 'sub', metadata },
+        { title: '下一首播放', action: 'next', metadata },
       ];
+      const goto = {
+        playlist: '查看歌单',
+        album: '查看专辑',
+        artist: '查看歌手',
+      }[this.type];
+      items.unshift({ title: goto, action: 'goto', metadata });
+      return items;
     },
   },
   created() {},
   methods: {
     async play() {
       this.loading = true;
-      const data = await this.service(this.data.id);
-      let list = [];
-      if (this.type === 'album') {
-        list = data.songs;
-      } else if (this.type === 'playlist') {
-        list = data?.playlist?.tracks;
-      } else {
-        list = data.list;
-      }
+      const list = await getList(this.type, this.data.id);
       await this.$store.dispatch('music/updatePlayingList', {
         list,
         autoplay: true,

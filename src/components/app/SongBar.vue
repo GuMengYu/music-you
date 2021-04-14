@@ -78,12 +78,18 @@ export default {
       return true;
     },
     menuItems() {
-      const val = this.song.id;
-      return [
-        { title: '播放', type: 'play', val },
-        { title: '收藏到歌单', type: 'sub', val },
-        { title: '添加到喜欢', type: 'fav', val },
+      const metadata = {
+        id: this.song.id,
+        type: 'track',
+      };
+      const items = [
+        { title: '播放', action: 'play', metadata },
+        { title: '收藏到歌单', action: 'add', metadata },
       ];
+      if (!this.$store.getters['music/liked'](this.song.id)) {
+        items.push({ title: '添加到喜欢', action: 'sub', metadata });
+      }
+      return items;
     },
     artists() {
       const { ar, artists } = this.song;

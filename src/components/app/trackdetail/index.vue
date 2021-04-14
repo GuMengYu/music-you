@@ -50,7 +50,12 @@
                   {{ icon.mdiPodcast }}
                 </v-icon>
               </v-btn>
-              <v-btn v-if="lyric.length" @click="showLyric = !showLyric" icon :color="showLyric ? 'accent' : void 0">
+              <v-btn
+                v-if="lyric.length"
+                @click="showLyric = !showLyric"
+                icon
+                :color="showLyric ? 'accent' : void 0"
+              >
                 <v-icon>
                   {{ icon.mdiCommentQuoteOutline }}
                 </v-icon>

@@ -4,7 +4,11 @@ import {
   getSongData,
   getSongUrl,
   getSongUrlFromUnlockMusic,
+  getPlayList,
+  getAlbum,
+  getArtist,
 } from '@/api/index';
+import { now } from 'lodash';
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id: 歌曲id
@@ -39,11 +43,55 @@ export const getTrackDetail = async (id, br = 320000, logged = false) => {
   return { ...track, url, lyric };
 };
 
-export const search = async (keywords, conditions) => {
+export const search = (keywords, conditions) => {
   return xhr.get('/cloudsearch', {
     params: {
       keywords,
       ...conditions,
     },
+  });
+};
+
+export const getList = async (type, id) => {
+  const service = {
+    album: getAlbum,
+    playlist: getPlayList,
+    artist: getArtist,
+  }[type];
+  const data = await service(id);
+  let list = [];
+  if (type === 'album') {
+    list = data.songs;
+  } else if (type === 'playlist') {
+    list = data?.playlist?.tracks;
+  } else {
+    list = data.list;
+  }
+  return list;
+};
+
+/**
+ * 收藏|取消
+ * @param type 类型： 歌曲, 歌单, 专辑, mv
+ * @param id
+ * @param t: 1 收藏 其他 取消收藏
+ * 根据歌单id返回歌单详细信息
+ */
+export const sub = (type, id, t) => {
+  let params = { timestamp: now() };
+  let url = {
+    album: '/album/sub',
+    playlist: '/playlist/subscribe',
+    mv: '/mv/sub',
+    artist: '/artist/sub',
+    track: '/like',
+  }[type];
+  Object.assign(params, { id, t });
+  if (type === 'track') {
+    delete params.t;
+    params.like = t === 1;
+  }
+  return xhr.get(url, {
+    params,
   });
 };

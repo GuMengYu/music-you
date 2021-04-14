@@ -19,7 +19,7 @@
           <v-list-item
             :key="index"
             class="v-list-item--default"
-            @click="_dispatch(item.type)"
+            @click="_dispatch(item)"
           >
             <v-list-item-title class="text-caption" v-text="item.title" />
           </v-list-item>
@@ -31,7 +31,8 @@
 
 <script>
 import DefaultList from '@components/default/List';
-import { sync } from 'vuex-pathify';
+import { dispatch, sync } from 'vuex-pathify';
+import { getList, sub } from '@/api/music';
 export default {
   name: 'ContextMenu',
   components: { DefaultList },
@@ -41,7 +42,47 @@ export default {
     coordinate: sync('contextmenu/coordinate'),
   },
   methods: {
-    _dispatch() {},
+    _dispatch(item) {
+      const { type, id, cb } = item.metadata;
+      if (cb) {
+        cb(id);
+        return;
+      }
+      switch (item.action) {
+        case 'goto':
+          this.goto(type, id);
+          break;
+        case 'play':
+          this.play(type, id);
+          break;
+        case 'next':
+          this.play(type, id, false);
+          break;
+        case 'sub':
+          sub(type, id, 1);
+          break;
+        default:
+          break;
+      }
+      console.log(item);
+    },
+    goto(type, id) {
+      this.$router.push({
+        name: type,
+        params: { id },
+      });
+    },
+    async play(type, id, play = true) {
+      if (type === 'mv') {
+        console.log('go to mv');
+      } else {
+        const list = await getList(type, id);
+        await dispatch('music/updatePlayingList', {
+          list,
+          autoplay: play,
+        });
+      }
+    },
   },
 };
 </script>

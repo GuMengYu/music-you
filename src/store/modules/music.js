@@ -59,7 +59,7 @@ export default {
         index === 0 ? state.playingList.length - 1 : index - 1
       ]?.id;
     },
-    liked: (state) => !!state.likes.find((i) => i === state.track.id),
+    liked: (state) => (id) => !!state.likes.find((i) => i === id),
   },
   actions: {
     async fetch({ commit, rootGetters }) {
