@@ -10,7 +10,7 @@
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build -p never -mwl",
     "electron:build:mac": "vue-cli-service electron:build -p never --mac",
-    "electron:build:win": "vue-cli-service electron:build -p never -win",
+    "electron:build:win": "vue-cli-service electron:build -p never --win",
     "electron:build:linux": "vue-cli-service electron:build -p never --linux",
     "electron:serve": "vue-cli-service electron:serve",
     "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=./public --flatten",
