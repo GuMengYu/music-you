@@ -137,3 +137,7 @@ function createServer() {
     console.log('app run in port 12137');
   });
 }
+
+export const getWin = () => {
+  return win;
+}

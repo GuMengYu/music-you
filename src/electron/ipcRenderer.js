@@ -1,5 +1,15 @@
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
+import { noop, once } from 'lodash';
+
 export const registerIpcRenderer = (store) => {
+  const showDownloadComplete = once((name) => {
+    store.dispatch('snackbar/show', {
+      text: `下载成功 ${name}`,
+      type: 'success',
+      timeout: 4000,
+    });
+  })
+
   ipcRenderer.on('open-settings', () => {
     store.commit('app/showSettings', true);
   });
@@ -33,9 +43,30 @@ export const registerIpcRenderer = (store) => {
   ipcRenderer.on('fullscreen', (e, fullscreen) => {
     store.commit('music/showLyricsPage', fullscreen);
   });
+  ipcRenderer.on('startDownload', (e, data) => {
+    console.log('startDownload', e, data);
+  })
+  ipcRenderer.on('downloadProgress', (e, data) => {
+    const {percent} = data;
+    console.log(percent);
+  });
+  ipcRenderer.on('downloadCompleted', (e, file) => {
+    const {aliasName} = file;
+    console.log(file);
+    showDownloadComplete(aliasName);
+  });
   return ipcRenderer;
 };
 
-export const subscribe = (channel, cb) => {
-  ipcRenderer.on(channel, cb);
-};
+export default {
+  async invoke(channel, data = {}, cb = noop) {
+    const res = ipcRenderer.invoke(channel, data);
+    cb(res);
+  },
+  subscribe: (channel, cb = noop) => {
+    ipcRenderer.on(channel, cb);
+  },
+  remove(channel) {
+    ipcRenderer.removeAllListeners(channel);
+  },
+}

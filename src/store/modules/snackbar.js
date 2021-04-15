@@ -18,10 +18,10 @@ const mutations = make.mutations(state);
 
 const actions = {
   show({ commit, state }, payload) {
-    const { type, text } = payload;
+    const { type, text, timeout = 1000 } = payload;
     commit('snackbar', {
       ...state.snackbar,
-      ...{ text, timeout: 1000, color: type },
+      ...{ text, timeout, color: type },
     });
     commit('value', true);
   },

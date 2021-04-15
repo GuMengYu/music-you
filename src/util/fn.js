@@ -47,4 +47,12 @@ export const formatLyric = (lyric = '') => {
     });
 };
 
+export const redirect = (url, target = '_blank') => {
+  window.open(url, target)
+}
+
+export const isElectron = () => {
+  return process.env.IS_ELECTRON;
+}
+
 export { formatDuring, sizeOfImage, formatNumber } from '@/filters';

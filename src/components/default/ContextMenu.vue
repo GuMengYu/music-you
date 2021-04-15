@@ -21,6 +21,11 @@
             class="v-list-item--default"
             @click="_dispatch(item)"
           >
+          <v-list-item-icon v-if="item.icon">
+            <v-icon color="primary">
+              {{ item.icon }}
+            </v-icon>
+          </v-list-item-icon>
             <v-list-item-title class="text-caption" v-text="item.title" />
           </v-list-item>
         </template>
@@ -32,7 +37,11 @@
 <script>
 import DefaultList from '@components/default/List';
 import { dispatch, sync } from 'vuex-pathify';
-import { getList, sub } from '@/api/music';
+import { getList, sub, getUrl } from '@/api/music';
+import { download } from '@/util/download';
+import { isElectron } from '@/util/fn';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ContextMenu',
   components: { DefaultList },
@@ -40,6 +49,9 @@ export default {
     items: sync('contextmenu/items'),
     showMenu: sync('contextmenu/show'),
     coordinate: sync('contextmenu/coordinate'),
+    ...mapGetters({
+      'logged': 'settings/logged',
+    }),
   },
   methods: {
     _dispatch(item) {
@@ -61,6 +73,9 @@ export default {
         case 'sub':
           sub(type, id, 1);
           break;
+        case 'download':
+          this.downloadMusic(id, item.metadata.fileName);
+          break;
         default:
           break;
       }
@@ -81,6 +96,14 @@ export default {
           list,
           autoplay: play,
         });
+      }
+    },
+    async downloadMusic(id, fileName) {
+      const url = await getUrl(id, 999000, this.logged);
+      if (isElectron()) {
+        this.$ipcRenderer.invoke('downloadFile', {url, fileName});
+      } else {
+        download(url);
       }
     },
   },

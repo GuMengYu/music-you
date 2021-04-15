@@ -56,7 +56,7 @@
   </v-hover>
 </template>
 <script>
-import { mdiHeart, mdiDotsHorizontal, mdiHeartOutline, mdiPlay } from '@mdi/js';
+import { mdiDotsHorizontal, mdiPlay } from '@mdi/js';
 import { dispatch } from 'vuex-pathify';
 
 export default {
@@ -69,8 +69,6 @@ export default {
   },
   data: () => ({
     mdiDotsHorizontal,
-    mdiHeart,
-    mdiHeartOutline,
     mdiPlay,
   }),
   computed: {
@@ -81,10 +79,12 @@ export default {
       const metadata = {
         id: this.song.id,
         type: 'track',
+        fileName: `${this.song.name}.mp3`,
       };
       const items = [
         { title: '播放', action: 'play', metadata },
         { title: '收藏到歌单', action: 'add', metadata },
+        { title: '下载', action: 'download', metadata },
       ];
       if (!this.$store.getters['music/liked'](this.song.id)) {
         items.push({ title: '添加到喜欢', action: 'sub', metadata });

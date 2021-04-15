@@ -30,8 +30,9 @@ const router = createRouter(vuetify, store);
 Vue.prototype.$message = createSnackbar(vuetify);
 
 if (process.env.IS_ELECTRON) {
-  import('./electron/ipcRenderer').then(({ registerIpcRenderer }) => {
+  import('./electron/ipcRenderer').then(({ registerIpcRenderer, default: ipcRenderer }) => {
     registerIpcRenderer(store, router);
+    Vue.prototype.$ipcRenderer = ipcRenderer;
   });
 }
 new Vue({

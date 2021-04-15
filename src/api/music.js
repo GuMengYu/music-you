@@ -16,11 +16,16 @@ import { now } from 'lodash';
  * @param logged: 用户是否登录（决定播放url）
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id, br = 320000, logged = false) => {
+export const getTrackDetail = async (id, br, logged) => {
   const {
     songs: [track],
   } = await getSongData([id]);
   const lyric = await getLyric(id);
+  const url = await getUrl(id, br, logged);
+  return { ...track, url, lyric };
+};
+
+export const getUrl = async (id, br = 320000, logged = false) => {
   let url;
   if (logged) {
     const {
@@ -40,9 +45,8 @@ export const getTrackDetail = async (id, br = 320000, logged = false) => {
   } else {
     url = `https://music.163.com/song/media/outer/url?id=${id}`;
   }
-  return { ...track, url, lyric };
-};
-
+  return url;
+} 
 export const search = (keywords, conditions) => {
   return xhr.get('/cloudsearch', {
     params: {
