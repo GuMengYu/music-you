@@ -1,5 +1,5 @@
 <template>
-  <div class="cover-container">
+  <div class="cover-container" @contextmenu="openMenu">
     <v-hover v-slot="{ hover }">
       <v-card
         v-ripple
@@ -61,6 +61,7 @@
 <script>
 import { mdiPlay } from '@mdi/js';
 import { sizeOfImage, formatNumber } from '@util/fn';
+import { dispatch } from 'vuex-pathify';
 export default {
   name: 'VideoCover',
   props: {
@@ -103,13 +104,6 @@ export default {
           ]
         : this.data.creator;
     },
-    to() {
-      return {
-        album: `/album/${this.data.id}`,
-        playlist: `/playlist/${this.data.id}`,
-        artist: `/artist/${this.data.id}`,
-      }[this.type];
-    },
     coverBgUrl() {
       return sizeOfImage(
         this.data.picUrl ?? this.data.cover ?? this.data.coverUrl,
@@ -118,9 +112,27 @@ export default {
     count() {
       return formatNumber(this.data.playCount ?? this.data.playTime);
     },
+    menuItems() {
+      const metadata = {
+        id: this.id,
+        type: 'video',
+      };
+      return [
+        { title: '前去播放', action: 'goto', metadata },
+        {
+          title: '下载MV',
+          action: 'download',
+          metadata: { ...metadata, fileName: `${this.title}.mp4` },
+        },
+      ];
+    },
   },
   methods: {
     async play() {},
+    async openMenu(e) {
+      const { clientX: x, clientY: y } = e;
+      dispatch('contextmenu/show', { x, y, items: this.menuItems });
+    },
   },
 };
 </script>

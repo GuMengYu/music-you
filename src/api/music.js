@@ -21,11 +21,11 @@ export const getTrackDetail = async (id, br, logged) => {
     songs: [track],
   } = await getSongData([id]);
   const lyric = await getLyric(id);
-  const url = await getUrl(id, br, logged);
+  const url = await getMusicUrl(id, br, logged);
   return { ...track, url, lyric };
 };
 
-export const getUrl = async (id, br = 320000, logged = false) => {
+export const getMusicUrl = async (id, br = 320000, logged = false) => {
   let url;
   if (logged) {
     const {
@@ -46,7 +46,7 @@ export const getUrl = async (id, br = 320000, logged = false) => {
     url = `https://music.163.com/song/media/outer/url?id=${id}`;
   }
   return url;
-} 
+};
 export const search = (keywords, conditions) => {
   return xhr.get('/cloudsearch', {
     params: {

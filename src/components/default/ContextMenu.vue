@@ -21,11 +21,11 @@
             class="v-list-item--default"
             @click="_dispatch(item)"
           >
-          <v-list-item-icon v-if="item.icon">
-            <v-icon color="primary">
-              {{ item.icon }}
-            </v-icon>
-          </v-list-item-icon>
+            <v-list-item-icon v-if="item.icon">
+              <v-icon color="primary">
+                {{ item.icon }}
+              </v-icon>
+            </v-list-item-icon>
             <v-list-item-title class="text-caption" v-text="item.title" />
           </v-list-item>
         </template>
@@ -37,7 +37,9 @@
 <script>
 import DefaultList from '@components/default/List';
 import { dispatch, sync } from 'vuex-pathify';
-import { getList, sub, getUrl } from '@/api/music';
+import { getList, sub, getMusicUrl } from '@/api/music';
+import { getMvUrl } from '../../api/index';
+
 import { download } from '@/util/download';
 import { isElectron } from '@/util/fn';
 import { mapGetters } from 'vuex';
@@ -50,7 +52,7 @@ export default {
     showMenu: sync('contextmenu/show'),
     coordinate: sync('contextmenu/coordinate'),
     ...mapGetters({
-      'logged': 'settings/logged',
+      logged: 'settings/logged',
     }),
   },
   methods: {
@@ -74,7 +76,7 @@ export default {
           sub(type, id, 1);
           break;
         case 'download':
-          this.downloadMusic(id, item.metadata.fileName);
+          this.downloadMusic(id, item.metadata.fileName, type);
           break;
         default:
           break;
@@ -88,20 +90,22 @@ export default {
       });
     },
     async play(type, id, play = true) {
-      if (type === 'mv') {
-        console.log('go to mv');
-      } else {
-        const list = await getList(type, id);
-        await dispatch('music/updatePlayingList', {
-          list,
-          autoplay: play,
-        });
-      }
+      const list = await getList(type, id);
+      await dispatch('music/updatePlayingList', {
+        list,
+        autoplay: play,
+      });
     },
-    async downloadMusic(id, fileName) {
-      const url = await getUrl(id, 999000, this.logged);
+    async downloadMusic(id, fileName, type) {
+      let url = '';
+      if (type === 'video') {
+        const { data } = await getMvUrl({ id, r: 1080 });
+        url = data.url;
+      } else {
+        url = await getMusicUrl(id, 999000, this.logged);
+      }
       if (isElectron()) {
-        this.$ipcRenderer.invoke('downloadFile', {url, fileName});
+        this.$ipcRenderer.invoke('downloadFile', { url, fileName });
       } else {
         download(url);
       }

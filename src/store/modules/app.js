@@ -8,6 +8,7 @@ const state = {
   drawermini: false,
   version: null,
   nav: [],
+  downloadprogress: 0,
 };
 
 const mutations = make.mutations(state);

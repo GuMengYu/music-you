@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mvDetail, mvUrl, simiMv } from '@/api';
+import { mvDetail, getMvUrl, simiMv } from '@/api';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { sync } from 'vuex-pathify';
@@ -44,7 +44,7 @@ export default {
     VideoCover,
   },
   props: {
-    id: String,
+    id: [String, Number],
   },
   data() {
     return {
@@ -108,7 +108,7 @@ export default {
     },
     async getAllUrl(qualities, id) {
       const fns = qualities.map((quality) => {
-        return mvUrl({ id, r: quality });
+        return getMvUrl({ id, r: quality });
       });
       const urls = await Promise.all(fns);
       return urls.map((result) => {

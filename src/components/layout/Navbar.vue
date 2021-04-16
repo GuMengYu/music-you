@@ -11,6 +11,7 @@
         class="d-flex px-0"
         :class="drawermini ? 'justify-center' : 'justify-end'"
       >
+        <download-progress />
         <reload-btn />
         <b-f />
       </v-list-item>
@@ -68,6 +69,7 @@ import DefaultAccount from '@components/app/Account';
 import ThemeToggle from '@components/layout/ThemeToggle';
 import BF from '@components/layout/BF';
 import ReloadBtn from '@components/layout/ReloadBtn';
+import DownloadProgress from './DownloadProgress.vue';
 export default {
   name: 'DefaultNavBar',
   components: {
@@ -78,6 +80,7 @@ export default {
     SettingToggle,
     DefaultListItem,
     DefaultList,
+    DownloadProgress,
   },
   data: function () {
     const _t = (key) => this.$i18n.t(`main.nav.${key}`);

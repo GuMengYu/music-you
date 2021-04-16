@@ -215,7 +215,7 @@ export const mvDetail = (mvid) => {
  * @param {number} params.id
  * @param {number=} params.r
  */
-export const mvUrl = (params) => {
+export const getMvUrl = (params) => {
   return xhr.get('/mv/url', {
     params,
   });

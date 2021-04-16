@@ -8,7 +8,7 @@ export const registerIpcRenderer = (store) => {
       type: 'success',
       timeout: 4000,
     });
-  })
+  });
 
   ipcRenderer.on('open-settings', () => {
     store.commit('app/showSettings', true);
@@ -45,15 +45,21 @@ export const registerIpcRenderer = (store) => {
   });
   ipcRenderer.on('startDownload', (e, data) => {
     console.log('startDownload', e, data);
-  })
+    store.dispatch('snackbar/show', {
+      text: `开始下载 ${data.name}`,
+      type: 'info',
+    });
+  });
   ipcRenderer.on('downloadProgress', (e, data) => {
-    const {percent} = data;
+    const { percent } = data;
     console.log(percent);
+    store.commit('app/downloadprogress', percent);
   });
   ipcRenderer.on('downloadCompleted', (e, file) => {
-    const {aliasName} = file;
+    const { aliasName } = file;
     console.log(file);
     showDownloadComplete(aliasName);
+    store.commit('app/downloadprogress', 0);
   });
   return ipcRenderer;
 };
@@ -69,4 +75,4 @@ export default {
   remove(channel) {
     ipcRenderer.removeAllListeners(channel);
   },
-}
+};
