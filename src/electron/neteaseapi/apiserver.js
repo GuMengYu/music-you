@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cache = require('NeteaseCloudMusicApi/util/apicache').middleware;
 const fileUpload = require('express-fileupload');
 const apiMap = require('./apimap');
-export const startApiServer = () => {
+export const createApiServer = () => {
   const app = express();
   // CORS & Preflight request
   app.use((req, res, next) => {

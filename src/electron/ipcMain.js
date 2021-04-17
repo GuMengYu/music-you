@@ -1,5 +1,5 @@
 const { ipcMain } = require('electron');
-import { downloadFile } from './download';
+import { downloadFile } from './util/download';
 export const registerIpcMain = (window) => {
   ipcMain.handle('zoom-window', () => {
     if (window.isMaximized()) {
