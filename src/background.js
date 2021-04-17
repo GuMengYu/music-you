@@ -3,9 +3,11 @@
 import path from 'path';
 import Express from 'express';
 import { app, protocol, BrowserWindow } from 'electron';
+import is from 'electron-is';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { createElectronMenu } from './electron/menu';
+import { createTray} from './electron/tray';
 import { startApiServer } from './electron/apiserver';
 import { registerIpcMain } from './electron/ipcMain';
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -16,15 +18,17 @@ protocol.registerSchemesAsPrivileged([
 ]);
 let _app = null;
 let win = null;
-let quitFlag = process.platform !== 'darwin';
+let quitFlag = false;
+let frame = !(is.windows() || is.linux());
 async function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1420,
-    height: 850,
-    minWidth: 1160,
-    minHeight: 530,
-    titleBarStyle: 'hidden',
+    width: 1224,
+    height: 768,
+    minWidth: 900,
+    minHeight: 560,
+    titleBarStyle: 'hiddenInset',
+    frame,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -46,9 +50,10 @@ async function createWindow() {
     win.loadURL('http://127.0.0.1:12137');
   }
   createElectronMenu(win);
-  win.on('minimize', () => {
-    win.hide();
-  });
+  createTray(win);
+  // win.on('minimize', () => {
+  //   win.hide();
+  // });
   win.on('enter-full-screen', () => {
     console.log('enter-full-screen');
     win.webContents.send('fullscreen', true);
@@ -57,16 +62,19 @@ async function createWindow() {
     console.log('leave-full-screen');
     win.webContents.send('fullscreen', false);
   });
-  win.on('close', (e) => {
-    console.log('window close');
-    if (quitFlag) {
-      app.quit();
-      win = null;
-    } else {
-      e.preventDefault();
-      win.hide();
-    }
-  });
+  win.on('close', (event) => {
+      if (!quitFlag) {
+        event.preventDefault()
+        if (win.isFullScreen()) {
+          win.once('leave-full-screen', () => win.hide())
+          win.setFullScreen(false)
+        } else {
+          win.hide()
+        }
+      } else {
+
+      }
+    });
 }
 
 // Quit when all windows are closed.

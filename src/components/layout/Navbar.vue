@@ -8,12 +8,12 @@
   >
     <v-list nav dense class="system_nav">
       <v-list-item
-        class="d-flex px-0"
+        class="d-flex px-0 drag-area"
         :class="drawermini ? 'justify-center' : 'justify-end'"
       >
         <download-progress />
-        <reload-btn />
-        <b-f />
+        <reload-btn class="no-drag-area"/>
+        <b-f class="no-drag-area"/>
       </v-list-item>
       <v-list-item
         class="d-flex"
@@ -215,10 +215,15 @@ export default {
     width: 0;
   }
   .system_nav {
-    -webkit-app-region: drag;
     .nav_actions {
       position: absolute;
       right: 0;
+    }
+    .drag-area {
+      -webkit-app-region: drag;
+    }
+    .no-drag-area {
+      -webkit-app-region: no-drag;
     }
   }
   .v-list-item {

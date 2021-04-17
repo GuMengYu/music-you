@@ -8,7 +8,6 @@
     class="app_header"
   >
     <drawer-toggle />
-    <v-spacer />
     <default-input
       v-model="keywords"
       :holder="$t('common.search_type_2')"
@@ -53,12 +52,11 @@ export default {
 </script>
 <style scoped lang="scss">
 .app_header {
-  -webkit-app-region: drag;
   .search_input {
-    max-width: 15vw;
+    max-width: 20vw;
   }
 }
-@media (max-width: 960px) {
+@media (max-width: 600px) {
   .app_header {
     .search_input {
       max-width: initial;

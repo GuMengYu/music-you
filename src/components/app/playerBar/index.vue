@@ -274,7 +274,6 @@ export default {
 }
 .playing-bar {
   backdrop-filter: blur(50px);
-  -webkit-app-region: drag;
   z-index: 10;
   .playing-control {
     width: 100%;
@@ -292,8 +291,6 @@ export default {
           text-decoration: none;
           display: flex;
           align-items: center;
-          span {
-          }
         }
         .song-name {
           max-width: 13vw;

@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     v-model="showSettings"
-    fullscreen
     transition="dialog-top-transition"
+    max-width="600"
   >
     <v-card>
       <v-toolbar>
