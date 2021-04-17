@@ -1,6 +1,5 @@
 <template>
   <v-app class="ip-music">
-    <default-title-bar :showActions="showActions"/>
     <default-header />
     <default-nav-bar class="left_nav" />
     <default-view />
@@ -32,12 +31,9 @@ import DefaultSnackbar from '@components/default/Snackbar';
 import DefaultHeader from '@components/layout/Header';
 import DefaultView from '@components/layout/View';
 import ContextMenu from '@components/default/ContextMenu';
-import DefaultTitleBar from '../components/layout/TitleBar.vue';
-
 
 import { sync } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
-import is from 'electron-is';
 
 export default {
   name: 'Layout',
@@ -52,7 +48,6 @@ export default {
     DefaultLogin,
     DefaultTrackDetail,
     DefaultHeader,
-    DefaultTitleBar,
   },
   data: () => ({
     openNav: true,
@@ -63,9 +58,6 @@ export default {
   computed: {
     showLyricsPage: sync('music/showLyricsPage'),
     showList: sync('music/showList'),
-    showActions() {
-      return is.windows() || is.linux()
-    },
   },
 };
 </script>

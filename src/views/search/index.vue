@@ -10,17 +10,32 @@
         </v-row>
       </custom-col>
       <custom-col v-show="artists.length" title="歌手" more="/search/artist">
-        <cover-list type="artist" :list="artists" />
+        <cover-list>
+          <artists
+            v-for="artist in artists"
+            :key="artist.id"
+            :artists="artist"
+          />
+        </cover-list>
       </custom-col>
       <custom-col v-show="albums.length" title="专辑" more="/search/album">
-        <cover-list :list="albums" />
+        <cover-list>
+          <cover v-for="album in albums" :key="album.id" :data="album" />
+        </cover-list>
       </custom-col>
       <custom-col
         v-show="playlists.length"
         title="歌单"
         more="/search/playlist"
       >
-        <cover-list type="playlist" :list="playlists" />
+        <cover-list>
+          <cover
+            v-for="playlist in playlists"
+            :key="playlist.id"
+            :data="playlist"
+            type="playlist"
+          />
+        </cover-list>
       </custom-col>
       <custom-col v-show="mvs.length" title="视频" more="/search/mv">
         <v-row>
@@ -34,14 +49,18 @@
 </template>
 
 <script>
-import CustomCol from '@components/layout/Col';
 import { search } from '@/api/music';
+import NProgress from 'nprogress';
+
 import CoverList from '@components/app/CoverList';
 import SongBar from '@components/app/SongBar';
 import VideoCover from '@components/app/VideoCover';
 import Page from '@components/layout/Page';
-import NProgress from 'nprogress';
 import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
+import Artists from '@components/app/Artists';
+import Cover from '@components/app/Cover';
+import CustomCol from '@components/layout/Col';
+
 const TypeMap = {
   song: { type: 1, limit: 8 },
   album: { type: 10, limit: 6 },
@@ -58,6 +77,8 @@ export default {
     SongBar,
     CoverList,
     CustomCol,
+    Artists,
+    Cover,
   },
   props: {
     keywords: String,

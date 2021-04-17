@@ -3,11 +3,14 @@
     <custom-col title="recent" subtitle="activity" class="mb-4">
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
-        <v-row>
-          <v-col v-for="track in recent" :key="track.id" cols="3" class="pa-2">
-            <song-bar :song="track" class="track-item" />
-          </v-col>
-        </v-row>
+        <carousel :rows="4" gridStyle="C">
+          <song-bar
+            :song="track"
+            class="track-item"
+            v-for="track in recent"
+            :key="track.id"
+          />
+        </carousel>
       </template>
     </custom-col>
     <v-tabs ref="tabs" v-model="tab" class="mb-4">
@@ -23,8 +26,8 @@
     <v-tabs-items v-model="tab" class="tab_page pt-4">
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" />
-        <v-row>
-          <v-col>
+        <cover-list>
+          <div>
             <v-dialog v-model="newlistDialog" persistent max-width="400px">
               <template v-slot:activator="{ on }">
                 <v-responsive
@@ -64,27 +67,38 @@
               </v-card>
             </v-dialog>
             <div class="text-caption font-weight-bold mt-2">新建歌单</div>
-          </v-col>
-          <v-col v-for="item in playlist" :key="item.id" :cols="2">
-            <cover :data="item" class="item" type="playlist" />
-          </v-col>
-        </v-row>
+          </div>
+          <cover
+            v-for="item in playlist"
+            :data="item"
+            type="playlist"
+            :key="item.id"
+          />
+        </cover-list>
       </v-tab-item>
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" />
-        <cover-list v-else :list="albums" />
+        <cover-list v-else>
+          <div v-for="album in albums" :key="album.id">
+            <cover :data="album" />
+          </div>
+        </cover-list>
       </v-tab-item>
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" type="avatar" />
-        <cover-list v-else :list="artists" type="artist" />
+        <cover-list v-else>
+          <artists-cover
+            v-for="artist in artists"
+            :artists="artist"
+            :key="artist.id"
+          />
+        </cover-list>
       </v-tab-item>
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" type="image" />
-        <v-row v-else>
-          <v-col v-for="mv in mvs" :key="mv.id" cols="3">
-            <video-cover :data="mv" />
-          </v-col>
-        </v-row>
+        <cover-list v-else grid-style="B">
+          <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
+        </cover-list>
       </v-tab-item>
     </v-tabs-items>
   </v-sheet>
@@ -92,24 +106,29 @@
 
 <script>
 import CustomCol from '@components/layout/Col';
-import { sync, get, dispatch } from 'vuex-pathify';
 import CoverList from '@components/app/CoverList';
 import VideoCover from '@components/app/VideoCover';
-import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
-import { getSongData, createPlaylist } from '@/api';
-
+import ArtistsCover from '@components/app/Artists';
 import CoverRowSkeleton from '../components/skeleton/CoverRowSkeleton.vue';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
+import Carousel from '@/components/layout/Carousel.vue';
+
+import { sync, get, dispatch } from 'vuex-pathify';
+import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
+import { getSongData, createPlaylist } from '@/api';
+
 export default {
   name: 'Library',
   components: {
     Cover,
+    ArtistsCover,
     SongBar,
     CoverList,
     VideoCover,
     CustomCol,
     CoverRowSkeleton,
+    Carousel,
   },
   data() {
     return {

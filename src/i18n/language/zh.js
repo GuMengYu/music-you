@@ -24,6 +24,7 @@ export default {
       hot: '热门歌曲',
       albums: '专辑',
       epAndSingle: '单曲与EP',
+      mv: '热门MV',
     },
     discover: {
       featured: '精选推荐',

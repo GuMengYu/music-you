@@ -143,11 +143,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@mixin --grid-rows-gap-columns($rows) {
+@mixin --grid-rows-gap-columns($cols) {
   grid-template-rows: repeat(var(--grid-rows), max-content);
   grid-column-gap: var(--grid-column-gap);
   grid-auto-columns: calc(
-    (100% - #{$rows - 1} * var(--grid-column-gap)) / #{$rows}
+    (100% - #{$cols - 1} * var(--grid-column-gap)) / #{$cols}
   );
 }
 
@@ -258,7 +258,7 @@ export default {
   .shelf-grid-nav {
     .carousel {
       position: absolute;
-      z-index: 2;
+      z-index: 10;
       top: calc(50% - 32px);
     }
     .next-items-btn {

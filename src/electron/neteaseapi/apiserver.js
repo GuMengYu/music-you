@@ -46,55 +46,55 @@ export const createApiServer = () => {
   });
 
   // router
-const special = {
-  'daily_signin.js': '/daily_signin',
-  'fm_trash.js': '/fm_trash',
-  'personal_fm.js': '/personal_fm',
-};
+  // const special = {
+  //   'daily_signin.js': '/daily_signin',
+  //   'fm_trash.js': '/fm_trash',
+  //   'personal_fm.js': '/personal_fm',
+  // };
 
-// todo 
-// const apiModulePath = path.resolve(
-//   require.resolve('NeteaseCloudMusicApi'),
-//   '../module',
-// );
-// fs.readdirSync(apiModulePath)
-//   .reverse()
-//   .forEach((file) => {
-//     if (!file.endsWith('.js')) return;
-//     let route =
-//       file in special
-//         ? special[file]
-//         : '/' + file.replace(/\.js$/i, '').replace(/_/g, '/');
-//     let question = require(`NeteaseCloudMusicApi/module/${file}`);
+  // todo
+  // const apiModulePath = path.resolve(
+  //   require.resolve('NeteaseCloudMusicApi'),
+  //   '../module',
+  // );
+  // fs.readdirSync(apiModulePath)
+  //   .reverse()
+  //   .forEach((file) => {
+  //     if (!file.endsWith('.js')) return;
+  //     let route =
+  //       file in special
+  //         ? special[file]
+  //         : '/' + file.replace(/\.js$/i, '').replace(/_/g, '/');
+  //     let question = require(`NeteaseCloudMusicApi/module/${file}`);
 
-//     app.use(route, (req, res) => {
-//       if (typeof req.query.cookie === 'string') {
-//         req.query.cookie = cookieToJson(req.query.cookie);
-//       }
-//       let query = Object.assign(
-//         {},
-//         { cookie: req.cookies },
-//         req.query,
-//         req.body,
-//         req.files,
-//       );
-//       question(query, request)
-//         .then((answer) => {
-//           console.log('[OK]', decodeURIComponent(req.originalUrl));
-//           res.append('Set-Cookie', answer.cookie);
-//           res.status(answer.status).send(answer.body);
-//         })
-//         .catch((answer) => {
-//           console.log('[ERR]', decodeURIComponent(req.originalUrl), {
-//             status: answer.status,
-//             body: answer.body,
-//           });
-//           if (answer.body.code == '301') answer.body.msg = '需要登录';
-//           res.append('Set-Cookie', answer.cookie);
-//           res.status(answer.status).send(answer.body);
-//         });
-//     });
-//   });
+  //     app.use(route, (req, res) => {
+  //       if (typeof req.query.cookie === 'string') {
+  //         req.query.cookie = cookieToJson(req.query.cookie);
+  //       }
+  //       let query = Object.assign(
+  //         {},
+  //         { cookie: req.cookies },
+  //         req.query,
+  //         req.body,
+  //         req.files,
+  //       );
+  //       question(query, request)
+  //         .then((answer) => {
+  //           console.log('[OK]', decodeURIComponent(req.originalUrl));
+  //           res.append('Set-Cookie', answer.cookie);
+  //           res.status(answer.status).send(answer.body);
+  //         })
+  //         .catch((answer) => {
+  //           console.log('[ERR]', decodeURIComponent(req.originalUrl), {
+  //             status: answer.status,
+  //             body: answer.body,
+  //           });
+  //           if (answer.body.code == '301') answer.body.msg = '需要登录';
+  //           res.append('Set-Cookie', answer.cookie);
+  //           res.status(answer.status).send(answer.body);
+  //         });
+  //     });
+  //   });
   const port = process.env.API_PORT || 12138;
   const host = process.env.HOST || '127.0.0.1';
 

@@ -100,7 +100,7 @@ const playlist_hot = require('NeteaseCloudMusicApi/module/playlist_hot');
 const playlist_mylike = require('NeteaseCloudMusicApi/module/playlist_mylike');
 const playlist_tracks = require('NeteaseCloudMusicApi/module/playlist_tracks');
 const playlist_video_recent = require('NeteaseCloudMusicApi/module/playlist_video_recent');
-
+const playlist_subscribe = require('NeteaseCloudMusicApi/module/playlist_subscribe');
 const program_recommend = require('NeteaseCloudMusicApi/module/program_recommend');
 
 const recommend_resource = require('NeteaseCloudMusicApi/module/recommend_resource');
@@ -198,6 +198,7 @@ module.exports = {
   '/playlist/mylike': generatorFn(playlist_mylike),
   '/playlist/tracks': generatorFn(playlist_tracks),
   '/playlist/video/recent': generatorFn(playlist_video_recent),
+  '/playlist/subscribe': generatorFn(playlist_subscribe),
   '/program/recommend': generatorFn(program_recommend),
   '/recommend/resource': generatorFn(recommend_resource),
   '/recommend/songs': generatorFn(recommend_songs),

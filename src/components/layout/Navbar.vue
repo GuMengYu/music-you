@@ -12,8 +12,8 @@
         :class="drawermini ? 'justify-center' : 'justify-end'"
       >
         <download-progress />
-        <reload-btn class="no-drag-area"/>
-        <b-f class="no-drag-area"/>
+        <reload-btn class="no-drag-area" />
+        <b-f class="no-drag-area" />
       </v-list-item>
       <v-list-item
         class="d-flex"

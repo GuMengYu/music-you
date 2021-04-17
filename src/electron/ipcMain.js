@@ -8,21 +8,21 @@ export const registerIpcMain = (window) => {
       window.maximize();
     }
   });
-  ipcMain.handle('downloadFile', (e, data) => {
-    console.log('start download file', data.url)
+  ipcMain.handle('downloadFile', (_e, data) => {
+    console.log('start download file', data.url);
     downloadFile(data);
   });
-  ipcMain.handle('minimize', (e, data) => {
+  ipcMain.handle('minimize', () => {
     window.minimize();
   });
-  ipcMain.handle('maximize', (e, data) => {
+  ipcMain.handle('maximize', () => {
     if (window.isMaximized()) {
       window.unmaximize();
     } else {
       window.maximize();
     }
   });
-  ipcMain.handle('close', (e, data) => {
+  ipcMain.handle('close', () => {
     window.close();
   });
 };

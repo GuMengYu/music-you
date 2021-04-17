@@ -162,6 +162,10 @@ export const getArtistAlbum = (id) =>
     },
   });
 
+export const getArtistMv = id => 
+xhr.get('/artist/mv', {
+  params: {id},
+})
 /**
  * 标记|取消 喜欢音乐
  * id, like: true/false

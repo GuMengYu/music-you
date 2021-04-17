@@ -3,17 +3,17 @@
     <ul v-if="showActions" class="window-actions">
       <li @click="handleMinimize">
         <v-icon small>
-            {{ mdiWindowMinimize }}
+          {{ mdiWindowMinimize }}
         </v-icon>
       </li>
       <li @click="handleMaximize">
         <v-icon small>
-            {{ mdiWindowMaximize }}
+          {{ mdiWindowMaximize }}
         </v-icon>
       </li>
       <li @click="handleClose" class="win-close-btn">
         <v-icon small>
-            {{ mdiWindowClose }}
+          {{ mdiWindowClose }}
         </v-icon>
       </li>
     </ul>
@@ -21,36 +21,36 @@
 </template>
 
 <script>
-import { mdiWindowClose, mdiWindowMinimize, mdiWindowMaximize } from '@mdi/js'
+import { mdiWindowClose, mdiWindowMinimize, mdiWindowMaximize } from '@mdi/js';
 
 export default {
-name: 'TitleBar',
-props: {
+  name: 'TitleBar',
+  props: {
     showActions: {
-        type: Boolean,
+      type: Boolean,
     },
-},
-data: () => ({
+  },
+  data: () => ({
     mdiWindowClose,
     mdiWindowMinimize,
     mdiWindowMaximize,
-}),
-computed: {
-    win () {
-        return this.$electron.remote.getCurrentWindow();
+  }),
+  computed: {
+    win() {
+      return this.$electron.remote.getCurrentWindow();
     },
-},
-methods: {
-    handleMinimize () {
-        this.$ipcRenderer.invoke('minimize');
+  },
+  methods: {
+    handleMinimize() {
+      this.$ipcRenderer.invoke('minimize');
     },
-    handleMaximize () {
-        this.$ipcRenderer.invoke('maximize');
+    handleMaximize() {
+      this.$ipcRenderer.invoke('maximize');
     },
-    handleClose () {
-        this.$ipcRenderer.invoke('close');
+    handleClose() {
+      this.$ipcRenderer.invoke('close');
     },
-},
+  },
 };
 </script>
 
@@ -62,7 +62,7 @@ methods: {
   height: 36px;
   z-index: 10;
   .window-actions {
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -77,12 +77,12 @@ methods: {
         background-color: var(--v-neumorphism-base);
       }
       &.win-close-btn {
-          &:hover {
-              background-color: #fd0007;
-              .v-icon {
-              color: #fff;
-            }
+        &:hover {
+          background-color: #fd0007;
+          .v-icon {
+            color: #fff;
           }
+        }
       }
     }
   }

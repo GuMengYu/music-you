@@ -17,56 +17,15 @@
       </div>
     </div>
     <v-row>
-      <v-col lg="3">
-        <div class="item-title my-3">
-          <span class="font-weight-bold text-h6">{{
-            $t('main.artist.latest')
-          }}</span>
-        </div>
-        <Cover :data="latest" style="max-width: 200px" />
-      </v-col>
-      <v-col lg="9">
-        <div class="item-title d-flex justify-space-between my-3 ml-4">
+      <v-col>
+        <div class="item-title d-flex justify-space-between my-3">
           <span class="font-weight-bold text-h6">{{
             $t('main.artist.hot')
           }}</span>
-          <v-btn
-            v-show="hotSongs.length > 6"
-            text
-            plain
-            small
-            color="primary"
-            @click="showMoreSong = showMoreSong === void 0 ? 0 : void 0"
-          >
-            {{ $t('common.more') }}
-          </v-btn>
         </div>
-        <v-expansion-panels v-model="showMoreSong" tile flat readonly>
-          <v-expansion-panel>
-            <v-expansion-panel-header class="pa-0">
-              <v-row>
-                <v-col
-                  v-for="track in hotSongs.slice(0, 9)"
-                  :key="track.id"
-                  cols="4"
-                >
-                  <song-bar :song="track" class="track-item" />
-                </v-col>
-              </v-row>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col
-                  v-for="track in hotSongs.slice(9, hotSongs.length)"
-                  :key="track.id"
-                  cols="4"
-                >
-                  <song-bar :song="track" class="track-item" />
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
+        <carousel :rows="4" grid-style="C">
+          <song-bar v-for="track in hotSongs" :key="track.id" :song="track" class="track-item" />
+        </carousel>
       </v-col>
     </v-row>
     <v-row>
@@ -89,10 +48,22 @@
         <v-expansion-panels v-model="showMoreAlbum" tile flat readonly>
           <v-expansion-panel>
             <v-expansion-panel-header>
-              <CoverList :list="albums.slice(0, 6)" />
+              <cover-list type="playlist">
+                <cover
+                  v-for="item in albums.slice(0, 6)"
+                  :key="item.id"
+                  :data="item"
+                />
+              </cover-list>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <CoverList :list="albums.slice(5, albums.length)" />
+              <cover-list type="playlist">
+                <cover
+                  v-for="item in albums.slice(6, albums.length)"
+                  :key="item.id"
+                  :data="item"
+                />
+              </cover-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -118,10 +89,63 @@
         <v-expansion-panels v-model="showMoreEps" tile flat readonly>
           <v-expansion-panel>
             <v-expansion-panel-header>
-              <CoverList :list="epAndSingle.slice(0, 6)" />
+              <cover-list type="playlist">
+                <cover
+                  v-for="item in epAndSingle.slice(0, 6)"
+                  :key="item.id"
+                  :data="item"
+                />
+              </cover-list>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <CoverList :list="epAndSingle.slice(6, epAndSingle.length)" />
+              <cover-list type="playlist">
+                <cover
+                  v-for="item in epAndSingle.slice(6)"
+                  :key="item.id"
+                  :data="item"
+                />
+              </cover-list>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+     <v-row>
+      <v-col>
+        <div class="item-title d-flex justify-space-between">
+          <span class="font-weight-bold text-h6">{{
+            $t('main.artist.mv')
+          }}</span>
+          <v-btn
+            v-show="mvs.length > 5"
+            text
+            plain
+            small
+            color="primary"
+            @click="showMoreMVs = showMoreMVs === void 0 ? 0 : void 0"
+          >
+            {{ $t('common.more') }}
+          </v-btn>
+        </div>
+        <v-expansion-panels v-model="showMoreMVs" tile flat readonly>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <cover-list type="playlist">
+                <video-cover
+                  v-for="mv in mvs.slice(0, 6)"
+                  :key="mv.id"
+                  :data="mv"
+                />
+              </cover-list>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <cover-list type="playlist">
+                <video-cover
+                  v-for="mv in mvs.slice(6)"
+                  :key="mv.id"
+                  :data="mv"
+                />
+              </cover-list>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -130,13 +154,16 @@
   </v-sheet>
 </template>
 <script>
-import { getArtist, getArtistAlbum } from '@/api';
+import { getArtist, getArtistAlbum, getArtistMv } from '@/api';
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
+import { dispatch } from 'vuex-pathify';
+
 import Cover from '@components/app/Cover';
 import SongBar from '@components/app/SongBar';
 import CoverList from '@components/app/CoverList';
-import { dispatch } from 'vuex-pathify';
 import DefaultFab from '@components/default/Fab';
+import VideoCover from '@components/app/VideoCover';
+import Carousel from '@components/layout/Carousel';
 
 export default {
   components: {
@@ -144,6 +171,8 @@ export default {
     CoverList,
     Cover,
     SongBar,
+    VideoCover,
+    Carousel,
   },
   props: {
     id: {
@@ -160,9 +189,11 @@ export default {
       },
       hotSongs: [],
       hotAlbums: [],
+      mvs: [],
       showMoreSong: void 0,
       showMoreAlbum: void 0,
       showMoreEps: void 0,
+      showMoreMVs: void 0,
       playLoading: false,
       menu: [
         {
@@ -201,13 +232,15 @@ export default {
   },
   methods: {
     async load() {
-      const [artist, album] = await Promise.all([
+      const [artist, album, mv] = await Promise.all([
         getArtist(this.id),
         getArtistAlbum(this.id),
+        getArtistMv(this.id),
       ]);
       this.artist = artist.artist;
       this.hotSongs = artist.hotSongs;
       this.hotAlbums = album.hotAlbums;
+      this.mvs = mv.mvs;
     },
     async play() {
       this.playLoading = true;

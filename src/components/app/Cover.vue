@@ -7,23 +7,17 @@
         rounded="lg"
         class="d-flex align-end justify-end cover-card"
         elevation="0"
-        :class="{ 'cover-hover': hover }"
         :to="to"
         @contextmenu.prevent="openMenu"
       >
         <v-img
           :src="coverBgUrl"
+          aspect-ratio="1"
           class="cover-img"
           lazy-src="@/assets/default-cover.png"
         />
-        <div
-          v-show="hover || showShadow"
-          class="cover-shadow"
-          :style="`background-image: url('${coverBgUrl}')`"
-        />
-
         <v-fade-transition>
-          <v-overlay :value="hover" absolute opacity="0">
+          <v-overlay :value="hover" absolute>
             <v-card-actions class="cover-actions">
               <v-progress-circular
                 :indeterminate="loading"
@@ -179,10 +173,6 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .cover-container {
-  .cover-hover {
-    transition: 0.3s all ease-in-out;
-    transform: translateY(-1%) scale(1.012);
-  }
   .title {
     text-decoration: none;
     &:hover {
@@ -198,7 +188,7 @@ export default {
       }
       .cover-btn:hover {
         background: var(--v-primary-base);
-        transform: scale(0.85);
+        transform: scale(1.1);
         transition: 0.3s all ease-in-out;
       }
     }
@@ -209,18 +199,6 @@ export default {
     ::v-deep .v-overlay__content {
       flex: 1;
       align-self: flex-end;
-    }
-    .cover-shadow {
-      position: absolute;
-      z-index: 0;
-      height: 100%;
-      width: 100%;
-      top: 15%;
-      //box-shadow: 0 10px 30px 0 rgba(76, 70, 124, 0.5);
-      //border-radius: 20px;
-      filter: blur(15px);
-      transform: scale(0.8);
-      background-size: cover;
     }
   }
 }

@@ -6,7 +6,7 @@ import { app, protocol, BrowserWindow } from 'electron';
 import is from 'electron-is';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { createElectronMenu } from './menu';
-import { createTray} from './tray';
+import { createTray } from './tray';
 import { createApiServer } from './neteaseapi/apiserver';
 import { registerIpcMain } from './ipcMain';
 import WindowManager from './windowManager';
@@ -47,9 +47,9 @@ app.on('ready', async () => {
     }
   }
   createApiServer();
-  !is.production() && createProxyServer();
+  is.production() && createProxyServer();
   windowManager = new WindowManager();
-  windowManager.openWindow()
+  windowManager.openWindow();
   createElectronMenu(windowManager.window);
   createTray(windowManager.window);
   registerIpcMain(windowManager.window);
@@ -92,4 +92,4 @@ function createProxyServer() {
 
 export const getWin = () => {
   return windowManager.window;
-}
+};
