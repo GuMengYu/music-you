@@ -14,9 +14,6 @@
             {{ video.data.playCount }} Views ·
             {{ video.data.publishTime }}
           </div>
-          <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
-            <font-awesome-icon icon="heart" />
-          </div>
         </div>
       </div>
     </custom-col>

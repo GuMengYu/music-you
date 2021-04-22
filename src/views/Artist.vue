@@ -6,7 +6,7 @@
       </v-avatar>
       <div class="artist-desc d-flex align-center mt-10 mb-2">
         <default-fab @fab-click="play" class="mr-2" :loading="playLoading">
-          <font-awesome-icon icon="play" />
+          <v-icon v-text="icon.mdiPlay" />
         </default-fab>
         <span class="text-h5 font-weight-bold flex-grow-1">
           {{ artist.name }}
@@ -24,7 +24,12 @@
           }}</span>
         </div>
         <carousel :rows="4" grid-style="C">
-          <song-bar v-for="track in hotSongs" :key="track.id" :song="track" class="track-item" />
+          <song-bar
+            v-for="track in hotSongs"
+            :key="track.id"
+            :song="track"
+            class="track-item"
+          />
         </carousel>
       </v-col>
     </v-row>
@@ -110,7 +115,7 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-     <v-row>
+    <v-row>
       <v-col>
         <div class="item-title d-flex justify-space-between">
           <span class="font-weight-bold text-h6">{{

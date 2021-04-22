@@ -53,8 +53,8 @@ npm run electron:build
 ![歌手](doc/artist.png)
 ![播放](doc/nextup.png)
 ![lyric](doc/lyric.png)
-![mv](doc/mv.png)
-
+![mv][mv]
+[mv]: doc/mv.png
 
 ### 📄 License
 [MIT](/LICENSE)

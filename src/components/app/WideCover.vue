@@ -32,7 +32,7 @@
           class="now-playing text-caption font-weight-bold mr-2"
           @click="play"
         >
-          <font-awesome-icon icon="play" class="mx-2" />
+          <v-icon v-text="icon.mdiPlay" />
           {{ $t('main.now_playing') }}
         </v-btn>
         <v-btn

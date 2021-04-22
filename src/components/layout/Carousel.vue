@@ -30,7 +30,7 @@
       <div class="shelf-grid-body">
         <ul
           ref="coverCardList"
-          class="shelf-grid__list pl-0"
+          class="shelf-grid__list px-0 py-1"
           :style="`--grid-rows: ${rows}; --grid-column-gap: 20px;`"
           v-scroll.self="onScroll"
         >
@@ -173,7 +173,7 @@ export default {
       @include --grid-rows-gap-columns(2);
     }
     [data-grid='C'] & {
-      @include --grid-rows-gap-columns(2);
+      @include --grid-rows-gap-columns(1);
     }
     [data-grid='B'] & {
       @include --grid-rows-gap-columns(3);
@@ -188,7 +188,7 @@ export default {
       @include --grid-rows-gap-columns(3);
     }
     [data-grid='C'] & {
-      @include --grid-rows-gap-columns(3);
+      @include --grid-rows-gap-columns(2);
     }
     [data-grid='B'] & {
       @include --grid-rows-gap-columns(4);
@@ -198,27 +198,12 @@ export default {
     }
   }
   // lg
-  @media (min-width: 1264px) and (max-width: 1903px) {
+  @media (min-width: 1264px) and (max-width: 1904px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(4);
     }
     [data-grid='C'] & {
-      @include --grid-rows-gap-columns(4);
-    }
-    [data-grid='B'] & {
-      @include --grid-rows-gap-columns(5);
-    }
-    [data-grid='1-1-2-3'] & {
-      @include --grid-rows-gap-columns(2);
-    }
-  }
-  // lg
-  @media (min-width: 1264px) and (max-width: 1903px) {
-    [data-grid='A'] & {
-      @include --grid-rows-gap-columns(4);
-    }
-    [data-grid='C'] & {
-      @include --grid-rows-gap-columns(4);
+      @include --grid-rows-gap-columns(3);
     }
     [data-grid='B'] & {
       @include --grid-rows-gap-columns(5);
@@ -228,15 +213,15 @@ export default {
     }
   }
   // xl
-  @media screen and (min-width: 1940px) {
+  @media screen and (min-width: 1905px) {
     [data-grid='A'] & {
-      @include --grid-rows-gap-columns(4);
+      @include --grid-rows-gap-columns(5);
     }
     [data-grid='B'] & {
       @include --grid-rows-gap-columns(6);
     }
     [data-grid='C'] & {
-      @include --grid-rows-gap-columns(5);
+      @include --grid-rows-gap-columns(4);
     }
     [data-grid='1-1-2-3'] & {
       @include --grid-rows-gap-columns(3);

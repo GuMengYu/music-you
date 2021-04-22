@@ -2,7 +2,7 @@
   <div>
     <div v-if="logged">
       <app-menu :items="items" transition="slide-y-transition">
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ on, attrs }">
           <v-avatar v-bind="attrs" size="30" v-on="on">
             <v-img :src="profile.avatarUrl" />
           </v-avatar>

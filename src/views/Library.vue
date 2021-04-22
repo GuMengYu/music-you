@@ -37,7 +37,7 @@
                   v-on="on"
                 >
                   <v-btn icon v-on="on">
-                    <font-awesome-icon icon="plus" size="lg" />
+                    <v-icon v-text="icon.mdiPlus" large />
                   </v-btn>
                 </v-responsive>
               </template>
@@ -117,6 +117,7 @@ import Carousel from '@/components/layout/Carousel.vue';
 import { sync, get, dispatch } from 'vuex-pathify';
 import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
 import { getSongData, createPlaylist } from '@/api';
+import { mdiPlus } from '@mdi/js';
 
 export default {
   name: 'Library',
@@ -132,6 +133,7 @@ export default {
   },
   data() {
     return {
+      icon: { mdiPlus },
       tabs: [
         { key: 'playlists', name: this.$t('main.playlists') },
         { key: 'albums', name: this.$t('main.albums') },

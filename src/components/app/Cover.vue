@@ -6,7 +6,6 @@
         hover
         rounded="lg"
         class="d-flex align-end justify-end cover-card"
-        elevation="0"
         :to="to"
         @contextmenu.prevent="openMenu"
       >
@@ -32,7 +31,7 @@
                   :class="{ 'hover-btn': hover }"
                   @click.prevent="play"
                 >
-                  <font-awesome-icon icon="play" />
+                  <v-icon v-text="icon.mdiPlay" />
                 </v-btn>
               </v-progress-circular>
               <v-btn

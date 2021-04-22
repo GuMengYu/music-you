@@ -10,7 +10,7 @@
         </div>
         <div>
           <default-fab @fab-click="play" :loading="loading">
-            <font-awesome-icon icon="play" class="mx-2" size="lg" />
+            <v-icon v-text="icon.mdiPlay" large />
           </default-fab>
         </div>
       </div>
@@ -20,7 +20,7 @@
       two-line
       class="daily-song overflow-y-auto pa-0"
     >
-      <template #item="{ index, item }">
+      <template #item="{ item }">
         <SongBar :song="item" />
       </template>
     </default-list>

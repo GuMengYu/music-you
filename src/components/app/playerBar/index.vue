@@ -67,9 +67,10 @@
           </div>
           <v-spacer />
           <v-btn icon text @click="likeSong">
-            <div :style="`${liked ? 'color: var(--v-primary-base)' : ''}`">
-              <font-awesome-icon icon="heart" />
-            </div>
+            <v-icon
+              v-text="icon.mdiHeart"
+              :color="liked ? 'color: var(--v-primary-base)' : ''"
+            />
           </v-btn>
         </div>
         <div class="playing-bar__center">

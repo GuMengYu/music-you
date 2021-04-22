@@ -1,6 +1,41 @@
 const path = require('path');
 module.exports = {
   transpileDependencies: ['vuetify'],
+  chainWebpack: (config) => {
+    const IS_PROD = process.env.NODE_ENV === 'production';
+    config.entry('app').clear().add('./src/main.js').end();
+    config.optimization.splitChunks({
+      chunks: 'all',
+      maxAsyncRequests: 20,
+      maxInitialRequests: 5,
+      minSize: 30000,
+      cacheGroups: {
+        libs: {
+          name: 'chunk-vender-libs',
+          test: /[\\/]node_modules[\\/]/,
+          priority: 10,
+          chunks: 'initial', // only package third parties that are initially dependent
+        },
+        vuetify: {
+          name: 'chunk-vuetify-lib',
+          test: /[\\/]vuetify[\\/]lib[\\/]/,
+          priority: 20,
+        },
+      },
+    });
+    config.optimization
+      .removeAvailableModules(IS_PROD)
+      .removeEmptyChunks(IS_PROD);
+    config.optimization
+      .minimize(IS_PROD)
+      .minimizer('css')
+      .use(require('terser-webpack-plugin'))
+      .use(require('optimize-css-assets-webpack-plugin'), [
+        {
+          cssProcessorOptions: { safe: true },
+        },
+      ]);
+  },
   configureWebpack: {
     devtool: 'source-map',
     devServer: {
@@ -13,6 +48,9 @@ module.exports = {
         '@assets': path.resolve(__dirname, 'src/assets'),
       },
     },
+  },
+  devServer: {
+    port: process.env.SERVER_PORT,
   },
   pluginOptions: {
     electronBuilder: {

@@ -12,8 +12,7 @@
 import { newAlbums } from '@/api';
 import CoverList from '@components/app/CoverList';
 import Page from '@components/layout/Page';
-import Cover from '../../components/app/Cover.vue';
-
+import Cover from '@components/app/Cover';
 export default {
   name: 'NewReleasesAlbums',
   components: {

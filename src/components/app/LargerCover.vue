@@ -2,7 +2,6 @@
   <v-hover v-slot="{ hover }">
     <v-card
       dark
-      elevation="0"
       class="d-flex justify-lg-space-between flex-column rounded-lg cover"
       :img="coverImgUrl"
       :class="{ 'cover-hover': hover }"
@@ -27,7 +26,7 @@
                   :class="{ 'hover-btn': hover }"
                   @click="play"
                 >
-                  <font-awesome-icon icon="play" />
+                  <v-icon>{{ mdiPlay }}</v-icon>
                 </v-btn>
               </v-progress-circular>
 
@@ -57,7 +56,7 @@
                   :class="{ 'hover-btn': hover }"
                   @click="play"
                 >
-                  <font-awesome-icon size="lg" icon="play" />
+                  <v-icon large>{{ mdiPlay }}</v-icon>
                 </v-btn>
               </v-progress-circular>
             </v-card-actions>
@@ -74,7 +73,7 @@
 </template>
 
 <script>
-import { mdiDotsHorizontal } from '@mdi/js';
+import { mdiDotsHorizontal, mdiPlay } from '@mdi/js';
 import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
 import { dispatch } from 'vuex-pathify';
 import { sizeOfImage } from '@util/fn';
@@ -92,6 +91,7 @@ export default {
   },
   data: () => ({
     mdiDotsHorizontal,
+    mdiPlay,
     loading: false,
   }),
   computed: {
@@ -169,6 +169,7 @@ export default {
     backdrop-filter: blur(5px);
   }
   .cover-btn:hover {
+    transform: scale(1.1);
     background: var(--v-primary-base);
     transition: 0.3s all ease-in-out;
   }

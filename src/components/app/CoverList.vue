@@ -23,50 +23,42 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   @media (max-width: 599px) {
     &[data-grid='A'] {
-      @include --columns(2)
+      @include --columns(2);
     }
     &[data-grid='B'] {
-      @include --columns(1)
+      @include --columns(1);
     }
   }
   @media (min-width: 600px) and (max-width: 959px) {
     &[data-grid='A'] {
-      @include --columns(3)
+      @include --columns(3);
     }
     &[data-grid='B'] {
-      @include --columns(2)
+      @include --columns(2);
     }
   }
   @media (min-width: 960px) and (max-width: 1263px) {
     &[data-grid='A'] {
-      @include --columns(4)
+      @include --columns(4);
     }
     &[data-grid='B'] {
-      @include --columns(3)
+      @include --columns(3);
     }
   }
-  @media (min-width: 1264px) and (max-width: 1903px) {
+  @media (min-width: 1264px) and (max-width: 1939px) {
     &[data-grid='A'] {
-      @include --columns(5)
+      @include --columns(5);
     }
     &[data-grid='B'] {
-      @include --columns(4)
-    }
-  }
-  @media (min-width: 1264px) and (max-width: 1903px) {
-    &[data-grid='A'] {
-      @include --columns(6)
-    }
-    &[data-grid='B'] {
-      @include --columns(4)
+      @include --columns(4);
     }
   }
   @media screen and (min-width: 1940px) {
     &[data-grid='A'] {
-      @include --columns(7)
+      @include --columns(6);
     }
     &[data-grid='B'] {
-      @include --columns(6)
+      @include --columns(5);
     }
   }
   ::v-deep .cover-container {

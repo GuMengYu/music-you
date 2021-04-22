@@ -10,7 +10,7 @@
       <v-card class="mr-4">
         <v-overlay :value="hover" absolute>
           <v-btn icon @click="play">
-            <font-awesome-icon icon="play" />
+            <v-icon v-text="mdiPlay" />
           </v-btn>
         </v-overlay>
         <v-img

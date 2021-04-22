@@ -1,7 +1,7 @@
 <template>
-  <v-sheet class="frame" dark>
+  <v-sheet class="frame">
     <div class="frame-header mt-6" @click="close" />
-    <v-row class="frame-content d-flex align-center">
+    <v-row class="frame-content d-flex align-center" no-gutters>
       <v-col class="frame-content-left d-flex justify-center align-center">
         <div class="left-container">
           <v-card class="rounded-lg album-cover">
@@ -64,21 +64,23 @@
           </div>
         </div>
       </v-col>
-      <v-col v-if="enableLyric" class="frame-content-right">
-        <div ref="lyricContainer" class="frame-lyrics">
+      <v-col v-if="enableLyric" class="frame-content-right px-4">
+        <v-list ref="lyricContainer" class="frame-lyrics" nav>
           <div class="first"></div>
-          <div
+          <v-list-item
             v-for="(item, index) in lyric"
             :key="index"
             :aria-time="item.time"
             :aria-index="index"
             :class="{ active: index === activeIdx }"
+            class="py-2"
             v-html="item.sentence"
+            @click="jump(item.time)"
           >
             {{ item.sentence }}
-          </div>
+          </v-list-item>
           <div class="last mb-10"></div>
-        </div>
+        </v-list>
       </v-col>
     </v-row>
     <div class="frame-bg" v-if="showLyricsPage && dynamicBg">
@@ -200,11 +202,15 @@ export default {
             const newY = activeEl.offsetTop - activeEl.clientHeight * 2;
             const offset = await this.$vuetify.goTo(newY, {
               container,
+              duration: 1000,
             });
             console.log('scroll to ' + offset);
           }
         }
       });
+    },
+    jump(time) {
+      this.currentTime = time;
     },
     close() {
       this.$emit('close');
@@ -225,6 +231,7 @@ export default {
   overflow: hidden;
   position: relative;
   .frame-header {
+    -webkit-app-region: no-drag;
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -264,9 +271,8 @@ export default {
         z-index: 1;
         font-size: 1.7rem;
         overflow-y: auto;
-        font-weight: bold;
         .active {
-          font-size: 2.2rem;
+          font-weight: 700;
         }
         .first {
           margin-top: 50%;
@@ -274,14 +280,13 @@ export default {
         .last {
           margin-bottom: 50%;
         }
-        & > div {
-          & + div {
-            transition: all 0.25s;
-            margin-top: 0.8em;
-          }
+        & > .v-list-item {
+          transition: all 0.25s;
         }
-        & > div:not(.active) {
-          filter: blur(0.7px) brightness(0.8);
+        & > .v-list-item {
+          &:not(.active) {
+            filter: blur(1px) brightness(0.8);
+          }
         }
       }
     }

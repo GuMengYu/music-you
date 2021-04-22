@@ -6,7 +6,7 @@
       </v-icon>
     </v-btn>
     <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
-      <font-awesome-icon icon="backward" />
+      <v-icon small>{{ icon.mdiSkipBackward }}</v-icon>
     </v-btn>
     <v-fab-transition origin="center center">
       <v-btn
@@ -16,13 +16,13 @@
         elevation="0"
         @click="playPause"
       >
-        <div :style="`color: ${playingState.color};`">
-          <font-awesome-icon :icon="playingState.icon" size="lg" />
-        </div>
+        <v-icon large :color="playingState.color">
+          {{ playingState.icon }}
+        </v-icon>
       </v-btn>
     </v-fab-transition>
     <v-btn class="mx-2" icon @click="playNext">
-      <font-awesome-icon icon="forward" />
+      <v-icon small>{{ icon.mdiSkipForward }}</v-icon>
     </v-btn>
     <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playOrder">
       <v-icon small>
@@ -35,7 +35,15 @@
 <script>
 import { commit, dispatch, get, sync } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
-import { mdiRepeat, mdiRepeatOff, mdiRepeatOnce } from '@mdi/js';
+import {
+  mdiRepeat,
+  mdiRepeatOff,
+  mdiRepeatOnce,
+  mdiSkipBackward,
+  mdiSkipForward,
+  mdiPause,
+  mdiPlay,
+} from '@mdi/js';
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -44,6 +52,14 @@ const PLAY_MODE = {
 };
 export default {
   name: 'Control',
+  data() {
+    return {
+      icon: {
+        mdiSkipBackward,
+        mdiSkipForward,
+      },
+    };
+  },
   computed: {
     playing: get('music/playing'),
     mode: sync('music/mode'),
@@ -62,8 +78,8 @@ export default {
     },
     playingState() {
       return this.playing
-        ? { color: 'var(--v-accent-base)', icon: 'pause' }
-        : { color: 'var(--v-primary-base)', icon: 'play' };
+        ? { color: 'var(--v-accent-base)', icon: mdiPause }
+        : { color: 'var(--v-primary-base)', icon: mdiPlay };
     },
   },
   methods: {

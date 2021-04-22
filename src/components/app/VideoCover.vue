@@ -1,5 +1,5 @@
 <template>
-  <div class="cover-container" @contextmenu="openMenu">
+  <div class="cover-container" @contextmenu.prevent="openMenu">
     <v-hover v-slot="{ hover }">
       <v-card
         v-ripple
@@ -27,7 +27,7 @@
                 :class="{ 'hover-btn': hover }"
                 @click="play"
               >
-                <font-awesome-icon icon="play" />
+                <v-icon>{{ icon.mdiPlay }}</v-icon>
               </v-btn>
             </v-card-actions>
           </v-overlay>
@@ -100,7 +100,10 @@ export default {
     },
     coverBgUrl() {
       return sizeOfImage(
-        this.data.picUrl ?? this.data.cover ?? this.data.coverUrl ?? this.data.imgurl16v9, 256,
+        this.data.picUrl ??
+          this.data.cover ??
+          this.data.coverUrl ??
+          this.data.imgurl16v9,
       );
     },
     count() {

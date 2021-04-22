@@ -1,9 +1,6 @@
 <template>
-  <v-card
-    elevation="0"
-    class="d-flex justify-lg-space-between flex-column rounded-lg fm"
-  >
-    <v-img :src="albumCoverImgUrl" :aspect-ratio="1" class="cover-wrapper">
+  <v-card class="d-flex justify-lg-space-between flex-column rounded-lg fm">
+    <v-responsive :aspect-ratio="1" class="cover-wrapper">
       <div
         style="width: 100%; height: 100%"
         class="d-flex justify-center align-center flex-column"
@@ -28,11 +25,11 @@
           </span>
         </div>
       </div>
-    </v-img>
+    </v-responsive>
     <div class="fm-action d-flex align-center justify-center">
       <v-btn icon text class="mx-2" @click="trash">
         <div>
-          <font-awesome-icon icon="thumbs-down" />
+          <v-icon v-text="icon.mdiThumbDown" />
         </div>
       </v-btn>
       <v-fab-transition origin="center center">
@@ -45,13 +42,15 @@
           class="mx-2"
           @click="play"
         >
-          <div :style="`color: ${playingState.color};`">
-            <font-awesome-icon :icon="playingState.icon" size="lg" />
-          </div>
+          <v-icon
+            v-text="playingState.icon"
+            :color="playingState.color"
+            large
+          />
         </v-btn>
       </v-fab-transition>
       <v-btn icon class="mx-2" @click="next">
-        <font-awesome-icon icon="forward" />
+        <v-icon v-text="icon.mdiSkipForward" />
       </v-btn>
     </div>
   </v-card>
@@ -61,10 +60,18 @@ import { get, sync, dispatch, commit } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
 import { fmToTrash } from '@/api';
 import { sizeOfImage } from '@/util/fn';
+import { mdiThumbDown, mdiPlay, mdiSkipForward, mdiPause } from '@mdi/js';
 
 export default {
   name: 'FM',
-  data: () => ({}),
+  data: () => ({
+    icon: {
+      mdiThumbDown,
+      mdiPlay,
+      mdiSkipForward,
+      mdiPause,
+    },
+  }),
   computed: {
     fmTrack: get('music/fmTrack'),
     track: get('music/track'),
@@ -75,8 +82,8 @@ export default {
     },
     playingState() {
       return this.fmPlaying
-        ? { color: 'var(--v-accent-base)', icon: 'pause' }
-        : { color: 'var(--v-primary-base)', icon: 'play' };
+        ? { color: 'var(--v-accent-base)', icon: mdiPause }
+        : { color: 'var(--v-primary-base)', icon: mdiPlay };
     },
     currentTime: get('music/currentTime'),
     progress() {
