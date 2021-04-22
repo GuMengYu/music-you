@@ -57,7 +57,7 @@
             <font-awesome-icon icon="play" class="mx-2" />
             播放
           </v-btn>
-          <v-btn icon color="#F44336" class="list-delete-button">
+          <v-btn icon color="#F44336" class="list-delete-button" @click="openMenu">
             <v-icon>
               {{ icon.mdiDotsHorizontal }}
             </v-icon>
@@ -68,7 +68,7 @@
     <v-row>
       <v-col>
         <default-list :items="list.tracks" two-line>
-          <template #item="{ index, item }">
+          <template #item="{ item }">
             <SongBar :song="item" />
           </template>
         </default-list>
@@ -114,6 +114,19 @@ export default {
   },
   computed: {
     service: (vm) => (vm.type === 'album' ? getAlbum : getPlayList),
+    menu() {
+      return [
+        {
+          title: '收藏',
+          action: 'sub',
+          metadata: { type: this.type, action: 'sub', id: this.id },
+        },
+        {
+          title: '播放',
+          metadata: { cb: this.play },
+        },
+      ];
+    },
   },
   watch: {
     id() {
@@ -141,6 +154,10 @@ export default {
         list: this.list.tracks,
         autoplay: true,
       });
+    },
+    openMenu(e) {
+      const { clientX: x, clientY: y } = e;
+      dispatch('contextmenu/show', { x, y, items: this.menu });
     },
   },
 };

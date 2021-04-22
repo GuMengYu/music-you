@@ -199,12 +199,12 @@ export default {
         {
           title: '收藏歌手',
           action: 'sub',
-          metadata: { type: 'artist', id: this.id },
+          metadata: { type: 'artist', action: 'sub', id: this.id },
         },
         {
           title: '播放热门歌曲',
           action: 'play',
-          metadata: { type: 'artist', id: this.id, cb: this.play },
+          metadata: { cb: this.play },
         },
       ],
     };

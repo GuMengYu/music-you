@@ -70,8 +70,10 @@
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import { getPlayList, getAlbum, getArtist } from '@/api';
 import { getList } from '@/api/music';
-import { sizeOfImage } from '@util/fn';
+import { sizeOfImage, isElectron } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
+import { download } from '@util/download';
+
 export default {
   name: 'Cover',
   props: {
@@ -141,6 +143,11 @@ export default {
         { title: '播放', action: 'play', metadata },
         { title: '收藏', action: 'sub', metadata },
         { title: '下一首播放', action: 'next', metadata },
+        {
+          title: '保存封面',
+          action: 'save_cover',
+          metadata: { cb: this.saveCover },
+        },
       ];
       const goto = {
         playlist: '查看歌单',
@@ -165,6 +172,15 @@ export default {
     openMenu(e) {
       const { clientX: x, clientY: y } = e;
       dispatch('contextmenu/show', { x, y, items: this.menuItems });
+    },
+    saveCover() {
+      let url = this.data.picUrl ?? this.data.coverImgUrl;
+      let fileName = url.slice(url.lastIndexOf('/'));
+      if (isElectron()) {
+        this.$ipcRenderer.invoke('downloadFile', { url, fileName });
+      } else {
+        download(url);
+      }
     },
   },
 };

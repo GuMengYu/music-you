@@ -5,6 +5,7 @@
     close-delay="100"
     content-class="rounded"
     max-height="500"
+    min-width="120"
     open-delay="60"
     :position-x="coordinate[0]"
     :position-y="coordinate[1]"
