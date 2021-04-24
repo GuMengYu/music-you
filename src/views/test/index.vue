@@ -5,7 +5,7 @@
         <cover :data="data" />
       </carousel-item>
     </carousel>
-    <v-btn @click="show"> show toast </v-btn>
+    <v-btn @click="show" v-permission="'test_edit'"> show toast </v-btn>
   </div>
 </template>
 

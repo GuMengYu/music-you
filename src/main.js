@@ -1,14 +1,16 @@
 import Vue from 'vue';
 
-import { createRouter } from '@/router';
-import { createStore } from '@/store';
-import { createVuetify } from '@/vuetify';
-import { createI18n } from '@/i18n';
+import { createRouter } from './router';
+import { createStore } from './store';
+import { createVuetify } from './vuetify';
+import { createI18n } from './i18n';
 
-import { createSnackbar } from '@/plugins/snackbar';
+import { createSnackbar } from './plugins/snackbar';
 
-import plugins from '@/plugins';
-import filters from '@/filters';
+import plugins from './plugins';
+import filters from './filters';
+import * as directives from './directives';
+
 import '@/scss/global.scss';
 import '@/mock/index';
 
@@ -22,7 +24,9 @@ Object.entries(filters).map(([key, fn]) => {
   Vue.filter(key, fn);
 });
 Vue.use(plugins);
-
+Object.entries(directives).map(([id, definition]) => {
+  Vue.directive(id, definition);
+});
 const store = createStore();
 const vuetify = createVuetify(store);
 const i18n = createI18n(store);
