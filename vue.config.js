@@ -39,7 +39,14 @@ module.exports = {
   configureWebpack: {
     devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
     devServer: {
-      port: process.env.SERVER_PORT,
+      port: process.env.VUE_APP_PORT,
+      proxy: {
+        '/api': {
+          target: process.env.VUE_APP_API_DEV_WEB,
+          pathRewrite: { '^/api': '' },
+          changeOrigin: true,
+        },
+      },
     },
     resolve: {
       alias: {

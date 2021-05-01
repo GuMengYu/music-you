@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-fade-transition hide-on-leave="">
-      <v-container class="pa-4 pa-sm-6 pa-md-8 pt-md-4">
+      <v-container :class="nogetter ? 'pa-0' : 'pa-4 pa-sm-6 pa-md-8 pt-md-4'">
         <keep-alive v-if="$route.meta.keepAlive">
           <router-view />
         </keep-alive>
@@ -14,5 +14,10 @@
 <script>
 export default {
   name: 'DefaultView',
+  computed: {
+    nogetter() {
+      return this.$route.meta.nogetter;
+    },
+  },
 };
 </script>

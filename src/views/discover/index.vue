@@ -1,46 +1,48 @@
 <template>
   <v-sheet class="discover">
     <discover-skeleton v-if="loading" />
-    <custom-col :title="$t('main.discover.featured')">
-      <carousel grid-style="A">
-        <carousel-item>
-          <span>{{ $t('main.discover.new_releases_album') }}</span>
-          <larger-cover :data="release" class="mt-2" />
-        </carousel-item>
-        <carousel-item>
-          <span>{{ $t('main.discover.you_liked') }}</span>
-          <larger-cover :data="radar" class="mt-2" type="playlist" />
-        </carousel-item>
-        <carousel-item>
-          <span>{{ $t('main.discover.daily') }}</span>
-          <larger-cover :data="daily" class="mt-2" type="daily" />
-        </carousel-item>
-        <carousel-item>
-          <span>{{ $t('main.discover.fm') }}</span>
-          <f-m class="mt-2" />
-        </carousel-item>
-      </carousel>
-    </custom-col>
-    <CustomCol :title="$t('main.for_you')">
-      <carousel>
-        <cover
-          v-for="list in playLists"
-          :key="list.id"
-          :data="list"
-          type="playlist"
-        />
-      </carousel>
-    </CustomCol>
-    <CustomCol class="mt-4" :title="$t('main.discover.recommend_songs')">
-      <carousel :rows="4" grid-style="C">
-        <song-bar v-for="song in songs" :key="song.id" :song="song" />
-      </carousel>
-    </CustomCol>
-    <CustomCol class="mt-4" :title="$t('main.recommend_video')">
-      <carousel grid-style="C">
-        <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
-      </carousel>
-    </CustomCol>
+    <template v-if="!loading">
+      <custom-col :title="$t('main.discover.featured')">
+        <carousel grid-style="A">
+          <carousel-item>
+            <span>{{ $t('main.discover.new_releases_album') }}</span>
+            <larger-cover :data="release" class="mt-2" />
+          </carousel-item>
+          <carousel-item>
+            <span>{{ $t('main.discover.you_liked') }}</span>
+            <larger-cover :data="radar" class="mt-2" type="playlist" />
+          </carousel-item>
+          <carousel-item>
+            <span>{{ $t('main.discover.daily') }}</span>
+            <larger-cover :data="daily" class="mt-2" type="daily" />
+          </carousel-item>
+          <carousel-item>
+            <span>{{ $t('main.discover.fm') }}</span>
+            <f-m class="mt-2" />
+          </carousel-item>
+        </carousel>
+      </custom-col>
+      <custom-col :title="$t('main.for_you')">
+        <carousel>
+          <cover
+            v-for="list in playLists"
+            :key="list.id"
+            :data="list"
+            type="playlist"
+          />
+        </carousel>
+      </custom-col>
+      <custom-col class="mt-4" :title="$t('main.discover.recommend_songs')">
+        <carousel :rows="4" grid-style="C">
+          <song-bar v-for="song in songs" :key="song.id" :song="song" />
+        </carousel>
+      </custom-col>
+      <custom-col class="mt-4" :title="$t('main.recommend_video')">
+        <carousel grid-style="C">
+          <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
+        </carousel>
+      </custom-col>
+    </template>
   </v-sheet>
 </template>
 <script>
