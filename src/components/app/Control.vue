@@ -33,8 +33,7 @@
 </template>
 
 <script>
-import { commit, dispatch, get, sync } from 'vuex-pathify';
-import { mapGetters } from 'vuex';
+import { get, sync } from 'vuex-pathify';
 import {
   mdiRepeat,
   mdiRepeatOff,
@@ -64,11 +63,6 @@ export default {
     playing: get('music/playing'),
     mode: sync('music/mode'),
     isCurrentFm: get('music/isCurrentFm'),
-    ...mapGetters({
-      nextFmTrackId: 'music/nextFmTrackId',
-      next: 'music/nextTrackId',
-      prev: 'music/prevTrackId',
-    }),
     orderIconState() {
       return {
         [PLAY_MODE.ORDER]: mdiRepeatOff,
@@ -87,18 +81,13 @@ export default {
       this.mode < 2 ? this.mode++ : (this.mode = 0);
     },
     playPause() {
-      commit('music/playing', !this.playing);
+      this.$player.togglePlay();
     },
     playNext() {
-      if (this.isCurrentFm) {
-        dispatch('music/updateTrack', { id: this.nextFmTrackId });
-        dispatch('music/updatePersonalFmList');
-      } else {
-        dispatch('music/updateTrack', { id: this.next });
-      }
+      this.$player.next();
     },
     playPrev() {
-      dispatch('music/updateTrack', { id: this.prev });
+      this.$player.prev();
     },
   },
 };

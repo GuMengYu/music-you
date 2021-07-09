@@ -1,7 +1,6 @@
-<script>
 import { Howl } from 'howler';
 import { sync } from 'vuex-pathify';
-import { throttle } from 'lodash';
+import { throttle } from 'lodash-es';
 export default {
   name: 'Player',
   data: () => ({
@@ -17,9 +16,9 @@ export default {
     track(newTrack, oldTrack) {
       if (newTrack.id !== oldTrack.id) {
         this.init(newTrack.url);
-        console.log('song changed');
+        console.log('song changed', this);
       } else {
-        this.loadAudio = false;
+        this.loadTrack = false;
       }
     },
     volume(val) {
@@ -56,11 +55,11 @@ export default {
           requestAnimationFrame(this.step);
         },
         onload: () => {
-          this.loadAudio = false;
+          this.loadTrack = false;
         },
         onloaderror: () => {
           console.log('歌曲加载失败');
-          this.loadAudio = false;
+          this.loadTrack = false;
         },
       });
       sound.once('end', this.endCb);
@@ -129,4 +128,3 @@ export default {
     },
   },
 };
-</script>

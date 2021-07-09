@@ -2,7 +2,17 @@ import { getTrackDetail } from '@/api/music';
 import { favTrack, getLikeList, personalFM } from '@/api';
 import { getUserPlaylist } from '@/api/user';
 import { make } from 'vuex-pathify';
-import { uniqWith, isEqual } from 'lodash';
+import { uniqWith, isEqual } from 'lodash-es';
+// import types from '../types';
+
+let localData = {};
+
+try {
+  localData = JSON.parse(localStorage.getItem('music')) ?? {};
+} catch (e) {
+  console.log('load local data error');
+}
+
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -11,19 +21,19 @@ const PLAY_MODE = {
 };
 const state = {
   playing: false,
-  track: {},
-  currentTrackId: localStorage.getItem('currentTrackId') ?? '',
+  track: localData.track ?? {},
+  currentTrackId: localData.currentTrackId ?? '',
+  playingList: localData.playingList ?? [],
   currentTime: localStorage.getItem('currentTime') ?? 0,
-  playingList: JSON.parse(localStorage.getItem('playingList')) ?? [],
   showList: false,
   showLyricsPage: false,
   mode: PLAY_MODE.CYCLE,
-  loadAudio: false,
+  loadTrack: false,
   likes: [],
   playlist: [],
-  recent: JSON.parse(localStorage.getItem('recent')) ?? [],
+  recent: localData.recent ?? [],
   isCurrentFm: false,
-  fmTrack: {},
+  fmTrack: localData.fmTrack ?? {},
   fmList: [], // 私人fm列表（3首）
 };
 
@@ -77,7 +87,7 @@ export default {
     },
     async updatePlayingList({ commit, dispatch }, payload) {
       const { autoplay = false, list } = payload;
-      localStorage.setItem('playingList', JSON.stringify(list));
+      dispatch('saveMusicState');
       commit('isCurrentFm', false);
       commit('playingList', list);
       if (autoplay) {
@@ -107,7 +117,7 @@ export default {
     ) {
       const { id, option = { autoplay: true, resetProgress: true } } = payload;
       commit('playing', false);
-      commit('loadAudio', true);
+      commit('loadTrack', true);
       // await sleep();
       const track = await getTrackDetail(
         id,
@@ -122,7 +132,7 @@ export default {
         commit('fmTrack', track);
       }
       commit('currentTrackId', track?.id);
-      localStorage.setItem('currentTrackId', track?.id);
+      dispatch('saveMusicState');
       if (!track.url) {
         dispatch(
           'snackbar/show',
@@ -157,7 +167,7 @@ export default {
         commit('likes', likes);
       }
     },
-    pushRecent({ state, commit }, payload) {
+    pushRecent({ state, commit, dispatch }, payload) {
       const recent = uniqWith([payload, ...state.recent], isEqual);
       const limit = 100,
         len = recent.length;
@@ -165,22 +175,17 @@ export default {
         recent.splice(limit, len - limit);
       }
       try {
-        localStorage.setItem('recent', JSON.stringify(recent));
+        dispatch('saveMusicState');
       } catch (e) {
         console.error(e);
       }
       commit('recent', recent);
     },
+    saveMusicState({ state }) {
+      localStorage.setItem('music', JSON.stringify(state));
+    },
   },
   mutations: {
     ...make.mutations(state),
-    playingList(state, list) {
-      state.playingList = list;
-    },
-    UPDATE_PLAYER(state, payload) {
-      Object.keys(payload).map((key) => {
-        state[key] = payload[key];
-      });
-    },
   },
 };

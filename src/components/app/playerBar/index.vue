@@ -4,7 +4,7 @@
       <div class="playing-slider">
         <vue-slider
           ref="vueSlider"
-          v-model="currentTime"
+          :value="currentTime"
           class="playing-progress"
           :max="~~(track.dt / 1000) || 0"
           :min="0"
@@ -27,7 +27,7 @@
               max-width="40"
               min-width="40"
               min-height="40"
-              :loading="loadAudio"
+              :loading="loadTrack"
             >
               <template slot="progress">
                 <v-progress-circular
@@ -110,8 +110,7 @@
 </template>
 
 <script>
-import { sync, get, dispatch, commit } from 'vuex-pathify';
-import { mapGetters } from 'vuex';
+import { sync, get, dispatch } from 'vuex-pathify';
 import {
   mdiHeart,
   mdiHeartOutline,
@@ -130,7 +129,7 @@ import {
   mdiArrowExpand,
 } from '@mdi/js';
 
-import Player from './player';
+// import Player from './player.js';
 import VueSlider from 'vue-slider-component';
 import { formatDuring } from '@util/fn';
 import Control from '@components/app/Control';
@@ -147,7 +146,7 @@ export default {
     Control,
     VueSlider,
   },
-  extends: Player,
+  // mixins: [Player],
   data: () => ({
     icon: {
       mdiHeart,
@@ -162,19 +161,14 @@ export default {
     prevVolume: 1,
   }),
   computed: {
+    volume: get('settings/volume'),
+    currentTime: get('music/currentTime'),
     track: get('music/track'),
-    currentTrackId: get('music/currentTrackId'),
     playing: get('music/playing'),
-    loadAudio: sync('music/loadAudio'),
+    loadTrack: get('music/loadTrack'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     mode: sync('music/mode'),
-    isCurrentFm: get('music/isCurrentFm'),
-    ...mapGetters({
-      nextFmTrackId: 'music/nextFmTrackId',
-      next: 'music/nextTrackId',
-      prev: 'music/prevTrackId',
-    }),
     liked() {
       return this.$store.getters['music/liked'](this.track.id);
     },
@@ -205,44 +199,12 @@ export default {
       return this.track?.al?.picUrl ?? '';
     },
   },
-  watch: {
-    playing(val) {
-      this.$nextTick(() => {
-        if (val) {
-          this.play();
-        } else {
-          this.pause();
-        }
-      });
-    },
-  },
-  created() {
-    this.currentTrackId &&
-      this.$store.dispatch('music/updateTrack', {
-        id: this.currentTrackId,
-        option: { autoplay: false, resetProgress: false },
-      });
-  },
   mounted() {},
   methods: {
-    playPause() {
-      commit('music/playing', !this.playing);
-    },
-    playNext() {
-      if (this.isCurrentFm) {
-        dispatch('music/updateTrack', { id: this.nextFmTrackId });
-        dispatch('music/updatePersonalFmList');
-      } else {
-        dispatch('music/updateTrack', { id: this.next });
-      }
-    },
-    playPrev() {
-      dispatch('music/updateTrack', { id: this.prev });
-    },
     handleSlideChange() {
-      this.currentTime = this.$refs['vueSlider'].getValue();
-      console.debug('slider change end', this.currentTime);
-      this.setSeek(this.currentTime);
+      const currentTime = this.$refs['vueSlider'].getValue();
+      console.debug('slider change end', currentTime);
+      this.$player.setSeek(currentTime);
     },
     toggleVolume() {
       if (this.volume === 0) {

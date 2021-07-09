@@ -43,7 +43,7 @@
 
 <script>
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
-import { throttle } from 'lodash';
+import { throttle } from 'lodash-es';
 
 export default {
   name: 'Carousel',
@@ -107,7 +107,6 @@ export default {
       this.resizeThrottle?.(e);
     },
     init() {
-      console.debug('init carousel');
       this.$nextTick(() => {
         this.scrollWidth = this.$refs['coverCardList'].scrollWidth;
         this.clientWidth = this.$refs['coverCardList'].clientWidth;
