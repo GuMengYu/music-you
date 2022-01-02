@@ -15,8 +15,7 @@ const songUrl = () => ({
   data: [
     {
       id: 1372315065,
-      url:
-        'http://m7.music.126.net/20201225112715/8728e11f2abaed7d51cc0682dbc06b61/ymusic/0458/045d/0e53/32e1619b5937a2622d5299772be062b6.mp3',
+      url: 'http://m7.music.126.net/20201225112715/8728e11f2abaed7d51cc0682dbc06b61/ymusic/0458/045d/0e53/32e1619b5937a2622d5299772be062b6.mp3',
       bak_url: 'https://music.163.com/song/media/outer/url?id=1372315065.mp3',
       br: 128000,
       size: 3970238,

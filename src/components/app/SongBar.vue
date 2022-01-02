@@ -6,15 +6,16 @@
       @click="noop"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
+      class="song-bar-wrapper"
     >
-      <v-card class="mr-4">
+      <v-card class="mr-4" flat>
         <v-overlay :value="hover" absolute>
           <v-btn icon @click="play">
             <v-icon v-text="mdiPlay" />
           </v-btn>
         </v-overlay>
         <v-img
-          :src="$ochain(album, 'picUrl') | sizeOfImage(32)"
+          :src="$ochain(album, 'picUrl') | sizeOfImage(64)"
           max-height="40"
           max-width="40"
           class="rounded"
@@ -49,7 +50,7 @@
           </v-icon>
         </v-btn>
         <v-list-item-action-text v-show="!hover">
-          {{ song.dt | formatDuring }}
+          {{ song.duration | formatDuring }}
         </v-list-item-action-text>
       </v-list-item-action>
     </v-list-item>
@@ -116,6 +117,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.song-bar-wrapper {
+  &::before {
+    border-radius: $border-radius-root * 4;
+  }
+}
 .artist-name {
   text-decoration: none;
   &:hover {

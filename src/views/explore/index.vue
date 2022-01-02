@@ -94,17 +94,13 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      const [
-        { sub },
-        { albums },
-        { data: mvs },
-        { list: topList },
-      ] = await Promise.all([
-        getCatList(),
-        newAlbums({ limit: 6 }),
-        getNewMv({ limit: 4 }),
-        getTopList(),
-      ]);
+      const [{ sub }, { albums }, { data: mvs }, { list: topList }] =
+        await Promise.all([
+          getCatList(),
+          newAlbums({ limit: 6 }),
+          getNewMv({ limit: 4 }),
+          getTopList(),
+        ]);
       this.tags = sub.slice(0, 18).map((i) => {
         i.color = this.colors[random(0, this.colors.length)];
         return i;

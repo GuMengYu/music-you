@@ -1,6 +1,12 @@
 <template>
   <v-expand-transition>
-    <v-footer v-if="track.id" fixed padless class="playing-bar" app>
+    <v-footer
+      v-if="track.id"
+      padless
+      class="playing-bar"
+      app
+      :style="{ bottom: '5px', left: '5px', right: '5px' }"
+    >
       <div class="playing-slider">
         <vue-slider
           ref="vueSlider"
@@ -21,6 +27,7 @@
         <div class="playing-bar__left">
           <v-hover v-slot="{ hover }">
             <v-card
+              flat
               class="playing-cover-card d-flex justify-center align-center"
               :img="albumPicUrl | sizeOfImage(128)"
               max-height="40"
@@ -58,9 +65,7 @@
             </router-link>
             <span class="text--disabled mx-2">-</span>
             <router-link :to="`/artist/${$ochain(track, 'ar', '0', 'id')}`">
-              <span
-                class="artist-name h-1x text-caption text--disabled font-weight-bold"
-              >
+              <span class="artist-name h-1x text-caption font-weight-bold">
                 {{ $ochain(track, 'ar', '0', 'name') }}
               </span>
             </router-link>
@@ -69,7 +74,9 @@
           <v-btn icon text @click="likeSong">
             <v-icon
               v-text="icon.mdiHeart"
-              :color="liked ? 'color: var(--v-primary-base)' : ''"
+              :color="
+                liked ? 'var(--v-primary-base)' : 'var(--v-secondary-darken2)'
+              "
             />
           </v-btn>
         </div>
@@ -230,13 +237,14 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .theme--light .playing-bar {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--v-primary-lighten4);
 }
 .theme--dark .playing-bar {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 1);
 }
 .playing-bar {
-  backdrop-filter: blur(50px);
+  border-radius: $border-radius-root * 4;
+  // backdrop-filter: blur(50px);
   z-index: 10;
   .playing-control {
     width: 100%;
@@ -292,8 +300,9 @@ export default {
   .playing-slider {
     position: absolute;
     -webkit-app-region: no-drag;
-    top: -6px;
-    width: 100%;
+    top: -5px;
+    left: 15px;
+    right: 15px;
   }
 }
 </style>

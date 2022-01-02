@@ -94,12 +94,4 @@ export default {
 };
 </script>
 
-<style lang="sass">
-.v-list-group.v-list-group--default
-  .v-list-group__header
-    min-height: 32px
-
-    > .v-list-item__icon
-      margin-bottom: 6px
-      margin-top: 6px
-</style>
+<style lang="sass" scoped></style>

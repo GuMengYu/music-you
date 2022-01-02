@@ -4,8 +4,8 @@
     transition="dialog-top-transition"
     max-width="600"
   >
-    <v-card>
-      <v-toolbar>
+    <v-card outlined class="settings-wrapper">
+      <v-toolbar flat rounded>
         <v-btn icon @click="showSettings = false">
           <v-icon>$close</v-icon>
         </v-btn>
@@ -117,6 +117,7 @@ import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select';
 import DefaultAccount from '@components/app/Account';
 import themePalettes from '@/vuetify/theme';
+import { mdiCog } from '@mdi/js';
 export default {
   name: 'DefaultSetting',
   components: {
@@ -125,6 +126,7 @@ export default {
   },
   data() {
     return {
+      mdiCog,
       tracksCache: {
         size: '0KB',
         length: 0,
@@ -235,4 +237,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.settings-wrapper {
+}
+</style>

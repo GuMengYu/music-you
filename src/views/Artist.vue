@@ -283,10 +283,6 @@ export default {
     width: 100%;
   }
 }
-.track-item:before {
-  border-radius: 4px;
-}
-
 .item-title {
   margin: 12px 0;
 }

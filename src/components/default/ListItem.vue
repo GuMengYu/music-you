@@ -11,9 +11,9 @@
   >
     <v-list-item-icon
       v-if="item.icon"
-      class="d-flex align-center justify-center"
+      class="d-flex align-center justify-center align-self-center"
     >
-      <v-icon size="18" :color="item.color || 'primary'">
+      <v-icon size="20" :color="item.color || 'primary'">
         {{ item.icon }}
       </v-icon>
     </v-list-item-icon>
@@ -36,11 +36,3 @@ export default {
   },
 };
 </script>
-
-<style lang="sass">
-.v-list-item.v-list-item.v-list-item--default
-  min-height: 32px
-  padding-left: 8px !important
-  > .v-list-item__icon
-    margin: 4px 8px
-</style>

@@ -25,7 +25,7 @@ $primaryColorLighten: var(--v-primary-lighten4);
   }
 }
 .vue-slider-rail {
-  background-color: #999;
+  background-color: var(--v-primary-lighten3);
   border-radius: 15px;
 }
 .vue-slider-process {

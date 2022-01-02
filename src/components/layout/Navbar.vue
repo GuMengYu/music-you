@@ -5,8 +5,9 @@
     app
     fixed
     :mini-variant="drawermini"
+    :width="300"
   >
-    <v-list nav dense class="system_nav">
+    <v-list dense class="system_nav" rounded>
       <v-list-item
         class="d-flex px-0 drag-area"
         :class="drawermini ? 'justify-center' : 'justify-end'"
@@ -32,14 +33,24 @@
         >
           {{ $t('main.nav.music') }}
         </v-subheader>
-        <default-list-item v-for="i in defaultNav1" :key="i.title" :item="i" />
+        <default-list-item
+          class="drawer-item"
+          v-for="i in defaultNav1"
+          :key="i.title"
+          :item="i"
+        />
         <v-subheader
           v-show="!drawermini"
           class="font-weight-bold text-uppercase"
         >
           {{ $t('main.nav.library') }}
         </v-subheader>
-        <default-list-item v-for="i in defaultNav2" :key="i.title" :item="i" />
+        <default-list-item
+          class="drawer-item"
+          v-for="i in defaultNav2"
+          :key="i.title"
+          :item="i"
+        />
       </v-list-item-group>
     </v-list>
     <default-list v-show="!drawermini" :items="nav" />
@@ -211,13 +222,13 @@ export default {
       width: 0;
     }
   }
-  ::v-deep .v-navigation-drawer__border {
-    width: 0;
-  }
   .system_nav {
     .nav_actions {
       position: absolute;
       right: 0;
+    }
+    .drawer-item {
+      height: 56px;
     }
     .drag-area {
       -webkit-app-region: drag;
@@ -225,9 +236,6 @@ export default {
     .no-drag-area {
       -webkit-app-region: no-drag;
     }
-  }
-  .v-list-item {
-    min-height: 32px !important;
   }
 }
 </style>

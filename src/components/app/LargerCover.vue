@@ -1,10 +1,12 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card
+      flat
       dark
-      class="d-flex justify-lg-space-between flex-column rounded-lg cover"
+      class="d-flex justify-lg-space-between flex-column cover"
       :img="coverImgUrl"
       :class="{ 'cover-hover': hover }"
+      rounded="xl"
     >
       <v-img :src="coverImgUrl" :aspect-ratio="1">
         <v-fade-transition>

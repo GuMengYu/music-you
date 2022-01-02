@@ -2,9 +2,10 @@
   <div class="cover-container">
     <v-hover v-slot="{ hover }">
       <v-card
+        flat
         v-ripple
         hover
-        rounded="lg"
+        rounded="xl"
         class="d-flex align-end justify-end cover-card"
         :to="to"
         @contextmenu.prevent="openMenu"
