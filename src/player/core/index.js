@@ -189,4 +189,3 @@ export default class Player {
 }
 
 Player.install = install;
-
