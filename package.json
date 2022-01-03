@@ -71,11 +71,21 @@
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.3",
-    "vuex-pathify": "^1.4.5"
+    "vuex-pathify": "^1.4.5",
+    "lint-staged": "^12.1.5",
+    "yorkie": "^2.0.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint"
+    ]
+  }
 }
