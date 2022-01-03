@@ -8,15 +8,15 @@
     <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
       <v-icon small>{{ icon.mdiSkipBackward }}</v-icon>
     </v-btn>
-    <v-fab-transition origin="center center">
+    <v-fab-transition>
       <v-btn
         :key="playingState.icon"
-        icon
-        class="mx-2"
-        elevation="0"
+        class="mx-2 play-fab"
         @click="playPause"
+        :elevation="0"
+        color="primary lighten-1"
       >
-        <v-icon large :color="playingState.color">
+        <v-icon :size="24" :color="playingState.color">
           {{ playingState.icon }}
         </v-icon>
       </v-btn>
@@ -72,8 +72,8 @@ export default {
     },
     playingState() {
       return this.playing
-        ? { color: 'var(--v-accent-base)', icon: mdiPause }
-        : { color: 'var(--v-primary-base)', icon: mdiPlay };
+        ? { color: 'rgba(0, 0, 0, 0.54)', icon: mdiPause }
+        : { color: 'rgba(0, 0, 0, 0.54)', icon: mdiPlay };
     },
   },
   methods: {
@@ -93,4 +93,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.play-fab {
+  height: 40px !important;
+  border-radius: 0.75rem;
+}
+</style>

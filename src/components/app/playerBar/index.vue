@@ -18,7 +18,7 @@
           :duration="0"
           :drag-on-click="true"
           :dot-size="10"
-          :height="2"
+          :height="3"
           :tooltip-formatter="formatTime"
           @drag-end="handleSlideChange"
         />
@@ -34,7 +34,7 @@
               max-width="40"
               min-width="40"
               min-height="40"
-              :loading="loadTrack"
+              :loading="loadingTrack"
             >
               <template slot="progress">
                 <v-progress-circular
@@ -73,6 +73,7 @@
           <v-spacer />
           <v-btn icon text @click="likeSong">
             <v-icon
+              small
               v-text="icon.mdiHeart"
               :color="
                 liked ? 'var(--v-primary-base)' : 'var(--v-secondary-darken2)'
@@ -168,11 +169,12 @@ export default {
     prevVolume: 1,
   }),
   computed: {
-    volume: get('settings/volume'),
+    isCurrentFm: get('music/isCurrentFm'),
+    volume: sync('settings/volume'),
     currentTime: get('music/currentTime'),
     track: get('music/track'),
     playing: get('music/playing'),
-    loadTrack: get('music/loadTrack'),
+    loadingTrack: get('music/loadingTrack'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     mode: sync('music/mode'),
@@ -237,7 +239,7 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .theme--light .playing-bar {
-  background-color: var(--v-primary-lighten4);
+  background-color: var(--v-primary-lighten5);
 }
 .theme--dark .playing-bar {
   background-color: rgba(0, 0, 0, 1);
@@ -301,8 +303,8 @@ export default {
     position: absolute;
     -webkit-app-region: no-drag;
     top: -5px;
-    left: 15px;
-    right: 15px;
+    left: 20px;
+    right: 20px;
   }
 }
 </style>

@@ -5,29 +5,15 @@
   overflow: hidden!important;
   display: -webkit-box!important;
   -webkit-box-orient: vertical!important;
+  white-space: initial!important;
+  word-break: break-word!important;
 }
 // 限制文本行数
-.h-1x {
-  -webkit-line-clamp: 1;
-  @include h;
+
+@for $i from 1 through 4 {
+  .h-#{$i}x { -webkit-line-clamp: #{$i}; @include h;}
 }
-.h-2x {
-  -webkit-line-clamp: 2;
-  @include h;
-}
-.h-3x {
-  -webkit-line-clamp: 3;
-  @include h;
-}
-.h-4x {
-  -webkit-line-clamp: 4;
-  @include h;
-}
-.v-app-underline {
-  border-width: 0 0 thin;
-  border-style: solid;
-  border-bottom-color: rgba(0,0,0,.12)!important;
-}
+
 html, body, div, span, header, footer, section, article, a, img {
   font-family: 'Nunito', 'product sans', sans-serif !important;
 }

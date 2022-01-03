@@ -18,7 +18,7 @@ export default {
         this.init(newTrack.url);
         console.log('song changed', this);
       } else {
-        this.loadTrack = false;
+        this.loadingTrack = false;
       }
     },
     volume(val) {
@@ -55,11 +55,11 @@ export default {
           requestAnimationFrame(this.step);
         },
         onload: () => {
-          this.loadTrack = false;
+          this.loadingTrack = false;
         },
         onloaderror: () => {
           console.log('歌曲加载失败');
-          this.loadTrack = false;
+          this.loadingTrack = false;
         },
       });
       sound.once('end', this.endCb);

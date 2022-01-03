@@ -1,6 +1,6 @@
 import install from './install';
 
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 import { throttle, shuffle } from 'lodash-es';
 
 export default class Player {
@@ -14,7 +14,6 @@ export default class Player {
     this.playingList = [];
     this.isFM = false;
 
-    this._saveCurrentTime = throttle(this.saveCurrentTime, 2000);
     this._updateCurrentTime = throttle(this.updateCurrentTime, 1000);
     this.init();
   }
@@ -22,7 +21,7 @@ export default class Player {
     this.initStoreEvent();
     this.restoreStateFromStore();
     if (this.track) {
-      this.updatePlayerTrack(this.track.id, false);
+      this.updatePlayerTrack(this.track.id, false, false);
     }
   }
   shuffle() {
@@ -43,6 +42,9 @@ export default class Player {
       if (mutation.type.startsWith('music/isCurrentFm')) {
         this.isFM = mutation.payload;
       }
+      if (mutation.type.startsWith('settings/volume')) {
+        Howler.volume(mutation.payload);
+      }
     });
   }
   restoreStateFromStore() {
@@ -56,20 +58,25 @@ export default class Player {
     });
     this.volume = volume;
   }
-  async updatePlayerTrack(id, autoplay = true) {
-    const track = await this.store.dispatch('music/updateTrack', {
-      id,
-      option: {
-        autoplay,
-      },
-    });
+  async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
+    const track = await this.store.dispatch('music/updateTrack', { id });
     this.track = track;
+    Howler.unload();
     this.howler = null;
     this.howler = this.initSound(track.url);
+    if (resetProgress) {
+      this.setSeek(0);
+    }
+    if (autoplay) {
+      this.play();
+    }
     this.initMediaSession();
-    this.store.commit('music/loadTrack', false);
+    this.store.commit('music/loadingTrack', false);
   }
   initSound(src) {
+    Howler.autoUnlock = false;
+    Howler.usingWebAudio = true;
+    Howler.volume(this.volume);
     const sound = new Howl({
       src: [src],
       html5: true,
@@ -93,11 +100,11 @@ export default class Player {
         requestAnimationFrame(this.step.bind(this));
       },
       onload: () => {
-        this.loadTrack = false;
+        this.loadingTrack = false;
       },
       onloaderror: () => {
         console.log('歌曲加载失败');
-        this.loadTrack = false;
+        this.loadingTrack = false;
       },
     });
     sound.once('end', this.endCb.bind(this));
@@ -141,20 +148,21 @@ export default class Player {
     const current = Math.ceil(this.howler.seek());
     this.currentTime = current;
     this.store.commit('music/currentTime', current);
+    localStorage.setItem('currentTime', this.currentTime);
   }
   setSeek(val) {
     this.howler.seek(val);
+    this._updateCurrentTime();
   }
   step() {
     if (this.howler.playing()) {
       this._updateCurrentTime();
-      this._saveCurrentTime();
       requestAnimationFrame(this.step.bind(this));
     }
   }
   endCb() {
     // todo update 听歌记录
-    // this.playNext();
+    this.next();
   }
   initMediaSession() {
     // https://developers.google.com/web/updates/2017/02/media-session
@@ -179,9 +187,6 @@ export default class Player {
         ['nexttrack', this.playNext],
       ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
     }
-  }
-  saveCurrentTime() {
-    localStorage.setItem('currentTime', this.currentTime);
   }
   saveToRecent() {
     this.store.dispatch('music/pushRecent', this.track.id);

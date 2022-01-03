@@ -28,7 +28,7 @@ const state = {
   showList: false,
   showLyricsPage: false,
   mode: PLAY_MODE.CYCLE,
-  loadTrack: false,
+  loadingTrack: false,
   likes: [],
   playlist: [],
   recent: localData.recent ?? [],
@@ -115,18 +115,15 @@ export default {
       { rootGetters, commit, dispatch, getters, rootState },
       payload,
     ) {
-      const { id, option = { autoplay: true, resetProgress: true } } = payload;
+      const { id } = payload;
       commit('playing', false);
-      commit('loadTrack', true);
+      commit('loadingTrack', true);
       // await sleep();
       const track = await getTrackDetail(
         id,
         rootState.settings.quality,
         rootGetters['settings/logged'],
       );
-      if (option.resetProgress) {
-        commit('currentTime', 0);
-      }
       commit('track', track);
       if (state.isCurrentFm) {
         commit('fmTrack', track);
@@ -142,10 +139,6 @@ export default {
         const next = getters['nextTrackId'] ?? '';
         if (next && getters['nextTrackId'] !== state.currentTrackId)
           dispatch('updateTrack', { id: getters['nextTrackId'] });
-      } else {
-        if (option.autoplay) {
-          commit('playing', true);
-        }
       }
       return track;
     },

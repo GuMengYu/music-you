@@ -228,7 +228,7 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 56px;
+      height: 40px;
     }
     .drag-area {
       -webkit-app-region: drag;

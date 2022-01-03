@@ -62,4 +62,13 @@ export default {
       ...infoColor,
     },
   },
+  spotify: {
+    name: 'spotify',
+    palette: {
+      primary: '#3A582A',
+      secondary: '#84D45A',
+      accent: '#70915E',
+      ...infoColor,
+    },
+  },
 };
