@@ -5,7 +5,7 @@
 /* dot style */
 /*# sourceMappingURL=material.css.map */
 $primaryColor: var(--v-primary-base);
-$primaryColorLighten: var(--v-primary-lighten4);
+$primaryColorLighten: var(--v-primary-lighten3);
 
 .vue-slider-disabled {
   .vue-slider-rail {
@@ -25,7 +25,7 @@ $primaryColorLighten: var(--v-primary-lighten4);
   }
 }
 .vue-slider-rail {
-  background-color: var(--v-primary-lighten3);
+  background-color: $primaryColorLighten;
   border-radius: 15px;
 }
 .vue-slider-process {

@@ -227,8 +227,8 @@ export default {
           // location.reload();
         } else if (mutation.type === 'settings/palettes') {
           const palettes = themePalettes[mutation.payload]?.palette;
-          this.$vuetify.theme.themes.light = palettes;
-          this.$vuetify.theme.themes.dark = palettes;
+          this.$vuetify.theme.themes.light = palettes.light;
+          this.$vuetify.theme.themes.dark = palettes.dark;
           // location.reload();
         }
       });

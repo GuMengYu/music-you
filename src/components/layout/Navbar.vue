@@ -16,16 +16,6 @@
         <reload-btn class="no-drag-area" />
         <b-f class="no-drag-area" />
       </v-list-item>
-      <v-list-item
-        class="d-flex"
-        :class="drawermini ? 'justify-center' : 'justify-space-between'"
-      >
-        <default-account :class="drawermini ? 'mb-4' : undefined" />
-        <div class="nav_actions">
-          <setting-toggle />
-          <theme-toggle />
-        </div>
-      </v-list-item>
       <v-list-item-group>
         <v-subheader
           v-show="!drawermini"
@@ -73,11 +63,8 @@ import {
 } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import { sync, get } from 'vuex-pathify';
-import { groupBy, filter } from 'lodash';
+import { groupBy, filter } from 'lodash-es';
 import DefaultListItem from '@components/default/ListItem';
-import SettingToggle from '@components/layout/SettingToggle';
-import DefaultAccount from '@components/app/Account';
-import ThemeToggle from '@components/layout/ThemeToggle';
 import BF from '@components/layout/BF';
 import ReloadBtn from '@components/layout/ReloadBtn';
 import DownloadProgress from './DownloadProgress.vue';
@@ -86,9 +73,6 @@ export default {
   components: {
     ReloadBtn,
     BF,
-    ThemeToggle,
-    DefaultAccount,
-    SettingToggle,
     DefaultListItem,
     DefaultList,
     DownloadProgress,
@@ -214,6 +198,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+//.theme--light.v-navigation-drawer,
+//.theme--dark.v-navigation-drawer {
+//  background: var(--v-surface-base);
+//}
 .v-navigation-drawer {
   bottom: 60px !important;
   //background: linear-gradient(209.21deg, rgb(255, 115, 115) 13.57%, rgb(73, 30, 184) 98.38%);

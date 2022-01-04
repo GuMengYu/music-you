@@ -5,7 +5,7 @@ import themePalettes from './theme';
 Vue.use(Vuetify);
 
 export function createVuetify(store) {
-  const palettes = themePalettes[store.state.settings.palettes]?.palette;
+  const palettes = themePalettes[store.state.settings.palettes]?.palette ?? {};
   return new Vuetify({
     icons: {
       iconfont: 'mdiSvg',
@@ -15,20 +15,10 @@ export function createVuetify(store) {
       options: { customProperties: true },
       themes: {
         light: {
-          ...palettes,
-          neumorphism: {
-            base: '#e0e0e0',
-            lighten1: '#fff',
-            darken1: '#bebebe',
-          },
+          ...palettes.light,
         },
         dark: {
-          ...palettes,
-          neumorphism: {
-            base: '#363636',
-            lighten1: '#3e3e3e',
-            darken1: '#2e2e2e',
-          },
+          ...palettes.dark,
         },
       },
     },

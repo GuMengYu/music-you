@@ -14,9 +14,9 @@
         class="mx-2 play-fab"
         @click="playPause"
         :elevation="0"
-        color="primary lighten-1"
+        color="primary"
       >
-        <v-icon :size="24" :color="playingState.color">
+        <v-icon :size="24" color="onPrimary">
           {{ playingState.icon }}
         </v-icon>
       </v-btn>
@@ -71,9 +71,7 @@ export default {
       }[this.mode];
     },
     playingState() {
-      return this.playing
-        ? { color: 'rgba(0, 0, 0, 0.54)', icon: mdiPause }
-        : { color: 'rgba(0, 0, 0, 0.54)', icon: mdiPlay };
+      return this.playing ? { icon: mdiPause } : { icon: mdiPlay };
     },
   },
   methods: {

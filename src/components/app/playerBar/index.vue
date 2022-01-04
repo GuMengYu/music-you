@@ -239,7 +239,7 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .theme--light .playing-bar {
-  background-color: var(--v-primary-lighten5);
+  background-color: var(--v-surfaceVariant-base);
 }
 .theme--dark .playing-bar {
   background-color: rgba(0, 0, 0, 1);

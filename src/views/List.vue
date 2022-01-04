@@ -53,16 +53,16 @@
           </div>
         </div>
         <div class="list-action">
-          <v-btn elevation="0" class="mr-4" @click="play">
-            <v-icon v-text="icon.mdiPlay" />
+          <v-btn depressed class="mr-4" @click="play" rounded color="primary">
+            <v-icon
+              v-text="icon.mdiPlay"
+              color="onPrimary"
+              size="18"
+              class="mr-2"
+            />
             播放
           </v-btn>
-          <v-btn
-            icon
-            color="#F44336"
-            class="list-delete-button"
-            @click="openMenu"
-          >
+          <v-btn icon class="list-delete-button" @click="openMenu" outlined>
             <v-icon>
               {{ icon.mdiDotsHorizontal }}
             </v-icon>

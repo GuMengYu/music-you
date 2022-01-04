@@ -16,6 +16,11 @@
         class="search_input"
         @enter="goSearch"
       />
+      <default-account />
+      <div class="nav_actions">
+        <setting-toggle />
+        <theme-toggle />
+      </div>
       <default-title-bar :showActions="showActions" class="no-drag-area" />
     </div>
   </v-app-bar>
@@ -29,6 +34,9 @@ import is from 'electron-is';
 import DefaultInput from '@components/default/Input';
 import DrawerToggle from '@components/layout/DrawerToggle';
 import DefaultTitleBar from '@components/layout/TitleBar';
+import ThemeToggle from '@components/layout/ThemeToggle';
+import DefaultAccount from '@components/app/Account';
+import SettingToggle from '@components/layout/SettingToggle';
 
 export default {
   name: 'DefaultHeader',
@@ -36,6 +44,9 @@ export default {
     DrawerToggle,
     DefaultInput,
     DefaultTitleBar,
+    ThemeToggle,
+    DefaultAccount,
+    SettingToggle,
   },
   inject: ['theme'],
   data: () => ({
