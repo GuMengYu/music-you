@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="py-4">
+  <div class="py-4">
     <v-row v-if="loading">
       <v-col v-for="n in 12" :key="n" cols="2">
         <v-skeleton-loader class="mx-auto" type="card" />
@@ -52,7 +52,7 @@
         <Cover :data="toplist" class="item" type="playlist" />
       </v-col>
     </v-row>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { getTopList } from '@/api';

@@ -4,11 +4,10 @@
     ref="search"
     v-model="model"
     :background-color="bgColor"
-    class="rounded-lg text-caption"
+    class="rounded-pill text-caption"
     :placeholder="placeholder"
     :type="type"
     autocomplete="off"
-    color="primary"
     dense
     hide-details
     solo
@@ -24,6 +23,9 @@
       <v-icon :color="!isFocused ? '' : 'primary'">
         {{ icon }}
       </v-icon>
+    </template>
+    <template #append>
+      <slot></slot>
     </template>
   </v-text-field>
 </template>
@@ -63,12 +65,12 @@ export default {
       return this.isFocused ? '' : this.holder;
     },
     bgColor() {
-      let color = void 0;
+      let color = 'surface';
       if (this.theme.isDark) {
         return color;
       }
       if (this.isFocused) {
-        color = 'secondary lighten-5';
+        color = 'surfaceVariant';
       }
       return color;
     },

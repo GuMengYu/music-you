@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <div class="title mb-5">
       <div class="text-caption grey--text text--lighten-1 font-weight-bold">
         {{ subtitle }}
@@ -14,7 +14,7 @@
       </div>
     </div>
     <slot />
-  </v-sheet>
+  </div>
 </template>
 
 <script>

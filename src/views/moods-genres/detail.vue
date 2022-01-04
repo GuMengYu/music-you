@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <h2 class="text-md-h5 text-sm-body-1">
       {{ type }}
     </h2>
@@ -23,7 +23,7 @@
         />
       </cover-list>
     </custom-col>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

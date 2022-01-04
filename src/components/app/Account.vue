@@ -53,10 +53,15 @@ export default {
           type: 'center',
           title: this.$t('common.personal'),
         },
+        {
+          type: 'settings',
+          title: this.$t('common.setting'),
+        },
       ],
     };
   },
   computed: {
+    showSettings: sync('app/showSettings'),
     profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
     logged: (vm) => vm.$store.getters['settings/logged'],
@@ -72,6 +77,9 @@ export default {
           break;
         case 'center':
           console.log('go center');
+          break;
+        case 'settings':
+          this.showSettings = true;
           break;
       }
     },

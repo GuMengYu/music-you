@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-btn small icon @click="$router.go(-1)">
+    <v-btn size="24" icon @click="$router.go(-1)">
       <v-icon>
         {{ mdiChevronLeft }}
       </v-icon>
     </v-btn>
-    <v-btn small icon @click="$router.go(1)">
+    <v-btn size="24" icon @click="$router.go(1)">
       <v-icon>
         {{ mdiChevronRight }}
       </v-icon>

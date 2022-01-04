@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLogin" max-width="400">
-    <v-sheet
+    <div
       class="login-container py-4"
       :color="theme.isDark ? 'grey darken-3' : void 0"
     >
@@ -43,7 +43,7 @@
       <div class="mt-4 px-8">
         <p>免责声明</p>
       </div>
-    </v-sheet>
+    </div>
   </v-dialog>
 </template>
 <script>

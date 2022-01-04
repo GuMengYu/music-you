@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <custom-col :title="video.data.name">
       <div>
         <div class="video rounded-lg">
@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
     </custom-col>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

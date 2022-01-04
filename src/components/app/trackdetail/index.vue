@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="frame">
+  <div class="frame">
     <div class="frame-header mt-6" @click="close" />
     <v-row class="frame-content d-flex align-center" no-gutters>
       <v-col class="frame-content-left d-flex justify-center align-center">
@@ -90,7 +90,7 @@
       <!--      <img class="bg-color album-artwork" :src="albumPicUrl" />-->
       <!--      <img class="bg-black album-artwork" :src="albumPicUrl" />-->
     </div>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

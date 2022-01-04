@@ -1,6 +1,6 @@
 <template>
-  <v-btn icon small @click="reload()">
-    <v-icon small>
+  <v-btn icon @click="reload()">
+    <v-icon size="20">
       {{ mdiReload }}
     </v-icon>
   </v-btn>

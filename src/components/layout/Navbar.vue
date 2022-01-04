@@ -9,20 +9,12 @@
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
-        class="d-flex px-0 drag-area"
-        :class="drawermini ? 'justify-center' : 'justify-end'"
+        class="d-flex px-0 drag-area mb-4"
+        :class="drawermini ? '' : 'ml-2'"
       >
-        <download-progress />
-        <reload-btn class="no-drag-area" />
-        <b-f class="no-drag-area" />
+        <drawer-toggle />
       </v-list-item>
       <v-list-item-group>
-        <v-subheader
-          v-show="!drawermini"
-          class="font-weight-bold text-uppercase"
-        >
-          {{ $t('main.nav.music') }}
-        </v-subheader>
         <default-list-item
           class="drawer-item"
           v-for="i in defaultNav1"
@@ -31,7 +23,7 @@
         />
         <v-subheader
           v-show="!drawermini"
-          class="font-weight-bold text-uppercase"
+          class="font-weight-bold text-uppercase ml-2"
         >
           {{ $t('main.nav.library') }}
         </v-subheader>
@@ -65,17 +57,13 @@ import DefaultList from '@components/default/List';
 import { sync, get } from 'vuex-pathify';
 import { groupBy, filter } from 'lodash-es';
 import DefaultListItem from '@components/default/ListItem';
-import BF from '@components/layout/BF';
-import ReloadBtn from '@components/layout/ReloadBtn';
-import DownloadProgress from './DownloadProgress.vue';
+import DrawerToggle from '@components/layout/DrawerToggle';
 export default {
   name: 'DefaultNavBar',
   components: {
-    ReloadBtn,
-    BF,
     DefaultListItem,
     DefaultList,
-    DownloadProgress,
+    DrawerToggle,
   },
   data: function () {
     const _t = (key) => this.$i18n.t(`main.nav.${key}`);
@@ -198,10 +186,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-//.theme--light.v-navigation-drawer,
-//.theme--dark.v-navigation-drawer {
-//  background: var(--v-surface-base);
-//}
+.theme--light.v-navigation-drawer,
+.theme--dark.v-navigation-drawer {
+  background: var(--v-background-base);
+}
 .v-navigation-drawer {
   bottom: 60px !important;
   //background: linear-gradient(209.21deg, rgb(255, 115, 115) 13.57%, rgb(73, 30, 184) 98.38%);

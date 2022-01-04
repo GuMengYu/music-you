@@ -7,7 +7,6 @@
     max-height="500"
     offset-y
     open-delay="60"
-    open-on-hover
     transition="slide-y-transition"
     v-bind="$attrs"
     v-on="$listeners"
@@ -19,7 +18,7 @@
     <v-sheet :outlined="false">
       <slot v-if="$slots.default" />
 
-      <default-list v-else :items="items">
+      <default-list v-else :items="items" color="background">
         <template v-if="$scopedSlots.item" #item="props">
           <slot name="item" v-bind="{ ...props }" />
         </template>

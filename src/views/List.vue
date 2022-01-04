@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="list mt-2">
+  <div class="list mt-2">
     <div v-if="loading" class="skeleton">
       <v-row>
         <v-col cols="4">
@@ -79,7 +79,7 @@
         </default-list>
       </v-col>
     </v-row>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';

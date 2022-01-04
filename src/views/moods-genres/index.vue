@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <page :title="$t('main.moods_genres')">
       <custom-col
         v-for="(item, index) in items"
@@ -14,7 +14,7 @@
         </v-row>
       </custom-col>
     </page>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { getCatList } from '@/api';

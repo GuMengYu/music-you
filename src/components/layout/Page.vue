@@ -1,10 +1,10 @@
 <template>
-  <v-sheet>
+  <div>
     <h2 class="text-md-h5 text-sm-body-1 font-weight-bold mb-4" :title="title">
       {{ title }}
     </h2>
     <slot />
-  </v-sheet>
+  </div>
 </template>
 
 <script>

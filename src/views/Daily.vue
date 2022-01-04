@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <div class="title mb-5">
       <div class="text-caption grey--text text--lighten-1 font-weight-bold">
         {{ $dayjs().format('MM/DD') }}
@@ -24,7 +24,7 @@
         <SongBar :song="item" />
       </template>
     </default-list>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

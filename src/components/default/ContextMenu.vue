@@ -15,7 +15,7 @@
     v-on="$listeners"
   >
     <v-sheet :outlined="false">
-      <default-list :items="items">
+      <default-list :items="items" color="background">
         <template #item="{ index, item }">
           <v-list-item
             :key="index"

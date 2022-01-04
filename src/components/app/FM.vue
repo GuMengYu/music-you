@@ -1,5 +1,10 @@
 <template>
-  <v-card class="d-flex justify-lg-space-between flex-column rounded-lg fm">
+  <v-card
+    class="d-flex justify-lg-space-between flex-column rounded-xl fm"
+    rounded="xl"
+    flat
+    color="surfaceVariant"
+  >
     <v-responsive :aspect-ratio="1" class="cover-wrapper">
       <div
         style="width: 100%; height: 100%"
@@ -26,7 +31,10 @@
         </div>
       </div>
     </v-responsive>
-    <div class="fm-action d-flex align-center justify-center">
+    <v-card-actions
+      class="d-flex align-center justify-center"
+      style="height: 68px"
+    >
       <v-btn icon text class="mx-2" @click="trash">
         <div>
           <v-icon v-text="icon.mdiThumbDown" />
@@ -52,7 +60,7 @@
       <v-btn icon class="mx-2" @click="next">
         <v-icon v-text="icon.mdiSkipForward" />
       </v-btn>
-    </div>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
@@ -134,25 +142,5 @@ export default {
 </script>
 <style scoped lang="scss">
 .fm {
-  background-color: var(--v-neumorphism-base) !important;
-  .cover-wrapper {
-    > ::v-deep .v-image__image {
-      background: var(--v-neumorphism-base) !important;
-    }
-  }
-  .cover {
-    box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
-      -9px -9px 18px var(--v-neumorphism-lighten1);
-  }
-  .fm-action {
-    height: 68px;
-    ::v-deep .v-progress-circular__underlay {
-      stroke: none;
-    }
-    ::v-deep .v-btn {
-      box-shadow: 9px 9px 18px var(--v-neumorphism-darken1),
-        -9px -9px 18px var(--v-neumorphism-lighten1);
-    }
-  }
 }
 </style>

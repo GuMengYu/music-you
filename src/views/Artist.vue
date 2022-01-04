@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <artist-skeleton v-if="loading" />
     <template v-if="!loading">
       <div class="artist d-flex flex-column align-center justify-end">
@@ -159,7 +159,7 @@
         </v-col>
       </v-row>
     </template>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { getArtist, getArtistAlbum, getArtistMv } from '@/api';

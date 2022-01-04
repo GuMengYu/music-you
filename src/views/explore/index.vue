@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <div v-if="loading">
       <cover-row-skeleton type="image" />
       <cover-row-skeleton :cols="4" type="chip" />
@@ -57,7 +57,7 @@
         </carousel>
       </custom-col>
     </div>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { getCatList, newAlbums, getNewMv, getTopList } from '@/api';

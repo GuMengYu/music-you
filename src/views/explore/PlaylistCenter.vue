@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="py-4 playlist-container">
+  <div class="py-4 playlist-container">
     <v-chip-group v-model="cat" active-class="primary--text">
       <v-chip
         v-for="category in defaultCategory"
@@ -23,7 +23,7 @@
     <div class="playlist-pagination text-center my-8">
       <v-pagination v-model="page" :length="pageLength" :total-visible="7" />
     </div>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { getTopPlaylist } from '@/api';

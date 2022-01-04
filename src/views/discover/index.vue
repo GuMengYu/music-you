@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="discover">
+  <div class="discover">
     <discover-skeleton v-if="loading" />
     <template v-if="!loading">
       <custom-col :title="$t('main.discover.featured')">
@@ -43,7 +43,7 @@
         </carousel>
       </custom-col>
     </template>
-  </v-sheet>
+  </div>
 </template>
 <script>
 import {

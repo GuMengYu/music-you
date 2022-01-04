@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-show="showList" class="rounded-lg playing-container">
+  <div v-show="showList" class="rounded-lg playing-container">
     <v-toolbar tag="header" flat class="rounded-lg" color="transparent">
       <div class="font-weight-bold">
         {{ $t('main.playing_queue') }}
@@ -27,7 +27,7 @@
         {{ $t('common.empty_playing_list') }}
       </v-list-item>
     </v-list>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

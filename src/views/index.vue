@@ -62,10 +62,10 @@ export default {
 };
 </script>
 <style lang="scss">
-//.theme--light.v-application,
-//.theme--dark.v-application {
-//  background: var(--v-background-base);
-//}
+.theme--light.v-application,
+.theme--dark.v-application {
+  background: var(--v-background-base);
+}
 .overlay {
   .v-overlay__scrim {
     backdrop-filter: blur(5px);

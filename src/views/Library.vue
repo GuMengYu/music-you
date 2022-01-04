@@ -1,5 +1,5 @@
 <template>
-  <v-sheet>
+  <div>
     <custom-col title="recent" subtitle="activity" class="mb-4">
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
@@ -101,7 +101,7 @@
         </cover-list>
       </v-tab-item>
     </v-tabs-items>
-  </v-sheet>
+  </div>
 </template>
 
 <script>
