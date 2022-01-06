@@ -37,7 +37,7 @@
 
 <script>
 import DefaultList from '@components/default/List';
-import { dispatch, sync } from 'vuex-pathify';
+import { sync } from 'vuex-pathify';
 import { getList, sub, getMusicUrl } from '@/api/music';
 import { getMvUrl } from '../../api/index';
 
@@ -92,10 +92,11 @@ export default {
     },
     async play(type, id, play = true) {
       const list = await getList(type, id);
-      await dispatch('music/updatePlayingList', {
-        list,
-        autoplay: play,
-      });
+      const track = await this.$player.updatePlayList(list);
+      if (play) {
+        await this.$player.updatePlayerTrack(track?.id);
+      }
+      this.loading = false;
     },
     async downloadMusic(id, fileName, type) {
       let url = '';

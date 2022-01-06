@@ -85,14 +85,11 @@ export default {
         commit('playlist', playlistRes.playlist);
       }
     },
-    async updatePlayingList({ commit, dispatch }, payload) {
-      const { autoplay = false, list } = payload;
-      dispatch('saveMusicState');
+    async updatePlayingList({ commit, dispatch }, list) {
       commit('isCurrentFm', false);
       commit('playingList', list);
-      if (autoplay) {
-        await dispatch('updateTrack', list?.[0]);
-      }
+      dispatch('saveMusicState');
+      return list;
     },
     async updatePersonalFmList({ commit, state }) {
       let originList = [...state.fmList];
@@ -116,7 +113,7 @@ export default {
       payload,
     ) {
       const { id } = payload;
-      commit('playing', false);
+      // commit('playing', false);
       commit('loadingTrack', true);
       // await sleep();
       const track = await getTrackDetail(

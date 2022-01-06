@@ -55,7 +55,6 @@
 <script>
 import { mdiPlay, mdiHeartOutline } from '@mdi/js';
 import { getAlbum } from '@/api';
-import { dispatch } from 'vuex-pathify';
 export default {
   name: 'WideCover',
   props: {
@@ -79,10 +78,8 @@ export default {
     fav() {},
     async play() {
       const { songs } = await getAlbum(this.cover.id);
-      await dispatch('music/updatePlayingList', {
-        list: songs,
-        autoplay: true,
-      });
+      const track = await this.$player.updatePlayList(songs);
+      await this.$player.updatePlayerTrack(track?.id);
     },
   },
 };

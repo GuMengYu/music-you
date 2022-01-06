@@ -104,8 +104,10 @@ export default {
   },
   methods: {
     play() {
-      dispatch('music/updateTrack', { id: this.song?.id });
-      this.$emit('played', this.song.id);
+      if (this.song?.id) {
+        this.$player.updatePlayerTrack(this.song?.id);
+        this.$emit('played', this.song.id);
+      }
     },
     more() {},
     noop() {},

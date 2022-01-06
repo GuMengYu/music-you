@@ -132,10 +132,8 @@ export default {
           list = data.list;
         }
       }
-      await this.$store.dispatch('music/updatePlayingList', {
-        list,
-        autoplay: true,
-      });
+      const track = await this.$player.updatePlayList(list);
+      await this.$player.updatePlayerTrack(track?.id);
       this.loading = false;
     },
     openMenu(e) {

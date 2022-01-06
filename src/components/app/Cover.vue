@@ -21,7 +21,7 @@
             <v-card-actions class="cover-actions">
               <v-progress-circular
                 :indeterminate="loading"
-                color="accent"
+                color="primary"
                 size="30"
               >
                 <v-btn
@@ -162,12 +162,16 @@ export default {
   methods: {
     async play() {
       this.loading = true;
-      const list = await getList(this.type, this.data.id);
-      await this.$store.dispatch('music/updatePlayingList', {
-        list,
-        autoplay: true,
-      });
-      this.loading = false;
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      try {
+        const list = await getList(this.type, this.data.id);
+        const track = await this.$player.updatePlayList(list);
+        await this.$player.updatePlayerTrack(track.id);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        this.loading = false;
+      }
     },
     openMenu(e) {
       const { clientX: x, clientY: y } = e;

@@ -257,10 +257,8 @@ export default {
     },
     async play() {
       this.playLoading = true;
-      await dispatch('music/updatePlayingList', {
-        list: this.hotSongs,
-        autoplay: true,
-      });
+      const track = await this.$player.updatePlayList(this.hotSongs);
+      await this.$player.updatePlayerTrack(track?.id);
       this.playLoading = false;
     },
     openMenu(e) {

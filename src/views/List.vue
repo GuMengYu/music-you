@@ -155,10 +155,8 @@ export default {
       this.loading = false;
     },
     async play() {
-      await dispatch('music/updatePlayingList', {
-        list: this.list.tracks,
-        autoplay: true,
-      });
+      const track = await this.$player.updatePlayList(this.list.tracks);
+      await this.$player.updatePlayerTrack(track?.id);
     },
     openMenu(e) {
       const { clientX: x, clientY: y } = e;

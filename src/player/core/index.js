@@ -30,6 +30,11 @@ export default class Player {
       list,
     });
   }
+  async updatePlayList(list) {
+    const _list = await this.store.dispatch('music/updatePlayingList', list);
+    this.playingList = _list;
+    return _list?.[0];
+  }
   initStoreEvent() {
     this.store.subscribe((mutation) => {
       if (mutation.type.startsWith('music/playing')) {

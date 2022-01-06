@@ -61,6 +61,7 @@ export default {
     more: 'See All',
     translations: 'Translation',
     not_support: 'can not support',
+    empty_playing_list: 'no more songs',
     language: 'Language',
     zh: '中文',
     en: 'English',

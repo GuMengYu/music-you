@@ -123,14 +123,14 @@ export default {
     async play() {
       if (this.fmTrack.id !== this.track.id) {
         commit('music/isCurrentFm', true);
-        await dispatch('music/updateTrack', { id: this.fmTrack.id });
+        await this.$player.updatePlayerTrack(this.fmTrack.id);
       } else {
         commit('music/playing', !this.fmPlaying);
       }
     },
     async next() {
       commit('music/isCurrentFm', true);
-      await dispatch('music/updateTrack', { id: this.nextFmTrackId });
+      await this.$player.updatePlayerTrack(this.nextFmTrackId);
       await dispatch('music/updatePersonalFmList');
     },
     async trash() {

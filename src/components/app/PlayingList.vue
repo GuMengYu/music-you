@@ -1,33 +1,40 @@
 <template>
-  <div v-show="showList" class="rounded-lg playing-container">
-    <v-toolbar tag="header" flat class="rounded-lg" color="transparent">
-      <div class="font-weight-bold">
-        {{ $t('main.playing_queue') }}
-      </div>
-      <v-spacer />
-      <v-btn icon>
-        <v-icon @click="showList = !showList">
-          {{ icon.mdiCloseCircle }}
-        </v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-list
-      dense
-      two-line
-      nav
-      max-height="70vh"
-      max-width="350"
-      min-height="50vh"
-      class="playing-container-list overflow-y-auto"
-    >
-      <v-list-item-group color="primary" v-if="nextList.length">
-        <song-bar v-for="(song, i) in nextList" :key="i" :song="song" />
-      </v-list-item-group>
-      <v-list-item v-else>
-        {{ $t('common.empty_playing_list') }}
-      </v-list-item>
-    </v-list>
-  </div>
+  <v-expand-transition>
+    <div v-show="showList" class="rounded-lg play-list-container">
+      <v-toolbar
+        tag="header"
+        flat
+        class="rounded-lg play-list-header"
+        color="transparent"
+      >
+        <div class="font-weight-bold">
+          {{ $t('main.playing_queue') }}
+        </div>
+        <v-spacer />
+        <v-btn icon>
+          <v-icon @click="showList = !showList">
+            {{ icon.mdiCloseCircle }}
+          </v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-list
+        dense
+        two-line
+        nav
+        width="350"
+        max-height="70vh"
+        min-height="50vh"
+        class="play-list-container-list overflow-y-auto"
+      >
+        <v-list-item-group color="primary" v-if="nextList.length">
+          <song-bar v-for="(song, i) in nextList" :key="i" :song="song" />
+        </v-list-item-group>
+        <v-list-item v-else>
+          {{ $t('common.empty_playing_list') }}
+        </v-list-item>
+      </v-list>
+    </div>
+  </v-expand-transition>
 </template>
 
 <script>
@@ -59,14 +66,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.playing-container {
+.play-list-container {
   position: fixed;
   right: 20px;
   bottom: 80px;
   z-index: 7;
-  min-width: 25vw;
   backdrop-filter: blur(30px);
-  .playing-container-list {
+  .play-list-container-list {
     background: transparent;
     &::-webkit-scrollbar {
       width: 0;
@@ -74,12 +80,12 @@ export default {
   }
 }
 .theme--light {
-  .playing-container {
+  .play-list-container {
     background: rgba(255, 255, 255, 0.5);
   }
 }
 .theme--dark {
-  .playing-container {
+  .play-list-container {
     background: rgba(0, 0, 0, 0.5);
   }
 }

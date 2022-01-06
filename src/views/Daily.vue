@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { dispatch } from 'vuex-pathify';
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import SongBar from '@components/app/SongBar';
@@ -55,10 +54,8 @@ export default {
     },
     async play() {
       this.loading = true;
-      await dispatch('music/updatePlayingList', {
-        list: this.daily,
-        autoplay: true,
-      });
+      const track = await this.$player.updatePlayList(this.daily);
+      await this.$player.updatePlayerTrack(track?.id);
       this.loading = false;
     },
   },
