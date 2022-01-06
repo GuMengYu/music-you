@@ -116,28 +116,37 @@ export default {
       // commit('playing', false);
       commit('loadingTrack', true);
       // await sleep();
-      const track = await getTrackDetail(
-        id,
-        rootState.settings.quality,
-        rootGetters['settings/logged'],
-      );
-      commit('track', track);
-      if (state.isCurrentFm) {
-        commit('fmTrack', track);
-      }
-      commit('currentTrackId', track?.id);
-      dispatch('saveMusicState');
-      if (!track.url) {
+      try {
+        const track = await getTrackDetail(
+          id,
+          rootState.settings.quality,
+          rootGetters['settings/logged'],
+        );
+        commit('track', track);
+        if (state.isCurrentFm) {
+          commit('fmTrack', track);
+        }
+        commit('currentTrackId', track?.id);
+        dispatch('saveMusicState');
+        if (!track.url) {
+          dispatch(
+            'snackbar/show',
+            { text: '歌曲暂时不可用', type: 'warning' },
+            { root: true },
+          );
+          const next = getters['nextTrackId'] ?? '';
+          if (next && getters['nextTrackId'] !== state.currentTrackId)
+            dispatch('updateTrack', { id: getters['nextTrackId'] });
+        }
+        return track;
+      } catch (e) {
         dispatch(
           'snackbar/show',
-          { text: '歌曲暂时不可用', type: 'warning' },
+          { text: '歌曲暂时不可用', type: 'error' },
           { root: true },
         );
-        const next = getters['nextTrackId'] ?? '';
-        if (next && getters['nextTrackId'] !== state.currentTrackId)
-          dispatch('updateTrack', { id: getters['nextTrackId'] });
+        commit('loadingTrack', false);
       }
-      return track;
     },
     async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
       let likes = state.likes;

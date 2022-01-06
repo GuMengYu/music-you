@@ -4,6 +4,7 @@
       v-if="track.id"
       padless
       class="playing-bar"
+      rounded="xl"
       app
       :style="{ bottom: '5px', left: '5px', right: '5px' }"
     >
@@ -249,8 +250,6 @@ export default {
   background-color: rgba(0, 0, 0, 1);
 }
 .playing-bar {
-  border-radius: $border-radius-root * 4;
-  // backdrop-filter: blur(50px);
   z-index: 10;
   .playing-control {
     width: 100%;
