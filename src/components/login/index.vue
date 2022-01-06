@@ -1,10 +1,7 @@
 <template>
   <v-dialog v-model="showLogin" max-width="400">
-    <div
-      class="login-container py-4"
-      :color="theme.isDark ? 'grey darken-3' : void 0"
-    >
-      <div class="title px-8 d-flex align-center">
+    <v-card outlined color="background" class="login-container py-4">
+      <div class="title px-10 d-flex align-center">
         <span class="text-h5 font-weight-bold mr-2">登录</span>
         <span>-</span>
         <span class="text-caption font-weight-bold ml-2">网易云账号</span>
@@ -15,6 +12,7 @@
             v-model="phone"
             :icon="icon.mdiPhone"
             holder="输入手机号"
+            color="surfaceVariant"
           />
         </v-list-item>
         <v-list-item class="mt-4">
@@ -23,12 +21,14 @@
             :icon="icon.mdiLock"
             holder="输入密码"
             type="password"
+            color="surfaceVariant"
           />
         </v-list-item>
       </div>
       <div class="d-flex justify-center mt-4">
         <v-btn
-          text
+          depressed
+          rounded
           width="100"
           color="primary"
           :loading="loading"
@@ -40,10 +40,7 @@
           </template>
         </v-btn>
       </div>
-      <div class="mt-4 px-8">
-        <p>免责声明</p>
-      </div>
-    </div>
+    </v-card>
   </v-dialog>
 </template>
 <script>
@@ -107,8 +104,14 @@ export default {
 <style scoped lang="scss">
 .login-container {
   .title {
-    border-left: 5px solid var(--v-primary-base);
-    color: var(--v-primary-base);
+    &::after {
+      content: '';
+      position: absolute;
+      height: 20px;
+      width: 5px;
+      left: 20px;
+      background: var(--v-primary-base);
+    }
   }
 }
 </style>

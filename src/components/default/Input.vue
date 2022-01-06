@@ -55,6 +55,10 @@ export default {
       type: String,
       default: 'text',
     },
+    color: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
     model: undefined,
@@ -65,6 +69,9 @@ export default {
       return this.isFocused ? '' : this.holder;
     },
     bgColor() {
+      if (this.color) {
+        return this.color;
+      }
       let color = 'surface';
       if (this.theme.isDark) {
         return color;
