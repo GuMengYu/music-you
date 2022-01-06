@@ -54,7 +54,7 @@ export default {
 <style lang="scss">
 .theme--light.v-application,
 .theme--dark.v-application {
-  background: var(--v-background-base);
+  background: var(--v-background-base) !important;
 }
 .overlay {
   .v-overlay__scrim {
