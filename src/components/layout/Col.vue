@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="title mb-5">
-      <div class="text-caption grey--text text--lighten-1 font-weight-bold">
-        {{ subtitle }}
-      </div>
+    <div class="title mb-4">
+      <!--      <div class="text-caption grey&#45;&#45;text text&#45;&#45;lighten-1">-->
+      <!--        {{ subtitle }}-->
+      <!--      </div>-->
       <div class="d-flex justify-space-between">
-        <div class="text-h6 font-weight-bold">
+        <div class="text-h4 onSurfaceVariant--text">
           {{ title }}
         </div>
         <v-btn v-if="more" text plain small class="font-weight-bold" :to="more">
@@ -27,12 +27,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.title {
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-end;
-  height: 52px;
-}
-</style>

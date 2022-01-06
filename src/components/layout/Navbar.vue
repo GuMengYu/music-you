@@ -6,10 +6,11 @@
     fixed
     :mini-variant="drawermini"
     :width="300"
+    color="surface"
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
-        class="d-flex px-0 drag-area mb-4"
+        class="d-flex px-0 drag-area mb-6"
         :class="drawermini ? '' : 'ml-2'"
       >
         <drawer-toggle />
@@ -186,10 +187,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.theme--light.v-navigation-drawer,
-.theme--dark.v-navigation-drawer {
-  background: var(--v-background-base);
-}
 .v-navigation-drawer {
   bottom: 60px !important;
   //background: linear-gradient(209.21deg, rgb(255, 115, 115) 13.57%, rgb(73, 30, 184) 98.38%);
@@ -204,7 +201,7 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 40px;
+      height: 56px;
     }
     .drag-area {
       -webkit-app-region: drag;

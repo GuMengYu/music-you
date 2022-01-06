@@ -4,15 +4,8 @@
     <default-nav-bar class="left_nav" />
     <default-view />
     <player-bar />
-    <playing-list />
     <default-setting />
-    <v-dialog
-      v-model="showLyricsPage"
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
-      <default-track-detail @close="showLyricsPage = !showLyricsPage" />
-    </v-dialog>
+    <track-detail />
     <default-login />
     <default-snackbar />
     <context-menu />
@@ -23,10 +16,9 @@
 <script>
 import DefaultNavBar from '@/components/layout/Navbar.vue';
 import PlayerBar from '@components/app/playerBar/index';
-import PlayingList from '@components/app/PlayingList';
 import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
-import DefaultTrackDetail from '@/components/app/trackdetail';
+import TrackDetail from '@/components/app/trackdetail';
 import DefaultSnackbar from '@components/default/Snackbar';
 import DefaultHeader from '@components/layout/Header';
 import DefaultView from '@components/layout/View';
@@ -42,11 +34,10 @@ export default {
     DefaultView,
     DefaultSetting,
     DefaultSnackbar,
-    PlayingList,
     PlayerBar,
     DefaultNavBar,
     DefaultLogin,
-    DefaultTrackDetail,
+    TrackDetail,
     DefaultHeader,
   },
   data: () => ({
@@ -56,7 +47,6 @@ export default {
     mdiInformation,
   }),
   computed: {
-    showLyricsPage: sync('music/showLyricsPage'),
     showList: sync('music/showList'),
   },
 };

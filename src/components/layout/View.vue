@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-fade-transition hide-on-leave="">
-      <v-container :class="nogetter ? 'pa-0' : 'pa-4 pa-sm-6 pa-md-8 pt-md-4'">
+      <v-container :class="nogetter ? 'pa-0' : 'pa-8 pt-4'" fluid>
         <keep-alive v-if="$route.meta.keepAlive">
           <router-view />
         </keep-alive>

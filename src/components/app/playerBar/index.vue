@@ -113,6 +113,7 @@
           </v-btn>
         </div>
       </div>
+      <play-list />
     </v-footer>
   </v-expand-transition>
 </template>
@@ -141,6 +142,8 @@ import {
 import VueSlider from 'vue-slider-component';
 import { formatDuring } from '@util/fn';
 import Control from '@components/app/Control';
+import PlayList from '@components/app/PlayingList';
+
 let prevVolume = 1;
 const PLAY_MODE = {
   ORDER: 0,
@@ -153,6 +156,7 @@ export default {
   components: {
     Control,
     VueSlider,
+    PlayList,
   },
   // mixins: [Player],
   data: () => ({

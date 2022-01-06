@@ -1,18 +1,19 @@
 <template>
   <v-dialog
+    fullscreen
     v-model="showSettings"
     transition="dialog-top-transition"
     max-width="600"
   >
-    <v-card outlined class="settings-wrapper">
-      <v-toolbar flat rounded>
+    <v-card outlined class="settings-wrapper" color="background">
+      <v-toolbar flat color="surface">
         <v-btn icon @click="showSettings = false">
           <v-icon>$close</v-icon>
         </v-btn>
         <v-toolbar-title>{{ $t('common.setting') }}</v-toolbar-title>
       </v-toolbar>
       <div class="container">
-        <v-list subheader>
+        <v-list subheader class="background">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">

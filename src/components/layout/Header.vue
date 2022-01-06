@@ -2,7 +2,7 @@
   <v-app-bar
     app
     fixed
-    dense
+    short
     :elevation="0"
     color="background"
     class="app_header"
