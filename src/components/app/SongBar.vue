@@ -23,7 +23,7 @@
         />
       </v-card>
       <v-list-item-content>
-        <v-list-item-title class="font-weight-bold" v-text="song.name" />
+        <v-list-item-title v-text="song.name" />
 
         <v-list-item-subtitle>
           <span v-for="(artist, index) in artists" :key="index">
@@ -40,7 +40,7 @@
           width="30"
           height="30"
           icon
-          color="red"
+          color="primary"
           x-small
           class="list-delete-button"
           @click.prevent="openMenu"
@@ -50,7 +50,7 @@
           </v-icon>
         </v-btn>
         <v-list-item-action-text v-show="!hover">
-          {{ song.duration | formatDuring }}
+          {{ song.dt || song.duration | formatDuring }}
         </v-list-item-action-text>
       </v-list-item-action>
     </v-list-item>

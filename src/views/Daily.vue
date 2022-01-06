@@ -18,7 +18,7 @@
     <default-list
       :items="daily"
       two-line
-      class="daily-song overflow-y-auto pa-0"
+      class="daily-song overflow-y-auto pa-0 background"
     >
       <template #item="{ item }">
         <SongBar :song="item" />

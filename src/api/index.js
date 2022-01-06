@@ -192,6 +192,14 @@ export const getCatList = () => xhr.get('/playlist/catlist');
 export const getMv = () => xhr.get('/personalized/mv');
 
 /**
+ * 获取热门视频
+ * @param offset
+ * @returns {*}
+ */
+export const recommendVideo = (offset) =>
+  xhr.get('/video/timeline/recommend', { offset });
+
+/**
  * 获取新mv
  * @returns {Promise<AxiosResponse<any>>}
  */

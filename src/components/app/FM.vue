@@ -5,7 +5,7 @@
     flat
     color="surfaceVariant"
   >
-    <v-responsive :aspect-ratio="1" class="cover-wrapper">
+    <v-responsive :aspect-ratio="16 / 9" class="cover-wrapper">
       <div
         style="width: 100%; height: 100%"
         class="d-flex justify-center align-center flex-column"
@@ -13,15 +13,15 @@
         <v-progress-circular
           :rotate="-90"
           :value="progress"
-          size="168"
+          size="108"
           color="primary lighten-1"
           class="cover rounded-circle"
         >
           <v-img
             :src="albumCoverImgUrl"
             class="rounded-circle"
-            max-width="160"
-            max-height="160"
+            max-width="100"
+            max-height="100"
           />
         </v-progress-circular>
         <div class="d-flex flex-column text-center mt-2">
@@ -33,7 +33,7 @@
     </v-responsive>
     <v-card-actions
       class="d-flex align-center justify-center"
-      style="height: 68px"
+      style="height: 48px"
     >
       <v-btn icon text class="mx-2" @click="trash">
         <div>
@@ -43,18 +43,14 @@
       <v-fab-transition origin="center center">
         <v-btn
           :key="playingState.icon"
-          icon
           fab
-          height="45"
-          width="45"
+          elevation="0"
           class="mx-2"
           @click="play"
+          color="primary"
+          small
         >
-          <v-icon
-            v-text="playingState.icon"
-            :color="playingState.color"
-            large
-          />
+          <v-icon v-text="playingState.icon" color="onPrimary" />
         </v-btn>
       </v-fab-transition>
       <v-btn icon class="mx-2" @click="next">

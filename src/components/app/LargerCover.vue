@@ -2,13 +2,13 @@
   <v-hover v-slot="{ hover }">
     <v-card
       flat
-      dark
       class="d-flex justify-lg-space-between flex-column cover"
       :img="coverImgUrl"
       :class="{ 'cover-hover': hover }"
       rounded="xl"
+      color="surfaceVariant"
     >
-      <v-img :src="coverImgUrl" :aspect-ratio="1">
+      <v-img :src="coverImgUrl" :aspect-ratio="16 / 9">
         <v-fade-transition>
           <v-overlay :value="hover" absolute>
             <v-card-actions
@@ -66,7 +66,7 @@
         </v-fade-transition>
       </v-img>
       <div class="desc pa-2">
-        <span class="text-caption">
+        <span class="text-caption white--text">
           {{ data.name }}
         </span>
       </div>
@@ -160,7 +160,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 68px;
+  height: 48px;
   backdrop-filter: saturate(140%) blur(70px);
 }
 .actions {

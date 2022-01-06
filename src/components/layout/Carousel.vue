@@ -31,7 +31,7 @@
         <ul
           ref="coverCardList"
           class="shelf-grid__list px-0 py-1"
-          :style="`--grid-rows: ${rows}; --grid-column-gap: 20px;`"
+          :style="`--grid-rows: ${rows}; --grid-column-gap: ${gap}px;`"
           v-scroll.self="onScroll"
         >
           <slot></slot>
@@ -51,6 +51,10 @@ export default {
     rows: {
       type: Number,
       default: 1,
+    },
+    gap: {
+      type: Number,
+      default: 20,
     },
     gridStyle: {
       type: String,

@@ -72,7 +72,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <default-list :items="list.tracks" two-line>
+        <default-list :items="list.tracks" two-line class="background">
           <template #item="{ item }">
             <SongBar :song="item" />
           </template>

@@ -3,26 +3,23 @@
     <discover-skeleton v-if="loading" />
     <template v-if="!loading">
       <custom-col :title="$t('main.discover.featured')">
-        <carousel grid-style="A">
+        <carousel grid-style="A" :gap="10">
           <carousel-item>
-            <span>{{ $t('main.discover.new_releases_album') }}</span>
-            <larger-cover :data="release" class="mt-2" />
+            <!--            <span>{{ $t('main.discover.fm') }}</span>-->
+            <f-m />
           </carousel-item>
           <carousel-item>
-            <span>{{ $t('main.discover.you_liked') }}</span>
-            <larger-cover :data="radar" class="mt-2" type="playlist" />
+            <larger-cover :data="release" />
           </carousel-item>
           <carousel-item>
-            <span>{{ $t('main.discover.daily') }}</span>
-            <larger-cover :data="daily" class="mt-2" type="daily" />
+            <larger-cover :data="radar" type="playlist" />
           </carousel-item>
           <carousel-item>
-            <span>{{ $t('main.discover.fm') }}</span>
-            <f-m class="mt-2" />
+            <larger-cover :data="daily" type="daily" />
           </carousel-item>
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.for_you')">
+      <custom-col :title="$t('main.for_you')" class="mt-4">
         <carousel>
           <cover
             v-for="list in playLists"
@@ -33,7 +30,11 @@
         </carousel>
       </custom-col>
       <custom-col class="mt-4" :title="$t('main.discover.recommend_songs')">
-        <carousel :rows="4" grid-style="C">
+        <carousel
+          :rows="4"
+          grid-style="C"
+          class="px-2 py-1 surfaceVariant rounded-xl"
+        >
           <song-bar v-for="song in songs" :key="song.id" :song="song" />
         </carousel>
       </custom-col>
@@ -50,6 +51,7 @@ import {
   getPersonalized,
   newAlbums,
   getMv,
+  // recommendVideo,
   getNewRelease,
   getPlayList,
 } from '@/api';
