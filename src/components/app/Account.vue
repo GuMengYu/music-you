@@ -50,10 +50,6 @@ export default {
           title: this.$t('common.sign_out'),
         },
         {
-          type: 'center',
-          title: this.$t('common.personal'),
-        },
-        {
           type: 'settings',
           title: this.$t('common.setting'),
         },
@@ -74,9 +70,6 @@ export default {
       switch (type) {
         case 'sign_out':
           this.signOut();
-          break;
-        case 'center':
-          console.log('go center');
           break;
         case 'settings':
           this.showSettings = true;
