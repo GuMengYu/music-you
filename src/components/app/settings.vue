@@ -27,6 +27,86 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">
+                {{ $t('common.theme') }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <div class="images appearance d-flex">
+              <v-img
+                class="image"
+                :class="selected('auto', 'appearance')"
+                src="@/assets/auto.png"
+                @click="selectAppearance('auto')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('light', 'appearance')"
+                src="@/assets/light.png"
+                @click="selectAppearance('light')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('dark', 'appearance')"
+                src="@/assets/dark.png"
+                @click="selectAppearance('dark')"
+              ></v-img>
+            </div>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
+                {{ $t('common.theme_color') }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <div class="images color d-flex">
+              <v-img
+                class="image"
+                :class="selected('RedSandDunes')"
+                max-width="57"
+                aria-label="Wallpaper 1 red sand dunes"
+                src="@/assets/1_thumb.webp"
+                @click="selectPalette('RedSandDunes')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('RedMountainTop')"
+                max-width="57"
+                aria-label="Wallpaper 2 red mountain top"
+                src="@/assets/2_thumb.webp"
+                @click="selectPalette('RedMountainTop')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('OrangeDesert')"
+                max-width="57"
+                aria-label="Wallpaper 3 orange desert"
+                src="@/assets/3_thumb.webp"
+                @click="selectPalette('OrangeDesert')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('BlueMountains')"
+                max-width="57"
+                aria-label="Wallpaper 4 blue mountains"
+                src="@/assets/4_thumb.webp"
+                @click="selectPalette('BlueMountains')"
+              ></v-img>
+              <v-img
+                class="image"
+                :class="selected('RedRockyMountains')"
+                max-width="57"
+                aria-label="Wallpaper 5 red rocky mountains"
+                src="@/assets/5_thumb.webp"
+                @click="selectPalette('RedRockyMountains')"
+              ></v-img>
+            </div>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold">
                 {{ $t('common.language') }}
               </v-list-item-title>
             </v-list-item-content>
@@ -35,34 +115,6 @@
                 v-model="locale"
                 :options="langOptions"
                 sub-header="translation"
-              />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.theme') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <default-select
-                v-model="theme"
-                :options="appearanceOptions"
-                sub-header="theme"
-              />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.theme_color') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <default-select
-                v-model="palettes"
-                :options="themePalette"
-                sub-header="palettes"
               />
             </v-list-item-action>
           </v-list-item>
@@ -199,6 +251,12 @@ export default {
   },
   created() {},
   methods: {
+    selected(target, type = 'color') {
+      const resource = type === 'color' ? this.palettes : this.theme;
+      return {
+        selected: resource === target,
+      };
+    },
     clearCache() {},
     initMode() {
       const that = this;
@@ -234,11 +292,44 @@ export default {
         }
       });
     },
+    selectPalette(palette) {
+      this.palettes = palette;
+    },
+    selectAppearance(appearance) {
+      this.theme = appearance;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .settings-wrapper {
+  .images {
+    .image {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 10px;
+      cursor: pointer;
+      transition: border-radius 0.2s ease-in-out;
+    }
+    > .image.selected {
+      border: 2px solid var(--v-primary-base);
+      border-radius: 8px;
+    }
+  }
+  .images.color {
+    .image {
+      border-radius: 80px;
+      &:hover {
+        border-radius: 8px;
+      }
+    }
+  }
+  .images.appearance {
+    .image {
+      border-radius: 8px;
+    }
+  }
 }
 </style>

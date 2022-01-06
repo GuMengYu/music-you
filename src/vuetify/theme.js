@@ -1,6 +1,6 @@
 export default {
-  one: {
-    name: 'one',
+  RedSandDunes: {
+    name: 'RedSandDunes',
     palette: {
       light: {
         error: '#ba1b1b',
@@ -58,8 +58,8 @@ export default {
       },
     },
   },
-  two: {
-    name: 'two',
+  RedMountainTop: {
+    name: 'RedMountainTop',
     palette: {
       light: {
         primary: '#006c47',
@@ -117,8 +117,8 @@ export default {
       },
     },
   },
-  three: {
-    name: 'three',
+  OrangeDesert: {
+    name: 'OrangeDesert',
     palette: {
       light: {
         primary: '#944a02',
@@ -176,8 +176,8 @@ export default {
       },
     },
   },
-  four: {
-    name: 'four',
+  BlueMountains: {
+    name: 'BlueMountains',
     palette: {
       light: {
         primary: '#005ac5',
@@ -235,8 +235,8 @@ export default {
       },
     },
   },
-  five: {
-    name: 'five',
+  RedRockyMountains: {
+    name: 'RedRockyMountains',
     palette: {
       light: {
         primary: '#476810',
