@@ -1,26 +1,22 @@
 <template>
-  <v-app-bar
-    app
-    fixed
-    short
-    :elevation="0"
-    color="background"
-    class="app_header"
-  >
+  <v-app-bar app fixed short :elevation="0" class="app_header surface">
     <!--      <download-progress />-->
     <div class="d-flex">
       <b-f class="no-drag-area" />
       <reload-btn class="no-drag-area" />
     </div>
-    <default-input
-      v-model="keywords"
-      :holder="$t('common.search_type_2')"
-      :icon="icon.mdiMagnify"
-      class="search_input"
-      @enter="goSearch"
-    >
-      <default-account />
-    </default-input>
+    <div class="d-flex align-center">
+      <default-input
+        v-model="keywords"
+        :holder="$t('common.search_type_2')"
+        :icon="icon.mdiMagnify"
+        class="search_input"
+        @enter="goSearch"
+      >
+        <default-account />
+      </default-input>
+      <theme-toggle />
+    </div>
 
     <!--      <div class="nav_actions">-->
     <!--        <setting-toggle />-->
@@ -37,7 +33,7 @@ import is from 'electron-is';
 
 import DefaultInput from '@components/default/Input';
 import DefaultTitleBar from '@components/layout/TitleBar';
-// import ThemeToggle from '@components/layout/ThemeToggle';
+import ThemeToggle from '@components/layout/ThemeToggle';
 import DefaultAccount from '@components/app/Account';
 // import SettingToggle from '@components/layout/SettingToggle';
 import ReloadBtn from '@components/layout/ReloadBtn';
@@ -49,7 +45,7 @@ export default {
   components: {
     DefaultInput,
     DefaultTitleBar,
-    // ThemeToggle,
+    ThemeToggle,
     DefaultAccount,
     // SettingToggle,
     ReloadBtn,
@@ -81,10 +77,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.theme--light.app_header,
-.theme--dark.app_header {
-  background: var(--v-background-base);
-}
 .app_header {
   display: flex;
   -webkit-app-region: drag;

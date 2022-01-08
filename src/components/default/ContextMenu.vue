@@ -38,11 +38,10 @@
 <script>
 import DefaultList from '@components/default/List';
 import { sync } from 'vuex-pathify';
-import { getList, sub, getMusicUrl } from '@/api/music';
-import { getMvUrl } from '../../api/index';
+import { getList, sub } from '@/api/music';
+import { getMvUrl, getSongDownloadUrl } from '../../api/index';
 
-import { download } from '@/util/download';
-import { isElectron } from '@/util/fn';
+import { isElectron, downloadFile } from '@/util/fn';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -104,12 +103,13 @@ export default {
         const { data } = await getMvUrl({ id, r: 1080 });
         url = data.url;
       } else {
-        url = await getMusicUrl(id, 999000, this.logged);
+        const { data } = await getSongDownloadUrl({ id, br: 999000 });
+        url = data.url;
       }
       if (isElectron()) {
         this.$ipcRenderer.invoke('downloadFile', { url, fileName });
       } else {
-        download(url);
+        downloadFile(url, fileName);
       }
     },
   },

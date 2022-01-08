@@ -39,6 +39,16 @@ export const getSongUrl = (params) =>
   });
 
 /**
+ * 获取歌曲下载链接
+ * @param params
+ */
+export const getSongDownloadUrl = (params) => {
+  return xhr.get('/song/download/url', {
+    params,
+  });
+};
+
+/**
  * 解锁灰色不可播放歌曲
  * @param id
  */

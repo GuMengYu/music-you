@@ -80,7 +80,7 @@ export default {
       const metadata = {
         id: this.song.id,
         type: 'track',
-        fileName: `${this.song.name}.mp3`,
+        fileName: `${this.song.name}`,
       };
       const items = [
         { title: '播放', action: 'play', metadata },

@@ -128,7 +128,7 @@ export default {
         }
         commit('currentTrackId', track?.id);
         dispatch('saveMusicState');
-        if (!track.url) {
+        if (!track?.url) {
           dispatch(
             'snackbar/show',
             { text: '歌曲暂时不可用', type: 'warning' },

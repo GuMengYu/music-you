@@ -51,6 +51,30 @@ export const redirect = (url, target = '_blank') => {
   window.open(url, target);
 };
 
+/**
+ * 下载文件
+ * 参考 https://github.com/kennethjiang/js-file-download/blob/master/file-download.js
+ * @param url
+ * @param name
+ */
+export const downloadFile = (url, name) => {
+  const tempLink = document.createElement('a');
+  tempLink.style.display = 'none';
+  tempLink.href = url;
+  tempLink.download = name;
+  tempLink.setAttribute('download', 'download');
+
+  tempLink.setAttribute('target', '_blank');
+
+  document.body.appendChild(tempLink);
+
+  tempLink.click();
+
+  // Fixes "webkit blob resource error 1"
+  setTimeout(function () {
+    document.body.removeChild(tempLink);
+  }, 200);
+};
 export const isElectron = () => {
   return process.env.IS_ELECTRON;
 };

@@ -20,7 +20,7 @@ export default class Player {
   init() {
     this.initStoreEvent();
     this.restoreStateFromStore();
-    if (this.track) {
+    if (this.track?.id && this.track?.url) {
       this.updatePlayerTrack(this.track.id, false, false);
     }
   }
