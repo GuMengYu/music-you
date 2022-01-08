@@ -27,6 +27,7 @@
     "howler": "^2.2.1",
     "js-cookie": "^2.2.1",
     "lodash-es": "^4.17.21",
+    "lottie-web": "^5.8.1",
     "nprogress": "^0.2.0",
     "plyr": "^3.6.4",
     "vue": "^2.6.11",
@@ -61,6 +62,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
     "express": "^4.17.1",
+    "lint-staged": "^12.1.5",
     "long": "^4.0.0",
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
@@ -72,7 +74,6 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.3",
     "vuex-pathify": "^1.4.5",
-    "lint-staged": "^12.1.5",
     "yorkie": "^2.0.0"
   },
   "browserslist": [

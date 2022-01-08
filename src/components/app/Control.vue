@@ -8,19 +8,29 @@
     <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
       <v-icon small>{{ icon.mdiSkipBackward }}</v-icon>
     </v-btn>
-    <v-fab-transition>
-      <v-btn
-        :key="playingState.icon"
-        class="mx-2 play-fab"
-        @click="playPause"
-        :elevation="0"
-        color="primary"
-      >
-        <v-icon :size="24" color="onPrimary">
-          {{ playingState.icon }}
-        </v-icon>
-      </v-btn>
-    </v-fab-transition>
+
+    <v-btn
+      :key="playingState.icon"
+      class="mx-2 play-fab"
+      @click="playPause"
+      depressed
+      rounded
+      color="primary"
+      :loading="loadingTrack"
+    >
+      <lottie-icon
+        class="lottie-icon onPrimary--text"
+        style="position: relative; top: 1px"
+        :options="playOptions"
+        :width="30"
+        :height="30"
+        v-on:animCreated="handleAnimation"
+      ></lottie-icon>
+      <!--      <v-icon :size="24" color="onPrimary">-->
+      <!--        {{ playingState.icon }}-->
+      <!--      </v-icon>-->
+    </v-btn>
+
     <v-btn class="mx-2" icon @click="playNext">
       <v-icon small>{{ icon.mdiSkipForward }}</v-icon>
     </v-btn>
@@ -43,6 +53,10 @@ import {
   mdiPause,
   mdiPlay,
 } from '@mdi/js';
+
+import LottieIcon from '@/components/default/Lottie';
+import { playToPause as playToPauseAnimationData } from '@/util/animationData.json';
+
 const PLAY_MODE = {
   ORDER: 0,
   CYCLE: 1,
@@ -51,15 +65,23 @@ const PLAY_MODE = {
 };
 export default {
   name: 'Control',
+  components: { LottieIcon },
   data() {
     return {
       icon: {
         mdiSkipBackward,
         mdiSkipForward,
       },
+      playAnim: null,
+      playOptions: {
+        animationData: playToPauseAnimationData,
+        loop: false,
+        autoplay: false,
+      },
     };
   },
   computed: {
+    loadingTrack: get('music/loadingTrack'),
     playing: get('music/playing'),
     mode: sync('music/mode'),
     isCurrentFm: get('music/isCurrentFm'),
@@ -75,6 +97,10 @@ export default {
     },
   },
   methods: {
+    handleAnimation(animation) {
+      this.playAnim = animation;
+      this.playAnim.setSpeed(2);
+    },
     playOrder() {
       this.mode < 2 ? this.mode++ : (this.mode = 0);
     },
@@ -88,12 +114,18 @@ export default {
       this.$player.prev();
     },
   },
+  watch: {
+    // update play icon state
+    async playing(val) {
+      // playing
+      console.log(val);
+      await this.$nextTick();
+      if (val) {
+        this.playAnim?.playSegments([0, 30], true);
+      } else {
+        this.playAnim?.playSegments([30, 60], true);
+      }
+    },
+  },
 };
 </script>
-
-<style scoped lang="scss">
-.play-fab {
-  height: 40px !important;
-  border-radius: 0.75rem;
-}
-</style>

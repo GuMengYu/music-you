@@ -76,10 +76,17 @@
             <v-icon
               small
               v-text="icon.mdiHeart"
-              :color="
-                liked ? 'var(--v-primary-base)' : 'var(--v-secondary-darken2)'
-              "
+              :color="liked ? 'rgb(255, 76, 76)' : 'var(--v-secondary-darken2)'"
+              v-show="!showAnim"
             />
+            <lottie-icon
+              v-show="showAnim"
+              ref="lottieIcon"
+              :options="heartOptions"
+              :height="40"
+              :width="40"
+              @animCreated="handleAnimation"
+            ></lottie-icon>
           </v-btn>
         </div>
         <div class="playing-bar__center">
@@ -139,9 +146,11 @@ import {
   mdiArrowExpand,
 } from '@mdi/js';
 
-// import Player from './player.js';
+import { heart } from '@/util/animationData.json';
+import LottieIcon from '@/components/default/Lottie';
+
 import VueSlider from 'vue-slider-component';
-import { formatDuring } from '@util/fn';
+import { formatDuring, sleep } from '@util/fn';
 import Control from '@components/app/Control';
 import PlayList from '@components/app/PlayingList';
 
@@ -158,8 +167,8 @@ export default {
     Control,
     VueSlider,
     PlayList,
+    LottieIcon,
   },
-  // mixins: [Player],
   data: () => ({
     icon: {
       mdiHeart,
@@ -172,6 +181,13 @@ export default {
       mdiArrowExpand,
     },
     prevVolume: 1,
+    heartOptions: {
+      animationData: heart,
+      loop: false,
+      autoplay: false,
+    },
+    heartAnim: null,
+    showAnim: false,
   }),
   computed: {
     isCurrentFm: get('music/isCurrentFm'),
@@ -213,8 +229,10 @@ export default {
       return this.track?.al?.picUrl ?? '';
     },
   },
-  mounted() {},
   methods: {
+    handleAnimation(animation) {
+      this.heartAnim = animation;
+    },
     handleSlideChange() {
       const currentTime = this.$refs['vueSlider'].getValue();
       console.debug('slider change end', currentTime);
@@ -234,8 +252,18 @@ export default {
     formatTime(val) {
       return formatDuring(val * 1000);
     },
-    likeSong() {
-      dispatch('music/favSong', { id: this.track.id, like: !this.liked });
+    async likeSong() {
+      const _liked = this.liked;
+      const success = await dispatch('music/favSong', {
+        id: this.track.id,
+        like: !this.liked,
+      });
+      if (!_liked && success) {
+        this.showAnim = true;
+        this.heartAnim.goToAndPlay(0, true);
+        await sleep(1000);
+        this.showAnim = false;
+      }
     },
   },
 };

@@ -156,14 +156,20 @@ export default {
           { text: '需要登录', type: 'warning' },
           { root: true },
         );
+        return false;
       } else {
-        await favTrack({ id, like });
-        if (like) {
-          likes.push(id);
+        const { code } = await favTrack({ id, like });
+        if (code === 200) {
+          if (like) {
+            likes.push(id);
+          } else {
+            likes = likes.filter((i) => i !== id);
+          }
+          commit('likes', likes);
+          return true;
         } else {
-          likes = likes.filter((i) => i !== id);
+          return false;
         }
-        commit('likes', likes);
       }
     },
     pushRecent({ state, commit, dispatch }, payload) {
