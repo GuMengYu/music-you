@@ -2,6 +2,7 @@ import install from './install';
 
 import { Howl, Howler } from 'howler';
 import { throttle, shuffle } from 'lodash-es';
+import { scrobble } from '@/api/music';
 
 export default class Player {
   constructor(store) {
@@ -76,7 +77,6 @@ export default class Player {
       this.play();
     }
     this.initMediaSession();
-    this.store.commit('music/loadingTrack', false);
   }
   initSound(src) {
     Howler.autoUnlock = false;
@@ -100,21 +100,32 @@ export default class Player {
       // onstop: function() {
       //   // Stop the wave animation.
       // },
+      onplayerror: (id, e) => {
+        console.log(id, e);
+      },
       onseek: () => {
         // Start updating the progress of the track.
         requestAnimationFrame(this.step.bind(this));
       },
       onload: () => {
-        this.loadingTrack = false;
+        this.trackLoaded();
       },
       onloaderror: () => {
         console.log('歌曲加载失败');
-        this.loadingTrack = false;
+        this.trackLoaded();
+        // this.store.dispatch(
+        //   'snackbar/show',
+        //   { text: '歌曲暂时不可用', type: 'warning' },
+        // );
       },
     });
     sound.once('end', this.endCb.bind(this));
     sound.seek(this.currentTime);
     return sound;
+  }
+  trackLoaded() {
+    console.log('loaded', this);
+    this.store.commit('music/loadingTrack', false);
   }
   _pause() {
     this.howler?.pause();
@@ -168,6 +179,19 @@ export default class Player {
   endCb() {
     // todo update 听歌记录
     this.next();
+  }
+  setScrobble(track, time, played = false) {
+    console.log(this.track);
+    const { id, dt } = track;
+    const sourceid = this.playingList.id;
+    if (played) {
+      time = +dt / 1000;
+    }
+    scrobble({
+      id,
+      sourceid,
+      time,
+    });
   }
   initMediaSession() {
     // https://developers.google.com/web/updates/2017/02/media-session

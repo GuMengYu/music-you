@@ -14,16 +14,19 @@ export const registerIpcRenderer = (store) => {
     store.commit('app/showSettings', true);
   });
   ipcRenderer.on('next', () => {
-    const id = store.getters['music/nextTrackId'];
-    store.dispatch('music/updateTrack', { id });
+    // const id = store.getters['music/nextTrackId'];
+    // store.dispatch('music/updateTrack', { id });
+    window?.app?.$player.next();
   });
-  ipcRenderer.on('up', () => {
-    const id = store.getters['music/prevTrackId'];
-    store.dispatch('music/updateTrack', { id });
+  ipcRenderer.on('prev', () => {
+    // const id = store.getters['music/prevTrackId'];
+    // store.dispatch('music/updateTrack', { id });
+    window?.app?.$player.prev();
   });
   ipcRenderer.on('playOrPause', () => {
-    const playing = store?.state.music.playing;
-    store.commit('music/playing', !playing);
+    // const playing = store?.state.music.playing;
+    // store.commit('music/playing', !playing);
+    window?.app?.$player.togglePlay();
   });
   ipcRenderer.on('volumeUp', () => {
     const { volume } = store?.state.settings;

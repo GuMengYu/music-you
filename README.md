@@ -1,9 +1,14 @@
-<h2 align="center">
+<h2  style="text-align: center">
 <img src="./doc/logo.png" height="128">
 <br>VPlayer
 </h2>
 
-<p align="center"><strong>一个 <a href="https://m3.material.io/" target="_blank"> Material Design 3（Material You） </a> 风格的网络音乐播放器, 采用网易云音乐非官方API NeteaseCloudMusicApi</strong></p>
+<p style="text-align: center">
+    <strong>
+        一个 <a href="https://m3.material.io/" target="_blank"> Material Design 3（Material You） </a> 风格的网络音乐播放器,<br/>
+        采用网易云音乐非官方API NeteaseCloudMusicApi做音乐接口服务
+    </strong>
+</p>
 
 
 #### 开发基于vue全家桶 + vuetify + [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) + electron

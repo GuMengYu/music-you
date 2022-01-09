@@ -4,7 +4,7 @@ import { Tray, Menu, nativeImage, app } from 'electron';
 
 let tray = null;
 export const createTray = (win) => {
-  const icon = nativeImage.createFromPath(join(__static, 'icon.png'));
+  const icon = nativeImage.createFromPath(join(__static, 'icon.ico'));
   tray = new Tray(icon);
   tray.setToolTip('vplayer');
   const menu = Menu.buildFromTemplate([
@@ -43,15 +43,14 @@ export const createTray = (win) => {
   handleEvents(tray, win);
 };
 
-function handleToggleWindow(win) {
-  if (!win.isVisible() || win.isFullScreen()) {
-    win.show();
-  } else {
-    win.hide();
-  }
-}
 function handleEvents(tray, win) {
   tray.on('click', () => {
-    handleToggleWindow(win);
+    if (!win.isVisible() || win.isFullScreen()) {
+      win.show();
+    } else {
+      // win.moveTop() not working
+      win.setAlwaysOnTop(true);
+      setTimeout(() => win.setAlwaysOnTop(false), 100);
+    }
   });
 }

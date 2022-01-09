@@ -99,3 +99,20 @@ export const sub = (type, id, t) => {
     params,
   });
 };
+
+/**
+ * 听歌打卡
+ * 说明 : 调用此接口 , 传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据
+ * 必选参数 : id: 歌曲 id, sourceid: 歌单或专辑 id
+ * 可选参数 : time: 歌曲播放时间,单位为秒
+ * 接口地址 : /scrobble
+ * 调用例子 : /scrobble?id=518066366&sourceid=36780169&time=291
+ * @param params
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const scrobble = (params) => {
+  params.timestamp = now();
+  return xhr.get('/scrobble', {
+    params,
+  });
+};

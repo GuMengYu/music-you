@@ -3,8 +3,9 @@
 import path from 'path';
 import Express from 'express';
 import { app, protocol, BrowserWindow } from 'electron';
-import is from 'electron-is';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import is from 'electron-is';
+
 import { createElectronMenu } from './electron/menu';
 import { createTray } from './electron/tray';
 import { createApiServer } from './electron/neteaseapi/apiserver';
@@ -55,10 +56,10 @@ app.on('ready', async () => {
   registerIpcMain(window);
 });
 app.setAboutPanelOptions({
-  applicationName: 'VPlayer',
-  iconPath: path.join(__static, 'icon.png'),
-  applicationVersion: '0.1.0-alpha',
-  copyright: 'Copyright © 2021',
+  applicationName: '音乐播放器',
+  iconPath: path.join(__static, 'icon.ico'),
+  applicationVersion: '2.0.0',
+  copyright: 'Copyright © 2022',
 });
 
 // Exit cleanly on request from parent process in development mode.
@@ -90,6 +91,4 @@ function createProxyServer() {
   });
 }
 
-export const getWin = () => {
-  return windowManager.window;
-};
+export const getWin = () => windowManager.window;

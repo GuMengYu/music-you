@@ -40,7 +40,7 @@ export default class WindowManager extends EventEmitter {
           nodeIntegrationInWorker: true,
           contextIsolation: false, // https://www.electronjs.org/zh/docs/latest/breaking-changes#%E9%BB%98%E8%AE%A4%E6%9B%B4%E6%94%B9-contextisolation-%E9%BB%98%E8%AE%A4%E4%B8%BA-true
         },
-        icon: path.join(__static, 'icon.png'),
+        icon: path.join(__static, 'icon.ico'),
         hasShadow: !is.macOS(),
         bindCloseToHide: true,
         transparent: !is.windows(),
@@ -78,7 +78,7 @@ export default class WindowManager extends EventEmitter {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // Load the url of the dev server if in development mode
       await this.window.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-      if (!process.env.IS_TEST) this.window.webContents.openDevTools();
+      // if (!process.env.IS_TEST) this.window.webContents.openDevTools();
     } else {
       createProtocol('app');
       // Load the index.html when not in development

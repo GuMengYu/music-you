@@ -13,7 +13,7 @@
           ref="vueSlider"
           :value="currentTime"
           class="playing-progress"
-          :max="~~(track.dt / 1000) || 0"
+          :max="~~((track.dt || track.duration) / 1000) || 0"
           :min="0"
           :interval="1"
           :duration="0"
