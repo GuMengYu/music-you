@@ -27,12 +27,6 @@ export const createTray = (win) => {
       },
     },
     {
-      label: '显示vplayer',
-      click: () => {
-        handleToggleWindow(win);
-      },
-    },
-    {
       label: '设置',
       click: () => {
         win.webContents.send('open-settings');

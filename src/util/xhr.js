@@ -4,7 +4,7 @@ if (process.env.IS_ELECTRON) {
   if (process.env.NODE_ENV === 'development') {
     BASE_URL = process.env.VUE_APP_API_DEV_ELECTRON;
   } else {
-    BASE_URL = process.env.VUE_APP_API_PRODUCT;
+    BASE_URL = process.env.VUE_APP_API_PRODUCT_ELECTRON;
   }
 } else {
   BASE_URL = process.env.VUE_APP_API_DEV_WEB;

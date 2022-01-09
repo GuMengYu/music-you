@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cache = require('NeteaseCloudMusicApi/util/apicache').middleware;
 const fileUpload = require('express-fileupload');
+const decode = require('safe-decode-uri-component');
+
 const apiMap = require('./apimap');
 export const createApiServer = () => {
   const app = express();
+  app.set('trust proxy', true);
   // CORS & Preflight request
   app.use((req, res, next) => {
     if (req.path !== '/' && !req.path.includes('.')) {
@@ -22,11 +25,13 @@ export const createApiServer = () => {
   // cookie parser
   app.use((req, res, next) => {
     req.cookies = {};
-    (req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => {
+    //;(req.headers.cookie || '').split(/\s*;\s*/).forEach((pair) => { //  Polynomial regular expression //
+    (req.headers.cookie || '').split(/;\s+|(?<!\s)\s+$/g).forEach((pair) => {
       let crack = pair.indexOf('=');
       if (crack < 1 || crack == pair.length - 1) return;
-      req.cookies[decodeURIComponent(pair.slice(0, crack)).trim()] =
-        decodeURIComponent(pair.slice(crack + 1)).trim();
+      req.cookies[decode(pair.slice(0, crack)).trim()] = decode(
+        pair.slice(crack + 1),
+      ).trim();
     });
     next();
   });

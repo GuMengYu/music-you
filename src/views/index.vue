@@ -1,6 +1,6 @@
 <template>
   <v-app class="ip-music">
-    <default-header />
+    <default-header :action="showActions" />
     <default-nav-bar class="left_nav" />
     <default-view />
     <player-bar />
@@ -10,6 +10,7 @@
     <default-snackbar />
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
+    <default-title-bar :showActions="showActions" class="no-drag-area" />
   </v-app>
 </template>
 
@@ -23,9 +24,11 @@ import DefaultSnackbar from '@components/default/Snackbar';
 import DefaultHeader from '@components/layout/Header';
 import DefaultView from '@components/layout/View';
 import ContextMenu from '@components/default/ContextMenu';
+import DefaultTitleBar from '@components/layout/TitleBar';
 
 import { sync } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
+import is from 'electron-is';
 
 export default {
   name: 'Layout',
@@ -39,6 +42,7 @@ export default {
     DefaultLogin,
     TrackDetail,
     DefaultHeader,
+    DefaultTitleBar,
   },
   data: () => ({
     openNav: true,
@@ -48,6 +52,9 @@ export default {
   }),
   computed: {
     showList: sync('music/showList'),
+    showActions() {
+      return is.windows() || is.linux();
+    },
   },
 };
 </script>

@@ -10,7 +10,7 @@
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
-        class="d-flex px-0 drag-area mb-6"
+        class="d-flex px-0 drag-area mb-4"
         :class="drawermini ? '' : 'ml-2'"
       >
         <drawer-toggle />
@@ -202,12 +202,6 @@ export default {
     }
     .drawer-item {
       height: 56px;
-    }
-    .drag-area {
-      -webkit-app-region: drag;
-    }
-    .no-drag-area {
-      -webkit-app-region: no-drag;
     }
   }
 }

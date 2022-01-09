@@ -33,6 +33,13 @@
   background: var(--v-primary-base);
 }
 
+.drag-area {
+  -webkit-app-region: drag;
+}
+.no-drag-area {
+  -webkit-app-region: no-drag;
+}
+
 .lottie-icon path,
 [role='button']:active .lottie-icon path,
 [role='button']:focus .lottie-icon path,

@@ -1,22 +1,28 @@
 <template>
   <div class="title-bar">
-    <ul v-if="showActions" class="window-actions">
-      <li @click="handleMinimize">
-        <v-icon small>
+    <div v-if="showActions" class="window-actions">
+      <v-btn plain small @click="handleMinimize" class="action-item px-0">
+        <v-icon>
           {{ mdiWindowMinimize }}
         </v-icon>
-      </li>
-      <li @click="handleMaximize">
-        <v-icon small>
+      </v-btn>
+      <v-btn plain small @click="handleMaximize" class="action-item px-0">
+        <v-icon>
           {{ mdiWindowMaximize }}
         </v-icon>
-      </li>
-      <li @click="handleClose" class="win-close-btn">
-        <v-icon small>
+      </v-btn>
+      <v-btn
+        plain
+        small
+        @click="handleClose"
+        class="action-item px-0"
+        color="primary"
+      >
+        <v-icon>
           {{ mdiWindowClose }}
         </v-icon>
-      </li>
-    </ul>
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -57,33 +63,14 @@ export default {
 <style lang="scss">
 .title-bar {
   position: fixed;
-  top: 0;
+  top: 5px;
   right: 0;
-  height: 36px;
-  z-index: 10;
+  z-index: 1000;
   .window-actions {
     transition: all 0.2s ease-in-out;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    z-index: 5100;
-    font-size: 0;
-    > li {
-      display: inline-block;
-      padding: 5px 18px;
-      font-size: 16px;
-      margin: 0;
-      &:hover {
-        background-color: var(--v-neumorphism-base);
-      }
-      &.win-close-btn {
-        &:hover {
-          background-color: #fd0007;
-          .v-icon {
-            color: #fff;
-          }
-        }
-      }
+    display: flex;
+    > .action-item {
+      min-width: 36px;
     }
   }
 }

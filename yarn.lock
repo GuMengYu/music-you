@@ -916,10 +916,10 @@
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
 
-"@electron/get@^1.0.1":
-  version "1.12.4"
-  resolved "https://registry.npm.taobao.org/@electron/get/download/@electron/get-1.12.4.tgz#a5971113fc1bf8fa12a8789dc20152a7359f06ab"
-  integrity sha1-pZcRE/wb+PoSqHidwgFSpzWfBqs=
+"@electron/get@^1.13.0":
+  version "1.13.1"
+  resolved "https://registry.npmmirror.com/@electron/get/download/@electron/get-1.13.1.tgz#42a0aa62fd1189638bd966e23effaebb16108368"
+  integrity sha1-QqCqYv0RiWOL2WbiPv+uuxYQg2g=
   dependencies:
     debug "^4.1.1"
     env-paths "^2.2.0"
@@ -929,7 +929,7 @@
     semver "^6.2.0"
     sumchecker "^3.0.1"
   optionalDependencies:
-    global-agent "^2.0.2"
+    global-agent "^3.0.0"
     global-tunnel-ng "^2.7.1"
 
 "@electron/universal@1.0.5":
@@ -1335,6 +1335,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@nondanee/unblockneteasemusic@^0.25.3":
+  version "0.25.3"
+  resolved "https://registry.nlark.com/@nondanee/unblockneteasemusic/download/@nondanee/unblockneteasemusic-0.25.3.tgz#72d936f18f46523a2b929b8eaec8dfd2acf25e7e"
+  integrity sha1-ctk28Y9GUjorkpuOrsjf0qzyXn4=
+
 "@npmcli/move-file@^1.0.1":
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/@npmcli/move-file/download/@npmcli/move-file-1.1.2.tgz#1a82c3e372f7cae9253eb66d72543d6b8685c674"
@@ -1474,10 +1479,10 @@
   resolved "https://registry.nlark.com/@types/node/download/@types/node-16.3.0.tgz?cache=0&sync_timestamp=1625796173600&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-16.3.0.tgz#1836664e4fad13b51b07eb6e882a53925e6543c4"
   integrity sha1-GDZmTk+tE7UbB+tuiCpTkl5lQ8Q=
 
-"@types/node@^12.0.12":
-  version "12.20.16"
-  resolved "https://registry.nlark.com/@types/node/download/@types/node-12.20.16.tgz?cache=0&sync_timestamp=1625796173600&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.20.16.tgz#1acf34f6456208f495dac0434dd540488d17f991"
-  integrity sha1-Gs809kViCPSV2sBDTdVASI0X+ZE=
+"@types/node@^14.6.2":
+  version "14.18.5"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-14.18.5.tgz#0dd636fe7b2c6055cbed0d4ca3b7fb540f130a96"
+  integrity sha512-LMy+vDDcQR48EZdEx5wRX1q/sEl6NdGuHXPnfeL8ixkwCOSZ2qnIyIZmcCbdX0MeRqHhAcHmX+haCbrS8Run+A==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2031,19 +2036,21 @@
   resolved "https://registry.nlark.com/@xtuc/long/download/@xtuc/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=
 
-NeteaseCloudMusicApi@^4.0.8:
-  version "4.0.16"
-  resolved "https://registry.nlark.com/NeteaseCloudMusicApi/download/NeteaseCloudMusicApi-4.0.16.tgz#cdf890129beac728d00d4121dfd490ed987f3ad9"
-  integrity sha1-zfiQEpvqxyjQDUEh39SQ7Zh/Otk=
+"NeteaseCloudMusicApi@git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock":
+  version "4.2.0"
+  resolved "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#770e40ada362d0aa3e6ecea5248062fa065a7a4f"
   dependencies:
-    axios "^0.21.1"
+    "@nondanee/unblockneteasemusic" "^0.25.3"
+    axios "^0.24.0"
     express "^4.17.1"
     express-fileupload "^1.1.9"
     md5 "^2.3.0"
     music-metadata "^7.5.3"
-    pac-proxy-agent "^4.0.0"
+    pac-proxy-agent "4.0.0"
     qrcode "^1.4.4"
+    safe-decode-uri-component "^1.2.1"
     tunnel "^0.0.6"
+    yargs "^17.1.1"
 
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
@@ -2161,6 +2168,11 @@ ansi-regex@^5.0.0:
   version "5.0.0"
   resolved "https://registry.nlark.com/ansi-regex/download/ansi-regex-5.0.0.tgz#388539f55179bf39339c81af30a654d69f87cb75"
   integrity sha1-OIU59VF5vzkznIGvMKZU1p+Hy3U=
+
+ansi-regex@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.nlark.com/ansi-regex/download/ansi-regex-5.0.1.tgz?cache=0&sync_timestamp=1631634988487&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fansi-regex%2Fdownload%2Fansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
+  integrity sha1-CCyyyJyf6GWaMRpTvWpNxTAdswQ=
 
 ansi-regex@^6.0.1:
   version "6.0.1"
@@ -2490,6 +2502,13 @@ axios@^0.21.1:
   integrity sha1-IlY0gZYvTWvemnbVFu8OXTwJsrg=
   dependencies:
     follow-redirects "^1.10.0"
+
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.npmmirror.com/axios/download/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+  dependencies:
+    follow-redirects "^1.14.4"
 
 babel-eslint@^10.1.0:
   version "10.1.0"
@@ -4115,7 +4134,7 @@ define-property@^2.0.2:
 
 degenerator@^2.2.0:
   version "2.2.0"
-  resolved "https://registry.npm.taobao.org/degenerator/download/degenerator-2.2.0.tgz#49e98c11fa0293c5b26edfbb52f15729afcdb254"
+  resolved "https://registry.nlark.com/degenerator/download/degenerator-2.2.0.tgz#49e98c11fa0293c5b26edfbb52f15729afcdb254"
   integrity sha1-SemMEfoCk8Wybt+7UvFXKa/NslQ=
   dependencies:
     ast-types "^0.13.2"
@@ -4453,13 +4472,14 @@ electron-builder@^22.2.0:
     update-notifier "^5.1.0"
     yargs "^17.0.1"
 
-electron-devtools-installer@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.nlark.com/electron-devtools-installer/download/electron-devtools-installer-3.1.1.tgz#7b56c8c86475c5e4e10de6917d150c53c9ceb55e"
-  integrity sha1-e1bIyGR1xeThDeaRfRUMU8nOtV4=
+electron-devtools-installer@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.nlark.com/electron-devtools-installer/download/electron-devtools-installer-3.2.0.tgz#acc48d24eb7033fe5af284a19667e73b78d406d0"
+  integrity sha1-rMSNJOtwM/5a8oShlmfnO3jUBtA=
   dependencies:
     rimraf "^3.0.2"
     semver "^7.2.1"
+    tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
 electron-dl@^3.2.1:
@@ -4471,9 +4491,9 @@ electron-dl@^3.2.1:
     pupa "^2.0.1"
     unused-filename "^2.1.0"
 
-electron-icon-builder@^2.0.1:
+electron-icon-builder@2.0.1:
   version "2.0.1"
-  resolved "https://registry.npm.taobao.org/electron-icon-builder/download/electron-icon-builder-2.0.1.tgz#f43171bde3074870158433aa6103497bc5249793"
+  resolved "https://registry.nlark.com/electron-icon-builder/download/electron-icon-builder-2.0.1.tgz#f43171bde3074870158433aa6103497bc5249793"
   integrity sha1-9DFxveMHSHAVhDOqYQNJe8Ukl5M=
   dependencies:
     args "^5.0.1"
@@ -4485,9 +4505,9 @@ electron-is-dev@^0.3.0:
   resolved "https://registry.npm.taobao.org/electron-is-dev/download/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
   integrity sha1-FOb9pcaOnk7L7/nM8DfL18BcWv4=
 
-electron-is@^3.0.0:
+electron-is@3.0.0:
   version "3.0.0"
-  resolved "https://registry.npm.taobao.org/electron-is/download/electron-is-3.0.0.tgz#bd4c27651fbe03f243f3607c2a098be884f9ed50"
+  resolved "https://registry.nlark.com/electron-is/download/electron-is-3.0.0.tgz#bd4c27651fbe03f243f3607c2a098be884f9ed50"
   integrity sha1-vUwnZR++A/JD82B8KgmL6IT57VA=
   dependencies:
     electron-is-dev "^0.3.0"
@@ -4511,13 +4531,13 @@ electron-to-chromium@^1.3.723:
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.771.tgz#c4aa601e6420e11926095f75fe803956a1b4bd81"
   integrity sha1-xKpgHmQg4RkmCV91/oA5VqG0vYE=
 
-electron@11.0.2:
-  version "11.0.2"
-  resolved "https://registry.nlark.com/electron/download/electron-11.0.2.tgz#c7bd2b9abdc1446f4578dbfa22573014b6b2df58"
-  integrity sha1-x70rmr3BRG9FeNv6IlcwFLay31g=
+electron@16.0.6:
+  version "16.0.6"
+  resolved "https://registry.npmmirror.com/electron/download/electron-16.0.6.tgz#d7a420ef2cb39d7d0a4d8760c03d72b137a033d5"
+  integrity sha512-Xs9dYLYhcJf3wXn8m2gDqFTb1L862KEhMxOx9swfFBHj6NoUPPtUgw/RyPQ0tXN1XPxG9vnBkoI0BdcKwrLKuQ==
   dependencies:
-    "@electron/get" "^1.0.1"
-    "@types/node" "^12.0.12"
+    "@electron/get" "^1.13.0"
+    "@types/node" "^14.6.2"
     extract-zip "^1.0.3"
 
 elliptic@^6.5.3:
@@ -5430,6 +5450,11 @@ follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   resolved "https://registry.nlark.com/follow-redirects/download/follow-redirects-1.14.1.tgz?cache=0&sync_timestamp=1620555300559&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
   integrity sha1-2RFN7Qoc/dM04WTmZirQK/2R/0M=
 
+follow-redirects@^1.14.4:
+  version "1.14.6"
+  resolved "https://registry.npmmirror.com/follow-redirects/download/follow-redirects-1.14.6.tgz#8cfb281bbc035b3c067d6cd975b0f6ade6e855cd"
+  integrity sha512-fhUl5EwSJbbl8AR+uYL2KQDxLkdSjZGR36xy46AO7cOMTrCMON6Sa28FmAnC2tRTDbd/Uuzz3aJBv7EBN7JH8A==
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/for-in/download/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -5699,13 +5724,12 @@ glob@^7.0.0, glob@^7.0.3, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global-agent@^2.0.2:
-  version "2.2.0"
-  resolved "https://registry.nlark.com/global-agent/download/global-agent-2.2.0.tgz#566331b0646e6bf79429a16877685c4a1fbf76dc"
-  integrity sha1-VmMxsGRua/eUKaFod2hcSh+/dtw=
+global-agent@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.nlark.com/global-agent/download/global-agent-3.0.0.tgz#ae7cd31bd3583b93c5a16437a1afe27cc33a1ab6"
+  integrity sha1-rnzTG9NYO5PFoWQ3oa/ifMM6GrY=
   dependencies:
     boolean "^3.0.1"
-    core-js "^3.6.5"
     es6-error "^4.1.1"
     matcher "^3.0.0"
     roarr "^2.15.3"
@@ -8290,12 +8314,11 @@ p-try@^2.0.0:
   resolved "https://registry.nlark.com/p-try/download/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha1-yyhoVA4xPWHeWPr741zpAE1VQOY=
 
-pac-proxy-agent@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/pac-proxy-agent/download/pac-proxy-agent-4.1.0.tgz#66883eeabadc915fc5e95457324cb0f0ac78defb"
-  integrity sha1-Zog+6rrckV/F6VRXMkyw8Kx43vs=
+pac-proxy-agent@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.nlark.com/pac-proxy-agent/download/pac-proxy-agent-4.0.0.tgz#3c54510e71fc9e59eac76b424ba571b47909820a"
+  integrity sha1-PFRRDnH8nlnqx2tCS6VxtHkJggo=
   dependencies:
-    "@tootallnate/once" "1"
     agent-base "6"
     debug "4"
     get-uri "3"
@@ -9754,6 +9777,11 @@ safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.nlark.com/safe-buffer/download/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha1-mR7GnSluAxN0fVm9/St0XDX4go0=
 
+safe-decode-uri-component@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/safe-decode-uri-component/download/safe-decode-uri-component-1.2.1.tgz#ddd30c57e6797a3b0671888393a4984b454e2129"
+  integrity sha1-3dMMV+Z5ejsGcYiDk6SYS0VOISk=
+
 safe-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.nlark.com/safe-regex/download/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
@@ -10430,6 +10458,15 @@ string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0:
     is-fullwidth-code-point "^3.0.0"
     strip-ansi "^6.0.0"
 
+string-width@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npmmirror.com/string-width/download/string-width-4.2.3.tgz?cache=0&sync_timestamp=1632421309919&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fstring-width%2Fdownload%2Fstring-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha1-JpxxF9J7Ba0uU2gwqOyJXvnG0BA=
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
 string-width@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmmirror.com/string-width/download/string-width-5.0.1.tgz#0d8158335a6cfd8eb95da9b6b262ce314a036ffd"
@@ -10501,6 +10538,13 @@ strip-ansi@^6.0.0:
   integrity sha1-CxVx3XZpzNTz4G4U7x7tJiJa5TI=
   dependencies:
     ansi-regex "^5.0.0"
+
+strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmmirror.com/strip-ansi/download/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha1-nibGPTD1NEPpSJSVshBdN7Z6hdk=
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.0.1"
@@ -11344,10 +11388,10 @@ vue-class-component@^7.1.0, vue-class-component@^7.2.6:
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.6.tgz#8471e037b8e4762f5a464686e19e5afc708502e4"
   integrity sha1-hHHgN7jkdi9aRkaG4Z5a/HCFAuQ=
 
-vue-cli-plugin-electron-builder@^2.0.0-rc.5:
+vue-cli-plugin-electron-builder@2.1.1:
   version "2.1.1"
-  resolved "https://registry.nlark.com/vue-cli-plugin-electron-builder/download/vue-cli-plugin-electron-builder-2.1.1.tgz#de8bed25b32e73e28dd08061dd2a3c6bfff73227"
-  integrity sha1-3ovtJbMuc+KN0IBh3So8a//3Mic=
+  resolved "https://registry.npmmirror.com/vue-cli-plugin-electron-builder/download/vue-cli-plugin-electron-builder-2.1.1.tgz#de8bed25b32e73e28dd08061dd2a3c6bfff73227"
+  integrity sha512-ZrxFZ2uxgpwyFUE8LtguYqaTzSfZ1osME1uFlIj/Iz7GtLrATqs23n/BkKEpyEf5nYNAylzIM8ykGAfH/0QdmA==
   dependencies:
     "@vue/cli-shared-utils" "^4.5.6"
     chokidar "^3.0.2"
@@ -11906,6 +11950,11 @@ yargs-parser@^20.2.2:
   resolved "https://registry.nlark.com/yargs-parser/download/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
   integrity sha1-LrfcOwKJcY/ClfNidThFxBoMlO4=
 
+yargs-parser@^21.0.0:
+  version "21.0.0"
+  resolved "https://registry.npmmirror.com/yargs-parser/download/yargs-parser-21.0.0.tgz?cache=0&sync_timestamp=1637031023704&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fyargs-parser%2Fdownload%2Fyargs-parser-21.0.0.tgz#a485d3966be4317426dd56bdb6a30131b281dc55"
+  integrity sha512-z9kApYUOCwoeZ78rfRYYWdiU/iNL6mwwYlkkZfJoyMR1xps+NEBX5X7XmRpxkZHhXJ6+Ey00IwKxBBSW9FIjyA==
+
 yargs-parser@^4.2.0:
   version "4.2.1"
   resolved "https://registry.nlark.com/yargs-parser/download/yargs-parser-4.2.1.tgz#29cceac0dc4f03c6c87b4a9f217dd18c9f74871c"
@@ -11971,6 +12020,19 @@ yargs@^17.0.1:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yargs@^17.1.1:
+  version "17.3.1"
+  resolved "https://registry.npmmirror.com/yargs/download/yargs-17.3.1.tgz#da56b28f32e2fd45aefb402ed9c26f42be4c07b9"
+  integrity sha512-WUANQeVgjLbNsEmGk20f+nlHgOqzRFpiGWVaBrYGYIGANIIu3lWjoyi0fNlFmJkvfhCZ6BXINe7/W2O2bV4iaA==
+  dependencies:
+    cliui "^7.0.2"
+    escalade "^3.1.1"
+    get-caller-file "^2.0.5"
+    require-directory "^2.1.1"
+    string-width "^4.2.3"
+    y18n "^5.0.5"
+    yargs-parser "^21.0.0"
 
 yargs@^6.5.0:
   version "6.6.0"

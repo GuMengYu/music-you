@@ -30,25 +30,28 @@ export default class WindowManager extends EventEmitter {
       return this.window;
     }
 
-    this.window = new BrowserWindow({
-      ...defaultOptions,
-      webPreferences: {
-        enableRemoteModule: true,
-        // Use pluginOptions.nodeIntegration, leave this alone
-        // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-        nodeIntegration: true,
-        nodeIntegrationInWorker: true,
-      },
-      icon: path.join(__static, 'icon.png'),
-      hasShadow: !is.macOS(),
-      bindCloseToHide: true,
-      transparent: !is.windows(),
-    });
-    this.loadURL();
+    try {
+      this.window = new BrowserWindow({
+        ...defaultOptions,
+        webPreferences: {
+          // Use pluginOptions.nodeIntegration, leave this alone
+          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+          nodeIntegration: true,
+          nodeIntegrationInWorker: true,
+          contextIsolation: false, // https://www.electronjs.org/zh/docs/latest/breaking-changes#%E9%BB%98%E8%AE%A4%E6%9B%B4%E6%94%B9-contextisolation-%E9%BB%98%E8%AE%A4%E4%B8%BA-true
+        },
+        icon: path.join(__static, 'icon.png'),
+        hasShadow: !is.macOS(),
+        bindCloseToHide: true,
+        transparent: !is.windows(),
+      });
+      await this.loadURL();
 
-    this.initWindowListener();
-
-    return window;
+      this.initWindowListener();
+      return this.window;
+    } catch (e) {
+      console.log(e);
+    }
   }
   initWindowListener() {
     this.window.on('enter-full-screen', () => {

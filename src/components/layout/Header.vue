@@ -1,11 +1,18 @@
 <template>
-  <v-app-bar app fixed short :elevation="0" class="app_header surface">
+  <v-app-bar
+    app
+    fixed
+    dense
+    :elevation="0"
+    class="d-flex app_header surface"
+    :class="action ? 'justify-start' : 'justify-end'"
+  >
     <!--      <download-progress />-->
     <div class="d-flex">
       <b-f class="no-drag-area" />
       <reload-btn class="no-drag-area" />
     </div>
-    <div class="d-flex align-center">
+    <div class="d-flex align-center no-drag-area">
       <default-input
         v-model="keywords"
         :holder="$t('common.search_type_2')"
@@ -22,17 +29,14 @@
     <!--        <setting-toggle />-->
     <!--        <theme-toggle />-->
     <!--      </div>-->
-    <default-title-bar :showActions="showActions" class="no-drag-area" />
   </v-app-bar>
 </template>
 
 <script>
 import { mdiMagnify } from '@mdi/js';
 import { get } from 'vuex-pathify';
-import is from 'electron-is';
 
 import DefaultInput from '@components/default/Input';
-import DefaultTitleBar from '@components/layout/TitleBar';
 import ThemeToggle from '@components/layout/ThemeToggle';
 import DefaultAccount from '@components/app/Account';
 // import SettingToggle from '@components/layout/SettingToggle';
@@ -44,13 +48,18 @@ export default {
   name: 'DefaultHeader',
   components: {
     DefaultInput,
-    DefaultTitleBar,
     ThemeToggle,
     DefaultAccount,
     // SettingToggle,
     ReloadBtn,
     BF,
     // DownloadProgress,
+  },
+  props: {
+    action: {
+      type: Boolean,
+      default: false,
+    },
   },
   inject: ['theme'],
   data: () => ({
@@ -59,9 +68,6 @@ export default {
   }),
   computed: {
     account: get('settings/account'),
-    showActions() {
-      return is.windows() || is.linux();
-    },
   },
   methods: {
     goSearch() {
@@ -79,16 +85,10 @@ export default {
 <style scoped lang="scss">
 .app_header {
   display: flex;
+  z-index: 6;
   -webkit-app-region: drag;
-  .no-drag-area {
-    -webkit-app-region: no-drag;
-  }
   .search_input {
     max-width: 20vw;
-  }
-  ::v-deep.v-toolbar__content {
-    width: 100%;
-    justify-content: space-between;
   }
 }
 @media (max-width: 600px) {

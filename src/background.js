@@ -49,10 +49,10 @@ app.on('ready', async () => {
   createApiServer();
   is.production() && createProxyServer();
   windowManager = new WindowManager();
-  windowManager.openWindow();
-  createElectronMenu(windowManager.window);
-  is.windows && createTray(windowManager.window);
-  registerIpcMain(windowManager.window);
+  const window = await windowManager.openWindow();
+  createElectronMenu(window);
+  is.windows && createTray(window);
+  registerIpcMain(window);
 });
 app.setAboutPanelOptions({
   applicationName: 'VPlayer',

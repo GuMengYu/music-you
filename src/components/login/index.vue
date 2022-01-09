@@ -2,9 +2,9 @@
   <v-dialog v-model="showLogin" max-width="400">
     <v-card outlined color="background" class="login-container py-4">
       <div class="title px-10 d-flex align-center">
-        <span class="text-h5 font-weight-bold mr-2">登录</span>
-        <span>-</span>
-        <span class="text-caption font-weight-bold ml-2">网易云账号</span>
+        <span class="text-h6 mr-2">登录</span>
+        <v-divider vertical />
+        <span class="text-caption ml-2">网易云账号</span>
       </div>
       <div class="form-area mt-4 px-6">
         <v-list-item class="mt-4">
@@ -35,9 +35,6 @@
           @click="login"
         >
           登录
-          <template v-slot:loader>
-            <span>登录中...</span>
-          </template>
         </v-btn>
       </div>
     </v-card>

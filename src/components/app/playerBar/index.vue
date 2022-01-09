@@ -278,7 +278,7 @@ export default {
   background-color: rgba(0, 0, 0, 1);
 }
 .playing-bar {
-  z-index: 10;
+  z-index: 7;
   .playing-control {
     width: 100%;
     display: flex;

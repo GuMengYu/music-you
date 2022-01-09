@@ -1,4 +1,6 @@
 const { cookieToJson } = require('NeteaseCloudMusicApi/util/index');
+const decode = require('safe-decode-uri-component');
+
 const request = require('NeteaseCloudMusicApi/util/request');
 
 const activate_init_profile = require('NeteaseCloudMusicApi/module/activate_init_profile');
@@ -311,9 +313,11 @@ module.exports = {
 
 function generatorFn(module) {
   return (req, res) => {
-    if (typeof req.query.cookie === 'string') {
-      req.query.cookie = cookieToJson(req.query.cookie);
-    }
+    [req.query, req.body].forEach((item) => {
+      if (typeof item.cookie === 'string') {
+        item.cookie = cookieToJson(decode(item.cookie));
+      }
+    });
     let query = Object.assign(
       {},
       { cookie: req.cookies },
@@ -323,15 +327,36 @@ function generatorFn(module) {
     );
     module(query, request)
       .then((answer) => {
-        console.log('[OK]', decodeURIComponent(req.originalUrl));
-        res.append('Set-Cookie', answer.cookie);
+        console.log('[OK]', decode(req.originalUrl));
+        const cookies = answer.cookie;
+        if (Array.isArray(cookies) && cookies.length > 0) {
+          if (req.protocol === 'https') {
+            // Try to fix CORS SameSite Problem
+            res.append(
+              'Set-Cookie',
+              cookies.map((cookie) => {
+                return cookie + '; SameSite=None; Secure';
+              }),
+            );
+          } else {
+            res.append('Set-Cookie', cookies);
+          }
+        }
         res.status(answer.status).send(answer.body);
       })
       .catch((answer) => {
-        console.log('[ERR]', decodeURIComponent(req.originalUrl), {
+        console.log('[ERR]', decode(req.originalUrl), {
           status: answer.status,
           body: answer.body,
         });
+        if (!answer.body) {
+          res.status(404).send({
+            code: 404,
+            data: null,
+            msg: 'Not Found',
+          });
+          return;
+        }
         if (answer.body.code == '301') answer.body.msg = '需要登录';
         res.append('Set-Cookie', answer.cookie);
         res.status(answer.status).send(answer.body);
