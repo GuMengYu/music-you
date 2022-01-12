@@ -14,6 +14,7 @@
     </div>
     <div class="d-flex align-center no-drag-area">
       <default-input
+        v-show="showSearch"
         v-model="keywords"
         :holder="$t('common.search_type_2')"
         :icon="icon.mdiMagnify"
@@ -68,6 +69,9 @@ export default {
   }),
   computed: {
     account: get('settings/account'),
+    showSearch() {
+      return !this.$vuetify.breakpoint.xs;
+    },
   },
   methods: {
     goSearch() {
@@ -89,13 +93,7 @@ export default {
   -webkit-app-region: drag;
   .search_input {
     max-width: 20vw;
-  }
-}
-@media (max-width: 600px) {
-  .app_header {
-    .search_input {
-      max-width: initial;
-    }
+    min-width: 160px;
   }
 }
 </style>

@@ -18,9 +18,7 @@
       :to="to"
       class="title text--primary text-center text-decoration-none"
     >
-      <span class="h-1x mt-2 text-body-2 font-weight-bold">{{
-        artists.name
-      }}</span>
+      <span class="h-1x mt-2 text-body-2">{{ artists.name }}</span>
     </router-link>
   </div>
 </template>

@@ -7,6 +7,9 @@ Vue.use(Vuetify);
 export function createVuetify(store) {
   const palettes = themePalettes[store.state.settings.palettes]?.palette ?? {};
   return new Vuetify({
+    breakpoint: {
+      mobileBreakpoint: 'sm', // 这个值等于960
+    },
     icons: {
       iconfont: 'mdiSvg',
     },

@@ -55,8 +55,10 @@ export default {
     current: get('music/track@id'),
     showList: sync('music/showList'),
     nextList() {
-      const idx = this.playingList.findIndex((i) => i.id === this.current);
-      return this.playingList.slice(idx + 1);
+      const idx = this.playingList?.list?.findIndex(
+        (i) => i.id === this.current,
+      );
+      return this.playingList?.list?.slice(idx + 1);
     },
   },
   watch: {},

@@ -67,7 +67,7 @@
     <v-btn
       v-else
       plain
-      class="text-lowercase font-weight-bold text-caption px-0"
+      class="text-lowercase text-caption px-0"
       @click="showLogin = !showLogin"
     >
       <v-icon small>

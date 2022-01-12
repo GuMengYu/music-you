@@ -35,16 +35,7 @@
         </v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action class="d-flex flex-row align-center song-btns">
-        <v-btn
-          v-show="hover"
-          width="30"
-          height="30"
-          icon
-          color="primary"
-          x-small
-          class="list-delete-button"
-          @click.prevent="openMenu"
-        >
+        <v-btn v-show="hover" icon color="primary" @click.prevent="openMenu">
           <v-icon>
             {{ mdiDotsHorizontal }}
           </v-icon>

@@ -15,7 +15,7 @@
             {{ artist.name }}
           </router-link>
         </v-card-subtitle>
-        <v-card-title class="font-weight-bold py-0">
+        <v-card-title class="py-0">
           <router-link
             :to="`/playlist/${cover.id}`"
             class="text-decoration-none"
@@ -29,7 +29,7 @@
           color="primary"
           rounded
           elevation="0"
-          class="now-playing text-caption font-weight-bold mr-2"
+          class="now-playing text-caption mr-2"
           @click="play"
         >
           <v-icon v-text="icon.mdiPlay" />
@@ -77,8 +77,8 @@ export default {
   methods: {
     fav() {},
     async play() {
-      const { songs } = await getAlbum(this.cover.id);
-      const track = await this.$player.updatePlayList(songs);
+      const album = await getAlbum(this.cover.id);
+      const track = await this.$player.updatePlayList(album);
       await this.$player.updatePlayerTrack(track?.id);
     },
   },

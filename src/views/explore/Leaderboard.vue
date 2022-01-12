@@ -19,7 +19,6 @@
                   d-flex
                   flex-column
                   text-caption
-                  font-weight-bold
                   justify-space-around
                   py-0
                 "
@@ -33,7 +32,7 @@
                 </span>
               </v-card-subtitle>
               <v-card-actions>
-                <span class="text-caption font-weight-bold px-2">
+                <span class="text-caption px-2">
                   {{ board.updateFrequency }}
                 </span>
               </v-card-actions>

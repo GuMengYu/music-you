@@ -3,8 +3,6 @@
     <v-hover v-slot="{ hover }">
       <v-card
         flat
-        v-ripple
-        hover
         rounded="xl"
         class="d-flex align-end justify-end cover-card"
         :to="to"
@@ -19,30 +17,17 @@
         <v-fade-transition>
           <v-overlay :value="hover" absolute>
             <v-card-actions class="cover-actions">
-              <v-progress-circular
-                :indeterminate="loading"
-                color="primary"
-                size="30"
-              >
-                <v-btn
-                  x-small
-                  fab
-                  elevation="0"
-                  class="cover-btn"
-                  :class="{ 'hover-btn': hover }"
-                  @click.prevent="play"
-                >
-                  <v-icon v-text="icon.mdiPlay" />
-                </v-btn>
-              </v-progress-circular>
               <v-btn
+                color="primary"
                 x-small
-                icon
                 fab
-                class="cover-btn"
-                :class="{ 'hover-btn': hover }"
-                @click.prevent="openMenu"
+                depressed
+                @click.prevent="play"
+                :loading="loading"
               >
+                <v-icon v-text="icon.mdiPlay" color="onPrimary" />
+              </v-btn>
+              <v-btn depressed x-small icon fab @click.prevent="openMenu">
                 <v-icon>
                   {{ icon.mdiDotsHorizontal }}
                 </v-icon>
@@ -53,9 +38,7 @@
       </v-card>
     </v-hover>
     <router-link v-if="!noInfo" :to="to" class="title">
-      <span class="h-1x mt-2 text-caption font-weight-bold text--primary">{{
-        data.name
-      }}</span>
+      <span class="h-1x mt-2 text-caption text--primary">{{ data.name }}</span>
     </router-link>
     <span
       v-if="!noInfo"
@@ -164,8 +147,8 @@ export default {
       this.loading = true;
       await new Promise((resolve) => setTimeout(resolve, 2000));
       try {
-        const list = await getList(this.type, this.data.id);
-        const track = await this.$player.updatePlayList(list);
+        const info = await getList(this.type, this.data.id);
+        const track = await this.$player.updatePlayList(info);
         await this.$player.updatePlayerTrack(track.id);
       } catch (e) {
         console.log(e);
@@ -202,15 +185,15 @@ export default {
   .cover-card {
     .cover-actions {
       justify-content: space-between;
-      .hover-btn {
-        backdrop-filter: blur(30px) brightness(90%);
-        background: transparent;
-      }
-      .cover-btn:hover {
-        background: var(--v-primary-base);
-        transform: scale(1.1);
-        transition: 0.3s all ease-in-out;
-      }
+      //.hover-btn {
+      //  backdrop-filter: blur(30px) brightness(90%);
+      //  background: transparent;
+      //}
+      //.cover-btn:hover {
+      //  background: var(--v-primary-base);
+      //  transform: scale(1.1);
+      //  transition: 0.3s all ease-in-out;
+      //}
     }
     .cover-img {
       border-radius: inherit;

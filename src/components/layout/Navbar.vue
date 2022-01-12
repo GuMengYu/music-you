@@ -1,9 +1,7 @@
 <template>
   <v-navigation-drawer
-    permanent
     class="nav"
     app
-    fixed
     :mini-variant="drawermini"
     :width="300"
     color="surface"
@@ -56,7 +54,7 @@ import {
 } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import { sync, get } from 'vuex-pathify';
-import { groupBy, filter } from 'lodash-es';
+import { filter } from 'lodash-es';
 import DefaultListItem from '@components/default/ListItem';
 import DrawerToggle from '@components/layout/DrawerToggle';
 export default {
@@ -147,10 +145,7 @@ export default {
     },
     playlist: get('music/playlist'),
     nav() {
-      const { false: created, true: subscribed } = groupBy(
-        this.playlist,
-        'subscribed',
-      );
+      const created = filter(this.playlist, (i) => !i['subscribed']);
       const create = created?.length
         ? {
             title: this.$t('main.nav.created_list'),
@@ -166,21 +161,21 @@ export default {
             }),
           }
         : void 0;
-      const sub = subscribed?.length
-        ? {
-            title: this.$t('main.nav.start_list'),
-            open: false,
-            items: subscribed.slice(0, 10).map((i) => {
-              return {
-                title: i.name,
-                to: `/playlist/${i.id}`,
-                icon: mdiPlaylistMusicOutline,
-              };
-            }),
-          }
-        : void 0;
+      // const sub = subscribed?.length
+      //   ? {
+      //       title: this.$t('main.nav.start_list'),
+      //       open: false,
+      //       items: subscribed.slice(0, 10).map((i) => {
+      //         return {
+      //           title: i.name,
+      //           to: `/playlist/${i.id}`,
+      //           icon: mdiPlaylistMusicOutline,
+      //         };
+      //       }),
+      //     }
+      //   : void 0;
       // this.defaultNav[9].items = this.playlist;
-      const _new = filter([create, sub]);
+      const _new = filter([create]);
       return this.defaultNav3.concat(_new);
     },
   },

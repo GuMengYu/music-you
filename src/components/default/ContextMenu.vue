@@ -90,8 +90,8 @@ export default {
       });
     },
     async play(type, id, play = true) {
-      const list = await getList(type, id);
-      const track = await this.$player.updatePlayList(list);
+      const info = await getList(type, id);
+      const track = await this.$player.updatePlayList(info);
       if (play) {
         await this.$player.updatePlayerTrack(track?.id);
       }

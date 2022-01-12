@@ -23,7 +23,7 @@ const state = {
   playing: false,
   track: localData.track ?? {},
   currentTrackId: localData.currentTrackId ?? '',
-  playingList: localData.playingList ?? [],
+  playingList: localData.playingList ?? { list: [] },
   currentTime: localStorage.getItem('currentTime') ?? 0,
   showList: false,
   showLyricsPage: false,
@@ -42,7 +42,7 @@ export default {
   state,
   getters: {
     index(state) {
-      return state.playingList.findIndex(
+      return state.playingList?.list?.findIndex(
         (track) => track.id === state.track.id,
       );
     },
@@ -52,21 +52,21 @@ export default {
     nextTrackId(state, getters) {
       const index = getters['index'];
       let id = state.track.id;
-      const len = state.playingList.length;
+      const len = state.playingList?.list?.length;
       const { mode, playingList } = state;
       if (
         mode === PLAY_MODE.CYCLE ||
         (mode === PLAY_MODE.ORDER && len - 1 !== index)
       ) {
         // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
-        id = playingList[index + 1 === playingList.length ? 0 : index + 1]?.id;
+        id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id;
       }
       return id;
     },
     prevTrackId(state, getters) {
       const index = getters['index'];
-      return state.playingList[
-        index === 0 ? state.playingList.length - 1 : index - 1
+      return state.playingList?.list?.[
+        index === 0 ? state.playingList?.list?.length - 1 : index - 1
       ]?.id;
     },
     liked: (state) => (id) => !!state.likes.find((i) => i === id),
@@ -85,11 +85,11 @@ export default {
         commit('playlist', playlistRes.playlist);
       }
     },
-    async updatePlayingList({ commit, dispatch }, list) {
+    async updatePlayingList({ commit, dispatch }, payload) {
       commit('isCurrentFm', false);
-      commit('playingList', list);
+      commit('playingList', payload);
       dispatch('saveMusicState');
-      return list;
+      return payload;
     },
     async updatePersonalFmList({ commit, state }) {
       let originList = [...state.fmList];

@@ -25,7 +25,7 @@
           />
         </v-progress-circular>
         <div class="d-flex flex-column text-center mt-2">
-          <span class="text-body-2 h-1x">
+          <span class="text-caption h-1x">
             {{ albumName }} - {{ fmTrack.name }}
           </span>
         </div>
@@ -35,26 +35,23 @@
       class="d-flex align-center justify-center"
       style="height: 48px"
     >
-      <v-btn icon text class="mx-2" @click="trash">
-        <div>
-          <v-icon v-text="icon.mdiThumbDown" />
-        </div>
+      <v-btn icon @click="trash">
+        <v-icon v-text="icon.mdiThumbDown" small />
       </v-btn>
       <v-fab-transition origin="center center">
         <v-btn
           :key="playingState.icon"
           fab
           elevation="0"
-          class="mx-2"
           @click="play"
           color="primary"
-          small
+          x-small
         >
           <v-icon v-text="playingState.icon" color="onPrimary" />
         </v-btn>
       </v-fab-transition>
-      <v-btn icon class="mx-2" @click="next">
-        <v-icon v-text="icon.mdiSkipForward" />
+      <v-btn icon @click="next">
+        <v-icon v-text="icon.mdiSkipForward" small />
       </v-btn>
     </v-card-actions>
   </v-card>

@@ -6,11 +6,11 @@ import { app, protocol, BrowserWindow } from 'electron';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import is from 'electron-is';
 
-import { createElectronMenu } from './electron/menu';
-import { createTray } from './electron/tray';
-import { createApiServer } from './electron/neteaseapi/apiserver';
-import { registerIpcMain } from './electron/ipcMain';
-import WindowManager from './electron/windowManager';
+import { createElectronMenu } from './menu';
+import { createTray } from './tray';
+import { createApiServer } from './neteaseapi/apiserver';
+import { registerIpcMain } from './ipcMain';
+import WindowManager from './windowManager';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([

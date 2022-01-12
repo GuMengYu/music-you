@@ -117,8 +117,6 @@ export default {
   watch: {
     // update play icon state
     async playing(val) {
-      // playing
-      console.log(val);
       await this.$nextTick();
       if (val) {
         this.playAnim?.playSegments([0, 30], true);

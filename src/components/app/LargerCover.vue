@@ -113,10 +113,10 @@ export default {
   methods: {
     async play() {
       this.loading = true;
-      let list = [];
+      let info = {};
       if (this.type === 'daily') {
-        const { data } = await getDailyRecommend();
-        list = data?.dailySongs ?? [];
+        const { data = {} } = await getDailyRecommend();
+        info = data;
       } else {
         const request = {
           album: getAlbum,
@@ -125,14 +125,14 @@ export default {
         }[this.type];
         const data = await request(this.data.id);
         if (this.type === 'album') {
-          list = data.songs;
+          info = data;
         } else if (this.type === 'playlist') {
-          list = data?.playlist?.tracks;
+          info = data?.playlist;
         } else {
-          list = data.list;
+          info = data;
         }
       }
-      const track = await this.$player.updatePlayList(list);
+      const track = await this.$player.updatePlayList(info);
       await this.$player.updatePlayerTrack(track?.id);
       this.loading = false;
     },

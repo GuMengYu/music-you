@@ -24,7 +24,7 @@
       </v-col>
       <v-col cols="8" class="d-flex flex-column justify-space-between">
         <div class="list-desc">
-          <h6 class="mt-2 mb-2 text-h5 font-weight-bold">
+          <h6 class="mt-2 mb-2 text-h5">
             {{ list.name }}
           </h6>
           <div class="artist text-body-1 mt-2">
@@ -155,7 +155,7 @@ export default {
       this.loading = false;
     },
     async play() {
-      const track = await this.$player.updatePlayList(this.list.tracks);
+      const track = await this.$player.updatePlayList(this.list);
       await this.$player.updatePlayerTrack(track?.id);
     },
     openMenu(e) {

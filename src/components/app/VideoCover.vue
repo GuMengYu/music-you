@@ -34,10 +34,10 @@
         </v-fade-transition>
       </v-card>
     </v-hover>
-    <span class="h-1x mt-2 text-caption font-weight-bold text--primary">
+    <span class="h-1x mt-2 text-caption text--primary">
       {{ title }}
     </span>
-    <span class="h-1x text-caption font-weight-bold">
+    <span class="h-1x text-caption">
       <router-link
         v-for="artist in artists"
         :key="artist.userId"

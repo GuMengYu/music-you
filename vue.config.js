@@ -7,7 +7,7 @@ module.exports = {
       port: process.env.VUE_APP_PORT || 8080,
       proxy: {
         '/api': {
-          target: 'http://localhost:3000',
+          target: 'http://localhost:12139',
           pathRewrite: { '^/api': '/' },
           changeOrigin: true,
         },
@@ -82,7 +82,7 @@ module.exports = {
         },
       },
       // Use this to change the entrypoint of your app's main process
-      mainProcessFile: 'src/background.js',
+      mainProcessFile: 'src/electron/background.js',
     },
   },
 };

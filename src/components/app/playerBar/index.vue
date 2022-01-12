@@ -3,7 +3,7 @@
     <v-footer
       v-if="track.id"
       padless
-      class="playing-bar"
+      class="playing-bar surfaceVariant"
       rounded="xl"
       app
       :style="{ bottom: '5px', left: '5px', right: '5px' }"
@@ -13,7 +13,7 @@
           ref="vueSlider"
           :value="currentTime"
           class="playing-progress"
-          :max="~~((track.dt || track.duration) / 1000) || 0"
+          :max="~~((track.dt || track.duration) / 1000) || 9999"
           :min="0"
           :interval="1"
           :duration="0"
@@ -35,7 +35,6 @@
               max-width="40"
               min-width="40"
               min-height="40"
-              :loading="loadingTrack"
             >
               <template slot="progress">
                 <v-progress-circular
@@ -58,15 +57,16 @@
               </v-fade-transition>
             </v-card>
           </v-hover>
-          <div class="song-info mx-2">
-            <router-link to="">
-              <span class="song-name text--primary h-1x text-subtitle-2">
-                {{ track.name }}
-              </span>
-            </router-link>
+          <div class="song-info mx-2 d-flex">
+            <span class="song-name h-1x text-subtitle onSurfaceVariant--text">
+              {{ track.name }}
+            </span>
             <span class="text--disabled mx-2">-</span>
-            <router-link :to="`/artist/${$ochain(track, 'ar', '0', 'id')}`">
-              <span class="artist-name h-1x text-caption font-weight-bold">
+            <router-link
+              :to="`/artist/${$ochain(track, 'ar', '0', 'id')}`"
+              class="text-decoration-none text-caption"
+            >
+              <span class="artist-name h-1x">
                 {{ $ochain(track, 'ar', '0', 'name') }}
               </span>
             </router-link>
@@ -195,7 +195,6 @@ export default {
     currentTime: get('music/currentTime'),
     track: get('music/track'),
     playing: get('music/playing'),
-    loadingTrack: get('music/loadingTrack'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),
     mode: sync('music/mode'),
@@ -271,12 +270,6 @@ export default {
 
 <style lang="scss" scoped>
 @import 'src/scss/common';
-.theme--light .playing-bar {
-  background-color: var(--v-surfaceVariant-base);
-}
-.theme--dark .playing-bar {
-  background-color: rgba(0, 0, 0, 1);
-}
 .playing-bar {
   z-index: 7;
   .playing-control {
@@ -289,17 +282,6 @@ export default {
       flex: 1;
       align-items: center;
       justify-content: flex-start;
-      .song-info {
-        display: flex;
-        a {
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-        }
-        .song-name {
-          max-width: 13vw;
-        }
-      }
     }
     .playing-bar__center {
       flex: 1;

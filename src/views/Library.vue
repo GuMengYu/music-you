@@ -1,19 +1,19 @@
 <template>
   <div>
-    <custom-col title="recent" subtitle="activity" class="mb-4">
+    <custom-col title="最近播放" subtitle="activity" class="mb-4">
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
         <carousel :rows="4" gridStyle="C">
           <song-bar
-            :song="track"
+            :song="recent.data"
             class="track-item"
-            v-for="track in recent"
-            :key="track.id"
+            v-for="recent in recents"
+            :key="recent['resourceId']"
           />
         </carousel>
       </template>
     </custom-col>
-    <v-tabs ref="tabs" v-model="tab" class="mb-4">
+    <v-tabs ref="tabs" v-model="tab" class="mb-4 tab_tabs">
       <v-tab
         v-for="t in tabs"
         :key="t.key"
@@ -61,8 +61,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn text @click="newlistDialog = false"> Close </v-btn>
-                  <v-btn text @click="createNewPlaylist"> Save </v-btn>
+                  <v-btn text @click="newlistDialog = false"> 关闭 </v-btn>
+                  <v-btn text @click="createNewPlaylist"> 保存 </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -95,7 +95,7 @@
         </cover-list>
       </v-tab-item>
       <v-tab-item>
-        <cover-row-skeleton v-if="loading[type]" type="image" />
+        <cover-row-skeleton v-if="loading[type]" />
         <cover-list v-else grid-style="B">
           <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </cover-list>
@@ -116,7 +116,9 @@ import Carousel from '@/components/layout/Carousel.vue';
 
 import { sync, get, dispatch } from 'vuex-pathify';
 import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
-import { getSongData, createPlaylist } from '@/api';
+import { createPlaylist } from '@/api';
+import { recent } from '@/api/recent';
+
 import { mdiPlus } from '@mdi/js';
 
 export default {
@@ -144,7 +146,7 @@ export default {
       albums: [],
       mvs: [],
       artists: [],
-      recent: [],
+      recents: [],
       loadingRecent: false,
       loading: {
         playlists: false,
@@ -174,8 +176,12 @@ export default {
   },
   methods: {
     async fetch() {
-      const { songs } = await getSongData(this.recentIds.slice(0, 16));
-      this.recent = songs;
+      // const { songs } = await getSongData(this.recentIds.slice(0, 16));
+      const {
+        data: { list = [] },
+      } = await recent(15);
+      console.log(list);
+      this.recents = list;
     },
     loadData() {
       this.$nextTick(async () => {
@@ -198,7 +204,7 @@ export default {
           this.playlist = playlist;
         }
         this.loading[this.type] = false;
-        this.$vuetify.goTo(this.$refs['tabs']);
+        // this.$vuetify.goTo(this.$refs['tabs']);
       });
     },
     async createNewPlaylist() {
@@ -215,17 +221,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tab_tabs {
+  ::v-deep .v-tabs-bar {
+    background: inherit !important;
+  }
+}
 .tab_page {
+  background: inherit !important;
   min-height: calc(100vh - 210px);
   ::v-deep .new-playlist {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background: var(--v-neumorphism-base);
   }
-}
-.track-item:before {
-  border-radius: 4px;
 }
 </style>

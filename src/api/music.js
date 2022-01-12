@@ -63,15 +63,15 @@ export const getList = async (type, id) => {
     artist: getArtist,
   }[type];
   const data = await service(id);
-  let list = [];
+  let res = {};
   if (type === 'album') {
-    list = data.songs;
+    res = data;
   } else if (type === 'playlist') {
-    list = data?.playlist?.tracks;
+    res = data?.playlist;
   } else {
-    list = data.list;
+    res = data;
   }
-  return list;
+  return res;
 };
 
 /**
