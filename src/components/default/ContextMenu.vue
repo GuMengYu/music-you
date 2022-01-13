@@ -90,10 +90,16 @@ export default {
       });
     },
     async play(type, id, play = true) {
-      const info = await getList(type, id);
-      const track = await this.$player.updatePlayList(info);
+      let nextId = '';
+      if (type === 'track') {
+        nextId = id;
+      } else {
+        const info = await getList(type, id);
+        const track = await this.$player.updatePlayList(info);
+        nextId = track.id;
+      }
       if (play) {
-        await this.$player.updatePlayerTrack(track?.id);
+        await this.$player.updatePlayerTrack(nextId);
       }
       this.loading = false;
     },

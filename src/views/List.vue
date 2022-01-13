@@ -20,7 +20,7 @@
     </div>
     <v-row v-else>
       <v-col cols="4">
-        <Cover :data="list" :no-info="true" :type="type" />
+        <Cover :data="list" :no-info="true" :type="type" :max-size="256" />
       </v-col>
       <v-col cols="8" class="d-flex flex-column justify-space-between">
         <div class="list-desc">

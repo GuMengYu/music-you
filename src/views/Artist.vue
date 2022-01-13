@@ -7,10 +7,17 @@
           <v-img :src="artist.img1v1Url | sizeOfImage" />
         </v-avatar>
         <div class="artist-desc d-flex align-center mt-10 mb-2">
-          <default-fab @fab-click="play" class="mr-2" :loading="playLoading">
+          <v-btn
+            depressed
+            rounded
+            @click="play"
+            class="mr-4"
+            :loading="playLoading"
+            color="primary"
+          >
             <v-icon v-text="icon.mdiPlay" />
-          </default-fab>
-          <span class="text-h5 font-weight-bold flex-grow-1">
+          </v-btn>
+          <span class="text-h5 flex-grow-1">
             {{ artist.name }}
           </span>
           <v-btn icon color="primary" @click="openMenu">
@@ -25,7 +32,7 @@
               $t('main.artist.hot')
             }}</span>
           </div>
-          <carousel :rows="4" grid-style="C">
+          <carousel :rows="4" grid-style="A">
             <song-bar
               v-for="track in hotSongs"
               :key="track.id"
@@ -169,14 +176,12 @@ import { dispatch } from 'vuex-pathify';
 import Cover from '@components/app/Cover';
 import SongBar from '@components/app/SongBar';
 import CoverList from '@components/app/CoverList';
-import DefaultFab from '@components/default/Fab';
 import VideoCover from '@components/app/VideoCover';
 import Carousel from '@components/layout/Carousel';
 import ArtistSkeleton from '@components/skeleton/ArtistSkeleton.vue';
 
 export default {
   components: {
-    DefaultFab,
     CoverList,
     Cover,
     SongBar,

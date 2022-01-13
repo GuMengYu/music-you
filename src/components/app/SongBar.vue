@@ -7,9 +7,10 @@
       @dblclick="play"
       @contextmenu.prevent="openMenu"
       class="song-bar-wrapper"
+      :class="{ 'v-list-item--active': active }"
     >
       <v-card class="mr-4" flat>
-        <v-overlay :value="hover" absolute>
+        <v-overlay :value="hover || active" absolute>
           <v-btn icon @click="play">
             <v-icon v-text="mdiPlay" />
           </v-btn>
@@ -24,7 +25,6 @@
       </v-card>
       <v-list-item-content>
         <v-list-item-title v-text="song.name" />
-
         <v-list-item-subtitle>
           <span v-for="(artist, index) in artists" :key="index">
             <router-link :to="`/artist/${artist.id}`" class="artist-name">
@@ -49,7 +49,7 @@
 </template>
 <script>
 import { mdiDotsHorizontal, mdiPlay } from '@mdi/js';
-import { dispatch } from 'vuex-pathify';
+import { dispatch, get } from 'vuex-pathify';
 
 export default {
   name: 'SongBar',
@@ -64,8 +64,9 @@ export default {
     mdiPlay,
   }),
   computed: {
-    playing() {
-      return true;
+    current: get('music/track@id'),
+    active() {
+      return this.song.id === this.current;
     },
     menuItems() {
       const metadata = {
@@ -111,6 +112,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .song-bar-wrapper {
+  color: var(--v-primary-base);
+  margin: 0 10px;
   &::before {
     border-radius: $border-radius-root * 4;
   }

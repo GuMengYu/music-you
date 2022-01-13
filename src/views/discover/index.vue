@@ -8,14 +8,17 @@
             <!--            <span>{{ $t('main.discover.fm') }}</span>-->
             <f-m />
           </carousel-item>
-          <carousel-item>
-            <larger-cover :data="release" />
+          <carousel-item v-if="logged">
+            <larger-cover :data="myFav" type="playlist" />
           </carousel-item>
           <carousel-item>
             <larger-cover :data="radar" type="playlist" />
           </carousel-item>
           <carousel-item>
             <larger-cover :data="daily" type="daily" />
+          </carousel-item>
+          <carousel-item>
+            <larger-cover :data="release" />
           </carousel-item>
         </carousel>
       </custom-col>
@@ -32,14 +35,14 @@
       <custom-col class="mt-4" :title="$t('main.discover.recommend_songs')">
         <carousel
           :rows="4"
-          grid-style="C"
+          grid-style="A"
           class="px-2 py-1 surfaceVariant rounded-xl"
         >
           <song-bar v-for="song in songs" :key="song.id" :song="song" />
         </carousel>
       </custom-col>
       <custom-col class="mt-4" :title="$t('main.recommend_video')">
-        <carousel grid-style="C">
+        <carousel grid-style="A">
           <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </carousel>
       </custom-col>
@@ -97,6 +100,16 @@ export default {
     ...mapGetters({
       logged: 'settings/logged',
     }),
+    myFav() {
+      const fav = this.$store.state.music.playlist.find(
+        (i) => i['specialType'] === 5,
+      );
+      return {
+        id: fav['id'],
+        picUrl: fav['coverImgUrl'],
+        name: '我喜欢的音乐',
+      };
+    },
   },
   async created() {
     NProgress.start();

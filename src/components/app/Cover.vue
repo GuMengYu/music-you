@@ -1,5 +1,5 @@
 <template>
-  <div class="cover-container">
+  <div class="cover-container" :style="style">
     <v-hover v-slot="{ hover }">
       <v-card
         flat
@@ -83,6 +83,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    maxSize: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -96,6 +100,14 @@ export default {
     };
   },
   computed: {
+    style() {
+      const style = {};
+      if (this.maxSize) {
+        style.maxWidth = `${this.maxSize}px`;
+        style.maxHeight = `${this.maxSize}px`;
+      }
+      return style;
+    },
     subTitle() {
       return this.data.copywriter;
     },

@@ -17,22 +17,33 @@
           </v-icon>
         </v-btn>
       </v-toolbar>
-      <v-list
-        dense
-        two-line
-        nav
-        width="350"
-        max-height="70vh"
-        min-height="50vh"
-        class="play-list-container-list overflow-y-auto"
+      <v-virtual-scroll
+        height="450"
+        item-height="62"
+        :items="playingList.list"
+        :bench="5"
       >
-        <v-list-item-group color="primary" v-if="nextList.length">
-          <song-bar v-for="(song, i) in nextList" :key="i" :song="song" />
-        </v-list-item-group>
-        <v-list-item v-else>
-          {{ $t('common.empty_playing_list') }}
-        </v-list-item>
-      </v-list>
+        <template v-slot:default="{ item: song }">
+          <song-bar :song="song" :key="song.id" :active="song.id === current" />
+        </template>
+
+        <!--        <v-list-->
+        <!--          dense-->
+        <!--          two-line-->
+        <!--          nav-->
+        <!--          width="350"-->
+        <!--          max-height="70vh"-->
+        <!--          min-height="50vh"-->
+        <!--          class="play-list-container-list overflow-y-auto"-->
+        <!--        >-->
+        <!--          <v-list-item-group color="primary" v-if="nextList.length">-->
+
+        <!--          </v-list-item-group>-->
+        <!--          <v-list-item v-else>-->
+        <!--            {{ $t('common.empty_playing_list') }}-->
+        <!--          </v-list-item>-->
+        <!--        </v-list>-->
+      </v-virtual-scroll>
     </div>
   </v-expand-transition>
 </template>
@@ -54,12 +65,12 @@ export default {
     playingList: get('music/playingList'),
     current: get('music/track@id'),
     showList: sync('music/showList'),
-    nextList() {
-      const idx = this.playingList?.list?.findIndex(
-        (i) => i.id === this.current,
-      );
-      return this.playingList?.list?.slice(idx + 1);
-    },
+    // nextList() {
+    //   const idx = this.playingList?.list?.findIndex(
+    //     (i) => i.id === this.current,
+    //   );
+    //   return this.playingList?.list?.slice(idx + 1);
+    // },
   },
   watch: {},
   created() {},
@@ -73,6 +84,7 @@ export default {
   right: 20px;
   bottom: 80px;
   z-index: 7;
+  width: 400px;
   backdrop-filter: blur(30px);
   .play-list-container-list {
     background: transparent;
