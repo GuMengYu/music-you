@@ -36,7 +36,7 @@ export const formatLyric = (lyric = '') => {
         const mill = time.match(/\.(\d*)]/i)?.[1];
         const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2);
         time = min * 60 + sec + millToSec;
-        sentence = sentence || '● ● ●';
+        sentence = sentence || '...';
       } else {
         sentence = sentence || i;
       }

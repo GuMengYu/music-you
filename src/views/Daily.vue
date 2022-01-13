@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title mb-5">
-      <div class="text-caption grey--text text--lighten-1 font-weight-bold">
+      <div class="text-caption grey--text font-weight-bold">
         {{ $dayjs().format('MM/DD') }}
       </div>
       <div class="d-flex justify-space-between">
@@ -9,9 +9,15 @@
           {{ $t('main.nav.daily') }}
         </div>
         <div>
-          <default-fab @fab-click="play" :loading="loading">
-            <v-icon v-text="icon.mdiPlay" large />
-          </default-fab>
+          <v-btn
+            depressed
+            @click="play"
+            :loading="loading"
+            rounded
+            color="primary"
+          >
+            <v-icon v-text="icon.mdiPlay" />
+          </v-btn>
         </div>
       </div>
     </div>
@@ -32,10 +38,9 @@ import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
 import DefaultList from '@components/default/List';
 import SongBar from '@components/app/SongBar';
 import { getDailyRecommend } from '@/api';
-import DefaultFab from '@components/default/Fab';
 export default {
   name: 'Daily',
-  components: { DefaultFab, DefaultList, SongBar },
+  components: { DefaultList, SongBar },
   data: () => ({
     daily: [],
     icon: {
@@ -61,5 +66,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

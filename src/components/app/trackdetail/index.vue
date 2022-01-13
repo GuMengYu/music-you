@@ -4,24 +4,24 @@
     v-model="showLyricsPage"
     transition="dialog-bottom-transition"
   >
-    <div class="frame inverseSurface">
+    <div class="frame">
       <div class="frame-header">
         <v-btn icon @click="close">
-          <v-icon color="inverseOnSurface">
+          <v-icon>
             {{ icon.mdiClose }}
           </v-icon>
         </v-btn>
         <v-btn icon @click="toggleFullScreen"
-          ><v-icon color="inverseOnSurface">{{
+          ><v-icon>{{
             fullscreen ? icon.mdiArrowCollapse : icon.mdiArrowExpand
           }}</v-icon></v-btn
         >
       </div>
       <div class="frame-content">
         <div class="left">
-          <div class="d-flex flex-column inverseOnSurface--text mb-8">
-            <span class="text-h3 font-weight-bold">{{ track.name }}</span>
-            <span class="text-body-1">{{
+          <div class="d-flex flex-column mb-8">
+            <span class="text-h3">{{ track.name }}</span>
+            <span class="text-caption mt-2">{{
               $ochain(track, 'ar', '0', 'name')
             }}</span>
           </div>
@@ -41,28 +41,25 @@
               @drag-end="handleSlideChange"
             />
           </div>
+          <v-list
+            ref="lyricContainer"
+            class="frame-lyrics"
+            nav
+            dense
+            v-if="showLyric"
+          >
+            <v-list-item
+              v-for="(item, index) in lyric"
+              :key="index"
+              v-html="item.sentence"
+            >
+              {{ item.sentence }}
+            </v-list-item>
+          </v-list>
         </div>
         <v-card flat rounded="xl" class="right">
           <v-img class="cover-img" :src="albumPicUrl" />
         </v-card>
-        <!--        <v-col v-if="enableLyric" class="frame-content-right px-4">-->
-        <!--          <v-list ref="lyricContainer" class="frame-lyrics" nav>-->
-        <!--            <div class="first"></div>-->
-        <!--            <v-list-item-->
-        <!--              v-for="(item, index) in lyric"-->
-        <!--              :key="index"-->
-        <!--              :aria-time="item.time"-->
-        <!--              :aria-index="index"-->
-        <!--              :class="{ active: index === activeIdx }"-->
-        <!--              class="py-2"-->
-        <!--              v-html="item.sentence"-->
-        <!--              @click="jump(item.time)"-->
-        <!--            >-->
-        <!--              {{ item.sentence }}-->
-        <!--            </v-list-item>-->
-        <!--            <div class="last mb-10"></div>-->
-        <!--          </v-list>-->
-        <!--        </v-col>-->
       </div>
     </div>
   </v-dialog>
@@ -227,6 +224,7 @@ export default {
   overflow: hidden;
   position: relative;
   padding: 0 24px;
+  background: #234c5a;
   .frame-header {
     position: absolute;
     left: 20px;
@@ -257,9 +255,18 @@ export default {
     align-items: center;
     justify-content: space-between;
     .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       padding: 0 24px;
       flex: 1;
       text-align: center;
+      height: 100%;
+      .frame-lyrics {
+        background: transparent !important;
+        height: 30vh;
+        overflow-y: auto;
+      }
     }
     .right {
     }
