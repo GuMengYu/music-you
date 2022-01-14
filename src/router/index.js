@@ -54,11 +54,8 @@ const musicRoutes = [
   {
     path: '/album/:id',
     name: 'album',
-    component: lazyLoad('List'),
-    props: (route) => ({
-      id: route.params.id,
-      type: route.matched[1]?.name,
-    }),
+    component: lazyLoad('Album'),
+    props: true,
     meta: { keepAlive: true },
   },
   {

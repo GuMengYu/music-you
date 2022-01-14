@@ -13,7 +13,7 @@
     </div>
     <div v-else class="d-flex mb-2">
       <Cover
-        :data="playlist"
+        :data="album"
         :no-info="true"
         type="album"
         :max-width="250"
@@ -24,17 +24,17 @@
         class="d-flex flex-column pt-4 px-4 flex-fill surfaceVariant rounded-xl"
       >
         <div class="d-flex justify-space-between mb-2 align-center">
-          <span class="text-caption">Playlist</span>
+          <span class="text-caption">Album</span>
           <span class="text-caption">
-            <span> 共{{ playlist.trackCount }}首 </span> ·
+            <span> 共{{ album.size }}首 </span> ·
             <span class="primary--text">{{
-              playlist.publishTime | formatDate
+              album.publishTime | formatDate
             }}</span>
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
           <span class="text-h5">
-            {{ playlist.name }}
+            {{ album.name }}
           </span>
           <v-btn depressed rounded @click="play" color="primary">
             <v-icon v-text="icon.mdiPlay" class="mr-2" />
@@ -43,6 +43,9 @@
         </div>
         <div class="d-flex mb-4 align-center">
           <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
+          <span class="text-caption ml-2">
+            {{ album.artist.name }}
+          </span>
         </div>
         <div class="d-flex justify-end">
           <v-tooltip top color="black">
@@ -60,7 +63,7 @@
                 </v-icon>
               </v-btn>
             </template>
-            <span>转到歌单详细</span>
+            <span>转到专辑详细</span>
           </v-tooltip>
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
@@ -70,7 +73,7 @@
                 </v-icon>
               </v-btn>
             </template>
-            <span>收藏歌单</span>
+            <span>收藏专辑</span>
           </v-tooltip>
         </div>
       </div>
@@ -86,18 +89,16 @@
           class="album-info text-caption"
         >
           <div class="album-info-item">
-            <span class="item-title font-weight-bold">发布时间</span>
-            <span class="item-desc">{{
-              playlist.publishTime | formatDate
-            }}</span>
+            <span class="item-title font-weight-bold">发行年份</span>
+            <span class="item-desc">{{ album.publishTime | formatDate }}</span>
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">时长</span>
             <span class="item-desc">61:55</span>
           </div>
           <div class="album-info-item">
-            <span class="item-title font-weight-bold">播放次数</span>
-            <span class="item-desc h-1x">{{ playlist.playCount }}</span>
+            <span class="item-title font-weight-bold">发行公司</span>
+            <span class="item-desc h-1x">© {{ album.company }}</span>
           </div>
         </v-card>
         <common-card
@@ -109,18 +110,18 @@
         >
           <v-list color="surfaceVariant">
             <v-list-item
-              v-for="playlist in relatedPlaylist"
-              :key="playlist.id"
+              v-for="album in relatedAlbum"
+              :key="album.id"
               class="mb-2"
-              @click="gotoAlbum(playlist.id)"
+              @click="gotoAlbum(album.id)"
             >
               <v-img
-                :src="playlist.coverImgUrl | sizeOfImage(128)"
+                :src="album.picUrl | sizeOfImage(128)"
                 width="48"
                 class="rounded-lg mr-2"
               />
               <v-list-item-title class="text-caption">
-                {{ playlist.name }} {{ playlist.publishTime | formatDate }}
+                {{ album.name }} {{ album.publishTime | formatDate }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -130,7 +131,7 @@
       <common-card class="flex-fill" color="secondaryContainer">
         <v-virtual-scroll
           height="calc(100vh - 460px)"
-          :items="playlist.tracks"
+          :items="album.tracks"
           :item-height="62"
           :bench="5"
           class="secondaryContainer"
@@ -144,18 +145,23 @@
   </div>
 </template>
 <script>
-import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
-import { getPlayList, getAlbum, getRelatedPlayList } from '@/api';
+import {
+  mdiPlay,
+  mdiHeart,
+  mdiAccountMusic,
+  mdiMapMarkerCircle,
+} from '@mdi/js';
+import { getAlbum, getArtistAlbum } from '@/api';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
-import CommonCard from '@components/CommonCard';
-
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
+import CommonCard from '@components/CommonCard';
+
 export default {
   name: 'List',
-  components: { SongBar, Cover, CommonCard },
+  components: { CommonCard, SongBar, Cover },
   filters: {
     formatDate(datetime) {
       return dayjs(datetime).format('YYYY');
@@ -166,35 +172,33 @@ export default {
       type: [String, Number],
       default: '',
     },
-    type: {
-      type: String,
-      default: '',
-    },
   },
   data() {
     return {
       icon: {
         mdiPlay,
-        mdiDotsHorizontal,
+        mdiHeart,
+        mdiAccountMusic,
+        mdiMapMarkerCircle,
       },
-      playlist: {
+      album: {
         tracks: [],
         songs: [],
         coverImgUrl: '',
         name: '',
+        description: '',
       },
+      relatedAlbum: [],
       loading: true,
-      relatedPlaylist: [],
     };
   },
   computed: {
-    service: (vm) => (vm.type === 'album' ? getAlbum : getPlayList),
     menu() {
       return [
         {
           title: '收藏',
           action: 'sub',
-          metadata: { type: this.type, action: 'sub', id: this.id },
+          metadata: { type: 'album', action: 'sub', id: this.id },
         },
         {
           title: '播放',
@@ -214,17 +218,18 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      this.list = {};
-      const { playlist } = await getPlayList(this.id);
-      if (playlist) {
-        const { playlists } = await getRelatedPlayList(playlist.id);
-        this.relatedPlaylist = playlists;
+      this.album = {};
+      const { album = {}, songs } = await getAlbum(this.id);
+      if (album?.artist.id) {
+        const { hotAlbums = [] } = await getArtistAlbum(album.artist.id, 6);
+        this.relatedAlbum = hotAlbums.filter((i) => i.id !== album.id);
       }
-      this.playlist = playlist;
+      this.album = album;
+      this.album.tracks = songs;
       this.loading = false;
     },
     async play() {
-      const track = await this.$player.updatePlayList(this.list);
+      const track = await this.$player.updatePlayList(this.album);
       await this.$player.updatePlayerTrack(track?.id);
     },
     openMenu(e) {
@@ -232,7 +237,7 @@ export default {
       dispatch('contextmenu/show', { x, y, items: this.menu });
     },
     goto() {
-      const url = `https://music.163.com/#/playlist?id=${this.playlist.id}`;
+      const url = `https://music.163.com/#/album?id=${this.album.id}`;
       if (isElectron()) {
         this.$ipcRenderer.invoke('open-url', url);
       } else {
@@ -240,7 +245,7 @@ export default {
       }
     },
     gotoAlbum(id) {
-      this.$router.push(`/playlist/${id}`);
+      this.$router.push(`/album/${id}`);
     },
   },
 };

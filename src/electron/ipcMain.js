@@ -1,4 +1,4 @@
-const { ipcMain } = require('electron');
+const { ipcMain, shell } = require('electron');
 import { downloadFile } from './util/download';
 export const registerIpcMain = (window) => {
   ipcMain.handle('zoom-window', () => {
@@ -24,5 +24,8 @@ export const registerIpcMain = (window) => {
   });
   ipcMain.handle('close', () => {
     window.close();
+  });
+  ipcMain.handle('open-url', (e, url) => {
+    shell.openExternal(url);
   });
 };

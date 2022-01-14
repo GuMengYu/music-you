@@ -63,6 +63,13 @@ export const getSongUrlFromUnlockMusic = (id) =>
 export const getPlayList = (id) => xhr.get(`/playlist/detail?id=${id}`);
 
 /**
+ * 获取相关歌单
+ * @param id
+ * 传入歌单 id 可获取相关歌单
+ */
+export const getRelatedPlayList = (id) => xhr.get(`/related/playlist?id=${id}`);
+
+/**
  * 新建歌单
  * - name : 歌单名
  * - privacy : 是否设置为隐私歌单，默认否，'10' 为隐私歌单
@@ -164,11 +171,11 @@ export const getLyric = (id) => xhr.get(`/lyric?id=${id}`);
 
 export const getArtist = (id) => xhr.get(`/artists?id=${id}`);
 
-export const getArtistAlbum = (id) =>
+export const getArtistAlbum = (id, limit = 200) =>
   xhr.get('/artist/album', {
     params: {
       id,
-      limit: 200,
+      limit,
     },
   });
 

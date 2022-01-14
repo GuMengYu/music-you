@@ -112,8 +112,8 @@ export default {
     },
     init() {
       this.$nextTick(() => {
-        this.scrollWidth = this.$refs['coverCardList'].scrollWidth;
-        this.clientWidth = this.$refs['coverCardList'].clientWidth;
+        this.scrollWidth = this.$refs['coverCardList']?.scrollWidth;
+        this.clientWidth = this.$refs['coverCardList']?.clientWidth;
       });
     },
   },

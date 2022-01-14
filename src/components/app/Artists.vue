@@ -1,20 +1,14 @@
 <template>
   <div class="d-flex flex-column align-center artists-container">
-    <v-hover v-slot="{ hover }">
-      <v-avatar
-        :class="{ 'artist-hover': hover }"
-        width="100%"
-        height="100%"
-        @click="go"
-      >
-        <v-img
-          :src="artists.img1v1Url | sizeOfImage"
-          class="artist-image"
-          aspect-ratio="1"
-        />
-      </v-avatar>
-    </v-hover>
+    <v-avatar width="100%" height="100%" @click="go" :size="$attrs.size">
+      <v-img
+        :src="artists.img1v1Url | sizeOfImage"
+        class="artist-image"
+        aspect-ratio="1"
+      />
+    </v-avatar>
     <router-link
+      v-if="!noInfo"
       :to="to"
       class="title text--primary text-center text-decoration-none"
     >
@@ -31,6 +25,10 @@ export default {
     artists: {
       type: Object,
       default: () => ({}),
+    },
+    noInfo: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -51,10 +49,12 @@ export default {
 
 <style scoped lang="scss">
 .artists-container {
-  .artist-hover {
-    transition: 0.5s all ease;
-    transform: scale(1.025);
-    cursor: pointer;
+  .artist-image {
+    transition: transform 0.3s;
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
   }
 }
 </style>

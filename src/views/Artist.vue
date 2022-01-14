@@ -3,9 +3,7 @@
     <artist-skeleton v-if="loading" />
     <template v-if="!loading">
       <div class="artist d-flex flex-column align-center justify-end">
-        <v-avatar size="190" class="artist-avatar">
-          <v-img :src="artist.img1v1Url | sizeOfImage" />
-        </v-avatar>
+        <artists-cover :artists="artist" size="190" :no-info="true" />
         <div class="artist-desc d-flex align-center mt-10 mb-2">
           <v-btn
             depressed
@@ -179,9 +177,11 @@ import CoverList from '@components/app/CoverList';
 import VideoCover from '@components/app/VideoCover';
 import Carousel from '@components/layout/Carousel';
 import ArtistSkeleton from '@components/skeleton/ArtistSkeleton.vue';
+import ArtistsCover from '@components/app/Artists';
 
 export default {
   components: {
+    ArtistsCover,
     CoverList,
     Cover,
     SongBar,

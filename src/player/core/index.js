@@ -87,6 +87,7 @@ export default class Player {
       Howler.unload();
       this.howler = null;
       this.howler = this.initSound(track.url);
+      this.initMediaSession(track);
       if (resetProgress) {
         this.setSeek(0);
       }
@@ -94,7 +95,6 @@ export default class Player {
         this.play();
         this.setScrobble(this.track, this.howler.seek(), false);
       }
-      this.initMediaSession();
     }
   }
   initSound(src) {
@@ -217,28 +217,31 @@ export default class Player {
       });
     }
   }
-  initMediaSession() {
+  initMediaSession(track) {
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {
+      const { ar: artist = [], al: album = {}, name: title } = track;
       /* global MediaMetadata */
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: this.track.name,
-        artist: this.track.ar?.[0]?.name,
-        album: this.track.al?.name,
+        title,
+        artist: artist.map((a) => a.name).join('&'),
+        album: album.name,
         artwork: [
           {
-            src: this.track?.al?.picUrl ?? '',
+            src: album.picUrl ?? '',
             sizes: '512x512',
             type: 'image/png',
           },
         ],
       });
       [
-        ['play', this.playPause],
-        ['pause', this.playPause],
-        ['previoustrack', this.playPrev],
-        ['nexttrack', this.playNext],
-      ].map(([name, fn]) => navigator.mediaSession.setActionHandler(name, fn));
+        ['play', this.togglePlay],
+        ['pause', this.togglePlay],
+        ['previoustrack', this.prev],
+        ['nexttrack', this.next],
+      ].map(([name, fn]) =>
+        navigator.mediaSession.setActionHandler(name, fn.bind(this)),
+      );
     }
   }
   saveToRecent() {

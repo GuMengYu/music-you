@@ -79,6 +79,13 @@ export default {
         { title: '收藏到歌单', action: 'add', metadata },
         { title: '下载', action: 'download', metadata },
       ];
+      if (this.song?.al.id) {
+        items.unshift({
+          title: '前往专辑页',
+          action: 'goto',
+          metadata: { type: 'album', id: this.song?.al?.id },
+        });
+      }
       if (!this.$store.getters['music/liked'](this.song.id)) {
         items.push({ title: '添加到喜欢', action: 'sub', metadata });
       }
@@ -113,7 +120,6 @@ export default {
 <style scoped lang="scss">
 .song-bar-wrapper {
   color: var(--v-primary-base);
-  margin: 0 10px;
   &::before {
     border-radius: $border-radius-root * 4;
   }

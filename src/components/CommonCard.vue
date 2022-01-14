@@ -1,6 +1,6 @@
 <template>
-  <v-card class="common-card" flat rounded="lg" color="surfaceVariant">
-    <v-app-bar dense flat color="surfaceVariant">
+  <v-card class="common-card" flat :rounded="rounded" :width="$attrs.width">
+    <v-app-bar dense flat :color="$attrs.color">
       <v-app-bar-title class="text-caption onSurfaceVariant--text">{{
         title
       }}</v-app-bar-title>
@@ -23,6 +23,10 @@ export default {
     title: {
       type: String,
       default: '推荐歌曲',
+    },
+    rounded: {
+      type: String,
+      default: 'lg',
     },
   },
   data() {

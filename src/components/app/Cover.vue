@@ -1,12 +1,13 @@
 <template>
-  <div class="cover-container" :style="style">
+  <div class="cover-container">
     <v-hover v-slot="{ hover }">
       <v-card
         flat
-        rounded="xl"
+        :rounded="rounded"
         class="d-flex align-end justify-end cover-card"
         :to="to"
         @contextmenu.prevent="openMenu"
+        v-bind="$attrs"
       >
         <v-img
           :src="coverBgUrl"
@@ -60,6 +61,10 @@ import { download } from '@util/download';
 export default {
   name: 'Cover',
   props: {
+    rounded: {
+      type: String,
+      default: 'xl',
+    },
     data: {
       type: Object,
       default: () => ({
@@ -83,10 +88,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    maxSize: {
-      type: Number,
-      default: 0,
-    },
   },
   data() {
     return {
@@ -100,14 +101,6 @@ export default {
     };
   },
   computed: {
-    style() {
-      const style = {};
-      if (this.maxSize) {
-        style.maxWidth = `${this.maxSize}px`;
-        style.maxHeight = `${this.maxSize}px`;
-      }
-      return style;
-    },
     subTitle() {
       return this.data.copywriter;
     },
@@ -119,7 +112,7 @@ export default {
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl);
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 1024);
     },
     service() {
       return {
