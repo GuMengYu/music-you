@@ -57,7 +57,7 @@
               </v-fade-transition>
             </v-card>
           </v-hover>
-          <div class="song-info mx-2 d-flex">
+          <div class="song-info mx-2 d-flex align-center">
             <span class="song-name h-1x text-subtitle onSurfaceVariant--text">
               {{ track.name }}
             </span>
@@ -269,7 +269,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'src/scss/common';
 .playing-bar {
   z-index: 7;
   .playing-control {

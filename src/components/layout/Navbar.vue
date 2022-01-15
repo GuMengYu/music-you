@@ -32,36 +32,44 @@
           :key="i.title"
           :item="i"
         />
+        <v-subheader
+          v-show="!drawermini"
+          class="font-weight-bold text-uppercase ml-2"
+        >
+          {{ $t('main.nav.start_list') }}
+        </v-subheader>
+        <default-list-item
+          class="drawer-item"
+          v-for="i in defaultNav3"
+          :key="i.title"
+          :item="i"
+        />
       </v-list-item-group>
     </v-list>
-    <default-list v-show="!drawermini" :items="nav" />
+    <!--    <default-list v-show="!drawermini" :items="nav" />-->
   </v-navigation-drawer>
 </template>
 
 <script>
 import {
-  mdiRadio,
-  mdiPlaylistMusicOutline,
-  mdiAlbum,
-  mdiMusicNoteHalfDotted,
-  mdiLibrary,
-  mdiRadioFm,
   mdiAppleFinder,
   mdiChevronLeft,
   mdiChevronRight,
   mdiHandHeart,
+  mdiLibrary,
   mdiMagnify,
+  mdiMusicNoteHalfDotted,
+  mdiPlaylistMusicOutline,
 } from '@mdi/js';
-import DefaultList from '@components/default/List';
-import { sync, get } from 'vuex-pathify';
+import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
 import DefaultListItem from '@components/default/ListItem';
 import DrawerToggle from '@components/layout/DrawerToggle';
+
 export default {
   name: 'DefaultNavBar',
   components: {
     DefaultListItem,
-    DefaultList,
     DrawerToggle,
   },
   data: function () {
@@ -98,85 +106,26 @@ export default {
         // { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
         // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
-      defaultNav3: [],
-      defaultNav: [
-        { title: _t('music'), heading: 'Music' },
-        {
-          icon: mdiMusicNoteHalfDotted,
-          val: 'discover',
-          title: _t('discover'),
-          to: '/discover',
-        },
-        {
-          icon: mdiAppleFinder,
-          val: 'explore',
-          title: _t('explore'),
-          to: '/explore',
-        },
-        { icon: mdiRadioFm, val: 'fm', title: _t('fm'), to: '/fm' },
-        {
-          icon: mdiHandHeart,
-          val: 'daily',
-          title: _t('daily'),
-          to: '/daily',
-        },
-        { title: _t('library'), heading: 'Library' },
-        {
-          icon: mdiLibrary,
-          val: 'stars',
-          title: _t('stars'),
-          to: '/library',
-        },
-        { icon: mdiAlbum, val: 'disk', title: _t('disk'), to: '/disk' },
-        {
-          icon: mdiRadio,
-          val: 'radio',
-          title: _t('radio'),
-          to: '/radio',
-        },
-      ],
+      // defaultNav3: [],
       mini: true,
     };
   },
   computed: {
     drawermini: sync('app/drawermini'),
-    isMobile() {
-      return this.$vuetify.breakpoint.mobile;
-    },
     playlist: get('music/playlist'),
-    nav() {
+    defaultNav3() {
       const created = filter(this.playlist, (i) => !i['subscribed']);
-      const create = created?.length
-        ? {
-            title: this.$t('main.nav.created_list'),
-            open: true,
-            items: created.slice(0, 10).map((i) => {
-              let title = i.name;
-              i['specialType'] === 5 && (title = this.$t('main.my_fav'));
-              return {
-                title,
-                to: `/playlist/${i.id}`,
-                icon: mdiPlaylistMusicOutline,
-              };
-            }),
-          }
-        : void 0;
-      // const sub = subscribed?.length
-      //   ? {
-      //       title: this.$t('main.nav.start_list'),
-      //       open: false,
-      //       items: subscribed.slice(0, 10).map((i) => {
-      //         return {
-      //           title: i.name,
-      //           to: `/playlist/${i.id}`,
-      //           icon: mdiPlaylistMusicOutline,
-      //         };
-      //       }),
-      //     }
-      //   : void 0;
-      // this.defaultNav[9].items = this.playlist;
-      const _new = filter([create]);
-      return this.defaultNav3.concat(_new);
+      return (
+        created?.slice(0, 5)?.map((i) => {
+          let title = i.name;
+          i['specialType'] === 5 && (title = this.$t('main.my_fav'));
+          return {
+            title,
+            to: `/playlist/${i.id}`,
+            icon: mdiPlaylistMusicOutline,
+          };
+        }) ?? []
+      );
     },
   },
 };

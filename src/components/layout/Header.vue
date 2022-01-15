@@ -4,7 +4,7 @@
     fixed
     dense
     :elevation="0"
-    class="d-flex app_header surface"
+    class="app_header surface"
     :class="action ? 'justify-start' : 'justify-end'"
   >
     <!--      <download-progress />-->
