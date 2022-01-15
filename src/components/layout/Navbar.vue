@@ -53,11 +53,8 @@
 <script>
 import {
   mdiAppleFinder,
-  mdiChevronLeft,
-  mdiChevronRight,
   mdiHandHeart,
   mdiLibrary,
-  mdiMagnify,
   mdiMusicNoteHalfDotted,
   mdiPlaylistMusicOutline,
 } from '@mdi/js';
@@ -75,7 +72,6 @@ export default {
   data: function () {
     const _t = (key) => this.$i18n.t(`main.nav.${key}`);
     return {
-      icon: { mdiChevronLeft, mdiChevronRight, mdiMagnify },
       defaultNav1: [
         {
           icon: mdiMusicNoteHalfDotted,

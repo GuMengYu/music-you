@@ -45,12 +45,6 @@ export const createTray = (win) => {
 
 function handleEvents(tray, win) {
   tray.on('click', () => {
-    if (!win.isVisible() || win.isFullScreen()) {
-      win.show();
-    } else {
-      // win.moveTop() not working
-      win.setAlwaysOnTop(true);
-      setTimeout(() => win.setAlwaysOnTop(false), 100);
-    }
+    win.show();
   });
 }

@@ -49,8 +49,11 @@ module.exports = {
       nodeIntegration: true, // https://github.com/electron/electron/issues/9920#issuecomment-653978691
       builderOptions: {
         productName: 'VPlayer',
+        copyright: 'Copyright © VPlayer 2022', //版权信息
         asar: true,
         win: {
+          publisherName: 'VPlayer',
+          icon: 'build/icons/icon.ico',
           target: [
             {
               target: 'nsis',
@@ -63,10 +66,15 @@ module.exports = {
           ],
         },
         mac: {
-          target: 'dmg',
-          category: 'public.app-category.music',
+          target: [
+            {
+              target: 'dmg',
+              arch: ['x64', 'arm64', 'universal'],
+            },
+          ],
           artifactName: '${productName}_${version}.${ext}',
           darkModeSupport: true,
+          category: 'public.app-category.music',
         },
         linux: {
           target: [
@@ -80,9 +88,24 @@ module.exports = {
           ],
           category: 'Audio',
         },
+        nsis: {
+          oneClick: false, // 是否一键安装
+          allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
+          allowToChangeInstallationDirectory: true, // 允许修改安装目录
+          installerIcon: 'build/icons/icon.ico', // 安装图标
+          uninstallerIcon: 'build/icons/icon.ico', //卸载图标
+          installerHeaderIcon: 'build/icons/icon.ico', // 安装时头部图标
+          createDesktopShortcut: true, // 创建桌面图标
+          createStartMenuShortcut: true, // 创建开始菜单图标
+          shortcutName: 'VPlayer', // 图标名称
+          deleteAppDataOnUninstall: true,
+        },
+        dmg: {
+          icon: 'build/icons/icon.icns',
+        },
       },
       // Use this to change the entrypoint of your app's main process
-      mainProcessFile: 'src/electron/background.js',
+      mainProcessFile: 'src/background.js',
     },
   },
 };

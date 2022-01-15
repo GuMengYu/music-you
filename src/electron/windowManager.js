@@ -1,6 +1,3 @@
-/* global __static */
-
-import path from 'path';
 import { EventEmitter } from 'events';
 import is from 'electron-is';
 import { BrowserWindow } from 'electron';
@@ -40,7 +37,6 @@ export default class WindowManager extends EventEmitter {
           nodeIntegrationInWorker: true,
           contextIsolation: false, // https://www.electronjs.org/zh/docs/latest/breaking-changes#%E9%BB%98%E8%AE%A4%E6%9B%B4%E6%94%B9-contextisolation-%E9%BB%98%E8%AE%A4%E4%B8%BA-true
         },
-        icon: path.join(__static, 'icon.ico'),
         hasShadow: !is.macOS(),
         bindCloseToHide: true,
         transparent: !is.windows(),

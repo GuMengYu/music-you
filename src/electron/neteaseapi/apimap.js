@@ -158,6 +158,13 @@ const video_group = require('NeteaseCloudMusicApi/module/video_group');
 const video_group_list = require('NeteaseCloudMusicApi/module/video_group_list');
 const video_url = require('NeteaseCloudMusicApi/module/video_url');
 
+const record_recent_song = require('NeteaseCloudMusicApi/module/record_recent_song');
+const record_recent_album = require('NeteaseCloudMusicApi/module/record_recent_album');
+const record_recent_playlist = require('NeteaseCloudMusicApi/module/record_recent_playlist');
+const record_recent_video = require('NeteaseCloudMusicApi/module/record_recent_video');
+const record_recent_dj = require('NeteaseCloudMusicApi/module/record_recent_dj');
+const record_recent_voice = require('NeteaseCloudMusicApi/module/record_recent_voice');
+
 const others = require('./otherapi');
 module.exports = {
   '/fm_trash': generatorFn(fm_trash),
@@ -308,6 +315,14 @@ module.exports = {
   '/album/detail': generatorFn(album_detail),
   '/album': generatorFn(album),
   '/activate_init_profile': generatorFn(activate_init_profile),
+
+  '/record/recent/song': generatorFn(record_recent_song),
+  '/record/recent/playlist': generatorFn(record_recent_playlist),
+  '/record/recent/album': generatorFn(record_recent_album),
+  '/record/recent/dj': generatorFn(record_recent_dj),
+  '/record/recent/video': generatorFn(record_recent_video),
+  '/record/recent/voice': generatorFn(record_recent_voice),
+
   ...others,
 };
 
