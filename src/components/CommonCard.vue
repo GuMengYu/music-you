@@ -1,5 +1,11 @@
 <template>
-  <v-card class="common-card" flat :rounded="rounded" :width="$attrs.width">
+  <v-card
+    class="common-card"
+    flat
+    :rounded="rounded"
+    :width="$attrs.width"
+    :color="$attrs.color"
+  >
     <v-app-bar dense flat :color="$attrs.color">
       <v-app-bar-title class="text-caption onSurfaceVariant--text">{{
         title

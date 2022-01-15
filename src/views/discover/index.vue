@@ -101,9 +101,9 @@ export default {
       logged: 'settings/logged',
     }),
     myFav() {
-      const fav = this.$store.state.music.playlist.find(
-        (i) => i['specialType'] === 5,
-      );
+      const fav =
+        this.$store.state.music.playlist.find((i) => i['specialType'] === 5) ??
+        {};
       return {
         id: fav['id'],
         picUrl: fav['coverImgUrl'],

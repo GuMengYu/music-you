@@ -24,7 +24,10 @@
         class="d-flex flex-column pt-4 px-4 flex-fill surfaceVariant rounded-xl"
       >
         <div class="d-flex justify-space-between mb-2 align-center">
-          <span class="text-caption">Playlist</span>
+          <span class="d-flex align-center">
+            <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
+            <span class="text-caption ml-2 primary--text">歌单</span>
+          </span>
           <span class="text-caption">
             <span> 共{{ playlist.trackCount }}首 </span> ·
             <span class="primary--text">{{
@@ -33,16 +36,28 @@
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
-          <span class="text-h5">
-            {{ playlist.name }}
+          <span class="d-flex align-center">
+            <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
+            <span class="text-h5 ml-2 h-1x">
+              {{ playlist.name }}
+            </span>
           </span>
-          <v-btn depressed rounded @click="play" color="primary">
-            <v-icon v-text="icon.mdiPlay" class="mr-2" />
+          <v-btn depressed rounded @click="play" color="primary" small>
+            <v-icon v-text="icon.mdiPlay" class="mr-2" small />
             播放
           </v-btn>
         </div>
         <div class="d-flex mb-4 align-center">
           <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
+          <span class="text-caption ml-2">
+            {{ playlist.creator.nickname }}
+          </span>
+        </div>
+        <div class="d-flex align-start" v-if="playlist.description">
+          <v-icon small>{{ icon.mdiInformation }}</v-icon>
+          <p class="text-caption h-3x ml-2">
+            {{ playlist.description }}
+          </p>
         </div>
         <div class="d-flex justify-end">
           <v-tooltip top color="black">
@@ -102,7 +117,7 @@
         </v-card>
         <common-card
           class="mt-2"
-          title="Ta的其他热门专辑"
+          title="相关歌单推荐"
           rounded="xl"
           :width="250"
           color="surfaceVariant"
@@ -127,13 +142,17 @@
         </common-card>
       </div>
 
-      <common-card class="flex-fill" color="secondaryContainer">
+      <common-card
+        class="flex-fill"
+        color="secondaryContainer"
+        title="歌单歌曲"
+      >
         <v-virtual-scroll
-          height="calc(100vh - 460px)"
+          height="calc(100vh - 470px)"
           :items="playlist.tracks"
           :item-height="62"
           :bench="5"
-          class="secondaryContainer"
+          class="secondaryContainer virtual-scroll-container"
         >
           <template v-slot:default="{ item: song }">
             <SongBar :song="song" />
@@ -144,7 +163,14 @@
   </div>
 </template>
 <script>
-import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
+import {
+  mdiPlay,
+  mdiPlaylistMusicOutline,
+  mdiInformation,
+  mdiAccountMusic,
+  mdiHeart,
+  mdiMapMarkerCircle,
+} from '@mdi/js';
 import { getPlayList, getAlbum, getRelatedPlayList } from '@/api';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
@@ -175,7 +201,11 @@ export default {
     return {
       icon: {
         mdiPlay,
-        mdiDotsHorizontal,
+        mdiPlaylistMusicOutline,
+        mdiInformation,
+        mdiAccountMusic,
+        mdiHeart,
+        mdiMapMarkerCircle,
       },
       playlist: {
         tracks: [],
@@ -224,7 +254,7 @@ export default {
       this.loading = false;
     },
     async play() {
-      const track = await this.$player.updatePlayList(this.list);
+      const track = await this.$player.updatePlayList(this.playlist);
       await this.$player.updatePlayerTrack(track?.id);
     },
     openMenu(e) {
@@ -261,6 +291,9 @@ export default {
         min-width: 80px;
       }
     }
+  }
+  .virtual-scroll-container {
+    min-height: 350px;
   }
 }
 </style>

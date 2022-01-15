@@ -20,11 +20,17 @@
         :min-width="250"
         class="mr-4"
       />
-      <div
-        class="d-flex flex-column pt-4 px-4 flex-fill surfaceVariant rounded-xl"
+      <v-card
+        flat
+        rounded="xl"
+        color="surfaceVariant"
+        class="d-flex flex-column pt-4 px-4 flex-fill"
       >
         <div class="d-flex justify-space-between mb-2 align-center">
-          <span class="text-caption">Album</span>
+          <span>
+            <v-icon small>{{ icon.mdiAlbum }}</v-icon>
+            <span class="text-caption ml-2">Album</span>
+          </span>
           <span class="text-caption">
             <span> 共{{ album.size }}首 </span> ·
             <span class="primary--text">{{
@@ -33,11 +39,12 @@
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
-          <span class="text-h5">
-            {{ album.name }}
+          <span class="d-flex align-center">
+            <v-icon small>{{ icon.mdiAlbum }}</v-icon>
+            <span class="text-h5 ml-2"> {{ album.name }} </span>
           </span>
-          <v-btn depressed rounded @click="play" color="primary">
-            <v-icon v-text="icon.mdiPlay" class="mr-2" />
+          <v-btn depressed rounded @click="play" color="primary" small>
+            <v-icon v-text="icon.mdiPlay" small class="mr-2" />
             播放
           </v-btn>
         </div>
@@ -46,6 +53,12 @@
           <span class="text-caption ml-2">
             {{ album.artist.name }}
           </span>
+        </div>
+        <div class="d-flex align-start">
+          <v-icon small>{{ icon.mdiInformation }}</v-icon>
+          <p class="text-caption h-3x ml-2">
+            {{ album.description }}
+          </p>
         </div>
         <div class="d-flex justify-end">
           <v-tooltip top color="black">
@@ -76,7 +89,7 @@
             <span>收藏专辑</span>
           </v-tooltip>
         </div>
-      </div>
+      </v-card>
     </div>
     <div class="d-flex">
       <div class="mr-4">
@@ -128,13 +141,17 @@
         </common-card>
       </div>
 
-      <common-card class="flex-fill" color="secondaryContainer">
+      <common-card
+        class="flex-fill"
+        color="secondaryContainer"
+        title="专辑歌曲"
+      >
         <v-virtual-scroll
-          height="calc(100vh - 460px)"
+          height="calc(100vh - 470px)"
           :items="album.tracks"
           :item-height="62"
           :bench="5"
-          class="secondaryContainer"
+          class="secondaryContainer virtual-scroll-container"
         >
           <template v-slot:default="{ item: song }">
             <SongBar :song="song" />
@@ -150,6 +167,8 @@ import {
   mdiHeart,
   mdiAccountMusic,
   mdiMapMarkerCircle,
+  mdiAlbum,
+  mdiInformation,
 } from '@mdi/js';
 import { getAlbum, getArtistAlbum } from '@/api';
 import SongBar from '@components/app/SongBar';
@@ -180,6 +199,8 @@ export default {
         mdiHeart,
         mdiAccountMusic,
         mdiMapMarkerCircle,
+        mdiAlbum,
+        mdiInformation,
       },
       album: {
         tracks: [],
@@ -266,6 +287,9 @@ export default {
         min-width: 80px;
       }
     }
+  }
+  .virtual-scroll-container {
+    min-height: 350px;
   }
 }
 </style>
