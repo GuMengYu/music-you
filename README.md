@@ -47,7 +47,6 @@ npm run electron:build
 
 ### 🌄 预览
 
-![主要](doc/discover.png)
 ![暗黑模式](doc/dark.png)
 ![浏览](doc/explore.png)
 ![歌手](doc/artist.png)
