@@ -20,10 +20,12 @@ export default {
     recommend_artist: 'Recommend Artist',
     playing_queue: 'Up Next',
     artist: {
-      latest: 'New Release',
+      latest: 'New Album',
       hot: 'Popular Song',
       albums: 'Album',
       epAndSingle: 'Singles & EP',
+      mv: 'Popular MV',
+      simi: 'Similar Artist',
     },
     discover: {
       featured: 'Featured',

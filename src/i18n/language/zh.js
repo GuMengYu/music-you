@@ -20,11 +20,12 @@ export default {
     recommend_artist: '推荐歌手',
     playing_queue: '接下来播放',
     artist: {
-      latest: '最新发布',
+      latest: '新专辑',
       hot: '热门歌曲',
       albums: '专辑',
       epAndSingle: '单曲与EP',
       mv: '热门MV',
+      simi: '相似歌手',
     },
     discover: {
       featured: '精选推荐',

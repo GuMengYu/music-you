@@ -39,12 +39,11 @@
       </v-card>
     </v-hover>
     <router-link v-if="!noInfo" :to="to" class="title">
-      <span class="h-1x mt-2 text-caption text--primary">{{ data.name }}</span>
+      <span class="h-2x mt-2 text-subtitle-2 onBackground--text">{{
+        data.name
+      }}</span>
     </router-link>
-    <span
-      v-if="!noInfo"
-      class="h-1x mt-1 text-caption grey--text text--lighten-1 subtitle"
-    >
+    <span v-if="!noInfo" class="h-1x text-caption grey--text">
       {{ subTitle }}
     </span>
   </div>
@@ -88,6 +87,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    extra: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -102,7 +105,7 @@ export default {
   },
   computed: {
     subTitle() {
-      return this.data.copywriter;
+      return this.extra ?? this.data.copywriter;
     },
     to() {
       return {

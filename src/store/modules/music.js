@@ -1,5 +1,5 @@
-import { getTrackDetail } from '@/api/music';
-import { favTrack, getLikeList, personalFM } from '@/api';
+import { getTrackDetail, sub } from '@/api/music';
+import { getLikeList, personalFM } from '@/api';
 import { getUserPlaylist } from '@/api/user';
 import { make } from 'vuex-pathify';
 import { uniqWith, isEqual } from 'lodash-es';
@@ -158,7 +158,7 @@ export default {
         );
         return false;
       } else {
-        const { code } = await favTrack({ id, like });
+        const { code } = await sub('track', id, like ? 1 : 0);
         if (code === 200) {
           if (like) {
             likes.push(id);

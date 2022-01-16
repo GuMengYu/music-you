@@ -169,7 +169,12 @@ export const getTopList = () => xhr.get('/toplist');
 
 export const getLyric = (id) => xhr.get(`/lyric?id=${id}`);
 
-export const getArtist = (id) => xhr.get(`/artists?id=${id}`);
+export const getArtist = (id) =>
+  xhr.get(`/artists?id=${id}&timestamp=${now()}`);
+
+export const getArtistDetail = (id) => xhr.get(`/artist/detail?id=${id}`);
+
+export const getSimiArtist = (id) => xhr.get(`/simi/artist?id=${id}`);
 
 export const getArtistAlbum = (id, limit = 200) =>
   xhr.get('/artist/album', {
@@ -183,18 +188,6 @@ export const getArtistMv = (id) =>
   xhr.get('/artist/mv', {
     params: { id },
   });
-/**
- * 标记|取消 喜欢音乐
- * id, like: true/false
- * @param {Object} params
- * @returns Promise
- */
-export const favTrack = (params) => {
-  params['timestamp'] = new Date().getTime();
-  return xhr.get('/like', {
-    params,
-  });
-};
 /**
  * 获取喜欢列表
  * @returns {Promise<AxiosResponse<any>>}

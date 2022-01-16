@@ -2,9 +2,10 @@
   <div class="d-flex flex-column align-center artists-container">
     <v-avatar width="100%" height="100%" @click="go" :size="$attrs.size">
       <v-img
-        :src="artists.img1v1Url | sizeOfImage"
+        :src="artists.picUrl || artists.cover | sizeOfImage"
         class="artist-image"
         aspect-ratio="1"
+        lazy-src="@/assets/default-cover.png"
       />
     </v-avatar>
     <router-link
