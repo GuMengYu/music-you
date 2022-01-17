@@ -108,7 +108,7 @@
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">61:55</span>
+            <span class="item-desc">{{ tracksDt | formatDuring }}</span>
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">播放次数</span>
@@ -171,7 +171,7 @@ import {
   mdiHeart,
   mdiMapMarkerCircle,
 } from '@mdi/js';
-import { getPlayList, getAlbum, getRelatedPlayList } from '@/api';
+import { getPlayList, getRelatedPlayList } from '@/api';
 import SongBar from '@components/app/SongBar';
 import Cover from '@components/app/Cover';
 import CommonCard from '@components/CommonCard';
@@ -209,7 +209,6 @@ export default {
       },
       playlist: {
         tracks: [],
-        songs: [],
         coverImgUrl: '',
         name: '',
       },
@@ -218,7 +217,6 @@ export default {
     };
   },
   computed: {
-    service: (vm) => (vm.type === 'album' ? getAlbum : getPlayList),
     menu() {
       return [
         {
@@ -231,6 +229,9 @@ export default {
           metadata: { cb: this.play },
         },
       ];
+    },
+    tracksDt() {
+      return this.playlist?.tracks?.reduce((p, c) => p + c['dt'], 0);
     },
   },
   watch: {

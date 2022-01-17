@@ -107,7 +107,7 @@
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">61:55</span>
+            <span class="item-desc">{{ albumDt | formatDuring }}</span>
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">发行公司</span>
@@ -179,7 +179,7 @@ import { isElectron } from '@util/fn';
 import CommonCard from '@components/CommonCard';
 
 export default {
-  name: 'List',
+  name: 'Album',
   components: { CommonCard, SongBar, Cover },
   filters: {
     formatDate(datetime) {
@@ -204,7 +204,6 @@ export default {
       },
       album: {
         tracks: [],
-        songs: [],
         coverImgUrl: '',
         name: '',
         description: '',
@@ -226,6 +225,9 @@ export default {
           metadata: { cb: this.play },
         },
       ];
+    },
+    albumDt() {
+      return this.album?.tracks?.reduce((p, c) => p + c['dt'], 0);
     },
   },
   watch: {
