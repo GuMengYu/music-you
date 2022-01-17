@@ -1,6 +1,6 @@
 <template>
   <div class="title-bar">
-    <div v-if="showActions" class="window-actions">
+    <div v-show="showActions" class="window-actions">
       <v-btn plain small @click="handleMinimize" class="action-item px-0">
         <v-icon>
           {{ mdiWindowMinimize }}

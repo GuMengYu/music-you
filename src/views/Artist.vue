@@ -64,6 +64,7 @@
                   class="ml-6"
                   :color="followed ? 'primary' : ''"
                   @click="follow"
+                  rounded
                 >
                   {{ followed ? '已订阅' : '订阅' }}
                 </v-btn>

@@ -180,7 +180,6 @@ export default {
       const {
         data: { list = [] },
       } = await recent(15);
-      console.log(list);
       this.recents = list;
     },
     loadData() {

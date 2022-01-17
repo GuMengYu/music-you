@@ -125,14 +125,13 @@ export default {
       }[this.type];
     },
     menuItems() {
-      const val = this.data.id;
+      const { id } = this.data;
       const metadata = {
-        id: val,
+        id,
         type: this.type,
       };
       const items = [
         { title: '播放', action: 'play', metadata },
-        { title: '收藏', action: 'sub', metadata },
         { title: '下一首播放', action: 'next', metadata },
         {
           title: '保存封面',
@@ -140,12 +139,28 @@ export default {
           metadata: { cb: this.saveCover },
         },
       ];
+      if (this.type === 'playlist') {
+        const { subscribed } = this.data;
+        items.push({
+          title: `${subscribed ? '取消收藏歌单' : '收藏歌单'}`,
+          action: `${subscribed ? 'unSub' : 'sub'}`,
+          metadata,
+        });
+      } else if (this.type === 'album') {
+        const { subTime, isSub } = this.data;
+        items.push({
+          title: `${isSub || subTime ? '取消收藏专辑' : '收藏专辑'}`,
+          action: `${isSub || subTime ? 'unSub' : 'sub'}`,
+          metadata,
+        });
+      }
       const goto = {
         playlist: '查看歌单',
         album: '查看专辑',
         artist: '查看歌手',
       }[this.type];
       items.unshift({ title: goto, action: 'goto', metadata });
+      console.log(items);
       return items;
     },
   },

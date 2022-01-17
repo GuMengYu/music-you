@@ -5,7 +5,7 @@
     <default-view />
     <player-bar />
     <default-setting />
-    <track-detail />
+    <playing-page />
     <default-login />
     <default-snackbar />
     <context-menu />
@@ -19,14 +19,14 @@ import DefaultNavBar from '@/components/layout/Navbar.vue';
 import PlayerBar from '@components/app/playerBar/index';
 import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
-import TrackDetail from '@/components/app/trackdetail';
+import PlayingPage from '@/components/app/Playing';
 import DefaultSnackbar from '@components/default/Snackbar';
 import DefaultHeader from '@components/layout/Header';
 import DefaultView from '@components/layout/View';
 import ContextMenu from '@components/default/ContextMenu';
 import DefaultTitleBar from '@components/layout/TitleBar';
 
-import { sync } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
 import is from 'electron-is';
 
@@ -40,7 +40,7 @@ export default {
     PlayerBar,
     DefaultNavBar,
     DefaultLogin,
-    TrackDetail,
+    PlayingPage,
     DefaultHeader,
     DefaultTitleBar,
   },
@@ -52,8 +52,9 @@ export default {
   }),
   computed: {
     showList: sync('music/showList'),
+    showLyricsPage: get('music/showLyricsPage'),
     showActions() {
-      return is.windows() || is.linux();
+      return (is.windows() || is.linux()) && !this.showLyricsPage;
     },
   },
 };

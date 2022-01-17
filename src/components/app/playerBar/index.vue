@@ -6,7 +6,6 @@
       class="playing-bar surfaceVariant"
       rounded="xl"
       app
-      :style="{ bottom: '5px', left: '5px', right: '5px' }"
     >
       <div class="playing-slider">
         <vue-slider
@@ -271,6 +270,9 @@ export default {
 <style lang="scss" scoped>
 .playing-bar {
   z-index: 7;
+  bottom: 0;
+  left: 5px !important;
+  right: 5px !important;
   .playing-control {
     width: 100%;
     display: flex;

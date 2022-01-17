@@ -204,8 +204,12 @@ export default {
           val: '192000',
         },
         {
-          title: ' High - 320Kbps',
+          title: 'High - 320Kbps',
           val: '320000',
+        },
+        {
+          title: 'Extremely - flac',
+          val: '999000',
         },
       ],
       appearanceOptions: [
