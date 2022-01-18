@@ -22,7 +22,6 @@ const PLAY_MODE = {
 const state = {
   playing: false,
   track: localData.track ?? {},
-  currentTrackId: localData.currentTrackId ?? '',
   playingList: localData.playingList ?? { list: [] },
   currentTime: localStorage.getItem('currentTime') ?? 0,
   showList: false,
@@ -120,7 +119,6 @@ export default {
         if (state.isCurrentFm) {
           commit('fmTrack', track);
         }
-        commit('currentTrackId', track?.id);
         dispatch('saveMusicState');
         return track;
       } catch (e) {

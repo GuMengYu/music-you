@@ -160,7 +160,6 @@ export default {
         artist: '查看歌手',
       }[this.type];
       items.unshift({ title: goto, action: 'goto', metadata });
-      console.log(items);
       return items;
     },
   },

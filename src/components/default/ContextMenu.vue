@@ -81,7 +81,6 @@ export default {
         default:
           break;
       }
-      console.log(item);
     },
     goto(type, id) {
       this.$router.push({
@@ -89,7 +88,7 @@ export default {
         params: { id },
       });
     },
-    async play(type, id, play = true) {
+    async play(type, id, playnow = true) {
       let nextId = '';
       if (type === 'track') {
         nextId = id;
@@ -98,7 +97,7 @@ export default {
         const track = await this.$player.updatePlayList(info);
         nextId = track.id;
       }
-      if (play) {
+      if (playnow) {
         await this.$player.updatePlayerTrack(nextId);
       }
       this.loading = false;

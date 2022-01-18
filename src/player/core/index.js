@@ -3,7 +3,7 @@ import install from './install';
 import { Howl, Howler } from 'howler';
 import { isArray, shuffle, throttle } from 'lodash-es';
 import { scrobble } from '@/api/music';
-
+import { sleep } from '@/util/fn';
 export default class Player {
   constructor(store) {
     this.store = store;
@@ -33,7 +33,6 @@ export default class Player {
   }
   async updatePlayList(data) {
     let list, id;
-    console.log(data);
     const isAlbum = !!data.album;
     if (isArray(data)) {
       list = data;
@@ -86,7 +85,7 @@ export default class Player {
       this.updateCurrentTime(0);
     }
     const track = await this.store.dispatch('music/getTrack', id);
-    if (track) {
+    if (track?.url) {
       this.track = track;
       Howler.unload();
       this.howler = null;
@@ -101,6 +100,10 @@ export default class Player {
         this.play();
         this.setScrobble(this.track, this.howler.seek(), false);
       }
+    } else {
+      window?.app?.$toast.warning(`${track.name} 暂不可用, 自动播放下一曲`);
+      await sleep(1000);
+      this.next();
     }
   }
   initSound(src) {
