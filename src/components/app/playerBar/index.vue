@@ -228,11 +228,6 @@ export default {
       return formatDuring(val * 1000);
     },
   },
-  watch: {
-    currentTime(val) {
-      console.log(val, this.trackDt);
-    },
-  },
 };
 </script>
 

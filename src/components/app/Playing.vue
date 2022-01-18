@@ -42,8 +42,11 @@
         <span class="text-h4 mb-4">by - {{ track['ar'][0]['name'] }}</span>
         <span class="text-h2 font-weight-bold">{{ track.name }}</span>
       </div>
+      <div
+        class="frame-play-progress"
+        :style="{ transform: `translateX(-${playPercent}vw)` }"
+      ></div>
     </v-card>
-    <div class="play-progress" :style="`width: ${playPercent || 0}%`"></div>
   </v-dialog>
 </template>
 
@@ -124,9 +127,13 @@ export default {
       return this.$store.getters['music/liked'](this.track.id);
     },
     playPercent() {
-      const total = this.track.dt;
-      const current = this.currentTime * 1000;
-      return Math.ceil((current / total) * 100);
+      if (this.showLyricsPage) {
+        const total = this.track.dt;
+        const current = this.currentTime * 1000;
+        return Math.ceil((current / total) * 100);
+      } else {
+        return 0;
+      }
     },
   },
   watch: {
@@ -211,17 +218,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.play-progress {
-  position: absolute;
-  z-index: 0;
-  right: 0;
-  top: -1px;
-  bottom: 0;
-  background: var(--v-primary-base);
-  opacity: 0.8;
-  min-width: 4px;
-  transition: width 5s linear;
-}
 .frame {
   display: flex;
   flex-direction: column;
@@ -238,16 +234,28 @@ export default {
       gap: 5px;
     }
   }
-  .frame-content {
+  &-content {
     z-index: 2;
     display: flex;
     height: 100vh;
     align-items: center;
     justify-content: space-between;
   }
-  .frame-footer {
+  &-footer {
     z-index: 2;
     display: flex;
+  }
+  &-play-progress {
+    position: absolute;
+    z-index: 0;
+    right: -100vw;
+    top: -1px;
+    bottom: 0;
+    background: var(--v-primary-base);
+    opacity: 0.8;
+    min-width: 4px;
+    transition: transform 3s linear;
+    width: 100vw;
   }
 }
 @keyframes rotate {
