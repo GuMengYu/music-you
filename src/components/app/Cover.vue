@@ -132,28 +132,28 @@ export default {
       };
       const items = [
         { title: '播放', action: 'play', metadata },
-        { title: '下一首播放', action: 'next', metadata },
+        { title: '下一首播放', action: 'next-play', metadata },
         {
           title: '保存封面',
           action: 'save_cover',
           metadata: { cb: this.saveCover },
         },
       ];
-      if (this.type === 'playlist') {
-        const { subscribed } = this.data;
-        items.push({
-          title: `${subscribed ? '取消收藏歌单' : '收藏歌单'}`,
-          action: `${subscribed ? 'unSub' : 'sub'}`,
-          metadata,
-        });
-      } else if (this.type === 'album') {
-        const { subTime, isSub } = this.data;
-        items.push({
-          title: `${isSub || subTime ? '取消收藏专辑' : '收藏专辑'}`,
-          action: `${isSub || subTime ? 'unSub' : 'sub'}`,
-          metadata,
-        });
-      }
+      // if (this.type === 'playlist') {
+      //   const { subscribed } = this.data;
+      //   items.push({
+      //     title: `${subscribed ? '取消收藏歌单' : '收藏歌单'}`,
+      //     action: `${subscribed ? 'unSub' : 'sub'}`,
+      //     metadata,
+      //   });
+      // } else if (this.type === 'album') {
+      //   const { subTime, isSub } = this.data;
+      //   items.push({
+      //     title: `${isSub || subTime ? '取消收藏专辑' : '收藏专辑'}`,
+      //     action: `${isSub || subTime ? 'unSub' : 'sub'}`,
+      //     metadata,
+      //   });
+      // }
       const goto = {
         playlist: '查看歌单',
         album: '查看专辑',

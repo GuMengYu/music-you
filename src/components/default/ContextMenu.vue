@@ -69,7 +69,7 @@ export default {
         case 'play':
           this.play(type, id);
           break;
-        case 'next':
+        case 'next-play':
           this.play(type, id, false);
           break;
         case 'sub':
