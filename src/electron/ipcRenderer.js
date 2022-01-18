@@ -3,10 +3,8 @@ import { noop, once } from 'lodash-es';
 
 export const registerIpcRenderer = (store) => {
   const showDownloadComplete = once((name) => {
-    store.dispatch('snackbar/show', {
-      text: `下载成功 ${name}`,
-      type: 'success',
-      timeout: 4000,
+    window?.app?.$toast(`下载成功 ${name}`, {
+      color: 'success',
     });
   });
 
@@ -14,18 +12,12 @@ export const registerIpcRenderer = (store) => {
     store.commit('app/showSettings', true);
   });
   ipcRenderer.on('next', () => {
-    // const id = store.getters['music/nextTrackId'];
-    // store.dispatch('music/updateTrack', { id });
     window?.app?.$player.next();
   });
   ipcRenderer.on('prev', () => {
-    // const id = store.getters['music/prevTrackId'];
-    // store.dispatch('music/updateTrack', { id });
     window?.app?.$player.prev();
   });
   ipcRenderer.on('playOrPause', () => {
-    // const playing = store?.state.music.playing;
-    // store.commit('music/playing', !playing);
     window?.app?.$player.togglePlay();
   });
   ipcRenderer.on('volumeUp', () => {
@@ -48,9 +40,8 @@ export const registerIpcRenderer = (store) => {
   });
   ipcRenderer.on('startDownload', (e, data) => {
     console.log('startDownload', e, data);
-    store.dispatch('snackbar/show', {
-      text: `开始下载 ${data.name}`,
-      type: 'info',
+    window?.app?.$toast(`开始下载 ${data.name}`, {
+      color: 'info',
     });
   });
   ipcRenderer.on('downloadProgress', (e, data) => {

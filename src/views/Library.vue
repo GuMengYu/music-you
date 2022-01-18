@@ -211,7 +211,7 @@ export default {
         name: this.playlistName,
         privacy: this.playlistPrivate ? '10' : '',
       });
-      await dispatch('snackbar/show', { text: '创建成功', type: 'info' });
+      this.$toast.success('创建成功');
       this.newlistDialog = false;
       await dispatch('music/fetch');
     },

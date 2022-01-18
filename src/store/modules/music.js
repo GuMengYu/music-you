@@ -108,14 +108,8 @@ export default {
       }
       return pop;
     },
-    async updateTrack(
-      { rootGetters, commit, dispatch, getters, rootState },
-      payload,
-    ) {
-      const { id } = payload;
-      // commit('playing', false);
-      commit('loadingTrack', true);
-      // await sleep();
+    async getTrack({ rootGetters, commit, dispatch, rootState }, id) {
+      if (!id) return false;
       try {
         const track = await getTrackDetail(
           id,
@@ -128,34 +122,14 @@ export default {
         }
         commit('currentTrackId', track?.id);
         dispatch('saveMusicState');
-        if (!track?.url) {
-          dispatch(
-            'snackbar/show',
-            { text: '歌曲暂时不可用', type: 'warning' },
-            { root: true },
-          );
-          const next = getters['nextTrackId'] ?? '';
-          if (next && getters['nextTrackId'] !== state.currentTrackId)
-            dispatch('updateTrack', { id: getters['nextTrackId'] });
-        }
         return track;
       } catch (e) {
-        dispatch(
-          'snackbar/show',
-          { text: '歌曲暂时不可用', type: 'error' },
-          { root: true },
-        );
-        commit('loadingTrack', false);
+        console.log(e);
       }
     },
-    async favSong({ rootGetters, commit, dispatch, state }, { id, like }) {
+    async favSong({ rootGetters, commit, state }, { id, like }) {
       let likes = state.likes;
       if (!rootGetters['settings/logged']) {
-        dispatch(
-          'snackbar/show',
-          { text: '需要登录', type: 'warning' },
-          { root: true },
-        );
         return false;
       } else {
         const { code } = await sub('track', id, like ? 1 : 0);

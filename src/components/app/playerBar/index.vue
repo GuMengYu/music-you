@@ -71,22 +71,7 @@
             </router-link>
           </div>
           <v-spacer />
-          <v-btn icon text @click="likeSong">
-            <v-icon
-              small
-              v-text="icon.mdiHeart"
-              :color="liked ? 'rgb(255, 76, 76)' : 'var(--v-secondary-darken2)'"
-              v-show="!showAnim"
-            />
-            <lottie-icon
-              v-show="showAnim"
-              ref="lottieIcon"
-              :options="heartOptions"
-              :height="40"
-              :width="40"
-              @animCreated="handleAnimation"
-            ></lottie-icon>
-          </v-btn>
+          <like-toggle :id="track.id" />
         </div>
         <div class="playing-bar__center">
           <control />
@@ -126,7 +111,7 @@
 </template>
 
 <script>
-import { sync, get, dispatch } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import {
   mdiHeart,
   mdiHeartOutline,
@@ -145,11 +130,10 @@ import {
   mdiArrowExpand,
 } from '@mdi/js';
 
-import { heart } from '@/util/animationData.json';
-import LottieIcon from '@/components/default/Lottie';
+import LikeToggle from '@/components/app/likeToggle';
 
 import VueSlider from 'vue-slider-component';
-import { formatDuring, sleep } from '@util/fn';
+import { formatDuring } from '@util/fn';
 import Control from '@components/app/Control';
 import PlayList from '@components/app/PlayingList';
 
@@ -166,7 +150,7 @@ export default {
     Control,
     VueSlider,
     PlayList,
-    LottieIcon,
+    LikeToggle,
   },
   data: () => ({
     icon: {
@@ -180,13 +164,6 @@ export default {
       mdiArrowExpand,
     },
     prevVolume: 1,
-    heartOptions: {
-      animationData: heart,
-      loop: false,
-      autoplay: false,
-    },
-    heartAnim: null,
-    showAnim: false,
   }),
   computed: {
     isCurrentFm: get('music/isCurrentFm'),
@@ -228,9 +205,6 @@ export default {
     },
   },
   methods: {
-    handleAnimation(animation) {
-      this.heartAnim = animation;
-    },
     handleSlideChange() {
       const currentTime = this.$refs['vueSlider'].getValue();
       console.debug('slider change end', currentTime);
@@ -249,19 +223,6 @@ export default {
     },
     formatTime(val) {
       return formatDuring(val * 1000);
-    },
-    async likeSong() {
-      const _liked = this.liked;
-      const success = await dispatch('music/favSong', {
-        id: this.track.id,
-        like: !this.liked,
-      });
-      if (!_liked && success) {
-        this.showAnim = true;
-        this.heartAnim.goToAndPlay(0, true);
-        await sleep(1000);
-        this.showAnim = false;
-      }
     },
   },
 };

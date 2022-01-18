@@ -135,9 +135,9 @@ const musicRoutes = [
     component: lazyLoad('search/more'),
   },
   {
-    path: '/test',
-    name: 'test',
-    component: lazyLoad('test'),
+    path: '/playground',
+    name: 'playground',
+    component: lazyLoad('playground'),
   },
 ];
 

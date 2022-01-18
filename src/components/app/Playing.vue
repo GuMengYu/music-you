@@ -26,11 +26,7 @@
               {{ icon.mdiClose }}
             </v-icon>
           </v-btn>
-          <v-btn icon :color="liked ? 'pink' : 'onPrimary'" @click="likeSong">
-            <v-icon>
-              {{ icon.mdiHeart }}
-            </v-icon>
-          </v-btn>
+          <like-toggle :id="track.id" />
           <v-btn icon @click="openMenu">
             <v-icon color="onPrimary">
               {{ icon.mdiDotsHorizontal }}
@@ -69,9 +65,11 @@ import {
 import { dispatch, get, sync } from 'vuex-pathify';
 import { formatLyric } from '@/util/fn';
 import { findIndex } from 'lodash-es';
+import LikeToggle from '@/components/app/likeToggle';
 
 export default {
   name: 'Playing',
+  components: { LikeToggle },
   data: () => ({
     icon: {
       mdiHeart,
@@ -207,12 +205,6 @@ export default {
       const { clientX: x, clientY: y } = e;
       const items = [{ title: '收藏到歌单', action: 'add' }];
       dispatch('contextmenu/show', { x, y, items });
-    },
-    async likeSong() {
-      await dispatch('music/favSong', {
-        id: this.track.id,
-        like: !this.liked,
-      });
     },
   },
 };

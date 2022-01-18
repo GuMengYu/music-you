@@ -347,11 +347,7 @@ export default {
       if (code === 200) {
         this.followed = !this.followed;
       } else {
-        await dispatch('snackbar/show', {
-          text: `订阅失败: ${message}`,
-          type: 'warning',
-          timeout: 3000,
-        });
+        this.$toast.error(`订阅失败: ${message}`);
       }
     },
     openMenu(e) {

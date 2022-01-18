@@ -81,7 +81,8 @@ export default class Player {
     this.volume = volume;
   }
   async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
-    const track = await this.store.dispatch('music/updateTrack', { id });
+    this.store.commit('music/loadingTrack', true);
+    const track = await this.store.dispatch('music/getTrack', id);
     if (track) {
       this.track = track;
       Howler.unload();
@@ -132,13 +133,10 @@ export default class Player {
         const artists = ar.map((a) => a.name).join('&');
         document.title = `💿 ${name} - ${artists}`;
       },
-      onloaderror: () => {
-        console.log('歌曲加载失败');
+      onloaderror: (e) => {
+        console.log(e);
         this.trackLoaded();
-        // this.store.dispatch(
-        //   'snackbar/show',
-        //   { text: '歌曲暂时不可用', type: 'warning' },
-        // );
+        window?.app?.$toast.error('歌曲加载失败');
       },
     });
     sound.once('end', this.endCb.bind(this));

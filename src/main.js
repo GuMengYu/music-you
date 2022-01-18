@@ -1,22 +1,17 @@
 import Vue from 'vue';
-
+import App from '@/App.vue';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { createVuetify } from './vuetify';
 import { createI18n } from './i18n';
 import { createPlayer } from './player';
 
-import { createSnackbar } from './plugins/snackbar';
-
+import Toast from './components/default/Toast';
 import plugins from './plugins';
 import filters from './filters';
-import * as directives from './directives';
-
 import '@/scss/global.scss';
-import '@/mock/index';
-
-// Application
-import App from '@/App.vue';
+// import '@/mock/index';
+import { mdiClose } from '@mdi/js';
 
 Vue.config.productionTip = false;
 
@@ -25,16 +20,22 @@ Object.entries(filters).map(([key, fn]) => {
   Vue.filter(key, fn);
 });
 Vue.use(plugins);
-Object.entries(directives).map(([id, definition]) => {
-  Vue.directive(id, definition);
-});
+
 const store = createStore();
 const vuetify = createVuetify(store);
 const i18n = createI18n(store);
 const router = createRouter(vuetify, store);
 const player = createPlayer(store);
 
-Vue.prototype.$message = createSnackbar(vuetify);
+Vue.use(
+  Toast,
+  {
+    x: 'center',
+    showClose: true,
+    closeIcon: mdiClose,
+  },
+  vuetify,
+);
 
 if (process.env.IS_ELECTRON) {
   import('./electron/ipcRenderer').then(
@@ -53,6 +54,6 @@ const app = new Vue({
   render: (h) => h(App),
 });
 app.$mount('#app');
-if (process.env.NODE_ENV === 'development') {
-  window.app = app; // for test
-}
+
+// 挂载到window上，便于在非vue实例中也能 通过app.$*** 调用全局实例方法
+window.app = app;

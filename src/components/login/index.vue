@@ -79,21 +79,18 @@ export default {
             this.showLogin = false;
             location.reload();
           } else {
-            showError();
+            this.$toast('whoops 发生错误，请检查账号密码', {
+              color: 'error',
+              y: 'top',
+            });
           }
         })
-        .catch(() => {
-          showError();
+        .catch((e) => {
+          console.log(e);
         })
         .finally(() => {
           this.loading = false;
         });
-      const showError = () => {
-        dispatch('snackbar/show', {
-          text: 'whoops 发生错误，请检查账号密码',
-          type: 'error',
-        });
-      };
     },
   },
 };

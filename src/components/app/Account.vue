@@ -54,10 +54,8 @@
             <div class="d-flex justify-center mt-2">
               <v-btn plain small> 免责声明 </v-btn>
               <v-divider vertical />
-              <v-btn plain small
-                ><a href="https://github.com/GuMengYu/v-player" target="_blank"
-                  >github</a
-                ></v-btn
+              <v-btn plain small @click="goto"
+                ><v-icon small>{{ icon.mdiGithub }}</v-icon> github</v-btn
               >
             </div>
           </v-card>
@@ -80,8 +78,10 @@
 
 <script>
 import { sync, get, dispatch } from 'vuex-pathify';
-import { mdiLogin, mdiCog } from '@mdi/js';
+import { mdiLogin, mdiCog, mdiGithub } from '@mdi/js';
 import AppMenu from '../default/Menu';
+import { isElectron } from '@util/fn';
+
 export default {
   name: 'DefaultAccount',
   components: { AppMenu },
@@ -90,6 +90,7 @@ export default {
       icon: {
         mdiLogin,
         mdiCog,
+        mdiGithub,
       },
       options: [
         {
@@ -126,6 +127,14 @@ export default {
     },
     signOut() {
       dispatch('settings/signOut');
+    },
+    goto() {
+      const url = 'https://github.com/GuMengYu/v-player';
+      if (isElectron()) {
+        this.$ipcRenderer.invoke('open-url', url);
+      } else {
+        window.open(url, '_blank');
+      }
     },
   },
 };

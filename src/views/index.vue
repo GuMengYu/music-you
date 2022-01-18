@@ -7,7 +7,6 @@
     <default-setting />
     <playing-page />
     <default-login />
-    <default-snackbar />
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
     <default-title-bar :showActions="showActions" class="no-drag-area" />
@@ -20,7 +19,6 @@ import PlayerBar from '@components/app/playerBar/index';
 import DefaultSetting from '@components/app/settings';
 import DefaultLogin from '@components/login';
 import PlayingPage from '@/components/app/Playing';
-import DefaultSnackbar from '@components/default/Snackbar';
 import DefaultHeader from '@components/layout/Header';
 import DefaultView from '@components/layout/View';
 import ContextMenu from '@components/default/ContextMenu';
@@ -36,7 +34,6 @@ export default {
     ContextMenu,
     DefaultView,
     DefaultSetting,
-    DefaultSnackbar,
     PlayerBar,
     DefaultNavBar,
     DefaultLogin,
