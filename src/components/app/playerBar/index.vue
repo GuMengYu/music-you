@@ -12,7 +12,7 @@
           ref="vueSlider"
           :value="currentTime"
           class="playing-progress"
-          :max="~~((track.dt || track.duration) / 1000) || 9999"
+          :max="trackDt"
           :min="0"
           :interval="1"
           :duration="0"
@@ -188,6 +188,9 @@ export default {
         return mdiVolumeHigh;
       }
     },
+    trackDt() {
+      return Math.ceil((this.track.dt ?? this.track.duration) / 1000) ?? 9999;
+    },
     orderIconState() {
       return {
         [PLAY_MODE.ORDER]: mdiRepeatOff,
@@ -223,6 +226,11 @@ export default {
     },
     formatTime(val) {
       return formatDuring(val * 1000);
+    },
+  },
+  watch: {
+    currentTime(val) {
+      console.log(val, this.trackDt);
     },
   },
 };

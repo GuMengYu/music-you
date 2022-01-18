@@ -82,6 +82,9 @@ export default class Player {
   }
   async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
     this.store.commit('music/loadingTrack', true);
+    if (resetProgress) {
+      this.updateCurrentTime(0);
+    }
     const track = await this.store.dispatch('music/getTrack', id);
     if (track) {
       this.track = track;
@@ -91,6 +94,8 @@ export default class Player {
       this.initMediaSession(track);
       if (resetProgress) {
         this.setSeek(0);
+      } else {
+        this.setSeek(this.currentTime);
       }
       if (autoplay) {
         this.play();
@@ -140,7 +145,7 @@ export default class Player {
       },
     });
     sound.once('end', this.endCb.bind(this));
-    sound.seek(this.currentTime);
+    sound.seek(0);
     return sound;
   }
   trackLoaded() {
@@ -179,8 +184,8 @@ export default class Player {
   prevTrackId() {
     return this.store.getters['music/prevTrackId'];
   }
-  updateCurrentTime() {
-    const current = Math.ceil(this.howler.seek());
+  updateCurrentTime(val) {
+    const current = val ?? Math.ceil(this.howler.seek());
     this.currentTime = current;
     this.store.commit('music/currentTime', current);
     localStorage.setItem('currentTime', this.currentTime);
