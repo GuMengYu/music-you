@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="explore">
     <div v-if="loading">
       <cover-row-skeleton type="image" />
       <cover-row-skeleton :cols="4" type="chip" />

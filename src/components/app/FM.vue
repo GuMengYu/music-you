@@ -133,7 +133,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.fm {
-}
-</style>

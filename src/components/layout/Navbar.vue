@@ -112,7 +112,7 @@ export default {
     defaultNav3() {
       const created = filter(this.playlist, (i) => !i['subscribed']);
       return (
-        created?.slice(0, 5)?.map((i) => {
+        created?.slice(0, 3)?.map((i) => {
           let title = i.name;
           i['specialType'] === 5 && (title = this.$t('main.my_fav'));
           return {
@@ -141,7 +141,15 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 56px;
+      height: 50px;
+      transition: height 0.3s ease-out;
+    }
+  }
+  &.v-navigation-drawer--mini-variant {
+    .system_nav {
+      .drawer-item {
+        height: 40px;
+      }
     }
   }
 }

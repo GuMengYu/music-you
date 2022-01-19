@@ -52,9 +52,7 @@
               v-for="(item, index) in lyric"
               :key="index"
               v-html="item.sentence"
-            >
-              {{ item.sentence }}
-            </v-list-item>
+            />
           </v-list>
         </div>
         <v-card flat rounded="xl" class="right">
