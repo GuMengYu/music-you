@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 const lazyLoad = (name) => () =>
-  import(/* webpackChunkName: "page" */ `../views/${name}`);
+  import(/* webpackChunkName: "page" */ `@/views/${name}`);
 
 Vue.use(VueRouter);
 const musicRoutes = [
@@ -149,7 +149,7 @@ export function createRouter(vuetify, store) {
       {
         path: '/',
         name: 'Home',
-        component: () => import('../views/index'),
+        component: () => import('@/views/index'),
         children: musicRoutes,
         redirect: { path: '/discover' },
       },
@@ -158,7 +158,7 @@ export function createRouter(vuetify, store) {
         name: 'FourOhFour',
         component: () =>
           import(
-            /* webpackChunkName: "FourOhFour" */ '../views/errors/FourOhFour.vue'
+            /* webpackChunkName: "FourOhFour" */ '@/views/errors/FourOhFour.vue'
           ),
       },
     ],

@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import { getNewMv } from '@/api';
-import Page from '@components/layout/Page';
-import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
-import VideoCover from '@components/app/VideoCover';
+import { getNewMv } from '@api/index';
+import Page from '@components/layout/Page.vue';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
+import VideoCover from '@components/app/VideoCover.vue';
 export default {
   name: 'NewReleasesVideos',
   components: {

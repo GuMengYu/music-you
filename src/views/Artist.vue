@@ -210,8 +210,8 @@ import {
   getArtistAlbum,
   getArtistMv,
   getSimiArtist,
-} from '@/api';
-import { sub } from '@/api/music';
+} from '@api/index';
+import { sub } from '@api/music';
 
 import {
   mdiPlay,
@@ -224,13 +224,13 @@ import {
 } from '@mdi/js';
 import { dispatch } from 'vuex-pathify';
 
-import Cover from '@components/app/Cover';
-import SongBar from '@components/app/SongBar';
-import CoverList from '@components/app/CoverList';
-import VideoCover from '@components/app/VideoCover';
-import Carousel from '@components/layout/Carousel';
+import Cover from '@components/app/Cover.vue';
+import SongBar from '@components/app/SongBar.vue';
+import CoverList from '@components/app/CoverList.vue';
+import VideoCover from '@components/app/VideoCover.vue';
+import Carousel from '@components/layout/Carousel.vue';
 import ArtistSkeleton from '@components/skeleton/ArtistSkeleton.vue';
-import ArtistsCover from '@components/app/Artists';
+import ArtistsCover from '@components/app/Artists.vue';
 import dayjs from 'dayjs';
 
 export default {

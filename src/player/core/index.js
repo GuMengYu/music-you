@@ -2,8 +2,8 @@ import install from './install';
 
 import { Howl, Howler } from 'howler';
 import { isArray, shuffle, throttle } from 'lodash-es';
-import { scrobble } from '@/api/music';
-import { sleep } from '@/util/fn';
+import { scrobble } from '@api/music';
+import { sleep } from '@util/fn';
 export default class Player {
   constructor(store) {
     this.store = store;

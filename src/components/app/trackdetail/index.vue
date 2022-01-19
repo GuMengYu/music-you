@@ -80,7 +80,7 @@ import {
   mdiSkipPrevious,
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
-import { formatLyric } from '@/util/fn';
+import { formatLyric } from '@util/fn';
 import VueSlider from 'vue-slider-component';
 import { findIndex } from 'lodash-es';
 

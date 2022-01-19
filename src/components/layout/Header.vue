@@ -37,12 +37,12 @@
 import { mdiMagnify } from '@mdi/js';
 import { get } from 'vuex-pathify';
 
-import DefaultInput from '@components/default/Input';
-import ThemeToggle from '@components/layout/ThemeToggle';
-import DefaultAccount from '@components/app/Account';
+import DefaultInput from '@components/default/Input.vue';
+import ThemeToggle from '@components/layout/ThemeToggle.vue';
+import DefaultAccount from '@components/app/Account.vue';
 // import SettingToggle from '@components/layout/SettingToggle';
-import ReloadBtn from '@components/layout/ReloadBtn';
-import BF from '@components/layout/BF';
+import ReloadBtn from '@components/layout/ReloadBtn.vue';
+import BF from '@components/layout/BF.vue';
 // import DownloadProgress from '@components/layout/DownloadProgress';
 
 export default {

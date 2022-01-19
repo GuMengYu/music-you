@@ -51,7 +51,7 @@
 <script>
 import { mdiCloseCircle } from '@mdi/js';
 import { sync, get } from 'vuex-pathify';
-import SongBar from '@/components/app/SongBar';
+import SongBar from '@components/app/SongBar.vue';
 export default {
   name: 'PlayingList',
   components: { SongBar },

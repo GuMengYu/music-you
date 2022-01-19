@@ -13,7 +13,7 @@
           :aspect-ratio="16 / 9"
           :src="coverBgUrl"
           class="cover-img align-end"
-          lazy-src="@/assets/default-cover.png"
+          lazy-src="@assets/default-cover.png"
         />
 
         <v-fade-transition>

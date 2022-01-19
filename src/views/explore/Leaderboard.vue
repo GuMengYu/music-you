@@ -54,8 +54,8 @@
   </div>
 </template>
 <script>
-import { getTopList } from '@/api';
-import Cover from '@components/app/Cover';
+import { getTopList } from '@api/index';
+import Cover from '@components/app/Cover.vue';
 export default {
   name: 'DefaultLeaderBoard',
   components: { Cover },

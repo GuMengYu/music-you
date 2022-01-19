@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import DefaultList from '@components/default/List';
+import DefaultList from '@components/default/List.vue';
 import { sync } from 'vuex-pathify';
-import { getList, sub } from '@/api/music';
-import { getMvUrl, getSongDownloadUrl } from '../../api/index';
+import { getList, sub } from '@api/music';
+import { getMvUrl, getSongDownloadUrl } from '@api/index';
 
-import { isElectron, downloadFile } from '@/util/fn';
+import { isElectron, downloadFile } from '@util/fn';
 import { mapGetters } from 'vuex';
 
 export default {

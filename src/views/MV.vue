@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import { mvDetail, getMvUrl, simiMv } from '@/api';
+import { mvDetail, getMvUrl, simiMv } from '@api/index';
 import Plyr from 'plyr';
 import 'plyr/dist/plyr.css';
 import { sync } from 'vuex-pathify';
-import CustomCol from '@components/layout/Col';
-import VideoCover from '@components/app/VideoCover';
+import CustomCol from '@components/layout/Col.vue';
+import VideoCover from '@components/app/VideoCover.vue';
 export default {
   name: 'MusicVideo',
   components: {

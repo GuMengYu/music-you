@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import Carousel from '@components/layout/Carousel';
-import CarouselItem from '@components/layout/CarouselItem';
+import Carousel from '@components/layout/Carousel.vue';
+import CarouselItem from '@components/layout/CarouselItem.vue';
 export default {
   name: 'discoverSkeleton',
   components: {

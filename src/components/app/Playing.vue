@@ -66,9 +66,9 @@ import {
   mdiSkipPrevious,
 } from '@mdi/js';
 import { dispatch, get, sync } from 'vuex-pathify';
-import { formatLyric } from '@/util/fn';
+import { formatLyric } from '@util/fn';
 import { findIndex } from 'lodash-es';
-import LikeToggle from '@/components/app/likeToggle';
+import LikeToggle from '@components/app/likeToggle.vue';
 
 export default {
   name: 'Playing',

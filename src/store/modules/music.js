@@ -1,9 +1,8 @@
-import { getTrackDetail, sub } from '@/api/music';
-import { getLikeList, personalFM } from '@/api';
-import { getUserPlaylist } from '@/api/user';
+import { getTrackDetail, sub } from '@api/music';
+import { getLikeList, personalFM } from '@api/index';
+import { getUserPlaylist } from '@api/user';
 import { make } from 'vuex-pathify';
 import { uniqWith, isEqual } from 'lodash-es';
-// import types from '../types';
 
 let localData = {};
 

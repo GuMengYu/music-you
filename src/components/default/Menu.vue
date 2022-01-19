@@ -27,7 +27,7 @@
 
 <script>
 // Components
-import DefaultList from '@components/default/List';
+import DefaultList from '@components/default/List.vue';
 
 export default {
   name: 'AppMenu',

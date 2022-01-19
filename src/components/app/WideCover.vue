@@ -3,7 +3,7 @@
     <v-img
       :aspect-ratio="16 / 9"
       :src="picUrl | sizeOfImage"
-      lazy-src="@/assets/default-cover.png"
+      lazy-src="@assets/default-cover.png"
       class="align-end pa-2"
     >
       <div class="align-self-center">
@@ -54,7 +54,7 @@
 </template>
 <script>
 import { mdiPlay, mdiHeartOutline } from '@mdi/js';
-import { getAlbum } from '@/api';
+import { getAlbum } from '@api/index';
 export default {
   name: 'WideCover',
   props: {

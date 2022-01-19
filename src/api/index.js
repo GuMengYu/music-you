@@ -1,4 +1,4 @@
-import { musicXhr as xhr } from '@/util/xhr';
+import { musicXhr as xhr } from '@util/xhr';
 import { now } from 'lodash-es';
 
 /**

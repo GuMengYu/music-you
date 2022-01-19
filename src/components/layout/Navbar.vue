@@ -60,8 +60,8 @@ import {
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
-import DefaultListItem from '@components/default/ListItem';
-import DrawerToggle from '@components/layout/DrawerToggle';
+import DefaultListItem from '@components/default/ListItem.vue';
+import DrawerToggle from '@components/layout/DrawerToggle.vue';
 
 export default {
   name: 'DefaultNavBar',

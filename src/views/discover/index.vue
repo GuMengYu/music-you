@@ -54,21 +54,20 @@ import {
   getPersonalized,
   newAlbums,
   getMv,
-  // recommendVideo,
   getNewRelease,
   getPlayList,
-} from '@/api';
+} from '@api/index';
 import NProgress from 'nprogress';
 import { mapGetters } from 'vuex';
-import CustomCol from '@components/layout/Col';
-import FM from '@components/app/FM';
-import VideoCover from '@components/app/VideoCover';
-import DiscoverSkeleton from '@components/skeleton/DiscoverSkeleton';
-import LargerCover from '@components/app/LargerCover';
-import SongBar from '@components/app/SongBar';
-import Carousel from '@components/layout/Carousel';
-import CarouselItem from '@components/layout/CarouselItem';
-import Cover from '@components/app/Cover';
+import CustomCol from '@components/layout/Col.vue';
+import FM from '@components/app/FM.vue';
+import VideoCover from '@components/app/VideoCover.vue';
+import DiscoverSkeleton from '@components/skeleton/DiscoverSkeleton.vue';
+import LargerCover from '@components/app/LargerCover.vue';
+import SongBar from '@components/app/SongBar.vue';
+import Carousel from '@components/layout/Carousel.vue';
+import CarouselItem from '@components/layout/CarouselItem.vue';
+import Cover from '@components/app/Cover.vue';
 export default {
   components: {
     Cover,

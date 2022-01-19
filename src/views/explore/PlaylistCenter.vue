@@ -26,8 +26,8 @@
   </div>
 </template>
 <script>
-import { getTopPlaylist } from '@/api';
-import Cover from '@components/app/Cover';
+import { getTopPlaylist } from '@api/index';
+import Cover from '@components/app/Cover.vue';
 export default {
   name: 'DefaultPlaylistCenter',
   components: { Cover },

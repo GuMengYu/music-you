@@ -171,10 +171,10 @@ import {
   mdiHeart,
   mdiMapMarkerCircle,
 } from '@mdi/js';
-import { getPlayList, getRelatedPlayList } from '@/api';
-import SongBar from '@components/app/SongBar';
-import Cover from '@components/app/Cover';
-import CommonCard from '@components/CommonCard';
+import { getPlayList, getRelatedPlayList } from '@api/index';
+import SongBar from '@components/app/SongBar.vue';
+import Cover from '@components/app/Cover.vue';
+import CommonCard from '@components/CommonCard.vue';
 
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';

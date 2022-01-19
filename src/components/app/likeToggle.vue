@@ -18,10 +18,10 @@
 </template>
 <script>
 import { mdiHeart } from '@mdi/js';
-import { heart } from '@/util/animationData.json';
-import LottieIcon from '@/components/default/Lottie';
+import { heart } from '@util/animationData.json';
+import LottieIcon from '@components/default/Lottie.vue';
 import { dispatch } from 'vuex-pathify';
-import { sleep } from '@/util/fn';
+import { sleep } from '@util/fn';
 export default {
   name: 'LikeToggle',
   components: { LottieIcon },

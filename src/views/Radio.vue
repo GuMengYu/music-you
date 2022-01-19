@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import { getUserAudio } from '@/api/user';
+import { getUserAudio } from '@api/user';
 import { mapGetters } from 'vuex';
-import Page from '@components/layout/Page';
+import Page from '@components/layout/Page.vue';
 export default {
   name: 'DJ',
   components: { Page },

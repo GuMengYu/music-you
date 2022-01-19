@@ -17,12 +17,12 @@
   </div>
 </template>
 <script>
-import { getCatList } from '@/api';
+import { getCatList } from '@api/index';
 import { groupBy, entries, random } from 'lodash-es';
-import CustomCol from '@components/layout/Col';
-import MTag from '@components/app/Tag';
+import CustomCol from '@components/layout/Col.vue';
+import MTag from '@components/app/Tag.vue';
 import { getColorTable } from '@util/metadata';
-import Page from '@components/layout/Page';
+import Page from '@components/layout/Page.vue';
 
 export default {
   name: 'MoodsGenres',

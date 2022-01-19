@@ -54,8 +54,8 @@ import {
   mdiPlay,
 } from '@mdi/js';
 
-import LottieIcon from '@/components/default/Lottie';
-import { playToPause as playToPauseAnimationData } from '@/util/animationData.json';
+import LottieIcon from '@components/default/Lottie.vue';
+import { playToPause as playToPauseAnimationData } from '@util/animationData.json';
 
 const PLAY_MODE = {
   ORDER: 0,

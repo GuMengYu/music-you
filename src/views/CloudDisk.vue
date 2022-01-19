@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Page from '@components/layout/Page';
+import Page from '@components/layout/Page.vue';
 export default {
   name: 'CloudDisk',
   components: { Page },

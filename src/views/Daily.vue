@@ -35,9 +35,9 @@
 
 <script>
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
-import DefaultList from '@components/default/List';
-import SongBar from '@components/app/SongBar';
-import { getDailyRecommend } from '@/api';
+import DefaultList from '@components/default/List.vue';
+import SongBar from '@components/app/SongBar.vue';
+import { getDailyRecommend } from '@api/index';
 export default {
   name: 'Daily',
   components: { DefaultList, SongBar },

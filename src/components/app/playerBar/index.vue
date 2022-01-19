@@ -130,12 +130,12 @@ import {
   mdiArrowExpand,
 } from '@mdi/js';
 
-import LikeToggle from '@/components/app/likeToggle';
+import LikeToggle from '@components/app/likeToggle.vue';
 
 import VueSlider from 'vue-slider-component';
 import { formatDuring } from '@util/fn';
-import Control from '@components/app/Control';
-import PlayList from '@components/app/PlayingList';
+import Control from '@components/app/Control.vue';
+import PlayList from '@components/app/PlayingList.vue';
 
 let prevVolume = 1;
 const PLAY_MODE = {

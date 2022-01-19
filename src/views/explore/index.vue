@@ -60,15 +60,15 @@
   </div>
 </template>
 <script>
-import { getCatList, newAlbums, getNewMv, getTopList } from '@/api';
-import CustomCol from '@components/layout/Col';
+import { getCatList, newAlbums, getNewMv, getTopList } from '@api/index';
+import { getColorTable } from '@util/metadata';
 import { random, filter } from 'lodash-es';
-import MTag from '@components/app/Tag';
-import VideoCover from '@components/app/VideoCover';
-import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
-import { getColorTable } from '@/util/metadata';
-import Carousel from '@components/layout/Carousel';
-import Cover from '@components/app/Cover';
+import CustomCol from '@components/layout/Col.vue';
+import MTag from '@components/app/Tag.vue';
+import VideoCover from '@components/app/VideoCover.vue';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
+import Carousel from '@components/layout/Carousel.vue';
+import Cover from '@components/app/Cover.vue';
 export default {
   components: {
     Cover,

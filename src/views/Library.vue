@@ -105,19 +105,19 @@
 </template>
 
 <script>
-import CustomCol from '@components/layout/Col';
-import CoverList from '@components/app/CoverList';
-import VideoCover from '@components/app/VideoCover';
-import ArtistsCover from '@components/app/Artists';
-import CoverRowSkeleton from '../components/skeleton/CoverRowSkeleton.vue';
-import SongBar from '@components/app/SongBar';
-import Cover from '@components/app/Cover';
-import Carousel from '@/components/layout/Carousel.vue';
+import CustomCol from '@components/layout/Col.vue';
+import CoverList from '@components/app/CoverList.vue';
+import VideoCover from '@components/app/VideoCover.vue';
+import ArtistsCover from '@components/app/Artists.vue';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
+import SongBar from '@components/app/SongBar.vue';
+import Cover from '@components/app/Cover.vue';
+import Carousel from '@components/layout/Carousel.vue';
 
 import { sync, get, dispatch } from 'vuex-pathify';
-import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@/api/user';
-import { createPlaylist } from '@/api';
-import { recent } from '@/api/recent';
+import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@api/user';
+import { createPlaylist } from '@api/index';
+import { recent } from '@api/recent';
 
 import { mdiPlus } from '@mdi/js';
 

@@ -170,13 +170,13 @@ import {
   mdiAlbum,
   mdiInformation,
 } from '@mdi/js';
-import { getAlbum, getArtistAlbum } from '@/api';
-import SongBar from '@components/app/SongBar';
-import Cover from '@components/app/Cover';
+import { getAlbum, getArtistAlbum } from '@api/index';
+import SongBar from '@components/app/SongBar.vue';
+import Cover from '@components/app/Cover.vue';
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
-import CommonCard from '@components/CommonCard';
+import CommonCard from '@components/CommonCard.vue';
 
 export default {
   name: 'Album',

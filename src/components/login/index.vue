@@ -43,8 +43,8 @@
 <script>
 import { sync } from 'vuex-pathify';
 import { mdiLock, mdiEmail, mdiPhone, mdiSwitch } from '@mdi/js';
-import DefaultInput from '@components/default/Input';
-import { login } from '@/api';
+import DefaultInput from '@components/default/Input.vue';
+import { login } from '@api/index';
 import md5 from 'md5';
 import { dispatch } from 'vuex-pathify';
 export default {

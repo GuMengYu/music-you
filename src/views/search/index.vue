@@ -49,17 +49,17 @@
 </template>
 
 <script>
-import { search } from '@/api/music';
+import { search } from '@api/music';
 import NProgress from 'nprogress';
 
-import CoverList from '@components/app/CoverList';
-import SongBar from '@components/app/SongBar';
-import VideoCover from '@components/app/VideoCover';
-import Page from '@components/layout/Page';
-import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton';
-import Artists from '@components/app/Artists';
-import Cover from '@components/app/Cover';
-import CustomCol from '@components/layout/Col';
+import CoverList from '@components/app/CoverList.vue';
+import SongBar from '@components/app/SongBar.vue';
+import VideoCover from '@components/app/VideoCover.vue';
+import Page from '@components/layout/Page.vue';
+import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
+import Artists from '@components/app/Artists.vue';
+import Cover from '@components/app/Cover.vue';
+import CustomCol from '@components/layout/Col.vue';
 
 const TypeMap = {
   song: { type: 1, limit: 8 },

@@ -59,8 +59,8 @@
 <script>
 import { get, sync, dispatch, commit } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
-import { fmToTrash } from '@/api';
-import { sizeOfImage } from '@/util/fn';
+import { fmToTrash } from '@api/index';
+import { sizeOfImage } from '@util/fn';
 import { mdiThumbDown, mdiPlay, mdiSkipForward, mdiPause } from '@mdi/js';
 
 export default {

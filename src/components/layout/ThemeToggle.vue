@@ -14,9 +14,8 @@
 
 <script>
 import { sync } from 'vuex-pathify';
-// import Lottie from 'lottie-web';
-import LottieIcon from '@/components/default/Lottie';
-import animationJSONData from '@/util/animationData.json';
+import LottieIcon from '@components/default/Lottie.vue';
+import animationJSONData from '@util/animationData.json';
 
 const MODE_MAP = new Map([
   ['light', ['light', 'dark-mode-to-light-mode']],

@@ -13,7 +13,7 @@
           :src="coverBgUrl"
           aspect-ratio="1"
           class="cover-img"
-          lazy-src="@/assets/default-cover.png"
+          lazy-src="@assets/default-cover.png"
         />
         <v-fade-transition>
           <v-overlay :value="hover" absolute>
@@ -51,8 +51,8 @@
 
 <script>
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
-import { getPlayList, getAlbum, getArtist } from '@/api';
-import { getList } from '@/api/music';
+import { getPlayList, getAlbum, getArtist } from '@api/index';
+import { getList } from '@api/music';
 import { sizeOfImage, isElectron } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
 import { download } from '@util/download';

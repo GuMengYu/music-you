@@ -76,7 +76,12 @@
 
 <script>
 import { mdiDotsHorizontal, mdiPlay } from '@mdi/js';
-import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
+import {
+  getAlbum,
+  getArtist,
+  getPlayList,
+  getDailyRecommend,
+} from '@api/index';
 import { dispatch } from 'vuex-pathify';
 import { sizeOfImage } from '@util/fn';
 export default {

@@ -36,19 +36,19 @@
               <v-img
                 class="image"
                 :class="selected('auto', 'appearance')"
-                src="@/assets/auto.png"
+                src="@assets/auto.png"
                 @click="selectAppearance('auto')"
               ></v-img>
               <v-img
                 class="image"
                 :class="selected('light', 'appearance')"
-                src="@/assets/light.png"
+                src="@assets/light.png"
                 @click="selectAppearance('light')"
               ></v-img>
               <v-img
                 class="image"
                 :class="selected('dark', 'appearance')"
-                src="@/assets/dark.png"
+                src="@assets/dark.png"
                 @click="selectAppearance('dark')"
               ></v-img>
             </div>
@@ -67,7 +67,7 @@
                 :class="selected('RedSandDunes')"
                 max-width="57"
                 aria-label="Wallpaper 1 red sand dunes"
-                src="@/assets/1_thumb.webp"
+                src="@assets/1_thumb.webp"
                 @click="selectPalette('RedSandDunes')"
               ></v-img>
               <v-img
@@ -75,7 +75,7 @@
                 :class="selected('RedMountainTop')"
                 max-width="57"
                 aria-label="Wallpaper 2 red mountain top"
-                src="@/assets/2_thumb.webp"
+                src="@assets/2_thumb.webp"
                 @click="selectPalette('RedMountainTop')"
               ></v-img>
               <v-img
@@ -83,7 +83,7 @@
                 :class="selected('OrangeDesert')"
                 max-width="57"
                 aria-label="Wallpaper 3 orange desert"
-                src="@/assets/3_thumb.webp"
+                src="@assets/3_thumb.webp"
                 @click="selectPalette('OrangeDesert')"
               ></v-img>
               <v-img
@@ -91,7 +91,7 @@
                 :class="selected('BlueMountains')"
                 max-width="57"
                 aria-label="Wallpaper 4 blue mountains"
-                src="@/assets/4_thumb.webp"
+                src="@assets/4_thumb.webp"
                 @click="selectPalette('BlueMountains')"
               ></v-img>
               <v-img
@@ -99,7 +99,7 @@
                 :class="selected('RedRockyMountains')"
                 max-width="57"
                 aria-label="Wallpaper 5 red rocky mountains"
-                src="@/assets/5_thumb.webp"
+                src="@assets/5_thumb.webp"
                 @click="selectPalette('RedRockyMountains')"
               ></v-img>
             </div>
@@ -167,8 +167,8 @@
 <script>
 import { sync } from 'vuex-pathify';
 import DetectMode from '@util/detectMode';
-import DefaultSelect from '@components/default/Select';
-import DefaultAccount from '@components/app/Account';
+import DefaultSelect from '@components/default/Select.vue';
+import DefaultAccount from '@components/app/Account.vue';
 import themePalettes from '@/vuetify/theme';
 import { mdiCog } from '@mdi/js';
 export default {

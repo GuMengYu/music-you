@@ -13,7 +13,7 @@
               <v-badge avatar bordered overlap bottom>
                 <template v-slot:badge v-if="profile.vipType === 11">
                   <v-avatar>
-                    <v-img src="@/assets/vip.png"></v-img>
+                    <v-img src="@assets/vip.png"></v-img>
                   </v-avatar>
                 </template>
                 <v-avatar size="80">
@@ -79,7 +79,7 @@
 <script>
 import { sync, get, dispatch } from 'vuex-pathify';
 import { mdiLogin, mdiCog, mdiGithub } from '@mdi/js';
-import AppMenu from '../default/Menu';
+import AppMenu from '@components/default/Menu.vue';
 import { isElectron } from '@util/fn';
 
 export default {

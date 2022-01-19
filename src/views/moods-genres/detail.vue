@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import { getTopPlaylist } from '@/api';
-import CustomCol from '@components/layout/Col';
-import CoverList from '@components/app/CoverList';
-import Cover from '@components/app/Cover';
+import { getTopPlaylist } from '@api/index';
+import CustomCol from '@components/layout/Col.vue';
+import CoverList from '@components/app/CoverList.vue';
+import Cover from '@components/app/Cover.vue';
 export default {
   name: 'MoodsGenresDetail',
   components: { CoverList, CustomCol, Cover },
