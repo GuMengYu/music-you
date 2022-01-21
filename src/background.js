@@ -21,7 +21,7 @@ let windowManager = null;
 
 start();
 app.setAboutPanelOptions({
-  applicationName: '音乐播放器',
+  applicationName: 'VPlayer音乐播放器',
   iconPath: path.join(__static, 'icon.ico'),
   applicationVersion: '0.2.0',
   copyright: 'Copyright © 2022',

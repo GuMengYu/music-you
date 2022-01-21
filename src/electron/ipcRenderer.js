@@ -9,7 +9,10 @@ export const registerIpcRenderer = (store) => {
   });
 
   ipcRenderer.on('open-settings', () => {
-    store.commit('app/showSettings', true);
+    store.commit('app/showSettings', !store.state.app.showSettings);
+  });
+  ipcRenderer.on('search', () => {
+    store.commit('app/showSearch', !store.state.app.showSearch);
   });
   ipcRenderer.on('next', () => {
     window?.app?.$player.next();
@@ -22,14 +25,14 @@ export const registerIpcRenderer = (store) => {
   });
   ipcRenderer.on('volumeUp', () => {
     const { volume } = store?.state.settings;
-    const tem = volume + 0.1;
+    const tem = volume + 0.05;
     if (tem < 1) {
       store.commit('settings/volume', tem);
     }
   });
   ipcRenderer.on('volumeDown', () => {
     const { volume } = store?.state.settings;
-    const tem = volume - 0.1;
+    const tem = volume - 0.05;
     if (tem >= 0) {
       store.commit('settings/volume', tem);
     }

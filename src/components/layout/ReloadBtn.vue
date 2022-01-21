@@ -1,9 +1,14 @@
 <template>
-  <v-btn icon @click="reload()">
-    <v-icon size="20">
-      {{ mdiReload }}
-    </v-icon>
-  </v-btn>
+  <v-tooltip bottom color="black" :open-delay="800">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn icon @click="reload()" v-on="on" v-bind="attrs">
+        <v-icon size="20">
+          {{ mdiReload }}
+        </v-icon>
+      </v-btn>
+    </template>
+    <span>刷新</span>
+  </v-tooltip>
 </template>
 
 <script>

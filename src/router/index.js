@@ -123,7 +123,7 @@ const musicRoutes = [
   {
     path: '/search/:keywords?',
     name: 'search',
-    component: lazyLoad('search'),
+    component: lazyLoad('Search'),
     props: true,
     meta: {
       keepAlive: true,

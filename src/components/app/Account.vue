@@ -3,9 +3,11 @@
     <div v-if="logged">
       <app-menu>
         <template #activator="{ on, attrs }">
-          <v-avatar v-bind="attrs" size="30" v-on="on">
-            <v-img :src="profile.avatarUrl" />
-          </v-avatar>
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-avatar size="30">
+              <v-img :src="profile.avatarUrl" />
+            </v-avatar>
+          </v-btn>
         </template>
         <template>
           <v-card flat color="surface" width="350" rounded="xl" class="pa-4">

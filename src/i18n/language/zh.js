@@ -59,7 +59,7 @@ export default {
     sign_out: '登出',
     personal: '个人中心',
     search_type_1: '搜索',
-    search_type_2: '搜索歌曲，歌手，专辑...',
+    search_type_2: '在网易云音乐中搜索',
     more: '显示更多',
     translations: '翻译',
     not_support: '暂时不支持哟',

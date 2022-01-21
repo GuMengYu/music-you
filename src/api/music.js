@@ -47,12 +47,18 @@ export const getMusicUrl = async (id, br = 320000, logged = false) => {
   }
   return url;
 };
-export const search = (keywords, conditions) => {
+export const search = (keywords = '', conditions) => {
   return xhr.get('/cloudsearch', {
     params: {
       keywords,
       ...conditions,
     },
+  });
+};
+
+export const multiSearch = (keywords) => {
+  return xhr.get('/search/multimatch', {
+    params: { keywords },
   });
 };
 

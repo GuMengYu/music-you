@@ -1,6 +1,6 @@
 <template>
   <div class="title-bar">
-    <div v-show="showActions" class="window-actions">
+    <div class="window-actions">
       <v-btn plain small @click="handleMinimize" class="action-item px-0">
         <v-icon>
           {{ mdiWindowMinimize }}
@@ -31,11 +31,6 @@ import { mdiWindowClose, mdiWindowMinimize, mdiWindowMaximize } from '@mdi/js';
 
 export default {
   name: 'TitleBar',
-  props: {
-    showActions: {
-      type: Boolean,
-    },
-  },
   data: () => ({
     mdiWindowClose,
     mdiWindowMinimize,
@@ -62,10 +57,6 @@ export default {
 
 <style lang="scss">
 .title-bar {
-  position: fixed;
-  top: 5px;
-  right: 0;
-  z-index: 1000;
   .window-actions {
     transition: all 0.2s ease-in-out;
     display: flex;

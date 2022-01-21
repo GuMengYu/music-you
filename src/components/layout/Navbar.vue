@@ -14,7 +14,7 @@
         <drawer-toggle />
       </v-list-item>
       <v-list-item-group>
-        <default-list-item
+        <nav-item
           class="drawer-item"
           v-for="i in defaultNav1"
           :key="i.title"
@@ -26,7 +26,7 @@
         >
           {{ $t('main.nav.library') }}
         </v-subheader>
-        <default-list-item
+        <nav-item
           class="drawer-item"
           v-for="i in defaultNav2"
           :key="i.title"
@@ -38,7 +38,7 @@
         >
           {{ $t('main.nav.start_list') }}
         </v-subheader>
-        <default-list-item
+        <nav-item
           class="drawer-item"
           v-for="i in defaultNav3"
           :key="i.title"
@@ -60,13 +60,13 @@ import {
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
-import DefaultListItem from '@components/default/ListItem.vue';
+import NavItem from '@components/default/NavItem.vue';
 import DrawerToggle from '@components/layout/DrawerToggle.vue';
 
 export default {
   name: 'DefaultNavBar',
   components: {
-    DefaultListItem,
+    NavItem,
     DrawerToggle,
   },
   data: function () {

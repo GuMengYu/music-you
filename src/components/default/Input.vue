@@ -1,14 +1,14 @@
 <template>
   <v-text-field
+    v-bind="$attrs"
     id="doc-search"
     ref="search"
     v-model="model"
     :background-color="bgColor"
-    class="rounded-pill text-caption"
+    class="text-caption"
     :placeholder="placeholder"
     :type="type"
     autocomplete="off"
-    dense
     hide-details
     solo
     flat
@@ -17,6 +17,7 @@
     @focus="onFocus"
     @keydown.esc="onEsc"
     @keydown.enter="onEnter"
+    @click="onClick"
     @input="$emit('input', model)"
   >
     <template #prepend-inner>
@@ -85,6 +86,7 @@ export default {
   methods: {
     onBlur() {
       this.isFocused = false;
+      this.$emit('blur');
       // this.resetSearch()
     },
     onEsc() {
@@ -95,6 +97,10 @@ export default {
     },
     async onFocus() {
       this.isFocused = true;
+      this.$emit('focus');
+    },
+    onClick(e) {
+      this.$emit('click', e);
     },
     resetSearch() {
       this.$nextTick(() => {

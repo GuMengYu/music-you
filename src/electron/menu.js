@@ -93,6 +93,13 @@ export const createElectronMenu = (window) => {
             window.webContents.send('like');
           },
         },
+        {
+          label: '搜索',
+          accelerator: 'CmdOrCtrl+K',
+          click: () => {
+            window.webContents.send('search');
+          },
+        },
       ],
     },
     {

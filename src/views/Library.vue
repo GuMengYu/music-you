@@ -31,7 +31,7 @@
             <v-dialog v-model="newlistDialog" persistent max-width="400px">
               <template v-slot:activator="{ on }">
                 <v-responsive
-                  class="rounded-lg"
+                  class="rounded-lg surfaceVariant"
                   aspect-ratio="1"
                   content-class="new-playlist"
                   v-on="on"

@@ -1,6 +1,6 @@
 <template>
   <v-app class="v-player">
-    <default-header :action="showActions" class="v-player-header" />
+    <default-header class="v-player-header" />
     <default-nav-bar class="v-player-nav" />
     <default-view class="v-player-content" />
     <player-bar />
@@ -9,7 +9,6 @@
     <default-login />
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
-    <default-title-bar :showActions="showActions" class="no-drag-area" />
   </v-app>
 </template>
 
@@ -22,11 +21,9 @@ import PlayingPage from '@components/app/Playing.vue';
 import DefaultHeader from '@components/layout/Header.vue';
 import DefaultView from '@components/layout/View.vue';
 import ContextMenu from '@components/default/ContextMenu.vue';
-import DefaultTitleBar from '@components/layout/TitleBar.vue';
 
 import { sync, get } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
-import is from 'electron-is';
 
 export default {
   name: 'Layout',
@@ -39,7 +36,6 @@ export default {
     DefaultLogin,
     PlayingPage,
     DefaultHeader,
-    DefaultTitleBar,
   },
   data: () => ({
     openNav: true,
@@ -50,9 +46,6 @@ export default {
   computed: {
     showList: sync('music/showList'),
     showLyricsPage: get('music/showLyricsPage'),
-    showActions() {
-      return (is.windows() || is.linux()) && !this.showLyricsPage;
-    },
   },
 };
 </script>

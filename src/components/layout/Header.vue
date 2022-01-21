@@ -1,35 +1,27 @@
 <template>
-  <v-app-bar
-    app
-    fixed
-    dense
-    :elevation="0"
-    class="app_header surface"
-    :class="action ? 'justify-start' : 'justify-end'"
-  >
-    <!--      <download-progress />-->
-    <div class="d-flex">
-      <b-f class="no-drag-area" />
-      <reload-btn class="no-drag-area" />
+  <v-app-bar app dense :elevation="0" class="app_header surface drag-area">
+    <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
+    <!--    <div class="d-flex">-->
+    <!--      -->
+    <!--      <reload-btn class="no-drag-area" />-->
+    <!--    </div>-->
+    <div class="d-flex no-drag-area header-left">
+      <b-f />
+      <reload-btn />
     </div>
-    <div class="d-flex align-center no-drag-area">
-      <default-input
-        v-show="showSearch"
-        v-model="keywords"
-        :holder="$t('common.search_type_2')"
-        :icon="icon.mdiMagnify"
-        class="search_input"
-        @enter="goSearch"
-      >
-        <default-account />
-      </default-input>
+    <v-spacer />
+    <div class="d-flex align-center no-drag-area header-right">
+      <search-toggle />
       <theme-toggle />
+      <default-account />
+      <default-title-bar v-if="showWindowControl" />
     </div>
 
     <!--      <div class="nav_actions">-->
     <!--        <setting-toggle />-->
     <!--        <theme-toggle />-->
     <!--      </div>-->
+    <search />
   </v-app-bar>
 </template>
 
@@ -37,20 +29,26 @@
 import { mdiMagnify } from '@mdi/js';
 import { get } from 'vuex-pathify';
 
-import DefaultInput from '@components/default/Input.vue';
+import SearchToggle from '@components/layout/SearchToggle.vue';
 import ThemeToggle from '@components/layout/ThemeToggle.vue';
 import DefaultAccount from '@components/app/Account.vue';
+import DefaultTitleBar from '@components/layout/TitleBar.vue';
+
 // import SettingToggle from '@components/layout/SettingToggle';
 import ReloadBtn from '@components/layout/ReloadBtn.vue';
 import BF from '@components/layout/BF.vue';
+import Search from '@/views/Search';
+import is from 'electron-is';
 // import DownloadProgress from '@components/layout/DownloadProgress';
 
 export default {
   name: 'DefaultHeader',
   components: {
-    DefaultInput,
+    Search,
     ThemeToggle,
+    SearchToggle,
     DefaultAccount,
+    DefaultTitleBar,
     // SettingToggle,
     ReloadBtn,
     BF,
@@ -65,35 +63,23 @@ export default {
   inject: ['theme'],
   data: () => ({
     icon: { mdiMagnify },
-    keywords: '',
   }),
   computed: {
     account: get('settings/account'),
-    showSearch() {
-      return !this.$vuetify.breakpoint.xs;
+    showWindowControl() {
+      return (is.windows() || is.linux()) && !this.showLyricsPage;
     },
   },
-  methods: {
-    goSearch() {
-      const { name, params } = this.$route;
-      if (!this.keywords) return;
-      if (name === 'search' && params.keywords === this.keywords) return;
-      this.$router.push({
-        name: 'search',
-        params: { keywords: this.keywords },
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 <style scoped lang="scss">
 .app_header {
   display: flex;
   z-index: 6;
-  -webkit-app-region: drag;
-  .search_input {
-    max-width: 20vw;
-    min-width: 160px;
+  ::v-deep .v-toolbar__content {
+    flex: 1;
+    padding-right: 0;
   }
 }
 </style>
