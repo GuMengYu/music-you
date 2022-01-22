@@ -1,8 +1,7 @@
 // Utilities
 import { make } from 'vuex-pathify';
-import Cookie from 'js-cookie';
-
-const NETEASEFLAG = 'MUSIC_U';
+import { getAccount, logout } from '@api/account';
+import { isEmpty } from 'lodash-es';
 const state = () => {
   let data = JSON.parse(localStorage.getItem('settings')) || {};
 
@@ -34,19 +33,28 @@ const actions = {
   update({ state }) {
     localStorage.setItem('settings', JSON.stringify(state));
   },
+  async getAccount({ commit }) {
+    const { profile } = await getAccount();
+    commit('account', { profile });
+    return profile;
+  },
   updateAccount({ commit }, account) {
     commit('account', account);
   },
-  signOut({ commit }) {
-    commit('account', {});
-    Cookie.remove(NETEASEFLAG);
+  async signOut({ commit }) {
+    try {
+      await logout();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      commit('account', {});
+    }
   },
 };
 
 const getters = {
   logged: (state) => {
-    const music_u = Cookie.get(NETEASEFLAG);
-    return music_u && !!state.account.profile;
+    return !isEmpty(state.account.profile);
   },
   userId: (state) => {
     return state.account?.profile?.userId;

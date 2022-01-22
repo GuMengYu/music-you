@@ -37,7 +37,7 @@ const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
       if (code === successCode || status === 100) {
         return returnOrigin ? response.data : data;
       } else {
-        return Promise.reject(data);
+        return Promise.reject(response.data);
       }
     },
     (error) => {

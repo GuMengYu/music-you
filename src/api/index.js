@@ -192,7 +192,7 @@ export const getArtistMv = (id) =>
  * 获取喜欢列表
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getLikeList = () => xhr.get('/likelist');
+export const getLikeList = () => xhr.get(`/likelist?timestamp=${now()}`);
 
 export const getCatList = () => xhr.get('/playlist/catlist');
 /**

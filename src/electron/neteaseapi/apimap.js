@@ -67,6 +67,10 @@ const likelist = require('NeteaseCloudMusicApi/module/likelist');
 
 const login = require('NeteaseCloudMusicApi/module/login');
 const login_cellphone = require('NeteaseCloudMusicApi/module/login_cellphone');
+// 二维码登录
+const login_qr_key = require('NeteaseCloudMusicApi/module/login_qr_key');
+const login_qr_create = require('NeteaseCloudMusicApi/module/login_qr_create');
+const login_qr_check = require('NeteaseCloudMusicApi/module/login_qr_check');
 
 const login_refresh = require('NeteaseCloudMusicApi/module/login_refresh');
 const login_status = require('NeteaseCloudMusicApi/module/login_status');
@@ -177,6 +181,9 @@ module.exports = {
   '/login/cellphone': generatorFn(login_cellphone),
   '/login/refresh': generatorFn(login_refresh),
   '/login/status': generatorFn(login_status),
+  '/login/qr/key': generatorFn(login_qr_key),
+  '/login/qr/create': generatorFn(login_qr_create),
+  '/login/qr/check': generatorFn(login_qr_check),
   '/login': generatorFn(login),
   '/logout': generatorFn(logout),
   '/lyric': generatorFn(lyric),
