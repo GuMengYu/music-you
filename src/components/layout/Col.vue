@@ -5,7 +5,7 @@
       <!--        {{ subtitle }}-->
       <!--      </div>-->
       <div class="d-flex justify-space-between">
-        <div class="text-h5 onSurfaceVariant--text">
+        <div class="text-h6 onSurfaceVariant--text">
           {{ title }}
         </div>
         <v-btn v-if="more" text plain small class="font-weight-bold" :to="more">

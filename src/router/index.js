@@ -9,7 +9,7 @@ const musicRoutes = [
   {
     path: 'discover/',
     name: 'discover',
-    component: lazyLoad('discover'),
+    component: lazyLoad('Discover'),
     meta: { keepAlive: true },
   },
   {

@@ -5,7 +5,6 @@
       <custom-col :title="$t('main.discover.featured')">
         <carousel grid-style="A" :gap="10">
           <carousel-item>
-            <!--            <span>{{ $t('main.discover.fm') }}</span>-->
             <f-m />
           </carousel-item>
           <carousel-item v-if="logged">
@@ -16,9 +15,6 @@
           </carousel-item>
           <carousel-item>
             <larger-cover :data="daily" type="daily" />
-          </carousel-item>
-          <carousel-item>
-            <larger-cover :data="release" />
           </carousel-item>
         </carousel>
       </custom-col>
@@ -50,13 +46,7 @@
   </div>
 </template>
 <script>
-import {
-  getPersonalized,
-  newAlbums,
-  getMv,
-  getNewRelease,
-  getPlayList,
-} from '@api/index';
+import { getPersonalized, getMv, getNewRelease, getPlayList } from '@/api';
 import NProgress from 'nprogress';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col.vue';
@@ -83,7 +73,6 @@ export default {
   data() {
     return {
       playLists: [],
-      release: {},
       radar: {},
       daily: {
         name: `日推 ${this.$dayjs().format('MM-DD')}`,
@@ -116,19 +105,13 @@ export default {
     try {
       const { playlist } = await getPlayList(3136952023);
       this.radar = playlist;
-      const [
-        { result: playlists },
-        { albums },
-        { result: mvs },
-        { result: songs },
-      ] = await Promise.all([
-        getPersonalized(12),
-        newAlbums({ limit: 1, area: 'EA' }),
-        getMv(),
-        getNewRelease({ limit: 20 }),
-      ]);
+      const [{ result: playlists }, { result: mvs }, { result: songs }] =
+        await Promise.all([
+          getPersonalized(12),
+          getMv(),
+          getNewRelease({ limit: 20 }),
+        ]);
       this.playLists = playlists;
-      this.release = albums?.[0];
       this.mvs = mvs;
       this.songs = songs.map((i) => i?.song);
     } catch (e) {
