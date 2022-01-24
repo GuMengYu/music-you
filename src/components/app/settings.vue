@@ -24,6 +24,7 @@
               <DefaultAccount />
             </v-list-item-action>
           </v-list-item>
+          <v-divider />
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="font-weight-bold">
@@ -63,45 +64,15 @@
           <v-list-item>
             <div class="images color d-flex">
               <v-img
+                v-for="(pal, name) in paletteOptions"
+                :key="name"
                 class="image"
-                :class="selected('RedSandDunes')"
+                :class="selected(name)"
                 max-width="57"
-                aria-label="Wallpaper 1 red sand dunes"
-                src="@assets/1_thumb.webp"
-                @click="selectPalette('RedSandDunes')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('RedMountainTop')"
-                max-width="57"
-                aria-label="Wallpaper 2 red mountain top"
-                src="@assets/2_thumb.webp"
-                @click="selectPalette('RedMountainTop')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('OrangeDesert')"
-                max-width="57"
-                aria-label="Wallpaper 3 orange desert"
-                src="@assets/3_thumb.webp"
-                @click="selectPalette('OrangeDesert')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('BlueMountains')"
-                max-width="57"
-                aria-label="Wallpaper 4 blue mountains"
-                src="@assets/4_thumb.webp"
-                @click="selectPalette('BlueMountains')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('RedRockyMountains')"
-                max-width="57"
-                aria-label="Wallpaper 5 red rocky mountains"
-                src="@assets/5_thumb.webp"
-                @click="selectPalette('RedRockyMountains')"
-              ></v-img>
+                :src="pal.dataURL"
+                @click="selectPalette(name)"
+              >
+              </v-img>
             </div>
           </v-list-item>
           <v-list-item>
@@ -160,6 +131,27 @@
           <!--          </v-list-item>-->
         </v-list>
       </div>
+      <v-footer fixed color="surface" class="d-flex justify-end">
+        <input
+          type="file"
+          style="display: none"
+          ref="input"
+          @change="handleChange"
+          accept="image/png,image/jpeg"
+        />
+        <v-btn
+          class="align-self-end mb-4 px-10 text-capitalize font-weight-regular"
+          rounded
+          color="primary"
+          x-large
+          @click="handleCustomPalette"
+        >
+          <v-icon class="mr-1">
+            {{ mdiPlus }}
+          </v-icon>
+          add your wallpaper
+        </v-btn>
+      </v-footer>
     </v-card>
   </v-dialog>
 </template>
@@ -170,7 +162,9 @@ import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select.vue';
 import DefaultAccount from '@components/app/Account.vue';
 import themePalettes from '@/vuetify/theme';
-import { mdiCog } from '@mdi/js';
+import { mdiCog, mdiPlus } from '@mdi/js';
+import { fileToDataURL } from '@util/fn';
+import { generatePaletteFromURL } from 'theme-generator';
 export default {
   name: 'DefaultSetting',
   components: {
@@ -180,6 +174,7 @@ export default {
   data() {
     return {
       mdiCog,
+      mdiPlus,
       tracksCache: {
         size: '0KB',
         length: 0,
@@ -226,18 +221,29 @@ export default {
           val: 'auto',
         },
       ],
-      themePalette: Object.keys(themePalettes).map((key) => ({
-        title: key,
-        val: key,
-      })),
       dark: false,
     };
   },
   computed: {
+    paletteOptions() {
+      const { dataURL, palette = {} } = this.customPalette ?? {};
+      if (dataURL && palette.light) {
+        return {
+          ...themePalettes,
+          custom: {
+            dataURL,
+            name: 'custom',
+            palette,
+          },
+        };
+      }
+      return themePalettes;
+    },
     ...sync('settings', [
       'locale',
       'quality',
       'theme',
+      'customPalette',
       'autoCache',
       'palettes',
       'dynamicBg',
@@ -289,7 +295,12 @@ export default {
           this.$dayjs.locale(locale);
           // location.reload();
         } else if (mutation.type === 'settings/palettes') {
-          const palettes = themePalettes[mutation.payload]?.palette;
+          const _themePalettes = { ...themePalettes };
+          const customPalette = this.customPalette ?? {};
+          if (customPalette.dataURL && customPalette.palette) {
+            _themePalettes.custom = customPalette;
+          }
+          const palettes = _themePalettes[mutation.payload]?.palette;
           this.$vuetify.theme.themes.light = palettes.light;
           this.$vuetify.theme.themes.dark = palettes.dark;
           // location.reload();
@@ -301,6 +312,34 @@ export default {
     },
     selectAppearance(appearance) {
       this.theme = appearance;
+    },
+    handleCustomPalette() {
+      this.$refs.input.click();
+    },
+    async handleChange(e) {
+      const { files = [] } = e.target;
+      const [file = {}] = files;
+      if (file.size > 2 * 1024 * 1024) {
+        this.$toast('选择图片大小不能超过2M', {
+          color: 'error',
+        });
+        return;
+      }
+      try {
+        const dataURL = await fileToDataURL(files[0]);
+        const _palette = await generatePaletteFromURL(dataURL);
+        const palette = _palette.save();
+        this.customPalette = {
+          dataURL: dataURL,
+          palette: {
+            light: palette.light,
+            dark: palette.dark,
+          },
+        };
+        this.palettes = 'custom';
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };
@@ -315,11 +354,14 @@ export default {
       background-size: cover;
       margin: 10px;
       cursor: pointer;
-      transition: border-radius 0.2s ease-in-out;
+      transition: border-radius 0.3s ease-in-out;
     }
     > .image.selected {
       border: 2px solid var(--v-primary-base);
       border-radius: 8px;
+    }
+    .new-theme {
+      display: flex;
     }
   }
   .images.color {

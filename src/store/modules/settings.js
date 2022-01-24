@@ -11,6 +11,10 @@ const state = () => {
       quality: '192000',
       autoCache: false,
       theme: 'light',
+      customPalette: {
+        dataURL: '',
+        palette: {},
+      },
       palettes: 'RedSandDunes',
       volume: 0.8,
       dynamicBg: false,

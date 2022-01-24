@@ -7052,6 +7052,16 @@ jszip@^3.1.0:
     readable-stream "~2.3.6"
     set-immediate-shim "~1.0.1"
 
+jszip@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.npmmirror.com/jszip/download/jszip-3.7.1.tgz#bd63401221c15625a1228c556ca8a68da6fda3d9"
+  integrity sha512-ghL0tz1XG9ZEmRMcEN2vt7xabrDdqHHeykgARpmZ0BiIctWxM47Vt63ZO2dnp4QYt/xJVLLy5Zv1l/xRdh2byg==
+  dependencies:
+    lie "~3.3.0"
+    pako "~1.0.2"
+    readable-stream "~2.3.6"
+    set-immediate-shim "~1.0.1"
+
 kew@^0.7.0:
   version "0.7.0"
   resolved "https://registry.npm.taobao.org/kew/download/kew-0.7.0.tgz#79d93d2d33363d6fdd2970b335d9141ad591d79b"
@@ -10763,6 +10773,12 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.nlark.com/text-table/download/text-table-0.2.0.tgz?cache=0&sync_timestamp=1618847142316&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftext-table%2Fdownload%2Ftext-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+"theme-generator@git+https://gitee.com/YuSaKiYo/theme-generator.git":
+  version "0.0.1"
+  resolved "git+https://gitee.com/YuSaKiYo/theme-generator.git#002e6511fd8361ea0b70212e01f431122698531f"
+  dependencies:
+    jszip "^3.7.1"
 
 thenify-all@^1.0.0:
   version "1.6.0"

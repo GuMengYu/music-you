@@ -48,6 +48,7 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
+    "theme-generator": "git+https://gitee.com/YuSaKiYo/theme-generator.git",
     "babel-eslint": "^10.1.0",
     "dayjs": "^1.9.1",
     "electron": "16.0.6",

@@ -5,9 +5,12 @@
     <!--      -->
     <!--      <reload-btn class="no-drag-area" />-->
     <!--    </div>-->
-    <div class="d-flex no-drag-area header-left">
+    <div class="d-flex no-drag-area header-left align-center">
       <b-f />
       <reload-btn />
+      <v-btn text v-if="showPlayGround" @click="$router.push('/playground')"
+        >playground</v-btn
+      >
     </div>
     <v-spacer />
     <div class="d-flex align-center no-drag-area header-right">
@@ -68,6 +71,9 @@ export default {
     account: get('settings/account'),
     showWindowControl() {
       return (is.windows() || is.linux()) && !this.showLyricsPage;
+    },
+    showPlayGround() {
+      return is.dev();
     },
   },
   methods: {},

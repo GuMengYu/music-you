@@ -1,11 +1,17 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-import themePalettes from './theme';
+import THEME_PALETTES from './theme';
 
 Vue.use(Vuetify);
 
 export function createVuetify(store) {
-  const palettes = themePalettes[store.state.settings.palettes]?.palette ?? {};
+  const themePalettes = { ...THEME_PALETTES };
+  const customPalette = store.state.settings.customPalette ?? {};
+  if (customPalette.dataURL && customPalette.palette) {
+    themePalettes.custom = customPalette;
+  }
+  const palette = themePalettes[store.state.settings.palettes]?.palette ?? {};
+
   return new Vuetify({
     breakpoint: {
       mobileBreakpoint: 'sm', // 这个值等于960
@@ -18,10 +24,10 @@ export function createVuetify(store) {
       options: { customProperties: true },
       themes: {
         light: {
-          ...palettes.light,
+          ...palette.light,
         },
         dark: {
-          ...palettes.dark,
+          ...palette.dark,
         },
       },
     },
