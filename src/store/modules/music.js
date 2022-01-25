@@ -22,7 +22,7 @@ const state = {
   playing: false,
   track: localData.track ?? {},
   playingList: localData.playingList ?? { list: [] },
-  currentTime: localStorage.getItem('currentTime') ?? 0,
+  currentTime: +localStorage.getItem('currentTime') ?? 0,
   showList: false,
   showLyricsPage: false,
   mode: PLAY_MODE.CYCLE,

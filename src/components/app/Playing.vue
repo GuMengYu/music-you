@@ -38,8 +38,12 @@
       <div
         class="frame-footer onSurfaceVariant--text px-4 mb-8 d-flex flex-column"
       >
-        <span class="text-h4 mb-4">{{ track['al']['name'] }}</span>
-        <span class="text-h4 mb-4">by - {{ track['ar'][0]['name'] }}</span>
+        <span class="text-h4 mb-4">{{
+          track['al'] && track['al']['name']
+        }}</span>
+        <span class="text-h4 mb-4"
+          >by - {{ track['ar'] && track['ar'][0]['name'] }}</span
+        >
         <span class="text-h2 font-weight-bold">{{ track.name }}</span>
       </div>
       <div

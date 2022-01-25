@@ -103,32 +103,41 @@
               />
             </v-list-item-action>
           </v-list-item>
-          <!--          <v-list-item>-->
-          <!--            <v-list-item-content>-->
-          <!--              <v-list-item-title class="font-weight-bold">-->
-          <!--                {{ $t('common.dynamicBg') }}-->
-          <!--              </v-list-item-title>-->
-          <!--            </v-list-item-content>-->
-          <!--            <v-list-item-action class="mr-4">-->
-          <!--              <v-switch v-model="dynamicBg" />-->
-          <!--            </v-list-item-action>-->
-          <!--          </v-list-item>-->
-          <!--          <v-list-item>-->
-          <!--            <v-list-item-content>-->
-          <!--              <v-list-item-title class="font-weight-bold">-->
-          <!--                {{ $t('common.cached', {size: tracksCache.size, length: tracksCache.length}) }}-->
-          <!--              </v-list-item-title>-->
-          <!--            </v-list-item-content>-->
-          <!--            <v-list-item-action>-->
-          <!--              <v-btn-->
-          <!--                text-->
-          <!--                color="primary"-->
-          <!--                @click="clearCache"-->
-          <!--              >-->
-          <!--                {{ $t('common.clear_cache') }}-->
-          <!--              </v-btn>-->
-          <!--            </v-list-item-action>-->
-          <!--          </v-list-item>-->
+          <v-divider />
+          <v-list-item class="font-weight-bold">
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ $t('common.autoCache') }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action class="mr-4">
+              <v-switch v-model="autoCache" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item class="font-weight-bold">
+            <v-list-item-subtitle> 缓存大小限制 </v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item class="font-weight-bold">
+            <v-slider
+              v-model="cacheLimit"
+              :tick-labels="ticksLabels"
+              :max="5"
+              :min="1"
+              step="1"
+              ticks="always"
+              tick-size="5"
+            ></v-slider>
+          </v-list-item>
+          <v-list-item class="font-weight-bold">
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                {{ $t('common.usageSize') }}: {{ cacheSize | bytesToSize }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn text @click="clearCache">清除缓存</v-btn>
+            </v-list-item-action>
+          </v-list-item>
         </v-list>
       </div>
       <v-footer fixed color="surface" class="d-flex justify-end">
@@ -162,9 +171,10 @@ import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select.vue';
 import DefaultAccount from '@components/app/Account.vue';
 import themePalettes from '@/vuetify/theme';
-import { mdiCog, mdiPlus } from '@mdi/js';
+import { mdiCog, mdiPlus, mdiKeyRemove } from '@mdi/js';
 import { fileToDataURL } from '@util/fn';
 import { generatePaletteFromURL } from 'theme-generator';
+import { playerIDB } from '@/idb/index';
 export default {
   name: 'DefaultSetting',
   components: {
@@ -175,10 +185,9 @@ export default {
     return {
       mdiCog,
       mdiPlus,
-      tracksCache: {
-        size: '0KB',
-        length: 0,
-      },
+      mdiKeyRemove,
+      cacheSize: 0,
+      ticksLabels: ['500M', '1GB', '2GB', '5GB', '10GB'],
       langOptions: [
         {
           title: '🇨🇳 简体中文',
@@ -245,6 +254,7 @@ export default {
       'theme',
       'customPalette',
       'autoCache',
+      'cacheLimit',
       'palettes',
       'dynamicBg',
     ]),
@@ -254,6 +264,11 @@ export default {
     dark(val) {
       if (this.$vuetify.theme.dark === val) return;
       this.$vuetify.theme.dark = val;
+    },
+    async showSettings(val) {
+      if (val) {
+        this.cacheSize = (await playerIDB.calcSize()) ?? 0;
+      }
     },
   },
   mounted() {
@@ -267,7 +282,9 @@ export default {
         selected: resource === target,
       };
     },
-    clearCache() {},
+    clearCache() {
+      playerIDB.clearIDB();
+    },
     initMode() {
       const that = this;
       const detectMode = new DetectMode();

@@ -74,10 +74,10 @@ export default {
     theme_color: '主题色',
     auto: '跟随系统',
     quality: '音质',
-    cache: '本地缓存歌曲',
+    autoCache: '开启缓存',
+    usageSize: '缓存占用空间',
     dynamicBg: '歌词动态背景',
     clear_cache: '清除歌曲缓存',
-    cached: '已经缓存{size}, {length}首',
     lastupdate: '最后更新于 {0} · {1} 首歌',
   },
 };

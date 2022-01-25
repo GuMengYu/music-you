@@ -74,7 +74,7 @@ export default {
     theme_color: 'Theme color',
     auto: 'auto',
     quality: 'Quality',
-    cache: 'Cache Songs',
+    usageSize: 'cache',
     dynamicBg: 'Dynamic Background',
     clear_cache: 'Clear Cache',
     cached: 'Already cached {size}, and {length} songs',

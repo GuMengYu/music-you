@@ -8,8 +8,9 @@ const state = () => {
   return Object.assign(
     {
       locale: 'zh',
-      quality: '192000',
+      quality: '320000',
       autoCache: false,
+      cacheLimit: 1,
       theme: 'light',
       customPalette: {
         dataURL: '',

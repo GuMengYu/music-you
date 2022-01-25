@@ -169,7 +169,7 @@ export default {
     isCurrentFm: get('music/isCurrentFm'),
     volume: sync('settings/volume'),
     currentTime: get('music/currentTime'),
-    track: get('music/track'),
+    track: get('music/track') ?? {},
     playing: get('music/playing'),
     showList: sync('music/showList'),
     showLyricsPage: sync('music/showLyricsPage'),

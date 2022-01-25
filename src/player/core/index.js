@@ -2,8 +2,9 @@ import install from './install';
 
 import { Howl, Howler } from 'howler';
 import { isArray, shuffle, throttle } from 'lodash-es';
-import { scrobble } from '@api/music';
+import { scrobble, getTrackDetail } from '@api/music';
 import { sleep } from '@util/fn';
+import { playerIDB } from '@/idb/index';
 export default class Player {
   constructor(store) {
     this.store = store;
@@ -14,6 +15,7 @@ export default class Player {
     this.playing = false;
     this.playingList = {};
     this.isFM = false;
+    this.stageMusicURL = null;
 
     this._updateCurrentTime = throttle(this.updateCurrentTime, 1000);
     this.init();
@@ -71,7 +73,6 @@ export default class Player {
   restoreStateFromStore() {
     const volume = this.store.state?.settings?.volume ?? 0.5;
     const state = this.store?.state?.music;
-
     Object.keys(this).forEach((key) => {
       if (state[key] !== void 0) {
         this[key] = state[key];
@@ -79,18 +80,70 @@ export default class Player {
     });
     this.volume = volume;
   }
-  async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
-    this.store.commit('music/loadingTrack', true);
-    if (resetProgress) {
-      this.updateCurrentTime(0);
+  async getTrack(id) {
+    const quality = this.store.state.settings.quality;
+    const logged = this.store.getters['settings/logged'];
+    const autoCache = this.store.state.settings.autoCache;
+    const cacheLimit = this.store.state.settings.cacheLimit;
+    const cacheLimitValue = {
+      1: 500,
+      2: 1024,
+      3: 2048,
+      4: 5120,
+      5: 10240,
+    }[cacheLimit];
+    try {
+      const cachedTrack = await playerIDB.getTrack(id);
+      if (cachedTrack) {
+        const { track, buffer } = cachedTrack;
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/URL/createObjectURL
+        // 创建的URL在document的生命周期内有效，除非document卸载，否则不会失效，所以防止内存泄漏需要手动卸载
+        // 且在使用前不能卸载掉
+        const _URL = URL.createObjectURL(new Blob([buffer]));
+        if (this.stageMusicURL) {
+          URL.revokeObjectURL(this.stageMusicURL);
+        }
+        this.stageMusicURL = _URL;
+
+        return {
+          track,
+          url: _URL,
+        };
+      } else {
+        const track = await getTrackDetail(id, quality, logged);
+        if (track.url) {
+          if (autoCache) {
+            playerIDB.cacheTrack(track, cacheLimitValue);
+          }
+          return {
+            track,
+            url: track.url,
+          };
+        }
+      }
+    } catch (e) {
+      console.log(e);
     }
-    const track = await this.store.dispatch('music/getTrack', id);
-    if (track?.url) {
-      this.track = track;
+  }
+  async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
+    if (!id) return;
+    const isCurrentFm = this.store.state.music.isCurrentFm;
+    this.store.commit('music/loadingTrack', true);
+    const { track: trackInfo, url } = await this.getTrack(id);
+    if (url) {
+      this.store.commit('music/track', trackInfo);
+      if (isCurrentFm) {
+        this.store.commit('music/fmTrack', trackInfo);
+      }
+      this.store.dispatch('music/saveMusicState');
+      if (resetProgress) {
+        this.updateCurrentTime(0);
+      }
+      this.track = trackInfo;
       Howler.unload();
       this.howler = null;
-      this.howler = this.initSound(track.url);
-      this.initMediaSession(track);
+      this.howler = this.initSound(url);
+      this.initMediaSession(trackInfo);
       if (resetProgress) {
         this.setSeek(0);
       } else {
@@ -101,7 +154,7 @@ export default class Player {
         this.setScrobble(this.track, this.howler.seek(), false);
       }
     } else {
-      window?.app?.$toast.warning(`${track.name} 暂不可用, 自动播放下一曲`);
+      window?.app?.$toast.warning(`${trackInfo.name} 暂不可用, 自动播放下一曲`);
       await sleep(1000);
       this.next();
     }
@@ -117,17 +170,7 @@ export default class Player {
       format: ['mp3', 'flac'],
       onplay: () => {
         requestAnimationFrame(this.step.bind(this));
-        // this.saveToRecent();
       },
-      // onend: function() {
-      //   // Stop the wave animation.
-      // },
-      // onpause: function() {
-      //   // Stop the wave animation.
-      // },
-      // onstop: function() {
-      //   // Stop the wave animation.
-      // },
       onplayerror: (id, e) => {
         console.log(id, e);
       },
@@ -195,7 +238,7 @@ export default class Player {
   }
   setSeek(val) {
     this.howler.seek(val);
-    this._updateCurrentTime();
+    this._updateCurrentTime(val);
   }
   step() {
     if (this.howler.playing()) {
