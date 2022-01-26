@@ -117,15 +117,7 @@ export default class Player {
   }
   async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
     if (!id) return;
-    const autoCache = this.store.state.settings.autoCache;
     const cacheLimit = this.store.state.settings.cacheLimit;
-    const cacheLimitValue = {
-      1: 500,
-      2: 1024,
-      3: 2048,
-      4: 5120,
-      5: 10240,
-    }[cacheLimit];
     const isCurrentFm = this.store.state.music.isCurrentFm;
     this.store.commit('music/loadingTrack', true);
     const { track: trackInfo, url, from } = await this.getTrack(id);
@@ -152,9 +144,10 @@ export default class Player {
         this.play();
         this.setScrobble(this.track, this.howler.seek(), false);
       }
-      if (from === 'online' && autoCache) {
+      if (from === 'online' && cacheLimit) {
+        // 延迟请求buffer缓存 防止阻塞后面播放的url请求
         await sleep(500);
-        playerIDB.cacheTrack(trackInfo, cacheLimitValue);
+        playerIDB.cacheTrack(trackInfo, cacheLimit);
       }
     } else {
       window?.app?.$toast.warning(`${trackInfo.name} 暂不可用, 自动播放下一曲`);

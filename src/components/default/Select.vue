@@ -39,7 +39,7 @@ export default {
   },
   props: {
     selected: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     options: {

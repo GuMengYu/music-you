@@ -1,191 +1,149 @@
 <template>
   <v-dialog
     fullscreen
+    hide-overlay
     v-model="showSettings"
     transition="dialog-top-transition"
-    max-width="600"
   >
     <v-card outlined class="settings-wrapper" color="background">
-      <v-toolbar flat color="surface">
-        <v-btn icon @click="showSettings = false">
-          <v-icon>$close</v-icon>
-        </v-btn>
-        <v-toolbar-title>{{ $t('common.setting') }}</v-toolbar-title>
-      </v-toolbar>
-      <div class="container">
-        <v-list subheader class="background">
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                账号
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action class="mr-4">
-              <DefaultAccount />
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.theme') }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <div class="images appearance d-flex">
-              <v-img
-                class="image"
-                :class="selected('auto', 'appearance')"
-                src="@assets/auto.png"
-                @click="selectAppearance('auto')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('light', 'appearance')"
-                src="@assets/light.png"
-                @click="selectAppearance('light')"
-              ></v-img>
-              <v-img
-                class="image"
-                :class="selected('dark', 'appearance')"
-                src="@assets/dark.png"
-                @click="selectAppearance('dark')"
-              ></v-img>
-            </div>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.theme_color') }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <div class="images color d-flex">
-              <v-img
-                v-for="(pal, name) in paletteOptions"
-                :key="name"
-                class="image"
-                :class="selected(name)"
-                max-width="57"
-                :src="pal.dataURL"
-                @click="selectPalette(name)"
-              >
-              </v-img>
-            </div>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.language') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <default-select
-                v-model="locale"
-                :options="langOptions"
-                sub-header="translation"
-              />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="font-weight-bold">
-                {{ $t('common.quality') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <default-select
-                v-model="quality"
-                :options="qualityOptions"
-                sub-header="quality"
-              />
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider />
-          <v-list-item class="font-weight-bold">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $t('common.autoCache') }}
-              </v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action class="mr-4">
-              <v-switch v-model="autoCache" />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item class="font-weight-bold">
-            <v-list-item-subtitle> 缓存大小限制 </v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item class="font-weight-bold">
-            <v-slider
-              v-model="cacheLimit"
-              :tick-labels="ticksLabels"
-              :max="5"
-              :min="1"
-              step="1"
-              ticks="always"
-              tick-size="5"
-            ></v-slider>
-          </v-list-item>
-          <v-list-item class="font-weight-bold">
-            <v-list-item-content>
-              <v-list-item-subtitle>
-                {{ $t('common.usageSize') }}: {{ cacheSize | bytesToSize }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-btn text @click="clearCache">清除缓存</v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+      <v-btn icon @click="showSettings = false" class="mt-4 mx-4">
+        <v-icon>{{ mdiArrowLeft }}</v-icon>
+      </v-btn>
+      <div class="d-flex flex-column ma-6">
+        <v-avatar size="45" class="align-self-end">
+          <v-img :src="profile.avatarUrl"></v-img>
+        </v-avatar>
+        <span class="text-h4">{{ $t('common.setting') }} </span>
       </div>
-      <v-footer fixed color="surface" class="d-flex justify-end">
-        <input
-          type="file"
-          style="display: none"
-          ref="input"
-          @change="handleChange"
-          accept="image/png,image/jpeg"
-        />
-        <v-btn
-          class="align-self-end mb-4 px-10 text-capitalize font-weight-regular"
-          rounded
-          color="primary"
-          x-large
-          @click="handleCustomPalette"
-        >
-          <v-icon class="mr-1">
-            {{ mdiPlus }}
-          </v-icon>
-          add your wallpaper
-        </v-btn>
-      </v-footer>
+      <v-list class="background mx-4 pb-12">
+        <v-subheader> 主题和样式 </v-subheader>
+        <v-list-item>
+          <v-list-item-title class="font-weight-bold">主题</v-list-item-title>
+          <div class="images appearance d-flex">
+            <v-img
+              class="image"
+              :class="selected('auto', 'appearance')"
+              src="@assets/auto.png"
+              @click="selectAppearance('auto')"
+            ></v-img>
+            <v-img
+              class="image"
+              :class="selected('light', 'appearance')"
+              src="@assets/light.png"
+              @click="selectAppearance('light')"
+            ></v-img>
+            <v-img
+              class="image"
+              :class="selected('dark', 'appearance')"
+              src="@assets/dark.png"
+              @click="selectAppearance('dark')"
+            ></v-img>
+          </div>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title class="font-weight-bold">颜色</v-list-item-title>
+          <div class="images color d-flex">
+            <v-img
+              v-for="(pal, name) in paletteOptions"
+              :key="name"
+              class="image"
+              :class="selected(name)"
+              max-width="57"
+              :src="pal.dataURL"
+              @click="selectPalette(name)"
+            >
+            </v-img>
+          </div>
+        </v-list-item>
+        <v-divider />
+        <v-subheader> 系统 </v-subheader>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              {{ $t('common.language') }}
+            </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <default-select
+              v-model="locale"
+              :options="langOptions"
+              sub-header="translation"
+            />
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              {{ $t('common.quality') }}
+            </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <default-select
+              v-model="quality"
+              :options="qualityOptions"
+              sub-header="quality"
+            />
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider />
+        <v-subheader> 缓存 </v-subheader>
+        <v-list-item>
+          <v-list-item-title class="font-weight-bold">
+            大小限制
+          </v-list-item-title>
+          <v-list-item-action>
+            <default-select
+              v-model="cacheLimit"
+              :options="cacheOptions"
+              sub-header="cacheLimit"
+            />
+          </v-list-item-action>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title class="font-weight-bold">
+            {{ $t('common.usageSize') }}: {{ cacheSize | bytesToSize }}
+            <v-btn text @click="clearCache">清除缓存</v-btn>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-btn
+        fixed
+        bottom
+        right
+        class="align-self-end text-capitalize font-weight-regular"
+        rounded
+        color="primary"
+        x-large
+        @click="handleCustomPalette"
+      >
+        <v-icon class="mr-1">
+          {{ mdiPlus }}
+        </v-icon>
+        add your wallpaper
+      </v-btn>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import { sync } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select.vue';
-import DefaultAccount from '@components/app/Account.vue';
 import themePalettes from '@/vuetify/theme';
-import { mdiCog, mdiPlus, mdiKeyRemove } from '@mdi/js';
+import { mdiCog, mdiPlus, mdiArrowLeft } from '@mdi/js';
 import { fileToDataURL } from '@util/fn';
 import { generatePaletteFromURL } from 'theme-generator';
 import { playerIDB } from '@/idb/index';
 export default {
   name: 'DefaultSetting',
   components: {
-    DefaultAccount,
     DefaultSelect,
   },
   data() {
     return {
       mdiCog,
       mdiPlus,
-      mdiKeyRemove,
+      mdiArrowLeft,
       cacheSize: 0,
       ticksLabels: ['500M', '1GB', '2GB', '5GB', '10GB'],
       langOptions: [
@@ -230,10 +188,29 @@ export default {
           val: 'auto',
         },
       ],
+      cacheOptions: [
+        {
+          title: '关闭',
+          val: 0,
+        },
+        {
+          title: '500M',
+          val: 500,
+        },
+        {
+          title: '1GB',
+          val: 1024,
+        },
+        {
+          title: '2GB',
+          val: 2048,
+        },
+      ],
       dark: false,
     };
   },
   computed: {
+    profile: get('settings/account@profile'),
     paletteOptions() {
       const { dataURL, palette = {} } = this.customPalette ?? {};
       if (dataURL && palette.light) {
@@ -253,7 +230,6 @@ export default {
       'quality',
       'theme',
       'customPalette',
-      'autoCache',
       'cacheLimit',
       'palettes',
       'dynamicBg',
@@ -364,6 +340,12 @@ export default {
 
 <style lang="scss" scoped>
 .settings-wrapper {
+  // .setting-header {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  // }
   .images {
     .image {
       background-position: center center;

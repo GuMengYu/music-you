@@ -9,8 +9,7 @@ const state = () => {
     {
       locale: 'zh',
       quality: '320000',
-      autoCache: false,
-      cacheLimit: 1,
+      cacheLimit: 500,
       theme: 'light',
       customPalette: {
         dataURL: '',

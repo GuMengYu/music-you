@@ -74,7 +74,6 @@ export default {
     theme_color: '主题色',
     auto: '跟随系统',
     quality: '音质',
-    autoCache: '开启缓存',
     usageSize: '缓存占用空间',
     dynamicBg: '歌词动态背景',
     clear_cache: '清除歌曲缓存',
