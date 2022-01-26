@@ -83,15 +83,6 @@ export default class Player {
   async getTrack(id) {
     const quality = this.store.state.settings.quality;
     const logged = this.store.getters['settings/logged'];
-    const autoCache = this.store.state.settings.autoCache;
-    const cacheLimit = this.store.state.settings.cacheLimit;
-    const cacheLimitValue = {
-      1: 500,
-      2: 1024,
-      3: 2048,
-      4: 5120,
-      5: 10240,
-    }[cacheLimit];
     try {
       const cachedTrack = await playerIDB.getTrack(id);
       if (cachedTrack) {
@@ -108,16 +99,15 @@ export default class Player {
         return {
           track,
           url: _URL,
+          from: 'cache',
         };
       } else {
         const track = await getTrackDetail(id, quality, logged);
         if (track.url) {
-          if (autoCache) {
-            playerIDB.cacheTrack(track, cacheLimitValue);
-          }
           return {
             track,
             url: track.url,
+            from: 'online',
           };
         }
       }
@@ -127,9 +117,18 @@ export default class Player {
   }
   async updatePlayerTrack(id, autoplay = true, resetProgress = true) {
     if (!id) return;
+    const autoCache = this.store.state.settings.autoCache;
+    const cacheLimit = this.store.state.settings.cacheLimit;
+    const cacheLimitValue = {
+      1: 500,
+      2: 1024,
+      3: 2048,
+      4: 5120,
+      5: 10240,
+    }[cacheLimit];
     const isCurrentFm = this.store.state.music.isCurrentFm;
     this.store.commit('music/loadingTrack', true);
-    const { track: trackInfo, url } = await this.getTrack(id);
+    const { track: trackInfo, url, from } = await this.getTrack(id);
     if (url) {
       this.store.commit('music/track', trackInfo);
       if (isCurrentFm) {
@@ -152,6 +151,10 @@ export default class Player {
       if (autoplay) {
         this.play();
         this.setScrobble(this.track, this.howler.seek(), false);
+      }
+      if (from === 'online' && autoCache) {
+        await sleep(500);
+        playerIDB.cacheTrack(trackInfo, cacheLimitValue);
       }
     } else {
       window?.app?.$toast.warning(`${trackInfo.name} 暂不可用, 自动播放下一曲`);
