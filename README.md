@@ -4,11 +4,8 @@
 <h1 align="center">
   VPlayer
 </h1>
-<p style="text-align: center">
-    <strong>
-        一个 <a href="https://m3.material.io/" target="_blank"> Material Design 3（Material You） </a> 风格的网络音乐播放器,<br/>
-        采用网易云音乐非官方API NeteaseCloudMusicApi做音乐接口服务
-    </strong>
+<p align="center">
+    一个 <a href="https://m3.material.io/" target="_blank"> Material Design 3 (Material You)</a> 风格的在线音乐播放器,采用网易云音乐非官方API NeteaseCloudMusicApi做音乐接口服务
 </p>
 
 
@@ -36,34 +33,39 @@
 
 ![浏览](doc/light&dark.png)
 
-### 本地运行安装
+## 运行
+### 安装依赖
 ```
 npm install 
-// or
+or
 yarn install
 ```
 
-### 启动网页端
+### 启动服务
 需要本地部署 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 ```
 npm run serve
 ```
-### 打包桌面客户端
+
+### 打包客户端
 ```
 npm run electron:build
 ```
 
-### 更多预览
-![歌手](doc/artist.png)
-![播放](doc/next.png)
-![专辑](doc/list.png)
-![设置](doc/setting.png)
-![lyric](doc/lyric.png)
+## 预览
 
-### License
+| ![歌手](doc/artist.png) | ![专辑](doc/list.png) |
+|:-----:|:-----:|
+|Artist |Album |
+
+| ![设置](doc/setting.png) | ![lyric](doc/lyric.png)|
+|:-----:|:-----:|
+|Setting |Playing |
+
+## License
 See [MIT](/LICENSE)
 
-### 最后
+## 最后
 仅供学习交流使用，禁止个人用于非法用途。
 
 
