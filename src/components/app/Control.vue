@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-center align-center control-buttons">
-    <v-btn icon class="mx-2" :disabled="isCurrentFm" @click="playOrder">
+    <v-btn icon class="mx-2" :disabled="isCurrentFm" @click="toggleShuffle">
       <v-icon small>
-        {{ orderIconState }}
+        {{ shuffle ? icon.mdiShuffle : icon.mdiShuffleDisabled }}
       </v-icon>
     </v-btn>
     <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
@@ -34,7 +34,7 @@
     <v-btn class="mx-2" icon @click="playNext">
       <v-icon small>{{ icon.mdiSkipForward }}</v-icon>
     </v-btn>
-    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playOrder">
+    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="toggleCycle">
       <v-icon small>
         {{ orderIconState }}
       </v-icon>
@@ -52,16 +52,17 @@ import {
   mdiSkipForward,
   mdiPause,
   mdiPlay,
+  mdiShuffle,
+  mdiShuffleDisabled,
 } from '@mdi/js';
 
 import LottieIcon from '@components/default/Lottie.vue';
 import { playToPause as playToPauseAnimationData } from '@util/animationData.json';
 
-const PLAY_MODE = {
-  ORDER: 0,
-  CYCLE: 1,
-  SINGLE_CYCLE: 2,
-  RANDOM: 3,
+const CYCLE_MODE = {
+  DISABLE: 0,
+  SINGLE_CYCLE: 1,
+  CYCLE: 2,
 };
 export default {
   name: 'Control',
@@ -71,6 +72,8 @@ export default {
       icon: {
         mdiSkipBackward,
         mdiSkipForward,
+        mdiShuffle,
+        mdiShuffleDisabled,
       },
       playAnim: null,
       playOptions: {
@@ -83,14 +86,15 @@ export default {
   computed: {
     loadingTrack: get('music/loadingTrack'),
     playing: get('music/playing'),
-    mode: sync('music/mode'),
+    cycle_mode: sync('music/cycle_mode'),
+    shuffle: sync('music/shuffle'),
     isCurrentFm: get('music/isCurrentFm'),
     orderIconState() {
       return {
-        [PLAY_MODE.ORDER]: mdiRepeatOff,
-        [PLAY_MODE.CYCLE]: mdiRepeat,
-        [PLAY_MODE.SINGLE_CYCLE]: mdiRepeatOnce,
-      }[this.mode];
+        [CYCLE_MODE.DISABLE]: mdiRepeatOff,
+        [CYCLE_MODE.CYCLE]: mdiRepeat,
+        [CYCLE_MODE.SINGLE_CYCLE]: mdiRepeatOnce,
+      }[this.cycle_mode];
     },
     playingState() {
       return this.playing ? { icon: mdiPause } : { icon: mdiPlay };
@@ -101,8 +105,17 @@ export default {
       this.playAnim = animation;
       this.playAnim.setSpeed(2);
     },
-    playOrder() {
-      this.mode < 2 ? this.mode++ : (this.mode = 0);
+    toggleShuffle() {
+      this.shuffle = !this.shuffle;
+    },
+    toggleCycle() {
+      if (this.cycle_mode === CYCLE_MODE.DISABLE) {
+        this.cycle_mode = CYCLE_MODE.CYCLE;
+      } else if (this.cycle_mode === CYCLE_MODE.CYCLE) {
+        this.cycle_mode = CYCLE_MODE.SINGLE_CYCLE;
+      } else {
+        this.cycle_mode = CYCLE_MODE.DISABLE;
+      }
     },
     playPause() {
       this.$player.togglePlay();

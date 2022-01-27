@@ -90,7 +90,7 @@
               hide-details
               :max="1"
               min="0"
-              step="0.01"
+              step="0.1"
             />
           </div>
           <v-btn

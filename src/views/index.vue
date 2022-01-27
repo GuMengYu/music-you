@@ -73,7 +73,7 @@ export default {
 }
 .overlay {
   .v-overlay__scrim {
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     background-color: rgb(0, 0, 0, 0.3) !important;
   }
 }

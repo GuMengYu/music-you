@@ -95,12 +95,12 @@ export default {
 }
 .theme--light {
   .play-list-container {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.7);
   }
 }
 .theme--dark {
   .play-list-container {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
   }
 }
 </style>

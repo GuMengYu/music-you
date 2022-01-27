@@ -12,12 +12,12 @@ try {
   console.log('load local data error');
 }
 
-const PLAY_MODE = {
-  ORDER: 0,
-  CYCLE: 1,
-  SINGLE_CYCLE: 2,
-  RANDOM: 3,
+const CYCLE_MODE = {
+  DISABLE: 0,
+  SINGLE_CYCLE: 1,
+  CYCLE: 2,
 };
+
 const state = {
   playing: false,
   track: localData.track ?? {},
@@ -25,7 +25,8 @@ const state = {
   currentTime: +localStorage.getItem('currentTime') ?? 0,
   showList: false,
   showLyricsPage: false,
-  mode: PLAY_MODE.CYCLE,
+  cycle_mode: CYCLE_MODE.CYCLE,
+  shuffle: false,
   loadingTrack: false,
   likes: [],
   playlist: [],
@@ -52,10 +53,7 @@ export default {
       let id = state.track.id;
       const len = state.playingList?.list?.length;
       const { mode, playingList } = state;
-      if (
-        mode === PLAY_MODE.CYCLE ||
-        (mode === PLAY_MODE.ORDER && len - 1 !== index)
-      ) {
+      if (mode === CYCLE_MODE.CYCLE || len - 1 !== index) {
         // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
         id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id;
       }

@@ -42,7 +42,7 @@
         subtitle="videos"
         more="/new_releases/videos/"
       >
-        <carousel grid-style="C">
+        <carousel grid-style="A">
           <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </carousel>
       </custom-col>
