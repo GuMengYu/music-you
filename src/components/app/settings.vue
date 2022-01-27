@@ -121,6 +121,13 @@
         </v-icon>
         add your wallpaper
       </v-btn>
+      <input
+        type="file"
+        style="display: none"
+        ref="input"
+        @change="handleChange"
+        accept="image/png,image/jpeg"
+      />
     </v-card>
   </v-dialog>
 </template>
