@@ -28,6 +28,7 @@ export default {
       simi: 'Similar Artist',
     },
     discover: {
+      common: 'common',
       featured: 'Featured',
       new_releases_album: 'New Release',
       you_liked: 'You Liked',

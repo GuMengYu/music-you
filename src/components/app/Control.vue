@@ -10,11 +10,12 @@
     </v-btn>
 
     <v-btn
-      :key="playingState.icon"
       class="mx-2 play-fab"
+      :class="{ playing }"
       @click="playPause"
       depressed
-      rounded
+      fab
+      small
       color="primary"
       :loading="loadingTrack"
     >
@@ -140,3 +141,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.play-fab {
+  &.playing {
+    animation: pulseWarn 1.5s infinite;
+  }
+}
+</style>

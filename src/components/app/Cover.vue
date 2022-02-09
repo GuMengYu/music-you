@@ -16,7 +16,7 @@
           lazy-src="@assets/default-cover.png"
         />
         <v-fade-transition>
-          <v-overlay :value="hover" absolute>
+          <v-overlay v-if="hover" absolute>
             <v-card-actions class="cover-actions">
               <v-btn
                 color="primary"

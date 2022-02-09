@@ -76,16 +76,11 @@
 
 <script>
 import { mdiDotsHorizontal, mdiPlay } from '@mdi/js';
-import {
-  getAlbum,
-  getArtist,
-  getPlayList,
-  getDailyRecommend,
-} from '@api/index';
+import { getAlbum, getArtist, getPlayList, getDailyRecommend } from '@/api';
 import { dispatch } from 'vuex-pathify';
 import { sizeOfImage } from '@util/fn';
 export default {
-  name: 'ReleaseCard',
+  name: 'LargerCard',
   props: {
     data: {
       type: Object,
@@ -121,7 +116,7 @@ export default {
       let info = {};
       if (this.type === 'daily') {
         const { data = {} } = await getDailyRecommend();
-        info = data;
+        info = data['dailySongs'];
       } else {
         const request = {
           album: getAlbum,

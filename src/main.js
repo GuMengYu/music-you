@@ -10,6 +10,7 @@ import Toast from './components/default/Toast';
 import plugins from './plugins';
 import filters from './filters';
 import '@/scss/global.scss';
+import '@/scss/animation.scss';
 // import '@/mock/index';
 import { mdiClose } from '@mdi/js';
 

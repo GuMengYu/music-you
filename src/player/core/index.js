@@ -211,7 +211,11 @@ export default class Player {
     this.store.commit('music/playing', !this.playing);
   }
   next() {
-    this.updatePlayerTrack(this.nextTrackId());
+    if (this.nextTrackId()) {
+      this.updatePlayerTrack(this.nextTrackId());
+    } else {
+      this.pause();
+    }
   }
   prev() {
     this.updatePlayerTrack(this.prevTrackId());

@@ -28,6 +28,7 @@ export default {
       simi: '相似歌手',
     },
     discover: {
+      common: '常用',
       featured: '精选推荐',
       new_releases_album: '最新专辑',
       you_liked: '你喜欢的-音乐雷达',

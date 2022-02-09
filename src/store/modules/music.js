@@ -49,13 +49,19 @@ export default {
       return state.fmList[0]?.id;
     },
     nextTrackId(state, getters) {
+      const currentId = state.track.id;
       const index = getters['index'];
-      let id = state.track.id;
+      let id = null;
       const len = state.playingList?.list?.length;
-      const { mode, playingList } = state;
-      if (mode === CYCLE_MODE.CYCLE || len - 1 !== index) {
+      const { cycle_mode, playingList } = state;
+      if (cycle_mode === CYCLE_MODE.SINGLE_CYCLE) {
+        id = currentId;
         // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
+      } else if (cycle_mode === CYCLE_MODE.CYCLE || len - 1 !== index) {
         id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id;
+      } else if (cycle_mode === CYCLE_MODE.DISABLE && len - 1 === index) {
+        // 顺序播放最后一首后不在继续播放
+        id = null;
       }
       return id;
     },

@@ -2,19 +2,19 @@
   <div class="discover">
     <discover-skeleton v-if="loading" />
     <template v-if="!loading">
-      <custom-col :title="$t('main.discover.featured')">
-        <carousel grid-style="A" :gap="10">
-          <carousel-item>
-            <f-m />
-          </carousel-item>
+      <custom-col :title="$t('main.discover.common')">
+        <carousel grid-style="A">
           <carousel-item v-if="logged">
             <larger-cover :data="myFav" type="playlist" />
           </carousel-item>
           <carousel-item>
-            <larger-cover :data="radar" type="playlist" />
+            <larger-cover :data="daily" type="daily" />
           </carousel-item>
           <carousel-item>
-            <larger-cover :data="daily" type="daily" />
+            <f-m />
+          </carousel-item>
+          <carousel-item>
+            <larger-cover :data="radar" type="playlist" />
           </carousel-item>
         </carousel>
       </custom-col>
@@ -59,6 +59,7 @@ import Carousel from '@components/layout/Carousel.vue';
 import CarouselItem from '@components/layout/CarouselItem.vue';
 import Cover from '@components/app/Cover.vue';
 export default {
+  name: 'discover',
   components: {
     Cover,
     CarouselItem,
@@ -105,7 +106,7 @@ export default {
     try {
       const { playlist } = await getPlayList(3136952023);
       this.radar = playlist;
-      const [{ result: playlists }, { result: mvs }, { result: songs }] =
+      const [{ result: playlists = [] }, { result: mvs }, { result: songs }] =
         await Promise.all([
           getPersonalized(12),
           getMv(),
