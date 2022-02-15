@@ -16,7 +16,7 @@
     <div class="d-flex align-center no-drag-area header-right">
       <search-toggle />
       <theme-toggle />
-      <default-account />
+      <default-account :class="showWindowControl ? '' : 'mr-2'" />
       <default-title-bar v-if="showWindowControl" />
     </div>
 

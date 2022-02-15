@@ -1,6 +1,11 @@
 <template>
-  <div class="cover-container">
-    <v-hover v-slot="{ hover }">
+  <v-hover v-slot="{ hover }">
+    <v-card
+      class="cover-container pa-3"
+      flat
+      rounded="xl"
+      color="surfaceVariant"
+    >
       <v-card
         flat
         :rounded="rounded"
@@ -16,7 +21,7 @@
           lazy-src="@assets/default-cover.png"
         />
         <v-fade-transition>
-          <v-overlay v-if="hover" absolute>
+          <v-overlay v-if="hover" absolute opacity="0">
             <v-card-actions class="cover-actions">
               <v-btn
                 color="primary"
@@ -37,16 +42,16 @@
           </v-overlay>
         </v-fade-transition>
       </v-card>
-    </v-hover>
-    <router-link v-if="!noInfo" :to="to" class="title">
-      <span class="h-2x mt-2 text-subtitle-2 onBackground--text">{{
-        data.name
-      }}</span>
-    </router-link>
-    <span v-if="!noInfo" class="h-1x text-caption grey--text">
-      {{ subTitle }}
-    </span>
-  </div>
+      <router-link v-if="!noInfo" :to="to" class="title">
+        <span class="h-2x mt-2 text-subtitle-2 onBackground--text">{{
+          data.name
+        }}</span>
+      </router-link>
+      <span v-if="!noInfo" class="h-1x text-caption grey--text">
+        {{ subTitle }}
+      </span>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -198,6 +203,7 @@ export default {
 <style lang="scss" scoped>
 @import 'src/scss/common';
 .cover-container {
+  cursor: pointer;
   .title {
     text-decoration: none;
     &:hover {

@@ -112,7 +112,9 @@
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">播放次数</span>
-            <span class="item-desc h-1x">{{ playlist.playCount }}</span>
+            <span class="item-desc h-1x">{{
+              playlist.playCount | formatNumber
+            }}</span>
           </div>
         </v-card>
         <common-card

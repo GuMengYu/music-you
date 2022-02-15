@@ -8,8 +8,8 @@
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
-        class="d-flex px-0 drag-area mb-4"
-        :class="drawermini ? '' : 'ml-2'"
+        class="d-flex px-0 drag-area drawer-toggle"
+        :class="navClass"
       >
         <drawer-toggle />
       </v-list-item>
@@ -62,7 +62,7 @@ import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
 import NavItem from '@components/default/NavItem.vue';
 import DrawerToggle from '@components/layout/DrawerToggle.vue';
-
+import is from 'electron-is';
 export default {
   name: 'DefaultNavBar',
   components: {
@@ -123,6 +123,13 @@ export default {
         }) ?? []
       );
     },
+    navClass() {
+      return {
+        'mt-4': is.macOS(),
+        'mb-4': !is.macOS(),
+        'ml-2': !this.drawermini,
+      };
+    },
   },
 };
 </script>
@@ -141,8 +148,11 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 50px;
+      height: 40px;
       transition: height 0.3s ease-out;
+    }
+    .drawer-toggle {
+      transition: margin 0.2s ease-out;
     }
   }
   &.v-navigation-drawer--mini-variant {

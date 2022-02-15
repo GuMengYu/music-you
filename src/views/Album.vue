@@ -111,7 +111,7 @@
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">发行公司</span>
-            <span class="item-desc h-1x">© {{ album.company }}</span>
+            <span class="item-desc h-1x">© {{ album['company'] }}</span>
           </div>
         </v-card>
         <common-card
@@ -170,7 +170,7 @@ import {
   mdiAlbum,
   mdiInformation,
 } from '@mdi/js';
-import { getAlbum, getArtistAlbum } from '@api/index';
+import { getAlbum, getArtistAlbum } from '@/api';
 import SongBar from '@components/app/SongBar.vue';
 import Cover from '@components/app/Cover.vue';
 import { dispatch } from 'vuex-pathify';

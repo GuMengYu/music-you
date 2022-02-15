@@ -235,8 +235,8 @@ export default {
 .playing-bar {
   z-index: 7;
   bottom: 0;
-  left: 5px !important;
-  right: 5px !important;
+  left: 8px !important;
+  right: 8px !important;
   .playing-control {
     width: 100%;
     display: flex;
