@@ -1,10 +1,11 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card
-      class="cover-container pa-3"
+      class="cover-container"
+      :class="noInfo ? '' : ' pa-2'"
       flat
       rounded="xl"
-      color="surfaceVariant"
+      :color="coverColor(hover)"
     >
       <v-card
         flat
@@ -42,26 +43,31 @@
           </v-overlay>
         </v-fade-transition>
       </v-card>
-      <router-link v-if="!noInfo" :to="to" class="title">
-        <span class="h-2x mt-2 text-subtitle-2 onBackground--text">{{
-          data.name
-        }}</span>
-      </router-link>
-      <span v-if="!noInfo" class="h-1x text-caption grey--text">
-        {{ subTitle }}
-      </span>
+      <v-card-actions
+        class="d-flex flex-column align-start pa-2"
+        v-if="!noInfo"
+      >
+        <router-link :to="to" class="title">
+          <span class="h-1x mt-2 text-subtitle-2 onSurfaceVariant--text">{{
+            data.name
+          }}</span>
+        </router-link>
+        <span class="h-1x text-caption grey--text">
+          {{ subTitle }}
+        </span>
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
 import { mdiPlay, mdiDotsHorizontal } from '@mdi/js';
-import { getPlayList, getAlbum, getArtist } from '@api/index';
+import { getPlayList, getAlbum, getArtist } from '@/api';
 import { getList } from '@api/music';
 import { sizeOfImage, isElectron } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
 import { download } from '@util/download';
-
+// import { generatePaletteFromURL } from 'theme-generator'
 export default {
   name: 'Cover',
   props: {
@@ -106,7 +112,16 @@ export default {
       loading: false,
       rgb: [],
       rgb2: [],
+      lightColor: 'surfaceVariant',
+      darkColor: 'surfaceVariant',
     };
+  },
+  async created() {
+    // if (this.coverBgUrl && !this.noInfo) {
+    //   const theme = await generatePaletteFromURL(this.coverBgUrl);
+    //   this.lightColor = theme.light.surfaceVariant;
+    //   this.darkColor = theme.dark.surfaceVariant;
+    // }
   },
   computed: {
     subTitle() {
@@ -120,7 +135,7 @@ export default {
       }[this.type];
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 1024);
+      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 512);
     },
     service() {
       return {
@@ -168,8 +183,19 @@ export default {
       return items;
     },
   },
-  created() {},
   methods: {
+    coverColor(hover) {
+      const dark = this.$vuetify.theme.dark;
+      if (hover && dark) {
+        return this.darkColor;
+      } else if (hover && !dark) {
+        return this.lightColor;
+      } else if (!hover && dark) {
+        return 'background';
+      } else if (!hover && !dark) {
+        return 'background';
+      }
+    },
     async play() {
       this.loading = true;
       await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -204,6 +230,7 @@ export default {
 @import 'src/scss/common';
 .cover-container {
   cursor: pointer;
+  transition: background-color 0.3s ease;
   .title {
     text-decoration: none;
     &:hover {

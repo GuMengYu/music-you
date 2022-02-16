@@ -11,18 +11,16 @@
         </v-col>
       </v-row>
     </div>
-    <div v-else class="d-flex mb-2">
+    <div v-else class="d-flex mb-4">
       <Cover
         :data="playlist"
         :no-info="true"
-        type="album"
+        type="playlist"
         :max-width="250"
         :min-width="250"
         class="mr-4"
       />
-      <div
-        class="d-flex flex-column pt-4 px-4 flex-fill surfaceVariant rounded-xl"
-      >
+      <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
         <div class="d-flex justify-space-between mb-2 align-center">
           <span class="d-flex align-center">
             <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
@@ -53,17 +51,50 @@
             {{ playlist.creator.nickname }}
           </span>
         </div>
-        <div class="d-flex align-start" v-if="playlist.description">
+        <div class="d-flex align-start mb-4" v-if="playlist.description">
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
           <p class="text-caption h-3x ml-2">
             {{ playlist.description }}
           </p>
         </div>
-        <div class="d-flex justify-end">
+        <div class="d-flex justify-start">
+          <v-btn
+            depressed
+            small
+            outlined
+            class="ml-6"
+            color="primary"
+            @click="del"
+            rounded
+            :disabled="isDelete"
+            v-if="playlist.creator.userId === profile.userId"
+          >
+            {{ isDelete ? '已删除' : '删除歌单' }}
+          </v-btn>
+          <v-tooltip top color="black" v-else>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                depressed
+                small
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                class="ml-6"
+                :color="subscribed ? 'primary' : ''"
+                @click="sub"
+                rounded
+              >
+                {{ subscribed ? '已收藏' : '收藏' }}
+              </v-btn>
+            </template>
+            <span>{{ subscribed ? '取消收藏' : '收藏歌单' }}</span>
+          </v-tooltip>
+          <v-spacer />
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
+                small
                 color="primary"
                 icon
                 v-bind="attrs"
@@ -77,18 +108,8 @@
             </template>
             <span>转到歌单详细</span>
           </v-tooltip>
-          <v-tooltip top color="black">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn depressed color="pink" icon v-bind="attrs" v-on="on">
-                <v-icon>
-                  {{ icon.mdiHeart }}
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>收藏歌单</span>
-          </v-tooltip>
         </div>
-      </div>
+      </v-card>
     </div>
     <div class="d-flex">
       <div class="mr-4">
@@ -96,7 +117,7 @@
           :width="250"
           :height="108"
           flat
-          color="tertiaryContainer"
+          color="surfaceVariant"
           rounded="xl"
           class="album-info text-caption"
         >
@@ -118,7 +139,7 @@
           </div>
         </v-card>
         <common-card
-          class="mt-2"
+          class="mt-4"
           title="相关歌单推荐"
           rounded="xl"
           :width="250"
@@ -129,7 +150,7 @@
               v-for="playlist in relatedPlaylist"
               :key="playlist.id"
               class="mb-2"
-              @click="gotoAlbum(playlist.id)"
+              @click="gotoPlayList(playlist.id)"
             >
               <v-img
                 :src="playlist.coverImgUrl | sizeOfImage(128)"
@@ -144,17 +165,13 @@
         </common-card>
       </div>
 
-      <common-card
-        class="flex-fill"
-        color="secondaryContainer"
-        title="歌单歌曲"
-      >
+      <common-card class="flex-fill" color="surfaceVariant" title="歌单歌曲">
         <v-virtual-scroll
           height="calc(100vh - 470px)"
           :items="playlist.tracks"
           :item-height="62"
           :bench="5"
-          class="secondaryContainer virtual-scroll-container"
+          class="surfaceVariant virtual-scroll-container"
         >
           <template v-slot:default="{ item: song }">
             <SongBar :song="song" />
@@ -173,14 +190,15 @@ import {
   mdiHeart,
   mdiMapMarkerCircle,
 } from '@mdi/js';
-import { getPlayList, getRelatedPlayList } from '@api/index';
+import { getPlayList, getRelatedPlayList, deletePlayList } from '@api/index';
 import SongBar from '@components/app/SongBar.vue';
 import Cover from '@components/app/Cover.vue';
 import CommonCard from '@components/CommonCard.vue';
 
-import { dispatch } from 'vuex-pathify';
+import { dispatch, get } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
+import { sub } from '@api/music';
 export default {
   name: 'List',
   components: { SongBar, Cover, CommonCard },
@@ -216,6 +234,8 @@ export default {
       },
       loading: true,
       relatedPlaylist: [],
+      subscribed: false,
+      isDelete: false,
     };
   },
   computed: {
@@ -235,6 +255,7 @@ export default {
     tracksDt() {
       return this.playlist?.tracks?.reduce((p, c) => p + c['dt'], 0);
     },
+    profile: get('settings/account@profile'),
   },
   watch: {
     id() {
@@ -254,6 +275,7 @@ export default {
         this.relatedPlaylist = playlists;
       }
       this.playlist = playlist;
+      this.subscribed = playlist.subscribed;
       this.loading = false;
     },
     async play() {
@@ -272,8 +294,29 @@ export default {
         window.open(url, '_blank');
       }
     },
-    gotoAlbum(id) {
+    gotoPlayList(id) {
       this.$router.push(`/playlist/${id}`);
+    },
+    async sub() {
+      const { id } = this.playlist;
+      const { code, message } = await sub(
+        'playlist',
+        id,
+        this.subscribed ? 0 : 1,
+      );
+      if (code === 200) {
+        this.subscribed = !this.subscribed;
+      } else {
+        this.$toast.error(`收藏失败: ${message}`);
+      }
+    },
+    async del() {
+      const { code, message } = await deletePlayList(this.id);
+      if (code === 200) {
+        this.isDelete = true;
+      } else {
+        this.$toast.error(`删除失败: ${message}`);
+      }
     },
   },
 };

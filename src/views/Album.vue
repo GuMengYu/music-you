@@ -20,13 +20,8 @@
         :min-width="250"
         class="mr-4"
       />
-      <v-card
-        flat
-        rounded="xl"
-        color="surfaceVariant"
-        class="d-flex flex-column pt-4 px-4 flex-fill"
-      >
-        <div class="d-flex justify-space-between mb-2 align-center">
+      <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
+        <div class="d-flex justify-space-between mb-4 align-center">
           <span>
             <v-icon small>{{ icon.mdiAlbum }}</v-icon>
             <span class="text-caption ml-2">Album</span>
@@ -60,11 +55,31 @@
             {{ album.description }}
           </p>
         </div>
-        <div class="d-flex justify-end">
+        <div class="d-flex justify-start">
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 depressed
+                small
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                class="ml-6"
+                :color="subscribed ? 'primary' : ''"
+                @click="sub"
+                rounded
+              >
+                {{ subscribed ? '已收藏' : '收藏' }}
+              </v-btn>
+            </template>
+            <span>{{ subscribed ? '取消收藏' : '收藏专辑' }}</span>
+          </v-tooltip>
+          <v-spacer />
+          <v-tooltip top color="black">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                depressed
+                small
                 color="primary"
                 icon
                 v-bind="attrs"
@@ -76,17 +91,7 @@
                 </v-icon>
               </v-btn>
             </template>
-            <span>转到专辑详细</span>
-          </v-tooltip>
-          <v-tooltip top color="black">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn depressed color="pink" icon v-bind="attrs" v-on="on">
-                <v-icon>
-                  {{ icon.mdiHeart }}
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>收藏专辑</span>
+            <span>转到歌单详细</span>
           </v-tooltip>
         </div>
       </v-card>
@@ -125,7 +130,7 @@
             <v-list-item
               v-for="album in relatedAlbum"
               :key="album.id"
-              class="mb-2"
+              class="mb-4"
               @click="gotoAlbum(album.id)"
             >
               <v-img
@@ -141,22 +146,10 @@
         </common-card>
       </div>
 
-      <common-card
-        class="flex-fill"
-        color="secondaryContainer"
-        title="专辑歌曲"
-      >
-        <v-virtual-scroll
-          height="calc(100vh - 470px)"
-          :items="album.tracks"
-          :item-height="62"
-          :bench="5"
-          class="secondaryContainer virtual-scroll-container"
-        >
-          <template v-slot:default="{ item: song }">
-            <SongBar :song="song" />
-          </template>
-        </v-virtual-scroll>
+      <common-card class="flex-fill" color="surfaceVariant" title="专辑歌曲">
+        <v-list dense class="surfaceVariant">
+          <song-bar v-for="al in album.tracks" :song="al" :key="al.id" />
+        </v-list>
       </common-card>
     </div>
   </div>
@@ -170,13 +163,14 @@ import {
   mdiAlbum,
   mdiInformation,
 } from '@mdi/js';
-import { getAlbum, getArtistAlbum } from '@/api';
+import { getAlbum, getArtistAlbum, getAlbumDynamic } from '@/api';
 import SongBar from '@components/app/SongBar.vue';
 import Cover from '@components/app/Cover.vue';
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
 import CommonCard from '@components/CommonCard.vue';
+import { sub } from '@api/music';
 
 export default {
   name: 'Album',
@@ -210,6 +204,7 @@ export default {
       },
       relatedAlbum: [],
       loading: true,
+      subscribed: false,
     };
   },
   computed: {
@@ -243,12 +238,15 @@ export default {
       this.loading = true;
       this.album = {};
       const { album = {}, songs } = await getAlbum(this.id);
+      const { isSub } = await getAlbumDynamic(this.id);
+
       if (album?.artist.id) {
         const { hotAlbums = [] } = await getArtistAlbum(album.artist.id, 6);
         this.relatedAlbum = hotAlbums.filter((i) => i.id !== album.id);
       }
       this.album = album;
       this.album.tracks = songs;
+      this.subscribed = isSub;
       this.loading = false;
     },
     async play() {
@@ -269,6 +267,15 @@ export default {
     },
     gotoAlbum(id) {
       this.$router.push(`/album/${id}`);
+    },
+    async sub() {
+      const { id } = this.album;
+      const { code, message } = await sub('album', id, this.subscribed ? 0 : 1);
+      if (code === 200) {
+        this.subscribed = !this.subscribed;
+      } else {
+        this.$toast.error(`收藏失败: ${message}`);
+      }
     },
   },
 };

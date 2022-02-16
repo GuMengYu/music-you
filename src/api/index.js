@@ -63,6 +63,26 @@ export const getSongUrlFromUnlockMusic = (id) =>
 export const getPlayList = (id) => xhr.get(`/playlist/detail?id=${id}`);
 
 /**
+ * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
+ * @param id
+ */
+export const getPlayListDynamic = (id) =>
+  xhr.get('/playlist/detail/dynamic', {
+    params: {
+      timestamp: now(),
+      id,
+    },
+  });
+
+export const deletePlayList = (id) => {
+  return xhr.get('/playlist/delete', {
+    params: {
+      id,
+      timestamp: now(),
+    },
+  });
+};
+/**
  * 获取相关歌单
  * @param id
  * 传入歌单 id 可获取相关歌单
@@ -88,10 +108,21 @@ export const createPlaylist = (params) =>
 /**
  * 获取专辑详情
  * @param id
- * 根据歌单id返回歌单详细信息
+ * 根据专辑id返回专辑详细信息
  */
 export const getAlbum = (id) => xhr.get('/album', { params: { id } });
 
+/**
+ * 获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
+ * @param id
+ */
+export const getAlbumDynamic = (id) =>
+  xhr.get('/album/detail/dynamic', {
+    params: {
+      timestamp: now(),
+      id,
+    },
+  });
 /**
  * 获取推荐歌单列表
  * 根据歌单id返回歌单详细信息

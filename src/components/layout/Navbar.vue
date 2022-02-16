@@ -3,7 +3,6 @@
     class="nav"
     app
     :mini-variant="drawermini"
-    :width="300"
     color="surface"
   >
     <v-list dense class="system_nav" rounded>
@@ -125,7 +124,7 @@ export default {
     },
     navClass() {
       return {
-        'mt-4': is.macOS(),
+        'pt-4': is.macOS(),
         'mb-4': !is.macOS(),
         'ml-2': !this.drawermini,
       };
