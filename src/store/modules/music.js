@@ -167,5 +167,8 @@ export default {
   },
   mutations: {
     ...make.mutations(state),
+    updateDuration(state, duration) {
+      state.track.dt = duration;
+    },
   },
 };

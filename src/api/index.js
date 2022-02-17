@@ -60,7 +60,13 @@ export const getSongUrlFromUnlockMusic = (id) =>
  * @param id
  * 根据歌单id返回歌单详细信息
  */
-export const getPlayList = (id) => xhr.get(`/playlist/detail?id=${id}`);
+export const getPlayList = (id) =>
+  xhr.get('/playlist/detail', {
+    params: {
+      id,
+      timestamp: now(),
+    },
+  });
 
 /**
  * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数

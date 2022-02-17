@@ -16,22 +16,26 @@ export class PlayerIDB extends Dexie {
   async cacheTrack(track, cacheLimit = 1024) {
     const cacheLimitByte = cacheLimit * Math.pow(1024, 2);
     const { name, id, url } = track;
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer',
-    });
-    this.tracks.put({
-      id,
-      track,
-      buffer: response.data,
-      createTime: new Date().getTime(),
-    });
-    console.log(`cache track ${id} ${name}`);
-    // overflow
-    if (
-      this.size > cacheLimitByte ||
-      this.size + response.data.byteLength > cacheLimitByte
-    ) {
-      this.removeOverflowCache();
+    try {
+      const response = await axios.get(url, {
+        responseType: 'arraybuffer',
+      });
+      this.tracks.put({
+        id,
+        track,
+        buffer: response.data,
+        createTime: new Date().getTime(),
+      });
+      console.log(`cache track ${id} ${name}`);
+      // overflow
+      if (
+        this.size > cacheLimitByte ||
+        this.size + response.data.byteLength > cacheLimitByte
+      ) {
+        this.removeOverflowCache();
+      }
+    } catch (e) {
+      console.error(e);
     }
     return track;
   }

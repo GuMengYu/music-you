@@ -179,6 +179,7 @@ export default class Player {
         const { name, ar = [] } = this.track;
         const artists = ar.map((a) => a.name).join('&');
         document.title = `💿 ${name} - ${artists}`;
+        this.fixDuration();
       },
       onloaderror: (e) => {
         console.log(e);
@@ -189,6 +190,20 @@ export default class Player {
     sound.once('end', this.endCb.bind(this));
     sound.seek(0);
     return sound;
+  }
+  // 修正歌曲时长，当实际获取的音源时长，与网易返回的音源时长相差超过1s, 则修正为实际的音源时长
+  fixDuration() {
+    const factDuration = this.howler.duration() * 1000;
+    const trackDuration = this.track?.dt ?? 0;
+    const offset = factDuration - trackDuration;
+    if (offset > 1000 || offset < -1000) {
+      console.debug(
+        `netease返回的歌曲长度: ${this.track.dt}， 歌曲实际长度: ${
+          this.howler.duration() * 1000
+        }， 偏差大小: ${offset}，修正`,
+      );
+      this.store.commit('music/updateDuration', factDuration);
+    }
   }
   trackLoaded() {
     this.store.commit('music/loadingTrack', false);
