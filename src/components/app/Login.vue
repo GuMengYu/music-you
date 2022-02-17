@@ -232,7 +232,7 @@ export default {
             location.reload();
           }
         }
-      }, 5000);
+      }, 2000);
     },
     login() {
       this.loading = true;
