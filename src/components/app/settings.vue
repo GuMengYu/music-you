@@ -139,7 +139,7 @@ import DefaultSelect from '@components/default/Select.vue';
 import themePalettes from '@/vuetify/theme';
 import { mdiCog, mdiPlus, mdiArrowLeft } from '@mdi/js';
 import { fileToDataURL } from '@util/fn';
-import { generatePaletteFromURL } from 'theme-generator';
+import { generatePaletteFromURL } from 'md3-theme-generator';
 import { playerIDB } from '@/idb/index';
 export default {
   name: 'DefaultSetting',

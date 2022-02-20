@@ -7,7 +7,7 @@
 
 <script>
 import StoreCard from '@components/app/StoreCard';
-import { generatePaletteFromURL } from 'theme-generator';
+import { generatePaletteFromURL } from 'md3-theme-generator';
 export default {
   name: 'Index',
   components: { StoreCard },

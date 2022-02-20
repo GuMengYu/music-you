@@ -67,7 +67,7 @@ import { getList } from '@api/music';
 import { sizeOfImage, isElectron } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
 import { download } from '@util/download';
-// import { generatePaletteFromURL } from 'theme-generator'
+// import { generatePaletteFromURL } from 'md3-theme-generator'
 export default {
   name: 'Cover',
   props: {
