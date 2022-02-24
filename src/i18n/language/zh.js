@@ -79,5 +79,11 @@ export default {
     dynamicBg: '歌词动态背景',
     clear_cache: '清除歌曲缓存',
     lastupdate: '最后更新于 {0} · {1} 首歌',
+    dawning: '凌晨好',
+    morning: '早上好',
+    noon: '中午好',
+    afternoon: '下午好',
+    evening: '晚上好',
+    midnight: '午夜好',
   },
 };

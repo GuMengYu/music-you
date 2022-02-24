@@ -1,5 +1,11 @@
 <template>
-  <v-app-bar app dense :elevation="0" class="app_header surface drag-area">
+  <v-app-bar
+    app
+    dense
+    :elevation="0"
+    class="app_header surface drag-area"
+    src=""
+  >
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
     <!--    <div class="d-flex">-->
     <!--      -->

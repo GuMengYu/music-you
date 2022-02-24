@@ -20,7 +20,7 @@
           max-height="40"
           max-width="40"
           class="rounded"
-          lazy-src="@assets/default-cover.png"
+          lazy-src="@assets/default-cover.svg"
         />
       </v-card>
       <v-list-item-content>

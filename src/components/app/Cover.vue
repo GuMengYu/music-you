@@ -19,14 +19,14 @@
           :src="coverBgUrl"
           aspect-ratio="1"
           class="cover-img"
-          lazy-src="@assets/default-cover.png"
+          lazy-src="@assets/default-cover.svg"
         />
-        <v-fade-transition>
-          <v-overlay v-if="hover" absolute opacity="0">
+        <v-slide-y-reverse-transition>
+          <v-overlay v-if="hover" absolute :opacity="0">
             <v-card-actions class="cover-actions">
               <v-btn
                 color="primary"
-                x-small
+                small
                 fab
                 depressed
                 @click.prevent="play"
@@ -34,27 +34,29 @@
               >
                 <v-icon v-text="icon.mdiPlay" color="onPrimary" />
               </v-btn>
-              <v-btn depressed x-small icon fab @click.prevent="openMenu">
+              <v-btn depressed small icon fab @click.prevent="openMenu">
                 <v-icon>
                   {{ icon.mdiDotsHorizontal }}
                 </v-icon>
               </v-btn>
             </v-card-actions>
           </v-overlay>
-        </v-fade-transition>
+        </v-slide-y-reverse-transition>
       </v-card>
       <v-card-actions
         class="d-flex flex-column align-start pa-2"
         v-if="!noInfo"
       >
         <router-link :to="to" class="title">
-          <span class="h-1x mt-2 text-subtitle-2 onSurfaceVariant--text">{{
-            data.name
-          }}</span>
+          <span
+            class="h-1x mt-2 font-weight-bold text-subtitle-1 onSurfaceVariant--text"
+            >{{ data.name }}</span
+          >
         </router-link>
-        <span class="h-1x text-caption grey--text">
+        <span class="h-1x text-caption grey--text" v-if="subTitle">
           {{ subTitle }}
         </span>
+        <slot />
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -78,11 +80,10 @@ export default {
     data: {
       type: Object,
       default: () => ({
-        id: 3117618863,
-        name: '所以你并没有坚定选择过我.',
-        copywriter: '热门推荐',
-        picUrl:
-          'https://p1.music.126.net/6mnrODz-pMVBq8UReZqfLA==/109951165533152791.jpg',
+        id: '',
+        name: '',
+        copywriter: '',
+        picUrl: '',
       }),
     },
     type: {

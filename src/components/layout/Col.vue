@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="title mb-4">
-      <!--      <div class="text-caption grey&#45;&#45;text text&#45;&#45;lighten-1">-->
-      <!--        {{ subtitle }}-->
-      <!--      </div>-->
+      <div class="text-caption grey--text text--lighten-1" v-if="subtitle">
+        {{ subtitle }}
+      </div>
       <div class="d-flex justify-space-between">
         <div class="text-h6 onSurfaceVariant--text">
           {{ title }}

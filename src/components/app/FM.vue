@@ -1,65 +1,49 @@
 <template>
-  <v-card
-    class="d-flex justify-lg-space-between flex-column rounded-xl fm"
-    rounded="xl"
-    flat
-    color="surfaceVariant"
-  >
-    <v-responsive :aspect-ratio="16 / 9" class="cover-wrapper">
-      <div
-        style="width: 100%; height: 100%"
-        class="d-flex justify-center align-center flex-column"
+  <v-card rounded="xl" color="surfaceVariant" class="d-flex fm-card" flat>
+    <v-img
+      max-height="80"
+      max-width="80"
+      class="card-img"
+      lazy-src="@assets/default-cover.svg"
+      :src="albumCoverImgUrl"
+    />
+    <div class="card-info d-flex align-center justify-space-between flex-fill">
+      <span
+        :title="`${albumName} - ${fmTrack.name}`"
+        class="text-caption font-weight-bold text-decoration-none onSurfaceVariant--text h-2x"
       >
-        <v-progress-circular
-          :rotate="-90"
-          :value="progress"
-          size="108"
-          color="primary lighten-1"
-          class="cover rounded-circle"
-        >
-          <v-img
-            :src="albumCoverImgUrl"
-            class="rounded-circle"
-            max-width="100"
-            max-height="100"
-          />
-        </v-progress-circular>
-        <div class="d-flex flex-column text-center mt-2">
-          <span class="text-caption h-1x">
-            {{ albumName }} - {{ fmTrack.name }}
-          </span>
-        </div>
-      </div>
-    </v-responsive>
-    <v-card-actions
-      class="d-flex align-center justify-center"
-      style="height: 48px"
-    >
-      <v-btn icon @click="trash">
-        <v-icon v-text="icon.mdiThumbDown" small />
-      </v-btn>
-      <v-fab-transition origin="center center">
-        <v-btn
-          :key="playingState.icon"
-          fab
-          elevation="0"
-          @click="play"
-          color="primary"
-          x-small
-        >
-          <v-icon v-text="playingState.icon" color="onPrimary" />
+        {{ albumName }} - {{ fmTrack.name }}
+      </span>
+      <v-card-actions
+        class="d-flex align-center justify-center"
+        style="height: 48px"
+      >
+        <v-btn icon @click="trash">
+          <v-icon v-text="icon.mdiThumbDown" small />
         </v-btn>
-      </v-fab-transition>
-      <v-btn icon @click="next">
-        <v-icon v-text="icon.mdiSkipForward" small />
-      </v-btn>
-    </v-card-actions>
+        <v-fab-transition origin="center center">
+          <v-btn
+            :key="playingState.icon"
+            fab
+            elevation="0"
+            @click="play"
+            color="primary"
+            x-small
+          >
+            <v-icon v-text="playingState.icon" color="onPrimary" />
+          </v-btn>
+        </v-fab-transition>
+        <v-btn icon @click="next">
+          <v-icon v-text="icon.mdiSkipForward" small />
+        </v-btn>
+      </v-card-actions>
+    </div>
   </v-card>
 </template>
 <script>
 import { get, sync, dispatch, commit } from 'vuex-pathify';
 import { mapGetters } from 'vuex';
-import { fmToTrash } from '@api/index';
+import { fmToTrash } from '@/api';
 import { sizeOfImage } from '@util/fn';
 import { mdiThumbDown, mdiPlay, mdiSkipForward, mdiPause } from '@mdi/js';
 
@@ -133,3 +117,16 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.fm-card {
+  height: 80px;
+  .card-info {
+    padding: 0 16px;
+  }
+  .card-img {
+    border-top-left-radius: inherit !important;
+    border-bottom-left-radius: inherit !important;
+    border-top-right-radius: initial !important;
+  }
+}
+</style>

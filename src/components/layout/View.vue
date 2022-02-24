@@ -1,6 +1,9 @@
 <template>
   <v-main>
-    <v-container :class="nogetter ? 'pa-0' : 'pa-8 pt-4'" fluid>
+    <v-container
+      :class="nogetter ? 'pa-0' : 'pa-4 pa-lg-8 pa-xl-8 pt-4 '"
+      fluid
+    >
       <transition name="route-animation">
         <keep-alive v-if="$route.meta.keepAlive">
           <router-view />

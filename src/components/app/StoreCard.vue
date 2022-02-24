@@ -5,7 +5,7 @@
     @mouseleave="cardHovered = false"
   >
     <v-img
-      lazy-src="@assets/default-cover.png"
+      lazy-src="@assets/default-cover.svg"
       class="store-card__background flex-fill"
       :src="presence.cover"
     />

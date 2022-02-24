@@ -53,7 +53,7 @@
             v-if="qrState === QR_STATUS.SCANNED"
           >
             <v-avatar size="100"
-              ><v-img :src="qrHeadImage" lazy-src="@assets/default-cover.png"
+              ><v-img :src="qrHeadImage" lazy-src="@assets/default-cover.svg"
             /></v-avatar>
           </v-progress-circular>
           <v-btn

@@ -5,7 +5,7 @@
         :src="artists.picUrl || artists.cover | sizeOfImage"
         class="artist-image"
         aspect-ratio="1"
-        lazy-src="@assets/default-cover.png"
+        lazy-src="@assets/default-cover.svg"
       />
     </v-avatar>
     <router-link

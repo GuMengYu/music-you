@@ -80,5 +80,11 @@ export default {
     clear_cache: 'Clear Cache',
     cached: 'Already cached {size}, and {length} songs',
     lastupdate: 'last update {0} · {2} songs',
+    dawning: 'Good dawning',
+    morning: 'Good morning',
+    noon: 'Good noon',
+    afternoon: 'Good afternoon',
+    evening: 'Good evening',
+    midnight: 'Good midnight',
   },
 };
