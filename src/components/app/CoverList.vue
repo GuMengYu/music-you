@@ -34,7 +34,7 @@ export default {
       @include --columns(3);
     }
     &[data-grid='B'] {
-      @include --columns(2);
+      @include --columns(3);
     }
   }
   @media (min-width: 960px) and (max-width: 1263px) {
@@ -42,23 +42,32 @@ export default {
       @include --columns(4);
     }
     &[data-grid='B'] {
-      @include --columns(3);
-    }
-  }
-  @media (min-width: 1264px) and (max-width: 1939px) {
-    &[data-grid='A'] {
-      @include --columns(5);
-    }
-    &[data-grid='B'] {
       @include --columns(4);
     }
   }
-  @media screen and (min-width: 1940px) {
+  @media (min-width: 1264px) and (max-width: 1510px) {
     &[data-grid='A'] {
-      @include --columns(6);
+      @include --columns(5);
     }
     &[data-grid='B'] {
       @include --columns(5);
+    }
+  }
+  // lg
+  @media (min-width: 1511px) and (max-width: 1710px) {
+    [data-grid='A'] & {
+      @include --columns(6);
+    }
+    [data-grid='B'] & {
+      @include --columns(6);
+    }
+  }
+  @media screen and (min-width: 1711px) {
+    &[data-grid='A'] {
+      @include --columns(7);
+    }
+    &[data-grid='B'] {
+      @include --columns(6);
     }
   }
   ::v-deep .cover-container {

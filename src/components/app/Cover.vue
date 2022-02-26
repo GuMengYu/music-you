@@ -49,7 +49,7 @@
       >
         <router-link :to="to" class="title">
           <span
-            class="h-1x mt-2 font-weight-bold text-subtitle-1 onSurfaceVariant--text"
+            class="h-2x mt-2 font-weight-bold text-subtitle-2 onSurfaceVariant--text"
             >{{ data.name }}</span
           >
         </router-link>

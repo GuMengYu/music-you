@@ -1,15 +1,14 @@
 <template>
   <div class="list">
-    <div v-if="loading" class="skeleton">
-      <v-row>
-        <v-col cols="4">
-          <v-skeleton-loader type="image" />
-        </v-col>
-        <v-col cols="8">
-          <v-skeleton-loader boilerplate type="article" />
-          <v-skeleton-loader type="actions" />
-        </v-col>
-      </v-row>
+    <div v-if="loading" class="skeleton d-flex" style="gap: 20px">
+      <v-skeleton-loader
+        type="image"
+        style="width: 250px; height: 250px"
+        boilerplate
+      />
+      <div class="flex-fill">
+        <v-skeleton-loader boilerplate type="article" />
+      </div>
     </div>
     <div v-else class="d-flex mb-4">
       <Cover
@@ -36,12 +35,18 @@
         <div class="d-flex justify-space-between mb-4 align-center">
           <span class="d-flex align-center">
             <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
-            <span class="text-h5 ml-2 h-1x">
+            <span class="text-h5 mx-2 h-1x">
               {{ playlist.name }}
             </span>
           </span>
-          <v-btn depressed rounded @click="play" color="primary" small>
-            <v-icon v-text="icon.mdiPlay" class="mr-2" small />
+          <v-btn
+            depressed
+            rounded
+            @click="play"
+            color="primary"
+            class="onPrimary--text"
+          >
+            <v-icon v-text="icon.mdiPlay" class="mr-2" />
             播放
           </v-btn>
         </div>
@@ -232,7 +237,7 @@ export default {
         coverImgUrl: '',
         name: '',
       },
-      loading: true,
+      loading: false,
       relatedPlaylist: [],
       subscribed: false,
       isDelete: false,

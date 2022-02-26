@@ -50,6 +50,23 @@ export default {
         title: categories[k],
         value: v,
       }));
+      this.items.unshift({
+        title: '推荐',
+        value: [
+          {
+            color: this.colors[random(0, this.colors.length)],
+            name: '官方',
+          },
+          {
+            color: this.colors[random(0, this.colors.length)],
+            name: '精品',
+          },
+          {
+            color: this.colors[random(0, this.colors.length)],
+            name: '推荐',
+          },
+        ],
+      });
     },
   },
 };

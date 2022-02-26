@@ -26,9 +26,7 @@
         <v-fade-transition>
           <div class="action ml-2" v-show="hover">
             <v-btn fab small color="primary" @click="play">
-              <v-icon>
-                {{ mdiPlay }}
-              </v-icon>
+              <v-icon v-text="mdiPlay" color="onPrimary" />
             </v-btn>
           </div>
         </v-fade-transition>

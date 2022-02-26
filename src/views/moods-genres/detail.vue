@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h2 class="text-md-h5 text-sm-body-1">
+  <div class="playlist-container">
+    <span class="text-h5 font-weight-bold">
       {{ type }}
-    </h2>
+    </span>
     <custom-col :title="$t('main.featured')">
       <cover-list type="playlist">
         <cover
-          v-for="item in playlists.slice(0, 3)"
+          v-for="item in playlists.slice(0, 4)"
           :key="item.id"
           :data="item"
           type="playlist"
@@ -16,7 +16,7 @@
     <custom-col title="播放列表">
       <cover-list type="playlist">
         <cover
-          v-for="item in playlists.slice(3)"
+          v-for="item in playlists.slice(4)"
           :key="item.id"
           :data="item"
           type="playlist"
@@ -27,7 +27,11 @@
 </template>
 
 <script>
-import { getTopPlaylist } from '@api/index';
+import {
+  getPersonalized,
+  getTopPlaylist,
+  getTopPlaylistHighQuality,
+} from '@/api';
 import CustomCol from '@components/layout/Col.vue';
 import CoverList from '@components/app/CoverList.vue';
 import Cover from '@components/app/Cover.vue';
@@ -55,13 +59,26 @@ export default {
   methods: {
     async fetch() {
       this.loading = true;
-      const condition = { cat: this.type, offset: 0, limit: 20 };
-      const { playlists } = await getTopPlaylist(condition);
-      this.playlists = playlists;
+      if (this.type === '推荐') {
+        const { result: playlists = [] } = await getPersonalized();
+        this.playlists = playlists;
+      } else if (this.type === '精品') {
+        const { playlists } = await getTopPlaylistHighQuality();
+        this.playlists = playlists;
+      } else {
+        const condition = { cat: this.type, offset: 0 };
+        const { playlists } = await getTopPlaylist(condition);
+        this.playlists = playlists;
+      }
       this.loading = false;
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.playlist-container {
+  display: grid;
+  grid-gap: 24px;
+}
+</style>

@@ -97,13 +97,17 @@ export default {
       const [{ sub }, { albums }, { data: mvs }, { list: topList }] =
         await Promise.all([
           getCatList(),
-          newAlbums({ limit: 6 }),
-          getNewMv({ limit: 4 }),
+          newAlbums({ limit: 7 }),
+          getNewMv({ limit: 5 }),
           getTopList(),
         ]);
-      this.tags = sub.slice(0, 18).map((i) => {
+      this.tags = sub.slice(0, 20).map((i) => {
         i.color = this.colors[random(0, this.colors.length)];
         return i;
+      });
+      this.tags.unshift({
+        color: this.colors[random(0, this.colors.length)],
+        name: '官方',
       });
       this.newRelease = albums;
       this.mvs = mvs;
