@@ -38,6 +38,7 @@ export default {
     },
     featured: 'Featured',
     for_you: 'Made for You',
+    radar: 'Radar Playlist',
     recommend_video: 'Recommend Music Video',
     new_releases_album: 'New Album & EP',
     moods_genres: 'Moods & Genres',

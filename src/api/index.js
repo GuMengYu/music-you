@@ -150,6 +150,10 @@ export const getTopPlaylist = (
   params = { limit: 20, cat: '全部', offset: 0 },
 ) => xhr.get('/top/playlist', { params });
 
+export const getTopPlaylistHighQuality = (
+  params = { limit: 20, cat: '全部' },
+) => xhr.get('/top/playlist/highquality', { params });
+
 /**
  * 推荐歌曲
  */

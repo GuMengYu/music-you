@@ -15,6 +15,16 @@
           />
         </carousel>
       </custom-col>
+      <custom-col :title="$t('main.radar')">
+        <carousel>
+          <cover
+            v-for="list in radarPlayLists"
+            :key="list.id"
+            :data="list"
+            type="playlist"
+          />
+        </carousel>
+      </custom-col>
       <custom-col :title="$t('main.discover.recommend_songs')">
         <carousel>
           <cover v-for="song in songs" :key="song.id" :data="song.album">
@@ -31,7 +41,8 @@
   </div>
 </template>
 <script>
-import { getPersonalized, getMv, getNewRelease } from '@/api';
+import { getMv, getNewRelease, getPersonalized, getPlayList } from '@/api';
+import { RADARPLAYLISTS } from '@util/metadata';
 import NProgress from 'nprogress';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col.vue';
@@ -56,6 +67,7 @@ export default {
   },
   data() {
     return {
+      radarPlayLists: [],
       playLists: [],
       mvs: [],
       songs: [],
@@ -90,15 +102,21 @@ export default {
     NProgress.start();
     this.loading = true;
     try {
-      const [{ result: playlists = [] }, { result: mvs }, { result: songs }] =
-        await Promise.all([
-          getPersonalized(7),
-          getMv(),
-          getNewRelease({ limit: 7 }),
-        ]);
+      const [
+        { result: playlists = [] },
+        { result: mvs },
+        { result: songs },
+        radars,
+      ] = await Promise.all([
+        getPersonalized(7),
+        getMv(),
+        getNewRelease({ limit: 7 }),
+        this.getRadarList(),
+      ]);
       this.playLists = playlists;
       this.mvs = mvs;
       this.songs = songs.map((i) => i?.song);
+      this.radarPlayLists = radars;
     } catch (e) {
       console.log(e);
     } finally {
@@ -107,7 +125,13 @@ export default {
     }
   },
   methods: {
-    handleDailyPlayed() {},
+    async getRadarList() {
+      const list = RADARPLAYLISTS.map((playlist) => {
+        return getPlayList(playlist.id);
+      });
+      const result = await Promise.all(list);
+      return result.map((i) => i.playlist);
+    },
   },
 };
 </script>

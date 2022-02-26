@@ -41,6 +41,32 @@ export const specialType = {
   },
 };
 
+export const RADARPLAYLISTS = [
+  {
+    id: 5320167908,
+    name: '时光雷达',
+  },
+  {
+    id: 5362359247,
+    name: '宝藏雷达',
+  },
+  {
+    id: 5300458264,
+    name: '新歌雷达',
+  },
+  {
+    id: 5341776086,
+    name: '神秘雷达',
+  },
+  {
+    id: 5327906368,
+    name: '乐迷雷达',
+  },
+  {
+    id: 6700242542,
+    name: '雷击顿唱片行',
+  },
+];
 export function getColorTable() {
   const o = {};
   Object.entries(Colors).map(([k, v]) => {

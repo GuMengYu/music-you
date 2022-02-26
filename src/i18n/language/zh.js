@@ -38,6 +38,7 @@ export default {
     },
     featured: '精选',
     for_you: '专属定制',
+    radar: '雷达歌单',
     recommend_video: '推荐的音乐视频',
     new_releases_album: '新专辑和单曲',
     moods_genres: '心情和流派',
