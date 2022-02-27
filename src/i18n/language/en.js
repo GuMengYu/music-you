@@ -9,7 +9,7 @@ export default {
       fm: 'Private FM',
       daily: 'Daily Recommend',
       stars: 'My Collection',
-      disk: 'My Cloud Disk',
+      disk: 'Cloud Music',
       radio: 'My Radio',
       created_list: 'PLAYLIST',
       start_list: 'FAVORITE',

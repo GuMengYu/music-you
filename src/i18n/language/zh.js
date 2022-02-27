@@ -9,7 +9,7 @@ export default {
       fm: '私人FM',
       daily: '日推',
       stars: '我的收藏',
-      disk: '我的云盘',
+      disk: '音乐云盘',
       radio: '我的电台',
       created_list: '创建的歌单',
       start_list: '收藏的歌单',

@@ -56,6 +56,7 @@ import {
   mdiLibrary,
   mdiMusicNoteHalfDotted,
   mdiPlaylistMusicOutline,
+  mdiHarddisk,
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
@@ -68,7 +69,7 @@ export default {
     NavItem,
     DrawerToggle,
   },
-  data: function () {
+  data() {
     const _t = (key) => this.$i18n.t(`main.nav.${key}`);
     return {
       defaultNav1: [
@@ -98,7 +99,12 @@ export default {
           title: _t('stars'),
           to: '/library',
         },
-        // { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
+        {
+          icon: mdiHarddisk,
+          val: 'cloud_disk',
+          title: _t('disk'),
+          to: '/cloud_disk',
+        },
         // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       // defaultNav3: [],

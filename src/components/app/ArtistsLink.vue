@@ -6,7 +6,8 @@
       :to="`/artist/${artist.id}`"
       class="text-decoration-none onSurfaceVariant--text"
     >
-      {{ artist.name }} {{ idx !== artists.length ? ', ' : '' }}
+      {{ artist.name || 'Nameless' }}
+      {{ idx !== artists.length - 1 ? ', ' : '' }}
     </router-link>
   </span>
 </template>
