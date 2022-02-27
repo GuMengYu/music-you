@@ -70,25 +70,30 @@ export default {
 }
 .quick-list {
   display: grid;
-  column-gap: 16px;
-  row-gap: 12px;
+  column-gap: 24px;
+  row-gap: 16px;
   grid-template-columns: repeat(3, 1fr);
-  @media (max-width: 599px) {
+  @media (max-width: 600px) {
     &[data-grid='A'] {
       @include --columns(1);
     }
   }
-  @media (min-width: 600px) and (max-width: 1263px) {
+  @media (min-width: 601px) and (max-width: 960px) {
     &[data-grid='A'] {
       @include --columns(2);
     }
   }
-  @media (min-width: 1264px) and (max-width: 1939px) {
+  @media (min-width: 961px) and (max-width: 1264px) {
+    &[data-grid='A'] {
+      @include --columns(2);
+    }
+  }
+  @media (min-width: 1265px) and (max-width: 1904px) {
     &[data-grid='A'] {
       @include --columns(3);
     }
   }
-  @media screen and (min-width: 1940px) {
+  @media screen and (min-width: 1905px) {
     &[data-grid='A'] {
       @include --columns(4);
     }

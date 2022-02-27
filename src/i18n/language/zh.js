@@ -57,6 +57,8 @@ export default {
     my_fav: '我喜欢的音乐',
   },
   common: {
+    forward: '前进',
+    backward: '后退',
     sign_in: '登入',
     sign_out: '登出',
     personal: '个人中心',

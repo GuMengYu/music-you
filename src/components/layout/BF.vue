@@ -8,7 +8,7 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>前进</span>
+      <span>{{ $t('common.backward') }}</span>
     </v-tooltip>
     <v-tooltip bottom color="black" :open-delay="800">
       <template v-slot:activator="{ on, attrs }">
@@ -18,7 +18,7 @@
           </v-icon>
         </v-btn>
       </template>
-      <span>后退</span>
+      <span>{{ $t('common.forward') }}</span>
     </v-tooltip>
   </div>
 </template>

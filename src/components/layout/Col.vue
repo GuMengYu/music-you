@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <div class="title mb-4">
       <div class="text-caption grey--text text--lighten-1" v-if="subtitle">
         {{ subtitle }}
@@ -14,7 +14,7 @@
       </div>
     </div>
     <slot />
-  </div>
+  </section>
 </template>
 
 <script>

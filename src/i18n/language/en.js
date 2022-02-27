@@ -57,6 +57,8 @@ export default {
     my_fav: 'My Favorite',
   },
   common: {
+    forward: 'Forward',
+    backward: 'Backward',
     sign_in: 'Sign In',
     sign_out: 'Sign Out',
     personal: 'Personal',

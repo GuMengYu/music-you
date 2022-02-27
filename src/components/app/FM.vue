@@ -1,8 +1,14 @@
 <template>
-  <v-card rounded="xl" color="surfaceVariant" class="d-flex fm-card" flat>
+  <v-card
+    rounded="xl"
+    color="surfaceVariant"
+    class="d-flex fm-card"
+    flat
+    :height="height"
+  >
     <v-img
-      max-height="80"
-      max-width="80"
+      :max-height="height"
+      :max-width="height"
       class="card-img"
       lazy-src="@assets/default-cover.svg"
       :src="albumCoverImgUrl"
@@ -88,6 +94,19 @@ export default {
     ...mapGetters({
       nextFmTrackId: 'music/nextFmTrackId',
     }),
+    height() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+          return 64;
+        case 'lg':
+        case 'xl':
+          return 80;
+        default:
+          return 64;
+      }
+    },
   },
   created() {
     this.fetch();
