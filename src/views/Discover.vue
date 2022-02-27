@@ -137,8 +137,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .discover {
-  display: grid;
-  grid-gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   .artist-list {
     grid-template-columns: repeat(6, 1fr);
   }
