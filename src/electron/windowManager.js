@@ -4,10 +4,10 @@ import { BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 
 const defaultOptions = {
-  width: 1224,
-  height: 768,
-  minWidth: 900,
-  minHeight: 560,
+  width: 1300,
+  height: 850,
+  minWidth: 800,
+  minHeight: 610,
   titleBarStyle: 'hiddenInset',
   frame: !(is.windows() || is.linux()),
 };
@@ -37,9 +37,7 @@ export default class WindowManager extends EventEmitter {
           nodeIntegrationInWorker: true,
           contextIsolation: false, // https://www.electronjs.org/zh/docs/latest/breaking-changes#%E9%BB%98%E8%AE%A4%E6%9B%B4%E6%94%B9-contextisolation-%E9%BB%98%E8%AE%A4%E4%B8%BA-true
         },
-        hasShadow: !is.macOS(),
         bindCloseToHide: true,
-        transparent: !is.windows(),
       });
       await this.loadURL();
 
