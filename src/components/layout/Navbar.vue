@@ -147,18 +147,10 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 40px;
       transition: height 0.3s ease-out;
     }
     .drawer-toggle {
       transition: margin 0.2s ease-out;
-    }
-  }
-  &.v-navigation-drawer--mini-variant {
-    .system_nav {
-      .drawer-item {
-        height: 40px;
-      }
     }
   }
 }
