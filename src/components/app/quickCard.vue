@@ -7,6 +7,7 @@
       flat
       :height="height"
       :to="to"
+      :elevation="hover ? 1 : 0"
     >
       <v-img
         :max-height="height"
@@ -108,11 +109,6 @@ export default {
       const track = await this.$player.updatePlayList(info);
       await this.$player.updatePlayerTrack(track?.id);
       this.loading = false;
-    },
-  },
-  watch: {
-    '$vuetify.breakpoint.name'(val) {
-      console.log(val);
     },
   },
 };

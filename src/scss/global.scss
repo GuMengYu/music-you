@@ -53,3 +53,9 @@ button:focus .lottie-icon path,
 button:hover .lottie-icon path {
   fill: currentColor;
 }
+
+// override dialog border style
+.v-dialog {
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--v-surfaceVariant-base) !important;
+}

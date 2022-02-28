@@ -1,14 +1,16 @@
 <template>
   <v-dialog
+    transition="slide-y-transition"
     v-model="showSearch"
     scrollable
-    width="50vw"
+    :width="width"
     content-class="search-container"
     @click:outside="showSearch = false"
   >
-    <v-card height="70vh" color="surface">
-      <div class="ma-4 mb-2">
+    <v-card color="surface">
+      <div class="px-4 my-2">
         <default-input
+          ref="searchInput"
           dense
           v-model="keywords"
           :holder="$t('common.search_type_2')"
@@ -16,106 +18,82 @@
           @enter="search"
           clearable
           :loading="loading"
+          color="surfaceVariant"
         >
         </default-input>
       </div>
-      <v-chip-group v-model="filter" class="d-flex px-8">
+      <v-divider />
+      <v-chip-group v-model="filter" class="d-flex px-4">
         <v-chip
-          value="song"
+          v-for="chip in filterChips"
+          :key="chip.value"
+          :value="chip.value"
           class="rounded-lg mr-2"
-          color="red"
+          :color="chip.color"
           outlined
           small
           filter
         >
-          <v-icon left small> {{ mdiMusicClefTreble }} </v-icon>歌曲
-        </v-chip>
-        <v-chip
-          value="album"
-          small
-          class="rounded-lg mr-2"
-          color="secondary"
-          outlined
-          filter
-        >
-          <v-icon left small> {{ mdiAlbum }} </v-icon>专辑
-        </v-chip>
-        <v-chip
-          value="playlist"
-          small
-          class="rounded-lg mr-2"
-          color="accent"
-          outlined
-          filter
-        >
-          <v-icon left small> {{ mdiPlaylistMusicOutline }} </v-icon>歌单
-        </v-chip>
-        <v-chip
-          value="artist"
-          small
-          class="rounded-lg mr-2"
-          color="tertiary"
-          outlined
-          filter
-        >
-          <v-icon left small> {{ mdiAccountMusic }} </v-icon>歌手
-        </v-chip>
-        <v-chip
-          value="mv"
-          small
-          class="rounded-lg mr-2"
-          color="info"
-          outlined
-          filter
-        >
-          <v-icon left small> {{ mdiVideo }} </v-icon>视频
+          <v-icon left small> {{ chip.icon }} </v-icon> {{ chip.name }}
         </v-chip>
       </v-chip-group>
-      <v-list
-        class="content mx-4 surface"
-        style="height: 70vh; overflow-y: auto"
-      >
-        <div v-show="songs.length && (!filter || filter === 'song')">
-          <v-subheader>歌曲</v-subheader>
-          <song-bar
-            v-for="song in songs"
-            :key="song.id"
-            :song="song"
-            class="track-item"
-          />
-        </div>
-        <div v-show="artists.length && (!filter || filter === 'artist')">
-          <v-subheader>歌手</v-subheader>
+      <v-divider />
+      <div class="content">
+        <v-list
+          dense
+          class="surface pt-0"
+          v-show="songs.length && (!filter || filter === 'song')"
+        >
+          <v-subheader class="font-weight-bold pl-4">歌曲</v-subheader>
+          <song-bar v-for="song in songs" :key="song.id" :song="song" />
+        </v-list>
+        <v-list
+          dense
+          class="surface pt-0"
+          v-show="artists.length && (!filter || filter === 'artist')"
+        >
+          <v-divider />
+          <v-subheader class="font-weight-bold pl-4">歌手</v-subheader>
           <v-list-item
             v-for="artist in artists"
             :key="artist.id"
             @click="goto('artist', artist.id)"
           >
-            <v-list-item-avatar>
+            <v-list-item-avatar size="30">
               <v-img :src="artist.picUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               {{ artist.name }}
             </v-list-item-content>
           </v-list-item>
-        </div>
-        <div v-show="albums.length && (!filter || filter === 'album')">
-          <v-subheader>专辑</v-subheader>
+        </v-list>
+        <v-list
+          dense
+          class="surface pt-0"
+          v-show="albums.length && (!filter || filter === 'album')"
+        >
+          <v-divider />
+          <v-subheader class="font-weight-bold pl-4">专辑</v-subheader>
           <v-list-item
             v-for="album in albums"
             :key="album.id"
             @click="goto('album', album.id)"
           >
-            <v-list-item-avatar>
+            <v-list-item-avatar height="30">
               <v-img :src="album.picUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               {{ album.name }}
             </v-list-item-content>
           </v-list-item>
-        </div>
-        <div v-show="playlists.length && (!filter || filter === 'playlist')">
-          <v-subheader>歌单</v-subheader>
+        </v-list>
+        <v-list
+          dense
+          class="surface pt-0"
+          v-show="playlists.length && (!filter || filter === 'playlist')"
+        >
+          <v-divider />
+          <v-subheader class="font-weight-bold pl-4">歌单</v-subheader>
           <v-list-item
             v-for="playlist in playlists"
             :key="playlist.id"
@@ -123,34 +101,41 @@
             @click="goto('playlist', playlist.id)"
           >
             <v-img
-              :src="playlist.coverImgUrl | sizeOfImage(128)"
-              width="48"
+              :src="playlist.coverImgUrl | sizeOfImage(64)"
+              width="30"
               class="rounded-lg mr-2"
             />
             <v-list-item-title class="text-caption">
               {{ playlist.name }}
             </v-list-item-title>
           </v-list-item>
-        </div>
-        <div v-show="mvs.length && (!filter || filter === 'mv')">
-          <v-subheader>MV</v-subheader>
-          <v-list-item
-            v-for="mv in mvs"
-            :key="mv.id"
-            class="mb-2"
-            @click="goto('video', mv.id)"
-          >
-            <v-img
-              :src="mv.cover | sizeOfImage(128)"
-              width="48"
-              class="rounded-lg mr-2"
-            />
-            <v-list-item-title class="text-caption">
-              {{ mv.name }}
-            </v-list-item-title>
-          </v-list-item>
-        </div>
-      </v-list>
+        </v-list>
+        <v-list
+          dense
+          class="surface pt-0"
+          v-show="mvs.length && (!filter || filter === 'mv')"
+        >
+          <v-divider />
+          <v-subheader class="font-weight-bold pl-4">视频</v-subheader>
+          <v-list>
+            <v-list-item
+              v-for="mv in mvs"
+              :key="mv.id"
+              class="mb-2"
+              @click="goto('video', mv.id)"
+            >
+              <v-img
+                :src="mv.cover | sizeOfImage(128)"
+                width="30"
+                class="rounded-lg mr-2"
+              />
+              <v-list-item-title class="text-caption">
+                {{ mv.name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-list>
+      </div>
     </v-card>
   </v-dialog>
 </template>
@@ -175,6 +160,39 @@ const TYPEMAP = {
   playlist: { type: 1000, limit: 3, filter_limit: 10 },
   mv: { type: 1004, limit: 3, filter_limit: 6 },
 };
+
+const filterChips = [
+  {
+    value: 'song',
+    color: 'primary',
+    name: '歌曲',
+    icon: mdiMusicClefTreble,
+  },
+  {
+    value: 'album',
+    color: 'secondary',
+    name: '专辑',
+    icon: mdiAlbum,
+  },
+  {
+    value: 'playlist',
+    color: 'accent',
+    name: '歌单',
+    icon: mdiPlaylistMusicOutline,
+  },
+  {
+    value: 'artist',
+    color: 'error',
+    name: '歌手',
+    icon: mdiAccountMusic,
+  },
+  {
+    value: 'mv',
+    color: 'info',
+    name: '视频',
+    icon: mdiVideo,
+  },
+];
 export default {
   name: 'Search',
   components: {
@@ -185,6 +203,7 @@ export default {
     open: Boolean,
   },
   data: () => ({
+    filterChips,
     keywords: '',
     filter: '',
     loading: false,
@@ -202,6 +221,19 @@ export default {
   }),
   computed: {
     showSearch: sync('app/showSearch'),
+    width() {
+      return {
+        xs: 360,
+        sm: 480,
+        md: 512,
+        lg: 640,
+        xl: 720,
+      }[this.$vuetify.breakpoint.name];
+    },
+  },
+  mounted() {
+    console.log(this.$refs.searchInput?.$refs?.search.$refs.input);
+    this.$refs.searchInput?.$refs?.search.$refs.input.focus();
   },
   watch: {
     filter() {
@@ -265,8 +297,15 @@ export default {
 .v-dialog__content {
   margin-top: 10vh;
   align-items: start;
-  .search-container {
+  ::v-deep .search-container {
     border-radius: 0.5rem;
+    border: 1px solid var(--v-surfaceVariant-base);
+    .content {
+      min-height: 200px;
+      max-height: 60vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
   }
 }
 </style>

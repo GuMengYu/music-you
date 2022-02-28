@@ -59,6 +59,7 @@ export default {
   common: {
     forward: '前进',
     backward: '后退',
+    open_search: '打开搜索',
     sign_in: '登入',
     sign_out: '登出',
     personal: '个人中心',
@@ -83,10 +84,10 @@ export default {
     clear_cache: '清除歌曲缓存',
     lastupdate: '最后更新于 {0} · {1} 首歌',
     dawning: '凌晨好',
-    morning: '早上好',
+    morning: '早安',
     noon: '中午好',
     afternoon: '下午好',
-    evening: '晚上好',
+    evening: '晚安',
     midnight: '午夜好',
   },
 };

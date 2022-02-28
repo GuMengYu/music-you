@@ -2,10 +2,10 @@
   <v-hover v-slot="{ hover }">
     <v-card
       class="cover-container"
-      :class="noInfo ? '' : ' pa-2'"
       flat
       rounded="xl"
       :color="coverColor(hover)"
+      :elevation="hover ? 1 : 0"
     >
       <v-card
         flat
@@ -43,21 +43,21 @@
           </v-overlay>
         </v-slide-y-reverse-transition>
       </v-card>
-      <v-card-actions
-        class="d-flex flex-column align-start pa-2"
-        v-if="!noInfo"
-      >
+      <v-card-title class="px-3">
         <router-link :to="to" class="title">
           <span
-            class="h-2x mt-2 font-weight-bold text-subtitle-2 onSurfaceVariant--text"
+            :class="`h-${titleLine}x`"
+            class="text-subtitle-1 font-weight-bold onSurfaceVariant--text"
             >{{ data.name }}</span
           >
         </router-link>
-        <span class="h-1x text-caption grey--text" v-if="subTitle">
+      </v-card-title>
+      <v-card-subtitle class="px-3">
+        <span class="h-1x text-subtitle-2" v-if="subTitle">
           {{ subTitle }}
         </span>
-        <slot />
-      </v-card-actions>
+      </v-card-subtitle>
+      <slot />
     </v-card>
   </v-hover>
 </template>
@@ -74,7 +74,7 @@ export default {
   name: 'Cover',
   props: {
     rounded: {
-      type: String,
+      type: [String, Boolean],
       default: 'xl',
     },
     data: {
@@ -102,6 +102,10 @@ export default {
     extra: {
       type: String,
       default: null,
+    },
+    titleLine: {
+      type: Number,
+      default: 1,
     },
   },
   data() {
@@ -192,9 +196,9 @@ export default {
       } else if (hover && !dark) {
         return this.lightColor;
       } else if (!hover && dark) {
-        return 'background';
+        return 'surfaceVariant';
       } else if (!hover && !dark) {
-        return 'background';
+        return 'surfaceVariant';
       }
     },
     async play() {

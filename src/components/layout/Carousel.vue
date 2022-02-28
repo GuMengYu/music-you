@@ -30,7 +30,7 @@
       <div class="shelf-grid-body">
         <ul
           ref="coverCardList"
-          class="shelf-grid__list pl-0"
+          class="shelf-grid__list px-0 py-1"
           :style="`--grid-rows: ${rows}; --grid-column-gap: ${gap}px;`"
           v-scroll.self="onScroll"
         >
@@ -236,8 +236,7 @@ export default {
   .shelf-grid__list {
     display: grid;
     grid-auto-flow: column;
-    overflow: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap;
     &::-webkit-scrollbar {
       height: 0;

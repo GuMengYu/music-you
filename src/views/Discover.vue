@@ -5,7 +5,7 @@
       <custom-col :title="welcome">
         <quick-list />
       </custom-col>
-      <custom-col :title="$t('main.for_you')">
+      <custom-col :title="$tc('main.for_you')">
         <carousel>
           <cover
             v-for="list in playLists"
@@ -15,24 +15,25 @@
           />
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.radar')">
+      <custom-col :title="$tc('main.radar')">
         <carousel>
           <cover
             v-for="list in radarPlayLists"
             :key="list.id"
             :data="list"
             type="playlist"
+            :title-line="2"
           />
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.discover.recommend_songs')">
+      <custom-col :title="$tc('main.discover.recommend_songs')">
         <carousel>
           <cover v-for="song in songs" :key="song.id" :data="song.album">
             <artists-link :artists="song.artists" />
           </cover>
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.recommend_video')">
+      <custom-col :title="$tc('main.recommend_video')">
         <carousel grid-style="A">
           <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </carousel>
@@ -55,7 +56,7 @@ import QuickList from '@components/app/quickList';
 import ArtistsLink from '@components/app/ArtistsLink';
 
 export default {
-  name: 'discover',
+  name: 'Discover',
   components: {
     ArtistsLink,
     Cover,
