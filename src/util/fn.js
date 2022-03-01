@@ -181,9 +181,11 @@ export function formatDuring(t, i18n = false) {
 }
 export const formatNumber = (number) => {
   if (inRange(number, 1000, 1000000)) {
-    return `${~~(number / 1000)}K`;
+    return `${(number / 1000).toFixed(2)} K`;
   } else if (inRange(number, 1000001, 1000000000)) {
-    return `${~~(number / 1000000)}M`;
+    return `${(number / 1000000).toFixed(2)} M`;
+  } else if (inRange(number, 1000000001, Infinity)) {
+    return `${(number / 1000000000).toFixed(2)} B`;
   } else {
     return number;
   }

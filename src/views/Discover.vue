@@ -29,7 +29,9 @@
       <custom-col :title="$tc('main.discover.recommend_songs')">
         <carousel>
           <cover v-for="song in songs" :key="song.id" :data="song.album">
-            <artists-link :artists="song.artists" />
+            <v-card-subtitle class="px-3 pb-2">
+              <artists-link :artists="song.artists" />
+            </v-card-subtitle>
           </cover>
         </carousel>
       </custom-col>

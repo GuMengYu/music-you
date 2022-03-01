@@ -1,10 +1,10 @@
 <template>
-  <span class="text-subtitle-2">
+  <span class="text-subtitle-2 artist-link">
     <router-link
       v-for="(artist, idx) in artists"
       :key="artist.id"
       :to="`/artist/${artist.id}`"
-      class="text-decoration-none onSurfaceVariant--text"
+      class="onSurfaceVariant--text"
     >
       {{ artist.name || 'Nameless' }}
       {{ idx !== artists.length - 1 ? ', ' : '' }}
@@ -23,3 +23,13 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.artist-link {
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+</style>

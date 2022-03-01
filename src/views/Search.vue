@@ -8,7 +8,7 @@
     @click:outside="showSearch = false"
   >
     <v-card color="surface">
-      <div class="px-4 my-2">
+      <div class="pa-3">
         <default-input
           ref="searchInput"
           dense
@@ -23,7 +23,7 @@
         </default-input>
       </div>
       <v-divider />
-      <v-chip-group v-model="filter" class="d-flex px-4">
+      <v-chip-group v-model="filter" class="d-flex px-3">
         <v-chip
           v-for="chip in filterChips"
           :key="chip.value"
@@ -230,10 +230,6 @@ export default {
         xl: 720,
       }[this.$vuetify.breakpoint.name];
     },
-  },
-  mounted() {
-    console.log(this.$refs.searchInput?.$refs?.search.$refs.input);
-    this.$refs.searchInput?.$refs?.search.$refs.input.focus();
   },
   watch: {
     filter() {
