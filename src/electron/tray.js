@@ -1,10 +1,13 @@
 /* global __static */
 import { join } from 'path';
 import { Tray, Menu, nativeImage, app } from 'electron';
+import is from 'electron-is';
 
 let tray = null;
 export const createTray = (win) => {
-  const icon = nativeImage.createFromPath(join(__static, 'icon.ico'));
+  const icon = nativeImage.createFromPath(
+    join(__static, is.macOS() ? '/icon/icon.png' : 'icon.ico'),
+  );
   tray = new Tray(icon);
   tray.setToolTip('vplayer');
   const menu = Menu.buildFromTemplate([

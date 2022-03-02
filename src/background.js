@@ -21,9 +21,9 @@ let windowManager = null;
 
 start();
 app.setAboutPanelOptions({
-  applicationName: 'VPlayer音乐播放器',
-  iconPath: path.join(__static, 'icon.ico'),
-  applicationVersion: '0.2.3',
+  applicationName: 'VPlayer',
+  iconPath: path.join(__static, is.macOS() ? '/icon/icon.png' : 'icon.ico'),
+  applicationVersion: '0.2.3-alpha-2',
   copyright: 'Copyright © 2022',
 });
 
