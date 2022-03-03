@@ -46,7 +46,6 @@
 <script>
 import { getMv, getNewRelease, getPersonalized, getPlayList } from '@/api';
 import { RADARPLAYLISTS } from '@util/metadata';
-import NProgress from 'nprogress';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col.vue';
 import VideoCover from '@components/app/VideoCover.vue';
@@ -102,7 +101,6 @@ export default {
     },
   },
   async created() {
-    NProgress.start();
     this.loading = true;
     try {
       const [
@@ -123,7 +121,6 @@ export default {
     } catch (e) {
       console.log(e);
     } finally {
-      NProgress.done();
       this.loading = false;
     }
   },
