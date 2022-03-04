@@ -18,6 +18,9 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@components': path.resolve(__dirname, 'src/components'),
+      "@util/*": path.resolve(__dirname, "src/util"),
+      "@api/*":path.resolve(__dirname, "src/api"),
+      "@assets/*": path.resolve(__dirname, "src/assets")
     },
   },
   /* remove the need to specify .vue files https://vitejs.dev/config/#resolve-extensions

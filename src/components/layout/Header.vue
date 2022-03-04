@@ -82,7 +82,7 @@ export default {
 .app_header {
   display: flex;
   z-index: 6;
-  ::v-deep .v-toolbar__content {
+  :deep(.v-toolbar__content)  {
     flex: 1;
     padding-right: 0;
   }

@@ -1,7 +1,8 @@
 <template>
   <v-app class="v-player">
-    <default-header class="v-player-header" />
-    <!-- <default-nav-bar class="v-player-nav" />
+    <default-header />
+    <default-nav-bar />
+    <!-- 
     <default-view class="v-player-content" />
     <player-bar />
     <default-setting />
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-// import DefaultNavBar from '@components/layout/Navbar.vue';
+import DefaultNavBar from '@components/layout/Navbar.vue';
 // import PlayerBar from '@components/app/playerBar/index.vue';
 // import DefaultSetting from '@components/app/settings.vue';
 // import DefaultLogin from '@components/app/Login.vue';
@@ -32,7 +33,7 @@ export default {
     // DefaultView,
     // DefaultSetting,
     // PlayerBar,
-    // DefaultNavBar,
+    DefaultNavBar,
     // DefaultLogin,
     // PlayingPage,
     DefaultHeader,
