@@ -75,6 +75,7 @@ export default {
     en: 'English',
     setting: 'Setting',
     theme: 'Theme',
+    playingMode: 'Playing page style',
     light: 'light',
     dark: 'dark',
     theme_color: 'Theme color',

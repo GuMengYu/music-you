@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { sync } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import { basic, simple } from './exports';
 
 export default {
@@ -17,9 +17,9 @@ export default {
   components: { basic, simple },
   data: () => ({
     fullscreen: false,
-    mode: 'basic',
   }),
   computed: {
+    mode: get('settings/playingMode'),
     showLyricsPage: sync('music/showLyricsPage'),
   },
   mounted() {

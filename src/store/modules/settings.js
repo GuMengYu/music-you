@@ -19,6 +19,7 @@ const state = () => {
       volume: 0.8,
       dynamicBg: false,
       account: {},
+      playingMode: 'basic',
     },
     data,
   );

@@ -55,6 +55,16 @@
             </v-img>
           </div>
         </v-list-item>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              {{ $t('common.playingMode') }}
+            </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <default-select v-model="playingMode" :options="modeOptions" />
+          </v-list-item-action>
+        </v-list-item>
         <v-divider />
         <v-subheader> 系统 </v-subheader>
         <v-list-item>
@@ -163,6 +173,16 @@ export default {
           val: 'en',
         },
       ],
+      modeOptions: [
+        {
+          title: '默认',
+          val: 'basic',
+        },
+        {
+          title: '简洁',
+          val: 'simple',
+        },
+      ],
       qualityOptions: [
         {
           title: 'Low - 128Kbps',
@@ -240,6 +260,7 @@ export default {
       'cacheLimit',
       'palettes',
       'dynamicBg',
+      'playingMode',
     ]),
     ...sync('app', ['showSettings', 'showLogin']),
   },

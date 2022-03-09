@@ -75,6 +75,7 @@ export default {
     en: 'English',
     setting: '设置',
     theme: '主题',
+    playingMode: '播放界面样式',
     light: '浅色',
     dark: '深色',
     theme_color: '主题色',
