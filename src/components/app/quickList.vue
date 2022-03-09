@@ -29,7 +29,7 @@ export default {
       randomPlayList: {},
       radar: {},
       daily: {
-        name: '今日推荐',
+        name: this.$t('main.discover.daily'),
         picUrl:
           'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
       },
@@ -40,7 +40,7 @@ export default {
     const { playlist } = await getPlayList(3136952023);
     this.radar = {
       ...playlist,
-      name: '私人雷达',
+      name: this.$t('main.discover.radar'),
     };
     const filtersId = [3136952023, +this.myFav.id];
     const list = this.playlist.filter((i) => !filtersId.includes(i.id));
@@ -58,7 +58,7 @@ export default {
       return {
         id: fav['id'],
         picUrl: fav['coverImgUrl'],
-        name: '你喜欢的音乐',
+        name: this.$t('main.discover.you_liked'),
       };
     },
   },

@@ -156,7 +156,7 @@ export default {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
   }
 }
 .artist-name {

@@ -33,6 +33,7 @@ export default {
       new_releases_album: 'New Release',
       you_liked: 'You Liked',
       daily: 'Daily',
+      radar: 'Radar Music',
       fm: 'FM',
       recommend_songs: 'recommend songs',
     },

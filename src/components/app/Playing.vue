@@ -6,19 +6,13 @@
   >
     <v-card class="frame" color="surfaceVariant">
       <div
-        class="frame-header d-flex justify-space-between mt-4 drag-area px-4"
+        class="frame-header d-flex justify-space-between mt-6 drag-area px-4"
       >
         <span
-          class="
-            frame-header-title
-            font-weight-bold
-            text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4
-            onSurfaceVariant--text
-          "
+          class="frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 onSurfaceVariant--text"
         >
-          {{ track.dt | formatDuring }}/{{
-            (currentTime * 1000) | formatDuring
-          }}
+          {{ track.dt | formatDuring }} /
+          {{ (currentTime * 1000) | formatDuring }}
         </span>
         <div class="frame-header-action d-flex no-drag-area flex-column">
           <v-btn icon @click="close" color="onPrimary">
@@ -34,7 +28,14 @@
           </v-btn>
         </div>
       </div>
-      <div class="frame-content onSurfaceVariant--text"></div>
+      <div class="frame-content onSurfaceVariant--text">
+        <v-img
+          max-height="200"
+          max-width="200"
+          class="frame-cover-img rounded"
+          :src="albumPicUrl"
+        />
+      </div>
       <div
         class="frame-footer onSurfaceVariant--text px-4 mb-8 d-flex flex-column"
       >
@@ -46,10 +47,11 @@
         >
         <span class="text-h2 font-weight-bold">{{ track.name }}</span>
       </div>
-      <div
+      <v-progress-linear :value="playPercent" rounded />
+      <!-- <div
         class="frame-play-progress"
         :style="{ transform: `translateX(-${playPercent}vw)` }"
-      ></div>
+      ></div> -->
     </v-card>
   </v-dialog>
 </template>
@@ -253,7 +255,7 @@ export default {
     position: absolute;
     z-index: 0;
     right: -100vw;
-    top: -1px;
+    height: 2px;
     bottom: 0;
     background: var(--v-primary-base);
     opacity: 0.8;
