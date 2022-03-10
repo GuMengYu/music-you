@@ -1,5 +1,5 @@
 <template>
-  <v-card color="surface" class="basic-container">
+  <v-card :color="theme.background" class="basic-container">
     <div class="frame">
       <div class="frame-header">
         <v-btn icon @click="close">
@@ -7,7 +7,7 @@
             {{ icon.mdiChevronDown }}
           </v-icon>
         </v-btn>
-        <span class="text-caption">{{ track.name }}</span>
+        <span class="text-caption">{{ album.name }}</span>
         <v-btn icon @click="openMenu">
           <v-icon>
             {{ icon.mdiDotsHorizontal }}
@@ -20,21 +20,14 @@
             class="cover-img"
             max-height="calc(100vh - 315px)"
             max-width="calc(100vh - 315px)"
-            :src="albumPicUrl"
+            :src="album.picUrl"
           />
         </v-card>
         <div class="control_bar d-flex flex-column justify-space-between mb-4">
           <div class="d-flex justify-space-between">
-            <div class="left d-flex flex-column text-body-1 font-weight-bold">
-              <span>{{ track.name }}</span>
-              <span>{{ $ochain(track, 'ar', '0', 'name') }}</span>
-            </div>
-            <div class="right d-flex align-center">
-              <v-btn icon>
-                <v-icon>
-                  {{ icon.mdiDotsHorizontal }}
-                </v-icon>
-              </v-btn>
+            <div class="left d-flex flex-column">
+              <span class="text-body-1 font-weight-bold">{{ track.name }}</span>
+              <artists-link :artists="track.ar" />
             </div>
           </div>
           <div class="control_process mt-2">
@@ -60,7 +53,7 @@
           <control />
           <div class="d-flex justify-space-between mt-2">
             <v-btn @click="showLyric = !showLyric" icon>
-              <v-icon>
+              <v-icon small>
                 {{ icon.mdiPodcast }}
               </v-icon>
             </v-btn>
@@ -68,9 +61,9 @@
               v-if="lyric.length"
               @click="showLyric = !showLyric"
               icon
-              :color="showLyric ? 'accent' : void 0"
+              :color="showLyric ? theme.primary : void 0"
             >
-              <v-icon>
+              <v-icon small>
                 {{ icon.mdiCommentQuoteOutline }}
               </v-icon>
             </v-btn>
@@ -79,35 +72,43 @@
       </div>
       <v-card
         v-if="enableLyric"
-        class="frame-content-lyric pa-2 mx-4"
-        color="surfaceVariant"
+        class="frame-content-lyric pa-4 mx-4"
+        :color="theme.surfaceVariant"
       >
         <div class="d-flex justify-space-between align-center">
-          <span class="font-weight-bold text-caption">歌词</span>
-          <v-btn x-small rounded
+          <span class="font-weight-bold text-subtitle-2">歌词</span>
+          <v-btn
+            x-small
+            rounded
+            class="text-caption"
+            :color="theme.onSurfaceVariant"
+            outlined
             >更多<v-icon x-small class="ml-1">{{
               icon.mdiArrowExpand
             }}</v-icon></v-btn
           >
         </div>
-        <div class="before"></div>
+        <div class="before" :style="beforeMaskImages"></div>
         <ul
           ref="lyricContainer"
-          class="frame-lyrics surfaceVariant text-subtitle-2 onSurfaceVariant--text"
+          class="frame-lyrics my-4 text-xl-h6 text-lg-subtitle-1 font-weight-bold"
         >
+          <li>&nbsp;</li>
           <li
             v-for="(item, index) in lyric"
             :key="index"
             :aria-time="item.time"
+            class="mb-2"
             :class="{
               active: index === activeIdx,
-              'font-weight-bold': index === activeIdx,
             }"
+            :style="{ color: index === activeIdx ? theme.primary : '' }"
             v-html="item.sentence"
             @click="jump(item.time)"
           ></li>
+          <li>&nbsp;</li>
         </ul>
-        <div class="after"></div>
+        <div class="after" :style="afterMaskImages"></div>
       </v-card>
     </div>
   </v-card>
@@ -126,14 +127,17 @@ import {
   mdiChevronDown,
   mdiArrowExpand,
 } from '@mdi/js';
+import { generatePaletteFromURL } from 'md3-theme-generator';
 import { get, sync, dispatch } from 'vuex-pathify';
 import { formatLyric } from '@/util/fn';
 import VueSlider from 'vue-slider-component';
 import { findIndex } from 'lodash-es';
 import Control from '@components/app/Control';
+import ArtistsLink from '@components/app/ArtistsLink';
 export default {
   name: 'PlayingBasic',
   components: {
+    ArtistsLink,
     Control,
     VueSlider,
   },
@@ -153,11 +157,20 @@ export default {
     activeIdx: -1,
     interval: null,
     showLyric: true,
+    autoScroll: true,
+    autoScrollLocation: 0,
+    palette: {
+      light: {},
+      dark: {},
+    },
   }),
   computed: {
     isCurrentFm: get('music/isCurrentFm'),
     albumPicUrl() {
       return `${this.track.al?.picUrl}?param=512y512`;
+    },
+    album() {
+      return this.track.al ?? {};
     },
     lyric() {
       const { tlyric, lrc } = this.track.lyric ?? {};
@@ -181,23 +194,51 @@ export default {
     enableLyric() {
       return this.lyric.length && this.showLyric;
     },
+    theme() {
+      return this.$vuetify.theme.dark ? this.palette.dark : this.palette.light;
+    },
+    beforeMaskImages() {
+      return {
+        'background-image': `linear-gradient(-180deg, ${this.theme.surfaceVariant} 60%, transparent 100%)`,
+      };
+    },
+    afterMaskImages() {
+      return {
+        'background-image': `linear-gradient(0deg, ${this.theme.surfaceVariant} 60%, transparent 100%)`,
+      };
+    },
   },
   watch: {
     showLyricsPage(val) {
       if (val) {
-        this.initInterval();
+        this.init();
       } else {
         clearInterval(this.interval);
       }
     },
+    'track.id'() {
+      this.initColor();
+    },
   },
   mounted() {
-    this.initInterval();
+    this.init();
   },
   destroyed() {
     clearInterval(this.interval);
   },
   methods: {
+    init() {
+      this.initInterval();
+      this.initColor();
+    },
+    async initColor() {
+      if (!this.albumPicUrl) {
+        return;
+      }
+      const palette = await generatePaletteFromURL(this.albumPicUrl);
+      this.palette.light = palette.light;
+      this.palette.dark = palette.dark;
+    },
     initInterval() {
       if (this.enableLyric) {
         this.interval = setInterval(() => {
@@ -206,7 +247,7 @@ export default {
       }
     },
     // 计算歌词位置并滚动
-    calculate() {
+    async calculate() {
       const current = this.currentTime;
       const prevActiveIdx = this.activeIdx;
       const activeIdx = findIndex(this.lyric, (o, idx) => {
@@ -215,20 +256,25 @@ export default {
       });
       this.activeIdx = activeIdx;
       // 当前歌词渲染后计算滚动位置
-      this.$nextTick(async () => {
-        if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
-          const container = this.$refs.lyricContainer;
-          const activeEl = document.querySelector('.frame-lyrics .active');
-          if (activeEl) {
-            const newY = activeEl.offsetTop - activeEl.clientHeight * 2;
-            const offset = await this.$vuetify.goTo(newY, {
-              container,
-              duration: 500,
-            });
-            console.log('scroll to ' + offset);
-          }
+      await this.$nextTick();
+      if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
+        const container = this.$refs.lyricContainer;
+        const activeEl = container.querySelector('.frame-lyrics .active');
+        if (activeEl) {
+          const offset = await this.$vuetify.goTo(activeEl, {
+            container,
+          });
+          console.debug('lyric scroll to ' + offset);
+          // this.startScroll(activeEl, container);
         }
-      });
+      }
+    },
+    startScroll(el, container) {
+      if (this.autoScroll) {
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        console.debug('自动滚动高度：', container.scrollTop);
+        this.autoScrollLocation = container.scrollTop; // 缓存滚动后的位置
+      }
     },
     jump(time) {
       this.currentTime = time;
@@ -286,40 +332,32 @@ export default {
     .frame-content-lyric {
       height: 50vh;
       .frame-lyrics {
-        height: calc(100% - 36px);
+        height: calc(100% - 40px);
         position: relative;
         z-index: 1;
         overflow-y: hidden;
         padding-left: 0;
-        margin: 8px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         li {
+          text-align: center;
           list-style: none;
-          margin-bottom: 8px;
         }
       }
       .before {
-        top: 28px;
+        top: 38px;
         left: 0;
         right: 0;
         position: absolute;
-        background-image: linear-gradient(
-          -180deg,
-          var(--v-surfaceVariant-base) 22%,
-          rgba(151, 101, 103, 0) 87%
-        );
-        height: 24px;
+        height: 30px;
         z-index: 2;
       }
       .after {
         position: absolute;
-        bottom: 16px;
+        bottom: 10px;
         left: 0;
         right: 0;
-        background-image: linear-gradient(
-          -180deg,
-          rgba(151, 101, 103, 0) 22%,
-          var(--v-surfaceVariant-base) 87%
-        );
         height: 36px;
         z-index: 2;
       }

@@ -71,7 +71,7 @@
     "prettier": "^2.2.1",
     "sass": "~1.26.5",
     "sass-loader": "^8.0.0",
-    "vue-cli-plugin-electron-builder": "2.1.1",
+    "vue-cli-plugin-electron-builder": "git+https://github.com/GuMengYu/vue-cli-plugin-electron-builder.git",
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.3",

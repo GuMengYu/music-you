@@ -4,6 +4,7 @@
     app
     :mini-variant="drawermini"
     color="surface"
+    :temporary="false"
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
@@ -108,7 +109,6 @@ export default {
         // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       // defaultNav3: [],
-      mini: true,
     };
   },
   computed: {

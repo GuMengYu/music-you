@@ -4,7 +4,7 @@
       v-if="track.id"
       padless
       class="playing-bar surfaceVariant"
-      rounded="xl"
+      rounded="lg"
       app
     >
       <div class="playing-slider">
@@ -235,8 +235,6 @@ export default {
 .playing-bar {
   z-index: 7;
   bottom: 0;
-  left: 8px !important;
-  right: 8px !important;
   .playing-control {
     width: 100%;
     display: flex;

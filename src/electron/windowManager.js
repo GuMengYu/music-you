@@ -4,10 +4,10 @@ import { BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 
 const defaultOptions = {
-  width: 1400,
-  height: 850,
+  width: 960,
+  height: 640,
   minWidth: 800,
-  minHeight: 610,
+  minHeight: 540,
   titleBarStyle: 'hiddenInset',
   frame: !(is.windows() || is.linux()),
 };
