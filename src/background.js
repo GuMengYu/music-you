@@ -23,7 +23,7 @@ start();
 app.setAboutPanelOptions({
   applicationName: 'VPlayer',
   iconPath: path.join(__static, is.macOS() ? '/icon/icon.png' : 'icon.ico'),
-  applicationVersion: '0.2.3-alpha-2',
+  applicationVersion: '0.2.3',
   copyright: 'Copyright © 2022',
 });
 

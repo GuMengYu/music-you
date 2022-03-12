@@ -51,7 +51,7 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true, // https://github.com/electron/electron/issues/9920#issuecomment-653978691
       builderOptions: {
-        productName: 'VPlayer',
+        productName: 'v-player',
         copyright: 'Copyright © VPlayer 2022', //版权信息
         asar: true,
         win: {
@@ -75,7 +75,7 @@ module.exports = {
               arch: ['x64', 'arm64', 'universal'],
             },
           ],
-          artifactName: '${productName}-${os}-${version}-${arch}.${ext}',
+          artifactName: '${productName}-v${version}-${arch}.${ext}',
           darkModeSupport: true,
           category: 'public.app-category.music',
         },
