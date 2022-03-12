@@ -45,7 +45,12 @@
           v-show="songs.length && (!filter || filter === 'song')"
         >
           <v-subheader class="font-weight-bold pl-4">歌曲</v-subheader>
-          <song-bar v-for="song in songs" :key="song.id" :song="song" />
+          <track-item
+            v-for="(song, idx) in songs"
+            :key="song.id"
+            :track="song"
+            :index="idx + 1"
+          />
         </v-list>
         <v-list
           dense
@@ -142,7 +147,6 @@
 
 <script>
 import { search } from '@api/music';
-import SongBar from '@components/app/SongBar.vue';
 import DefaultInput from '@components/default/Input.vue';
 import {
   mdiMagnify,
@@ -153,6 +157,7 @@ import {
   mdiAlbum,
 } from '@mdi/js';
 import { sync } from 'vuex-pathify';
+import TrackItem from '@components/app/TrackItem';
 const TYPEMAP = {
   song: { type: 1, limit: 10, filter_limit: 30 },
   album: { type: 10, limit: 3, filter_limit: 10 },
@@ -196,7 +201,7 @@ const filterChips = [
 export default {
   name: 'Search',
   components: {
-    SongBar,
+    TrackItem,
     DefaultInput,
   },
   props: {

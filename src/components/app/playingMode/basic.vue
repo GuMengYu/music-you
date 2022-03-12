@@ -50,7 +50,7 @@
               <span>{{ track.dt | formatDuring }}</span>
             </div>
           </div>
-          <control />
+          <control class="justify-space-between" />
           <div class="d-flex justify-space-between mt-2">
             <v-btn @click="showLyric = !showLyric" icon>
               <v-icon small>
@@ -72,21 +72,23 @@
       </div>
       <v-card
         v-if="enableLyric"
-        class="frame-content-lyric pa-4 mx-4"
+        class="frame-content-lyric pa-4"
         :color="theme.surfaceVariant"
       >
         <div class="d-flex justify-space-between align-center">
-          <span class="font-weight-bold text-subtitle-2">歌词</span>
-          <v-btn
-            x-small
-            rounded
-            class="text-caption"
-            :color="theme.onSurfaceVariant"
-            outlined
-            >更多<v-icon x-small class="ml-1">{{
-              icon.mdiArrowExpand
-            }}</v-icon></v-btn
-          >
+          <span class="font-weight-bold text-subtitle-2">{{
+            $t('common.lyric')
+          }}</span>
+          <!--          <v-btn-->
+          <!--            x-small-->
+          <!--            rounded-->
+          <!--            class="text-caption"-->
+          <!--            :color="theme.onSurfaceVariant"-->
+          <!--            outlined-->
+          <!--            >更多<v-icon x-small class="ml-1">{{-->
+          <!--              icon.mdiArrowExpand-->
+          <!--            }}</v-icon></v-btn-->
+          <!--          >-->
         </div>
         <div class="before" :style="beforeMaskImages"></div>
         <ul

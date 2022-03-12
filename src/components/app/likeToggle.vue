@@ -27,7 +27,6 @@ export default {
   components: { LottieIcon },
   props: {
     id: [String, Number],
-    type: String,
   },
   data() {
     return {

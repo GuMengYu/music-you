@@ -5,11 +5,12 @@
       @click="noop"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
-      class="song-bar-wrapper rounded px-4"
+      class="track-item-wrapper rounded px-4"
+      :style="gridTemplate"
     >
       <div class="track-index">
-        <span class="track-count" v-show="!hover">4</span>
-        <v-btn small icon @click="play" v-show="hover">
+        <span class="track-count" v-show="!hover">{{ index }}</span>
+        <v-btn icon @click="play" v-show="hover">
           <v-icon small v-text="mdiPlay" />
         </v-btn>
       </div>
@@ -22,24 +23,22 @@
           lazy-src="@assets/default-cover.svg"
         />
         <div class="track-info">
-          <v-list-item-title v-text="track.name" class="font-weight-bold" />
+          <v-list-item-title v-text="track.name" class="h-1x" />
           <v-list-item-subtitle>
-            <artists-link :artists="artists" />
+            <artists-link :artists="artists" class="h-1x" />
           </v-list-item-subtitle>
         </div>
       </div>
-      <div class="track-second">
+      <div class="track-second" v-if="from !== 'album'">
         <router-link
           :to="`/album/${album.id}`"
-          class="text-decoration-none font-weight-bold onSurface--text"
+          class="text-subtitle-2 onSurface--text h-2x"
         >
           {{ album.name }}
         </router-link>
       </div>
       <div class="track-third">
-        <v-btn icon small v-visible="hover">
-          <v-icon small>{{ mdiHeart }}</v-icon>
-        </v-btn>
+        <!--        <like-toggle :id="track.id" />-->
         <div class="track-duration">
           {{ track.dt || track.duration | formatDuring }}
         </div>
@@ -65,6 +64,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    from: {
+      type: String,
+      default: 'album',
+    },
+    index: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   data: () => ({
     mdiDotsHorizontal,
@@ -87,7 +94,7 @@ export default {
         { title: '收藏到歌单', action: 'add', metadata },
         { title: '下载', action: 'download', metadata },
       ];
-      if (this.track?.al.id) {
+      if (this.track?.al.id && this.from !== 'album') {
         items.unshift({
           title: '前往专辑页',
           action: 'goto',
@@ -108,12 +115,25 @@ export default {
       const { al, album } = this.track;
       return al ?? album;
     },
+    gridTemplate() {
+      if (this.from !== 'album') {
+        return {
+          gridTemplateColumns:
+            '[index] 28px [first] 4fr [second] 2fr [last] minmax(80px, 1fr)',
+        };
+      } else {
+        return {
+          gridTemplateColumns:
+            '[index] 28px [first] 4fr [last] minmax(80px, 1fr)',
+        };
+      }
+    },
   },
   methods: {
     play() {
-      if (this.song?.id) {
-        this.$player.updatePlayerTrack(this.song?.id);
-        this.$emit('played', this.song.id);
+      if (this.track?.id) {
+        this.$player.updatePlayerTrack(this.track?.id);
+        this.$emit('played', this.track.id);
       }
     },
     more() {},
@@ -126,31 +146,35 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.song-bar-wrapper {
+.track-item-wrapper {
   display: grid;
   grid-gap: 16px;
-  grid-template-columns: [index] 28px [first] 4fr [var1] 2fr [last] minmax(
-      140px,
-      1fr
-    );
   align-items: center;
   height: 56px;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--v-surfaceVariant-base);
   }
   .track-index {
     .track-count {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
     }
   }
   .track-first {
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+  .track-second {
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
   .track-third {
     display: flex;

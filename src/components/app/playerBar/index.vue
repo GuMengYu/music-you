@@ -251,13 +251,8 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      .playing-control-buttons {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        > .v-btn {
-          margin: 0 8px;
-        }
+      .control-buttons {
+        gap: 12px;
       }
     }
     .playing-bar__right {

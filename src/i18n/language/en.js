@@ -60,6 +60,8 @@ export default {
   common: {
     forward: 'Forward',
     backward: 'Backward',
+    play: 'Play',
+    pause: 'Pause',
     open_search: 'Open Search',
     sign_in: 'Sign In',
     sign_out: 'Sign Out',
@@ -83,6 +85,7 @@ export default {
     quality: 'Quality',
     usageSize: 'cache',
     dynamicBg: 'Dynamic Background',
+    lyric: 'Lyric',
     clear_cache: 'Clear Cache',
     cached: 'Already cached {size}, and {length} songs',
     lastupdate: 'last update {0} · {2} songs',

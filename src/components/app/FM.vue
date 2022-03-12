@@ -13,7 +13,9 @@
       lazy-src="@assets/default-cover.svg"
       :src="albumCoverImgUrl"
     />
-    <div class="card-info d-flex align-center justify-space-between flex-fill">
+    <div
+      class="card-info d-flex align-center justify-space-between flex-fill pr-0"
+    >
       <span
         :title="`${albumName} - ${fmTrack.name}`"
         class="text-caption font-weight-bold text-decoration-none onSurfaceVariant--text h-2x"

@@ -1,5 +1,5 @@
 <template>
-  <span class="text-subtitle-2 artist-link">
+  <span class="artist-link">
     <router-link
       v-for="(artist, idx) in artists"
       :key="artist.id"
