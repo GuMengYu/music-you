@@ -1,11 +1,5 @@
 <template>
-  <v-app-bar
-    app
-    dense
-    :elevation="0"
-    class="app_header surface drag-area"
-    src=""
-  >
+  <v-app-bar app class="app_header drag-area" color="surface" elevate-on-scroll>
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
     <!--    <div class="d-flex">-->
     <!--      -->

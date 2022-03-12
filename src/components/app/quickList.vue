@@ -29,7 +29,7 @@ export default {
       randomPlayList: {},
       radar: {},
       daily: {
-        name: '今日推荐',
+        name: this.$t('main.discover.daily'),
         picUrl:
           'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
       },
@@ -40,7 +40,7 @@ export default {
     const { playlist } = await getPlayList(3136952023);
     this.radar = {
       ...playlist,
-      name: '私人雷达',
+      name: this.$t('main.discover.radar'),
     };
     const filtersId = [3136952023, +this.myFav.id];
     const list = this.playlist.filter((i) => !filtersId.includes(i.id));
@@ -58,7 +58,7 @@ export default {
       return {
         id: fav['id'],
         picUrl: fav['coverImgUrl'],
-        name: '你喜欢的音乐',
+        name: this.$t('main.discover.you_liked'),
       };
     },
   },
@@ -70,25 +70,30 @@ export default {
 }
 .quick-list {
   display: grid;
-  column-gap: 16px;
-  row-gap: 12px;
+  column-gap: 24px;
+  row-gap: 16px;
   grid-template-columns: repeat(3, 1fr);
-  @media (max-width: 599px) {
+  @media (max-width: 600px) {
     &[data-grid='A'] {
       @include --columns(1);
     }
   }
-  @media (min-width: 600px) and (max-width: 1263px) {
+  @media (min-width: 601px) and (max-width: 960px) {
     &[data-grid='A'] {
       @include --columns(2);
     }
   }
-  @media (min-width: 1264px) and (max-width: 1939px) {
+  @media (min-width: 961px) and (max-width: 1264px) {
+    &[data-grid='A'] {
+      @include --columns(2);
+    }
+  }
+  @media (min-width: 1265px) and (max-width: 1904px) {
     &[data-grid='A'] {
       @include --columns(3);
     }
   }
-  @media screen and (min-width: 1940px) {
+  @media screen and (min-width: 1905px) {
     &[data-grid='A'] {
       @include --columns(4);
     }

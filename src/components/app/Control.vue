@@ -1,16 +1,16 @@
 <template>
   <div class="d-flex justify-center align-center control-buttons">
-    <v-btn icon class="mx-2" :disabled="isCurrentFm" @click="toggleShuffle">
+    <v-btn icon :disabled="isCurrentFm" @click="toggleShuffle">
       <v-icon small>
         {{ shuffle ? icon.mdiShuffle : icon.mdiShuffleDisabled }}
       </v-icon>
     </v-btn>
-    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="playPrev">
+    <v-btn icon :disabled="isCurrentFm" @click="playPrev">
       <v-icon small>{{ icon.mdiSkipBackward }}</v-icon>
     </v-btn>
 
     <v-btn
-      class="mx-2 play-fab"
+      class="play-fab"
       :class="{ playing }"
       @click="playPause"
       depressed
@@ -32,10 +32,10 @@
       <!--      </v-icon>-->
     </v-btn>
 
-    <v-btn class="mx-2" icon @click="playNext">
+    <v-btn icon @click="playNext">
       <v-icon small>{{ icon.mdiSkipForward }}</v-icon>
     </v-btn>
-    <v-btn class="mx-2" icon :disabled="isCurrentFm" @click="toggleCycle">
+    <v-btn icon :disabled="isCurrentFm" @click="toggleCycle">
       <v-icon small>
         {{ orderIconState }}
       </v-icon>

@@ -23,8 +23,8 @@
         :items="playingList.list"
         :bench="5"
       >
-        <template v-slot:default="{ item: song }">
-          <song-bar :song="song" :key="song.id" :active="song.id === current" />
+        <template v-slot:default="{ item: song, index }">
+          <track-item :track="song" :key="song.id" :index="index + 1" />
         </template>
 
         <!--        <v-list-->
@@ -51,10 +51,10 @@
 <script>
 import { mdiCloseCircle } from '@mdi/js';
 import { sync, get } from 'vuex-pathify';
-import SongBar from '@components/app/SongBar.vue';
+import TrackItem from '@components/app/TrackItem';
 export default {
   name: 'PlayingList',
-  components: { SongBar },
+  components: { TrackItem },
   data() {
     return {
       icon: { mdiCloseCircle },
@@ -84,7 +84,8 @@ export default {
   right: 20px;
   bottom: 80px;
   z-index: 7;
-  width: 400px;
+  width: 45vw;
+  max-width: 600px;
   backdrop-filter: blur(30px);
   .play-list-container-list {
     background: transparent;

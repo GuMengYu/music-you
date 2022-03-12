@@ -6,7 +6,7 @@
     v-model="model"
     :background-color="bgColor"
     class="text-caption"
-    :placeholder="placeholder"
+    :placeholder="holder"
     :type="type"
     autocomplete="off"
     hide-details
@@ -66,9 +66,6 @@ export default {
     isFocused: false,
   }),
   computed: {
-    placeholder() {
-      return this.isFocused ? '' : this.holder;
-    },
     bgColor() {
       if (this.color) {
         return this.color;

@@ -17,7 +17,7 @@ import DefaultNavBar from '@components/layout/Navbar.vue';
 import PlayerBar from '@components/app/playerBar/index.vue';
 import DefaultSetting from '@components/app/settings.vue';
 import DefaultLogin from '@components/app/Login.vue';
-import PlayingPage from '@components/app/Playing.vue';
+import PlayingPage from '@components/app/playingMode';
 import DefaultHeader from '@components/layout/Header.vue';
 import DefaultView from '@components/layout/View.vue';
 import ContextMenu from '@components/default/ContextMenu.vue';

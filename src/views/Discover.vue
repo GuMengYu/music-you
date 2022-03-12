@@ -5,7 +5,7 @@
       <custom-col :title="welcome">
         <quick-list />
       </custom-col>
-      <custom-col :title="$t('main.for_you')">
+      <custom-col :title="$tc('main.for_you')">
         <carousel>
           <cover
             v-for="list in playLists"
@@ -15,24 +15,27 @@
           />
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.radar')">
+      <custom-col :title="$tc('main.radar')">
         <carousel>
           <cover
             v-for="list in radarPlayLists"
             :key="list.id"
             :data="list"
             type="playlist"
+            :title-line="2"
           />
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.discover.recommend_songs')">
+      <custom-col :title="$tc('main.discover.recommend_songs')">
         <carousel>
           <cover v-for="song in songs" :key="song.id" :data="song.album">
-            <artists-link :artists="song.artists" />
+            <v-card-subtitle class="px-3 pb-2">
+              <artists-link :artists="song.artists" />
+            </v-card-subtitle>
           </cover>
         </carousel>
       </custom-col>
-      <custom-col :title="$t('main.recommend_video')">
+      <custom-col :title="$tc('main.recommend_video')">
         <carousel grid-style="A">
           <video-cover v-for="mv in mvs" :key="mv.id" :data="mv" />
         </carousel>
@@ -43,7 +46,6 @@
 <script>
 import { getMv, getNewRelease, getPersonalized, getPlayList } from '@/api';
 import { RADARPLAYLISTS } from '@util/metadata';
-import NProgress from 'nprogress';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col.vue';
 import VideoCover from '@components/app/VideoCover.vue';
@@ -55,7 +57,7 @@ import QuickList from '@components/app/quickList';
 import ArtistsLink from '@components/app/ArtistsLink';
 
 export default {
-  name: 'discover',
+  name: 'Discover',
   components: {
     ArtistsLink,
     Cover,
@@ -99,7 +101,6 @@ export default {
     },
   },
   async created() {
-    NProgress.start();
     this.loading = true;
     try {
       const [
@@ -120,7 +121,6 @@ export default {
     } catch (e) {
       console.log(e);
     } finally {
-      NProgress.done();
       this.loading = false;
     }
   },
@@ -137,8 +137,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .discover {
-  display: grid;
-  grid-gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   .artist-list {
     grid-template-columns: repeat(6, 1fr);
   }

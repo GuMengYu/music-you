@@ -54,7 +54,7 @@ export default {
     },
     gap: {
       type: Number,
-      default: 20,
+      default: 16,
     },
     gridStyle: {
       type: String,
@@ -156,7 +156,7 @@ export default {
 
 .shelf-grid__list {
   // xs
-  @media (max-width: 599px) {
+  @media (max-width: 600px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(1);
     }
@@ -171,7 +171,7 @@ export default {
     }
   }
   // sm
-  @media (min-width: 600px) and (max-width: 959px) {
+  @media (min-width: 601px) and (max-width: 960px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(2);
     }
@@ -186,7 +186,7 @@ export default {
     }
   }
   // md
-  @media (min-width: 960px) and (max-width: 1263px) {
+  @media (min-width: 961px) and (max-width: 1264px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(3);
     }
@@ -201,7 +201,7 @@ export default {
     }
   }
   // lg
-  @media (min-width: 1264px) and (max-width: 1510px) {
+  @media (min-width: 1265px) and (max-width: 1904px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(4);
     }
@@ -215,23 +215,8 @@ export default {
       @include --grid-rows-gap-columns(2);
     }
   }
-  // lg
-  @media (min-width: 1511px) and (max-width: 1710px) {
-    [data-grid='A'] & {
-      @include --grid-rows-gap-columns(4);
-    }
-    [data-grid='B'] & {
-      @include --grid-rows-gap-columns(6);
-    }
-    [data-grid='C'] & {
-      @include --grid-rows-gap-columns(3);
-    }
-    [data-grid='1-1-2-3'] & {
-      @include --grid-rows-gap-columns(2);
-    }
-  }
   // xl
-  @media screen and (min-width: 1711px) {
+  @media screen and (min-width: 1905px) {
     [data-grid='A'] & {
       @include --grid-rows-gap-columns(5);
     }
@@ -251,8 +236,7 @@ export default {
   .shelf-grid__list {
     display: grid;
     grid-auto-flow: column;
-    overflow: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap;
     &::-webkit-scrollbar {
       height: 0;

@@ -21,7 +21,7 @@ export default {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  @media (max-width: 599px) {
+  @media (max-width: 600px) {
     &[data-grid='A'] {
       @include --columns(2);
     }
@@ -29,40 +29,31 @@ export default {
       @include --columns(1);
     }
   }
-  @media (min-width: 600px) and (max-width: 959px) {
+  @media (min-width: 601px) and (max-width: 960px) {
     &[data-grid='A'] {
       @include --columns(3);
     }
     &[data-grid='B'] {
+      @include --columns(2);
+    }
+  }
+  @media (min-width: 961px) and (max-width: 1264px) {
+    &[data-grid='A'] {
+      @include --columns(4);
+    }
+    &[data-grid='B'] {
       @include --columns(3);
     }
   }
-  @media (min-width: 960px) and (max-width: 1263px) {
-    &[data-grid='A'] {
-      @include --columns(4);
-    }
-    &[data-grid='B'] {
-      @include --columns(4);
-    }
-  }
-  @media (min-width: 1264px) and (max-width: 1510px) {
+  @media (min-width: 1265px) and (max-width: 1904px) {
     &[data-grid='A'] {
       @include --columns(5);
     }
     &[data-grid='B'] {
-      @include --columns(5);
+      @include --columns(4);
     }
   }
-  // lg
-  @media (min-width: 1511px) and (max-width: 1710px) {
-    [data-grid='A'] & {
-      @include --columns(6);
-    }
-    [data-grid='B'] & {
-      @include --columns(6);
-    }
-  }
-  @media screen and (min-width: 1711px) {
+  @media screen and (min-width: 1905px) {
     &[data-grid='A'] {
       @include --columns(7);
     }

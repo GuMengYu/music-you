@@ -4,11 +4,13 @@
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
         <carousel :rows="4" gridStyle="C">
-          <song-bar
-            :song="recent.data"
-            class="track-item"
-            v-for="recent in recents"
+          <track-item
+            v-for="(recent, idx) in recents"
             :key="recent['resourceId']"
+            :track="recent.data"
+            :index="idx + 1"
+            class="track-item"
+            from="list"
           />
         </carousel>
       </template>
@@ -110,23 +112,23 @@ import CoverList from '@components/app/CoverList.vue';
 import VideoCover from '@components/app/VideoCover.vue';
 import ArtistsCover from '@components/app/Artists.vue';
 import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
-import SongBar from '@components/app/SongBar.vue';
 import Cover from '@components/app/Cover.vue';
 import Carousel from '@components/layout/Carousel.vue';
 
 import { sync, get, dispatch } from 'vuex-pathify';
 import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@api/user';
-import { createPlaylist } from '@api/index';
+import { createPlaylist } from '@/api';
 import { recent } from '@api/recent';
 
 import { mdiPlus } from '@mdi/js';
+import TrackItem from '@components/app/TrackItem';
 
 export default {
   name: 'Library',
   components: {
+    TrackItem,
     Cover,
     ArtistsCover,
-    SongBar,
     CoverList,
     VideoCover,
     CustomCol,

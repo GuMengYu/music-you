@@ -9,6 +9,8 @@ import { createPlayer } from './player';
 import Toast from './components/default/Toast';
 import plugins from './plugins';
 import filters from './filters';
+import * as directives from './directives';
+
 import '@/scss/global.scss';
 import '@/scss/animation.scss';
 // import '@/mock/index';
@@ -21,7 +23,9 @@ Object.entries(filters).map(([key, fn]) => {
   Vue.filter(key, fn);
 });
 Vue.use(plugins);
-
+Object.entries(directives).map(([id, definition]) => {
+  Vue.directive(id, definition);
+});
 const store = createStore();
 const vuetify = createVuetify(store);
 const i18n = createI18n(store);

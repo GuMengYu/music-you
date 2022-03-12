@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-container
-      :class="nogetter ? 'pa-0' : 'pa-4 pa-lg-8 pa-xl-8 pt-4 '"
+      :class="nogetter ? 'pa-0' : 'pa-4 pa-lg-6 pa-xl-8 pt-4 '"
       fluid
     >
       <transition name="route-animation">

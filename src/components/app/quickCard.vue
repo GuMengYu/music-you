@@ -5,11 +5,13 @@
       color="surfaceVariant"
       class="d-flex quick-card"
       flat
+      :height="height"
       :to="to"
+      :elevation="hover ? 1 : 0"
     >
       <v-img
-        max-height="80"
-        max-width="80"
+        :max-height="height"
+        :max-width="height"
         class="card-img"
         lazy-src="@assets/default-cover.svg"
         :src="coverImgUrl"
@@ -25,7 +27,7 @@
         </span>
         <v-fade-transition>
           <div class="action ml-2" v-show="hover">
-            <v-btn fab small color="primary" @click="play">
+            <v-btn fab small color="primary" @click.prevent="play">
               <v-icon v-text="mdiPlay" color="onPrimary" />
             </v-btn>
           </div>
@@ -68,6 +70,19 @@ export default {
         artist: `/artist/${this.data.id}`,
       }[this.type];
     },
+    height() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+          return 64;
+        case 'lg':
+        case 'xl':
+          return 80;
+        default:
+          return 64;
+      }
+    },
   },
   methods: {
     async play() {
@@ -96,17 +111,11 @@ export default {
       this.loading = false;
     },
   },
-  watch: {
-    '$vuetify.breakpoint.name'(val) {
-      console.log(val);
-    },
-  },
 };
 </script>
 
 <style scoped lang="scss">
 .quick-card {
-  height: 80px;
   .card-info {
     padding: 0 16px;
   }

@@ -40,7 +40,7 @@
           </span>
           <v-btn depressed rounded @click="play" color="primary" small>
             <v-icon v-text="icon.mdiPlay" small class="mr-2" />
-            播放
+            {{ $t('common.play') }}
           </v-btn>
         </div>
         <div class="d-flex mb-4 align-center">
@@ -147,8 +147,13 @@
       </div>
 
       <common-card class="flex-fill" color="surfaceVariant" title="专辑歌曲">
-        <v-list dense class="surfaceVariant">
-          <song-bar v-for="al in album.tracks" :song="al" :key="al.id" />
+        <v-list class="surfaceVariant">
+          <track-item
+            v-for="(track, idx) in album.tracks"
+            :track="track"
+            :key="track.id"
+            :index="idx + 1"
+          />
         </v-list>
       </common-card>
     </div>
@@ -164,7 +169,7 @@ import {
   mdiInformation,
 } from '@mdi/js';
 import { getAlbum, getArtistAlbum, getAlbumDynamic } from '@/api';
-import SongBar from '@components/app/SongBar.vue';
+import TrackItem from '@components/app/TrackItem';
 import Cover from '@components/app/Cover.vue';
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';
@@ -174,7 +179,7 @@ import { sub } from '@api/music';
 
 export default {
   name: 'Album',
-  components: { CommonCard, SongBar, Cover },
+  components: { CommonCard, TrackItem, Cover },
   filters: {
     formatDate(datetime) {
       return dayjs(datetime).format('YYYY');

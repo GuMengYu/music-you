@@ -118,7 +118,7 @@ const musicRoutes = [
     path: '/cloud_disk',
     name: 'cloud_disk',
     component: lazyLoad('CloudDisk'),
-    meta: { keepAlive: true },
+    meta: { keepAlive: true, needLogin: true },
   },
   {
     path: '/search/:keywords?',

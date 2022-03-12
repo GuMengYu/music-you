@@ -178,8 +178,8 @@
           :bench="5"
           class="surfaceVariant virtual-scroll-container"
         >
-          <template v-slot:default="{ item: song }">
-            <SongBar :song="song" />
+          <template v-slot:default="{ item: song, index }">
+            <track-item :track="song" :index="index + 1" from="list" />
           </template>
         </v-virtual-scroll>
       </common-card>
@@ -196,7 +196,7 @@ import {
   mdiMapMarkerCircle,
 } from '@mdi/js';
 import { getPlayList, getRelatedPlayList, deletePlayList } from '@api/index';
-import SongBar from '@components/app/SongBar.vue';
+import TrackItem from '@components/app/TrackItem.vue';
 import Cover from '@components/app/Cover.vue';
 import CommonCard from '@components/CommonCard.vue';
 
@@ -206,7 +206,7 @@ import { isElectron } from '@util/fn';
 import { sub } from '@api/music';
 export default {
   name: 'List',
-  components: { SongBar, Cover, CommonCard },
+  components: { TrackItem, Cover, CommonCard },
   filters: {
     formatDate(datetime) {
       return dayjs(datetime).format('YYYY');

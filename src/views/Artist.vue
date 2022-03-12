@@ -75,15 +75,17 @@
         </v-card>
       </section>
       <section class="hot-songs-container d-flex justify-space-between">
-        <div class="hot-songs">
+        <div class="hot-songs mr-6">
           <div class="item-title d-flex justify-space-between my-3">
             <span class="text-h6">{{ $t('main.artist.hot') }}</span>
           </div>
-          <carousel :rows="4" grid-style="C">
-            <song-bar
-              v-for="track in hotSongs"
+          <carousel :rows="4" grid-style="1-1-2-3">
+            <track-item
+              v-for="(track, idx) in hotSongs"
               :key="track.id"
-              :song="track"
+              :index="idx"
+              :track="track"
+              from="album"
               class="track-item"
             />
           </carousel>
@@ -225,20 +227,20 @@ import {
 import { dispatch } from 'vuex-pathify';
 
 import Cover from '@components/app/Cover.vue';
-import SongBar from '@components/app/SongBar.vue';
 import CoverList from '@components/app/CoverList.vue';
 import VideoCover from '@components/app/VideoCover.vue';
 import Carousel from '@components/layout/Carousel.vue';
 import ArtistSkeleton from '@components/skeleton/ArtistSkeleton.vue';
 import ArtistsCover from '@components/app/Artists.vue';
 import dayjs from 'dayjs';
+import TrackItem from '@components/app/TrackItem';
 
 export default {
   components: {
+    TrackItem,
     ArtistsCover,
     CoverList,
     Cover,
-    SongBar,
     VideoCover,
     Carousel,
     ArtistSkeleton,

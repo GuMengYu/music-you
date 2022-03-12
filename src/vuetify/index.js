@@ -14,7 +14,7 @@ export function createVuetify(store) {
 
   return new Vuetify({
     breakpoint: {
-      mobileBreakpoint: 'sm', // 这个值等于960
+      mobileBreakpoint: 'xs', // 这个值等于600
     },
     icons: {
       iconfont: 'mdiSvg',

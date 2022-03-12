@@ -4,6 +4,7 @@
     app
     :mini-variant="drawermini"
     color="surface"
+    :temporary="false"
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
@@ -56,6 +57,7 @@ import {
   mdiLibrary,
   mdiMusicNoteHalfDotted,
   mdiPlaylistMusicOutline,
+  mdiHarddisk,
 } from '@mdi/js';
 import { get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
@@ -68,7 +70,7 @@ export default {
     NavItem,
     DrawerToggle,
   },
-  data: function () {
+  data() {
     const _t = (key) => this.$i18n.t(`main.nav.${key}`);
     return {
       defaultNav1: [
@@ -98,11 +100,15 @@ export default {
           title: _t('stars'),
           to: '/library',
         },
-        // { icon: mdiAlbum, val: 'cloud_disk', title: _t('disk'), to: '/cloud_disk' },
+        {
+          icon: mdiHarddisk,
+          val: 'cloud_disk',
+          title: _t('disk'),
+          to: '/cloud_disk',
+        },
         // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       // defaultNav3: [],
-      mini: true,
     };
   },
   computed: {
@@ -147,18 +153,10 @@ export default {
       right: 0;
     }
     .drawer-item {
-      height: 40px;
       transition: height 0.3s ease-out;
     }
     .drawer-toggle {
       transition: margin 0.2s ease-out;
-    }
-  }
-  &.v-navigation-drawer--mini-variant {
-    .system_nav {
-      .drawer-item {
-        height: 40px;
-      }
     }
   }
 }

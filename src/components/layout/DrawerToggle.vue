@@ -1,10 +1,5 @@
 <template>
-  <v-btn
-    icon
-    @click="drawermini = !drawermini"
-    class="no-drag-area"
-    style="height: 40px; width: 40px"
-  >
+  <v-btn icon @click="drawermini = !drawermini" class="no-drag-area">
     <v-icon>
       {{ mdiMenu }}
     </v-icon>

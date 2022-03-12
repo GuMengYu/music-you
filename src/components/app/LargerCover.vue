@@ -7,6 +7,7 @@
       :class="{ 'cover-hover': hover }"
       rounded="xl"
       color="surfaceVariant"
+      :elevation="hover ? 1 : 0"
     >
       <v-img :src="coverImgUrl" :aspect-ratio="16 / 9">
         <v-fade-transition>
