@@ -13,6 +13,7 @@ import * as directives from './directives';
 
 import '@/scss/global.scss';
 import '@/scss/animation.scss';
+import 'animate.css';
 // import '@/mock/index';
 import { mdiClose } from '@mdi/js';
 

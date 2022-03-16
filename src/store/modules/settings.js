@@ -15,7 +15,7 @@ const state = () => {
         dataURL: '',
         palette: {},
       },
-      palettes: 'RedSandDunes',
+      palettes: 'GreenMountainTop',
       volume: 0.8,
       dynamicBg: false,
       account: {},

@@ -273,11 +273,11 @@ export default class Player {
       time = +dt / 1000;
     }
     if (time) {
-      console.log('歌曲打卡', this.track.name, time, played);
+      console.log('歌曲打卡', this.track.name, Math.ceil(time), played);
       scrobble({
         id,
         sourceid,
-        time,
+        time: Math.ceil(time),
       });
     }
   }

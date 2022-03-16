@@ -5,7 +5,7 @@
       @click="noop"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
-      class="track-item-wrapper rounded px-4"
+      class="track-item-wrapper rounded px-2"
       :style="gridTemplate"
     >
       <div class="track-index">

@@ -1,5 +1,9 @@
 <template>
-  <v-expand-transition>
+  <transition
+    name="custom-classes-transition"
+    enter-active-class="animate__animated animate__bounceIn"
+    leave-active-class="animate__animated animate__bounceOutRight"
+  >
     <div v-show="showList" class="rounded-lg play-list-container">
       <v-toolbar
         tag="header"
@@ -18,6 +22,7 @@
         </v-btn>
       </v-toolbar>
       <v-virtual-scroll
+        v-if="playingList.list.length > 50"
         height="450"
         item-height="62"
         :items="playingList.list"
@@ -26,32 +31,29 @@
         <template v-slot:default="{ item: song, index }">
           <track-item :track="song" :key="song.id" :index="index + 1" />
         </template>
-
-        <!--        <v-list-->
-        <!--          dense-->
-        <!--          two-line-->
-        <!--          nav-->
-        <!--          width="350"-->
-        <!--          max-height="70vh"-->
-        <!--          min-height="50vh"-->
-        <!--          class="play-list-container-list overflow-y-auto"-->
-        <!--        >-->
-        <!--          <v-list-item-group color="primary" v-if="nextList.length">-->
-
-        <!--          </v-list-item-group>-->
-        <!--          <v-list-item v-else>-->
-        <!--            {{ $t('common.empty_playing_list') }}-->
-        <!--          </v-list-item>-->
-        <!--        </v-list>-->
       </v-virtual-scroll>
+      <v-list
+        v-else
+        dense
+        two-line
+        nav
+        max-height="50vh"
+        class="play-list-container-list overflow-y-auto"
+      >
+        <template v-for="(song, index) in playingList.list">
+          <track-item :track="song" :key="song.id" :index="index + 1" />
+        </template>
+      </v-list>
     </div>
-  </v-expand-transition>
+  </transition>
 </template>
 
 <script>
 import { mdiCloseCircle } from '@mdi/js';
 import { sync, get } from 'vuex-pathify';
 import TrackItem from '@components/app/TrackItem';
+// import { gsap } from 'gsap';
+
 export default {
   name: 'PlayingList',
   components: { TrackItem },
@@ -74,7 +76,23 @@ export default {
   },
   watch: {},
   created() {},
-  methods: {},
+  methods: {
+    // beforeEnter(e) {
+    //   console.log(e, 'before enter', gsap);
+    //   gsap.to(e, { y: -80, duration: 1 });
+    // },
+    // enter(el, done) {
+    //   setTimeout(() => {
+    //     done()
+    //   }, 2000)
+    // },
+    // afterEnter() {
+    //   console.log('after enter')
+    // },
+    // afterLeave(e) {
+    //   gsap.to(e, { y: 0, duration: 1 });
+    // },
+  },
 };
 </script>
 
