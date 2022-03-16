@@ -1,5 +1,5 @@
 <template>
-  <v-list dense expand nav v-bind="$attrs">
+  <v-list dense expand v-bind="$attrs">
     <template v-for="(item, i) in items">
       <v-subheader
         v-if="item.heading"

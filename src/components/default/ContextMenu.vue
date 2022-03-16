@@ -23,7 +23,7 @@
             @click="_dispatch(item)"
           >
             <v-list-item-icon v-if="item.icon">
-              <v-icon color="primary">
+              <v-icon>
                 {{ item.icon }}
               </v-icon>
             </v-list-item-icon>
@@ -39,7 +39,7 @@
 import DefaultList from '@components/default/List.vue';
 import { sync } from 'vuex-pathify';
 import { getList, sub } from '@api/music';
-import { getMvUrl, getSongDownloadUrl } from '@api/index';
+import { getMvUrl, getSongDownloadUrl } from '@/api';
 
 import { isElectron, downloadFile } from '@util/fn';
 import { mapGetters } from 'vuex';

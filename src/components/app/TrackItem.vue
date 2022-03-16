@@ -2,7 +2,6 @@
   <v-hover v-slot="{ hover }">
     <div
       v-ripple
-      @click="noop"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
       class="track-item-wrapper rounded px-2"
@@ -10,7 +9,7 @@
     >
       <div class="track-index">
         <span class="track-count" v-show="!hover">{{ index }}</span>
-        <v-btn icon @click="play" v-show="hover">
+        <v-btn icon @click.stop="play" v-show="hover">
           <v-icon small v-text="mdiPlay" />
         </v-btn>
       </div>
@@ -119,12 +118,12 @@ export default {
       if (this.from !== 'album') {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [second] 2fr [last] minmax(80px, 1fr)',
+            '[index] 28px [first] 4fr [second] 2fr [last] minmax(100px, 1fr)',
         };
       } else {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [last] minmax(80px, 1fr)',
+            '[index] 28px [first] 4fr [last] minmax(100px, 1fr)',
         };
       }
     },
@@ -137,7 +136,6 @@ export default {
       }
     },
     more() {},
-    noop() {},
     openMenu(e) {
       const { clientX: x, clientY: y } = e;
       dispatch('contextmenu/show', { x, y, items: this.menuItems });
@@ -180,7 +178,7 @@ export default {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 }
 .artist-name {

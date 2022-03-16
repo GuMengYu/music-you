@@ -38,10 +38,16 @@
         two-line
         nav
         max-height="50vh"
+        min-height="20vh"
         class="play-list-container-list overflow-y-auto"
       >
         <template v-for="(song, index) in playingList.list">
           <track-item :track="song" :key="song.id" :index="index + 1" />
+        </template>
+        <template v-if="!playingList.list.length">
+          <p class="d-flex justify-center font-weight-bold">
+            {{ $t('common.empty_playing_list') }}
+          </p>
         </template>
       </v-list>
     </div>
@@ -103,7 +109,7 @@ export default {
   bottom: 80px;
   z-index: 7;
   width: 45vw;
-  max-width: 600px;
+  max-width: 550px;
   backdrop-filter: blur(30px);
   .play-list-container-list {
     background: transparent;

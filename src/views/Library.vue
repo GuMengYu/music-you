@@ -3,7 +3,7 @@
     <custom-col title="最近播放" subtitle="activity" class="mb-4">
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
-        <carousel :rows="4" gridStyle="C">
+        <carousel :rows="4" gridStyle="1-1-2-3">
           <track-item
             v-for="(recent, idx) in recents"
             :key="recent['resourceId']"

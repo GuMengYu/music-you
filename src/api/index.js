@@ -135,7 +135,7 @@ export const getAlbumDynamic = (id) =>
  */
 export const getPersonalized = (limit) =>
   xhr.get('/personalized', {
-    params: { limit },
+    params: { limit, timestamp: now() },
   });
 
 export const topArtists = () => xhr.get('/toplist/artist?type=2');
