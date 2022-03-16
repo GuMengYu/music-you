@@ -2109,7 +2109,7 @@
 
 "NeteaseCloudMusicApi@git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock":
   version "4.5.7"
-  resolved "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#981c6f2999ed68506ae273ba3f2511d9b7fbc4a0"
+  resolved "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#eff41baf2d781c29fd2734ebed4601f9ffae5aee"
   dependencies:
     "@nondanee/unblockneteasemusic" "^0.25.3"
     axios "^0.24.0"
