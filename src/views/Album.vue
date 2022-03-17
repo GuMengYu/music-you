@@ -16,8 +16,8 @@
         :data="album"
         :no-info="true"
         type="album"
-        :max-width="250"
-        :min-width="250"
+        :max-width="coverWidth"
+        :min-width="coverWidth"
         class="mr-4"
       />
       <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
@@ -38,8 +38,15 @@
             <v-icon small>{{ icon.mdiAlbum }}</v-icon>
             <span class="text-h5 ml-2"> {{ album.name }} </span>
           </span>
-          <v-btn depressed rounded @click="play" color="primary" small>
-            <v-icon v-text="icon.mdiPlay" small class="mr-2" />
+          <v-btn
+            depressed
+            rounded
+            @click="play"
+            color="primary"
+            small
+            class="onPrimary--text"
+          >
+            <v-icon v-text="icon.mdiPlay" small />
             {{ $t('common.play') }}
           </v-btn>
         </div>
@@ -49,13 +56,13 @@
             {{ album.artist.name }}
           </span>
         </div>
-        <div class="d-flex align-start">
+        <div class="d-flex align-start" @click="showMoreDesc = true">
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
           <p class="text-caption h-3x ml-2">
             {{ album.description }}
           </p>
         </div>
-        <div class="d-flex justify-start">
+        <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -74,7 +81,6 @@
             </template>
             <span>{{ subscribed ? '取消收藏' : '收藏专辑' }}</span>
           </v-tooltip>
-          <v-spacer />
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -99,7 +105,7 @@
     <div class="d-flex">
       <div class="mr-4">
         <v-card
-          :width="250"
+          :width="coverWidth"
           :height="108"
           flat
           color="tertiaryContainer"
@@ -123,7 +129,7 @@
           class="mt-2"
           title="Ta的其他热门专辑"
           rounded="xl"
-          :width="250"
+          :width="coverWidth"
           color="surfaceVariant"
         >
           <v-list color="surfaceVariant">
@@ -157,6 +163,14 @@
         </v-list>
       </common-card>
     </div>
+    <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
+      <v-card color="surfaceVariant" class="onSurfaceVariant--text">
+        <v-card-title class="text-h5 surfaceVariant">专辑简介</v-card-title>
+        <v-card-text>
+          {{ album['description'] }}
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -176,10 +190,12 @@ import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
 import CommonCard from '@components/CommonCard.vue';
 import { sub } from '@api/music';
+import mixin from './mixins';
 
 export default {
   name: 'Album',
   components: { CommonCard, TrackItem, Cover },
+  mixins: [mixin],
   filters: {
     formatDate(datetime) {
       return dayjs(datetime).format('YYYY');
@@ -210,6 +226,7 @@ export default {
       relatedAlbum: [],
       loading: true,
       subscribed: false,
+      showMoreDesc: false,
     };
   },
   computed: {

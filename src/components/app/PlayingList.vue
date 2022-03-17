@@ -58,7 +58,6 @@
 import { mdiCloseCircle } from '@mdi/js';
 import { sync, get } from 'vuex-pathify';
 import TrackItem from '@components/app/TrackItem';
-// import { gsap } from 'gsap';
 
 export default {
   name: 'PlayingList',
@@ -73,31 +72,6 @@ export default {
     playingList: get('music/playingList'),
     current: get('music/track@id'),
     showList: sync('music/showList'),
-    // nextList() {
-    //   const idx = this.playingList?.list?.findIndex(
-    //     (i) => i.id === this.current,
-    //   );
-    //   return this.playingList?.list?.slice(idx + 1);
-    // },
-  },
-  watch: {},
-  created() {},
-  methods: {
-    // beforeEnter(e) {
-    //   console.log(e, 'before enter', gsap);
-    //   gsap.to(e, { y: -80, duration: 1 });
-    // },
-    // enter(el, done) {
-    //   setTimeout(() => {
-    //     done()
-    //   }, 2000)
-    // },
-    // afterEnter() {
-    //   console.log('after enter')
-    // },
-    // afterLeave(e) {
-    //   gsap.to(e, { y: 0, duration: 1 });
-    // },
   },
 };
 </script>

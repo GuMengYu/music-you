@@ -55,7 +55,8 @@ export default {
     playlists: '歌单',
     artists: '歌手',
     mvs: 'MV',
-    my_fav: '我喜欢的音乐',
+    my_fav: '喜欢的音乐',
+    create_list: '创建新歌单',
   },
   common: {
     forward: '前进',
@@ -69,6 +70,8 @@ export default {
     search_type_1: '搜索',
     search_type_2: '在网易云音乐中搜索',
     more: '显示更多',
+    expand: '查看更多',
+    collapse: '收起',
     translations: '翻译',
     not_support: '暂时不支持哟',
     empty_playing_list: '无待播歌曲',

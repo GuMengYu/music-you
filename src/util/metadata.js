@@ -33,10 +33,12 @@ export const officialPlaylist = {
 };
 
 export const specialType = {
-  5: {
+  fav: {
+    id: 5,
     title: '我喜欢的音乐',
   },
-  100: {
+  radar: {
+    id: 100,
     title: '私人雷达',
   },
 };

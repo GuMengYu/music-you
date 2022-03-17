@@ -149,6 +149,7 @@ export default {
   grid-gap: 16px;
   align-items: center;
   height: 56px;
+  cursor: pointer;
   &:hover {
     background-color: var(--v-surfaceVariant-base);
   }

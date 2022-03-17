@@ -45,16 +45,16 @@
           </v-overlay>
         </v-slide-y-reverse-transition>
       </v-card>
-      <v-card-title class="px-3" v-if="!noInfo">
+      <v-card-title v-if="!noInfo">
         <router-link :to="to" class="title">
           <span
             :class="`h-${titleLine}x`"
-            class="text-subtitle-1 font-weight-bold onSurfaceVariant--text"
+            class="text-subtitle-1 onSurfaceVariant--text"
             >{{ data.name }}</span
           >
         </router-link>
       </v-card-title>
-      <v-card-subtitle class="px-3" v-if="!noInfo && subTitle">
+      <v-card-subtitle v-if="!noInfo && subTitle">
         <span class="h-1x text-subtitle-2" v-if="subTitle">
           {{ subTitle }}
         </span>

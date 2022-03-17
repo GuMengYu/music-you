@@ -25,7 +25,6 @@
     "core-js": "^3.6.5",
     "dexie": "^3.2.0",
     "electron-dl": "^3.2.1",
-    "gsap": "^3.9.1",
     "howler": "^2.2.1",
     "js-cookie": "^2.2.1",
     "lodash-es": "^4.17.21",

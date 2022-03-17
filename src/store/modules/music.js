@@ -1,8 +1,9 @@
 import { getTrackDetail, sub } from '@api/music';
-import { getLikeList, personalFM } from '@api/index';
+import { getLikeList, personalFM } from '@/api';
 import { getUserPlaylist } from '@api/user';
 import { make } from 'vuex-pathify';
 import { uniqWith, isEqual } from 'lodash-es';
+import { specialType } from '@util/metadata';
 
 let localData = {};
 
@@ -70,6 +71,12 @@ export default {
       return state.playingList?.list?.[
         index === 0 ? state.playingList?.list?.length - 1 : index - 1
       ]?.id;
+    },
+    favPlaylist(state) {
+      return (
+        state.playlist.find((i) => i['specialType'] === specialType.fav.id) ??
+        {}
+      );
     },
     liked: (state) => (id) => !!state.likes.find((i) => i === id),
   },

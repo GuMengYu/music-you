@@ -15,8 +15,8 @@
         :data="playlist"
         :no-info="true"
         type="playlist"
-        :max-width="250"
-        :min-width="250"
+        :max-width="coverWidth"
+        :min-width="coverWidth"
         class="mr-4"
       />
       <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
@@ -44,9 +44,10 @@
             rounded
             @click="play"
             color="primary"
+            small
             class="onPrimary--text"
           >
-            <v-icon v-text="icon.mdiPlay" class="mr-2" />
+            <v-icon v-text="icon.mdiPlay" />
             播放
           </v-btn>
         </div>
@@ -56,13 +57,17 @@
             {{ playlist.creator.nickname }}
           </span>
         </div>
-        <div class="d-flex align-start mb-4" v-if="playlist.description">
+        <div
+          class="d-flex align-start mb-4"
+          v-if="playlist.description"
+          @click="showMoreDesc = true"
+        >
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
           <p class="text-caption h-3x ml-2">
             {{ playlist.description }}
           </p>
         </div>
-        <div class="d-flex justify-start">
+        <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
           <v-btn
             depressed
             small
@@ -94,7 +99,6 @@
             </template>
             <span>{{ subscribed ? '取消收藏' : '收藏歌单' }}</span>
           </v-tooltip>
-          <v-spacer />
           <v-tooltip top color="black">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -119,7 +123,7 @@
     <div class="d-flex">
       <div class="mr-4">
         <v-card
-          :width="250"
+          :width="coverWidth"
           :height="108"
           flat
           color="surfaceVariant"
@@ -147,7 +151,7 @@
           class="mt-4"
           title="相关歌单推荐"
           rounded="xl"
-          :width="250"
+          :width="coverWidth"
           color="surfaceVariant"
         >
           <v-list color="surfaceVariant">
@@ -184,6 +188,14 @@
         </v-virtual-scroll>
       </common-card>
     </div>
+    <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
+      <v-card color="surfaceVariant" class="onSurfaceVariant--text">
+        <v-card-title class="text-h5 surfaceVariant">歌单简介</v-card-title>
+        <v-card-text>
+          {{ playlist['description'] }}
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -204,9 +216,12 @@ import { dispatch, get } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
 import { sub } from '@api/music';
+import mixin from './mixins';
+
 export default {
   name: 'List',
   components: { TrackItem, Cover, CommonCard },
+  mixins: [mixin],
   filters: {
     formatDate(datetime) {
       return dayjs(datetime).format('YYYY');
@@ -241,6 +256,7 @@ export default {
       relatedPlaylist: [],
       subscribed: false,
       isDelete: false,
+      showMoreDesc: false,
     };
   },
   computed: {

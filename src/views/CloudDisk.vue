@@ -46,7 +46,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content>
-              <v-list-item-title v-text="song.al.name" />
+              <v-list-item-title v-text="song.al && song.al.name" />
             </v-list-item-content>
             <v-list-item-action class="d-flex flex-row align-center">
               <v-btn

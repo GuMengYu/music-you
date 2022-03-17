@@ -36,7 +36,7 @@
             elevation="0"
             @click="play"
             color="primary"
-            x-small
+            small
           >
             <v-icon v-text="playingState.icon" color="onPrimary" />
           </v-btn>
@@ -100,8 +100,8 @@ export default {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
         case 'sm':
-        case 'md':
           return 64;
+        case 'md':
         case 'lg':
         case 'xl':
           return 80;

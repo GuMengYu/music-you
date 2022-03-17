@@ -14,14 +14,7 @@
                 {{ board.name }}
               </v-card-title>
               <v-card-subtitle
-                class="
-                  board-right
-                  d-flex
-                  flex-column
-                  text-caption
-                  justify-space-around
-                  py-0
-                "
+                class="d-flex flex-column text-caption justify-space-around py-0"
               >
                 <span
                   v-for="(track, index) in board.tracks"
