@@ -52,8 +52,9 @@
 </template>
 <script>
 import { mdiDotsHorizontal, mdiPlay, mdiHeart } from '@mdi/js';
-import { dispatch, get } from 'vuex-pathify';
+import { dispatch, get, commit } from 'vuex-pathify';
 import ArtistsLink from '@components/app/ArtistsLink';
+import { doPlaylist } from '@api/music';
 
 export default {
   name: 'TrackItem',
@@ -71,6 +72,11 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    own: {
+      type: Boolean,
+      default: false,
+    },
+    pid: [String, Number],
   },
   data: () => ({
     mdiDotsHorizontal,
@@ -78,6 +84,9 @@ export default {
     mdiHeart,
   }),
   computed: {
+    liked() {
+      return this.$store.getters['music/liked'](this.track.id);
+    },
     current: get('music/track@id'),
     active() {
       return this.track.id === this.current;
@@ -89,19 +98,43 @@ export default {
         fileName: `${this.track.name}`,
       };
       const items = [
-        { title: '播放', action: 'play', metadata },
-        { title: '收藏到歌单', action: 'add', metadata },
-        { title: '下载', action: 'download', metadata },
-      ];
-      if (this.track?.al.id && this.from !== 'album') {
-        items.unshift({
-          title: '前往专辑页',
+        { title: '加入播放列表', action: 'play', metadata },
+        {
+          title: '转至艺人',
           action: 'goto',
-          metadata: { type: 'album', id: this.track?.al?.id },
-        });
+          metadata: { type: 'artist', id: this.artists[0]?.id },
+        },
+        {
+          title: '转至专辑',
+          action: 'goto',
+          metadata: { type: 'album', id: this.album?.id },
+        },
+        {
+          title: '收藏到歌单',
+          metadata: {
+            cb: () => {
+              commit('app/addToPlayList', this.track.id);
+            },
+          },
+        },
+        { title: '下载到本地', action: 'download', metadata },
+      ];
+      if (this.liked) {
+        items.push({ title: '从"喜欢的音乐"移除', action: 'sub', metadata });
+      } else {
+        items.push({ title: '添加到"喜欢的音乐"', action: 'sub', metadata });
       }
-      if (!this.$store.getters['music/liked'](this.track.id)) {
-        items.push({ title: '添加到喜欢', action: 'sub', metadata });
+      if (this.own) {
+        items.push({
+          title: '从此歌单删除',
+          action: 'sub',
+          metadata: {
+            cb: async () => {
+              await doPlaylist('del', this.pid, [this.track.id]);
+              this.$emit('reload');
+            },
+          },
+        });
       }
       return items;
     },

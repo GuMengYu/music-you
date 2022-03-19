@@ -27,6 +27,7 @@
           </v-list-item-icon>
           <v-list-item-title class="text-caption" v-text="item.title" />
         </v-list-item>
+        <v-divider v-if="item.withDivider" />
       </template>
     </default-list>
   </v-menu>

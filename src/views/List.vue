@@ -77,7 +77,7 @@
             @click="del"
             rounded
             :disabled="isDelete"
-            v-if="playlist.creator.userId === profile.userId"
+            v-if="own"
           >
             {{ isDelete ? '已删除' : '删除歌单' }}
           </v-btn>
@@ -183,7 +183,13 @@
           class="surfaceVariant virtual-scroll-container"
         >
           <template v-slot:default="{ item: song, index }">
-            <track-item :track="song" :index="index + 1" from="list" />
+            <track-item
+              :track="song"
+              :index="index + 1"
+              from="list"
+              :own="own"
+              :pid="playlist.id"
+            />
           </template>
         </v-virtual-scroll>
       </common-card>
@@ -277,6 +283,9 @@ export default {
       return this.playlist?.tracks?.reduce((p, c) => p + c['dt'], 0);
     },
     profile: get('settings/account@profile'),
+    own() {
+      return this.playlist.creator.userId === this.profile.userId;
+    },
   },
   watch: {
     id() {

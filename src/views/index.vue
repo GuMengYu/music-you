@@ -8,6 +8,7 @@
     <playing-page />
     <default-login />
     <context-menu />
+    <add-to-playlist />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
   </v-app>
 </template>
@@ -24,10 +25,12 @@ import ContextMenu from '@components/default/ContextMenu.vue';
 
 import { sync, get } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
+import AddToPlaylist from '@components/app/addToPlaylist';
 
 export default {
   name: 'Layout',
   components: {
+    AddToPlaylist,
     ContextMenu,
     DefaultView,
     DefaultSetting,

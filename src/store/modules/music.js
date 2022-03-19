@@ -78,6 +78,13 @@ export default {
         {}
       );
     },
+    ownPlaylist(state, getters, rootState, rootGetters) {
+      return (
+        state.playlist.filter(
+          (i) => i['userId'] === rootGetters['settings/userId'],
+        ) ?? {}
+      );
+    },
     liked: (state) => (id) => !!state.likes.find((i) => i === id),
   },
   actions: {
