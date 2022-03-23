@@ -4,6 +4,7 @@ export default {
   },
   main: {
     nav: {
+      search: 'Search',
       discover: 'Discover music',
       explore: 'Explore',
       fm: 'Private FM',

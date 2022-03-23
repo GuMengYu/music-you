@@ -1,12 +1,22 @@
 <template>
-  <div>
+  <div class="account-wrapper">
     <div v-if="logged">
       <app-menu>
         <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn
+            depressed
+            v-bind="attrs"
+            v-on="on"
+            rounded
+            class="pl-0 account-avatar"
+          >
             <v-avatar size="30">
               <v-img :src="profile.avatarUrl" />
             </v-avatar>
+            <span class="account-name ml-2">
+              {{ profile.nickname }}
+            </span>
+            <v-icon>{{ icon.mdiMenuDown }}</v-icon>
           </v-btn>
         </template>
         <template>
@@ -80,7 +90,7 @@
 
 <script>
 import { sync, get, dispatch } from 'vuex-pathify';
-import { mdiLogin, mdiCog, mdiGithub } from '@mdi/js';
+import { mdiLogin, mdiCog, mdiGithub, mdiMenuDown } from '@mdi/js';
 import AppMenu from '@components/default/Menu.vue';
 import { isElectron } from '@util/fn';
 
@@ -93,6 +103,7 @@ export default {
         mdiLogin,
         mdiCog,
         mdiGithub,
+        mdiMenuDown,
       },
       options: [
         {
@@ -141,3 +152,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.account-wrapper {
+  .account-name {
+    max-width: 110px;
+    overflow: hidden;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+</style>

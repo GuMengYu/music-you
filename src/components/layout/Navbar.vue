@@ -13,6 +13,18 @@
       >
         <drawer-toggle />
       </v-list-item>
+      <v-list-item class="justify-center" @click="showSearch = true">
+        <v-list-item-icon
+          class="d-flex align-center justify-center align-self-center"
+        >
+          <v-icon size="20" color="primary">
+            {{ icon.mdiMagnify }}
+          </v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('main.nav.search') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-list-item-group>
         <nav-item
           class="drawer-item"
@@ -117,6 +129,7 @@ import {
   mdiHarddisk,
   mdiHeart,
   mdiPlus,
+  mdiMagnify,
 } from '@mdi/js';
 import { dispatch, get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
@@ -170,6 +183,7 @@ export default {
         // { icon: mdiRadio, val: 'radio', title: _t('radio'), to: '/radio' },
       ],
       icon: {
+        mdiMagnify,
         mdiHeart,
         mdiPlus,
       },
@@ -184,6 +198,7 @@ export default {
       logged: 'settings/logged',
       fav: 'music/favPlaylist',
     }),
+    showSearch: sync('app/showSearch'),
     drawermini: sync('app/drawermini'),
     playlist: get('music/playlist'),
     defaultNav3() {

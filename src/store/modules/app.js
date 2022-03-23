@@ -12,6 +12,7 @@ const state = {
   version: null,
   nav: [],
   downloadprogress: 0,
+  windowState: 'normal',
 };
 
 const mutations = {

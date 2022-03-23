@@ -4,8 +4,8 @@ import { BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 
 const defaultOptions = {
-  width: 960,
-  height: 640,
+  width: 1270,
+  height: 720,
   minWidth: 800,
   minHeight: 540,
   titleBarStyle: 'hiddenInset',
@@ -66,6 +66,22 @@ export default class WindowManager extends EventEmitter {
           this.window.hide();
         }
       }
+    });
+    this.window.on('maximize', () => {
+      console.log('window maximize');
+      this.window.webContents.send('windowState', 'maximize');
+    });
+    this.window.on('unmaximize', () => {
+      console.log('window unmaximize');
+      this.window.webContents.send('windowState', 'normal');
+    });
+    this.window.on('minimize', () => {
+      console.log('window minimize');
+      this.window.webContents.send('windowState', 'minimize');
+    });
+    this.window.on('restore', () => {
+      console.log('window restore');
+      this.window.webContents.send('windowState', 'normal');
     });
   }
   async loadURL() {

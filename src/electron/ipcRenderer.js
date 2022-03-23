@@ -58,6 +58,9 @@ export const registerIpcRenderer = (store) => {
     showDownloadComplete(aliasName);
     store.commit('app/downloadprogress', 0);
   });
+  ipcRenderer.on('windowState', (e, state) => {
+    store.commit('app/windowState', state);
+  });
   return ipcRenderer;
 };
 

@@ -4,6 +4,7 @@ export default {
   },
   main: {
     nav: {
+      search: '搜索',
       discover: '发现音乐',
       explore: '浏览',
       fm: '私人FM',
