@@ -15,7 +15,7 @@
         </v-avatar>
         <span class="text-h4">{{ $t('common.setting') }} </span>
       </div>
-      <v-list class="background mx-4 pb-12">
+      <v-list class="background mx-4 pb-16">
         <v-subheader> 主题和样式 </v-subheader>
         <v-list-item>
           <v-list-item-title class="font-weight-bold">主题</v-list-item-title>
@@ -115,6 +115,60 @@
             <v-btn text @click="clearCache">清除缓存</v-btn>
           </v-list-item-title>
         </v-list-item>
+        <v-divider />
+        <template v-show="enableWallhavenSet">
+          <v-subheader> 图图设置 </v-subheader>
+          <v-list-item>
+            <v-list-item-title class="font-weight-bold">
+              浏览wallhaven图片
+            </v-list-item-title>
+            <v-list-item-action>
+              <v-switch v-model="wallhaven" class="pr-4" />
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>
+              Default Categories and Purity
+            </v-list-item-title>
+            <v-chip-group v-model="categories" multiple>
+              <v-chip filter value="general" class="rounded-lg" outlined
+                >General</v-chip
+              >
+              <v-chip filter value="anime" class="rounded-lg" outlined
+                >Anime</v-chip
+              >
+              <v-chip filter value="people" class="rounded-lg" outlined
+                >People</v-chip
+              >
+            </v-chip-group>
+            <v-chip-group v-model="purity" multiple>
+              <v-chip
+                filter
+                value="sfw"
+                class="rounded-lg"
+                outlined
+                color="primary"
+                >Sfw</v-chip
+              >
+              <v-chip
+                filter
+                value="sketchy"
+                class="rounded-lg"
+                outlined
+                color="tertiary"
+                >Sketchy</v-chip
+              >
+              <v-chip
+                filter
+                value="nsfw"
+                class="rounded-lg"
+                outlined
+                color="error"
+                >Nsfw</v-chip
+              >
+            </v-chip-group>
+          </v-list-item>
+        </template>
       </v-list>
       <v-btn
         fixed
@@ -150,7 +204,8 @@ import themePalettes from '@/vuetify/theme';
 import { mdiCog, mdiPlus, mdiArrowLeft } from '@mdi/js';
 import { fileToDataURL } from '@util/fn';
 import { generatePaletteFromURL } from 'md3-theme-generator';
-import { playerIDB } from '@/idb/index';
+import { playerIDB } from '@/idb';
+import is from 'electron-is';
 export default {
   name: 'DefaultSetting',
   components: {
@@ -238,6 +293,9 @@ export default {
   },
   computed: {
     profile: get('settings/account@profile'),
+    enableWallhavenSet() {
+      return is.renderer();
+    },
     paletteOptions() {
       const { dataURL, palette = {} } = this.customPalette ?? {};
       if (dataURL && palette.light) {
@@ -261,6 +319,9 @@ export default {
       'palettes',
       'dynamicBg',
       'playingMode',
+      'wallhaven',
+      'purity',
+      'categories',
     ]),
     ...sync('app', ['showSettings', 'showLogin']),
   },

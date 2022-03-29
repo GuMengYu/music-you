@@ -53,9 +53,9 @@ export const registerIpcRenderer = (store) => {
     store.commit('app/downloadprogress', percent);
   });
   ipcRenderer.on('downloadCompleted', (e, file) => {
-    const { aliasName } = file;
+    const { aliasName, fileName } = file;
     console.log(file);
-    showDownloadComplete(aliasName);
+    showDownloadComplete(aliasName || fileName);
     store.commit('app/downloadprogress', 0);
   });
   ipcRenderer.on('windowState', (e, state) => {

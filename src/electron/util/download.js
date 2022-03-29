@@ -4,7 +4,7 @@ import { app } from 'electron';
 export const downloadFile = (data) => {
   const win = getWin();
   const downloadLocation = app.getPath('downloads');
-  const fileName = data.fileName.replaceAll('/', '');
+  const fileName = data.fileName || data.url.split('/').pop();
   download(win, data.url, {
     directory: downloadLocation,
     showBadge: false,

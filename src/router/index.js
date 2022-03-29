@@ -139,6 +139,32 @@ const musicRoutes = [
     name: 'playground',
     component: lazyLoad('playground'),
   },
+  {
+    path: '/wallhaven',
+    name: 'wallhaven',
+    component: lazyLoad('wallhaven'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
+    path: '/wallhaven/wallpaper/:id',
+    name: 'wallpaper',
+    props: true,
+    component: lazyLoad('wallhaven/wallpaper'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
+    path: '/wallhaven/search',
+    name: 'wallpapersearch',
+    props: true,
+    component: lazyLoad('wallhaven/search'),
+    meta: {
+      keepAlive: true,
+    },
+  },
 ];
 
 export function createRouter(vuetify, store) {

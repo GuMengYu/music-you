@@ -77,6 +77,23 @@
             <v-list-item-title>{{ $t('main.create_list') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          class="justify-center"
+          color="primary"
+          v-if="enableWallhaven"
+          to="/wallhaven"
+        >
+          <v-list-item-icon
+            class="d-flex align-center justify-center align-self-center"
+          >
+            <v-icon size="20" color="primary">
+              {{ icon.mdiWallpaper }}
+            </v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>wallhaven</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-divider v-show="!drawermini" />
         <v-subheader
           v-show="!drawermini"
@@ -130,6 +147,7 @@ import {
   mdiHeart,
   mdiPlus,
   mdiMagnify,
+  mdiWallpaper,
 } from '@mdi/js';
 import { dispatch, get, sync } from 'vuex-pathify';
 import { filter } from 'lodash-es';
@@ -186,6 +204,7 @@ export default {
         mdiMagnify,
         mdiHeart,
         mdiPlus,
+        mdiWallpaper,
       },
       newListDialog: false,
       playlistName: '',
@@ -201,6 +220,9 @@ export default {
     showSearch: sync('app/showSearch'),
     drawermini: sync('app/drawermini'),
     playlist: get('music/playlist'),
+    enableWallhaven() {
+      return get('settings/wallhaven') && is.renderer();
+    },
     defaultNav3() {
       const created = filter(
         this.playlist,

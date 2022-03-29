@@ -20,6 +20,9 @@ const state = () => {
       dynamicBg: false,
       account: {},
       playingMode: 'basic',
+      wallhaven: false,
+      purity: ['sfw', 'sketchy'],
+      categories: ['general', 'anime', 'people'],
     },
     data,
   );

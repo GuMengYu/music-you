@@ -1,21 +1,28 @@
 <template>
   <div>
-    <v-btn @click="show"> show toast </v-btn>
-    <store-card :presence="presence" />
-    <v-list>
-      <track-item :track="song" />
-      <track-item :track="song" />
-    </v-list>
+    <!--    <v-btn @click="show"> show toast </v-btn>-->
+    <!--    <store-card :presence="presence" />-->
+    <!--    <v-list>-->
+    <!--      <track-item :track="song" />-->
+    <!--      <track-item :track="song" />-->
+    <!--    </v-list>-->
+    <infinity-scroll-load :onInfinite="handleInfinite" :style="containerStyle">
+      <v-card-text v-for="(i, index) in list" :key="index">
+        {{ i }}
+      </v-card-text>
+    </infinity-scroll-load>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import StoreCard from '@components/app/StoreCard';
 import { generatePaletteFromURL } from 'md3-theme-generator';
 import TrackItem from '@components/app/TrackItem';
+import infinityScrollLoad from '@components/default/InfinityScrollLoad';
 export default {
   name: 'Index',
-  components: { TrackItem, StoreCard },
+  components: { TrackItem, StoreCard, infinityScrollLoad },
   data: () => ({
     data: {},
     song: {
@@ -150,6 +157,17 @@ export default {
         name: 'justin',
       },
     },
+    list: [
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+    ],
   }),
   async created() {
     const result = await generatePaletteFromURL(
@@ -160,6 +178,24 @@ export default {
   methods: {
     show() {
       this.$toast('Default toast', { timeout: -1 });
+    },
+    async handleInfinite($state) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
+      this.list.push(
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      );
+      $state.loaded();
+    },
+  },
+  computed: {
+    containerStyle() {
+      const { top, footer } = this.$vuetify.application;
+      const sum = top + footer + 48;
+      return {
+        height: `calc(100vh - ${sum}px)`,
+      };
     },
   },
 };

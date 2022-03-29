@@ -61,7 +61,7 @@ export default {
       @include --columns(6);
     }
   }
-  ::v-deep .cover-container {
+  ::v-deep .v-card {
     .v-responsive__content {
       // 覆盖v-image 中responsive__content 的内联样式，避免 grid item 计算宽度的问题
       width: inherit !important;
