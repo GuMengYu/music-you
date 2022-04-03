@@ -17,6 +17,7 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "@mdi/js": "^5.8.55",
     "@njzy/unblockneteasemusic": "^0.25.3",
