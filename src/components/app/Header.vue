@@ -1,12 +1,12 @@
 <template>
-  <v-app-bar class="app_header drag-area border-b" elevate-on-scroll flat>
+  <v-app-bar class="app_header drag-area border-b" elevate-on-scroll flat app>
     <template v-slot:prepend>
       <v-app-bar-nav-icon @click="toggleRail"></v-app-bar-nav-icon>
     </template>
     <v-app-bar-title>
       <v-img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="gooooooogle" width="68" />
     </v-app-bar-title>
-    <v-btn @click="showSetting">
+    <v-btn @click="showSetting" icon>
       <v-icon>{{ mdiCogs }}</v-icon>
     </v-btn>
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->

@@ -78,6 +78,7 @@ export default {
     dark: '深色',
     theme_color: '主题色',
     auto: '跟随系统',
+    mixed: '混合',
     quality: '音质',
     usageSize: '缓存占用空间',
     dynamicBg: '歌词动态背景',

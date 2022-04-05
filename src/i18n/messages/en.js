@@ -78,6 +78,7 @@ export default {
     dark: 'dark',
     theme_color: 'Theme color',
     auto: 'auto',
+    mixed: 'mixed',
     quality: 'Quality',
     usageSize: 'cache',
     dynamicBg: 'Dynamic Background',

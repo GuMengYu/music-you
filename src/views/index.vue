@@ -19,7 +19,7 @@
 import AppNav from '@components/app/Navbar.vue';
 import AppHeader from '@components/app/Header.vue';
 import AppContent from '@components/layout/View.vue';
-import AppSetting from '@components/app/Setting.vue';
+import AppSetting from '@components/app/setting/index.vue';
 import AppFooter from '@components/app/Footer.vue';
 </script>
 <script>
