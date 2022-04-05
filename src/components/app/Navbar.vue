@@ -1,21 +1,15 @@
 <template>
   <v-navigation-drawer
-    v-model="drawermini"
     class="nav"
     color="surface"
+    :rail="app.rail"
   >
     <v-list class="system_nav" rounded>
-      <v-list-item
-        class="d-flex px-0 drag-area drawer-toggle"
-        :class="navClass"
-      >
-        <v-btn icon @click="toggle"><v-icon> {{ icons.mdiNavigation }}</v-icon></v-btn>
-      </v-list-item>
        <v-list-item
           class="drawer-item"
           v-for="item in defaultNav1"
           :key="item.val"
-          @click="to"
+          :to="item.to"
         >
           <v-list-item-avatar left>
             <v-icon :icon="item.icon"></v-icon>
@@ -23,7 +17,6 @@
           <v-list-item-title v-text="item.title"></v-list-item-title>
         </v-list-item>
         <v-list-subheader
-          v-show="!drawermini"
           class="font-weight-bold text-uppercase ml-2"
         >
           {{ $t('main.nav.library') }}
@@ -42,6 +35,11 @@
   </v-navigation-drawer>
 </template>
 
+<script setup>
+import { useAppStore } from "@/store/app";
+const app = useAppStore();
+
+</script>
 <script>
 import {
   mdiAppleFinder,
@@ -125,7 +123,6 @@ export default {
     toggle() {
       this.drawermini = !this.drawermini
     },
-    to() {},
   }
 };
 </script>

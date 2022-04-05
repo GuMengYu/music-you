@@ -1,9 +1,11 @@
 <template>
   <v-app class="v-player">
-    <default-header />
-    <default-nav-bar />
+    <app-header />
+    <app-nav />
+    <app-content class="v-player-content" />
+    <app-footer />
+    <app-setting />
     <!-- 
-    <default-view class="v-player-content" />
     <player-bar />
     <default-setting />
     <playing-page />
@@ -13,14 +15,19 @@
   </v-app>
 </template>
 
+<script setup>
+import AppNav from '@components/app/Navbar.vue';
+import AppHeader from '@components/app/Header.vue';
+import AppContent from '@components/layout/View.vue';
+import AppSetting from '@components/app/Setting.vue';
+import AppFooter from '@components/app/Footer.vue';
+</script>
 <script>
-import DefaultNavBar from '@components/layout/Navbar.vue';
 // import PlayerBar from '@components/app/playerBar/index.vue';
 // import DefaultSetting from '@components/app/settings.vue';
 // import DefaultLogin from '@components/app/Login.vue';
 // import PlayingPage from '@components/app/Playing.vue';
-import DefaultHeader from '@components/layout/Header.vue';
-// import DefaultView from '@components/layout/View.vue';
+
 // import ContextMenu from '@components/default/ContextMenu.vue';
 
 // import { sync, get } from 'vuex-pathify';
@@ -28,16 +35,6 @@ import DefaultHeader from '@components/layout/Header.vue';
 
 export default {
   name: 'Layout',
-  components: {
-    // ContextMenu,
-    // DefaultView,
-    // DefaultSetting,
-    // PlayerBar,
-    DefaultNavBar,
-    // DefaultLogin,
-    // PlayingPage,
-    DefaultHeader,
-  },
   data: () => ({
     // openNav: true,
     // openSetting: false,

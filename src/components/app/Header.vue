@@ -1,5 +1,14 @@
 <template>
-  <v-app-bar app class="app_header drag-area" color="surface" elevate-on-scroll>
+  <v-app-bar class="app_header drag-area border-b" elevate-on-scroll flat>
+    <template v-slot:prepend>
+      <v-app-bar-nav-icon @click="toggleRail"></v-app-bar-nav-icon>
+    </template>
+    <v-app-bar-title>
+      <v-img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="gooooooogle" width="68" />
+    </v-app-bar-title>
+    <v-btn @click="showSetting">
+      <v-icon>{{ mdiCogs }}</v-icon>
+    </v-btn>
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
     <!--    <div class="d-flex">-->
     <!--      -->
@@ -25,10 +34,20 @@
     <!--        <theme-toggle />-->
     <!--      </div>-->
     <!-- <search /> -->
-    <v-btn color="primary">233</v-btn>
   </v-app-bar>
 </template>
+<script setup>
+import { useAppStore } from "@/store/app";
+import { mdiCogs } from '@mdi/js';
 
+const app = useAppStore()
+const toggleRail = () => {
+  app.rail = !app.rail
+}
+const showSetting = () => {
+  app.showSetting = !app.showSetting
+}
+</script>
 <script>
 // import { mdiMagnify } from '@mdi/js';
 // import { get } from 'vuex-pathify';

@@ -1,8 +1,11 @@
 <template>
   <router-view v-slot="{ Component }">
-    <v-fade-transition>
+    <transition
+        name="custom-classes-transition"
+        enter-active-class="animate__animated animate__fadeIn"
+    >
       <component :is="Component" />
-    </v-fade-transition>
+    </transition>
   </router-view>
 </template>
 

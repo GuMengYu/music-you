@@ -1,14 +1,12 @@
 <template>
   <div class="discover">
    discover
+    <Test />
   </div>
 </template>
-<script>
+<script setup>
+import Test from './example/test';
 
-
-export default {
-  name: 'Discover',
-};
 </script>
 <style lang="scss" scoped>
 .discover {

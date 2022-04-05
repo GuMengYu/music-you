@@ -1,4 +1,4 @@
-import { createRouter as _createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const lazyLoad = (name) => () =>
   import(`../views/${name}.vue`);
@@ -13,7 +13,7 @@ const musicRoutes = [
   {
     path: '/explore',
     name: 'explore',
-    component: lazyLoad('explore/'),
+    component: lazyLoad('Explore'),
     meta: { keepAlive: true },
   },
   {
@@ -139,8 +139,8 @@ const musicRoutes = [
   },
 ];
 
-export function createRouter(store) {
-  const router = _createRouter({
+export function useRouter(app) {
+  const router = createRouter({
     history: createWebHistory(),
     scrollBehavior: (to, from, savedPosition) =>
       savedPosition || { x: 0, y: 0 },
@@ -165,5 +165,5 @@ export function createRouter(store) {
       
     // }
   });
-  return router;
+  app.use(router)
 }
