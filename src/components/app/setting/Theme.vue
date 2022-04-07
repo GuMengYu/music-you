@@ -1,5 +1,7 @@
 <template>
   <app-settings-group v-model="model" title="common.theme" :items="items" multiple />
+  <v-divider class="my-3 mx-n3" />
+  <app-settings-group v-model="model" title="common.theme_color" :items="colorItems" multiple />
 </template>
 
 <script>
@@ -35,6 +37,22 @@
         },
       ]))
 
+      const colorItems = [{
+          text: 'common.light',
+          icon: mdiWhiteBalanceSunny,
+        },
+        {
+          text: 'common.dark',
+          icon: mdiWeatherNight,
+        },
+        {
+          text: 'common.auto',
+          icon: mdiDesktopTowerMonitor,
+        },
+        {
+          text: 'common.mixed',
+          icon: mdiThemeLightDark,
+        },]
       const model = computed({
         get () {
           return [user.theme].concat(user.mixedTheme ? 'mixed' : [])
@@ -63,6 +81,7 @@
         items,
         user,
         model,
+        colorItems,
       }
     },
   }

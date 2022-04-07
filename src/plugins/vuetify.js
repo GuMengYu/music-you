@@ -11,11 +11,11 @@ import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
 import themes from './theme'
 export const useVuetify = (app) => {
-  console.log(useAppStore().$state)
-  console.log(usePlayerStore().$state)
-  console.log(useSettingStore().$state)
 
-  console.log(themes)
+  const appStore = useAppStore()
+  const playerStore = usePlayerStore()
+  const settingStore = useSettingStore()
+  console.log(appStore, playerStore, settingStore)
   const vuetify = createVuetify({
     components,
     directives,

@@ -21,19 +21,13 @@ import AppHeader from '@components/app/Header.vue';
 import AppContent from '@components/layout/View.vue';
 import AppSetting from '@components/app/setting/index.vue';
 import AppFooter from '@components/app/Footer.vue';
-import { computed, ref, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useSettingStore } from "@/store/setting";
-import { getPersonalized } from '@/api/index';
+
 const theme = computed(() => {
   const { theme } = useSettingStore();
   return theme;
 });
 
-
-const result = ref(null)
-
-onMounted(async () => {
-  result.value = await getPersonalized()
-})
 
 </script>
