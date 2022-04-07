@@ -1,10 +1,11 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vuetify from '@vuetify/vite-plugin'
 
 const path = require('path')
 
+console.log(loadEnv(void 0, process.cwd()))
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -20,11 +21,20 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@components': path.resolve(__dirname, 'src/components'),
-      "@util/*": path.resolve(__dirname, "src/util"),
-      "@api/*":path.resolve(__dirname, "src/api"),
-      "@assets/*": path.resolve(__dirname, "src/assets")
+      "@util": path.resolve(__dirname, "src/util"),
+      "@api":path.resolve(__dirname, "src/api"),
+      "@assets": path.resolve(__dirname, "src/assets")
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: `http://localhost:${loadEnv(void 0, process.cwd())['VITE_API_DEV_PORT']}`,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    }
+  }
   /* remove the need to specify .vue files https://vitejs.dev/config/#resolve-extensions
   resolve: {
     extensions: [
