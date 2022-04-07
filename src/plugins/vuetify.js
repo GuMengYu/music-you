@@ -1,5 +1,4 @@
 // Styles
-import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import {aliases, mdi} from 'vuetify/lib/iconsets/mdi-svg'
 
@@ -7,13 +6,16 @@ import {aliases, mdi} from 'vuetify/lib/iconsets/mdi-svg'
 import {createVuetify} from 'vuetify'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from "@/store/player"
+import { useSettingStore } from '@/store/setting'
 import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
-
+import themes from './theme'
 export const useVuetify = (app) => {
   console.log(useAppStore().$state)
   console.log(usePlayerStore().$state)
+  console.log(useSettingStore().$state)
 
+  console.log(themes)
   const vuetify = createVuetify({
     components,
     directives,
@@ -28,16 +30,8 @@ export const useVuetify = (app) => {
       mobileBreakpoint: 'xs',
     },
     theme: {
-      themes: {
-        light: {
-          colors: {
-            primary: '#1867c0',
-            secondary: '#5CBBF6',
-            tertiary: '#E57373',
-            accent: '#005CAF',
-          },
-        },
-      },
+      defaultTheme: 'RedSandDunesDark',
+      themes,
     },
   })
   app.use(vuetify)

@@ -19,5 +19,8 @@
 <script>
 export default {
   name: 'DefaultView',
+  setup() {
+
+  },
 };
 </script>

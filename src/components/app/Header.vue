@@ -7,7 +7,7 @@
       <v-img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="gooooooogle" width="68" />
     </v-app-bar-title>
     <v-btn @click="showSetting" icon>
-      <v-icon>{{ mdiCogs }}</v-icon>
+      <v-icon :icon="mdiCogOutline"/>
     </v-btn>
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
     <!--    <div class="d-flex">-->
@@ -38,7 +38,7 @@
 </template>
 <script setup>
 import { useAppStore } from "@/store/app";
-import { mdiCogs } from '@mdi/js';
+import { mdiCogOutline } from '@mdi/js';
 
 const app = useAppStore()
 const toggleRail = () => {
