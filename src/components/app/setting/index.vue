@@ -5,7 +5,7 @@
     position="right"
     hide-overlay
     temporary
-    width="300"
+    width="350"
   >
     <v-toolbar flat>
       <v-toolbar-title text="Settings" class="pl-0" />
