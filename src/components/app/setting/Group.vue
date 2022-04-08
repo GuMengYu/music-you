@@ -15,11 +15,11 @@
     >
       <v-row>
         <v-col
-          v-for="({ icon, text }) in items"
-          :key="text"
+          v-for="({ icon, text, value }) in items"
+          :key="value ?? text"
           cols="6"
         >
-          <v-item :value="text">
+          <v-item :value="value ?? text">
             <template #default="{ isSelected, toggle }">
               <v-card
                 :color="isSelected ? 'primary' : `grey-${dark ? 'darken' : 'lighten'}-3`"
@@ -30,7 +30,7 @@
               >
                 {{ t(text) }}
 
-                <v-icon :icon="icon" />
+                <v-icon v-if="icon" :icon="icon" />
               </v-card>
             </template>
           </v-item>

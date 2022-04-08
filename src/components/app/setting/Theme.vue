@@ -1,12 +1,12 @@
 <template>
-  <app-settings-group v-model="model" title="common.theme" :items="items" multiple />
+  <app-settings-group v-model="appearance" title="common.theme" :items="appearanceItems" />
   <v-divider class="my-3 mx-n3" />
-  <app-settings-group v-model="model" title="common.theme_color" :items="colorItems" multiple />
+  <app-settings-group v-model="wallpaperColor" title="common.theme_color" :items="colorItems" />
 </template>
 
 <script>
   import { computed } from 'vue'
-  import { useUserStore } from '@/store/user'
+  import { useSettingStore } from '@/store/setting'
   import AppSettingsGroup from './Group.vue'
   import { mdiWhiteBalanceSunny, mdiWeatherNight, mdiDesktopTowerMonitor, mdiThemeLightDark } from '@mdi/js'
 
@@ -16,72 +16,71 @@
     components: { AppSettingsGroup },
 
     setup () {
-      const user = useUserStore()
 
-      const items = computed(() => ([
+      const setting = useSettingStore()
+
+      const appearanceItems = computed(() => ([
         {
           text: 'common.light',
           icon: mdiWhiteBalanceSunny,
+          value: 'light'
         },
         {
+          value: 'dark',
           text: 'common.dark',
           icon: mdiWeatherNight,
         },
         {
+          value: 'system',
           text: 'common.auto',
           icon: mdiDesktopTowerMonitor,
-        },
-        {
-          text: 'common.mixed',
-          icon: mdiThemeLightDark,
         },
       ]))
 
-      const colorItems = [{
-          text: 'common.light',
-          icon: mdiWhiteBalanceSunny,
+      const colorItems = computed(() => ([
+        {
+          value: 'RedSandDunes',
+          text: 'RedSandDunes',
         },
         {
-          text: 'common.dark',
-          icon: mdiWeatherNight,
+          value: 'GreenMountainTop',
+          text: 'GreenMountain',
         },
         {
-          text: 'common.auto',
-          icon: mdiDesktopTowerMonitor,
+          value: 'OrangeDesert',
+          text: 'OrangeDesert',
+        },
+         {
+          value: 'BlueMountains',
+          text: 'BlueMountains',
         },
         {
-          text: 'common.mixed',
-          icon: mdiThemeLightDark,
-        },]
-      const model = computed({
+          value: 'GreenRockyMountains',
+          text: 'GreenRockyMountains',
+        },
+      ]))
+      const appearance = computed({
         get () {
-          return [user.theme].concat(user.mixedTheme ? 'mixed' : [])
+          return setting.appearance
         },
-        set (val) {
-          {
-            const idx = val.indexOf('mixed')
-            user.mixedTheme = !!~idx
-            if (~idx) {
-              val.splice(idx, 1)
-            }
-          }
-          {
-            const idx = val.indexOf(user.theme)
-            if (~idx) {
-              val.splice(idx, 1)
-            }
-            if (val.length) {
-              user.theme = val[0]
-            }
-          }
+        set (value) {
+          setting.appearance = value
         },
       })
 
+      const wallpaperColor = computed({
+        get () {
+          return setting.wallpaperColor
+        },
+        set (value) {
+          setting.wallpaperColor = value
+        },
+      })
       return {
-        items,
-        user,
-        model,
+        appearanceItems,
         colorItems,
+        appearance,
+        wallpaperColor,
       }
     },
   }

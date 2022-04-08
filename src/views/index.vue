@@ -1,10 +1,10 @@
 <template>
   <v-app class="v-player" :theme="theme">
+    <app-setting />
     <app-header />
     <app-nav />
     <app-content class="v-player-content" />
     <app-footer />
-    <app-setting />
     <!--
     <player-bar />
     <default-setting />
@@ -21,13 +21,9 @@ import AppHeader from '@components/app/Header.vue';
 import AppContent from '@components/layout/View.vue';
 import AppSetting from '@components/app/setting/index.vue';
 import AppFooter from '@components/app/Footer.vue';
-import { computed } from 'vue'
-import { useSettingStore } from "@/store/setting";
+import { useTheme } from '@/hooks/theme';
 
-const theme = computed(() => {
-  const { theme } = useSettingStore();
-  return theme;
-});
+const theme = useTheme()
 
 
 </script>

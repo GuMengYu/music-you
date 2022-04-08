@@ -4,7 +4,8 @@ export const useSettingStore = defineStore('setting', {
     state: () => {
         const data = useLocalStorage('setting', {
             locale: 'en',
-            theme: 'GreenRockyMountainsLight',
+            appearance: 'system',
+            wallpaperColor: 'GreenRockyMountains',
             customPalettes: {
                 dataURL: '',
                 colors: {},
@@ -18,6 +19,7 @@ export const useSettingStore = defineStore('setting', {
             purity: ['sfw', 'sketchy'],
             categories: ['general', 'anime', 'people'],
         });
+        console.log(data);
         return data;
     }
 })
