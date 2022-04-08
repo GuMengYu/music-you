@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer
     class="nav"
-    color="surface"
     :rail="app.rail"
   >
     <v-list class="system_nav" rounded>
@@ -129,11 +128,6 @@ export default {
 <style lang="scss" scoped>
 .v-navigation-drawer {
   bottom: 60px !important;
-  :deep(.v-navigation-drawer__content) {
-    &::-webkit-scrollbar {
-      width: 0;
-    }
-  }
   .system_nav {
     .nav_actions {
       position: absolute;

@@ -23,6 +23,7 @@
 
       <v-divider class="mt-4 mb-3 mx-n3" />
 
+      <app-settings-other />
     </v-container>
   </v-navigation-drawer>
 </template>
@@ -31,6 +32,7 @@
   // Components
   import AppSettingsApi from './Api.vue'
   import AppSettingsTheme from './Theme.vue'
+  import AppSettingsOther from './other.vue'
 
   // Composables
   import { useAppStore } from '@/store/app'
@@ -42,6 +44,7 @@
     components: {
       AppSettingsApi,
       AppSettingsTheme,
+      AppSettingsOther,
     },
 
     setup () {

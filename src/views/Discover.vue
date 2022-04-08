@@ -2,10 +2,13 @@
   <div class="discover">
    discover
     <Test />
+    <Playground />
   </div>
 </template>
 <script setup>
 import Test from './example/test';
+import playground from './example/playground.vue';
+import Playground from './example/playground.vue';
 
 </script>
 <style lang="scss" scoped>

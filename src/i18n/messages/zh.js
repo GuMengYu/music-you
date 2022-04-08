@@ -77,6 +77,7 @@ export default {
     light: '浅色',
     dark: '深色',
     theme_color: '主题色',
+    other: '其他',
     auto: '跟随系统',
     mixed: '混合',
     quality: '音质',
