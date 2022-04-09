@@ -6,7 +6,7 @@
             <v-list-item-title>{{ $t('common.language') }}</v-list-item-title>
         </v-list-item-header>
         <v-list-item-media>
-            <App-Menu v-model="locale" :options="localeOptions" subHeader="common.translations" />
+            <App-Select v-model="locale" :items="localeOptions" />
         </v-list-item-media>
     </v-list-item>
     <v-list-item>
@@ -14,27 +14,33 @@
             <v-list-item-title>{{ $t('common.quality') }}</v-list-item-title>
         </v-list-item-header>
         <v-list-item-media>
-            <App-Menu v-model="quality" :options="qualityOptions" subHeader="common.translations" />
+            <App-Select v-model="quality" :items="qualityOptions" />
         </v-list-item-media>
     </v-list-item>
     <v-divider class="mt-4 mb-3 mx-n3" />
 </template>
 <script setup>
 import AppTitle from '../Title.vue'
-import AppMenu from '@components/app/menu/Menu.vue'
+import AppSelect from '@components/app/menu/Select.vue'
 import { ref } from 'vue'
 
 import { useSettingStore } from '@/store/setting';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const localeOptions = [
     {
-        title: 'common.zh',
-        icon: 'mdi-home',
+        title: t('common.zh'),
         value: 'zh',
+        activeClass: 'text-primary',
+        rounded: true,
     },
     {
-        title: 'common.en',
-        icon: 'mdi-playlist-play',
+        title: t('common.en'),
         value: 'en',
+        activeClass: 'text-primary',
+        rounded: true,
+
     },
 ]
 
@@ -42,10 +48,12 @@ const qualityOptions = [
     {
         title: '128kb',
         value: '128',
+        activeClass: 'text-primary',
     },
     {
         title: '320kb',
         value: '320',
+        activeClass: 'text-primary',
     },
 ]
 const locale = ref('zh')
