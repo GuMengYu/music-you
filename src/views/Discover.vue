@@ -3,12 +3,23 @@
    discover
     <Test />
     <Playground />
+    <v-text-field
+            v-model="model"  
+            :label="model"
+            variant="underlined"
+          ></v-text-field>
   </div>
 </template>
 <script setup>
+import { provide, ref } from 'vue' 
 import Test from './example/test';
-import playground from './example/playground.vue';
 import Playground from './example/playground.vue';
+import { usePlayer } from '@/player/player'
+
+const player = usePlayer()
+console.log(player)
+const model = ref('')
+provide('messages', model)
 
 </script>
 <style lang="scss" scoped>

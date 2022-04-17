@@ -11,6 +11,7 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "@mdi/js": "^6.5.95",
+    "@types/howler": "^2.2.7",
     "@vueuse/core": "^8.2.5",
     "animate.css": "^4.1.1",
     "howler": "^2.2.3",
@@ -23,6 +24,8 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/webfontloader": "^1.6.34",
     "@vitejs/plugin-vue": "^2.2.0",
     "@vitejs/plugin-vue-jsx": "^1.3.9",
     "@vuetify/vite-plugin": "^1.0.0-alpha.0",
@@ -30,8 +33,10 @@
     "lodash-es": "^4.17.21",
     "sass": "^1.38.0",
     "sass-loader": "^10.0.0",
+    "typescript": "^4.5.4",
     "vite": "^2.8.0",
     "vue-cli-plugin-vuetify": "~2.4.7",
+    "vue-tsc": "^0.29.8",
     "vuetify-loader": "^2.0.0-alpha.0"
   }
 }

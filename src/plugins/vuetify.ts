@@ -10,7 +10,12 @@ import { useSettingStore } from '@/store/setting'
 import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
 import themes from './theme'
-export const useVuetify = (app) => {
+
+// types 
+
+import { App } from 'vue'
+
+export const useVuetify = (app: App) => {
 
   const appStore = useAppStore()
   const playerStore = usePlayerStore()

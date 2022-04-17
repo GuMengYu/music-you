@@ -1,6 +1,8 @@
 import { createI18n } from 'vue-i18n'
 import zh from '@/i18n/messages/zh';
 import en from '@/i18n/messages/en';
+import type { App } from 'vue'
+
 // const messages = Object.fromEntries(
 //     Object.entries(
 //         import.meta.globEager('../i18n/messages/*.json'))
@@ -9,7 +11,7 @@ import en from '@/i18n/messages/en';
 //         }),
 // )
 
-export const useI18n = (app ) => {
+export const useI18n = (app: App) => {
     const i18n = createI18n({
         locale: 'zh',
         messages: { zh, en },

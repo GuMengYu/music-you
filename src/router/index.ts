@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const lazyLoad = (name) => () =>
+// types
+import { App } from 'vue'
+import { RouteLocation, RouterScrollBehavior } from 'vue-router'
+
+const lazyLoad = (name: string) => () =>
   import(`../views/${name}.vue`);
 
 const musicRoutes = [
@@ -60,7 +64,7 @@ const musicRoutes = [
     path: '/playlist/:id',
     name: 'playlist',
     component: lazyLoad('List'),
-    props: (route) => ({
+    props: (route: RouteLocation) => ({
       id: route.params.id,
       type: route.matched[1]?.name,
     }),
@@ -139,7 +143,7 @@ const musicRoutes = [
   },
 ];
 
-export function useRouter(app) {
+export function useRouter(app: App) {
   const router = createRouter({
     history: createWebHistory(),
     scrollBehavior: (to, from, savedPosition) =>
