@@ -147,7 +147,7 @@ export function useRouter(app: App) {
   const router = createRouter({
     history: createWebHistory(),
     scrollBehavior: (to, from, savedPosition) =>
-      savedPosition || { x: 0, y: 0 },
+      savedPosition || { x: 0, y: 0 } as any,
     routes: [
       {
         path: '/',

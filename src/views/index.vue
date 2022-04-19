@@ -15,7 +15,7 @@
   </v-app>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AppNav from '@components/app/Navbar.vue';
 import AppHeader from '@components/app/Header.vue';
 import AppContent from '@components/layout/View.vue';

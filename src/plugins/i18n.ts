@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n'
+import { createI18n } from 'vue-i18n';
 import zh from '@/i18n/messages/zh';
 import en from '@/i18n/messages/en';
 import type { App } from 'vue'

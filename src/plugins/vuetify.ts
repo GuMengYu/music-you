@@ -17,10 +17,10 @@ import { App } from 'vue'
 
 export const useVuetify = (app: App) => {
 
-  const appStore = useAppStore()
-  const playerStore = usePlayerStore()
-  const settingStore = useSettingStore()
-  console.log(appStore, playerStore, settingStore)
+  // const appStore = useAppStore()
+  // const playerStore = usePlayerStore()
+  // const settingStore = useSettingStore()
+  // console.log(appStore, playerStore, settingStore)
   const vuetify = createVuetify({
     components,
     directives,

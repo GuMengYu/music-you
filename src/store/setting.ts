@@ -19,7 +19,6 @@ export const useSettingStore = defineStore('setting', {
             purity: ['sfw', 'sketchy'],
             categories: ['general', 'anime', 'people'],
         });
-        console.log(data);
         return data;
     }
 })

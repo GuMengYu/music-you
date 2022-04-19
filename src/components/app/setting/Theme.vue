@@ -40,23 +40,23 @@
       const colorItems = computed(() => ([
         {
           value: 'RedSandDunes',
-          text: 'RedSandDunes',
+          text: 'theme.RedSandDunes',
         },
         {
           value: 'GreenMountainTop',
-          text: 'GreenMountain',
+          text: 'theme.GreenMountainTop',
         },
         {
           value: 'OrangeDesert',
-          text: 'OrangeDesert',
+          text: 'theme.OrangeDesert',
         },
          {
           value: 'BlueMountains',
-          text: 'BlueMountains',
+          text: 'theme.BlueMountains',
         },
         {
           value: 'GreenRockyMountains',
-          text: 'GreenRockyMountains',
+          text: 'theme.GreenRockyMountains',
         },
       ]))
       const appearance = computed({

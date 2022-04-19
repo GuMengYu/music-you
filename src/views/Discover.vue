@@ -14,10 +14,7 @@
 import { provide, ref } from 'vue' 
 import Test from './example/test';
 import Playground from './example/playground.vue';
-import { usePlayer } from '@/player/player'
 
-const player = usePlayer()
-console.log(player)
 const model = ref('')
 provide('messages', model)
 

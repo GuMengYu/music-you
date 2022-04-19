@@ -16,7 +16,7 @@ import { now } from 'lodash-es';
  * @param logged: 用户是否登录（决定播放url）
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id, br, logged) => {
+export const getTrackDetail = async (id: string| number, br:number = 320000, logged:boolean = false) => {
   const {
     songs: [track],
   } = await getSongData([id]);

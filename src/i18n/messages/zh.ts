@@ -92,4 +92,11 @@ export default {
     evening: '晚安',
     midnight: '午夜好',
   },
+  theme: {
+    RedSandDunes: '红沙滩',
+    GreenMountainTop: '绿山峰',
+    OrangeDesert: '橙色沙漠',
+    BlueMountains: '蓝色山峰',
+    GreenRockyMountains: '绿色山峰',
+  }
 };

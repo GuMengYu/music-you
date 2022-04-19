@@ -3,11 +3,11 @@ import { Player } from './base';
 
 export const PlayerSymbol = Symbol.for('Player');
 
-export function createPlayer(playerOptions = {}) {
-    return new Player(playerOptions);
+export function createPlayer() {
+    return new Player();
 }
 
-export function usePlayer () {
+export function usePlayer() {
     getCurrentInstance()
   
     const player = inject(PlayerSymbol, null)

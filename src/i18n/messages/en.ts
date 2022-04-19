@@ -92,4 +92,11 @@ export default {
     evening: 'Good evening',
     midnight: 'Good midnight',
   },
+  theme: {
+    RedSandDunes: 'Red Sand Dunes',
+    GreenMountainTop: 'Green Mountain Top',
+    OrangeDesert: 'Orange Desert',
+    BlueMountains: 'Blue Mountains',
+    GreenRockyMountains: 'Green Rocky Mountains',
+  }
 };
