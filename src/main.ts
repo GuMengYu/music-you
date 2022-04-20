@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { loadFonts } from './plugins/webfontloader'
+import 'vue-slider-component/theme/material.css'
 import App from './App.vue'
 
 // plugins

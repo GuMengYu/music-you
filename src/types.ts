@@ -1,14 +1,27 @@
 export interface TrackSource {
     id: string;
     title: string;
-    artist: string;
-    album: string;
-    duration: number;
+    duration?: number;
     url: string;
-    cover: string;
+    picUrl: string;
     name: string;
-    ar: [],
-    al: {}
+    ar: Artist[];
+    al: Album;
+    dt: number;
+}
+
+export interface Artist {
+    id: string;
+    name: string;
+    picUrl: string;
+    url: string;
+}
+
+export interface Album {
+    id: string;
+    name: string;
+    picUrl: string;
+    url: string;
 }
 
 export interface Playlist {

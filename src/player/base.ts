@@ -4,12 +4,11 @@ import { isArray, shuffle, throttle, DebouncedFunc } from 'lodash-es';
 import { scrobble, getTrackDetail } from "@api/music";
 import { TrackSource } from "@/types";
 import { Store } from "pinia";
-import {isRef, reactive} from "vue";
 
 
 export class Player {
     howler: null | Howl;
-    track: TrackSource | null;
+    track: null | TrackSource;
     volume: number;
     currentTime: number;
     playing: boolean;
@@ -25,7 +24,7 @@ export class Player {
         this.store = usePlayerStore();
         this.howler = null;
 
-        const { track, playing, volume, currentTime, playingList, isCurrentFm } = this.store.$state as PlayerState;
+        const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store.$state as PlayerState;
         this.track = track;
         this.volume = volume;
         this.currentTime = currentTime;
@@ -37,9 +36,13 @@ export class Player {
 
         this.init();
     }
-    init() {
+    async init() {
         console.log('player init success', this.store);
         this.initStoreEvent();
+        if (this.track?.id) {
+            console.log('restore track from storage', this.track);
+            await this.updatePlayerTrack(this.track.id, false, false)
+        }
     }
     shuffle() {
         const list = shuffle(this.playingList?.list);
@@ -72,9 +75,9 @@ export class Player {
     initStoreEvent() {
         this.store.$subscribe((mutation, state) => {
 
-            console.log('player store mutation', mutation, state);
             const { type, events } = mutation;
             const { playing, volume, playingList, isCurrentFm } = state as PlayerState;
+            console.log('player store mutation', type, events);
             if (type === 'direct') {
                 if (events.key === 'playing') {
                     if (playing) {
@@ -93,6 +96,7 @@ export class Player {
                     this.isCurrentFm = isCurrentFm;
                 }
             }
+
             if (mutation.type === 'patch object') {
                 // console.log('mutation', mutation);
                 // const { playing, isCurrentFm, volume } = mutation.payload;
@@ -115,8 +119,6 @@ export class Player {
                 if (track.url) {
                     return {
                         track,
-                        url: track.url,
-                        from: 'online',
                     };
                 }
         } catch (e) {
@@ -125,10 +127,10 @@ export class Player {
     }
     async updatePlayerTrack(id: string | number, autoplay = true, resetProgress = true) {
         if (!id) return;
-        const { loadingTrack, track, fmTrack, isCurrentFm  } = this.store;
+        const { isCurrentFm  } = this.store.$state as PlayerState;
         this.store.$state.loadingTrack = true;
-        const { track: trackInfo, url, from } = await this.getTrack(id);
-        if (url) {
+        const { track: trackInfo } = await this.getTrack(id);
+        if (trackInfo.url) {
             this.store.$state.track = trackInfo;
             if (isCurrentFm) {
                 this.store.$state.fmTrack = trackInfo
@@ -139,7 +141,7 @@ export class Player {
             this.track = trackInfo;
             Howler.unload();
             this.howler = null;
-            this.howler = this.initSound(url);
+            this.howler = this.initSound(trackInfo.url);
             this.initMediaSession(trackInfo);
             if (resetProgress) {
                 this.setSeek(0);
@@ -148,7 +150,7 @@ export class Player {
             }
             if (autoplay) {
                 this._play();
-                this.setScrobble(this.track, this.howler.seek(), false);
+                this.setScrobble(trackInfo, this.howler.seek(), false);
             }
             // if (from === 'online' && cacheLimit) {
             //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求
@@ -190,7 +192,7 @@ export class Player {
             onloaderror: (e) => {
                 console.log(e);
                 this.trackLoaded();
-                window?.app?.$toast.error('歌曲加载失败');
+                // window?.app?.$toast.error('歌曲加载失败');
             },
         });
         sound.once('end', this.endCb.bind(this));
@@ -199,15 +201,17 @@ export class Player {
     }
     // 修正歌曲时长，当实际获取的音源时长，与网易返回的音源时长相差超过1s, 则修正为实际的音源时长
     fixDuration() {
-        const factDuration = this.howler?.duration() * 1000;
+        const duration = this.howler?.duration() ?? 0;
+        const factDuration = duration * 1000;
         const trackDuration = this.track?.dt ?? 0;
         const offset = factDuration - trackDuration;
         if (offset > 1000 || offset < -1000) {
-            console.debug(
-                `netease返回的歌曲长度: ${this.track.dt}， 歌曲实际长度: ${
-                    this.howler?.duration() * 1000
+            console.log(
+                `net ease返回的歌曲长度: ${this.track?.dt}， 歌曲实际长度: ${
+                    duration * 1000
                 }， 偏差大小: ${offset}，修正`,
             );
+            this.store.$state.track.dt = factDuration;
             // this.store.commit('music/updateDuration', factDuration);
         }
     }
@@ -243,25 +247,25 @@ export class Player {
     }
     nextTrackId() {
         if (this.isCurrentFm) {
-            return this.store.getters['music/nextFmTrackId'];
+            return this.store.nextFmTrackId;
         } else {
-            return this.store.getters['music/nextTrackId'];
+            return this.store.nextTrackId;
         }
     }
     prevTrackId() {
-        return this.store.getters['music/prevTrackId'];
+        return this.store.prevTrackId;
     }
     updateCurrentTime(this:Player, val: number) {
         const current = val ?? Math.ceil(this.howler?.seek());
         this.currentTime = current;
         this.store.$state.currentTime = current;
     }
-    setSeek(val) {
-        this.howler.seek(val);
+    setSeek(val: number) {
+        this.howler?.seek(val);
         this._updateCurrentTime(val);
     }
     step() {
-        if (this.howler.playing()) {
+        if (this.howler?.playing()) {
             this._updateCurrentTime();
             requestAnimationFrame(this.step.bind(this));
         }
@@ -271,7 +275,7 @@ export class Player {
         this.next();
         this.setScrobble(this.track, 0, true);
     }
-    setScrobble(this: Player, track: TrackSource, time, played = false) {
+    setScrobble(this: Player, track: TrackSource, time: number, played = false) {
         const { id, dt } = track;
         const sourceid = this.playingList.id;
         if (played) {
@@ -289,15 +293,15 @@ export class Player {
     initMediaSession(track: TrackSource) {
         // https://developers.google.com/web/updates/2017/02/media-session
         if ('mediaSession' in navigator) {
-            const { ar: artist = [], al: album = {}, name: title } = track;
+            const { ar: artist, al: album, name: title } = track;
             /* global MediaMetadata */
             navigator.mediaSession.metadata = new MediaMetadata({
                 title,
-                artist: artist.map((a) => a.name).join('&'),
+                artist: artist?.map((a) => a.name).join('&'),
                 album: album.name,
                 artwork: [
                     {
-                        src: album.picUrl ?? '',
+                        src: album?.picUrl ?? '',
                         sizes: '512x512',
                         type: 'image/png',
                     },
@@ -308,9 +312,10 @@ export class Player {
                 ['pause', this.togglePlay],
                 ['previoustrack', this.prev],
                 ['nexttrack', this.next],
-            ].map(([name, fn]) =>
-                navigator.mediaSession.setActionHandler(name, fn.bind(this)),
-            );
+            ].map(ac => {
+                const [action, handler]  = ac;
+                navigator.mediaSession.setActionHandler(action as MediaSessionAction, handler.bind(this))
+            });
         }
     }
 }

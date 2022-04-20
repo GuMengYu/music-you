@@ -5,6 +5,7 @@
     <app-nav />
     <app-content class="v-player-content" />
     <app-footer />
+    <app-login />
     <!--
     <player-bar />
     <default-setting />
@@ -21,6 +22,7 @@ import AppHeader from '@components/app/Header.vue';
 import AppContent from '@components/layout/View.vue';
 import AppSetting from '@components/app/setting/index.vue';
 import AppFooter from '@components/app/Footer.vue';
+import AppLogin from '@components/app/Login.vue';
 import { useTheme } from '@/hooks/theme';
 
 const theme = useTheme()

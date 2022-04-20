@@ -9,6 +9,7 @@
     <v-btn @click="showSetting" icon>
       <v-icon :icon="mdiCogOutline"/>
     </v-btn>
+    <account />
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
     <!--    <div class="d-flex">-->
     <!--      -->
@@ -39,6 +40,7 @@
 <script setup>
 import { useAppStore } from "@/store/app";
 import { mdiCogOutline } from '@mdi/js';
+import Account from "@components/app/Account.vue";
 
 const app = useAppStore()
 const toggleRail = () => {
