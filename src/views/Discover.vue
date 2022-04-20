@@ -14,7 +14,6 @@
 import { provide, ref } from 'vue' 
 import Test from './example/test';
 import Playground from './example/playground.vue';
-import {getPlayList} from "../api";
 
 const model = ref('')
 provide('messages', model)
