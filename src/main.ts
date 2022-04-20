@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import { loadFonts } from './plugins/webfontloader'
-import 'vue-slider-component/theme/material.css'
 import App from './App.vue'
 
 // plugins
@@ -13,6 +12,7 @@ import { usePlayer } from './plugins/player'
 // 加载css fonts等资源
 loadFonts()
 import 'animate.css'
+import './styles/global.scss'
 
 const app = createApp(App)
 

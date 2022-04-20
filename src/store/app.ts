@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 import { useLocalStorage } from "@vueuse/core";
-import {reactive, ref, toRefs} from "vue";
+import { reactive, toRefs} from "vue";
+import { getAccount } from "@api/account";
+
+import { Account } from "@/types";
 
 export enum WindowState {
   NORMAL = 'normal',
@@ -8,9 +11,7 @@ export enum WindowState {
   MINIMIZED = 'minimized',
 }
 export type AppState = {
-    account: null | {
-        profile: { id: string },
-    };
+    account: Account;
     rail: boolean,
     showSetting: boolean,
     showLogin: boolean,
@@ -21,7 +22,7 @@ export type AppState = {
 };
 export const useAppStore = defineStore('app', {
     state: () => {
-        const account = useLocalStorage('account', null);
+        const account = useLocalStorage('account', {});
         const state = reactive<AppState>({
             account,
             rail: false,
@@ -38,7 +39,14 @@ export const useAppStore = defineStore('app', {
     },
     getters: {
         logged: (state) => {
-            return !!state.account?.profile?.id
+            return !!state.account?.profile?.userId
         }
+    },
+    actions: {
+        async refreshAccount() {
+            const account = await getAccount();
+            this.account = account
+            return account;
+        },
     }
 })

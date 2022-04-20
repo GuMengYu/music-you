@@ -20,7 +20,7 @@
     >
       <lottie-icon
           class="lottie-icon"
-          style="position: relative; top: 1px"
+          style="position: relative; top: 1px;"
           :options="playOptions"
           :width="30"
           :height="30"

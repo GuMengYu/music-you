@@ -20,12 +20,14 @@
       {{ mdiAccountCircle }}
     </v-icon>
   </v-btn>
+  <user-profile v-model="showProfile" />
 </template>
 <script setup lang="ts">
 import { mdiAccountCircle } from "@mdi/js";
 import { useAppStore } from "@/store/app";
 import {storeToRefs} from "pinia";
-import {computed, reactive, ref} from "vue";
+import {computed, ref} from "vue";
+import UserProfile from "@components/app/Profile.vue";
 
 const appStore = useAppStore();
 const { logged, showLogin, account } = storeToRefs(appStore);
