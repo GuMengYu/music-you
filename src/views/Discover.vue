@@ -1,12 +1,10 @@
 <template>
   <div class="discover">
     <custom-col :title="welcome">
+      <shortcuts />
 <!--      <quick-list />-->
     </custom-col>
     <custom-col :title="$tc('main.for_you')">
-      <card-row>
-
-      </card-row>
       <card-row>
         <cover
             v-for="list in state.playLists"
@@ -44,6 +42,7 @@ import {storeToRefs} from "pinia";
 import CustomCol from '@components/app/layout/Col.vue';
 import CardRow from "@components/app/layout/CardRow.vue";
 import Cover from '@components/app/cover/Cover.vue';
+import Shortcuts from "@components/app/shortcuts/list.vue";
 import ArtistsLink from "@components/app/artist/ArtistsLink.vue";
 import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api';
 import { getRadarList } from '@/api/music';

@@ -6,7 +6,7 @@
       </div>
       <div class="d-flex justify-space-between">
         <div
-          class="onSurface--text font-weight-bold"
+          class="onSurface--text"
           :class="props.hClass || 'text-h6'"
         >
           {{ props.title }}

@@ -7,10 +7,9 @@ export function useTheme() {
 
     const theme = computed(() => {
         let suffix = ''
-        false ? false : 
-        settingStore.appearance === 'system' ? suffix = isDark.value ? 'Dark' : 'Light' : 
-        settingStore.appearance === 'light' ? suffix = 'Light' : 
-        settingStore.appearance === 'dark' ? suffix = 'Dark' : false
+        settingStore.appearance === 'system' ? suffix = isDark.value ? 'Dark' : 'Light' :
+            settingStore.appearance === 'light' ? suffix = 'Light' :
+                settingStore.appearance === 'dark' ? suffix = 'Dark' : false
         return `${settingStore.wallpaperColor}${suffix}`
     });
     return theme

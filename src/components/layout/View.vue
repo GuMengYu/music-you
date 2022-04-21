@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-container
-      class="pa-4 pa-lg-6 pa-xl-8 pt-4"
+      class="pa-6"
       fluid
     >
         <router-view v-slot="{ Component }">

@@ -6,11 +6,13 @@
         flat
         color="surfaceVariant"
         :class="{ 'on-hover': isHovering }"
+        :elevation="isHovering ? 1 : 0"
         v-bind="props"
         :max-width="$attrs.maxWidth"
         :max-height="$attrs.maxHeight"
     >
       <v-img
+          class="cover-image"
           :class="`rounded-${rounded}`"
           cover
           :src="coverBgUrl"
@@ -38,8 +40,8 @@
           {{ data.name }}
         </router-link>
       </v-card-title>
-      <v-card-subtitle v-if="!noInfo && subTitle">
-        <span class="h-1x text-subtitle-2 pb-2" v-if="subTitle">
+      <v-card-subtitle v-if="!noInfo && subTitle" class="text-subtitle-2 pb-4">
+        <span class="h-1x" v-if="subTitle">
           {{ subTitle }}
         </span>
       </v-card-subtitle>
@@ -94,7 +96,7 @@ const props = defineProps({
 });
 
 const coverBgUrl = computed(() => {
-  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl, 512);
+  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl, 1024);
 })
 const subTitle = computed(() => {
   return props.extra ?? props.data.copywriter;
@@ -131,6 +133,13 @@ async function play() {
 
 </script>
 <style scoped lang="scss">
+.cover-container {
+  cursor: pointer;
+  .cover-image {
+    border-bottom-left-radius: initial !important;
+    border-bottom-right-radius: initial !important;
+  }
+}
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.3s cubic-bezier(1, .17, 0, 1.49);
@@ -140,6 +149,10 @@ async function play() {
 .slide-fade-leave-to {
   transform: translateY(20px);
   opacity: 0;
+}
+
+.rounded-lg {
+  border-radius: 12px !important;
 }
 </style>
 

@@ -11,7 +11,7 @@ import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
 import themes from './theme'
 
-// types 
+// types
 
 import { App } from 'vue'
 
@@ -33,6 +33,13 @@ export const useVuetify = (app: App) => {
     },
     display: {
       mobileBreakpoint: 'xs',
+      thresholds: {
+        xs: 0,
+        sm: 340,
+        md: 540,
+        lg: 800,
+        xl: 1280,
+      },
     },
     theme: {
       defaultTheme: 'RedSandDunesDark',

@@ -1,9 +1,34 @@
 <template>
-  <div class="card-row" :data-grid="gridStyle">
+  <div class="card-row" :data-grid="gridStyle" :style="{'--column-count': columnCount, '--grid-gap': gridGap}">
     <slot />
   </div>
 </template>
-<script>
+<script setup lang="ts">
+import { useDisplay } from "vuetify";
+import { computed } from "vue";
+const display = useDisplay();
+
+const columnCount = computed(() => {
+  const name = display.name.value
+  console.log(name)
+  return name === 'xs' ? 1 :
+      name === 'sm' ? 2 :
+          name === 'md' ? 3 :
+              name === 'lg' ? 4 :
+                  name === 'xl' ? 5 :
+                      name === 'xxl' ? 8 : 6
+})
+const gridGap = computed(() => {
+  const name = display.name.value
+  return name === 'xs' ? '10px' :
+      name === 'sm' ? '18px' :
+          name === 'md' ? '24px' :
+              name === 'lg' ? '24px' :
+                  name === 'xl' ? '24px' : '24px'
+})
+
+</script>
+<script lang="ts">
 export default {
   props: {
     gridStyle: {
@@ -14,53 +39,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@mixin --columns($cols) {
-  grid-template-columns: repeat($cols, 1fr);
-}
+
 .card-row {
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(3, 1fr);
-  @media (max-width: 600px) {
-    &[data-grid='A'] {
-      @include --columns(2);
-    }
-    &[data-grid='B'] {
-      @include --columns(1);
-    }
-  }
-  @media (min-width: 601px) and (max-width: 960px) {
-    &[data-grid='A'] {
-      @include --columns(3);
-    }
-    &[data-grid='B'] {
-      @include --columns(2);
-    }
-  }
-  @media (min-width: 961px) and (max-width: 1264px) {
-    &[data-grid='A'] {
-      @include --columns(4);
-    }
-    &[data-grid='B'] {
-      @include --columns(3);
-    }
-  }
-  @media (min-width: 1265px) and (max-width: 1904px) {
-    &[data-grid='A'] {
-      @include --columns(5);
-    }
-    &[data-grid='B'] {
-      @include --columns(4);
-    }
-  }
-  @media screen and (min-width: 1905px) {
-    &[data-grid='A'] {
-      @include --columns(7);
-    }
-    &[data-grid='B'] {
-      @include --columns(6);
-    }
-  }
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(var(--column-count), 1fr);
   ::v-deep .v-card {
     .v-responsive__content {
       // 覆盖v-image 中responsive__content 的内联样式，避免 grid item 计算宽度的问题
