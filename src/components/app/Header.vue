@@ -104,9 +104,5 @@ export default {
 .app_header {
   display: flex;
   z-index: 6;
-  :deep(.v-toolbar__content)  {
-    flex: 1;
-    padding-right: 0;
-  }
 }
 </style>

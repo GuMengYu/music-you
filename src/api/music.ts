@@ -9,6 +9,8 @@ import {
   getArtist,
 } from '@api/index';
 import { now } from 'lodash-es';
+import { RADARPLAYLISTS } from '@util/metadata';
+
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id: 歌曲id
@@ -140,3 +142,12 @@ export const doPlaylist = (op = 'add', pid, tracks = []) => {
     },
   });
 };
+
+
+export async function getRadarList() {
+  const list = RADARPLAYLISTS.map((playlist) => {
+    return getPlayList(playlist.id);
+  });
+  const result = await Promise.all(list);
+  return result.map((i) => i.playlist);
+}

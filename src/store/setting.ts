@@ -6,6 +6,16 @@ export enum APPEARANCE {
     DARK = 'dark',
     SYSTEM = 'system'
 }
+export enum PURITY {
+    SFW = 'sfw',
+    SKETCHY = 'sketchy',
+    NSFW = 'nsfw'
+}
+export enum CATGORY {
+    GENERAL = 'general',
+    ANIME = 'anime',
+    PEOPLE = 'people',
+}
 export const useSettingStore = defineStore('setting', {
     state: () => {
         const data = useLocalStorage('setting', {
@@ -22,8 +32,8 @@ export const useSettingStore = defineStore('setting', {
             account: {},
             playingMode: 'basic',
             wallhaven: false,
-            purity: ['sfw', 'sketchy'],
-            categories: ['general', 'anime', 'people'],
+            purity: [PURITY.SFW, PURITY.SKETCHY],
+            categories: [CATGORY.GENERAL, CATGORY.ANIME, CATGORY.PEOPLE],
         });
         return data;
     }

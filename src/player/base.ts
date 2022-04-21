@@ -1,5 +1,6 @@
 import {Howl, Howler} from 'howler';
 import {PlayerState, usePlayerStore} from "@/store/player";
+import { useAppStore } from "@/store/app";
 import { isArray, shuffle, throttle, DebouncedFunc } from 'lodash-es';
 import { scrobble, getTrackDetail } from "@api/music";
 import { TrackSource } from "@/types";
@@ -18,9 +19,11 @@ export class Player {
     };
     isCurrentFm: boolean;
     stageMusicURL: string | null;
+    appStore: Store;
     store: Store;
     _updateCurrentTime: DebouncedFunc<(currentTime?: number) => void>;
     constructor() {
+        this.appStore = useAppStore();
         this.store = usePlayerStore();
         this.howler = null;
 
@@ -115,7 +118,7 @@ export class Player {
     }
     async getTrack(id: string | number) {
         try {
-            const track = await getTrackDetail(id);
+            const track = await getTrackDetail(id, this.appStore.logged);
                 if (track.url) {
                     return {
                         track,
@@ -149,7 +152,7 @@ export class Player {
                 this.setSeek(this.currentTime);
             }
             if (autoplay) {
-                this._play();
+                this.play();
                 this.setScrobble(trackInfo, this.howler.seek(), false);
             }
             // if (from === 'online' && cacheLimit) {
@@ -239,7 +242,7 @@ export class Player {
         if (this.nextTrackId()) {
             this.updatePlayerTrack(this.nextTrackId());
         } else {
-            this._pause();
+            this.pause();
         }
     }
     prev() {

@@ -139,7 +139,7 @@ const musicRoutes = [
   {
     path: '/playground',
     name: 'playground',
-    component: lazyLoad('playground'),
+    component: lazyLoad('example/playground'),
   },
 ];
 
