@@ -6,6 +6,7 @@
     <v-app-bar-title>
       <v-img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="gooooooogle" width="68" />
     </v-app-bar-title>
+    <theme-toggle />
     <v-btn @click="showSetting" icon>
       <v-icon :icon="mdiCogOutline"/>
     </v-btn>
@@ -41,7 +42,7 @@
 import { useAppStore } from "@/store/app";
 import { mdiCogOutline } from '@mdi/js';
 import Account from "@components/app/Account.vue";
-
+import ThemeToggle from "@components/app/toggle/Theme.vue";
 const app = useAppStore()
 const toggleRail = () => {
   app.rail = !app.rail

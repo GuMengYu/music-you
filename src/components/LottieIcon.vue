@@ -43,7 +43,7 @@ export default {
       }
     },
     update() {
-      this.anim.destroy();
+      this.anim?.destroy();
       this.loadAnimation(true);
     },
   },

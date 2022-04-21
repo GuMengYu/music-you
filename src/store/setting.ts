@@ -1,10 +1,16 @@
 import {defineStore} from 'pinia';
 import { useLocalStorage } from '@vueuse/core';
+
+export enum APPEARANCE {
+    LIGHT = 'light',
+    DARK = 'dark',
+    SYSTEM = 'system'
+}
 export const useSettingStore = defineStore('setting', {
     state: () => {
         const data = useLocalStorage('setting', {
             locale: 'en',
-            appearance: 'system',
+            appearance: APPEARANCE.SYSTEM,
             wallpaperColor: 'GreenRockyMountains',
             customPalettes: {
                 dataURL: '',
