@@ -17,11 +17,7 @@
       <v-list-subheader class="font-weight-bold text-uppercase ml-2">
         {{ $t('main.nav.library') }}
       </v-list-subheader>
-      <v-list-item
-        v-for="item in state.defaultNav2"
-        :key="item.val"
-        class="drawer-item"
-      >
+      <v-list-item v-for="item in state.defaultNav2" :key="item.val" class="drawer-item">
         <v-list-item-avatar left>
           <v-icon :icon="item.icon"></v-icon>
         </v-list-item-avatar>
@@ -33,15 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  mdiAppleFinder,
-  mdiHandHeart,
-  mdiHarddisk,
-  mdiLibrary,
-  mdiMusicNoteHalfDotted,
-} from '@mdi/js'
+import { mdiAppleFinder, mdiHandHeart, mdiHarddisk, mdiLibrary, mdiMusicNoteHalfDotted } from '@mdi/js'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
+
 import { useAppStore } from '@/store/app'
 
 const app = useAppStore()

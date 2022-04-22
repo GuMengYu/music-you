@@ -29,7 +29,7 @@ export const officialPlaylist = {
   2860654884: {
     title: '独立女声精选',
   },
-};
+}
 
 export const specialType = {
   fav: {
@@ -40,7 +40,7 @@ export const specialType = {
     id: 100,
     title: '私人雷达',
   },
-};
+}
 
 export const RADARPLAYLISTS = [
   {
@@ -67,4 +67,4 @@ export const RADARPLAYLISTS = [
     id: 6700242542,
     name: '雷击顿唱片行',
   },
-];
+]

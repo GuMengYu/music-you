@@ -17,15 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import AppNav from '@components/app/Navbar.vue';
-import AppHeader from '@components/app/Header.vue';
-import AppContent from '@components/layout/View.vue';
-import AppSetting from '@components/app/setting/index.vue';
-import AppFooter from '@components/app/Footer.vue';
-import AppLogin from '@components/app/Login.vue';
-import { useTheme } from '@/hooks/theme';
+import AppFooter from '@/components/app/Footer.vue'
+import AppHeader from '@/components/app/Header.vue'
+import AppLogin from '@/components/app/Login.vue'
+import AppNav from '@/components/app/Navbar.vue'
+import AppSetting from '@/components/app/setting/index.vue'
+import AppContent from '@/components/layout/View.vue'
+import { useTheme } from '@/hooks/theme'
 
 const theme = useTheme()
-
-
 </script>

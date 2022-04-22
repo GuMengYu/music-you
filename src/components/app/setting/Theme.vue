@@ -5,83 +5,84 @@
 </template>
 
 <script>
-  import { computed } from 'vue'
-  import { useSettingStore } from '@/store/setting'
-  import AppSettingsGroup from './Group.vue'
-  import { mdiWhiteBalanceSunny, mdiWeatherNight, mdiDesktopTowerMonitor, mdiThemeLightDark } from '@mdi/js'
+import { mdiDesktopTowerMonitor, mdiThemeLightDark, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
+import { computed } from 'vue'
 
-  export default {
-    name: 'AppSettingsTheme',
+import { useSettingStore } from '@/store/setting'
 
-    components: { AppSettingsGroup },
+import AppSettingsGroup from './Group.vue'
 
-    setup () {
+export default {
+  name: 'AppSettingsTheme',
 
-      const setting = useSettingStore()
+  components: { AppSettingsGroup },
 
-      const appearanceItems = computed(() => ([
-        {
-          text: 'common.light',
-          icon: mdiWhiteBalanceSunny,
-          value: 'light'
-        },
-        {
-          value: 'dark',
-          text: 'common.dark',
-          icon: mdiWeatherNight,
-        },
-        {
-          value: 'system',
-          text: 'common.auto',
-          icon: mdiDesktopTowerMonitor,
-        },
-      ]))
+  setup() {
+    const setting = useSettingStore()
 
-      const colorItems = computed(() => ([
-        {
-          value: 'RedSandDunes',
-          text: 'theme.RedSandDunes',
-        },
-        {
-          value: 'GreenMountainTop',
-          text: 'theme.GreenMountainTop',
-        },
-        {
-          value: 'OrangeDesert',
-          text: 'theme.OrangeDesert',
-        },
-         {
-          value: 'BlueMountains',
-          text: 'theme.BlueMountains',
-        },
-        {
-          value: 'GreenRockyMountains',
-          text: 'theme.GreenRockyMountains',
-        },
-      ]))
-      const appearance = computed({
-        get () {
-          return setting.appearance
-        },
-        set (value) {
-          setting.appearance = value
-        },
-      })
+    const appearanceItems = computed(() => [
+      {
+        text: 'common.light',
+        icon: mdiWhiteBalanceSunny,
+        value: 'light',
+      },
+      {
+        value: 'dark',
+        text: 'common.dark',
+        icon: mdiWeatherNight,
+      },
+      {
+        value: 'system',
+        text: 'common.auto',
+        icon: mdiDesktopTowerMonitor,
+      },
+    ])
 
-      const wallpaperColor = computed({
-        get () {
-          return setting.wallpaperColor
-        },
-        set (value) {
-          setting.wallpaperColor = value
-        },
-      })
-      return {
-        appearanceItems,
-        colorItems,
-        appearance,
-        wallpaperColor,
-      }
-    },
-  }
+    const colorItems = computed(() => [
+      {
+        value: 'RedSandDunes',
+        text: 'theme.RedSandDunes',
+      },
+      {
+        value: 'GreenMountainTop',
+        text: 'theme.GreenMountainTop',
+      },
+      {
+        value: 'OrangeDesert',
+        text: 'theme.OrangeDesert',
+      },
+      {
+        value: 'BlueMountains',
+        text: 'theme.BlueMountains',
+      },
+      {
+        value: 'GreenRockyMountains',
+        text: 'theme.GreenRockyMountains',
+      },
+    ])
+    const appearance = computed({
+      get() {
+        return setting.appearance
+      },
+      set(value) {
+        setting.appearance = value
+      },
+    })
+
+    const wallpaperColor = computed({
+      get() {
+        return setting.wallpaperColor
+      },
+      set(value) {
+        setting.wallpaperColor = value
+      },
+    })
+    return {
+      appearanceItems,
+      colorItems,
+      appearance,
+      wallpaperColor,
+    }
+  },
+}
 </script>

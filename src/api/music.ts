@@ -1,15 +1,16 @@
-import { musicXhr as xhr } from '@util/xhr';
+import { now } from 'lodash-es'
+
 import {
+  getAlbum,
+  getArtist,
   getLyric,
+  getPlayList,
   getSongData,
   getSongUrl,
   getSongUrlFromUnlockMusic,
-  getPlayList,
-  getAlbum,
-  getArtist,
-} from '@api/index';
-import { now } from 'lodash-es';
-import { RADARPLAYLISTS } from '@util/metadata';
+} from '@/api/index'
+import { RADARPLAYLISTS } from '@/util/metadata'
+import { musicXhr as xhr } from '@/util/xhr'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -18,69 +19,69 @@ import { RADARPLAYLISTS } from '@util/metadata';
  * @param logged: 用户是否登录（决定播放url）
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id: string| number, br:number = 320000, logged:boolean = false) => {
+export const getTrackDetail = async (id: string | number, br = 320000, logged = false) => {
   const {
     songs: [track],
-  } = await getSongData([id]);
-  const lyric = await getLyric(id);
-  const url = await getMusicUrl(id, br, logged);
-  return { ...track, url, lyric };
-};
+  } = await getSongData([id])
+  const lyric = await getLyric(id)
+  const url = await getMusicUrl(id, br, logged)
+  return { ...track, url, lyric }
+}
 
 export const getMusicUrl = async (id, br = 320000, logged = false) => {
-  let url;
+  let url
   if (logged) {
     const {
       data: [song],
-    } = await getSongUrl({ id, br });
+    } = await getSongUrl({ id, br })
     if (song?.freeTrialInfo || !song.url) {
       try {
-        const { data } = await getSongUrlFromUnlockMusic(id); // 尝试解锁灰色或者试听歌曲
-        url = data?.url;
+        const { data } = await getSongUrlFromUnlockMusic(id) // 尝试解锁灰色或者试听歌曲
+        url = data?.url
       } catch (e) {
-        console.log(e);
-        url = null;
+        console.log(e)
+        url = null
       }
     } else {
-      url = song.url;
+      url = song.url
     }
   } else {
-    url = `https://music.163.com/song/media/outer/url?id=${id}`;
+    url = `https://music.163.com/song/media/outer/url?id=${id}`
   }
-  return url;
-};
+  return url
+}
 export const search = (keywords = '', conditions) => {
   return xhr.get('/cloudsearch', {
     params: {
       keywords,
       ...conditions,
     },
-  });
-};
+  })
+}
 
 export const multiSearch = (keywords) => {
   return xhr.get('/search/multimatch', {
     params: { keywords },
-  });
-};
+  })
+}
 
 export const getList = async (type, id) => {
   const service = {
     album: getAlbum,
     playlist: getPlayList,
     artist: getArtist,
-  }[type];
-  const data = await service(id);
-  let res = {};
+  }[type]
+  const data = await service(id)
+  let res = {}
   if (type === 'album') {
-    res = data;
+    res = data
   } else if (type === 'playlist') {
-    res = data?.playlist;
+    res = data?.playlist
   } else {
-    res = data;
+    res = data
   }
-  return res;
-};
+  return res
+}
 
 /**
  * 收藏|取消
@@ -90,23 +91,23 @@ export const getList = async (type, id) => {
  * 根据歌单id返回歌单详细信息
  */
 export const sub = (type, id, t) => {
-  let params = { timestamp: now() };
-  let url = {
+  const params = { timestamp: now() }
+  const url = {
     album: '/album/sub',
     playlist: '/playlist/subscribe',
     mv: '/mv/sub',
     artist: '/artist/sub',
     track: '/like',
-  }[type];
-  Object.assign(params, { id, t });
+  }[type]
+  Object.assign(params, { id, t })
   if (type === 'track') {
-    delete params.t;
-    params.like = t === 1;
+    delete params.t
+    params.like = t === 1
   }
   return xhr.get(url, {
     params,
-  });
-};
+  })
+}
 
 /**
  * 听歌打卡
@@ -119,11 +120,11 @@ export const sub = (type, id, t) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const scrobble = (params) => {
-  params.timestamp = now();
+  params.timestamp = now()
   return xhr.get('/scrobble', {
     params,
-  });
-};
+  })
+}
 
 /**
  * 对歌单添加或删除歌曲
@@ -140,14 +141,13 @@ export const doPlaylist = (op = 'add', pid, tracks = []) => {
       tracks: tracks.join(','),
       timestamp: now(),
     },
-  });
-};
-
+  })
+}
 
 export async function getRadarList() {
   const list = RADARPLAYLISTS.map((playlist) => {
-    return getPlayList(playlist.id);
-  });
-  const result = await Promise.all(list);
-  return result.map((i) => i.playlist);
+    return getPlayList(playlist.id)
+  })
+  const result = await Promise.all(list)
+  return result.map((i) => i.playlist)
 }

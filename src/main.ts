@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
-import { loadFonts } from './plugins/webfontloader'
-import App from './App.vue'
 
+import App from './App.vue'
+import { useI18n } from './plugins/i18n'
+import { pinia, usePinia } from './plugins/pinia'
+import { usePlayer } from './plugins/player'
+import { useVuetify } from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
 // plugins
 import { useRouter } from './router'
-import { pinia, usePinia } from './plugins/pinia'
-import { useVuetify } from './plugins/vuetify'
-import { useI18n } from './plugins/i18n'
-import { usePlayer } from './plugins/player'
 
 // 加载css fonts等资源
 loadFonts()

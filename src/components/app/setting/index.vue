@@ -18,7 +18,6 @@
     <v-divider />
 
     <v-container>
-
       <app-settings-theme />
 
       <v-divider class="mt-4 mb-3 mx-n3" />
@@ -29,31 +28,29 @@
 </template>
 
 <script>
-  // Components
-  import AppSettingsApi from './Api.vue'
-  import AppSettingsTheme from './Theme.vue'
-  import AppSettingsOther from './other.vue'
+// Components
+import { mdiClose } from '@mdi/js'
 
-  // Composables
-  import { useAppStore } from '@/store/app'
+// Composables
+import { useAppStore } from '@/store/app'
 
-  import { mdiClose } from '@mdi/js'
-  export default {
-    name: 'AppSettingsDrawer',
+import AppSettingsOther from './other.vue'
+import AppSettingsTheme from './Theme.vue'
+export default {
+  name: 'AppSettingsDrawer',
 
-    components: {
-      AppSettingsApi,
-      AppSettingsTheme,
-      AppSettingsOther,
-    },
+  components: {
+    AppSettingsTheme,
+    AppSettingsOther,
+  },
 
-    setup () {
-      const app = useAppStore()
+  setup() {
+    const app = useAppStore()
 
-      return {
-        app,
-        mdiClose
-      }
-    },
-  }
+    return {
+      app,
+      mdiClose,
+    }
+  },
+}
 </script>

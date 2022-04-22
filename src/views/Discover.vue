@@ -2,27 +2,16 @@
   <div class="discover">
     <custom-col :title="welcome">
       <shortcuts />
-<!--      <quick-list />-->
+      <!--      <quick-list />-->
     </custom-col>
     <custom-col :title="$tc('main.for_you')">
       <card-row>
-        <cover
-            v-for="list in state.playLists"
-            :key="list.id"
-            :data="list"
-            type="playlist"
-        />
+        <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
       </card-row>
     </custom-col>
     <custom-col :title="$tc('main.radar')">
       <card-row>
-        <cover
-            v-for="list in state.radarPlayLists"
-            :key="list.id"
-            :data="list"
-            type="playlist"
-            :title-line="2"
-        />
+        <cover v-for="list in state.radarPlayLists" :key="list.id" :data="list" type="playlist" :title-line="2" />
       </card-row>
     </custom-col>
     <custom-col :title="$tc('main.discover.recommend_songs')">
@@ -37,27 +26,28 @@
   </div>
 </template>
 <script setup lang="ts">
-import {computed, reactive} from "vue";
-import {storeToRefs} from "pinia";
-import CustomCol from '@components/app/layout/Col.vue';
-import CardRow from "@components/app/layout/CardRow.vue";
-import Cover from '@components/app/cover/Cover.vue';
-import Shortcuts from "@components/app/shortcuts/list.vue";
-import ArtistsLink from "@components/app/artist/ArtistsLink.vue";
-import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api';
-import { getRadarList } from '@/api/music';
-import { useAppStore } from "@/store/app";
-import { useI18n} from "vue-i18n";
-const appStore = useAppStore();
+import { storeToRefs } from 'pinia'
+import { computed, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api'
+import { getRadarList } from '@/api/music'
+import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
+import Cover from '@/components/app/cover/Cover.vue'
+import CardRow from '@/components/app/layout/CardRow.vue'
+import CustomCol from '@/components/app/layout/Col.vue'
+import Shortcuts from '@/components/app/shortcuts/list.vue'
+import { useAppStore } from '@/store/app'
+const appStore = useAppStore()
 const { t } = useI18n()
-const { logged, account } = storeToRefs(appStore);
+const { logged, account } = storeToRefs(appStore)
 
 interface RootState {
-  playLists: any[];
-  radarPlayLists: any[];
-  songs: any[];
-  mvs: [],
-  loading: boolean,
+  playLists: any[]
+  radarPlayLists: any[]
+  songs: any[]
+  mvs: []
+  loading: boolean
 }
 const state = reactive<RootState>({
   radarPlayLists: [],
@@ -68,52 +58,46 @@ const state = reactive<RootState>({
 })
 
 const welcome = computed(() => {
-  const hours = new Date().getHours();
-  let welcome: string;
+  const hours = new Date().getHours()
+  let welcome: string
   if (hours >= 0 && hours <= 6) {
-    welcome = t('common.dawning');
+    welcome = t('common.dawning')
   } else if (hours > 6 && hours <= 11) {
-    welcome = t('common.morning');
+    welcome = t('common.morning')
   } else if (hours > 11 && hours <= 14) {
-    welcome = t('common.noon');
+    welcome = t('common.noon')
   } else if (hours > 14 && hours <= 18) {
-    welcome = t('common.afternoon');
+    welcome = t('common.afternoon')
   } else if (hours > 18 && hours <= 23) {
-    welcome = t('common.evening');
+    welcome = t('common.evening')
   } else {
-    welcome = t('common.midnight');
+    welcome = t('common.midnight')
   }
-  return `${welcome}${logged.value ? `，${account.value?.profile.nickname}` : ''}`;
+  return `${welcome}${logged.value ? `，${account.value?.profile.nickname}` : ''}`
 })
 
 const fetch = async () => {
-  state.loading = true;
+  state.loading = true
   try {
-    const [recommend, { result: mvs }, { result: songs }, radars] =
-        await Promise.all([
-          logged.value ? recommendPlaylist() : getPersonalized(7),
-          getMv(),
-          getNewRelease({ limit: 7 }),
-          getRadarList(),
-        ]);
-    console.log(recommend, mvs, songs, radars);
-    state.playLists = logged.value
-        ? recommend['recommend']
-        : recommend['result'];
-    state.mvs = mvs;
-    state.songs = songs.map((i) => i?.song);
-    state.radarPlayLists = radars;
+    const [recommend, { result: mvs }, { result: songs }, radars] = await Promise.all([
+      logged.value ? recommendPlaylist() : getPersonalized(7),
+      getMv(),
+      getNewRelease({ limit: 7 }),
+      getRadarList(),
+    ])
+    console.log(recommend, mvs, songs, radars)
+    state.playLists = logged.value ? recommend['recommend'] : recommend['result']
+    state.mvs = mvs
+    state.songs = songs.map((i) => i?.song)
+    state.radarPlayLists = radars
   } catch (e) {
-    console.log(e);
+    console.log(e)
   } finally {
-    state.loading = false;
+    state.loading = false
   }
 }
 
 fetch()
-
-
-
 </script>
 <style lang="scss" scoped>
 .discover {

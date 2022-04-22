@@ -1,6 +1,5 @@
 // Utilities
 import { merge } from 'lodash-es'
-
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
@@ -22,8 +21,7 @@ export const useUserStore = defineStore('user', () => {
     },
   })
 
-  function load () {
-
+  function load() {
     const stored = localStorage.getItem('vuetify@user')
     const data = stored ? JSON.parse(stored) : {}
 
@@ -39,9 +37,7 @@ export const useUserStore = defineStore('user', () => {
     }
     if (typeof data.theme === 'object') {
       data.mixedTheme = data.theme.mixed
-      data.theme = data.theme.system ? 'system'
-        : data.theme.dark ? 'dark'
-        : 'light'
+      data.theme = data.theme.system ? 'system' : data.theme.dark ? 'dark' : 'light'
     }
     if (typeof data.last === 'object') {
       data.notifications.last = data.last
@@ -51,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
     Object.assign(state, merge(state, data))
   }
 
-  function save () {
+  function save() {
     localStorage.setItem('vuetify@user', JSON.stringify(state, null, 2))
   }
 

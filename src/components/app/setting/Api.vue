@@ -3,33 +3,38 @@
 </template>
 
 <script>
-  import { computed, watch } from 'vue'
-  import { useUserStore } from '@/store/user'
-  import AppSettingsGroup from './Group.vue'
+import { computed, watch } from 'vue'
 
-  export default {
-    name: 'SettingsApi',
+import { useUserStore } from '@/store/user'
 
-    components: { AppSettingsGroup },
+import AppSettingsGroup from './Group.vue'
 
-    setup () {
-      const user = useUserStore()
-      const items = computed(() => ([
-        {
-          text: 'link-only',
-          icon: 'mdi-link',
-        },
-        {
-          text: 'inline',
-          icon: 'mdi-format-wrap-inline',
-        },
-      ]))
+export default {
+  name: 'SettingsApi',
 
-      watch(() => user.api, value => {
+  components: { AppSettingsGroup },
+
+  setup() {
+    const user = useUserStore()
+    const items = computed(() => [
+      {
+        text: 'link-only',
+        icon: 'mdi-link',
+      },
+      {
+        text: 'inline',
+        icon: 'mdi-format-wrap-inline',
+      },
+    ])
+
+    watch(
+      () => user.api,
+      (value) => {
         console.log('api', value)
-      })
+      }
+    )
 
-      return { items, user }
-    },
-  }
+    return { items, user }
+  },
+}
 </script>

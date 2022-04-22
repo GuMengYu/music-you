@@ -8,5 +8,5 @@ export default defineComponent({
         <p>This is a test component</p>
       </div>
     )
-  }
+  },
 })

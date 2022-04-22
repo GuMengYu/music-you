@@ -12,17 +12,16 @@
 </template>
 
 <script>
-  import { defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
-  export default defineComponent({
-    name: 'AppListItem',
+export default defineComponent({
+  name: 'AppListItem',
 
-    props: {
-      item: {
-        type: Object,
-        default: () => ({}),
-      },
+  props: {
+    item: {
+      type: Object,
+      default: () => ({}),
     },
-  })
+  },
+})
 </script>
-

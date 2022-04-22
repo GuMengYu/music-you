@@ -1,31 +1,21 @@
 <template>
-  <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp"
-  >
+  <transition name="custom-classes-transition" enter-active-class="animate__animated animate__slideInUp">
     <v-footer fixed class="player-footer">
       <v-slider
-          :model-value="currentTime * 1000"
-          thumb-label
-          :min="0"
-          :max="trackDt"
-          class="track-slider"
-          density="compact"
-          :track-size="2"
-          :thumb-size="12"
-          :hide-details="true"
-          color="primary"
+        :model-value="currentTime * 1000"
+        thumb-label
+        :min="0"
+        :max="trackDt"
+        class="track-slider"
+        density="compact"
+        :track-size="2"
+        :thumb-size="12"
+        :hide-details="true"
+        color="primary"
       ></v-slider>
       <div class="playing-control">
         <div class="playing-bar__left">
-          <v-img
-              class="rounded"
-              :aspect-ratio="1"
-              :max-width="40"
-              :max-height="40"
-              :src="albumPicUrl"
-              cover
-          ></v-img>
+          <v-img class="rounded" :aspect-ratio="1" :max-width="40" :max-height="40" :src="albumPicUrl" cover></v-img>
           <div class="song-info mx-2 d-flex align-center">
             <span class="song-name h-1x text-subtitle-2">
               {{ track.name }}
@@ -38,7 +28,7 @@
             </v-icon>
           </v-btn>
 
-          <v-spacer/>
+          <v-spacer />
         </div>
         <div class="playing-bar__center justify-center">
           <music-control />
@@ -51,21 +41,19 @@
               </v-icon>
             </v-btn>
             <v-slider
-                :model-value="volume"
-                class="playing-volume"
-                density="compact"
-                :track-size="2"
-                :thumb-size="12"
-                hide-details
-                :max="1"
-                min="0"
-                step="0.1"
-                color="primary"
+              :model-value="volume"
+              class="playing-volume"
+              density="compact"
+              :track-size="2"
+              :thumb-size="12"
+              hide-details
+              :max="1"
+              min="0"
+              step="0.1"
+              color="primary"
             />
           </div>
-          <v-btn
-              icon variant="plain" size="small"
-          >
+          <v-btn icon variant="plain" size="small">
             <v-icon size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
@@ -76,20 +64,19 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { mdiPlaylistMusic, mdiHeart, mdiVolumeHigh } from "@mdi/js"
-import {computed, reactive, ref} from 'vue'
-import { throttle } from "lodash-es";
-import { storeToRefs } from "pinia"
-import { usePlayerStore } from "@/store/player"
-import MusicControl from '@components/app/control/Control.vue'
+import { mdiHeart, mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
+import { throttle } from 'lodash-es'
+import { storeToRefs } from 'pinia'
+import { computed, reactive, ref } from 'vue'
+
+import MusicControl from '@/components/app/control/Control.vue'
+import { usePlayerStore } from '@/store/player'
 
 const playerStore = usePlayerStore()
 const { currentTime, track, volume = 0.8 } = storeToRefs(playerStore)
 
-
 const trackDt = computed(() => track.value.dt ?? 0)
 const albumPicUrl = computed(() => track.value.al.picUrl)
-
 
 // const sliderValue = ref<number>(0)
 //
@@ -97,7 +84,6 @@ const albumPicUrl = computed(() => track.value.al.picUrl)
 //   sliderValue.value = time
 //   console.log('doSeek', time)
 // }, 1000)
-
 </script>
 
 <style lang="scss" scoped>

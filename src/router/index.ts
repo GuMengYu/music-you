@@ -1,11 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
-
 // types
-import { App } from 'vue'
-import { RouteLocation, RouterScrollBehavior } from 'vue-router'
+import type { App } from 'vue'
+import type { RouteLocation } from 'vue-router'
+import { createRouter, createWebHistory, RouterScrollBehavior } from 'vue-router'
 
-const lazyLoad = (name: string) => () =>
-  import(`../views/${name}.vue`);
+const lazyLoad = (name: string) => () => import(`../views/${name}.vue`)
 
 const musicRoutes = [
   {
@@ -141,13 +139,12 @@ const musicRoutes = [
     name: 'playground',
     component: lazyLoad('example/playground'),
   },
-];
+]
 
 export function useRouter(app: App) {
   const router = createRouter({
     history: createWebHistory(),
-    scrollBehavior: (to, from, savedPosition) =>
-      savedPosition || { x: 0, y: 0 } as any,
+    scrollBehavior: (to, from, savedPosition) => savedPosition || ({ x: 0, y: 0 } as any),
     routes: [
       {
         path: '/',
@@ -156,18 +153,21 @@ export function useRouter(app: App) {
         children: musicRoutes,
         redirect: { path: '/discover' },
       },
-      { path: '/:pathMatch(.*)*', name: 'FourOhFour', component: () =>
-      import('@/views/errors/FourOhFour.vue') },
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'FourOhFour',
+        component: () => import('@/views/errors/FourOhFour.vue'),
+      },
     ],
-  });
+  })
   router.beforeEach(({ meta }, from, next) => {
-    next();
+    next()
     // const logged = store.getters['settings/logged'];
     // if (meta.needLogin && !logged) {
     //   store.commit('app/showLogin', true);
     // } else {
-      
+
     // }
-  });
+  })
   app.use(router)
 }

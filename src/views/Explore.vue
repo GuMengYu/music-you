@@ -1,13 +1,9 @@
-<template>
-  explore
-</template>
+<template>explore</template>
 
 <script>
 export default {
-  name: "Explore"
+  name: 'Explore',
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

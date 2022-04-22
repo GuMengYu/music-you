@@ -1,104 +1,105 @@
-import {defineStore} from "pinia";
-import { reactive, toRefs, watch, watchEffect, Ref } from "vue";
-import { useLocalStorage } from "@vueuse/core";
-import { TrackSource, Playlist } from "@/types";
+import { useLocalStorage } from '@vueuse/core'
+import { defineStore } from 'pinia'
+import { reactive, toRefs, watchEffect } from 'vue'
+
+import type { Playlist, TrackSource } from '@/types'
 
 export enum PLAY_MODE {
-  NORMAL = "normal",
-  REPEAT = "repeat",
-  REPEAT_ONCE = "repeatOnce",
-  DISABLE = "disable",
-  SHUFFLE = "shuffle",
+  NORMAL = 'normal',
+  REPEAT = 'repeat',
+  REPEAT_ONCE = 'repeatOnce',
+  DISABLE = 'disable',
+  SHUFFLE = 'shuffle',
 }
 export type PlayerState = {
-    track: null | TrackSource,
-    currentTime: number,
-    playingList: {
-        id?: string | number,
-        list: TrackSource[]
-    }
-    playMode: PLAY_MODE,
-    shuffle: boolean,
-    likes: TrackSource[],
-    playlist: Playlist[],
-    volume: number,
-    playing: boolean,
-    loadingTrack: boolean,
-    isCurrentFm: boolean,
-    fmTrack: null | TrackSource,
-    fmList: TrackSource[],
+  track: null | TrackSource
+  currentTime: number
+  playingList: {
+    id?: string | number
+    list: TrackSource[]
+  }
+  playMode: PLAY_MODE
+  shuffle: boolean
+  likes: TrackSource[]
+  playlist: Playlist[]
+  volume: number
+  playing: boolean
+  loadingTrack: boolean
+  isCurrentFm: boolean
+  fmTrack: null | TrackSource
+  fmList: TrackSource[]
 }
 export const usePlayerStore = defineStore({
-    id: 'player',
-    state: () => {
-        const restoreState = useLocalStorage('player', {
-            track: null,
-            currentTime: 0,
-            playingList: {
-                list: [] as TrackSource[],
-            },
-            playMode: PLAY_MODE.NORMAL,
-            shuffle: false,
-            likes: [] as TrackSource[],
-            playlist: [] as Playlist[],
-            volume: 0.8,
-        });
+  id: 'player',
+  state: () => {
+    const restoreState = useLocalStorage('player', {
+      track: null,
+      currentTime: 0,
+      playingList: {
+        list: [] as TrackSource[],
+      },
+      playMode: PLAY_MODE.NORMAL,
+      shuffle: false,
+      likes: [] as TrackSource[],
+      playlist: [] as Playlist[],
+      volume: 0.8,
+    })
 
-        const data = reactive({
-            ...restoreState.value,
-            playing: false,
-            loadingTrack: false,
-            isCurrentFm: false,
-            fmTrack: null,
-            fmList: [],
-        }) as PlayerState;
+    const data = reactive({
+      ...restoreState.value,
+      playing: false,
+      loadingTrack: false,
+      isCurrentFm: false,
+      fmTrack: null,
+      fmList: [],
+    }) as PlayerState
 
-        // sync localStorage
-        watchEffect(() => {
-            restoreState.value.track = data.track as any;
-            restoreState.value.currentTime = data.currentTime;
-            restoreState.value.playingList = data.playingList;
-            restoreState.value.playMode = data.playMode;
-            restoreState.value.shuffle = data.shuffle;
-            restoreState.value.likes = data.likes;
-            restoreState.value.playlist = data.playlist;
-            restoreState.value.volume = data.volume;
-        })
-        return {
-            ...toRefs(data),
-        }
+    // sync localStorage
+    watchEffect(() => {
+      restoreState.value.track = data.track as any
+      restoreState.value.currentTime = data.currentTime
+      restoreState.value.playingList = data.playingList
+      restoreState.value.playMode = data.playMode
+      restoreState.value.shuffle = data.shuffle
+      restoreState.value.likes = data.likes
+      restoreState.value.playlist = data.playlist
+      restoreState.value.volume = data.volume
+    })
+    return {
+      ...toRefs(data),
+    }
+  },
+  getters: {
+    index: (state) => {
+      const { playingList, track } = state
+      if (!playingList.list.length) return -1
+      return playingList.list.findIndex((item) => item.id === track?.id)
     },
-    getters: {
-        index: (state) => {
-            const { playingList, track } = state;
-            if (!playingList.list.length) return -1;
-            return playingList.list.findIndex(item => item.id === track?.id);
-        },
-        prevTrackId: (state) => {
-            const { playingList, track } = state;
-            if (!playingList.list.length) return -1;
-            const index = playingList.list.findIndex(item => item.id === track?.id);
-            return playingList.list[index - 1]?.id;
-        },
-        nextFmTrackId(state) {
-            return state.fmList[0]?.id;
-        },
-        nextTrackId(state): null |undefined | string {
-            const currentId = state.track?.id;
-            const index = this.index;
-            let id: null |undefined | string = null;
-            const len = state.playingList?.list?.length;
-            const { playMode, playingList } = state;
-            if (playMode === PLAY_MODE.REPEAT_ONCE) {
-                id = currentId;
-                // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
-            } else if (playMode === PLAY_MODE.NORMAL || len - 1 !== index) {
-                id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id;
-            } else if (playMode === PLAY_MODE.DISABLE && len - 1 === index) {
-                // 顺序播放最后一首后不在继续播放
-                id = null;
-            }
-            return id;
-        }
+    prevTrackId: (state) => {
+      const { playingList, track } = state
+      if (!playingList.list.length) return -1
+      const index = playingList.list.findIndex((item) => item.id === track?.id)
+      return playingList.list[index - 1]?.id
     },
+    nextFmTrackId(state) {
+      return state.fmList[0]?.id
+    },
+    nextTrackId(state): null | undefined | string {
+      const currentId = state.track?.id
+      const index = this.index
+      let id: null | undefined | string = null
+      const len = state.playingList?.list?.length
+      const { playMode, playingList } = state
+      if (playMode === PLAY_MODE.REPEAT_ONCE) {
+        id = currentId
+        // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
+      } else if (playMode === PLAY_MODE.NORMAL || len - 1 !== index) {
+        id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id
+      } else if (playMode === PLAY_MODE.DISABLE && len - 1 === index) {
+        // 顺序播放最后一首后不在继续播放
+        id = null
+      }
+      return id
+    },
+  },
 })

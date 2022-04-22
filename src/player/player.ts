@@ -1,19 +1,19 @@
-import { inject, getCurrentInstance } from 'vue'
-import { Player } from './base';
+import { getCurrentInstance, inject } from 'vue'
 
-export const PlayerSymbol = Symbol.for('Player');
+import { Player } from './base'
+
+export const PlayerSymbol = Symbol.for('Player')
 
 export function createPlayer() {
-    return new Player();
+  return new Player()
 }
 
 export function usePlayer() {
-    getCurrentInstance()
-  
-    const player = inject(PlayerSymbol, null)
-  
-    if (!player) throw new Error('Could not find Music Player injection')
+  getCurrentInstance()
 
-    return player
-  }
-  
+  const player = inject(PlayerSymbol, null)
+
+  if (!player) throw new Error('Could not find Music Player injection')
+
+  return player
+}

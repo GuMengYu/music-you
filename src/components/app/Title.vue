@@ -4,8 +4,8 @@
 
 <script>
 import AppHeadline from './Headline.vue'
-  export default {
-    name: 'Title',
-    components: { AppHeadline },
-  }
+export default {
+  name: 'Title',
+  components: { AppHeadline },
+}
 </script>

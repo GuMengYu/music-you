@@ -1,9 +1,9 @@
 <template>
-  <div :style="style" ref="lavContainer" class="lottie-icon"></div>
+  <div ref="lavContainer" :style="style" class="lottie-icon"></div>
 </template>
 
 <script>
-import lottie from 'lottie-web';
+import lottie from 'lottie-web'
 export default {
   props: {
     options: {
@@ -21,10 +21,10 @@ export default {
         overflow: 'hidden',
         margin: '0 auto',
       },
-    };
+    }
   },
   mounted() {
-    this.loadAnimation();
+    this.loadAnimation()
   },
   methods: {
     loadAnimation(updated = false) {
@@ -35,19 +35,19 @@ export default {
         autoplay: this.options.autoplay !== false,
         animationData: this.options.animationData,
         rendererSettings: this.options.rendererSettings,
-      });
+      })
       if (updated) {
-        this.$emit('animUpdated', this.anim);
+        this.$emit('animUpdated', this.anim)
       } else {
-        this.$emit('animCreated', this.anim);
+        this.$emit('animCreated', this.anim)
       }
     },
     update() {
-      this.anim?.destroy();
-      this.loadAnimation(true);
+      this.anim?.destroy()
+      this.loadAnimation(true)
     },
   },
-};
+}
 </script>
 
 <style>

@@ -1,32 +1,44 @@
 <template>
-  <div class="card-row" :data-grid="gridStyle" :style="{'--column-count': columnCount, '--grid-gap': gridGap}">
+  <div class="card-row" :data-grid="gridStyle" :style="{ '--column-count': columnCount, '--grid-gap': gridGap }">
     <slot />
   </div>
 </template>
 <script setup lang="ts">
-import { useDisplay } from "vuetify";
-import { computed } from "vue";
-const display = useDisplay();
+import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
+const display = useDisplay()
 
 const columnCount = computed(() => {
   const name = display.name.value
   console.log(name)
-  return name === 'xs' ? 1 :
-      name === 'sm' ? 2 :
-          name === 'md' ? 3 :
-              name === 'lg' ? 4 :
-                  name === 'xl' ? 5 :
-                      name === 'xxl' ? 8 : 6
+  return name === 'xs'
+    ? 1
+    : name === 'sm'
+    ? 2
+    : name === 'md'
+    ? 3
+    : name === 'lg'
+    ? 4
+    : name === 'xl'
+    ? 5
+    : name === 'xxl'
+    ? 8
+    : 6
 })
 const gridGap = computed(() => {
   const name = display.name.value
-  return name === 'xs' ? '10px' :
-      name === 'sm' ? '18px' :
-          name === 'md' ? '24px' :
-              name === 'lg' ? '24px' :
-                  name === 'xl' ? '24px' : '24px'
+  return name === 'xs'
+    ? '10px'
+    : name === 'sm'
+    ? '18px'
+    : name === 'md'
+    ? '24px'
+    : name === 'lg'
+    ? '24px'
+    : name === 'xl'
+    ? '24px'
+    : '24px'
 })
-
 </script>
 <script lang="ts">
 export default {
@@ -36,10 +48,9 @@ export default {
       default: 'A',
     },
   },
-};
+}
 </script>
 <style scoped lang="scss">
-
 .card-row {
   display: grid;
   gap: var(--grid-gap);

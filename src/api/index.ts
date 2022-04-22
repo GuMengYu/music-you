@@ -1,6 +1,7 @@
-import { musicXhr as xhr } from '@util/xhr';
-import { now } from 'lodash-es';
-import {RADARPLAYLISTS} from "@util/metadata";
+import { now } from 'lodash-es'
+
+import { RADARPLAYLISTS } from '@/util/metadata'
+import { musicXhr as xhr } from '@/util/xhr'
 
 /**
  * 登录
@@ -12,23 +13,22 @@ import {RADARPLAYLISTS} from "@util/metadata";
  * }
  */
 export const login = (params) => {
-  return xhr.post(`/login/cellphone?timestamp=${now()}`, params);
-};
+  return xhr.post(`/login/cellphone?timestamp=${now()}`, params)
+}
 /**
  * banner
  * 返回轮播图信息
  */
 export const getBanner = () => {
-  return xhr.get('/banner');
-};
+  return xhr.get('/banner')
+}
 
 /**
  * 获取歌曲详情
  * @param ids[]
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongData = (ids = []) =>
-  xhr.get(`/song/detail?ids=${ids.join()}`);
+export const getSongData = (ids = []) => xhr.get(`/song/detail?ids=${ids.join()}`)
 /**
  * 获取歌曲可播放url
  * @param params
@@ -37,7 +37,7 @@ export const getSongData = (ids = []) =>
 export const getSongUrl = (params) =>
   xhr.get('/song/url', {
     params,
-  });
+  })
 
 /**
  * 获取歌曲下载链接
@@ -46,15 +46,14 @@ export const getSongUrl = (params) =>
 export const getSongDownloadUrl = (params) => {
   return xhr.get('/song/download/url', {
     params,
-  });
-};
+  })
+}
 
 /**
  * 解锁灰色不可播放歌曲
  * @param id
  */
-export const getSongUrlFromUnlockMusic = (id) =>
-  xhr.get('/unlockmusic', { params: { id }, timeout: 4000 });
+export const getSongUrlFromUnlockMusic = (id) => xhr.get('/unlockmusic', { params: { id }, timeout: 4000 })
 
 /**
  * 获取歌单详情
@@ -67,7 +66,7 @@ export const getPlayList = (id) =>
       id,
       timestamp: now(),
     },
-  });
+  })
 
 /**
  * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
@@ -79,7 +78,7 @@ export const getPlayListDynamic = (id) =>
       timestamp: now(),
       id,
     },
-  });
+  })
 
 export const deletePlayList = (id) => {
   return xhr.get('/playlist/delete', {
@@ -87,14 +86,14 @@ export const deletePlayList = (id) => {
       id,
       timestamp: now(),
     },
-  });
-};
+  })
+}
 /**
  * 获取相关歌单
  * @param id
  * 传入歌单 id 可获取相关歌单
  */
-export const getRelatedPlayList = (id) => xhr.get(`/related/playlist?id=${id}`);
+export const getRelatedPlayList = (id) => xhr.get(`/related/playlist?id=${id}`)
 
 /**
  * 新建歌单
@@ -110,14 +109,14 @@ export const createPlaylist = (params) =>
   xhr.post('/playlist/create', {
     ...params,
     timestamp: now(),
-  });
+  })
 
 /**
  * 获取专辑详情
  * @param id
  * 根据专辑id返回专辑详细信息
  */
-export const getAlbum = (id) => xhr.get('/album', { params: { id } });
+export const getAlbum = (id) => xhr.get('/album', { params: { id } })
 
 /**
  * 获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
@@ -129,16 +128,16 @@ export const getAlbumDynamic = (id) =>
       timestamp: now(),
       id,
     },
-  });
+  })
 /**
  * 获取推荐歌单列表
  */
 export const getPersonalized = (limit) =>
   xhr.get('/personalized', {
     params: { limit, timestamp: now() },
-  });
+  })
 
-export const topArtists = () => xhr.get('/toplist/artist?type=2');
+export const topArtists = () => xhr.get('/toplist/artist?type=2')
 /**
  * 获取网友精选碟歌单
  * 可选参数 : order: 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
@@ -146,19 +145,15 @@ export const topArtists = () => xhr.get('/toplist/artist?type=2');
  limit: 取出歌单数量 , 默认为 50
  offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-export const getTopPlaylist = (
-  params = { limit: 20, cat: '全部', offset: 0 },
-) => xhr.get('/top/playlist', { params });
+export const getTopPlaylist = (params = { limit: 20, cat: '全部', offset: 0 }) => xhr.get('/top/playlist', { params })
 
-export const getTopPlaylistHighQuality = (
-  params = { limit: 20, cat: '全部' },
-) => xhr.get('/top/playlist/highquality', { params });
+export const getTopPlaylistHighQuality = (params = { limit: 20, cat: '全部' }) =>
+  xhr.get('/top/playlist/highquality', { params })
 
 /**
  * 推荐歌曲
  */
-export const getNewRelease = (params) =>
-  xhr.get('/personalized/newsong', { params });
+export const getNewRelease = (params) => xhr.get('/personalized/newsong', { params })
 
 /**
  * 新专辑
@@ -166,23 +161,23 @@ export const getNewRelease = (params) =>
 export const newAlbums = (params) => {
   return xhr.get('/album/new', {
     params,
-  });
-};
+  })
+}
 /**
  * 新碟上架
  * @returns {AxiosPromise}
  */
 export const newestAlbums = () => {
-  return xhr('/album/newest');
-};
+  return xhr('/album/newest')
+}
 
 /**
  * 最新专辑
  * @returns {AxiosPromise}
  */
 export const hotAlbums = () => {
-  return xhr('/album/newest');
-};
+  return xhr('/album/newest')
+}
 
 /**
  * 新歌
@@ -195,27 +190,26 @@ export const topSongs = () => {
       area: 'ALL',
       type: 'hot',
     },
-  });
-};
+  })
+}
 
 /**
  * 获取新歌
  */
-export const getDailyRecommend = () => xhr.get('/recommend/songs');
+export const getDailyRecommend = () => xhr.get('/recommend/songs')
 
 /**
  * 获取所有榜单
  */
-export const getTopList = () => xhr.get('/toplist');
+export const getTopList = () => xhr.get('/toplist')
 
-export const getLyric = (id) => xhr.get(`/lyric?id=${id}`);
+export const getLyric = (id) => xhr.get(`/lyric?id=${id}`)
 
-export const getArtist = (id) =>
-  xhr.get(`/artists?id=${id}&timestamp=${now()}`);
+export const getArtist = (id) => xhr.get(`/artists?id=${id}&timestamp=${now()}`)
 
-export const getArtistDetail = (id) => xhr.get(`/artist/detail?id=${id}`);
+export const getArtistDetail = (id) => xhr.get(`/artist/detail?id=${id}`)
 
-export const getSimiArtist = (id) => xhr.get(`/simi/artist?id=${id}`);
+export const getSimiArtist = (id) => xhr.get(`/simi/artist?id=${id}`)
 
 export const getArtistAlbum = (id, limit = 200) =>
   xhr.get('/artist/album', {
@@ -223,38 +217,37 @@ export const getArtistAlbum = (id, limit = 200) =>
       id,
       limit,
     },
-  });
+  })
 
 export const getArtistMv = (id) =>
   xhr.get('/artist/mv', {
     params: { id },
-  });
+  })
 /**
  * 获取喜欢列表
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getLikeList = () => xhr.get(`/likelist?timestamp=${now()}`);
+export const getLikeList = () => xhr.get(`/likelist?timestamp=${now()}`)
 
-export const getCatList = () => xhr.get('/playlist/catlist');
+export const getCatList = () => xhr.get('/playlist/catlist')
 /**
  * 获取推荐mv
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getMv = () => xhr.get('/personalized/mv');
+export const getMv = () => xhr.get('/personalized/mv')
 
 /**
  * 获取热门视频
  * @param offset
  * @returns {*}
  */
-export const recommendVideo = (offset) =>
-  xhr.get('/video/timeline/recommend', { offset });
+export const recommendVideo = (offset) => xhr.get('/video/timeline/recommend', { offset })
 
 /**
  * 获取新mv
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getNewMv = (params) => xhr.get('/mv/first', { params });
+export const getNewMv = (params) => xhr.get('/mv/first', { params })
 
 /**
  * 获取 mv 数据
@@ -267,8 +260,8 @@ export const mvDetail = (mvid) => {
       mvid,
       timestamp: now(),
     },
-  });
-};
+  })
+}
 
 /**
  * mv 地址
@@ -281,8 +274,8 @@ export const mvDetail = (mvid) => {
 export const getMvUrl = (params) => {
   return xhr.get('/mv/url', {
     params,
-  });
-};
+  })
+}
 
 /**
  * 相似 mv
@@ -294,8 +287,8 @@ export const simiMv = (mvid) => {
     params: {
       mvid,
     },
-  });
-};
+  })
+}
 
 /**
  * 收藏 | 取消收藏 MV
@@ -312,24 +305,22 @@ export function subMV(params) {
       ...params,
       timestamp: now(),
     },
-  });
+  })
 }
 
 /**
  * 私人fm
  */
 
-export const personalFM = () =>
-  xhr.get('/personal_fm', { params: { timestamp: now() } });
+export const personalFM = () => xhr.get('/personal_fm', { params: { timestamp: now() } })
 
 /**
  * 私人fm 不喜欢
  */
-export const fmToTrash = (id) => xhr.get('/fm_trash', { params: { id } });
+export const fmToTrash = (id) => xhr.get('/fm_trash', { params: { id } })
 
 /**
  * 获取推荐歌单（需要登录）
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const recommendPlaylist = () =>
-  xhr.get('/recommend/resource', { params: { timestamp: now() } });
+export const recommendPlaylist = () => xhr.get('/recommend/resource', { params: { timestamp: now() } })

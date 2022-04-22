@@ -98,5 +98,5 @@ export default {
     OrangeDesert: '橙色沙漠',
     BlueMountains: '蓝色山峰',
     GreenRockyMountains: '绿色山峰',
-  }
-};
+  },
+}

@@ -1,22 +1,22 @@
 <template>
   <v-container class="pa-4">
-    <div style="width: 200px;">
+    <div style="width: 200px">
       <Cover :data="cover" />
     </div>
   </v-container>
-
 </template>
 
 <script lang="ts">
-import Cover from "@components/app/cover/Cover.vue";
+import Cover from '@/components/app/cover/Cover.vue'
 export default {
-  components: {Cover},
+  components: { Cover },
   data: () => ({
     cover: {
       id: 12313,
       name: '封面名称',
       copywriter: '小编推荐',
-      picUrl: 'https://images.unsplash.com/photo-1429514513361-8fa32282fd5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3264&q=80',
+      picUrl:
+        'https://images.unsplash.com/photo-1429514513361-8fa32282fd5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3264&q=80',
     },
     icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
     items: [

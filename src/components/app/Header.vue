@@ -1,14 +1,18 @@
 <template>
   <v-app-bar class="app_header drag-area" elevate-on-scroll flat app>
-    <template v-slot:prepend>
+    <template #prepend>
       <v-app-bar-nav-icon @click="toggleRail"></v-app-bar-nav-icon>
     </template>
     <v-app-bar-title>
-      <v-img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="gooooooogle" width="68" />
+      <v-img
+        src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
+        alt="gooooooogle"
+        width="68"
+      />
     </v-app-bar-title>
     <theme-toggle />
-    <v-btn @click="showSetting" icon>
-      <v-icon :icon="mdiCogOutline"/>
+    <v-btn icon @click="showSetting">
+      <v-icon :icon="mdiCogOutline" />
     </v-btn>
     <account />
     <!--    &lt;!&ndash;      <download-progress />&ndash;&gt;-->
@@ -39,10 +43,11 @@
   </v-app-bar>
 </template>
 <script setup>
-import { useAppStore } from "@/store/app";
-import { mdiCogOutline } from '@mdi/js';
-import Account from "@components/app/Account.vue";
-import ThemeToggle from "@components/app/toggle/Theme.vue";
+import { mdiCogOutline } from '@mdi/js'
+
+import Account from '@/components/app/Account.vue'
+import ThemeToggle from '@/components/app/toggle/Theme.vue'
+import { useAppStore } from '@/store/app'
 const app = useAppStore()
 const toggleRail = () => {
   app.rail = !app.rail
@@ -55,17 +60,17 @@ const showSetting = () => {
 // import { mdiMagnify } from '@mdi/js';
 // import { get } from 'vuex-pathify';
 
-// import SearchToggle from '@components/layout/SearchToggle.vue';
-// import ThemeToggle from '@components/layout/ThemeToggle.vue';
-// import DefaultAccount from '@components/app/Account.vue';
-// import DefaultTitleBar from '@components/layout/TitleBar.vue';
+// import SearchToggle from '@/components/layout/SearchToggle.vue';
+// import ThemeToggle from '@/components/layout/ThemeToggle.vue';
+// import DefaultAccount from '@/components/app/Account.vue';
+// import DefaultTitleBar from '@/components/layout/TitleBar.vue';
 
-// // import SettingToggle from '@components/layout/SettingToggle';
-// import ReloadBtn from '@components/layout/ReloadBtn.vue';
-// import BF from '@components/layout/BF.vue';
+// // import SettingToggle from '@/components/layout/SettingToggle';
+// import ReloadBtn from '@/components/layout/ReloadBtn.vue';
+// import BF from '@/components/layout/BF.vue';
 // import Search from '@/views/Search';
 // import is from 'electron-is';
-// import DownloadProgress from '@components/layout/DownloadProgress';
+// import DownloadProgress from '@/components/layout/DownloadProgress';
 
 export default {
   name: 'DefaultHeader',
@@ -86,8 +91,7 @@ export default {
       default: false,
     },
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     // account: get('settings/account'),
     // showWindowControl() {
@@ -98,7 +102,7 @@ export default {
     // },
   },
   methods: {},
-};
+}
 </script>
 <style scoped lang="scss">
 .app_header {

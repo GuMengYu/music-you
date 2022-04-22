@@ -1,14 +1,11 @@
 <template>
   <section>
     <div class="mb-4">
-      <div class="text-caption text-grey-lighten-1" v-if="props.subtitle">
+      <div v-if="props.subtitle" class="text-caption text-grey-lighten-1">
         {{ props.subtitle }}
       </div>
       <div class="d-flex justify-space-between">
-        <div
-          class="onSurface--text"
-          :class="props.hClass || 'text-h6'"
-        >
+        <div class="onSurface--text" :class="props.hClass || 'text-h6'">
           {{ props.title }}
         </div>
         <v-btn v-if="props.more" text plain small class="font-weight-bold" :to="props.more">
@@ -21,8 +18,7 @@
   </section>
 </template>
 <script setup lang="ts">
-
-const props = defineProps(  {
+const props = defineProps({
   title: {
     type: String,
     default: '',
@@ -40,5 +36,4 @@ const props = defineProps(  {
     default: '',
   },
 })
-
 </script>

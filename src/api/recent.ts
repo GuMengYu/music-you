@@ -1,5 +1,6 @@
-import { musicXhr as xhr } from '@util/xhr';
-import { now } from 'lodash-es';
+import { now } from 'lodash-es'
+
+import { musicXhr as xhr } from '@/util/xhr'
 
 /**
  * 获取最近播放
@@ -13,5 +14,5 @@ export const recent = (limit = 50, type = 'song') => {
       limit,
       timestamp: now(),
     },
-  });
-};
+  })
+}

@@ -98,5 +98,5 @@ export default {
     OrangeDesert: 'Orange Desert',
     BlueMountains: 'Blue Mountains',
     GreenRockyMountains: 'Green Rocky Mountains',
-  }
-};
+  },
+}

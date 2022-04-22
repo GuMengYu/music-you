@@ -8,10 +8,7 @@
     no-action
   >
     <template #activator>
-      <v-list-item-title
-        v-if="item.title"
-        v-text="item.title"
-      />
+      <v-list-item-title v-if="item.title" v-text="item.title" />
     </template>
 
     <template v-for="(child, i) in item.items">
@@ -23,70 +20,52 @@
         v-text="child.title"
       />
 
-      <v-divider
-        v-else-if="child.divider"
-        :key="`divider-${i}`"
-        inset
-        class="mt-3 mb-2 ml-16"
-      />
+      <v-divider v-else-if="child.divider" :key="`divider-${i}`" inset class="mt-3 mb-2 ml-16" />
 
-      <app-list-group
-        v-else-if="child.items"
-        :key="`sub-group-${i}`"
-        :item="child"
-        sub-group
-      />
+      <app-list-group v-else-if="child.items" :key="`sub-group-${i}`" :item="child" sub-group />
 
-      <app-list-item
-        v-else
-        :key="`child-${i}`"
-        :item="child"
-      />
+      <app-list-item v-else :key="`child-${i}`" :item="child" />
     </template>
   </v-list-group>
 </template>
 
 <script>
-  export default {
-    name: 'AppListGroup',
+export default {
+  name: 'AppListGroup',
 
-    props: {
-      item: {
-        type: Object,
-        default: () => ({}),
-      },
+  props: {
+    item: {
+      type: Object,
+      default: () => ({}),
     },
+  },
 
-    data: () => ({ model: null }),
+  data: () => ({ model: null }),
 
-    computed: {
-      group () {
-        return this.genGroup(this.item.items)
-      },
-      icon () {
-        if (!this.item.icon) return undefined
-
-        const [off, on] = this.item.icon.split(':')
-        console.log('this.item.icon', off, on)
-
-        return this.model ? (on || off) : off
-      },
+  computed: {
+    group() {
+      return this.genGroup(this.item.items)
     },
+    icon() {
+      if (!this.item.icon) return undefined
 
-    methods: {
-      genGroup (items) {
-        return items.reduce((acc, cur) => {
-          acc.push(
-            cur.items
-              ? this.genGroup(cur.items)
-              : cur.to,
-          )
+      const [off, on] = this.item.icon.split(':')
+      console.log('this.item.icon', off, on)
+
+      return this.model ? on || off : off
+    },
+  },
+
+  methods: {
+    genGroup(items) {
+      return items
+        .reduce((acc, cur) => {
+          acc.push(cur.items ? this.genGroup(cur.items) : cur.to)
 
           return acc
-        }, []).join('|')
-      },
+        }, [])
+        .join('|')
     },
-  }
+  },
+}
 </script>
-
-

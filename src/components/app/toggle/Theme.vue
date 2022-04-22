@@ -1,33 +1,34 @@
 <template>
   <v-btn icon @click="toggleTheme">
     <LottieIcon
-        ref="lottieIcon"
-        class="lottie-icon onSurface--text"
-        :options="state.modeOptions"
-        :width="20"
-        :height="20"
-        v-on:animCreated="handleAnimation"
-        @animUpdated="handleAnimationUpdated"
+      ref="lottieIcon"
+      class="lottie-icon onSurface--text"
+      :options="state.modeOptions"
+      :width="20"
+      :height="20"
+      @animCreated="handleAnimation"
+      @animUpdated="handleAnimationUpdated"
     />
   </v-btn>
 </template>
 <script setup lang="ts">
-import {computed, reactive, ref, watchEffect} from "vue";
-import LottieIcon from '@components/LottieIcon.vue';
-import animationJSONData from '@util/animationData.json';
-import { useTheme } from "vuetify";
-import { useSettingStore, APPEARANCE } from '@/store/setting'
-import { AnimationItem } from "lottie-web";
+import type { AnimationItem } from 'lottie-web'
+import { computed, reactive, ref, watchEffect } from 'vue'
+import { useTheme } from 'vuetify'
 
-const lottieIcon = ref<null>(null);
+import LottieIcon from '@/components/LottieIcon.vue'
+import { APPEARANCE, useSettingStore } from '@/store/setting'
+import animationJSONData from '@/util/animationData.json'
+
+const lottieIcon = ref<null>(null)
 const state = reactive<{
-  lottie: AnimationItem | null;
-  modeAnimation: AnimationItem | null;
+  lottie: AnimationItem | null
+  modeAnimation: AnimationItem | null
   modeOptions: {
-    animationData: null | {};
-    loop: boolean;
-    autoplay: boolean;
-  };
+    animationData: null | {}
+    loop: boolean
+    autoplay: boolean
+  }
 }>({
   lottie: null,
   modeAnimation: null,
@@ -38,35 +39,37 @@ const state = reactive<{
   },
 })
 
-const settingStore = useSettingStore();
+const settingStore = useSettingStore()
 const theme = useTheme()
 const isDark = computed((): boolean => {
   return theme.getTheme(theme.current.value)?.dark
 })
 
-watchEffect(() => {
-  if (isDark.value) {
-    animation(animationJSONData['dark-mode-to-light-mode']);
-  } else {
-    animation(animationJSONData['light-mode-to-dark-mode']);
+watchEffect(
+  () => {
+    if (isDark.value) {
+      animation(animationJSONData['dark-mode-to-light-mode'])
+    } else {
+      animation(animationJSONData['light-mode-to-dark-mode'])
+    }
+  },
+  {
+    flush: 'post',
   }
-}, {
-  flush: 'post'
-})
+)
 
 const handleAnimation = (animation: AnimationItem) => {
-  state.modeAnimation = animation;
+  state.modeAnimation = animation
 }
 const handleAnimationUpdated = (animation: AnimationItem) => {
-  state.modeAnimation = animation;
+  state.modeAnimation = animation
 }
 const animation = async (animationData: any) => {
   state.modeOptions.animationData = animationData
-  lottieIcon.value?.update();
-  state.modeAnimation?.goToAndPlay(0, false);
+  lottieIcon.value?.update()
+  state.modeAnimation?.goToAndPlay(0, false)
 }
 const toggleTheme = () => {
   settingStore.appearance = isDark.value ? APPEARANCE.LIGHT : APPEARANCE.DARK
 }
 </script>
-

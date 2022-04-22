@@ -1,10 +1,6 @@
 <template>
   <div>
-    <app-title
-      v-if="title"
-      :path="title"
-      class="mb-2 pl-1"
-    />
+    <app-title v-if="title" :path="title" class="mb-2 pl-1" />
 
     <v-item-group
       class="mx-auto"
@@ -14,11 +10,7 @@
       @update:model-value="$emit('update:modelValue', $event)"
     >
       <v-row>
-        <v-col
-          v-for="({ icon, text, value }) in items"
-          :key="value ?? text"
-          cols="6"
-        >
+        <v-col v-for="{ icon, text, value } in items" :key="value ?? text" cols="6">
           <v-item :value="value ?? text">
             <template #default="{ isSelected, toggle }">
               <v-card
@@ -41,37 +33,41 @@
 </template>
 
 <script>
-  import { useI18n } from 'vue-i18n'
-  import { computed } from 'vue'
-  import { useTheme } from 'vuetify'
-  import AppTitle from '../Title.vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useTheme } from 'vuetify'
 
-  export default {
-    name: 'SettingsGroup',
+import AppTitle from '../Title.vue'
 
-    components: { AppTitle },
-    props: {
-      title: String,
-      modelValue: null,
-      items: Array,
-      multiple: Boolean,
-    },
+export default {
+  name: 'SettingsGroup',
 
-    emits: {
-      'update:modelValue': (value) => true,
-    },
+  components: { AppTitle },
+  props: {
+    title: String,
+    modelValue: null,
+    items: Array,
+    multiple: Boolean,
+  },
 
-    setup () {
-      const { t } = useI18n()
-      const theme = useTheme()
+  emits: {
+    'update:modelValue': (value) => true,
+  },
 
-      return { t, dark: computed(() => theme.getTheme(theme.current.value).dark) }
-    },
-  }
+  setup() {
+    const { t } = useI18n()
+    const theme = useTheme()
+
+    return {
+      t,
+      dark: computed(() => theme.getTheme(theme.current.value).dark),
+    }
+  },
+}
 </script>
 
 <style lang="sass">
-  // Bug in Vuetify, ripple isn't inheriting border-radius
-  .v-card--group::before
-    border-radius: inherit
+// Bug in Vuetify, ripple isn't inheriting border-radius
+.v-card--group::before
+  border-radius: inherit
 </style>
