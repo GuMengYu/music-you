@@ -29,10 +29,11 @@
       </div>
       <v-img
           :min-width="80"
+          :min-height="80"
           :max-height="80"
           :max-width="80"
           class="card-img"
-          lazy-src="src/default-cover.svg"
+          lazy-src="src/assets/placeholder.png"
           :src="coverImgUrl"
       >
         <div class="action d-flex justify-center align-center fill-height flex-fill">

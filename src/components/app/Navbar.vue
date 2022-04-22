@@ -1,20 +1,22 @@
 <template>
   <v-navigation-drawer
-    class="nav"
+    class="app-navigation-drawer"
     :rail="app.rail"
   >
-    <v-list class="system_nav" rounded>
+    <v-list class="system_nav" rounded nav>
        <v-list-item
           class="drawer-item"
           v-for="item in defaultNav1"
           :key="item.val"
           :to="item.to"
+          activeClass = 'text-primary'
         >
           <v-list-item-avatar left>
             <v-icon :icon="item.icon"></v-icon>
           </v-list-item-avatar>
           <v-list-item-title v-text="item.title"></v-list-item-title>
         </v-list-item>
+        <v-divider />
         <v-list-subheader
           class="font-weight-bold text-uppercase ml-2"
         >
@@ -30,16 +32,17 @@
           </v-list-item-avatar>
           <v-list-item-title v-text="item.title"></v-list-item-title>
         </v-list-item>
+        <v-divider />
     </v-list>
   </v-navigation-drawer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useAppStore } from "@/store/app";
 const app = useAppStore();
 
 </script>
-<script>
+<script lang="ts">
 import {
   mdiAppleFinder,
   mdiHandHeart,
@@ -125,15 +128,20 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.v-navigation-drawer {
-  bottom: 60px !important;
+<style lang="scss">
+.app-navigation-drawer {
+  border-inline-end-width: 0;
+  margin-bottom: 60px !important;
+  transition-property: box-shadow, width, transform, visibility;
+  transition-duration: 0.8s;
+  transition-timing-function: cubic-bezier(0, 1.34, 0.02, 1.05);
   .system_nav {
     .nav_actions {
       position: absolute;
       right: 0;
     }
     .drawer-item {
+      border-radius: 56px;
       transition: height 0.3s ease-out;
     }
     .drawer-toggle {

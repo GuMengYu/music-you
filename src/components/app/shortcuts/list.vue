@@ -47,8 +47,8 @@ const columnCount = computed(() => {
   console.log(name)
   return name === 'xs' ? 1 :
       name === 'sm' ? 2 :
-          name === 'md' ? 3 :
-              name === 'lg' ? 3 :
+          name === 'md' ? 2 :
+              name === 'lg' ? 2 :
                   name === 'xl' ? 3 :
                       name === 'xxl' ? 4 : 6
 })

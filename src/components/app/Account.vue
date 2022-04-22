@@ -7,7 +7,7 @@
       class="account-avatar"
   >
     <v-avatar size="30">
-      <v-img :src="profile.avatarUrl" />
+      <v-img :src="profile.avatarUrl" lazy-src="src/assets/placeholder.png" />
     </v-avatar>
   </v-btn>
   <v-btn

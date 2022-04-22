@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="app_header drag-area border-b" elevate-on-scroll flat app>
+  <v-app-bar class="app_header drag-area" elevate-on-scroll flat app>
     <template v-slot:prepend>
       <v-app-bar-nav-icon @click="toggleRail"></v-app-bar-nav-icon>
     </template>

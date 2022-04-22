@@ -17,6 +17,7 @@
           cover
           :src="coverBgUrl"
           :aspect-ratio="1"
+          lazy-src="src/assets/placeholder.png"
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition
