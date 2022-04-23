@@ -42,7 +42,6 @@ export class Player {
     this.init()
   }
   async init() {
-    console.log('player init success', this.store)
     this.initStoreEvent()
     if (this.track?.id) {
       console.log('restore track from storage', this.track)
@@ -87,13 +86,12 @@ export class Player {
     this.store.$subscribe((mutation, state) => {
       const { type, events } = mutation
       const { playing, volume, playingList, isCurrentFm } = state as PlayerState
-      console.log('player store mutation', type, events)
       if (type === 'direct') {
         if (events.key === 'playing') {
           if (playing) {
-            this._play()
+            this.play()
           } else {
-            this._pause()
+            this.pause()
           }
         }
         if (events.key === 'volume') {
@@ -105,20 +103,6 @@ export class Player {
         if (events.key === 'isCurrentFm') {
           this.isCurrentFm = isCurrentFm
         }
-      }
-
-      if (mutation.type === 'patch object') {
-        // console.log('mutation', mutation);
-        // const { playing, isCurrentFm, volume } = mutation.payload;
-        // if (playing) {
-        //     this._play();
-        // } else {
-        //     this._pause();
-        // }
-        // this.isCurrentFm = !!isCurrentFm;
-        // if (volume !== undefined) {
-        //     this.volume = volume;
-        // }
       }
     })
   }
@@ -225,22 +209,22 @@ export class Player {
   trackLoaded() {
     this.store.$state.loadingTrack = false
   }
-  _pause() {
+  pause() {
     this.howler?.pause()
     this.playing = false
-  }
-  _play() {
-    this.howler?.play()
-    this.playing = true
-  }
-  play() {
-    this.store.$state.playing = true
-  }
-  pause() {
     this.store.$state.playing = false
   }
+  play() {
+    this.howler?.play()
+    this.playing = true
+    this.store.$state.playing = true
+  }
   togglePlay() {
-    this.store.$state.playing = !this.store.$state.playing
+    if (this.playing) {
+      this.pause()
+    } else {
+      this.play()
+    }
   }
   next() {
     if (this.nextTrackId()) {

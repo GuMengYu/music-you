@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { reactive, toRefs, watchEffect } from 'vue'
 
 import type { Playlist, TrackSource } from '@/types'
+import { sub } from '@/api/music'
 
 export enum PLAY_MODE {
   NORMAL = 'normal',
@@ -20,7 +21,7 @@ export type PlayerState = {
   }
   playMode: PLAY_MODE
   shuffle: boolean
-  likes: TrackSource[]
+  likes: number[]
   playlist: Playlist[]
   volume: number
   playing: boolean
@@ -40,7 +41,7 @@ export const usePlayerStore = defineStore({
       },
       playMode: PLAY_MODE.NORMAL,
       shuffle: false,
-      likes: [] as TrackSource[],
+      likes: [] as number[],
       playlist: [] as Playlist[],
       volume: 0.8,
     })
@@ -100,6 +101,27 @@ export const usePlayerStore = defineStore({
         id = null
       }
       return id
+    },
+  },
+  actions: {
+    async toggleFavorite(payload: { id: number; like: boolean }) {
+      const { id, like } = payload
+      try {
+        const { code } = await sub('track', id, like ? 1 : 0)
+        if (code === 200) {
+          const index = this.likes.findIndex((item) => item.id === id)
+          if (index === -1 && like) {
+            this.likes.push(id)
+          } else {
+            this.likes.splice(index, 1)
+          }
+          return true
+        } else {
+          return false
+        }
+      } catch (e) {
+        return false
+      }
     },
   },
 })

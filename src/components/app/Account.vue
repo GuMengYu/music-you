@@ -1,7 +1,7 @@
 <template>
   <v-btn v-if="logged" flat icon class="account-avatar" @click="showProfile = !showProfile">
-    <v-avatar size="30">
-      <v-img :src="profile.avatarUrl" lazy-src="src/assets/placeholder.png" />
+    <v-avatar size="x-small">
+      <v-img :aspect-ratio="1" contain :src="profile.avatarUrl" :lazy-src="placeholderUrl" />
     </v-avatar>
   </v-btn>
   <v-btn v-else icon flat @click="showLogin = !showLogin">
@@ -16,6 +16,7 @@ import { mdiAccountCircle } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
+import placeholderUrl from '@/assets/placeholder.png'
 import UserProfile from '@/components/app/Profile.vue'
 import { useAppStore } from '@/store/app'
 

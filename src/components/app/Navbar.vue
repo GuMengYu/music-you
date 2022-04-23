@@ -43,19 +43,19 @@ const state = reactive({
     {
       icon: mdiMusicNoteHalfDotted,
       val: 'discover',
-      title: t('discover'),
+      title: t('main.nav.discover'),
       to: '/discover',
     },
     {
       icon: mdiAppleFinder,
       val: 'explore',
-      title: t('explore'),
+      title: t('main.nav.explore'),
       to: '/explore',
     },
     {
       icon: mdiHandHeart,
       val: 'daily',
-      title: t('daily'),
+      title: t('main.nav.daily'),
       to: '/daily',
     },
   ],
@@ -63,13 +63,13 @@ const state = reactive({
     {
       icon: mdiLibrary,
       val: 'stars',
-      title: t('stars'),
+      title: t('main.nav.stars'),
       to: '/library',
     },
     {
       icon: mdiHarddisk,
       val: 'cloud_disk',
-      title: t('disk'),
+      title: t('main.nav.disk'),
       to: '/cloud_disk',
     },
   ],

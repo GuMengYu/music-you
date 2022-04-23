@@ -31,7 +31,7 @@
         :max-height="80"
         :max-width="80"
         class="card-img"
-        lazy-src="src/assets/placeholder.png"
+        :lazy-src="placeholderUrl"
         :src="coverImgUrl"
       >
         <div class="action d-flex justify-center align-center fill-height flex-fill">
@@ -50,7 +50,9 @@
 import { mdiPlay } from '@mdi/js'
 
 import { getAlbum, getArtist, getDailyRecommend, getPlayList } from '@/api'
+import placeholderUrl from '@/assets/placeholder.png'
 import { sizeOfImage } from '@/util/fn'
+
 export default {
   name: 'QuickCard',
   props: {
@@ -74,6 +76,7 @@ export default {
     return {
       mdiPlay,
       loading: false,
+      placeholderUrl,
     }
   },
   computed: {

@@ -1,9 +1,6 @@
 <template>
   <div class="discover">
-    <custom-col :title="welcome">
-      <shortcuts />
-      <!--      <quick-list />-->
-    </custom-col>
+    <shortcuts />
     <custom-col :title="$tc('main.for_you')">
       <card-row>
         <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />

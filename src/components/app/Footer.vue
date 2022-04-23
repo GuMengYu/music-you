@@ -15,19 +15,15 @@
       ></v-slider>
       <div class="playing-control">
         <div class="playing-bar__left">
-          <v-img class="rounded" :aspect-ratio="1" :max-width="40" :max-height="40" :src="albumPicUrl" cover></v-img>
-          <div class="song-info mx-2 d-flex align-center">
+          <v-img class="rounded-lg" :aspect-ratio="1" :max-width="40" :max-height="40" :src="albumPicUrl" cover></v-img>
+          <div class="song-info mx-4 d-flex align-center">
             <span class="song-name h-1x text-subtitle-2">
-              {{ track.name }}
+              {{ track?.name }}
             </span>
             <span class="text--disabled mx-2">-</span>
+            <artists-link :artists="track?.ar" class="text-caption" />
           </div>
-          <v-btn icon variant="plain" size="small">
-            <v-icon size="x-small">
-              {{ mdiHeart }}
-            </v-icon>
-          </v-btn>
-
+          <like-toggle :id="track?.id" />
           <v-spacer />
         </div>
         <div class="playing-bar__center justify-center">
@@ -64,26 +60,20 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { mdiHeart, mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
-import { throttle } from 'lodash-es'
+import { mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed, reactive, ref } from 'vue'
+import { computed } from 'vue'
 
+import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
 import MusicControl from '@/components/app/control/Control.vue'
+import LikeToggle from '@/components/app/toggle/likeToggle.vue'
 import { usePlayerStore } from '@/store/player'
 
 const playerStore = usePlayerStore()
 const { currentTime, track, volume = 0.8 } = storeToRefs(playerStore)
 
-const trackDt = computed(() => track.value.dt ?? 0)
-const albumPicUrl = computed(() => track.value.al.picUrl)
-
-// const sliderValue = ref<number>(0)
-//
-// const doSeek = throttle((time) => {
-//   sliderValue.value = time
-//   console.log('doSeek', time)
-// }, 1000)
+const trackDt = computed(() => track.value?.dt ?? 0)
+const albumPicUrl = computed(() => track.value?.al.picUrl)
 </script>
 
 <style lang="scss" scoped>
@@ -93,10 +83,11 @@ const albumPicUrl = computed(() => track.value.al.picUrl)
   z-index: 9999;
   display: flex;
   flex-flow: column nowrap;
-
+  padding: 12px;
   .track-slider {
     width: 100%;
-
+    position: absolute;
+    top: -8px;
     :deep(.v-input__control) {
       min-height: 16px;
     }

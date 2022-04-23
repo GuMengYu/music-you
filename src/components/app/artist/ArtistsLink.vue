@@ -1,27 +1,24 @@
 <template>
   <span class="artist-link">
     <router-link
-      v-for="(artist, idx) in artists"
+      v-for="(artist, idx) in props.artists"
       :key="artist.id"
       :to="`/artist/${artist.id}`"
-      class="onSurfaceVariant--text"
+      class="text-onSurfaceVariant"
     >
       {{ artist.name || 'Nameless' }}
-      {{ idx !== artists.length - 1 ? ', ' : '' }}
+      {{ idx !== props.artists.length - 1 ? ', ' : '' }}
     </router-link>
   </span>
 </template>
 
-<script>
-export default {
-  name: 'ArtistsLink',
-  props: {
-    artists: {
-      type: Array,
-      default: () => [],
-    },
+<script setup lang="ts">
+const props = defineProps({
+  artists: {
+    type: Array,
+    default: () => [],
   },
-}
+})
 </script>
 <style lang="scss" scoped>
 .artist-link {

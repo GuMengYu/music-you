@@ -59,6 +59,7 @@ export default {
   common: {
     forward: '前进',
     backward: '后退',
+    reload: '刷新',
     open_search: '打开搜索',
     sign_in: '登入',
     sign_out: '登出',

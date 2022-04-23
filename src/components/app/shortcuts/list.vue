@@ -45,7 +45,6 @@ const state = reactive({
 
 const columnCount = computed(() => {
   const name = display.name.value
-  console.log(name)
   return name === 'xs'
     ? 1
     : name === 'sm'

@@ -59,6 +59,7 @@ export default {
   common: {
     forward: 'Forward',
     backward: 'Backward',
+    reload: 'Reload',
     open_search: 'Open Search',
     sign_in: 'Sign In',
     sign_out: 'Sign Out',

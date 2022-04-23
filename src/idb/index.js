@@ -39,7 +39,7 @@ export class PlayerIDB extends Dexie {
   async getTrack(id) {
     const track = await this.tracks.get(+id)
     if (!track) return null
-    console.log(`get cached track ${track.id} - ${track?.track.name}`)
+    console.log(`get cached track ${track?.id} - ${track?.track.name}`)
     return track
   }
   clearIDB() {

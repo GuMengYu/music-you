@@ -8,8 +8,11 @@
       :class="{ 'on-hover': isHovering }"
       :elevation="isHovering ? 1 : 0"
       v-bind="props"
-      :max-width="$attrs.maxWidth"
-      :max-height="$attrs.maxHeight"
+      :min-width="$attrs['min-width']"
+      :max-width="$attrs['max-width']"
+      :max-height="$attrs['max-height']"
+      :min-height="$attrs['min-height']"
+      :to="to"
     >
       <v-img
         class="cover-image"
@@ -17,7 +20,7 @@
         cover
         :src="coverBgUrl"
         :aspect-ratio="1"
-        lazy-src="src/assets/placeholder.png"
+        :lazy-src="placeholderUrl"
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade">
@@ -45,11 +48,10 @@
 import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
 
-import { getAlbum, getArtist, getPlayList } from '@/api/index'
 import { getList } from '@/api/music'
+import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { sizeOfImage } from '@/util/fn'
-
 const player = usePlayer()
 const loading = ref<boolean>(false)
 const props = defineProps({
@@ -99,20 +101,12 @@ const to = computed(() => {
   }[props.type]
 })
 
-const service = computed(() => {
-  return {
-    album: getAlbum,
-    playlist: getPlayList,
-    artist: getArtist,
-  }[props.type]
-})
-
 async function play() {
   loading.value = true
   try {
     const info = await getList(props.type, props.data.id)
     const track = await player.updatePlayList(info)
-    await player.updatePlayerTrack(track.id)
+    await player.updatePlayerTrack(track?.id)
   } catch (e) {
     console.log(e)
   } finally {

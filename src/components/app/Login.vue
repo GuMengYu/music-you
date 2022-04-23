@@ -36,7 +36,7 @@
           light
         >
           <v-progress-circular v-if="state.qrState === QR_STATUS.SCANNED" indeterminate size="110" color="primary">
-            <v-avatar size="100"><v-img :src="state.qrHeadImage" lazy-src="src/assets/placeholder.png" /></v-avatar>
+            <v-avatar size="100"><v-img :src="state.qrHeadImage" :lazy-src="placeholderUrl" /></v-avatar>
           </v-progress-circular>
           <v-btn v-if="state.qrState === QR_STATUS.EXPIRED" color="primary" fab small @click="genCode"
             ><v-icon>{{ mdiReload }}</v-icon></v-btn
@@ -70,11 +70,11 @@
 import { mdiLock, mdiLogin, mdiPacMan, mdiReload } from '@mdi/js'
 import md5 from 'md5'
 import { storeToRefs } from 'pinia'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 
 import { checkQRCodeStatus, createQRCode, getQrCodeKey, login } from '@/api/account'
+import placeholderUrl from '@/assets/placeholder.png'
 import { useAppStore } from '@/store/app'
-
 const enum LOGIN_TYPE {
   ACCOUNT,
   QRCODE,

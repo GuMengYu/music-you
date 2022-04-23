@@ -22,7 +22,6 @@ import animationJSONData from '@/util/animationData.json'
 
 const lottieIcon = ref<null>(null)
 const state = reactive<{
-  lottie: AnimationItem | null
   modeAnimation: AnimationItem | null
   modeOptions: {
     animationData: null | {}
@@ -30,7 +29,6 @@ const state = reactive<{
     autoplay: boolean
   }
 }>({
-  lottie: null,
   modeAnimation: null,
   modeOptions: {
     animationData: null,
