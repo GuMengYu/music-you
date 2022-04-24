@@ -1,5 +1,6 @@
 import { now } from 'lodash-es'
 
+import { useAppStore } from '@/store/app'
 import {
   getAlbum,
   getArtist,
@@ -16,19 +17,19 @@ import { musicXhr as xhr } from '@/util/xhr'
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id: 歌曲id
  * @param br: 码率
- * @param logged: 用户是否登录（决定播放url）
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id: string | number, br = 320000, logged = false) => {
+export const getTrackDetail = async (id: string | number, br = 320000) => {
   const {
     songs: [track],
   } = await getSongData([id])
   const lyric = await getLyric(id)
-  const url = await getMusicUrl(id, br, logged)
+  const url = await getMusicUrl(id, br)
   return { ...track, url, lyric }
 }
 
-export const getMusicUrl = async (id, br = 320000, logged = false) => {
+export const getMusicUrl = async (id, br = 320000) => {
+  const logged = useAppStore().logged
   let url
   if (logged) {
     const {

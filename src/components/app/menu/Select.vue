@@ -15,7 +15,7 @@
 </template>
 <script setup>
 import { mdiChevronDown } from '@mdi/js'
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: [String, Number],

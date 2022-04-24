@@ -54,7 +54,7 @@ export default {
   display: grid;
   gap: var(--grid-gap);
   grid-template-columns: repeat(var(--column-count), 1fr);
-  ::v-deep .v-card {
+  :deep(.v-card) {
     .v-responsive__content {
       // 覆盖v-image 中responsive__content 的内联样式，避免 grid item 计算宽度的问题
       width: inherit !important;

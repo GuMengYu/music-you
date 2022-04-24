@@ -105,8 +105,18 @@ async function play() {
   loading.value = true
   try {
     const info = await getList(props.type, props.data.id)
-    const track = await player.updatePlayList(info)
-    await player.updatePlayerTrack(track?.id)
+    const tracks = {
+      list:
+        props.type === 'album'
+          ? info.songs
+          : props.type === 'playlist'
+          ? info
+          : props.type === 'artist'
+          ? info.tracks
+          : [],
+      id: info.id,
+    }
+    await player.updateTracks(tracks, true)
   } catch (e) {
     console.log(e)
   } finally {
@@ -116,7 +126,6 @@ async function play() {
 </script>
 <style scoped lang="scss">
 .cover-container {
-  cursor: pointer;
   .cover-image {
     border-bottom-left-radius: initial !important;
     border-bottom-right-radius: initial !important;
@@ -131,9 +140,5 @@ async function play() {
 .slide-fade-leave-to {
   transform: translateY(20px);
   opacity: 0;
-}
-
-.rounded-lg {
-  border-radius: 12px !important;
 }
 </style>

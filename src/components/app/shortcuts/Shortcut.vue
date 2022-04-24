@@ -114,8 +114,7 @@ export default {
             info = data
           }
         }
-        const track = await this.$player.updatePlayList(info)
-        await this.$player.updatePlayerTrack(track?.id)
+        await this.$player.updateTracks(info, true)
       } catch (e) {
         console.debug(e)
       } finally {
@@ -143,8 +142,5 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(20px);
   opacity: 0;
-}
-.rounded-lg {
-  border-radius: 12px !important;
 }
 </style>

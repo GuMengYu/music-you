@@ -1,5 +1,5 @@
 <template>
-  <transition name="custom-classes-transition" enter-active-class="animate__animated animate__slideInUp">
+  <transition name="slide-fade">
     <v-footer fixed class="player-footer">
       <v-slider
         :model-value="currentTime * 1000"

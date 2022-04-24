@@ -1,9 +1,5 @@
 <template>
-  <transition
-    name="custom-classes-transition"
-    enter-active-class="animate__animated animate__bounceIn"
-    leave-active-class="animate__animated animate__bounceOutRight"
-  >
+  <transition name="slide-fade">
     <div v-show="showList" class="rounded-lg play-list-container">
       <v-toolbar tag="header" flat class="rounded-lg play-list-header" color="transparent">
         <div class="font-weight-bold">

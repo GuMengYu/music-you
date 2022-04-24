@@ -12,7 +12,7 @@ import { useRouter } from './router'
 
 // 加载css fonts等资源
 await useFonts()
-import 'animate.css'
+import './styles/animate.scss'
 import './styles/global.scss'
 
 const app = createApp(App)

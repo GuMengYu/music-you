@@ -4,7 +4,6 @@ import { isArray, shuffle, throttle } from 'lodash-es'
 import type { Store } from 'pinia'
 
 import { getTrackDetail, scrobble } from '@/api/music'
-import { useAppStore } from '@/store/app'
 import type { PlayerState } from '@/store/player'
 import { usePlayerStore } from '@/store/player'
 import type { TrackSource } from '@/types'
@@ -21,11 +20,9 @@ export class Player {
   }
   isCurrentFm: boolean
   stageMusicURL: string | null
-  appStore: Store
   store: Store
   _updateCurrentTime: DebouncedFunc<(currentTime?: number) => void>
   constructor() {
-    this.appStore = useAppStore()
     this.store = usePlayerStore()
     this.howler = null
 
@@ -54,38 +51,25 @@ export class Player {
     //     list,
     // });
   }
-  async updatePlayList(data: {
-    id?: string | number
-    list: TrackSource[]
-    album?: { id: string | number }
-    tracks?: TrackSource[]
-    songs?: TrackSource[]
-  }) {
-    let list, id
-    const isAlbum = !!data.album
-    if (isArray(data)) {
-      list = data
-    } else if (isAlbum) {
-      list = data.songs
-      id = data.album?.id
-    } else {
-      list = data.tracks
-      id = data.id
+  async updateTracks(
+    tracks: {
+      id?: string | number
+      list: TrackSource[]
+    },
+    autoPlay = true
+  ) {
+    // update store
+    this.store.$patch({ playingList: tracks })
+    this.playingList = tracks
+    if (autoPlay) {
+      await this.updatePlayerTrack(tracks.list[0]?.id, true)
     }
-    this.store.$patch({
-      playingList: {
-        list,
-        id,
-      },
-    })
-    this.playingList.list = list as TrackSource[]
-    this.playingList.id = id
-    return list?.[0]
+    return tracks
   }
   initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
       const { type, events } = mutation
-      const { playing, volume, playingList, isCurrentFm } = state as PlayerState
+      const { playing, volume, isCurrentFm } = state as PlayerState
       if (type === 'direct') {
         if (events.key === 'playing') {
           if (playing) {
@@ -97,32 +81,17 @@ export class Player {
         if (events.key === 'volume') {
           this.volume = volume
         }
-        if (events.key === 'playingList') {
-          this.updatePlayList(playingList)
-        }
         if (events.key === 'isCurrentFm') {
           this.isCurrentFm = isCurrentFm
         }
       }
     })
   }
-  async getTrack(id: string | number) {
-    try {
-      const track = await getTrackDetail(id, this.appStore.logged)
-      if (track.url) {
-        return {
-          track,
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  async updatePlayerTrack(id: string | number, autoplay = true, resetProgress = true) {
-    if (!id) return
+  async updatePlayerTrack(trackId: string | number, autoplay = true, resetProgress = true) {
+    if (!trackId) return
     const { isCurrentFm } = this.store.$state as PlayerState
     this.store.$state.loadingTrack = true
-    const { track: trackInfo } = await this.getTrack(id)
+    const trackInfo = await getTrackDetail(trackId)
     if (trackInfo.url) {
       this.store.$state.track = trackInfo
       if (isCurrentFm) {
@@ -143,7 +112,7 @@ export class Player {
       }
       if (autoplay) {
         this.play()
-        this.setScrobble(trackInfo, this.howler.seek(), false)
+        // this.setScrobble(trackInfo, this.howler.seek(), false)
       }
       // if (from === 'online' && cacheLimit) {
       //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求
@@ -262,10 +231,11 @@ export class Player {
     }
   }
   endCb() {
-    // todo update 听歌记录
     this.next()
-    this.setScrobble(this.track, 0, true)
+    // todo update 听歌记录
+    // this.setScrobble(this.track, 0, true)
   }
+  // 接口无效 暂时不用
   setScrobble(this: Player, track: TrackSource, time: number, played = false) {
     const { id, dt } = track
     const sourceid = this.playingList.id

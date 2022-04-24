@@ -9,7 +9,7 @@
   </v-menu>
 </template>
 <script setup>
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 
 import AppList from '@/components/app/list/List.vue'
 const props = defineProps({
