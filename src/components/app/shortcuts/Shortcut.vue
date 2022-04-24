@@ -35,7 +35,7 @@
         :src="coverImgUrl"
       >
         <div class="action d-flex justify-center align-center fill-height flex-fill">
-          <transition name="slide-fade">
+          <transition name="slide-fade-x">
             <v-btn v-show="isHovering" icon :color="flag.color" :loading="loading" @click.prevent="play">
               <v-icon color="onPrimary">{{ mdiPlay }}</v-icon>
             </v-btn>
@@ -132,15 +132,5 @@ export default {
     border-top-right-radius: inherit;
     border-bottom-right-radius: inherit !important;
   }
-}
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.17, 0, 1.49);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
 }
 </style>

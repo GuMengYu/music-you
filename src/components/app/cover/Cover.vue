@@ -23,7 +23,7 @@
         :lazy-src="placeholderUrl"
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
-          <transition name="slide-fade">
+          <transition name="slide-fade-y">
             <v-btn v-if="isHovering" icon color="primary" @click.prevent="play">
               <v-icon color="onPrimary">{{ mdiPlay }} </v-icon>
             </v-btn>
@@ -130,15 +130,5 @@ async function play() {
     border-bottom-left-radius: initial !important;
     border-bottom-right-radius: initial !important;
   }
-}
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.17, 0, 1.49);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateY(20px);
-  opacity: 0;
 }
 </style>

@@ -15,7 +15,7 @@ const musicRoutes = [
   {
     path: '/explore',
     name: 'explore',
-    component: lazyLoad('Explore'),
+    component: lazyLoad('explore/index'),
     meta: { keepAlive: true },
   },
   {
@@ -85,7 +85,7 @@ const musicRoutes = [
   {
     path: '/moods_and_genres',
     name: 'moods_and_genres',
-    component: lazyLoad('moods-genres/'),
+    component: lazyLoad('moods-genres/index'),
     meta: { keepAlive: true },
   },
   {

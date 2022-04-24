@@ -1,32 +1,17 @@
 <template>
   <v-btn
     outlined
-    text
-    class="tag text-caption d-flex justify-start"
-    :style="`border-left-color:${color}`"
+    class="text-caption d-flex justify-start bg-surfaceVariant"
+    :style="`width: 100%; border-left: 6px solid ${props.color};`"
     :data-name="name"
-    :to="`/moods_and_genres/${name}`"
+    variant="text"
   >
-    {{ name }}
+    {{ props.name }}
   </v-btn>
 </template>
-
-<script>
-export default {
-  name: 'Tag',
-  props: {
-    color: String,
-    name: String,
-  },
-};
+<script setup lang="ts">
+const props = defineProps({
+  color: String,
+  name: String,
+})
 </script>
-
-<style scoped lang="scss">
-.tag {
-  width: 100%;
-  border-left: 6px solid;
-}
-.theme--dark .tag {
-  background: var(--v-neumorphism-base);
-}
-</style>

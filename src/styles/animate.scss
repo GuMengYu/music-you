@@ -41,17 +41,27 @@
   opacity: 0;
 }
 
-.slide-fade-enter-active {
-  transition: all 0.5s ease-in-out;
+.slide-fade-y-enter-active,
+.slide-fade-y-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.17, 0, 1.49);
 }
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter, .slide-fade-leave-to
-  /* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: translateX(10px);
+
+.slide-fade-y-enter-from,
+.slide-fade-y-leave-to {
+  transform: translateY(20px);
   opacity: 0;
 }
+.slide-fade-x-enter-active,
+.slide-fade-x-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.17, 0, 1.49);
+}
+
+.slide-fade-x-enter-from,
+.slide-fade-x-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 .card-animation-enter-active {
   transition: all 200ms cubic-bezier(0.26, 0.08, 0, 0.97);
 }

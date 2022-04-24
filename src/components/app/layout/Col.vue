@@ -8,7 +8,7 @@
         <div class="onSurface--text" :class="props.hClass || 'text-h6'">
           {{ props.title }}
         </div>
-        <v-btn v-if="props.more" text plain small class="font-weight-bold" :to="props.more">
+        <v-btn v-if="props.more" variant="plain" size="small" @click="handleMore">
           {{ $t('common.more') }}
         </v-btn>
       </div>
@@ -18,6 +18,8 @@
   </section>
 </template>
 <script setup lang="ts">
+import { isFunction } from 'lodash-es'
+
 const props = defineProps({
   title: {
     type: String,
@@ -36,4 +38,9 @@ const props = defineProps({
     default: '',
   },
 })
+const handleMore = () => {
+  if (isFunction(props.more)) {
+    props.more()
+  }
+}
 </script>

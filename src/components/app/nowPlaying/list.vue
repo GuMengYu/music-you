@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition name="slide-fade-x">
     <div v-show="showList" class="rounded-lg play-list-container">
       <v-toolbar tag="header" flat class="rounded-lg play-list-header" color="transparent">
         <div class="font-weight-bold">
