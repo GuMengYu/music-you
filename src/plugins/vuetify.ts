@@ -1,5 +1,6 @@
 // Styles
-import 'vuetify/styles'
+// import 'vuetify/styles'
+import '../styles/main.scss'
 
 // types
 import type { App } from 'vue'
