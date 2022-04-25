@@ -64,9 +64,5 @@
     "vite-plugin-electron": "^0.4.3",
     "vite-plugin-resolve": "^2.0.7",
     "vue-tsc": "^0.29.8"
-  },
-  "env": {
-    "VITE_DEV_SERVER_HOST": "127.0.0.1",
-    "VITE_DEV_SERVER_PORT": 3344
   }
 }
