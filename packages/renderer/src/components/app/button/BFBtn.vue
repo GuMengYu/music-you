@@ -1,0 +1,17 @@
+<template>
+  <v-btn icon @click="$router.go(-1)">
+    <v-icon>
+      {{ mdiChevronLeft }}
+    </v-icon>
+    <v-tooltip activator="parent" anchor="bottom">{{ $t('common.backward') }}</v-tooltip>
+  </v-btn>
+  <v-btn icon @click="$router.go(1)">
+    <v-icon>
+      {{ mdiChevronRight }}
+    </v-icon>
+    <v-tooltip activator="parent" anchor="bottom">{{ $t('common.forward') }}</v-tooltip>
+  </v-btn>
+</template>
+<script setup lang="ts">
+import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
+</script>
