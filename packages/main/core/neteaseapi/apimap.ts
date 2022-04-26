@@ -169,7 +169,7 @@ const record_recent_video = require('NeteaseCloudMusicApi/module/record_recent_v
 const record_recent_dj = require('NeteaseCloudMusicApi/module/record_recent_dj')
 const record_recent_voice = require('NeteaseCloudMusicApi/module/record_recent_voice')
 
-// const others = require('./otherapi')
+import others from './otherapi'
 export default {
   '/fm_trash': generatorFn(fm_trash),
   '/history/recommend/songs/detail': generatorFn(history_recommend_songs_detail),
@@ -326,7 +326,7 @@ export default {
   '/record/recent/video': generatorFn(record_recent_video),
   '/record/recent/voice': generatorFn(record_recent_voice),
 
-  // ...others,
+  ...others,
 }
 
 function generatorFn(module) {

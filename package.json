@@ -16,14 +16,11 @@
     "lint:ts": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@mdi/font": "5.9.55",
     "@mdi/js": "^6.5.95",
-    "@njzy/unblockneteasemusic": "^0.25.3",
-    "@types/howler": "^2.2.7",
-    "@types/md5": "^2.3.2",
+    "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "@vueuse/core": "^8.2.5",
     "@vueuse/electron": "^8.3.1",
-    "animate.css": "^4.1.1",
+    "cheerio": "^1.0.0-rc.10",
     "electron-devtools-installer": "^3.2.0",
     "express": "^4.17.3",
     "howler": "^2.2.3",
@@ -31,7 +28,6 @@
     "md5": "^2.3.0",
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
     "pinia": "^2.0.13",
-    "roboto-fontface": "*",
     "vue": "^3.2.25",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14",
@@ -39,7 +35,9 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
+    "@types/md5": "^2.3.2",
     "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
