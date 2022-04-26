@@ -1,5 +1,5 @@
 <template>
-  <div class="shortcuts" :style="{ '--column-count': columnCount, '--grid-gap': gridGap }">
+  <div class="shortcuts" :style="{ '--column-count': count, '--grid-gap': gap }">
     <Shortcut v-if="logged" :data="state.myFav" :flag="{ color: 'primary', label: 'A' }" />
     <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'B' }" />
     <Shortcut :data="state.radar" :flag="{ color: 'tertiary', label: 'C' }" />
@@ -10,15 +10,15 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useDisplay } from 'vuetify'
 
-import { useAppStore } from '../../../store/app'
+import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
+import { useAppStore } from '@/store/app'
 
 import Shortcut from './Shortcut.vue'
 
-const display = useDisplay()
+const { count, gap } = useResponsiveGrid(GridType.B)
 const { t } = useI18n()
 const appStore = useAppStore()
 const { logged } = storeToRefs(appStore)
@@ -41,37 +41,6 @@ const state = reactive({
     picUrl:
       'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
   },
-})
-
-const columnCount = computed(() => {
-  const name = display.name.value
-  return name === 'xs'
-    ? 1
-    : name === 'sm'
-    ? 2
-    : name === 'md'
-    ? 2
-    : name === 'lg'
-    ? 2
-    : name === 'xl'
-    ? 3
-    : name === 'xxl'
-    ? 4
-    : 6
-})
-const gridGap = computed(() => {
-  const name = display.name.value
-  return name === 'xs'
-    ? '10px'
-    : name === 'sm'
-    ? '18px'
-    : name === 'md'
-    ? '24px'
-    : name === 'lg'
-    ? '24px'
-    : name === 'xl'
-    ? '24px'
-    : '24px'
 })
 </script>
 <style scoped lang="scss">

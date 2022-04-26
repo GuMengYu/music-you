@@ -172,10 +172,10 @@ export function sizeOfImage(url: string, size = 512) {
  */
 export function formatDuring(t: number, i18n = false) {
   const HOUR = 1000 * 60 * 60
-  const d = Math.ceil(t / (HOUR * 24))
-  const h = Math.ceil((t % (HOUR * 24)) / HOUR)
-  const m = Math.ceil((t % HOUR) / (1000 * 60))
-  const s = Math.ceil((t % (1000 * 60)) / 1000)
+  const d = Math.floor(t / (HOUR * 24))
+  const h = Math.floor((t % (HOUR * 24)) / HOUR)
+  const m = Math.floor((t % HOUR) / (1000 * 60))
+  const s = Math.floor((t % (1000 * 60)) / 1000)
 
   if (i18n) {
     let text = ''

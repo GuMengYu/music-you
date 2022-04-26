@@ -31,7 +31,7 @@
       <div class="track-third">
         <!--        <like-toggle :id="track.id" />-->
         <div class="track-duration">
-          {{ track.dt || track.duration }}
+          {{ formatDuring(track.dt || track.duration) }}
         </div>
         <v-btn v-visible="isHovering" icon color="primary" variant="contained-text" size="small">
           <v-icon size="small">
@@ -47,6 +47,7 @@ import { mdiDotsHorizontal, mdiHeart, mdiPlay } from '@mdi/js'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
+import { formatDuring } from '@/util/fn'
 
 export default {
   name: 'TrackItem',
@@ -89,16 +90,17 @@ export default {
     gridTemplate() {
       if (this.from !== 'album') {
         return {
-          gridTemplateColumns: '[index] 40px [first] 4fr [second] 2fr [last] minmax(100px, 1fr)',
+          gridTemplateColumns: '[index] 40px [first] 4fr [second] 2fr [last] minmax(120px, 1fr)',
         }
       } else {
         return {
-          gridTemplateColumns: '[index] 40px [first] 4fr [last] minmax(100px, 1fr)',
+          gridTemplateColumns: '[index] 40px [first] 4fr [last] minmax(120px, 1fr)',
         }
       }
     },
   },
   methods: {
+    formatDuring,
     play() {
       if (this.track?.id) {
         this.$player.updatePlayerTrack(this.track?.id)
@@ -115,8 +117,9 @@ export default {
   align-items: center;
   height: 56px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
   &:hover {
-    background-color: rgba(var(--v-theme-surfaceVariant), 0.4);
+    background-color: rgba(var(--v-theme-surfaceVariant), 0.5);
   }
   .track-index {
     .track-count {

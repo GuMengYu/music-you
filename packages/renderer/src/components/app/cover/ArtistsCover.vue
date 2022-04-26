@@ -1,17 +1,28 @@
 <template>
   <div class="d-flex flex-column align-center artists-container">
-    <v-avatar width="100%" height="100%" :size="$attrs.size" @click="go">
-      <v-img :src="artist.picUrl" class="artist-image" aspect-ratio="1" lazy-src="@assets/default-cover.svg" />
-    </v-avatar>
-    <router-link v-if="!noInfo" :to="to" class="title text--primary text-center text-decoration-none">
-      <span class="h-1x mt-2 text-body-2">{{ artist.name }}</span>
-    </router-link>
+    <v-img
+      cover
+      width="100%"
+      :src="artist.picUrl || artist.cover"
+      class="artist-image rounded-circle"
+      aspect-ratio="1"
+      :lazy-src="placeHolderUrl"
+      :min-width="$attrs['min-width']"
+      :max-width="$attrs['max-width']"
+      :max-height="$attrs['max-height']"
+      :min-height="$attrs['min-height']"
+      @click="go"
+    />
+    <artists-link v-if="!noInfo" :artists="[artist]" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+
+import placeHolderUrl from '@/assets/placeholder.png'
+import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
 const router = useRouter()
 const props = defineProps({
   artist: {
@@ -37,7 +48,7 @@ function go() {
   .artist-image {
     transition: transform 0.3s;
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       cursor: pointer;
     }
   }

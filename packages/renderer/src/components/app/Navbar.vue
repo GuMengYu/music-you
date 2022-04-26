@@ -1,6 +1,12 @@
 <template>
-  <v-navigation-drawer class="app-navigation-drawer" :rail="app.rail">
+  <v-navigation-drawer class="app-navigation-drawer" :rail="rail">
     <v-list class="system_nav" rounded :nav="true">
+      <v-list-item class="drawer-item" @click="showSearch = true" active-class="none">
+        <v-list-item-avatar left>
+          <v-icon :icon="mdiMagnify"></v-icon>
+        </v-list-item-avatar>
+        <v-list-item-title>{{ $t('main.nav.search') }}</v-list-item-title>
+      </v-list-item>
       <v-list-item
         v-for="item in state.defaultNav1"
         :key="item.val"
@@ -17,7 +23,7 @@
       <v-list-subheader class="font-weight-bold text-uppercase ml-2">
         {{ $t('main.nav.library') }}
       </v-list-subheader>
-      <v-list-item v-for="item in state.defaultNav2" :key="item.val" class="drawer-item">
+      <v-list-item v-for="item in state.defaultNav2" :key="item.val" class="drawer-item" :to="item.to">
         <v-list-item-avatar left>
           <v-icon :icon="item.icon"></v-icon>
         </v-list-item-avatar>
@@ -29,13 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAppleFinder, mdiHandHeart, mdiHarddisk, mdiLibrary, mdiMusicNoteHalfDotted } from '@mdi/js'
+import { mdiAppleFinder, mdiHandHeart, mdiHarddisk, mdiLibrary, mdiMagnify, mdiMusicNoteHalfDotted } from '@mdi/js'
+import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { useAppStore } from '../../store/app'
+import { useAppStore } from '@/store/app'
 
-const app = useAppStore()
+const { rail, showSearch } = storeToRefs(useAppStore())
 const { t } = useI18n()
 
 const state = reactive({

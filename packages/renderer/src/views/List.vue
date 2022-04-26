@@ -10,7 +10,7 @@
           </span>
           <span class="text-caption">
             <span> 共{{ state.playlist.trackCount }}首 </span> ·
-            <span class="text-primary">{{ state.playlist.createTime }}</span>
+            <span class="text-primary">{{ formatDate(state.playlist.createTime, 'YYYY') }}</span>
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
@@ -62,15 +62,15 @@
         <v-card :width="225" :height="108" flat color="surfaceVariant" rounded class="album-info text-caption">
           <div class="album-info-item">
             <span class="item-title font-weight-bold">发布时间</span>
-            <span class="item-desc">{{ state.playlist.createTime }}</span>
+            <span class="item-desc">{{ formatDate(state.playlist.createTime) }}</span>
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">{{ tracksDt }}</span>
+            <span class="item-desc">{{ formatDuring(tracksDt) }}</span>
           </div>
           <div class="album-info-item">
             <span class="item-title font-weight-bold">播放次数</span>
-            <span class="item-desc h-1x">{{ state.playlist.playCount }}</span>
+            <span class="item-desc h-1x">{{ formatNumber(state.playlist.playCount) }}</span>
           </div>
         </v-card>
         <common-card class="mt-4" title="相关歌单推荐" rounded="xl" :width="225" color="surfaceVariant">
@@ -121,14 +121,17 @@ import {
   mdiPlaylistMusicOutline,
 } from '@mdi/js'
 import { computed, reactive, watchEffect } from 'vue'
+import dayjs from 'dayjs'
 import { useRouter } from 'vue-router'
 
-import { deletePlayList, getPlayList, getRelatedPlayList } from '../api'
-import { sub } from '../api/music'
+import { sub } from '@/api/music'
+import { usePlayer } from '@/player/player'
+
+import { deletePlayList, getPlayList, getRelatedPlayList } from '@/api'
+import { formatDuring, formatNumber } from "@/util/fn";
 import CommonCard from '../components/app/CommonCard.vue'
 import Cover from '../components/app/cover/Cover.vue'
 import TrackItem from '../components/app/TrackItem.vue'
-import { usePlayer } from '../player/player'
 const player = usePlayer()
 const router = useRouter()
 const props = defineProps({
@@ -168,7 +171,7 @@ function play() {
   )
 }
 
-async function fetch(id: string) {
+async function fetch(id: string | number) {
   state.loading = true
   const { playlist } = await getPlayList(id)
   if (playlist) {
@@ -209,6 +212,10 @@ function goto() {
 }
 function gotoPlayList(id) {
   router.push(`/playlist/${id}`)
+}
+
+function formatDate(date: number | string, format = 'YYYY-MM-DD') {
+  return dayjs(date).format(format)
 }
 </script>
 <style lang="scss" scoped>

@@ -4,8 +4,8 @@
       <v-toolbar-title class="text-caption text-onSurfaceVariant">{{ title }}</v-toolbar-title>
       <v-spacer />
       <slot name="appendCard"></slot>
-      <v-btn color="onSurfaceVariant" icon small>
-        <v-icon small> {{ mdiDotsVertical }} </v-icon>
+      <v-btn icon size="small">
+        <v-icon size="x-small"> {{ mdiDotsVertical }} </v-icon>
       </v-btn>
     </v-toolbar>
     <slot />

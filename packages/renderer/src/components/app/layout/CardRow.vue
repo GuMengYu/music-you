@@ -1,53 +1,16 @@
 <template>
-  <div class="card-row" :data-grid="gridStyle" :style="{ '--column-count': columnCount, '--grid-gap': gridGap }">
+  <div class="card-row" :style="{ '--column-count': count, '--grid-gap': gap }">
     <slot />
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDisplay } from 'vuetify'
-const display = useDisplay()
+import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
 
-const columnCount = computed(() => {
-  const name = display.name.value
-  return name === 'xs'
-    ? 1
-    : name === 'sm'
-    ? 2
-    : name === 'md'
-    ? 3
-    : name === 'lg'
-    ? 4
-    : name === 'xl'
-    ? 5
-    : name === 'xxl'
-    ? 8
-    : 6
-})
-const gridGap = computed(() => {
-  const name = display.name.value
-  return name === 'xs'
-    ? '10px'
-    : name === 'sm'
-    ? '18px'
-    : name === 'md'
-    ? '24px'
-    : name === 'lg'
-    ? '24px'
-    : name === 'xl'
-    ? '24px'
-    : '24px'
-})
-</script>
-<script lang="ts">
-export default {
-  props: {
-    gridStyle: {
-      type: String,
-      default: 'A',
-    },
-  },
-}
+const props = defineProps<{
+  gridType?: GridType
+}>()
+
+const { count, gap } = useResponsiveGrid(props.gridType ?? GridType.A)
 </script>
 <style scoped lang="scss">
 .card-row {
