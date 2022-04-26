@@ -8,27 +8,32 @@ import { inRange } from 'lodash-es'
 export const sleep = (time = 1000) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve()
+      resolve(time)
     }, time)
   })
 }
+/**
+ * 格式化网易云歌词
+ * @param lyric
+ */
 export const formatLyric = (lyric = '') => {
   return lyric
     .split('\n')
     .filter((i) => !!i)
     ?.map((i) => {
       const reg = new RegExp(/\[\d*:\d*((\.|:)\d*)*\]/, 'g')
-      let [time] = i.match(reg) || []
-      let sentence = i.match(/](.*)/)[1]
+      const timeStr = i.match(reg)?.[0] ?? ''
+      let time = 0
+      let sentence = i.match(/](.*)/)?.[1]
       // [by: ***]
       // [00:27.54]The many miles we walked
       // [00:56.33]
       // [00:59.54] That's the way it is
       // [00:12]
-      if (time) {
-        const min = Number(time.match(/\[(\d*)/i)[1])
-        const sec = Number(time.match(/:(\d*)/i)[1])
-        const mill = time.match(/\.(\d*)]/i)?.[1]
+      if (timeStr) {
+        const min = Number(timeStr.match(/\[(\d*)/i)?.[1])
+        const sec = Number(timeStr.match(/:(\d*)/i)?.[1])
+        const mill = timeStr.match(/\.(\d*)]/i)?.[1]
         const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2)
         time = min * 60 + sec + millToSec
         sentence = sentence || '...'
@@ -48,7 +53,7 @@ export const formatLyric = (lyric = '') => {
  * @param url
  * @param name
  */
-export const downloadFile = (url, name) => {
+export const downloadFile = (url: string, name: string) => {
   const tempLink = document.createElement('a')
   tempLink.style.display = 'none'
   tempLink.href = url
@@ -67,12 +72,15 @@ export const downloadFile = (url, name) => {
   }, 200)
 }
 
-export function fileToBuffer(file) {
+/**
+ * file对象转二进制流
+ * @param file
+ */
+export function fileToBuffer(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = (e) => {
-      const data = e.target.result
-      resolve(data)
+      resolve(e.target?.result)
     }
     try {
       reader.readAsArrayBuffer(file)
@@ -82,11 +90,15 @@ export function fileToBuffer(file) {
   })
 }
 
-export function fileToDataURL(file) {
+/**
+ * file对象转DataURL
+ * @param file
+ */
+export function fileToDataURL(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = (e) => {
-      resolve(e.target.result)
+      resolve(e.target?.result)
     }
     try {
       reader.readAsDataURL(file)
@@ -95,16 +107,25 @@ export function fileToDataURL(file) {
     }
   })
 }
-export function imageToDataUrl(image) {
+
+/**
+ * 图片转DataURL
+ * @param image
+ */
+export function imageToDataUrl(image: HTMLImageElement) {
   const canvas = document.createElement('canvas')
   canvas.width = image.width
   canvas.height = image.height
   const ctx = canvas.getContext('2d')
-  ctx.drawImage(image, 0, 0, image.width, image.height)
+  ctx?.drawImage(image, 0, 0, image.width, image.height)
   return canvas.toDataURL('image/png')
 }
 
-export function getImageDataUrl(url) {
+/**
+ * 从远程获取图片，并转换成DataURL
+ * @param url
+ */
+export function getImageDataUrl(url: string) {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.setAttribute('crossOrigin', 'Anonymous')
@@ -122,11 +143,11 @@ export function getImageDataUrl(url) {
 
 /**
  * 容量单位转换
- * @param {*} bytes
- * @param {*} k
+ * @param _bytes 大小（字节）
+ * @param {*} k 标准大小 （1024 ｜ 1000）
  * @returns
  */
-export function bytesToSize(_bytes, k = 1024) {
+export function bytesToSize(_bytes: string | number, k = 1024) {
   const bytes = +_bytes
   if (bytes === 0) return '0 B'
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
@@ -135,18 +156,26 @@ export function bytesToSize(_bytes, k = 1024) {
   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
 }
 
-export function sizeOfImage(url, size = 512) {
+/**
+ * 图片路径追加size参数
+ * @param url
+ * @param size
+ */
+export function sizeOfImage(url: string, size = 512) {
   return url ? `${url}?param=${size}y${size}` : ''
 }
-export function empty(val) {
-  return !val || '空'
-}
-export function formatDuring(t, i18n = false) {
+
+/**
+ * 格式化时间
+ * @param t
+ * @param i18n
+ */
+export function formatDuring(t: number, i18n = false) {
   const HOUR = 1000 * 60 * 60
-  const d = parseInt(t / (HOUR * 24))
-  const h = parseInt((t % (HOUR * 24)) / HOUR)
-  const m = parseInt((t % HOUR) / (1000 * 60))
-  const s = parseInt((t % (1000 * 60)) / 1000)
+  const d = Math.ceil(t / (HOUR * 24))
+  const h = Math.ceil((t % (HOUR * 24)) / HOUR)
+  const m = Math.ceil((t % HOUR) / (1000 * 60))
+  const s = Math.ceil((t % (1000 * 60)) / 1000)
 
   if (i18n) {
     let text = ''
@@ -159,7 +188,12 @@ export function formatDuring(t, i18n = false) {
     return `${h > 0 ? `${h < 10 ? `0${h}` : h}:` : ''}${m < 10 ? `0${m}` : m}:${s < 10 ? `0${s}` : s}`
   }
 }
-export const formatNumber = (number) => {
+
+/**
+ * 格式化数字
+ * @param number
+ */
+export const formatNumber = (number: number) => {
   if (inRange(number, 1000, 1000000)) {
     return `${(number / 1000).toFixed(2)} K`
   } else if (inRange(number, 1000001, 1000000000)) {
@@ -169,4 +203,22 @@ export const formatNumber = (number) => {
   } else {
     return number
   }
+}
+
+/**
+ * 判断是否运行在electron环境中
+ */
+export function isElectron() {
+  // Renderer process
+  if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+    return true
+  }
+
+  // Main process
+  if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+    return true
+  }
+
+  // Detect the user agent when the `nodeIntegration` option is set to false
+  return typeof navigator === 'object' && navigator.userAgent.indexOf('Electron') >= 0
 }

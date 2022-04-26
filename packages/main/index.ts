@@ -13,7 +13,6 @@ import WindowManager from './core/windowManager'
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-process.env['IS_ELECTRON'] = 'true'
 
 let appProxy = null
 let windowManager = null

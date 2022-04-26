@@ -1,6 +1,8 @@
+import type { BrowserWindow } from 'electron'
+
 const { ipcMain, shell } = require('electron')
 import { downloadFile } from './util/download'
-export const registerIpcMain = (window) => {
+export const registerIpcMain = (window: BrowserWindow) => {
   ipcMain.handle('zoom-window', () => {
     if (window.isMaximized()) {
       window.unmaximize()

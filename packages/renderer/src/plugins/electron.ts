@@ -3,9 +3,10 @@ import { once } from 'lodash-es'
 
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
+import { isElectron } from '@/util/fn'
 
 export function useElectron() {
-  if (process.env.IS_ELECTRON) {
+  if (isElectron()) {
     registerIpcRenderer()
   }
 }

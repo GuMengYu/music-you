@@ -70,10 +70,15 @@ export const RADARPLAYLISTS = [
   },
 ]
 
+interface Color {
+  [key: string]: string
+}
 export function getColorTable() {
-  const o = {}
-  Object.entries(Colors).map(([k, v]) => {
-    v.base && (o[k] = v.base)
+  const o = {} as Color
+  Object.entries(Colors).map((color) => {
+    const name = color[0]
+    const value = color[1] as Color
+    value.base && (o[name] = value.base)
   })
   return o
 }
