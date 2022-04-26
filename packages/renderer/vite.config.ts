@@ -6,8 +6,7 @@ import electron from 'vite-plugin-electron/renderer'
 import resolve from 'vite-plugin-resolve'
 const path = require('path')
 
-const developmentEnv = loadEnv('development', path.resolve(__dirname, '../../'))
-console.log(developmentEnv)
+const env = loadEnv('', path.resolve(__dirname, '../../'))
 // https://vitejs.dev/config/
 export default defineConfig({
   envDir: path.resolve(__dirname, '../../'),
@@ -44,12 +43,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  define: {
+    'process.env': {},
+  },
   server: {
-    host: developmentEnv.VITE_DEV_SERVER_HOST,
-    port: +developmentEnv.VITE_DEV_SERVER_PORT,
+    host: env.VITE_DEV_SERVER_HOST,
+    port: +env.VITE_DEV_SERVER_PORT,
     proxy: {
       '/api': {
-        target: `${developmentEnv.VITE_DEV_API_SERVER_HOST}:${developmentEnv.VITE_DEV_API_SERVER_PORT}`,
+        target: `http://${env.VITE_API_SERVER_HOST}:${env.VITE_API_SERVER_PORT}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

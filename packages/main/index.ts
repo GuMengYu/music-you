@@ -1,9 +1,8 @@
-import { app, BrowserWindow, protocol, shell } from 'electron'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import { app, BrowserWindow, protocol } from 'electron'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import is from 'electron-is'
 import Express from 'express'
 import { release } from 'os'
-import { join } from 'path'
 
 import { registerIpcMain } from './core/ipcMain'
 import { createElectronMenu } from './core/menu'

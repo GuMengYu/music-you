@@ -15,8 +15,7 @@
       :to="to"
     >
       <v-img
-        class="cover-image"
-        :class="`rounded-${rounded}`"
+        :class="`rounded-${rounded} ${noInfo ? 'cover-image' : 'cover-image-with-info'}`"
         cover
         :src="coverBgUrl"
         :aspect-ratio="1"
@@ -48,10 +47,10 @@
 import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
 
-import { getList } from '../../../api/music'
+import { getList } from '@/api/music'
 import placeholderUrl from '../../../assets/placeholder.png'
-import { usePlayer } from '../../../player/player'
-import { sizeOfImage } from '../../../util/fn'
+import { usePlayer } from '@/player/player'
+import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const loading = ref<boolean>(false)
 const props = defineProps({
@@ -110,7 +109,7 @@ async function play() {
         props.type === 'album'
           ? info.songs
           : props.type === 'playlist'
-          ? info
+          ? info.tracks
           : props.type === 'artist'
           ? info.tracks
           : [],
@@ -126,7 +125,7 @@ async function play() {
 </script>
 <style scoped lang="scss">
 .cover-container {
-  .cover-image {
+  .cover-image-with-info {
     border-bottom-left-radius: initial !important;
     border-bottom-right-radius: initial !important;
   }

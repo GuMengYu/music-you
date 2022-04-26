@@ -3,9 +3,13 @@ const cache = require('NeteaseCloudMusicApi/util/apicache').middleware
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const express = require('express')
+import dotenv from 'dotenv'
+
 import apiMap from './apimap'
+
 export const createApiServer = () => {
   const app = express()
+  const envConfig = dotenv.config().parsed || {}
 
   app.set('trust proxy', true)
   // CORS & Preflight request
@@ -46,9 +50,8 @@ export const createApiServer = () => {
   Object.entries(apiMap).map(([k, v]) => {
     app.use(k, v)
   })
-
-  const port = process.env.API_PORT || 9902
-  const host = process.env.HOST || '127.0.0.1'
+  const host = envConfig['VITE_API_SERVER_HOST'] || '127.0.0.1'
+  const port = +envConfig['VITE_API_SERVER_PORT'] || 9902
 
   app.server = app.listen(port, host, () => {
     console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)
