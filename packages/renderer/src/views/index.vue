@@ -6,6 +6,7 @@
     <app-content class="v-player-content" />
     <app-footer />
     <app-login />
+    <playing-list />
     <!--
     <default-setting />
     <playing-page />
@@ -26,6 +27,6 @@ import AppNav from '../components/app/Navbar.vue'
 import AppSearch from '../components/app/search/Search.vue'
 import AppSetting from '../components/app/setting/index.vue'
 import AppContent from '../components/layout/View.vue'
-
+import PlayingList from '../components/app/nowPlaying/list.vue'
 const theme = useTheme()
 </script>

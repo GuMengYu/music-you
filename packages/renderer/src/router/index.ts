@@ -121,6 +121,14 @@ const musicRoutes = [
     meta: { keepAlive: true, needLogin: true },
   },
   {
+    path: '/queue',
+    name: 'queue',
+    component: lazyLoad('Queue'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
     path: '/search/:keywords?',
     name: 'search',
     component: lazyLoad('Search'),

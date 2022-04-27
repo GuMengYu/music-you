@@ -1,18 +1,18 @@
 <template>
-  <transition name="slide-fade-x">
-    <div v-show="showList" class="rounded-lg play-list-container">
+  <transition name="slide-fade-y">
+    <div v-show="showPlaying" class="rounded-lg play-list-container elevation-4">
       <v-toolbar tag="header" flat class="rounded-lg play-list-header" color="transparent">
         <div class="font-weight-bold">
           {{ $t('main.playing_queue') }}
         </div>
         <v-spacer />
         <v-btn icon>
-          <v-icon @click="showList = !showList">
-            {{ icon.mdiCloseCircle }}
+          <v-icon @click="showPlaying = !showPlaying">
+            {{ mdiCloseCircle }}
           </v-icon>
         </v-btn>
       </v-toolbar>
-      <v-list dense two-line nav max-height="50vh" min-height="20vh" class="play-list-container-list overflow-y-auto">
+      <v-list max-height="50vh" min-height="20vh" class="play-list-container-list overflow-y-auto">
         <template v-for="(song, index) in playingList.list" :key="song.id">
           <track-item :track="song" :index="index + 1" />
         </template>
@@ -26,27 +26,19 @@
   </transition>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mdiCloseCircle } from '@mdi/js'
-import { get, sync } from 'vuex-pathify'
+import { storeToRefs } from 'pinia'
 
 import TrackItem from '@/components/app/TrackItem.vue'
+import { useAppStore } from '@/store/app'
+import { usePlayerStore } from '@/store/player'
 
-export default {
-  name: 'PlayingList',
-  components: { TrackItem },
-  inject: ['theme'],
-  data() {
-    return {
-      icon: { mdiCloseCircle },
-    }
-  },
-  computed: {
-    playingList: get('music/playingList'),
-    current: get('music/track@id'),
-    showList: sync('music/showList'),
-  },
-}
+const playerStore = usePlayerStore()
+const appStore = useAppStore()
+
+const { playingList } = storeToRefs(playerStore)
+const { showPlaying } = storeToRefs(appStore)
 </script>
 
 <style scoped lang="scss">
@@ -63,16 +55,6 @@ export default {
     &::-webkit-scrollbar {
       width: 0;
     }
-  }
-}
-.theme--light {
-  .play-list-container {
-    background: rgba(255, 255, 255, 0.7);
-  }
-}
-.theme--dark {
-  .play-list-container {
-    background: rgba(0, 0, 0, 0.7);
   }
 }
 </style>

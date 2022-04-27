@@ -9,6 +9,7 @@ export type AppState = {
   showSetting: boolean
   showLogin: boolean
   showSearch: boolean
+  showPlaying: boolean
   showAddToPlayList: boolean
   toPlayListTrackId: null | number
   windowState: WindowState
@@ -19,6 +20,7 @@ export const useAppStore = defineStore('app', {
       rail: false,
       showSetting: false,
       showLogin: false,
+      showPlaying: false,
       showSearch: false,
       showAddToPlayList: false,
       toPlayListTrackId: null,

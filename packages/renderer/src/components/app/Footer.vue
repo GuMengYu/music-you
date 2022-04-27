@@ -49,7 +49,7 @@
               color="primary"
             />
           </div>
-          <v-btn icon variant="plain" size="small">
+          <v-btn icon variant="plain" size="small" :color="isQueue ? 'primary' : ''" @click="toQueue">
             <v-icon size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
@@ -63,17 +63,32 @@
 import { mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+import { usePlayerStore } from '@/store/player'
 
 import ArtistsLink from './artist/ArtistsLink.vue'
 import MusicControl from './control/Control.vue'
 import LikeToggle from './toggle/likeToggle.vue'
-import { usePlayerStore } from '../../store/player'
 
 const playerStore = usePlayerStore()
+const router = useRouter()
+const route = useRoute()
 const { currentTime, track, volume = 0.8 } = storeToRefs(playerStore)
 
 const trackDt = computed(() => track.value?.dt ?? 0)
 const albumPicUrl = computed(() => track.value?.al.picUrl)
+
+const isQueue = computed(() => {
+  return route.name === 'queue'
+})
+function toQueue() {
+  if (isQueue.value) {
+    router.back()
+  } else {
+    router.push({ name: 'queue' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
