@@ -38,12 +38,15 @@
 <script setup lang="ts">
 import { mdiGithub, mdiLogin } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
-import { useAppStore } from '../../store/app'
+import { useAppStore } from '@/store/app'
+import { useUserStore } from '@/store/user'
 
 const appStore = useAppStore()
-const { account, showSetting } = storeToRefs(appStore)
+const userStore = useUserStore()
+const { showSetting } = storeToRefs(appStore)
+const { account } = storeToRefs(userStore)
 
 const profile = computed(() => {
   return account.value.profile

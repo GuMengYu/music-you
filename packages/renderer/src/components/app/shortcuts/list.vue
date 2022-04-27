@@ -14,14 +14,14 @@ import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
-import { useAppStore } from '@/store/app'
+import { useUserStore } from '@/store/user'
 
 import Shortcut from './Shortcut.vue'
 
 const { count, gap } = useResponsiveGrid(GridType.B)
 const { t } = useI18n()
-const appStore = useAppStore()
-const { logged } = storeToRefs(appStore)
+const userStore = useUserStore()
+const { logged } = storeToRefs(userStore)
 
 const state = reactive({
   radar: {

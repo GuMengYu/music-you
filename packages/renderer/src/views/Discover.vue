@@ -27,18 +27,19 @@ import { storeToRefs } from 'pinia'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '../api'
-import { getRadarList } from '../api/music'
+import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api'
+import { getRadarList } from '@/api/music'
+import { useUserStore } from '@/store/user'
+
 import ArtistsLink from '../components/app/artist/ArtistsLink.vue'
 import Cover from '../components/app/cover/Cover.vue'
 import CardRow from '../components/app/layout/CardRow.vue'
 import CustomCol from '../components/app/layout/Col.vue'
 import Shortcuts from '../components/app/shortcuts/list.vue'
-import { useAppStore } from '../store/app'
-const appStore = useAppStore()
-const { t } = useI18n()
-const { logged, account } = storeToRefs(appStore)
 
+const userStore = useUserStore()
+const { t } = useI18n()
+const { logged, account } = storeToRefs(userStore)
 interface RootState {
   playLists: any[]
   radarPlayLists: any[]

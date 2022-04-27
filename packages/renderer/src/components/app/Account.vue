@@ -16,12 +16,16 @@ import { mdiAccountCircle } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
+import { useAppStore } from '@/store/app'
+import { useUserStore } from '@/store/user'
+
 import placeholderUrl from '../../assets/placeholder.png'
 import UserProfile from './Profile.vue'
-import { useAppStore } from '../../store/app'
 
 const appStore = useAppStore()
-const { logged, showLogin, account } = storeToRefs(appStore)
+const userStore = useUserStore()
+const { showLogin } = storeToRefs(appStore)
+const { logged, account } = storeToRefs(userStore)
 
 const profile = computed(() => {
   return account.value.profile

@@ -2,6 +2,7 @@ import { app, BrowserWindow, shell } from 'electron'
 import is from 'electron-is'
 import { EventEmitter } from 'events'
 import { join } from 'path'
+import { WindowState } from "../../renderer/src/util/enum";
 
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null
@@ -67,19 +68,19 @@ export default class WindowManager extends EventEmitter {
     })
     this.window?.on('maximize', () => {
       console.log('window maximize')
-      this.window?.webContents.send('windowState', 'maximize')
+      this.window?.webContents.send('windowState', WindowState.MAXIMIZED)
     })
     this.window?.on('unmaximize', () => {
       console.log('window unmaximize')
-      this.window?.webContents.send('windowState', 'normal')
+      this.window?.webContents.send('windowState', WindowState.NORMAL)
     })
     this.window?.on('minimize', () => {
       console.log('window minimize')
-      this.window?.webContents.send('windowState', 'minimize')
+      this.window?.webContents.send('windowState', WindowState.MINIMIZED)
     })
     this.window?.on('restore', () => {
       console.log('window restore')
-      this.window?.webContents.send('windowState', 'normal')
+      this.window?.webContents.send('windowState', WindowState.NORMAL)
     })
 
     // Test active push message to Renderer-process

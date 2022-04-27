@@ -1,15 +1,10 @@
 <template>
-  <v-dialog
-    v-model="showSearch"
-    transition="slide-y-transition"
-    :scrollable="true"
-    content-class="search-container"
-  >
-    <v-card color="surface" :width="width">
+  <v-dialog v-model="showSearch" transition="slide-y-transition" :scrollable="true" content-class="search-container">
+    <v-card color="surface" :width="width" min-height="30vh">
       <div class="pa-3">
         <v-text-field
-          color="primary"
           v-model="keywords"
+          color="primary"
           density="compact"
           :placeholder="$t('common.search_type_2')"
           :append-inner-icon="mdiMagnify"
@@ -242,9 +237,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.search-container {
-  min-height: 300px;
-}
-</style>

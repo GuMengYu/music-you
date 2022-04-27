@@ -9,7 +9,7 @@
 import { mdiCogOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
-import { useAppStore } from '../../../store/app'
+import { useAppStore } from '@/store/app'
 
 const { showSetting } = storeToRefs(useAppStore())
 </script>

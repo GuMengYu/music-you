@@ -72,9 +72,12 @@ import md5 from 'md5'
 import { storeToRefs } from 'pinia'
 import { computed, reactive, watch } from 'vue'
 
-import { checkQRCodeStatus, createQRCode, getQrCodeKey, login } from '../../api/account'
+import { useAppStore } from '@/store/app'
+import { useUserStore } from '@/store/user'
+
+import { checkQRCodeStatus, createQRCode, getQrCodeKey, login } from '@/api/account'
 import placeholderUrl from '../../assets/placeholder.png'
-import { useAppStore } from '../../store/app'
+
 const enum LOGIN_TYPE {
   ACCOUNT,
   QRCODE,
@@ -88,18 +91,9 @@ const enum QR_STATUS {
 }
 
 const appStore = useAppStore()
-
-const { showLogin, account } = storeToRefs(appStore)
-
-// const phone = ref<string>('');
-// const password = ref<string>('');
-// const loading = ref<boolean>(false);
-// const loginType = ref<LOGIN_TYPE>(LOGIN_TYPE.QRCODE);
-// const qrImageSrc = ref<string>('');
-// const qrTimer = ref(null);
-// const qrState = ref<QR_STATUS>(QR_STATUS.WAIT);
-// const qrHeadImage = ref<string>('');
-// const qrNickName = ref<string>('');
+const userStore = useUserStore()
+const { showLogin } = storeToRefs(appStore)
+const { account } = storeToRefs(userStore)
 
 const state = reactive({
   phone: '',
@@ -170,7 +164,8 @@ const checkQrStatus = (key: string) => {
         state.qrNickName = nickname
       } else if (code === QR_STATUS.AUTHED) {
         state.qrState = QR_STATUS.AUTHED
-        appStore.refreshAccount()
+        await userStore.refreshAccount()
+        await userStore.init()
         // await dispatch('settings/getAccount');
         // showLogin.value = false;
         // location.reload();

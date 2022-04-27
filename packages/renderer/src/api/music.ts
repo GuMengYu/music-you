@@ -1,17 +1,10 @@
 import { now } from 'lodash-es'
 
-import { useAppStore } from '../store/app'
-import {
-  getAlbum,
-  getArtist,
-  getLyric,
-  getPlayList,
-  getSongData,
-  getSongUrl,
-  getSongUrlFromUnlockMusic,
-} from './index'
-import { RADARPLAYLISTS } from '../util/metadata'
-import { musicXhr as xhr } from '../util/xhr'
+import { useUserStore } from '@/store/user'
+import { RADARPLAYLISTS } from '@/util/metadata'
+import { musicXhr as xhr } from '@/util/xhr'
+
+import { getAlbum, getArtist, getLyric, getPlayList, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -29,9 +22,9 @@ export const getTrackDetail = async (id: string | number, br = 320000) => {
 }
 
 export const getMusicUrl = async (id, br = 320000) => {
-  const logged = useAppStore().logged
+  const userStore = useUserStore()
   let url
-  if (logged) {
+  if (userStore.logged) {
     const {
       data: [song],
     } = await getSongUrl({ id, br })

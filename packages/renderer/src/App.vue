@@ -3,3 +3,12 @@
     <component :is="Component" />
   </router-view>
 </template>
+<script setup lang="ts">
+import { useAppStore } from '@/store/app'
+
+const appStore = useAppStore()
+init()
+function init() {
+  appStore.init()
+}
+</script>

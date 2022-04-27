@@ -1,57 +1,52 @@
 // Utilities
-import { merge } from 'lodash-es'
+import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
-import { reactive, toRefs } from 'vue'
 
-export const useUserStore = defineStore('user', () => {
-  const state = reactive({
-    api: 'link-only',
-    pwaRefresh: false,
-    theme: 'system',
-    mixedTheme: true,
-    direction: 'ltr',
-    notifications: {
-      read: [],
-      last: {
-        install: null,
-        notification: null,
-        promotion: null,
-        jobs: null,
-      },
+import { getLikeList } from '@/api'
+import { getAccount } from '@/api/account'
+import { getUserPlaylist } from '@/api/user'
+import type { Account, Playlist, TrackSource } from '@/types'
+
+export type UserState = {
+  account: Account
+  likes: TrackSource[]
+  playlists: Playlist[]
+}
+export const useUserStore = defineStore({
+  id: 'user',
+  state: () => {
+    return useLocalStorage('user', {
+      account: {},
+      likes: [],
+      playlists: [],
+    })
+  },
+  getters: {
+    logged: (state) => {
+      return !!state.account?.profile?.userId
     },
-  })
-
-  function load() {
-    const stored = localStorage.getItem('vuetify@user')
-    const data = stored ? JSON.parse(stored) : {}
-
-    if (typeof data.api === 'boolean') {
-      data.api = data.api ? 'inline' : 'link-only'
-    }
-    if (typeof data.rtl === 'boolean') {
-      data.direction = data.rtl ? 'rtl' : 'ltr'
-      delete data.rtl
-    }
-    if (Array.isArray(data.notifications)) {
-      data.notifications = { read: data.notifications }
-    }
-    if (typeof data.theme === 'object') {
-      data.mixedTheme = data.theme.mixed
-      data.theme = data.theme.system ? 'system' : data.theme.dark ? 'dark' : 'light'
-    }
-    if (typeof data.last === 'object') {
-      data.notifications.last = data.last
-      delete data.last
-    }
-
-    Object.assign(state, merge(state, data))
-  }
-
-  function save() {
-    localStorage.setItem('vuetify@user', JSON.stringify(state, null, 2))
-  }
-
-  load()
-
-  return { ...toRefs(state), load, save }
+    uid: (state) => {
+      return state.account?.profile?.userId
+    },
+  },
+  actions: {
+    async init() {
+      if (this.logged) {
+        const [likesRes, playlistRes] = await Promise.all([
+          getLikeList(),
+          getUserPlaylist({
+            timestamp: new Date().getTime(),
+            uid: this.uid,
+          }),
+        ])
+        this.likes = likesRes.ids
+        this.playlists = playlistRes.playlist
+      }
+    },
+    async refreshAccount() {
+      const account = await getAccount()
+      this.account = account
+      return account
+    },
+  },
 })
