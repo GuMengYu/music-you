@@ -39,4 +39,5 @@ export const useVuetify = (app: App) => {
     },
   })
   app.use(vuetify)
+  return vuetify
 }

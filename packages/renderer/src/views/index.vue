@@ -14,6 +14,7 @@
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" /> -->
     <app-search />
+    <app-toast />
   </v-app>
 </template>
 
@@ -24,9 +25,10 @@ import AppFooter from '../components/app/Footer.vue'
 import AppHeader from '../components/app/Header.vue'
 import AppLogin from '../components/app/Login.vue'
 import AppNav from '../components/app/Navbar.vue'
+import PlayingList from '../components/app/nowPlaying/list.vue'
 import AppSearch from '../components/app/search/Search.vue'
 import AppSetting from '../components/app/setting/index.vue'
+import AppToast from '../components/app/toast/Toast.vue'
 import AppContent from '../components/layout/View.vue'
-import PlayingList from '../components/app/nowPlaying/list.vue'
 const theme = useTheme()
 </script>
