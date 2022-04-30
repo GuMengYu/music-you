@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon @click="rail = !rail" class="no-drag-area">
+  <v-btn icon @click="rail = !rail" class="no-drag-area" variant="text" width="56" height="56">
     <v-icon>
       {{ mdiMenu }}
     </v-icon>
@@ -10,7 +10,7 @@
 import { mdiMenu } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
-import { useAppStore } from '../../../store/app'
+import { useAppStore } from "@/store/app"
 
 const { rail } = storeToRefs(useAppStore())
 </script>

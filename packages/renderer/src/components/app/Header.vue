@@ -2,13 +2,12 @@
   <v-app-bar class="app_header drag-area" elevate-on-scroll flat app>
     <template #prepend>
       <div>
-        <drawer-toggle />
+        <b-f-btn />
+        <reload-btn />
       </div>
     </template>
-    <b-f-btn />
-    <reload-btn />
-    <theme-toggle />
-    <setting-toggle />
+    <!--    <theme-toggle />-->
+    <control-center-toggle />
     <account />
   </v-app-bar>
 </template>
@@ -16,9 +15,8 @@
 import Account from './Account.vue'
 import BFBtn from './button/BFBtn.vue'
 import ReloadBtn from './button/ReloadBtn.vue'
-import DrawerToggle from './toggle/DrawerToggle.vue'
-import SettingToggle from './toggle/SettingToggle.vue'
-import ThemeToggle from './toggle/ThemeToggle.vue'
+import ControlCenterToggle from './toggle/ControlCenterToggle.vue'
+// import ThemeToggle from './toggle/ThemeToggle.vue'
 </script>
 <style scoped lang="scss">
 .app_header {

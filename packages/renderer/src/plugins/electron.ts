@@ -19,7 +19,7 @@ function registerIpcRenderer() {
   const showDownloadComplete = once((name) => {})
 
   ipcRenderer.on('open-settings', () => {
-    appStore.$state.showSetting = !appStore.$state.showSetting
+    // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
   })
   ipcRenderer.on('search', () => {
     appStore.$state.showSearch = !appStore.$state.showSearch

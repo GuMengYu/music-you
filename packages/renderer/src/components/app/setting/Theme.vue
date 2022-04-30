@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mdiDesktopTowerMonitor, mdiThemeLightDark, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
+import { mdiDesktopTowerMonitor, mdiPalette, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
 import { computed } from 'vue'
 
 import { useSettingStore } from '@/store/setting'
@@ -40,22 +40,27 @@ export default {
 
     const colorItems = computed(() => [
       {
+        icon: mdiPalette,
         value: 'RedSandDunes',
         text: 'theme.RedSandDunes',
       },
       {
+        icon: mdiPalette,
         value: 'GreenMountainTop',
         text: 'theme.GreenMountainTop',
       },
       {
+        icon: mdiPalette,
         value: 'OrangeDesert',
         text: 'theme.OrangeDesert',
       },
       {
+        icon: mdiPalette,
         value: 'BlueMountains',
         text: 'theme.BlueMountains',
       },
       {
+        icon: mdiPalette,
         value: 'GreenRockyMountains',
         text: 'theme.GreenRockyMountains',
       },

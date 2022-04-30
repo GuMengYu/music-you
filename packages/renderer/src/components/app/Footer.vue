@@ -95,7 +95,7 @@ function toQueue() {
 .player-footer {
   bottom: 0;
   width: 100vw;
-  z-index: 9999;
+  z-index: 1007;
   display: flex;
   flex-flow: column nowrap;
   padding: 12px;

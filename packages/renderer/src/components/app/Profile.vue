@@ -39,13 +39,12 @@
 import { mdiGithub, mdiLogin } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
 
-const appStore = useAppStore()
 const userStore = useUserStore()
-const { showSetting } = storeToRefs(appStore)
+const router = useRouter()
 const { account } = storeToRefs(userStore)
 
 const profile = computed(() => {
@@ -73,7 +72,7 @@ const signOut = () => ({})
 
 const openSetting = () => {
   emit('update:modelValue', false)
-  showSetting.value = true
+  router.push({ name: 'setting' })
 }
 </script>
 

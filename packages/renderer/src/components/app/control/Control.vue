@@ -54,8 +54,8 @@ import {
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { usePlayer } from '../../../player/player'
-import { PLAY_MODE, usePlayerStore } from '../../../store/player'
+import { usePlayer } from '@/player/player'
+import { PLAY_MODE, usePlayerStore } from '@/store/player'
 
 const playerStore = usePlayerStore()
 const player = usePlayer()

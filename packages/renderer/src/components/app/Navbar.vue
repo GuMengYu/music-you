@@ -1,5 +1,8 @@
 <template>
   <v-navigation-drawer class="app-navigation-drawer" :rail="rail">
+    <div class="pl-2 py-1">
+      <drawer-toggle />
+    </div>
     <v-list class="system_nav" rounded :nav="true">
       <v-list-item class="drawer-item" @click="showSearch = true" active-class="none">
         <v-list-item-avatar left>
@@ -41,6 +44,8 @@ import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useAppStore } from '@/store/app'
+
+import DrawerToggle from './toggle/DrawerToggle.vue'
 
 const { rail, showSearch } = storeToRefs(useAppStore())
 const { t } = useI18n()
@@ -85,9 +90,8 @@ const state = reactive({
 <style lang="scss">
 .app-navigation-drawer {
   border-inline-end-width: 0;
-  margin-bottom: 60px !important;
-  transition-property: box-shadow, width, transform, visibility;
-  transition-duration: 0.8s;
+  transition-property: width, transform;
+  transition-duration: 0.5s;
   transition-timing-function: cubic-bezier(0, 1.34, 0.02, 1.05);
 
   .system_nav {

@@ -1,8 +1,8 @@
 <template>
   <v-app class="v-player" :theme="theme">
     <app-setting />
-    <app-header />
     <app-nav />
+    <app-header />
     <app-content class="v-player-content" />
     <app-footer />
     <app-login />

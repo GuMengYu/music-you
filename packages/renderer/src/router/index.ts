@@ -129,6 +129,14 @@ const musicRoutes = [
     },
   },
   {
+    path: '/setting',
+    name: 'setting',
+    component: lazyLoad('Setting'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
     path: '/search/:keywords?',
     name: 'search',
     component: lazyLoad('Search'),

@@ -1,55 +1,72 @@
 <template>
   <v-navigation-drawer
-    v-model="app.showSetting"
-    fixed
+    v-model="app.showControlCenter"
     position="right"
     hide-overlay
     temporary
-    width="350"
+    width="300"
+    floating
+    class="bg-surface"
   >
-    <v-toolbar flat>
-      <v-toolbar-title text="Settings" class="pl-0" />
-
-      <template #append>
-        <v-btn :icon="mdiClose" @click="app.showSetting = false" />
-      </template>
-    </v-toolbar>
-
-    <v-divider />
-
     <v-container>
-      <app-settings-theme />
-
-      <v-divider class="mt-4 mb-3 mx-n3" />
-
-      <app-settings-other />
+      <v-row dense>
+        <v-col>
+          <app-switch-card
+            v-model="darkMode"
+            title="深色主题"
+            :subtitle="darkMode ? '已开启' : '已关闭'"
+            :icon="mdiCircleHalfFull"
+          />
+        </v-col>
+        <v-col>
+          <app-switch-card v-model="darkMode" title="跟随系统" subtitle="在日落时开启" :icon="mdiCircleHalfFull" />
+        </v-col>
+      </v-row>
+      <v-divider class="my-4" />
+      <media-playing-card />
     </v-container>
   </v-navigation-drawer>
 </template>
 
 <script>
 // Components
-import { mdiClose } from '@mdi/js'
+import { mdiCircleHalfFull } from '@mdi/js'
+import { computed } from 'vue'
+import { useTheme } from 'vuetify'
 
+import MediaPlayingCard from '@/components/app/MediaPlayingCard.vue'
+import AppSwitchCard from '@/components/app/SwitchCard.vue'
 // Composables
 import { useAppStore } from '@/store/app'
+import { APPEARANCE, useSettingStore } from '@/store/setting'
 
-import AppSettingsOther from './other.vue'
-import AppSettingsTheme from './Theme.vue'
 export default {
   name: 'AppSettingsDrawer',
 
   components: {
-    AppSettingsTheme,
-    AppSettingsOther,
+    MediaPlayingCard,
+    AppSwitchCard,
   },
 
   setup() {
     const app = useAppStore()
-
+    const setting = useSettingStore()
+    const theme = useTheme()
+    const isDark = computed(() => {
+      return theme.getTheme(theme.current.value)?.dark
+    })
+    const darkMode = computed({
+      get() {
+        return isDark.value
+      },
+      set(value) {
+        setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
+      },
+    })
     return {
+      darkMode,
       app,
-      mdiClose,
+      mdiCircleHalfFull,
     }
   },
 }

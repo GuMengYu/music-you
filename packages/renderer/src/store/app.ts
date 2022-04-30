@@ -2,14 +2,16 @@ import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
 import { useUserStore } from '@/store/user'
-import { WindowState } from '@/util/enum'
+import { WindowState, PLAYING_MODE } from '@/util/enum'
 
 export type AppState = {
   rail: boolean
-  showSetting: boolean
+  showControlCenter: boolean
   showLogin: boolean
   showSearch: boolean
   showPlaying: boolean
+  showLyric: boolean
+  playingMode: PLAYING_MODE
   showAddToPlayList: boolean
   toPlayListTrackId: null | number
   windowState: WindowState
@@ -18,10 +20,12 @@ export const useAppStore = defineStore('app', {
   state: () => {
     const state = reactive<AppState>({
       rail: false,
-      showSetting: false,
+      showControlCenter: false,
       showLogin: false,
       showPlaying: false,
       showSearch: false,
+      showLyric: false,
+      playingMode: PLAYING_MODE.BASIC,
       showAddToPlayList: false,
       toPlayListTrackId: null,
       windowState: WindowState.NORMAL,

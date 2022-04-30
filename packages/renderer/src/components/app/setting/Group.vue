@@ -9,21 +9,11 @@
       :model-value="modelValue"
       @update:model-value="$emit('update:modelValue', $event)"
     >
-      <v-row>
+      <v-row :dense="true">
         <v-col v-for="{ icon, text, value } in items" :key="value ?? text" cols="6">
           <v-item :value="value ?? text">
             <template #default="{ isSelected, toggle }">
-              <v-card
-                :color="isSelected ? 'primary' : `grey-${dark ? 'darken' : 'lighten'}-3`"
-                class="v-card--group py-3 px-4 text-center position-relative cursor-pointer d-flex align-center justify-space-between"
-                rounded
-                flat
-                @click="toggle"
-              >
-                {{ t(text) }}
-
-                <v-icon v-if="icon" :icon="icon" />
-              </v-card>
+              <app-switch-card :title="t(text)" :model-value="isSelected" :icon="icon" @click="toggle" />
             </template>
           </v-item>
         </v-col>
@@ -37,12 +27,14 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
 
+import AppSwitchCard from '@/components/app/SwitchCard.vue'
+
 import AppTitle from '../Title.vue'
 
 export default {
   name: 'SettingsGroup',
 
-  components: { AppTitle },
+  components: { AppSwitchCard, AppTitle },
   props: {
     title: String,
     modelValue: null,

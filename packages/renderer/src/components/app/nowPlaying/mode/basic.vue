@@ -4,13 +4,13 @@
       <div class="frame-header">
         <v-btn icon @click="close">
           <v-icon>
-            {{ icon.mdiChevronDown }}
+            {{ mdiChevronDown }}
           </v-icon>
         </v-btn>
         <span class="text-caption">{{ album.name }}</span>
-        <v-btn icon @click="openMenu">
+        <v-btn icon>
           <v-icon>
-            {{ icon.mdiDotsHorizontal }}
+            {{ mdiDotsHorizontal }}
           </v-icon>
         </v-btn>
       </div>
@@ -31,35 +31,39 @@
             </div>
           </div>
           <div class="control_process mt-2">
-            <vue-slider
-              ref="vueLyricSlider"
-              v-model="currentTime"
-              class="playing-progress"
-              :max="~~(track.dt / 1000) || 0"
+            <v-slider
+              :model-value="currentTime * 1000"
+              thumb-label
               :min="0"
-              :interval="1"
-              :duration="0"
-              :drag-on-click="true"
-              :dot-size="10"
-              :height="2"
-              tooltip="none"
-              @drag-end="handleSlideChange"
+              :max="trackDt"
+              class="track-slider"
+              density="compact"
+              :track-size="2"
+              track-color="#fff"
+              :thumb-size="8"
+              thumb-color="#fff"
+              :hide-details="true"
             />
             <div class="time-info d-flex justify-space-between text-caption">
-              <span>{{ (currentTime * 1000) | formatDuring }}</span>
-              <span>{{ track.dt | formatDuring }}</span>
+              <span>{{ currentTime * 1000 }}</span>
+              <span>{{ track.dt }}</span>
             </div>
           </div>
           <control class="justify-space-between" />
           <div class="d-flex justify-space-between mt-2">
-            <v-btn icon @click="showLyric = !showLyric">
+            <v-btn icon @click="state.showLyr = !state.showLyr">
               <v-icon small>
-                {{ icon.mdiPodcast }}
+                {{ mdiPodcast }}
               </v-icon>
             </v-btn>
-            <v-btn v-if="lyric.length" icon :color="showLyric ? theme.primary : void 0" @click="showLyric = !showLyric">
+            <v-btn
+              v-if="lyric.length"
+              icon
+              :color="state.showLyr ? theme.primary : void 0"
+              @click="state.showLyr = !state.showLyr"
+            >
               <v-icon small>
-                {{ icon.mdiCommentQuoteOutline }}
+                {{ mdiCommentQuoteOutline }}
               </v-icon>
             </v-btn>
           </div>
@@ -88,10 +92,9 @@
             :aria-time="item.time"
             class="mb-2"
             :class="{
-              active: index === activeIdx,
+              active: index === state.activeIdx,
             }"
-            :style="{ color: index === activeIdx ? theme.primary : '' }"
-            @click="jump(item.time)"
+            :style="{ color: index === state.activeIdx ? theme.primary : '' }"
             v-html="item.sentence"
           ></li>
           <li>&nbsp;</li>
@@ -102,185 +105,135 @@
   </v-card>
 </template>
 
-<script>
-import ArtistsLink from '@components/app/ArtistsLink'
-import Control from '@components/app/Control'
-import {
-  mdiArrowExpand,
-  mdiChevronDown,
-  mdiCommentQuoteOutline,
-  mdiDotsHorizontal,
-  mdiPauseCircle,
-  mdiPodcast,
-  mdiRepeat,
-  mdiShuffle,
-  mdiSkipNext,
-  mdiSkipPrevious,
-} from '@mdi/js'
+<script setup>
+import { mdiChevronDown, mdiCommentQuoteOutline, mdiDotsHorizontal, mdiPodcast } from '@mdi/js'
 import { findIndex } from 'lodash-es'
 import { generatePaletteFromURL } from 'md3-theme-generator'
-import VueSlider from 'vue-slider-component'
-import { dispatch, get, sync } from 'vuex-pathify'
+import { storeToRefs } from 'pinia'
+import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
+import { useTheme } from 'vuetify'
+import goto from 'vuetify/lib/services/goto'
 
+import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
+import Control from '@/components/app/control/Control.vue'
+import { useAppStore } from '@/store/app'
+import { usePlayerStore } from '@/store/player'
 import { formatLyric } from '@/util/fn'
-export default {
-  name: 'PlayingBasic',
-  components: {
-    ArtistsLink,
-    Control,
-    VueSlider,
+const playerStore = usePlayerStore()
+const appStore = useAppStore()
+const theme = useTheme()
+const { currentTime, track } = storeToRefs(playerStore)
+const { showLyric } = storeToRefs(appStore)
+const trackDt = computed(() => track.value?.dt ?? 0)
+
+const lyricContainer = ref()
+const state = reactive({
+  activeIdx: -1,
+  interval: null,
+  showLyr: true,
+  palette: {
+    light: {},
+    dark: {},
   },
-  data: () => ({
-    icon: {
-      mdiDotsHorizontal,
-      mdiShuffle,
-      mdiSkipPrevious,
-      mdiSkipNext,
-      mdiRepeat,
-      mdiPauseCircle,
-      mdiPodcast,
-      mdiCommentQuoteOutline,
-      mdiChevronDown,
-      mdiArrowExpand,
-    },
-    activeIdx: -1,
-    interval: null,
-    showLyric: true,
-    autoScroll: true,
-    autoScrollLocation: 0,
-    palette: {
-      light: {},
-      dark: {},
-    },
-  }),
-  computed: {
-    isCurrentFm: get('music/isCurrentFm'),
-    albumPicUrl() {
-      return `${this.track.al?.picUrl}?param=512y512`
-    },
-    album() {
-      return this.track.al ?? {}
-    },
-    lyric() {
-      const { tlyric, lrc } = this.track.lyric ?? {}
-      let lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
-      let _tlyric = tlyric?.lyric ? formatLyric(tlyric.lyric) : []
-      if (_tlyric.length) {
-        return lyric.map((i) => {
-          return {
-            sentence: `${i.sentence}`,
-            time: i.time,
-          }
-        })
-      } else {
-        return lyric
-      }
-    },
-    currentTime: sync('music/currentTime'),
-    track: get('music/track'),
-    showLyricsPage: sync('music/showLyricsPage'),
-    dynamicBg: sync('settings/dynamicBg'),
-    enableLyric() {
-      return this.lyric.length && this.showLyric
-    },
-    theme() {
-      return this.$vuetify.theme.dark ? this.palette.dark : this.palette.light
-    },
-    beforeMaskImages() {
+})
+const albumPicUrl = computed(() => track.value?.al?.picUrl)
+const album = computed(() => track.value?.al ?? {})
+const lyric = computed(() => {
+  const { tlyric, lrc } = track.value.lyric ?? {}
+  let lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
+  let _tlyric = tlyric?.lyric ? formatLyric(tlyric.lyric) : []
+  if (_tlyric.length) {
+    return lyric.map((i) => {
       return {
-        'background-image': `linear-gradient(-180deg, ${this.theme.surfaceVariant} 60%, transparent 100%)`,
+        sentence: `${i.sentence}`,
+        time: i.time,
       }
-    },
-    afterMaskImages() {
-      return {
-        'background-image': `linear-gradient(0deg, ${this.theme.surfaceVariant} 60%, transparent 100%)`,
-      }
-    },
-  },
-  watch: {
-    showLyricsPage(val) {
-      if (val) {
-        this.init()
-      } else {
-        clearInterval(this.interval)
-      }
-    },
-    'track.id'() {
-      this.initColor()
-    },
-  },
-  mounted() {
-    this.init()
-  },
-  unmounted() {
-    clearInterval(this.interval)
-  },
-  methods: {
-    init() {
-      this.initInterval()
-      this.initColor()
-    },
-    async initColor() {
-      if (!this.albumPicUrl) {
-        return
-      }
-      const palette = await generatePaletteFromURL(this.albumPicUrl)
-      this.palette.light = palette.light
-      this.palette.dark = palette.dark
-    },
-    initInterval() {
-      if (this.enableLyric) {
-        this.interval = setInterval(() => {
-          this.calculate()
-        }, 500)
-      }
-    },
-    // 计算歌词位置并滚动
-    async calculate() {
-      const current = this.currentTime
-      const prevActiveIdx = this.activeIdx
-      const activeIdx = findIndex(this.lyric, (o, idx) => {
-        const next = this.lyric[idx + 1]
-        return (next ? current < next.time : true) && current >= o.time
-      })
-      this.activeIdx = activeIdx
-      // 当前歌词渲染后计算滚动位置
-      await this.$nextTick()
-      if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
-        const container = this.$refs.lyricContainer
-        const activeEl = container.querySelector('.frame-lyrics .active')
-        if (activeEl) {
-          const offset = await this.$vuetify.goTo(activeEl, {
-            container,
-          })
-          console.debug('lyric scroll to ' + offset)
-          // this.startScroll(activeEl, container);
-        }
-      }
-    },
-    startScroll(el, container) {
-      if (this.autoScroll) {
-        el.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        console.debug('自动滚动高度：', container.scrollTop)
-        this.autoScrollLocation = container.scrollTop // 缓存滚动后的位置
-      }
-    },
-    jump(time) {
-      this.currentTime = time
-    },
-    close() {
-      this.$emit('close')
-    },
-    handleSlideChange() {
-      this.currentTime = this.$refs['vueLyricSlider'].getValue()
-    },
-    openMenu(e) {
-      const { clientX: x, clientY: y } = e
-      const items = [{ title: '收藏到歌单', action: 'add' }]
-      dispatch('contextmenu/show', { x, y, items })
-    },
-  },
+    })
+  } else {
+    return lyric
+  }
+})
+
+const enableLyric = computed(() => {
+  return lyric.value.length && state.showLyr
+})
+
+const _theme = computed(() => {
+  const isDark = theme.getTheme(theme.current.value)?.dark
+  return isDark ? state.palette.dark : state.palette.light
+})
+
+const beforeMaskImages = computed(() => {
+  return {
+    'background-image': `linear-gradient(-180deg, ${_theme.value.surfaceVariant} 60%, transparent 100%)`,
+  }
+})
+const afterMaskImages = computed(() => {
+  return {
+    'background-image': `linear-gradient(0deg, ${_theme.value.surfaceVariant} 60%, transparent 100%)`,
+  }
+})
+
+watch(showLyric, (val) => {
+  if (val) {
+    if (val) {
+      init()
+    } else {
+      clearInterval(state.interval)
+    }
+  }
+})
+
+watchEffect(() => {
+  init()
+  initColor(track.value?.id)
+})
+
+onMounted(() => {
+  clearInterval(state.interval)
+})
+function init() {
+  initInterval()
+  initColor()
 }
+async function initColor() {
+  if (!albumPicUrl.value) {
+    return
+  }
+  const palette = await generatePaletteFromURL(albumPicUrl.value)
+  state.palette.light = palette.light
+  state.palette.dark = palette.dark
+}
+function initInterval() {
+  if (enableLyric.value) {
+    state.interval = setInterval(() => {
+      calculate()
+    }, 500)
+  }
+}
+async function calculate() {
+  const current = currentTime.value
+  const prevActiveIdx = state.activeIdx
+  const activeIdx = findIndex(lyric.value, (o, idx) => {
+    const next = lyric.value[idx + 1]
+    return (next ? current < next.time : true) && current >= o.time
+  })
+  state.activeIdx = activeIdx
+  // 当前歌词渲染后计算滚动位置
+  await nextTick()
+  if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
+    const container = lyricContainer
+    const activeEl = container.querySelector('.frame-lyrics .active')
+    if (activeEl) {
+      const offset = await goto(activeEl, {
+        lyricContainer,
+      })
+      console.log('lyric scroll to ' + offset)
+      // this.startScroll(activeEl, container);
+    }
+  }
+}
+function close() {}
 </script>
 
 <style lang="scss" scoped>
