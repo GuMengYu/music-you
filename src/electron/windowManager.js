@@ -4,7 +4,7 @@ import { BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 
 const defaultOptions = {
-  width: 1270,
+  width: 1280,
   height: 720,
   minWidth: 800,
   minHeight: 540,

@@ -3,9 +3,13 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 module.exports = {
   '/unlockmusic': async (req, res) => {
-    const trackId = req.query.id;
-    const result = await match(trackId, void 0);
-    res.send(JSON.stringify({ code: 200, data: result }));
+    try {
+      const trackId = req.query.id;
+      const result = await match(trackId, void 0);
+      res.send(JSON.stringify({ code: 200, data: result }));
+    } catch (e) {
+      res.sendStatus(500);
+    }
   },
   '/wallhaven/search': async (req, res) => {
     const { query: params } = req;

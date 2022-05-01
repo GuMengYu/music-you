@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex flex-column align-center artists-container">
+  <div class="d-flex flex-column align-center v-card cover-container">
     <v-avatar width="100%" height="100%" @click="go" :size="$attrs.size">
       <v-img
         :src="artists.picUrl || artists.cover | sizeOfImage"
         class="artist-image"
         aspect-ratio="1"
-        lazy-src="@assets/default-cover.svg"
+        lazy-src="@assets/placeholder.png"
       />
     </v-avatar>
     <router-link
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.artists-container {
+.cover-container {
   .artist-image {
     transition: transform 0.3s;
     &:hover {

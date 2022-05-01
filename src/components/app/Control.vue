@@ -21,7 +21,7 @@
     >
       <lottie-icon
         class="lottie-icon onPrimary--text"
-        style="position: relative; top: 1px"
+        style="position: relative; top: 1px; left: 1px"
         :options="playOptions"
         :width="30"
         :height="30"

@@ -8,12 +8,15 @@
   >
     <v-list dense class="system_nav" rounded>
       <v-list-item
-        class="d-flex px-0 drag-area drawer-toggle"
+        class="d-flex px-0 drag-area drawer-toggle drawer-item"
         :class="navClass"
       >
         <drawer-toggle />
       </v-list-item>
-      <v-list-item class="justify-center" @click="showSearch = true">
+      <v-list-item
+        class="justify-center drawer-item"
+        @click="showSearch = true"
+      >
         <v-list-item-icon
           class="d-flex align-center justify-center align-self-center"
         >
@@ -46,7 +49,7 @@
           :item="i"
         />
         <v-list-item
-          class="justify-center"
+          class="justify-center drawer-item"
           color="primary"
           :to="`/playlist/${fav.id}`"
         >
@@ -62,7 +65,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          class="justify-center"
+          class="justify-center drawer-item"
           color="primary"
           @click.prevent="handleCreatePlayList"
         >
@@ -77,37 +80,6 @@
             <v-list-item-title>{{ $t('main.create_list') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          class="justify-center"
-          color="primary"
-          v-if="enableWallhaven"
-          to="/wallhaven"
-        >
-          <v-list-item-icon
-            class="d-flex align-center justify-center align-self-center"
-          >
-            <v-icon size="20" color="primary">
-              {{ icon.mdiWallpaper }}
-            </v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>wallhaven</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider v-show="!drawermini" />
-        <v-subheader
-          v-show="!drawermini"
-          class="font-weight-bold text-uppercase ml-2"
-        >
-          {{ $t('main.nav.start_list') }}
-        </v-subheader>
-        <nav-item
-          class="drawer-item"
-          v-for="i in defaultNav3"
-          v-show="!drawermini"
-          :key="i.title"
-          :item="i"
-        />
       </v-list-item-group>
     </v-list>
     <v-dialog v-model="newListDialog" max-width="400px">
@@ -142,15 +114,13 @@ import {
   mdiHandHeart,
   mdiLibrary,
   mdiMusicNoteHalfDotted,
-  mdiPlaylistMusicOutline,
   mdiHarddisk,
   mdiHeart,
   mdiPlus,
   mdiMagnify,
   mdiWallpaper,
 } from '@mdi/js';
-import { dispatch, get, sync } from 'vuex-pathify';
-import { filter } from 'lodash-es';
+import { dispatch, sync } from 'vuex-pathify';
 import NavItem from '@components/default/NavItem.vue';
 import DrawerToggle from '@components/layout/DrawerToggle.vue';
 import is from 'electron-is';
@@ -219,26 +189,6 @@ export default {
     }),
     showSearch: sync('app/showSearch'),
     drawermini: sync('app/drawermini'),
-    playlist: get('music/playlist'),
-    enableWallhaven() {
-      return get('settings/wallhaven') && is.renderer();
-    },
-    defaultNav3() {
-      const created = filter(
-        this.playlist,
-        (i) => !i['subscribed'] && i['specialType'] !== 5,
-      );
-      return (
-        created?.slice(0, 3)?.map((i) => {
-          let title = i.name;
-          return {
-            title,
-            to: `/playlist/${i.id}`,
-            icon: mdiPlaylistMusicOutline,
-          };
-        }) ?? []
-      );
-    },
     navClass() {
       return {
         'pt-4': is.macOS(),
@@ -288,6 +238,7 @@ export default {
       right: 0;
     }
     .drawer-item {
+      height: 56px;
       transition: height 0.3s ease-out;
     }
     .drawer-toggle {

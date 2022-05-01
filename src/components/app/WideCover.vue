@@ -3,7 +3,7 @@
     <v-img
       :aspect-ratio="16 / 9"
       :src="picUrl | sizeOfImage"
-      lazy-src="@assets/default-cover.svg"
+      lazy-src="@assets/placeholder.png"
       class="align-end pa-2"
     >
       <div class="align-self-center">

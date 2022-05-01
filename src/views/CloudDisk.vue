@@ -36,7 +36,7 @@
                 max-height="40"
                 max-width="40"
                 class="rounded"
-                lazy-src="@assets/default-cover.svg"
+                lazy-src="@assets/placeholder.png"
               />
             </v-card>
             <v-list-item-content>

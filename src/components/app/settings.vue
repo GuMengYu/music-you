@@ -123,7 +123,7 @@
               浏览wallhaven图片
             </v-list-item-title>
             <v-list-item-action>
-              <v-switch v-model="wallhaven" class="pr-4" />
+              <v-switch inset v-model="wallhaven" class="pr-4" />
             </v-list-item-action>
           </v-list-item>
           <v-list-item>

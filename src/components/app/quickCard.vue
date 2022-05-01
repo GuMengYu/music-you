@@ -13,7 +13,7 @@
         :max-height="height"
         :max-width="height"
         class="card-img"
-        lazy-src="@assets/default-cover.svg"
+        lazy-src="@assets/placeholder.png"
         :src="coverImgUrl"
       />
       <div class="d-flex align-center justify-space-between flex-fill px-4">
@@ -23,7 +23,7 @@
         >
           {{ data.name }}
         </span>
-        <v-slide-x-reverse-transition>
+        <v-slide-x-reverse-transition v-if="showPlay">
           <div class="action ml-2" v-show="hover">
             <v-btn
               fab
@@ -72,6 +72,7 @@ export default {
         album: `/album/${this.data.id}`,
         playlist: `/playlist/${this.data.id}`,
         artist: `/artist/${this.data.id}`,
+        wallhaven: '/wallhaven',
       }[this.type];
     },
     height() {
@@ -86,6 +87,9 @@ export default {
         default:
           return 64;
       }
+    },
+    showPlay() {
+      return ['album', 'playlist', 'artist', 'daily'].includes(this.type);
     },
   },
   methods: {

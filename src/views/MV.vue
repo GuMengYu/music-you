@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="video-container">
     <custom-col :title="video.data.name">
       <div>
         <div class="video rounded-lg">
@@ -7,12 +7,15 @@
         </div>
         <div class="d-flex mt-4">
           <div class="font-weight-bold">
-            <router-link :to="'/artist/' + video.data.artistId">
-              {{ video.data.artistName }}
-            </router-link>
+            <artists-link :artists="[artist]" />
             ·
-            {{ video.data.playCount }} Views ·
-            {{ video.data.publishTime }}
+            <span>
+              {{ $t('main.play_count', [video.data.playCount]) }}
+            </span>
+            ·
+            <span>
+              {{ video.data.publishTime }}
+            </span>
           </div>
         </div>
       </div>
@@ -34,9 +37,11 @@ import 'plyr/dist/plyr.css';
 import { sync } from 'vuex-pathify';
 import CustomCol from '@components/layout/Col.vue';
 import VideoCover from '@components/app/VideoCover.vue';
+import ArtistsLink from '@components/app/ArtistsLink';
 export default {
   name: 'MusicVideo',
   components: {
+    ArtistsLink,
     CustomCol,
     VideoCover,
   },
@@ -63,6 +68,12 @@ export default {
     liked() {
       return true;
     },
+    artist() {
+      return {
+        id: this.video.data.artistId,
+        name: this.video.data.artistName,
+      };
+    },
   },
   watch: {
     id() {
@@ -86,7 +97,7 @@ export default {
       this.player = new Plyr(this.$refs['videoPlayer'], videoOptions);
       this.player.volume = this.volume;
       this.player.on('playing', () => {
-        // 暂停音乐播放
+        this.$player.pause();
       });
     },
     async fetch() {
@@ -120,9 +131,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.video {
-  overflow: hidden;
-  max-height: 68vh;
-  --plyr-color-main: var(--v-primary-base);
+.video-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  .video {
+    overflow: hidden;
+    --plyr-color-main: var(--v-primary-base);
+  }
 }
 </style>

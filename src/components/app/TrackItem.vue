@@ -19,7 +19,7 @@
           max-height="40"
           max-width="40"
           class="rounded"
-          lazy-src="@assets/default-cover.svg"
+          lazy-src="@assets/placeholder.png"
         />
         <div class="track-info">
           <v-list-item-title v-text="track.name" class="h-1x" />
@@ -37,6 +37,18 @@
         </router-link>
       </div>
       <div class="track-third">
+        <v-btn
+          icon
+          v-visible="liked || hover"
+          @click.prevent="toggleLike"
+          :loading="likeLoading"
+        >
+          <v-icon
+            small
+            v-text="liked ? mdiHeart : mdiHeartOutline"
+            :color="liked ? 'primary' : ''"
+          />
+        </v-btn>
         <!--        <like-toggle :id="track.id" />-->
         <div class="track-duration">
           {{ track.dt || track.duration | formatDuring }}
@@ -51,7 +63,7 @@
   </v-hover>
 </template>
 <script>
-import { mdiDotsHorizontal, mdiPlay, mdiHeart } from '@mdi/js';
+import { mdiDotsHorizontal, mdiPlay, mdiHeart, mdiHeartOutline } from '@mdi/js';
 import { dispatch, get, commit } from 'vuex-pathify';
 import ArtistsLink from '@components/app/ArtistsLink';
 import { doPlaylist } from '@api/music';
@@ -82,6 +94,8 @@ export default {
     mdiDotsHorizontal,
     mdiPlay,
     mdiHeart,
+    mdiHeartOutline,
+    likeLoading: false,
   }),
   computed: {
     liked() {
@@ -151,7 +165,7 @@ export default {
       if (this.from !== 'album') {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [second] 2fr [last] minmax(100px, 1fr)',
+            '[index] 28px [first] 3fr [second] 2fr [last] minmax(100px, 1fr)',
         };
       } else {
         return {
@@ -167,6 +181,25 @@ export default {
         this.$player.updatePlayerTrack(this.track?.id);
         this.$emit('played', this.track.id);
       }
+    },
+    async toggleLike() {
+      this.likeLoading = true;
+      const before = this.liked;
+
+      const success = await dispatch('music/favSong', {
+        id: this.track.id,
+        like: !this.liked,
+      });
+      if (success) {
+        if (before) {
+          this.$toast('已从"喜欢的音乐"移除');
+        } else {
+          this.$toast('已添加至"喜欢的音乐"');
+        }
+      } else {
+        this.$toast('操作频繁或者网络出现错误');
+      }
+      this.likeLoading = false;
     },
     more() {},
     openMenu(e) {

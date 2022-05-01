@@ -39,15 +39,8 @@
               {{ playlist.name }}
             </span>
           </span>
-          <v-btn
-            depressed
-            rounded
-            @click="play"
-            color="primary"
-            small
-            class="onPrimary--text"
-          >
-            <v-icon v-text="icon.mdiPlay" />
+          <v-btn @click="play" color="primary" small class="onPrimary--text">
+            <v-icon v-text="icon.mdiPlay" small />
             播放
           </v-btn>
         </div>
@@ -120,78 +113,65 @@
         </div>
       </v-card>
     </div>
-    <div class="d-flex">
-      <div class="mr-4">
-        <v-card
-          :width="coverWidth"
-          :height="108"
-          flat
-          color="surfaceVariant"
-          rounded="xl"
-          class="album-info text-caption"
-        >
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发布时间</span>
-            <span class="item-desc">{{
-              playlist.publishTime | formatDate
-            }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">{{ tracksDt | formatDuring }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">播放次数</span>
-            <span class="item-desc h-1x">{{
-              playlist.playCount | formatNumber
-            }}</span>
-          </div>
-        </v-card>
-        <common-card
-          class="mt-4"
-          title="相关歌单推荐"
-          rounded="xl"
-          :width="coverWidth"
-          color="surfaceVariant"
-        >
-          <v-list color="surfaceVariant">
-            <v-list-item
-              v-for="playlist in relatedPlaylist"
-              :key="playlist.id"
-              class="mb-2"
-              @click="gotoPlayList(playlist.id)"
-            >
-              <v-img
-                :src="playlist.coverImgUrl | sizeOfImage(128)"
-                width="48"
-                class="rounded-lg mr-2"
-              />
-              <v-list-item-title class="text-caption">
-                {{ playlist.name }} {{ playlist.publishTime | formatDate }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </common-card>
-      </div>
-
-      <common-card class="flex-fill" color="surfaceVariant" title="歌单歌曲">
-        <v-virtual-scroll
-          height="calc(100vh - 470px)"
-          :items="playlist.tracks"
-          :item-height="62"
-          :bench="5"
-          class="surfaceVariant virtual-scroll-container"
-        >
-          <template v-slot:default="{ item: song, index }">
-            <track-item
-              :track="song"
-              :index="index + 1"
-              from="list"
-              :own="own"
-              :pid="playlist.id"
+    <v-list>
+      <track-item
+        v-for="(song, index) in playlist.tracks"
+        :key="song.id"
+        :track="song"
+        :index="index + 1"
+        from="list"
+        :own="own"
+        :pid="playlist.id"
+      />
+    </v-list>
+    <div class="mr-4">
+      <v-card
+        :width="coverWidth"
+        :height="108"
+        flat
+        color="surfaceVariant"
+        rounded="xl"
+        class="album-info text-caption"
+      >
+        <div class="album-info-item">
+          <span class="item-title font-weight-bold">发布时间</span>
+          <span class="item-desc">{{ playlist.publishTime | formatDate }}</span>
+        </div>
+        <div class="album-info-item">
+          <span class="item-title font-weight-bold">时长</span>
+          <span class="item-desc">{{ tracksDt | formatDuring }}</span>
+        </div>
+        <div class="album-info-item">
+          <span class="item-title font-weight-bold">播放次数</span>
+          <span class="item-desc h-1x">{{
+            playlist.playCount | formatNumber
+          }}</span>
+        </div>
+      </v-card>
+      <common-card
+        class="mt-4"
+        title="相关歌单推荐"
+        rounded="xl"
+        :width="coverWidth"
+        color="surfaceVariant"
+      >
+        <v-list color="surfaceVariant">
+          <v-list-item
+            v-for="playlist in relatedPlaylist"
+            :key="playlist.id"
+            class="mb-2"
+            @click="gotoPlayList(playlist.id)"
+          >
+            <v-img
+              :src="playlist.coverImgUrl | sizeOfImage(128)"
+              width="48"
+              class="rounded-lg mr-2"
             />
-          </template>
-        </v-virtual-scroll>
+            <v-list-item-title class="text-caption">
+              {{ playlist.name }} {{ playlist.publishTime | formatDate }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
       </common-card>
     </div>
     <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
@@ -284,7 +264,7 @@ export default {
     },
     profile: get('settings/account@profile'),
     own() {
-      return this.playlist.creator.userId === this.profile.userId;
+      return this.playlist.creator?.userId === this.profile.userId;
     },
   },
   watch: {

@@ -13,7 +13,7 @@
           :aspect-ratio="16 / 9"
           :src="coverBgUrl"
           class="cover-img align-end"
-          lazy-src="@assets/default-cover.svg"
+          lazy-src="@assets/placeholder.png"
         />
 
         <v-fade-transition>
@@ -38,15 +38,7 @@
       {{ title }}
     </span>
     <span class="h-1x text-caption">
-      <router-link
-        v-for="artist in artists"
-        :key="artist.userId"
-        :to="`/artist/${artist.userId}`"
-        class="text-decoration-none"
-      >
-        {{ artist.userName }}
-        ·
-      </router-link>
+      <artists-link :artists="artists" />
       {{ $t('main.play_count', [count]) }}
     </span>
   </div>
@@ -56,8 +48,10 @@
 import { mdiPlay } from '@mdi/js';
 import { sizeOfImage, formatNumber } from '@util/fn';
 import { dispatch } from 'vuex-pathify';
+import ArtistsLink from '@components/app/ArtistsLink';
 export default {
   name: 'VideoCover',
+  components: { ArtistsLink },
   props: {
     data: {
       type: Object,
@@ -92,8 +86,8 @@ export default {
       return this.data.artistId
         ? [
             {
-              userId: this.data.artistId,
-              userName: this.data.artistName,
+              id: this.data.artistId,
+              name: this.data.artistName,
             },
           ]
         : this.data.creator;

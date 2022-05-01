@@ -147,16 +147,20 @@ export default {
       if (!rootGetters['settings/logged']) {
         return false;
       } else {
-        const { code } = await sub('track', id, like ? 1 : 0);
-        if (code === 200) {
-          if (like) {
-            likes.push(id);
+        try {
+          const { code } = await sub('track', id, like ? 1 : 0);
+          if (code === 200) {
+            if (like) {
+              likes.push(id);
+            } else {
+              likes = likes.filter((i) => i !== id);
+            }
+            commit('likes', likes);
+            return true;
           } else {
-            likes = likes.filter((i) => i !== id);
+            return false;
           }
-          commit('likes', likes);
-          return true;
-        } else {
+        } catch (e) {
           return false;
         }
       }

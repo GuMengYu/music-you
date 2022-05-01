@@ -31,13 +31,14 @@
         v-bind="attrs"
         :icon="!closeText"
         :text="!!closeText"
-        class="vts__close"
+        class="vts__close mr-2"
         :class="{ 'vts__close--icon': !closeText }"
         :color="closeColor"
         v-if="showClose"
         @click="close"
+        small
       >
-        <v-icon v-if="!closeText">{{ closeIcon }}</v-icon>
+        <v-icon v-if="!closeText" small>{{ closeIcon }}</v-icon>
         <span v-if="!!closeText">{{ closeText }}</span>
       </v-btn>
     </template>
@@ -57,7 +58,7 @@ export default {
     },
     color: {
       type: String,
-      default: '',
+      default: 'primary',
     },
     icon: {
       type: String,
@@ -105,7 +106,7 @@ export default {
     },
     closeColor: {
       type: String,
-      default: '',
+      default: 'pink',
     },
   },
 

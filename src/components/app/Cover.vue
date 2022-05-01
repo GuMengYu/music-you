@@ -21,7 +21,10 @@
           :src="coverBgUrl"
           aspect-ratio="1"
           class="cover-img"
-          lazy-src="@assets/default-cover.svg"
+          :class="`rounded-${rounded} ${
+            noInfo ? 'cover-image' : 'cover-image-with-info'
+          }`"
+          lazy-src="@assets/placeholder.png"
         />
         <v-slide-y-reverse-transition>
           <v-overlay v-if="hover" absolute :opacity="0">
@@ -257,9 +260,9 @@ export default {
       //  transition: 0.3s all ease-in-out;
       //}
     }
-    .cover-img {
-      border-radius: inherit;
-      z-index: 1;
+    .cover-image-with-info {
+      border-bottom-left-radius: initial !important;
+      border-bottom-right-radius: initial !important;
     }
     ::v-deep .v-overlay__content {
       flex: 1;

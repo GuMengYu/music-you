@@ -10,7 +10,7 @@
       :max-height="height"
       :max-width="height"
       class="card-img"
-      lazy-src="@assets/default-cover.svg"
+      lazy-src="@assets/placeholder.png"
       :src="albumCoverImgUrl"
     />
     <div
