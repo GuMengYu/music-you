@@ -19,7 +19,7 @@
     <v-window v-model="state.tab" class="tab_page pt-4">
       <v-window-item>
         <card-row>
-          <cover v-for="item in state.playlist" :key="item.id" :data="item" type="playlist" />
+          <cover v-for="item in playlists" :key="item.id" :data="item" type="playlist" />
         </card-row>
       </v-window-item>
       <v-window-item>
@@ -55,6 +55,14 @@ import CustomCol from '@/components/app/layout/Col.vue'
 import TrackItem from '@/components/app/TrackItem.vue'
 import { GridType } from '@/hooks/useResponsiveGrid'
 const { t } = useI18n()
+
+import { storeToRefs } from 'pinia'
+
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore()
+
+const { playlists } = storeToRefs(userStore)
 const state = reactive({
   tabs: [
     { key: 'playlists', name: t('main.playlists') },
@@ -66,7 +74,6 @@ const state = reactive({
   albums: [],
   mvs: [],
   artists: [],
-  playlist: [],
   recently: [],
   loadingRecent: false,
   loading: {
@@ -106,10 +113,6 @@ async function loadData() {
     state.loading[type.value] = true
     const { data } = await favMVs()
     state.mvs = data
-  } else if (type.value === 'playlists' && !state.playlist.length) {
-    state.loading[type.value] = true
-    const { playlist } = await getUserPlaylist()
-    state.playlist = playlist
   }
   state.loading[type.value] = false
 }

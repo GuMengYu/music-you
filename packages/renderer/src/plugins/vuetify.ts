@@ -1,5 +1,4 @@
 // Styles
-// import 'vuetify/styles'
 import '../styles/main.scss'
 
 // types

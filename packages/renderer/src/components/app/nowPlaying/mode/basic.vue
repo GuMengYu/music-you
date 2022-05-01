@@ -2,25 +2,29 @@
   <v-card :color="theme.background" class="basic-container">
     <div class="frame">
       <div class="frame-header">
-        <v-btn icon @click="close">
+        <v-btn icon variant="text" @click="close">
           <v-icon>
             {{ mdiChevronDown }}
           </v-icon>
         </v-btn>
         <span class="text-caption">{{ album.name }}</span>
-        <v-btn icon>
+        <v-btn icon variant="text">
           <v-icon>
             {{ mdiDotsHorizontal }}
           </v-icon>
         </v-btn>
       </div>
       <div class="frame-content-info">
-        <v-card class="rounded-lg album-cover my-4">
+        <v-card class="rounded-lg album-cover my-4"
+                max-height="calc(100vh - 315px)"
+                max-width="calc(100vh - 315px)"
+                min-height="calc(100vh - 315px)"
+                width="100%"
+        >
           <v-img
             class="cover-img"
-            max-height="calc(100vh - 315px)"
-            max-width="calc(100vh - 315px)"
-            :src="album.picUrl"
+
+            :src="albumPicUrl"
           />
         </v-card>
         <div class="control_bar d-flex flex-column justify-space-between mb-4">
@@ -51,18 +55,19 @@
           </div>
           <control class="justify-space-between" />
           <div class="d-flex justify-space-between mt-2">
-            <v-btn icon @click="state.showLyr = !state.showLyr">
+            <v-btn icon variant="text" @click="state.showLyr = !state.showLyr">
               <v-icon small>
                 {{ mdiPodcast }}
               </v-icon>
             </v-btn>
             <v-btn
               v-if="lyric.length"
+              variant="text"
               icon
               :color="state.showLyr ? theme.primary : void 0"
               @click="state.showLyr = !state.showLyr"
             >
-              <v-icon small>
+              <v-icon size="small">
                 {{ mdiCommentQuoteOutline }}
               </v-icon>
             </v-btn>
@@ -112,7 +117,6 @@ import { generatePaletteFromURL } from 'md3-theme-generator'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { useTheme } from 'vuetify'
-import goto from 'vuetify/lib/services/goto'
 
 import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
 import Control from '@/components/app/control/Control.vue'
@@ -222,16 +226,21 @@ async function calculate() {
   // 当前歌词渲染后计算滚动位置
   await nextTick()
   if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
-    const container = lyricContainer
+    const container = lyricContainer.value
     const activeEl = container.querySelector('.frame-lyrics .active')
     if (activeEl) {
-      const offset = await goto(activeEl, {
-        lyricContainer,
-      })
-      console.log('lyric scroll to ' + offset)
-      // this.startScroll(activeEl, container);
+      // const offset = await goto(activeEl, {
+      //   lyricContainer,
+      // })
+      // console.log('lyric scroll to ' + offset)
+      startScroll(activeEl, container)
     }
   }
+}
+function startScroll(el, container) {
+  el.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  console.debug('自动滚动高度：', container.scrollTop)
+  // this.autoScrollLocation = container.scrollTop // 缓存滚动后的位置
 }
 function close() {}
 </script>

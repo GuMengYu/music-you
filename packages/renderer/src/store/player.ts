@@ -13,7 +13,7 @@ export enum PLAY_MODE {
   SHUFFLE = 'shuffle',
 }
 export type PlayerState = {
-  track: null | TrackSource
+  track: {} | TrackSource
   currentTime: number
   playingList: {
     id?: string | number
@@ -34,7 +34,7 @@ export const usePlayerStore = defineStore({
   id: 'player',
   state: () => {
     const restoreState = useLocalStorage('player', {
-      track: null,
+      track: {},
       currentTime: 0,
       playingList: {
         list: [] as TrackSource[],

@@ -16,6 +16,7 @@ import { useRouter } from './router'
 useFonts()
 import './styles/animate.scss'
 import './styles/global.scss'
+import { isElectron } from "@/util/fn";
 
 const app = createApp(App)
 
@@ -27,5 +28,5 @@ usePlayer(app)
 useDirectives(app)
 useElectron()
 app.mount('#app').$nextTick(() => {
-  window.removeLoading()
+  isElectron() && window.removeLoading()
 })

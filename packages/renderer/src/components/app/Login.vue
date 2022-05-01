@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="showLogin" persistent>
-    <v-card outlined color="surface" class="login-container py-6" rounded="xl">
+    <v-card outlined color="surface" class="login-container py-6" rounded="lg">
       <div class="d-flex justify-center">
-        <v-icon color="secondary">
+        <v-icon color="secondary" size="large">
           {{ mdiLogin }}
         </v-icon>
       </div>
@@ -25,15 +25,14 @@
         >
         </v-text-field>
       </div>
-      <div v-if="state.loginType === LOGIN_TYPE.QRCODE" class="qrCode-area d-flex flex-column align-center mx-6">
+      <div v-if="state.loginType === LOGIN_TYPE.QRCODE" class="qrCode-area d-flex flex-column align-center mx-6 my-4">
         <v-card
-          outlined
+          variant="outlined"
           :image="state.qrImageSrc"
           width="168"
           height="168"
-          rounded="xl"
+          rounded
           class="d-flex justify-center align-center"
-          light
         >
           <v-progress-circular v-if="state.qrState === QR_STATUS.SCANNED" indeterminate size="110" color="primary">
             <v-avatar size="100"><v-img :src="state.qrHeadImage" :lazy-src="placeholderUrl" /></v-avatar>
@@ -46,11 +45,13 @@
       </div>
       <v-divider class="mx-6" />
       <div class="d-flex justify-space-between mt-2 mx-4 align-center">
-        <v-btn class="align-self-start" color="primary" text @click="toggleType">
+        <v-btn class="align-self-start" color="primary" variant="text" @click="toggleType">
           {{ state.loginType === LOGIN_TYPE.ACCOUNT ? '二维码' : '账号登录' }}
         </v-btn>
         <div>
-          <v-btn text color="primary" :loading="state.loading" class="login-button" @click="handleCancel"> 取消 </v-btn>
+          <v-btn variant="text" color="primary" :loading="state.loading" class="login-button" @click="handleCancel">
+            取消
+          </v-btn>
           <v-btn
             v-show="state.loginType === LOGIN_TYPE.ACCOUNT"
             text
@@ -72,10 +73,10 @@ import md5 from 'md5'
 import { storeToRefs } from 'pinia'
 import { computed, reactive, watch } from 'vue'
 
+import { checkQRCodeStatus, createQRCode, getQrCodeKey, login } from '@/api/account'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
 
-import { checkQRCodeStatus, createQRCode, getQrCodeKey, login } from '@/api/account'
 import placeholderUrl from '../../assets/placeholder.png'
 
 const enum LOGIN_TYPE {

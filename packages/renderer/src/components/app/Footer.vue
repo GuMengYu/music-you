@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-footer fixed class="player-footer">
+    <v-footer fixed v-show="track.id" class="player-footer">
       <v-slider
         :model-value="currentTime * 1000"
         thumb-label
@@ -77,7 +77,7 @@ const route = useRoute()
 const { currentTime, track, volume = 0.8 } = storeToRefs(playerStore)
 
 const trackDt = computed(() => track.value?.dt ?? 0)
-const albumPicUrl = computed(() => track.value?.al.picUrl)
+const albumPicUrl = computed(() => track.value?.al?.picUrl)
 
 const isQueue = computed(() => {
   return route.name === 'queue'

@@ -16,8 +16,8 @@
             <span>{{ track.name }}</span>
             <span>{{ track.ar?.[0]?.name }}</span>
           </div>
-          <v-btn icon flat size="small" color="primary" @click="togglePlay">
-            <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
+          <v-btn icon flat size="x-small" color="primary" @click="togglePlay">
+            <v-icon size="x-small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
         </div>
         <div class="d-flex justify-lg-space-between">
@@ -33,6 +33,7 @@
             density="compact"
             :track-size="2"
             track-color="#fff"
+            track-fill-color="#fff"
             :thumb-size="8"
             thumb-color="#fff"
             :hide-details="true"

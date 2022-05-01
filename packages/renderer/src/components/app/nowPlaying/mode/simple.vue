@@ -4,17 +4,16 @@
       <span
         class="frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 onSurfaceVariant--text"
       >
-        {{ track.dt | formatDuring }} /
-        {{ (currentTime * 1000) | formatDuring }}
+        {{ track.dt }} /
+        {{ currentTime * 1000 }}
       </span>
       <div class="frame-header-action d-flex no-drag-area flex-column">
-        <v-btn icon color="onPrimary" @click="close">
+        <v-btn icon color="onPrimary" variant="text" @click="close">
           <v-icon>
             {{ icon.mdiClose }}
           </v-icon>
         </v-btn>
-        <like-toggle :id="track.id" />
-        <v-btn icon @click="openMenu">
+        <v-btn icon variant="text">
           <v-icon color="onPrimary">
             {{ icon.mdiDotsHorizontal }}
           </v-icon>
@@ -34,7 +33,6 @@
 </template>
 
 <script>
-import LikeToggle from '@components/app/likeToggle.vue'
 import {
   mdiArrowCollapse,
   mdiArrowExpand,
@@ -49,11 +47,20 @@ import {
   mdiSkipNext,
   mdiSkipPrevious,
 } from '@mdi/js'
-import { dispatch, get, sync } from 'vuex-pathify'
+import { storeToRefs } from 'pinia'
+
+import { usePlayerStore } from '@/store/player'
 
 export default {
   name: 'Playing',
-  components: { LikeToggle },
+  setup() {
+    const playerStore = usePlayerStore()
+    const { currentTime, track } = storeToRefs(playerStore)
+    return {
+      currentTime,
+      track,
+    }
+  },
   data: () => ({
     icon: {
       mdiHeart,
@@ -76,8 +83,6 @@ export default {
     albumPicUrl() {
       return `${this.track.al?.picUrl}?param=512y512`
     },
-    currentTime: sync('music/currentTime'),
-    track: get('music/track') ?? {},
     playPercent() {
       const total = this.track.dt
       const current = this.currentTime * 1000
@@ -87,11 +92,6 @@ export default {
   methods: {
     close() {
       this.$emit('close')
-    },
-    openMenu(e) {
-      const { clientX: x, clientY: y } = e
-      const items = [{ title: '收藏到歌单', action: 'add' }]
-      dispatch('contextmenu/show', { x, y, items })
     },
   },
 }

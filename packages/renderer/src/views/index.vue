@@ -13,6 +13,7 @@
     <default-login />
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" /> -->
+    <app-playing-page />
     <app-search />
     <app-toast />
   </v-app>
@@ -30,5 +31,6 @@ import AppSearch from '../components/app/search/Search.vue'
 import AppSetting from '../components/app/setting/index.vue'
 import AppToast from '../components/app/toast/Toast.vue'
 import AppContent from '../components/layout/View.vue'
+import AppPlayingPage from '../components/app/nowPlaying/mode/index.vue'
 const theme = useTheme()
 </script>
