@@ -43,7 +43,7 @@ export default {
     radar: '雷达歌单',
     recommend_video: '推荐的音乐视频',
     new_releases_album: '新专辑和单曲',
-    moods_genres: '心情和流派',
+    moods_genres: '歌单广场',
     new_releases_mv: '新的音乐视频',
     playlist_center: '歌单',
     leader_board: '排行榜',

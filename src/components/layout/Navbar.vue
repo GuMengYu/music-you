@@ -49,6 +49,7 @@
           :item="i"
         />
         <v-list-item
+          v-show="logged"
           class="justify-center drawer-item"
           color="primary"
           :to="`/playlist/${fav.id}`"
@@ -65,6 +66,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-show="logged"
           class="justify-center drawer-item"
           color="primary"
           @click.prevent="handleCreatePlayList"
