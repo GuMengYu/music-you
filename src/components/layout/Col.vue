@@ -5,9 +5,12 @@
         {{ subtitle }}
       </div>
       <div class="d-flex justify-space-between">
-        <div class="onSurface--text" :class="hClass || 'text-h6'">
+        <h1
+          class="onSurface--text font-weight-bold"
+          :class="hClass || 'text-h6'"
+        >
           {{ title }}
-        </div>
+        </h1>
         <v-btn v-if="more" text plain small class="font-weight-bold" :to="more">
           {{ $t('common.more') }}
         </v-btn>

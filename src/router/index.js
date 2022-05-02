@@ -121,6 +121,12 @@ const musicRoutes = [
     meta: { keepAlive: true, needLogin: true },
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: lazyLoad('Settings'),
+    meta: { keepAlive: true },
+  },
+  {
     path: '/search/:keywords?',
     name: 'search',
     component: lazyLoad('Search'),

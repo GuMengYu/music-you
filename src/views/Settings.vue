@@ -1,175 +1,141 @@
 <template>
-  <v-dialog
-    fullscreen
-    hide-overlay
-    v-model="showSettings"
-    transition="dialog-top-transition"
-  >
-    <v-card outlined class="settings-wrapper" color="background">
-      <v-btn icon @click="showSettings = false" class="mt-4 mx-4">
-        <v-icon>{{ mdiArrowLeft }}</v-icon>
-      </v-btn>
-      <div class="d-flex flex-column ma-6">
-        <v-avatar size="45" class="align-self-end">
-          <v-img :src="profile.avatarUrl"></v-img>
-        </v-avatar>
-        <span class="text-h4">{{ $t('common.setting') }} </span>
+  <div class="settings-wrapper">
+    <div>
+      <h5 class="text-h6 ml-4">外观和主题</h5>
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>{{ icon.mdiCircleHalfFull }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>外观</v-list-item-title>
+        <default-select v-model="theme" :options="appearanceOptions" />
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>{{ icon.mdiPalette }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>主题</v-list-item-title>
+      </v-list-item>
+      <div class="images color d-flex">
+        <v-img
+          v-for="(pal, name) in paletteOptions"
+          :key="name"
+          class="image"
+          :class="selected(name)"
+          max-width="46"
+          :src="pal.dataURL"
+          @click="selectPalette(name)"
+        >
+        </v-img>
       </div>
-      <v-list class="background mx-4 pb-16">
-        <v-subheader> 主题和样式 </v-subheader>
-        <v-list-item>
-          <v-list-item-title class="font-weight-bold">主题</v-list-item-title>
-          <div class="images appearance d-flex">
-            <v-img
-              class="image"
-              :class="selected('auto', 'appearance')"
-              src="@assets/auto.png"
-              @click="selectAppearance('auto')"
-            ></v-img>
-            <v-img
-              class="image"
-              :class="selected('light', 'appearance')"
-              src="@assets/light.png"
-              @click="selectAppearance('light')"
-            ></v-img>
-            <v-img
-              class="image"
-              :class="selected('dark', 'appearance')"
-              src="@assets/dark.png"
-              @click="selectAppearance('dark')"
-            ></v-img>
-          </div>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title class="font-weight-bold">颜色</v-list-item-title>
-          <div class="images color d-flex">
-            <v-img
-              v-for="(pal, name) in paletteOptions"
-              :key="name"
-              class="image"
-              :class="selected(name)"
-              max-width="57"
-              :src="pal.dataURL"
-              @click="selectPalette(name)"
-            >
-            </v-img>
-          </div>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">
-              {{ $t('common.playingMode') }}
-            </v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-action>
-            <default-select v-model="playingMode" :options="modeOptions" />
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider />
-        <v-subheader> 系统 </v-subheader>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">
-              {{ $t('common.language') }}
-            </v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-action>
-            <default-select
-              v-model="locale"
-              :options="langOptions"
-              sub-header="translation"
-            />
-          </v-list-item-action>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">
-              {{ $t('common.quality') }}
-            </v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-action>
-            <default-select
-              v-model="quality"
-              :options="qualityOptions"
-              sub-header="quality"
-            />
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider />
-        <v-subheader> 缓存 </v-subheader>
-        <v-list-item>
-          <v-list-item-title class="font-weight-bold">
-            大小限制
-          </v-list-item-title>
-          <v-list-item-action>
-            <default-select
-              v-model="cacheLimit"
-              :options="cacheOptions"
-              sub-header="cacheLimit"
-            />
-          </v-list-item-action>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title class="font-weight-bold">
-            {{ $t('common.usageSize') }}: {{ cacheSize | bytesToSize }}
-            <v-btn text @click="clearCache">清除缓存</v-btn>
-          </v-list-item-title>
-        </v-list-item>
-        <v-divider />
-        <template v-show="enableWallhavenSet">
-          <v-subheader> 图图设置 </v-subheader>
-          <v-list-item>
-            <v-list-item-title class="font-weight-bold">
-              浏览wallhaven图片
-            </v-list-item-title>
-            <v-list-item-action>
-              <v-switch inset v-model="wallhaven" class="pr-4" />
-            </v-list-item-action>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>
-              Default Categories and Purity
-            </v-list-item-title>
-            <v-chip-group v-model="categories" multiple>
-              <v-chip filter value="general" class="rounded-lg" outlined
-                >General</v-chip
-              >
-              <v-chip filter value="anime" class="rounded-lg" outlined
-                >Anime</v-chip
-              >
-              <v-chip filter value="people" class="rounded-lg" outlined
-                >People</v-chip
-              >
-            </v-chip-group>
-            <v-chip-group v-model="purity" multiple>
-              <v-chip
-                filter
-                value="sfw"
-                class="rounded-lg"
-                outlined
-                color="primary"
-                >Sfw</v-chip
-              >
-              <v-chip
-                filter
-                value="sketchy"
-                class="rounded-lg"
-                outlined
-                color="tertiary"
-                >Sketchy</v-chip
-              >
-              <v-chip
-                filter
-                value="nsfw"
-                class="rounded-lg"
-                outlined
-                color="error"
-                >Nsfw</v-chip
-              >
-            </v-chip-group>
-          </v-list-item>
-        </template>
-      </v-list>
+    </div>
+    <v-divider />
+    <div title="播放设置">
+      <h5 class="text-h6 ml-4">播放设置</h5>
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>{{ icon.mdiTranslate }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          {{ $t('common.language') }}
+        </v-list-item-title>
+        <default-select
+          v-model="locale"
+          :options="langOptions"
+          sub-header="translation"
+        />
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>{{ icon.mdiQualityHigh }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          {{ $t('common.quality') }}
+        </v-list-item-title>
+        <default-select
+          v-model="quality"
+          :options="qualityOptions"
+          sub-header="quality"
+        />
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>{{ icon.mdiSpeaker }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          {{ $t('common.playingMode') }}
+        </v-list-item-title>
+        <default-select v-model="playingMode" :options="modeOptions" />
+      </v-list-item>
+    </div>
+    <v-divider />
+    <div title="缓存">
+      <h5 class="text-h6 ml-4">歌曲缓存</h5>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title> 开启缓存 </v-list-item-title>
+          <v-list-item-subtitle
+            >可适当减少网络请求，加快歌曲加载速度</v-list-item-subtitle
+          >
+        </v-list-item-content>
+        <v-switch inset v-model="cache" class="mt-0" />
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title> 缓存占用空间 </v-list-item-title>
+          <v-list-item-subtitle>
+            {{ cacheSize | bytesToSize }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-btn outlined small @click="clearCache">清除缓存</v-btn>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-title> 缓存大小设置 </v-list-item-title>
+        <default-select
+          v-model="cacheLimit"
+          :options="cacheOptions"
+          sub-header="cacheLimit"
+        />
+      </v-list-item>
+    </div>
+    <v-divider />
+    <div title="图图" v-if="enableWallhavenSet">
+      <h5 class="text-h6 ml-4">wallhaven</h5>
+      <v-list-item>
+        <v-list-item-title> wallhaven 入口 </v-list-item-title>
+        <v-switch dense inset v-model="wallhaven" class="mt-0" />
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-title> Default Categories and Purity </v-list-item-title>
+        <v-chip-group v-model="categories" multiple>
+          <v-chip filter value="general" class="rounded-lg" outlined
+            >General</v-chip
+          >
+          <v-chip filter value="anime" class="rounded-lg" outlined
+            >Anime</v-chip
+          >
+          <v-chip filter value="people" class="rounded-lg" outlined
+            >People</v-chip
+          >
+        </v-chip-group>
+        <v-chip-group v-model="purity" multiple>
+          <v-chip filter value="sfw" class="rounded-lg" outlined color="primary"
+            >Sfw</v-chip
+          >
+          <v-chip
+            filter
+            value="sketchy"
+            class="rounded-lg"
+            outlined
+            color="tertiary"
+            >Sketchy</v-chip
+          >
+          <v-chip filter value="nsfw" class="rounded-lg" outlined color="error"
+            >Nsfw</v-chip
+          >
+        </v-chip-group>
+      </v-list-item>
+    </div>
+    <div class="mt-8">
       <v-btn
         fixed
         bottom
@@ -181,19 +147,19 @@
         @click="handleCustomPalette"
       >
         <v-icon class="mr-1">
-          {{ mdiPlus }}
+          {{ icon.mdiPlus }}
         </v-icon>
         add your wallpaper
       </v-btn>
       <input
         type="file"
-        style="display: none"
+        v-show="false"
         ref="input"
         @change="handleChange"
         accept="image/png,image/jpeg"
       />
-    </v-card>
-  </v-dialog>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -201,7 +167,14 @@ import { sync, get } from 'vuex-pathify';
 import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select.vue';
 import themePalettes from '@/vuetify/theme';
-import { mdiCog, mdiPlus, mdiArrowLeft } from '@mdi/js';
+import {
+  mdiPlus,
+  mdiPalette,
+  mdiCircleHalfFull,
+  mdiSpeaker,
+  mdiTranslate,
+  mdiQualityHigh,
+} from '@mdi/js';
 import { fileToDataURL } from '@util/fn';
 import { generatePaletteFromURL } from 'md3-theme-generator';
 import { playerIDB } from '@/idb';
@@ -213,9 +186,14 @@ export default {
   },
   data() {
     return {
-      mdiCog,
-      mdiPlus,
-      mdiArrowLeft,
+      icon: {
+        mdiPlus,
+        mdiCircleHalfFull,
+        mdiPalette,
+        mdiSpeaker,
+        mdiTranslate,
+        mdiQualityHigh,
+      },
       cacheSize: 0,
       ticksLabels: ['500M', '1GB', '2GB', '5GB', '10GB'],
       langOptions: [
@@ -272,10 +250,6 @@ export default {
       ],
       cacheOptions: [
         {
-          title: '关闭',
-          val: 0,
-        },
-        {
           title: '500M',
           val: 500,
         },
@@ -315,6 +289,7 @@ export default {
       'quality',
       'theme',
       'customPalette',
+      'cache',
       'cacheLimit',
       'palettes',
       'dynamicBg',
@@ -323,17 +298,12 @@ export default {
       'purity',
       'categories',
     ]),
-    ...sync('app', ['showSettings', 'showLogin']),
+    ...sync('app', ['showLogin']),
   },
   watch: {
     dark(val) {
       if (this.$vuetify.theme.dark === val) return;
       this.$vuetify.theme.dark = val;
-    },
-    async showSettings(val) {
-      if (val) {
-        this.cacheSize = (await playerIDB.calcSize()) ?? 0;
-      }
     },
   },
   mounted() {
@@ -429,12 +399,9 @@ export default {
 
 <style lang="scss" scoped>
 .settings-wrapper {
-  // .setting-header {
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   right: 0;
-  // }
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   .images {
     .image {
       background-position: center center;

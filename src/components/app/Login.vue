@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLogin" max-width="400" persistent>
-    <v-card outlined color="surface" class="login-container py-6" rounded="xl">
+    <v-card outlined color="surface" class="login-container pt-4 pb-2" rounded>
       <div class="d-flex justify-center">
         <v-icon color="secondary">
           {{ icon.mdiLogin }}
@@ -68,7 +68,7 @@
         <span class="text-caption my-2" :class="qrTipsColor">{{ qrTips }}</span>
       </div>
       <v-divider class="mx-6" />
-      <div class="d-flex justify-space-between mt-2 mx-4 align-center">
+      <div class="d-flex justify-space-between mt-2 mx-2 align-center">
         <v-btn
           class="align-self-start"
           color="primary"

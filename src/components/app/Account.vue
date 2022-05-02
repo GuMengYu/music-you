@@ -74,23 +74,17 @@
         </template>
       </app-menu>
     </div>
-    <v-btn
-      v-else
-      plain
-      class="text-lowercase text-caption px-0"
-      @click="showLogin = !showLogin"
-    >
-      <v-icon small>
-        {{ icon.mdiLogin }}
+    <v-btn v-else icon @click="showLogin = !showLogin">
+      <v-icon>
+        {{ icon.mdiAccountCircle }}
       </v-icon>
-      {{ $t('common.sign_in') }}
     </v-btn>
   </div>
 </template>
 
 <script>
 import { sync, get, dispatch } from 'vuex-pathify';
-import { mdiLogin, mdiCog, mdiGithub, mdiMenuDown } from '@mdi/js';
+import { mdiAccountCircle, mdiCog, mdiGithub, mdiMenuDown } from '@mdi/js';
 import AppMenu from '@components/default/Menu.vue';
 import { isElectron } from '@util/fn';
 
@@ -100,7 +94,7 @@ export default {
   data: function () {
     return {
       icon: {
-        mdiLogin,
+        mdiAccountCircle,
         mdiCog,
         mdiGithub,
         mdiMenuDown,
@@ -134,7 +128,7 @@ export default {
           this.signOut();
           break;
         case 'settings':
-          this.showSettings = true;
+          this.$router.push({ name: 'settings' });
           break;
       }
     },

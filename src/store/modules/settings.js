@@ -9,6 +9,7 @@ const state = () => {
     {
       locale: 'zh',
       quality: '320000',
+      cache: false,
       cacheLimit: 500,
       theme: 'light',
       customPalette: {
