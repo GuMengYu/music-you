@@ -57,7 +57,7 @@
         </div>
         <div class="d-flex align-start" @click="showMoreDesc = true">
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
-          <p class="text-caption h-3x ml-2">
+          <p class="text-caption h-2x ml-2">
             {{ album.description }}
           </p>
         </div>
@@ -88,7 +88,7 @@
           ><v-icon small> {{ icon.mdiClockOutline }}</v-icon></span
         >
       </div>
-      <v-divider class="mx-2 my-4" />
+      <v-divider class="ma-4" />
       <track-item
         v-for="(track, idx) in album.tracks"
         :track="track"

@@ -43,7 +43,7 @@
           </div>
           <div class="d-flex align-start" @click="showMoreDesc = true">
             <v-icon small>{{ icon.mdiInformation }}</v-icon>
-            <p class="text-caption h-2x ml-2">
+            <p class="text-caption h-3x ml-2">
               {{ artist['briefDesc'] }}
             </p>
           </div>

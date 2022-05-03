@@ -63,7 +63,7 @@
           @click="showMoreDesc = true"
         >
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
-          <p class="text-caption h-3x ml-2">
+          <p class="text-caption h-2x ml-2">
             {{ playlist.description }}
           </p>
         </div>
@@ -106,7 +106,7 @@
           ><v-icon small> {{ icon.mdiClockOutline }}</v-icon></span
         >
       </div>
-      <v-divider class="mx-2 my-4" />
+      <v-divider class="ma-4" />
       <track-item
         v-for="(song, index) in playlist.tracks"
         :key="song.id"
@@ -147,7 +147,12 @@ import {
   mdiMapMarkerCircle,
   mdiClockOutline,
 } from '@mdi/js';
-import { getPlayList, getRelatedPlayList, deletePlayList } from '@api/index';
+import {
+  getPlayList,
+  getRelatedPlayList,
+  deletePlayList,
+  getSongData,
+} from '@/api';
 import TrackItem from '@components/app/TrackItem.vue';
 import Cover from '@components/app/Cover.vue';
 
@@ -191,9 +196,10 @@ export default {
         mdiClockOutline,
       },
       playlist: {
-        tracks: [],
         coverImgUrl: '',
         name: '',
+        trackIds: [],
+        tracks: [],
       },
       loading: false,
       relatedPlaylist: [],
@@ -240,11 +246,17 @@ export default {
       this.loading = true;
       this.list = {};
       const { playlist } = await getPlayList(this.id);
+      this.playlist = playlist;
+      if (playlist.trackIds?.length) {
+        const { songs } = await getSongData(
+          playlist.trackIds.map((item) => item.id),
+        );
+        this.playlist.tracks = songs;
+      }
       if (playlist) {
         const { playlists } = await getRelatedPlayList(playlist.id);
         this.relatedPlaylist = playlists;
       }
-      this.playlist = playlist;
       this.subscribed = playlist.subscribed;
       this.loading = false;
     },
