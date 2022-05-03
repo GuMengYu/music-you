@@ -70,7 +70,6 @@
               </span>
             </router-link>
           </div>
-          <v-spacer />
           <like-toggle :id="track.id" />
         </div>
         <div class="playing-bar__center">

@@ -34,7 +34,7 @@ const createRequest = (baseURL, successCode = 'ok', returnOrigin = false) => {
   service.interceptors.response.use(
     (response) => {
       const { code, data, status } = response.data;
-      if (code === successCode || status === 100) {
+      if (code === successCode || [100, 200].includes(status)) {
         return returnOrigin ? response.data : data;
       } else {
         return Promise.reject(response.data);

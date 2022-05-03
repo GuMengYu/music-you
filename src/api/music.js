@@ -122,3 +122,21 @@ export const scrobble = (params) => {
     params,
   });
 };
+
+/**
+ * 对歌单添加或删除歌曲
+ * @returns {*}
+ * @param op : string 添加为add, 删除为 del
+ * @param pid : number 歌单id
+ * @param tracks : Array 歌曲id 可多个,用逗号隔开
+ */
+export const doPlaylist = (op = 'add', pid, tracks = []) => {
+  return xhr.get('/playlist/tracks', {
+    params: {
+      op,
+      pid,
+      tracks: tracks.join(','),
+      timestamp: now(),
+    },
+  });
+};

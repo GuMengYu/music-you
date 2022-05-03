@@ -5,6 +5,15 @@
     <quick-card :data="radar" />
     <quick-card :data="randomPlayList" v-if="randomPlayList" />
     <f-m />
+    <quick-card
+      v-if="enableWallhaven"
+      :data="{
+        name: 'wallhaven',
+        picUrl:
+          'https://is5-ssl.mzstatic.com/image/thumb/Music126/v4/26/9d/ec/269decc6-fa27-94e4-64c9-d9c5ea8f98ee/21UMGIM68090.rgb.jpg/380x380bb.webp',
+      }"
+      type="wallhaven"
+    />
   </div>
 </template>
 <script>
@@ -15,6 +24,7 @@ import { getPlayList } from '@/api';
 import { mapGetters } from 'vuex';
 import { get } from 'vuex-pathify';
 import { random } from 'lodash-es';
+import is from 'electron-is';
 export default {
   name: 'QuickList',
   components: { FM, quickCard },
@@ -61,6 +71,9 @@ export default {
         name: this.$t('main.discover.you_liked'),
       };
     },
+    enableWallhaven() {
+      return get('settings/wallhaven') && is.renderer();
+    },
   },
 };
 </script>
@@ -70,8 +83,8 @@ export default {
 }
 .quick-list {
   display: grid;
-  column-gap: 24px;
-  row-gap: 16px;
+  column-gap: 12px;
+  row-gap: 12px;
   grid-template-columns: repeat(3, 1fr);
   @media (max-width: 600px) {
     &[data-grid='A'] {

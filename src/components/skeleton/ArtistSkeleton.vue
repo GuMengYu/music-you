@@ -92,8 +92,8 @@ export default {
       display: flex;
       justify-content: center;
       .v-skeleton-loader__avatar {
-        height: 190px;
-        width: 190px;
+        height: 256px;
+        width: 256px;
       }
     }
   }

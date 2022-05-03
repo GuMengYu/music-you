@@ -16,6 +16,7 @@
 import { sync } from 'vuex-pathify';
 import LottieIcon from '@components/default/Lottie.vue';
 import animationJSONData from '@util/animationData.json';
+import DetectMode from '@util/detectMode';
 
 const MODE_MAP = new Map([
   ['light', ['light', 'dark-mode-to-light-mode']],
@@ -36,12 +37,38 @@ export default {
   }),
   computed: {
     theme: sync('settings/theme'),
-    dark() {
-      return this.$vuetify.theme.dark;
+    dark: {
+      get() {
+        return this.$vuetify.theme.dark;
+      },
+      set(value) {
+        this.$vuetify.theme.dark = value;
+      },
     },
   },
   mounted() {
     this.animation();
+    const detectMode = new DetectMode();
+    this.theme === 'dark' && (this.dark = true);
+    this.theme === 'auto' && (this.dark = detectMode.isDark());
+    detectMode.onChange((e) => {
+      this.theme === 'auto' && (this.dark = e.matches);
+    });
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === 'settings/theme') {
+        switch (mutation.payload) {
+          case 'auto':
+            this.dark = new DetectMode().isDark();
+            break;
+          case 'light':
+            this.dark = false;
+            break;
+          case 'dark':
+            this.dark = true;
+            break;
+        }
+      }
+    });
   },
   methods: {
     handleAnimation(animation) {

@@ -13,25 +13,29 @@
         :max-height="height"
         :max-width="height"
         class="card-img"
-        lazy-src="@assets/default-cover.svg"
+        lazy-src="@assets/placeholder.png"
         :src="coverImgUrl"
       />
-      <div
-        class="card-info d-flex align-center justify-space-between flex-fill"
-      >
+      <div class="d-flex align-center justify-space-between flex-fill px-4">
         <span
           :title="data.name"
           class="text-subtitle-1 font-weight-bold text-decoration-none onSurfaceVariant--text h-2x"
         >
           {{ data.name }}
         </span>
-        <v-fade-transition>
+        <v-slide-x-reverse-transition v-if="showPlay">
           <div class="action ml-2" v-show="hover">
-            <v-btn fab small color="primary" @click.prevent="play">
+            <v-btn
+              fab
+              small
+              color="primary"
+              @click.prevent="play"
+              :loading="loading"
+            >
               <v-icon v-text="mdiPlay" color="onPrimary" />
             </v-btn>
           </div>
-        </v-fade-transition>
+        </v-slide-x-reverse-transition>
       </div>
     </v-card>
   </v-hover>
@@ -68,14 +72,15 @@ export default {
         album: `/album/${this.data.id}`,
         playlist: `/playlist/${this.data.id}`,
         artist: `/artist/${this.data.id}`,
+        wallhaven: '/wallhaven',
       }[this.type];
     },
     height() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
         case 'sm':
-        case 'md':
           return 64;
+        case 'md':
         case 'lg':
         case 'xl':
           return 80;
@@ -83,32 +88,40 @@ export default {
           return 64;
       }
     },
+    showPlay() {
+      return ['album', 'playlist', 'artist', 'daily'].includes(this.type);
+    },
   },
   methods: {
     async play() {
-      this.loading = true;
-      let info = {};
-      if (this.type === 'daily') {
-        const { data = {} } = await getDailyRecommend();
-        info = data['dailySongs'];
-      } else {
-        const request = {
-          album: getAlbum,
-          playlist: getPlayList,
-          artist: getArtist,
-        }[this.type];
-        const data = await request(this.data.id);
-        if (this.type === 'album') {
-          info = data;
-        } else if (this.type === 'playlist') {
-          info = data?.playlist;
+      try {
+        this.loading = true;
+        let info = {};
+        if (this.type === 'daily') {
+          const { data = {} } = await getDailyRecommend();
+          info = data['dailySongs'];
         } else {
-          info = data;
+          const request = {
+            album: getAlbum,
+            playlist: getPlayList,
+            artist: getArtist,
+          }[this.type];
+          const data = await request(this.data.id);
+          if (this.type === 'album') {
+            info = data;
+          } else if (this.type === 'playlist') {
+            info = data?.playlist;
+          } else {
+            info = data;
+          }
         }
+        const track = await this.$player.updatePlayList(info);
+        await this.$player.updatePlayerTrack(track?.id);
+      } catch (e) {
+        console.debug(e);
+      } finally {
+        this.loading = false;
       }
-      const track = await this.$player.updatePlayList(info);
-      await this.$player.updatePlayerTrack(track?.id);
-      this.loading = false;
     },
   },
 };
@@ -116,9 +129,6 @@ export default {
 
 <style scoped lang="scss">
 .quick-card {
-  .card-info {
-    padding: 0 16px;
-  }
   .card-img {
     border-top-left-radius: inherit !important;
     border-bottom-left-radius: inherit !important;

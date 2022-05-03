@@ -4,6 +4,7 @@ export default {
   },
   main: {
     nav: {
+      search: '搜索',
       discover: '发现音乐',
       explore: '浏览',
       fm: '私人FM',
@@ -42,7 +43,7 @@ export default {
     radar: '雷达歌单',
     recommend_video: '推荐的音乐视频',
     new_releases_album: '新专辑和单曲',
-    moods_genres: '心情和流派',
+    moods_genres: '歌单广场',
     new_releases_mv: '新的音乐视频',
     playlist_center: '歌单',
     leader_board: '排行榜',
@@ -55,7 +56,8 @@ export default {
     playlists: '歌单',
     artists: '歌手',
     mvs: 'MV',
-    my_fav: '我喜欢的音乐',
+    my_fav: '喜欢的音乐',
+    create_list: '创建新歌单',
   },
   common: {
     forward: '前进',
@@ -69,6 +71,8 @@ export default {
     search_type_1: '搜索',
     search_type_2: '在网易云音乐中搜索',
     more: '显示更多',
+    expand: '查看更多',
+    collapse: '收起',
     translations: '翻译',
     not_support: '暂时不支持哟',
     empty_playing_list: '无待播歌曲',

@@ -11,8 +11,10 @@ import plugins from './plugins';
 import filters from './filters';
 import * as directives from './directives';
 
+import '@/scss/slider.scss';
 import '@/scss/global.scss';
 import '@/scss/animation.scss';
+import 'animate.css';
 // import '@/mock/index';
 import { mdiClose } from '@mdi/js';
 

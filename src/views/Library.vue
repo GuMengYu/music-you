@@ -3,7 +3,7 @@
     <custom-col title="最近播放" subtitle="activity" class="mb-4">
       <template>
         <cover-row-skeleton v-if="loadingRecent" />
-        <carousel :rows="4" gridStyle="C">
+        <carousel :rows="4" gridStyle="1-1-2-3">
           <track-item
             v-for="(recent, idx) in recents"
             :key="recent['resourceId']"
@@ -29,47 +29,6 @@
       <v-tab-item>
         <cover-row-skeleton v-if="loading[type]" />
         <cover-list>
-          <div>
-            <v-dialog v-model="newlistDialog" persistent max-width="400px">
-              <template v-slot:activator="{ on }">
-                <v-responsive
-                  class="rounded-lg surfaceVariant"
-                  aspect-ratio="1"
-                  content-class="new-playlist"
-                  v-on="on"
-                >
-                  <v-btn icon v-on="on">
-                    <v-icon v-text="icon.mdiPlus" large />
-                  </v-btn>
-                </v-responsive>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">新建歌单</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-text-field
-                      v-model="playlistName"
-                      label="新歌单标题*"
-                      maxlength="40"
-                      required
-                    ></v-text-field>
-                    <v-checkbox
-                      v-model="playlistPrivate"
-                      label="设为隐私歌单"
-                    ></v-checkbox>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn text @click="newlistDialog = false"> 关闭 </v-btn>
-                  <v-btn text @click="createNewPlaylist"> 保存 </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <div class="text-caption font-weight-bold mt-2">新建歌单</div>
-          </div>
           <cover
             v-for="item in playlist"
             :data="item"
@@ -115,9 +74,8 @@ import CoverRowSkeleton from '@components/skeleton/CoverRowSkeleton.vue';
 import Cover from '@components/app/Cover.vue';
 import Carousel from '@components/layout/Carousel.vue';
 
-import { sync, get, dispatch } from 'vuex-pathify';
+import { sync, get } from 'vuex-pathify';
 import { favAlbums, favArtists, favMVs, getUserPlaylist } from '@api/user';
-import { createPlaylist } from '@/api';
 import { recent } from '@api/recent';
 
 import { mdiPlus } from '@mdi/js';
@@ -156,9 +114,6 @@ export default {
         artists: false,
         mvs: false,
       },
-      newlistDialog: false,
-      playlistName: '',
-      playlistPrivate: false,
     };
   },
   computed: {
@@ -207,15 +162,6 @@ export default {
         this.loading[this.type] = false;
         // this.$vuetify.goTo(this.$refs['tabs']);
       });
-    },
-    async createNewPlaylist() {
-      await createPlaylist({
-        name: this.playlistName,
-        privacy: this.playlistPrivate ? '10' : '',
-      });
-      this.$toast.success('创建成功');
-      this.newlistDialog = false;
-      await dispatch('music/fetch');
     },
   },
 };

@@ -8,17 +8,20 @@
     <div class="d-flex no-drag-area header-left align-center">
       <b-f />
       <reload-btn />
+      <theme-toggle />
       <v-btn text v-if="showPlayGround" @click="$router.push('/playground')"
         >playground</v-btn
       >
     </div>
     <v-spacer />
-    <div class="d-flex align-center no-drag-area header-right">
-      <search-toggle />
-      <theme-toggle />
-      <default-account :class="showWindowControl ? '' : 'mr-2'" />
-      <default-title-bar v-if="showWindowControl" />
-    </div>
+    <default-account
+      class="no-drag-area"
+      :style="showWindowControl ? 'margin-right: 128px' : 'margin-right: 8px'"
+    />
+    <default-title-bar
+      class="align-self-start no-drag-area"
+      v-if="showWindowControl"
+    />
 
     <!--      <div class="nav_actions">-->
     <!--        <setting-toggle />-->
@@ -32,7 +35,6 @@
 import { mdiMagnify } from '@mdi/js';
 import { get } from 'vuex-pathify';
 
-import SearchToggle from '@components/layout/SearchToggle.vue';
 import ThemeToggle from '@components/layout/ThemeToggle.vue';
 import DefaultAccount from '@components/app/Account.vue';
 import DefaultTitleBar from '@components/layout/TitleBar.vue';
@@ -49,7 +51,6 @@ export default {
   components: {
     Search,
     ThemeToggle,
-    SearchToggle,
     DefaultAccount,
     DefaultTitleBar,
     // SettingToggle,

@@ -9,17 +9,21 @@ const state = () => {
     {
       locale: 'zh',
       quality: '320000',
+      cache: false,
       cacheLimit: 500,
       theme: 'light',
       customPalette: {
         dataURL: '',
         palette: {},
       },
-      palettes: 'RedSandDunes',
+      palettes: 'GreenMountainTop',
       volume: 0.8,
       dynamicBg: false,
       account: {},
       playingMode: 'basic',
+      wallhaven: false,
+      purity: ['sfw', 'sketchy'],
+      categories: ['general', 'anime', 'people'],
     },
     data,
   );

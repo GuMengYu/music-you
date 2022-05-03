@@ -29,7 +29,7 @@
       <custom-col :title="$tc('main.discover.recommend_songs')">
         <carousel>
           <cover v-for="song in songs" :key="song.id" :data="song.album">
-            <v-card-subtitle class="px-3 pb-2">
+            <v-card-subtitle class="pb-2">
               <artists-link :artists="song.artists" />
             </v-card-subtitle>
           </cover>
@@ -44,7 +44,13 @@
   </div>
 </template>
 <script>
-import { getMv, getNewRelease, getPersonalized, getPlayList } from '@/api';
+import {
+  getMv,
+  getNewRelease,
+  getPersonalized,
+  getPlayList,
+  recommendPlaylist,
+} from '@/api';
 import { RADARPLAYLISTS } from '@util/metadata';
 import { mapGetters } from 'vuex';
 import CustomCol from '@components/layout/Col.vue';
@@ -103,18 +109,16 @@ export default {
   async created() {
     this.loading = true;
     try {
-      const [
-        { result: playlists = [] },
-        { result: mvs },
-        { result: songs },
-        radars,
-      ] = await Promise.all([
-        getPersonalized(7),
-        getMv(),
-        getNewRelease({ limit: 7 }),
-        this.getRadarList(),
-      ]);
-      this.playLists = playlists;
+      const [recommend, { result: mvs }, { result: songs }, radars] =
+        await Promise.all([
+          this.logged ? recommendPlaylist() : getPersonalized(7),
+          getMv(),
+          getNewRelease({ limit: 7 }),
+          this.getRadarList(),
+        ]);
+      this.playLists = this.logged
+        ? recommend['recommend']
+        : recommend['result'];
       this.mvs = mvs;
       this.songs = songs.map((i) => i?.song);
       this.radarPlayLists = radars;

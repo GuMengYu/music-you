@@ -121,6 +121,12 @@ const musicRoutes = [
     meta: { keepAlive: true, needLogin: true },
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: lazyLoad('Settings'),
+    meta: { keepAlive: true },
+  },
+  {
     path: '/search/:keywords?',
     name: 'search',
     component: lazyLoad('Search'),
@@ -138,6 +144,32 @@ const musicRoutes = [
     path: '/playground',
     name: 'playground',
     component: lazyLoad('playground'),
+  },
+  {
+    path: '/wallhaven',
+    name: 'wallhaven',
+    component: lazyLoad('wallhaven'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
+    path: '/wallhaven/wallpaper/:id',
+    name: 'wallpaper',
+    props: true,
+    component: lazyLoad('wallhaven/wallpaper'),
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
+    path: '/wallhaven/search',
+    name: 'wallpapersearch',
+    props: true,
+    component: lazyLoad('wallhaven/search'),
+    meta: {
+      keepAlive: true,
+    },
   },
 ];
 

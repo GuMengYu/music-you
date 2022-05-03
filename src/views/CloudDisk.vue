@@ -36,7 +36,7 @@
                 max-height="40"
                 max-width="40"
                 class="rounded"
-                lazy-src="@assets/default-cover.svg"
+                lazy-src="@assets/placeholder.png"
               />
             </v-card>
             <v-list-item-content>
@@ -46,7 +46,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content>
-              <v-list-item-title v-text="song.al.name" />
+              <v-list-item-title v-text="song.al && song.al.name" />
             </v-list-item-content>
             <v-list-item-action class="d-flex flex-row align-center">
               <v-btn

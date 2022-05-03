@@ -1,99 +1,114 @@
 <template>
-  <div>
-    <div v-if="logged">
-      <app-menu>
-        <template #activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-avatar size="30">
-              <v-img :src="profile.avatarUrl" />
-            </v-avatar>
-          </v-btn>
-        </template>
-        <template>
-          <v-card flat color="surface" width="350" rounded="xl" class="pa-4">
-            <div class="d-flex justify-center">
-              <v-badge avatar bordered overlap bottom>
-                <template v-slot:badge v-if="profile.vipType === 11">
-                  <v-avatar>
-                    <v-img src="@assets/vip.png"></v-img>
-                  </v-avatar>
-                </template>
-                <v-avatar size="80">
-                  <v-img :src="profile.avatarUrl" />
-                </v-avatar>
-              </v-badge>
-            </div>
-            <div class="d-flex flex-column my-4 text-center align-center">
-              <span class="text-body-1 onSurface--text h-1x mb-1">{{
-                profile.nickname
-              }}</span>
-              <v-btn
-                width="150"
-                outlined
-                rounded
-                color="primary"
-                @click="dispatch('settings')"
-              >
-                前往播放设置
-              </v-btn>
-            </div>
-            <v-divider />
-            <div class="d-flex justify-center my-2">
-              <v-btn
-                depressed
-                outlined
-                small
-                rounded
-                color="primary"
-                @click="dispatch('sign_out')"
-              >
-                <v-icon color="primary" small class="mr-2">
-                  {{ icon.mdiLogin }} </v-icon
-                >退出
-              </v-btn>
-            </div>
-            <v-divider />
-            <div class="d-flex justify-center mt-2">
-              <v-btn plain small> 免责声明 </v-btn>
-              <v-divider vertical />
-              <v-btn plain small @click="goto"
-                ><v-icon small>{{ icon.mdiGithub }}</v-icon> github</v-btn
-              >
-            </div>
-          </v-card>
-        </template>
-      </app-menu>
-    </div>
+  <div class="account-wrapper">
     <v-btn
-      v-else
-      plain
-      class="text-lowercase text-caption px-0"
-      @click="showLogin = !showLogin"
+      v-if="logged"
+      depressed
+      rounded
+      class="pl-0 account-avatar"
+      @click="showProfile = true"
     >
-      <v-icon small>
-        {{ icon.mdiLogin }}
-      </v-icon>
-      {{ $t('common.sign_in') }}
+      <v-avatar size="30">
+        <v-img :src="profile.avatarUrl" />
+      </v-avatar>
+      <span class="account-name ml-2">
+        {{ profile.nickname }}
+      </span>
+      <v-icon>{{ icon.mdiMenuDown }}</v-icon>
     </v-btn>
+    <v-btn v-else icon @click="showLogin = !showLogin">
+      <v-icon>
+        {{ icon.mdiAccountCircle }}
+      </v-icon>
+    </v-btn>
+    <v-dialog v-model="showProfile" max-width="420">
+      <v-card flat color="surface" width="420" min-height="450">
+        <v-btn icon @click="showProfile = false">
+          <v-icon>{{ icon.mdiClose }}</v-icon>
+        </v-btn>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-badge avatar bordered overlap bottom>
+              <template v-slot:badge v-if="profile.vipType === 11">
+                <v-avatar>
+                  <v-img src="@assets/vip.png"></v-img>
+                </v-avatar>
+              </template>
+              <v-img :src="profile.avatarUrl" />
+            </v-badge>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ profile.nickname }}</v-list-item-title>
+            <v-list-item-subtitle class="text-caption">
+              {{ profile.signature }}</v-list-item-subtitle
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            class="ml-14"
+            outlined
+            small
+            @click="goto('https://music.163.com/#/user/update')"
+          >
+            管理您的网易云账号
+          </v-btn>
+        </v-list-item>
+        <v-divider class="my-2" />
+        <v-list-item dense @click="dispatch('settings')">
+          <v-list-item-icon>
+            <v-icon>{{ icon.mdiCog }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>vplayer 设置</v-list-item-title>
+        </v-list-item>
+        <v-list-item dense @click="dispatch('sign_out')">
+          <v-list-item-icon>
+            <v-icon>{{ icon.mdiLogout }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>退出登录</v-list-item-title>
+        </v-list-item>
+        <div class="py-2 v-footer--absolute" style="bottom: 0">
+          <v-divider />
+          <span class="d-flex justify-center">
+            <v-btn plain small> 免责声明 </v-btn>
+            ·
+            <v-btn
+              plain
+              small
+              @click="goto('https://github.com/GuMengYu/v-player')"
+              ><v-icon small>{{ icon.mdiGithub }}</v-icon> github</v-btn
+            >
+          </span>
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { sync, get, dispatch } from 'vuex-pathify';
-import { mdiLogin, mdiCog, mdiGithub } from '@mdi/js';
-import AppMenu from '@components/default/Menu.vue';
+import { sync, dispatch } from 'vuex-pathify';
+import {
+  mdiClose,
+  mdiAccountCircle,
+  mdiCog,
+  mdiGithub,
+  mdiLogout,
+  mdiMenuDown,
+} from '@mdi/js';
 import { isElectron } from '@util/fn';
 
 export default {
   name: 'DefaultAccount',
-  components: { AppMenu },
   data: function () {
     return {
       icon: {
-        mdiLogin,
+        mdiAccountCircle,
         mdiCog,
         mdiGithub,
+        mdiLogout,
+        mdiClose,
+        mdiMenuDown,
       },
+      showProfile: false,
       options: [
         {
           type: 'sign_out',
@@ -108,30 +123,32 @@ export default {
   },
   computed: {
     showSettings: sync('app/showSettings'),
-    profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
     logged: (vm) => vm.$store.getters['settings/logged'],
     items() {
       return [{ heading: this.profile?.nickname }, ...this.options];
     },
+    profile() {
+      return this.$store.state.settings.account?.profile ?? {};
+    },
   },
   methods: {
     handleLogin() {},
     dispatch(type) {
+      this.showProfile = false;
       switch (type) {
         case 'sign_out':
           this.signOut();
           break;
         case 'settings':
-          this.showSettings = true;
+          this.$router.push({ name: 'settings' });
           break;
       }
     },
     signOut() {
       dispatch('settings/signOut');
     },
-    goto() {
-      const url = 'https://github.com/GuMengYu/v-player';
+    goto(url) {
       if (isElectron()) {
         this.$ipcRenderer.invoke('open-url', url);
       } else {
@@ -141,3 +158,14 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.account-wrapper {
+  .account-name {
+    max-width: 110px;
+    overflow: hidden;
+    pointer-events: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+</style>

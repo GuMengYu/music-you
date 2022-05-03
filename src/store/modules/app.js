@@ -6,13 +6,22 @@ const state = {
   showSettings: false,
   showLogin: false,
   showSearch: false,
+  showAddToPlayList: false,
+  toPlayListTrackId: null,
   drawermini: false,
   version: null,
   nav: [],
   downloadprogress: 0,
+  windowState: 'normal',
 };
 
-const mutations = make.mutations(state);
+const mutations = {
+  ...make.mutations(state),
+  addToPlayList(state, trackId) {
+    state.showAddToPlayList = true;
+    state.toPlayListTrackId = trackId;
+  },
+};
 
 const actions = {
   ...make.actions(state),

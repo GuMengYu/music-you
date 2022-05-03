@@ -4,6 +4,7 @@ export default {
   },
   main: {
     nav: {
+      search: 'Search',
       discover: 'Discover music',
       explore: 'Explore',
       fm: 'Private FM',
@@ -56,6 +57,7 @@ export default {
     artists: 'Artists',
     mvs: 'MV',
     my_fav: 'My Favorite',
+    create_list: 'Create Nww Playlist',
   },
   common: {
     forward: 'Forward',
@@ -69,6 +71,8 @@ export default {
     search_type_1: 'Search',
     search_type_2: 'Search for songs, artist, etc...',
     more: 'See All',
+    expand: 'See All',
+    collapse: 'Collapse',
     translations: 'Translation',
     not_support: 'can not support',
     empty_playing_list: 'no more songs',

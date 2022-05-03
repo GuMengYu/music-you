@@ -1,19 +1,23 @@
 <template>
   <section>
-    <div class="title mb-4">
+    <div class="mb-4">
       <div class="text-caption grey--text text--lighten-1" v-if="subtitle">
         {{ subtitle }}
       </div>
       <div class="d-flex justify-space-between">
-        <div class="text-h6 onSurfaceVariant--text">
+        <h1
+          class="onSurface--text font-weight-bold"
+          :class="hClass || 'text-h6'"
+        >
           {{ title }}
-        </div>
+        </h1>
         <v-btn v-if="more" text plain small class="font-weight-bold" :to="more">
           {{ $t('common.more') }}
         </v-btn>
       </div>
     </div>
     <slot />
+    <slot name="action" />
   </section>
 </template>
 
@@ -23,7 +27,8 @@ export default {
   props: {
     title: String,
     subtitle: String,
-    more: String,
+    hClass: String,
+    more: [String, Function],
   },
 };
 </script>

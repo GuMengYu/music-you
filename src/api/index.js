@@ -131,11 +131,10 @@ export const getAlbumDynamic = (id) =>
   });
 /**
  * 获取推荐歌单列表
- * 根据歌单id返回歌单详细信息
  */
 export const getPersonalized = (limit) =>
   xhr.get('/personalized', {
-    params: { limit },
+    params: { limit, timestamp: now() },
   });
 
 export const topArtists = () => xhr.get('/toplist/artist?type=2');
@@ -326,3 +325,10 @@ export const personalFM = () =>
  * 私人fm 不喜欢
  */
 export const fmToTrash = (id) => xhr.get('/fm_trash', { params: { id } });
+
+/**
+ * 获取推荐歌单（需要登录）
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const recommendPlaylist = () =>
+  xhr.get('/recommend/resource', { params: { timestamp: now() } });

@@ -21,7 +21,10 @@
           :src="coverBgUrl"
           aspect-ratio="1"
           class="cover-img"
-          lazy-src="@assets/default-cover.svg"
+          :class="`rounded-${rounded} ${
+            noInfo ? 'cover-image' : 'cover-image-with-info'
+          }`"
+          lazy-src="@assets/placeholder.png"
         />
         <v-slide-y-reverse-transition>
           <v-overlay v-if="hover" absolute :opacity="0">
@@ -45,16 +48,16 @@
           </v-overlay>
         </v-slide-y-reverse-transition>
       </v-card>
-      <v-card-title class="px-3" v-if="!noInfo">
+      <v-card-title v-if="!noInfo">
         <router-link :to="to" class="title">
           <span
             :class="`h-${titleLine}x`"
-            class="text-subtitle-1 font-weight-bold onSurfaceVariant--text"
+            class="text-subtitle-1 onSurfaceVariant--text"
             >{{ data.name }}</span
           >
         </router-link>
       </v-card-title>
-      <v-card-subtitle class="px-3" v-if="!noInfo && subTitle">
+      <v-card-subtitle v-if="!noInfo && subTitle">
         <span class="h-1x text-subtitle-2" v-if="subTitle">
           {{ subTitle }}
         </span>
@@ -257,9 +260,9 @@ export default {
       //  transition: 0.3s all ease-in-out;
       //}
     }
-    .cover-img {
-      border-radius: inherit;
-      z-index: 1;
+    .cover-image-with-info {
+      border-bottom-left-radius: initial !important;
+      border-bottom-right-radius: initial !important;
     }
     ::v-deep .v-overlay__content {
       flex: 1;

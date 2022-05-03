@@ -1,22 +1,18 @@
 <template>
-  <div>
+  <div class="d-flex flex-column" style="gap: 24px">
     <artist-skeleton v-if="loading" />
     <template v-else>
       <section class="d-flex mb-2">
         <artists-cover
           :artists="artist"
           :no-info="true"
-          size="190"
+          :maxWidth="coverWidth"
           class="mr-4"
         />
-        <v-card
-          flat
-          rounded="xl"
-          class="d-flex flex-column pt-4 px-4 flex-fill"
-        >
+        <v-card flat rounded="xl" class="d-flex flex-column pa-4 flex-fill">
           <div class="d-flex justify-space-between mb-2 align-center">
             <span>
-              <v-icon small>{{ icon.mdiAlbum }}</v-icon>
+              <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
               <span class="text-caption ml-2">歌手</span>
             </span>
             <span class="text-caption">
@@ -26,8 +22,8 @@
           </div>
           <div class="d-flex justify-space-between mb-2 align-center">
             <span class="d-flex align-center">
-              <v-icon small>{{ icon.mdiAlbum }}</v-icon>
-              <span class="text-h6 ml-2"> {{ artist.name }} </span>
+              <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
+              <span class="text-h4 ml-2"> {{ artist.name }} </span>
               <span
                 class="text-subtitle-2 ml-2"
                 v-if="artist['transNames'].length"
@@ -35,165 +31,101 @@
               >
             </span>
             <v-btn
-              depressed
-              rounded
               color="primary"
+              class="onPrimary--text"
               @click="play"
               small
               :loadin="playLoading"
             >
-              <v-icon v-text="icon.mdiPlay" small class="mr-1" />
+              <v-icon v-text="icon.mdiPlay" small />
               播放
             </v-btn>
           </div>
-          <div class="d-flex align-start">
+          <div class="d-flex align-start" @click="showMoreDesc = true">
             <v-icon small>{{ icon.mdiInformation }}</v-icon>
-            <p class="text-caption h-2x ml-2">
+            <p class="text-caption h-3x ml-2">
               {{ artist['briefDesc'] }}
             </p>
           </div>
-          <div class="d-flex justify-start">
-            <v-tooltip top color="black">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  depressed
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  class="ml-6"
-                  :color="followed ? 'primary' : ''"
-                  @click="follow"
-                  rounded
-                >
-                  {{ followed ? '已订阅' : '订阅' }}
-                </v-btn>
-              </template>
-              <span>{{ followed ? '取消订阅歌手' : '订阅歌手' }}</span>
-            </v-tooltip>
+          <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
+            <v-btn
+              depressed
+              small
+              outlined
+              class="ml-6"
+              color="primary"
+              @click="follow"
+            >
+              {{ followed ? '已关注' : '关注' }}
+            </v-btn>
           </div>
         </v-card>
       </section>
-      <section class="hot-songs-container d-flex justify-space-between">
-        <div class="hot-songs mr-6">
-          <div class="item-title d-flex justify-space-between my-3">
-            <span class="text-h6">{{ $t('main.artist.hot') }}</span>
-          </div>
-          <carousel :rows="4" grid-style="1-1-2-3">
-            <track-item
-              v-for="(track, idx) in hotSongs"
-              :key="track.id"
-              :index="idx"
-              :track="track"
-              from="album"
-              class="track-item"
-            />
-          </carousel>
-        </div>
-        <div class="coming-soon">
-          <div class="item-title d-flex justify-space-between my-3">
-            <span class="text-h6">{{ $t('main.artist.latest') }}</span>
-          </div>
-          <cover :max-width="225" :min-width="225" :data="latest" />
-        </div>
-      </section>
-      <section>
-        <div class="item-title d-flex justify-space-between mb-3">
-          <span class="text-h6">{{ $t('main.artist.albums') }}</span>
-          <v-btn
-            v-show="hotAlbums.length > 5"
-            text
-            plain
-            small
-            color="primary"
-            @click="showMoreAlbum = !showMoreAlbum"
-          >
-            {{ $t('common.more') }}
+      <custom-col :title="$t('main.artist.hot')">
+        <v-list class="surface">
+          <track-item
+            v-for="(track, idx) in showMoreSong
+              ? hotSongs
+              : hotSongs.slice(0, 5)"
+            :key="track.id"
+            :index="idx + 1"
+            :track="track"
+            from="list"
+          />
+        </v-list>
+        <template v-slot:action>
+          <v-btn plain small @click="showMoreSong = !showMoreSong">
+            {{ $t(`common.${showMoreSong ? 'collapse' : 'expand'}`) }}
           </v-btn>
-        </div>
+        </template>
+      </custom-col>
+      <custom-col :title="$t('main.artist.albums')">
         <cover-list>
           <cover
-            v-for="item in albums.slice(0, 6)"
+            v-for="item in showMoreAlbum ? albums : albums.slice(0, 7)"
             :key="item.id"
             :data="item"
-            :extra="`${formatDate(item.publishTime)} · ${item.subType}`"
+            :extra="`${formatDate(item.publishTime)} · ${item['subType']}`"
           />
         </cover-list>
-        <v-expand-transition>
-          <cover-list v-show="showMoreAlbum">
-            <cover
-              v-for="item in albums.slice(6, albums.length)"
-              :key="item.id"
-              :data="item"
-              :extra="`${formatDate(item.publishTime)} · ${item.subType}`"
-            />
-          </cover-list>
-        </v-expand-transition>
-      </section>
-      <section>
-        <div class="item-title d-flex justify-space-between my-3">
-          <span class="text-h6">{{ $t('main.artist.epAndSingle') }}</span>
-          <v-btn
-            v-show="epAndSingle.length > 5"
-            text
-            plain
-            small
-            color="primary"
-            @click="showMoreEps = !showMoreEps"
-          >
-            {{ $t('common.more') }}
+        <template v-slot:action>
+          <v-btn text plain small @click="showMoreAlbum = !showMoreAlbum">
+            {{ $t(`common.${showMoreAlbum ? 'collapse' : 'expand'}`) }}
           </v-btn>
-        </div>
+        </template>
+      </custom-col>
+      <custom-col :title="$t('main.artist.epAndSingle')">
         <cover-list>
           <cover
-            v-for="item in epAndSingle.slice(0, 6)"
+            v-for="item in showMoreEps ? epAndSingle : epAndSingle.slice(0, 7)"
             :key="item.id"
             :data="item"
             :extra="`${formatDate(item.publishTime)} · ${item.type} · ${
-              item.subType
+              item['subType']
             }`"
           />
         </cover-list>
-        <v-expand-transition>
-          <cover-list v-show="showMoreEps">
-            <cover
-              v-for="item in epAndSingle.slice(6)"
-              :key="item.id"
-              :data="item"
-              :extra="`${formatDate(item.publishTime)} · ${item.type} · ${
-                item.subType
-              }`"
-            />
-          </cover-list>
-        </v-expand-transition>
-      </section>
-      <section>
-        <div class="item-title d-flex justify-space-between my-3">
-          <span class="text-h6">{{ $t('main.artist.mv') }}</span>
-          <v-btn
-            v-show="mvs.length > 5"
-            text
-            plain
-            small
-            color="primary"
-            @click="showMoreMVs = !showMoreMVs"
-          >
-            {{ $t('common.more') }}
+        <template v-slot:action>
+          <v-btn text plain small @click="showMoreEps = !showMoreEps">
+            {{ $t(`common.${showMoreEps ? 'collapse' : 'expand'}`) }}
           </v-btn>
-        </div>
-        <cover-list>
-          <video-cover v-for="mv in mvs.slice(0, 6)" :key="mv.id" :data="mv" />
+        </template>
+      </custom-col>
+      <custom-col :title="$t('main.artist.mv')">
+        <cover-list grid-style="B">
+          <video-cover
+            v-for="mv in showMoreMVs ? mvs : mvs.slice(0, 6)"
+            :key="mv.id"
+            :data="mv"
+          />
         </cover-list>
-        <v-expand-transition>
-          <cover-list v-show="showMoreMVs">
-            <video-cover v-for="mv in mvs.slice(6)" :key="mv.id" :data="mv" />
-          </cover-list>
-        </v-expand-transition>
-      </section>
-      <section>
-        <div class="item-title d-flex justify-space-between my-3">
-          <span class="text-h6">{{ $t('main.artist.simi') }}</span>
-        </div>
+        <template v-slot:action>
+          <v-btn plain small @click="showMoreMVs = !showMoreMVs">
+            {{ $t(`common.${showMoreMVs ? 'collapse' : 'expand'}`) }}
+          </v-btn>
+        </template>
+      </custom-col>
+      <custom-col :title="$t('main.artist.simi')">
         <cover-list>
           <artists-cover
             v-for="artist in simiArtists"
@@ -201,8 +133,16 @@
             :artists="artist"
           />
         </cover-list>
-      </section>
+      </custom-col>
     </template>
+    <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
+      <v-card color="surfaceVariant" class="onSurfaceVariant--text">
+        <v-card-title class="text-h5 surfaceVariant">艺人简介</v-card-title>
+        <v-card-text>
+          {{ artist['briefDesc'] }}
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -212,7 +152,7 @@ import {
   getArtistAlbum,
   getArtistMv,
   getSimiArtist,
-} from '@api/index';
+} from '@/api';
 import { sub } from '@api/music';
 
 import {
@@ -229,20 +169,23 @@ import { dispatch } from 'vuex-pathify';
 import Cover from '@components/app/Cover.vue';
 import CoverList from '@components/app/CoverList.vue';
 import VideoCover from '@components/app/VideoCover.vue';
-import Carousel from '@components/layout/Carousel.vue';
 import ArtistSkeleton from '@components/skeleton/ArtistSkeleton.vue';
 import ArtistsCover from '@components/app/Artists.vue';
 import dayjs from 'dayjs';
 import TrackItem from '@components/app/TrackItem';
+import CustomCol from '@components/layout/Col';
+import mixin from './mixins';
 
 export default {
+  name: 'Artist',
+  mixins: [mixin],
   components: {
+    CustomCol,
     TrackItem,
     ArtistsCover,
     CoverList,
     Cover,
     VideoCover,
-    Carousel,
     ArtistSkeleton,
   },
   props: {
@@ -257,9 +200,9 @@ export default {
         mdiPlay,
         mdiDotsHorizontal,
         mdiHeart,
-        mdiAccountMusic,
         mdiMapMarkerCircle,
         mdiAlbum,
+        mdiAccountMusic,
         mdiInformation,
       },
       artist: {
@@ -275,6 +218,7 @@ export default {
       showMoreAlbum: false,
       showMoreEps: false,
       showMoreMVs: false,
+      showMoreDesc: false,
       playLoading: false,
       menu: [
         {
@@ -293,9 +237,6 @@ export default {
     };
   },
   computed: {
-    latest() {
-      return this.albums?.[0];
-    },
     albums() {
       return this.hotAlbums.filter((a) => a.type === '专辑');
     },
@@ -328,10 +269,10 @@ export default {
           getSimiArtist(this.id),
         ]);
         this.artist = artist?.data['artist'];
-        this.hotSongs = hotSong['hotSongs'];
+        this.hotSongs = hotSong['hotSongs'].slice(0, 10);
         this.hotAlbums = album['hotAlbums'];
         this.mvs = mv['mvs'];
-        this.simiArtists = simiArtist['artists'].slice(0, 4);
+        this.simiArtists = simiArtist['artists'].slice(0, 6);
         this.followed = hotSong['artist']?.['followed']; // 不知怎滴 来源在获取热门歌曲接口里面
       } finally {
         this.loading = false;
@@ -356,13 +297,9 @@ export default {
       const { clientX: x, clientY: y } = e;
       dispatch('contextmenu/show', { x, y, items: this.menu });
     },
+    handleMore(e) {
+      console.log(e);
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
-.hot-songs-container {
-  .hot-songs {
-    width: calc(100% - 245px);
-  }
-}
-</style>

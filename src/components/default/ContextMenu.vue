@@ -3,35 +3,33 @@
     v-model="showMenu"
     absolute
     close-delay="100"
-    content-class="rounded"
+    content-class="contextmenu"
     max-height="500"
     min-width="120"
     open-delay="60"
     :position-x="coordinate[0]"
     :position-y="coordinate[1]"
     transition="slide-y-transition"
-    class="contextmenu"
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <v-sheet :outlined="false">
-      <default-list :items="items" color="background">
-        <template #item="{ index, item }">
-          <v-list-item
-            :key="index"
-            class="v-list-item--default"
-            @click="_dispatch(item)"
-          >
-            <v-list-item-icon v-if="item.icon">
-              <v-icon color="primary">
-                {{ item.icon }}
-              </v-icon>
-            </v-list-item-icon>
-            <v-list-item-title class="text-caption" v-text="item.title" />
-          </v-list-item>
-        </template>
-      </default-list>
-    </v-sheet>
+    <default-list :items="items" color="surface">
+      <template #item="{ index, item }">
+        <v-list-item
+          :key="index"
+          class="v-list-item--default"
+          @click="_dispatch(item)"
+        >
+          <v-list-item-icon v-if="item.icon">
+            <v-icon>
+              {{ item.icon }}
+            </v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="text-caption" v-text="item.title" />
+        </v-list-item>
+        <v-divider v-if="item.withDivider" />
+      </template>
+    </default-list>
   </v-menu>
 </template>
 
@@ -39,7 +37,7 @@
 import DefaultList from '@components/default/List.vue';
 import { sync } from 'vuex-pathify';
 import { getList, sub } from '@api/music';
-import { getMvUrl, getSongDownloadUrl } from '@api/index';
+import { getMvUrl, getSongDownloadUrl } from '@/api';
 
 import { isElectron, downloadFile } from '@util/fn';
 import { mapGetters } from 'vuex';
@@ -120,12 +118,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.contextmenu {
-  ::v-deep .v-sheet {
-    background: transparent;
-    backdrop-filter: blur(80px);
-  }
-}
-</style>

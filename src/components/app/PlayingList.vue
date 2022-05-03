@@ -1,5 +1,9 @@
 <template>
-  <v-expand-transition>
+  <transition
+    name="custom-classes-transition"
+    enter-active-class="animate__animated animate__bounceIn"
+    leave-active-class="animate__animated animate__bounceOutRight"
+  >
     <div v-show="showList" class="rounded-lg play-list-container">
       <v-toolbar
         tag="header"
@@ -18,6 +22,7 @@
         </v-btn>
       </v-toolbar>
       <v-virtual-scroll
+        v-if="playingList.list.length > 50"
         height="450"
         item-height="62"
         :items="playingList.list"
@@ -26,32 +31,34 @@
         <template v-slot:default="{ item: song, index }">
           <track-item :track="song" :key="song.id" :index="index + 1" />
         </template>
-
-        <!--        <v-list-->
-        <!--          dense-->
-        <!--          two-line-->
-        <!--          nav-->
-        <!--          width="350"-->
-        <!--          max-height="70vh"-->
-        <!--          min-height="50vh"-->
-        <!--          class="play-list-container-list overflow-y-auto"-->
-        <!--        >-->
-        <!--          <v-list-item-group color="primary" v-if="nextList.length">-->
-
-        <!--          </v-list-item-group>-->
-        <!--          <v-list-item v-else>-->
-        <!--            {{ $t('common.empty_playing_list') }}-->
-        <!--          </v-list-item>-->
-        <!--        </v-list>-->
       </v-virtual-scroll>
+      <v-list
+        v-else
+        dense
+        two-line
+        nav
+        max-height="50vh"
+        min-height="20vh"
+        class="play-list-container-list overflow-y-auto"
+      >
+        <template v-for="(song, index) in playingList.list">
+          <track-item :track="song" :key="song.id" :index="index + 1" />
+        </template>
+        <template v-if="!playingList.list.length">
+          <p class="d-flex justify-center font-weight-bold">
+            {{ $t('common.empty_playing_list') }}
+          </p>
+        </template>
+      </v-list>
     </div>
-  </v-expand-transition>
+  </transition>
 </template>
 
 <script>
 import { mdiCloseCircle } from '@mdi/js';
 import { sync, get } from 'vuex-pathify';
 import TrackItem from '@components/app/TrackItem';
+
 export default {
   name: 'PlayingList',
   components: { TrackItem },
@@ -65,16 +72,7 @@ export default {
     playingList: get('music/playingList'),
     current: get('music/track@id'),
     showList: sync('music/showList'),
-    // nextList() {
-    //   const idx = this.playingList?.list?.findIndex(
-    //     (i) => i.id === this.current,
-    //   );
-    //   return this.playingList?.list?.slice(idx + 1);
-    // },
   },
-  watch: {},
-  created() {},
-  methods: {},
 };
 </script>
 
@@ -85,7 +83,7 @@ export default {
   bottom: 80px;
   z-index: 7;
   width: 45vw;
-  max-width: 600px;
+  max-width: 550px;
   backdrop-filter: blur(30px);
   .play-list-container-list {
     background: transparent;

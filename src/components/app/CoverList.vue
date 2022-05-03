@@ -45,12 +45,20 @@ export default {
       @include --columns(3);
     }
   }
-  @media (min-width: 1265px) and (max-width: 1904px) {
+  @media (min-width: 1265px) and (max-width: 1504px) {
     &[data-grid='A'] {
       @include --columns(5);
     }
     &[data-grid='B'] {
       @include --columns(4);
+    }
+  }
+  @media (min-width: 1505px) and (max-width: 1904px) {
+    &[data-grid='A'] {
+      @include --columns(6);
+    }
+    &[data-grid='B'] {
+      @include --columns(5);
     }
   }
   @media screen and (min-width: 1905px) {
@@ -61,7 +69,7 @@ export default {
       @include --columns(6);
     }
   }
-  ::v-deep .cover-container {
+  ::v-deep .v-card {
     .v-responsive__content {
       // 覆盖v-image 中responsive__content 的内联样式，避免 grid item 计算宽度的问题
       width: inherit !important;

@@ -2,25 +2,27 @@
   <v-hover v-slot="{ hover }">
     <div
       v-ripple
-      @click="noop"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
-      class="track-item-wrapper rounded px-4"
+      class="track-item-wrapper rounded px-2"
+      :class="{ unavailable: !available.enable }"
       :style="gridTemplate"
+      :title="available.enable ? '' : available.text"
     >
       <div class="track-index">
         <span class="track-count" v-show="!hover">{{ index }}</span>
-        <v-btn icon @click="play" v-show="hover">
-          <v-icon small v-text="mdiPlay" />
+        <v-btn icon @click.stop="play" v-show="hover">
+          <v-icon v-text="mdiPlay" />
         </v-btn>
       </div>
       <div class="track-first">
         <v-img
+          v-if="from !== 'album'"
           :src="$ochain(album, 'picUrl') | sizeOfImage(64)"
           max-height="40"
           max-width="40"
-          class="rounded"
-          lazy-src="@assets/default-cover.svg"
+          class="rounded track-cover"
+          lazy-src="@assets/placeholder.png"
         />
         <div class="track-info">
           <v-list-item-title v-text="track.name" class="h-1x" />
@@ -38,6 +40,18 @@
         </router-link>
       </div>
       <div class="track-third">
+        <v-btn
+          icon
+          v-visible="liked || hover"
+          @click.prevent="toggleLike"
+          :loading="likeLoading"
+        >
+          <v-icon
+            small
+            v-text="liked ? mdiHeart : mdiHeartOutline"
+            :color="liked ? 'primary' : ''"
+          />
+        </v-btn>
         <!--        <like-toggle :id="track.id" />-->
         <div class="track-duration">
           {{ track.dt || track.duration | formatDuring }}
@@ -52,9 +66,10 @@
   </v-hover>
 </template>
 <script>
-import { mdiDotsHorizontal, mdiPlay, mdiHeart } from '@mdi/js';
-import { dispatch, get } from 'vuex-pathify';
+import { mdiDotsHorizontal, mdiPlay, mdiHeart, mdiHeartOutline } from '@mdi/js';
+import { dispatch, get, commit } from 'vuex-pathify';
 import ArtistsLink from '@components/app/ArtistsLink';
+import { doPlaylist } from '@api/music';
 
 export default {
   name: 'TrackItem',
@@ -72,13 +87,23 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    own: {
+      type: Boolean,
+      default: false,
+    },
+    pid: [String, Number],
   },
   data: () => ({
     mdiDotsHorizontal,
     mdiPlay,
     mdiHeart,
+    mdiHeartOutline,
+    likeLoading: false,
   }),
   computed: {
+    liked() {
+      return this.$store.getters['music/liked'](this.track.id);
+    },
     current: get('music/track@id'),
     active() {
       return this.track.id === this.current;
@@ -90,19 +115,43 @@ export default {
         fileName: `${this.track.name}`,
       };
       const items = [
-        { title: '播放', action: 'play', metadata },
-        { title: '收藏到歌单', action: 'add', metadata },
-        { title: '下载', action: 'download', metadata },
-      ];
-      if (this.track?.al.id && this.from !== 'album') {
-        items.unshift({
-          title: '前往专辑页',
+        { title: '加入播放列表', action: 'play', metadata },
+        {
+          title: '转至艺人',
           action: 'goto',
-          metadata: { type: 'album', id: this.track?.al?.id },
-        });
+          metadata: { type: 'artist', id: this.artists[0]?.id },
+        },
+        {
+          title: '转至专辑',
+          action: 'goto',
+          metadata: { type: 'album', id: this.album?.id },
+        },
+        {
+          title: '收藏到歌单',
+          metadata: {
+            cb: () => {
+              commit('app/addToPlayList', this.track.id);
+            },
+          },
+        },
+        { title: '下载到本地', action: 'download', metadata },
+      ];
+      if (this.liked) {
+        items.push({ title: '从"喜欢的音乐"移除', action: 'sub', metadata });
+      } else {
+        items.push({ title: '添加到"喜欢的音乐"', action: 'sub', metadata });
       }
-      if (!this.$store.getters['music/liked'](this.track.id)) {
-        items.push({ title: '添加到喜欢', action: 'sub', metadata });
+      if (this.own) {
+        items.push({
+          title: '从此歌单删除',
+          action: 'sub',
+          metadata: {
+            cb: async () => {
+              await doPlaylist('del', this.pid, [this.track.id]);
+              this.$emit('reload');
+            },
+          },
+        });
       }
       return items;
     },
@@ -119,12 +168,46 @@ export default {
       if (this.from !== 'album') {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [second] 2fr [last] minmax(80px, 1fr)',
+            '[index] 36px [first] 3fr [second] 2fr [last] minmax(100px, 1fr)',
         };
       } else {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [last] minmax(80px, 1fr)',
+            '[index] 36px [first] 4fr [last] minmax(100px, 1fr)',
+        };
+      }
+    },
+    logged: (vm) => vm.$store.getters['settings/logged'],
+    isVip() {
+      return (
+        this.$store.state.settings.account?.profile?.vipType === 11 ?? false
+      );
+    },
+    available() {
+      if (this.track.fee === 1) {
+        if (this.logged && this.isVip) {
+          return {
+            enable: true,
+          };
+        } else {
+          return {
+            enable: false,
+            text: 'VIP用户可用',
+          };
+        }
+      } else if (this.track.fee === 4) {
+        return {
+          text: '付费专辑，先购买',
+          enable: false,
+        };
+      } else if (this.track.noCopyrightRcmd) {
+        return {
+          text: '无版权',
+          enable: false,
+        };
+      } else {
+        return {
+          enable: true,
         };
       }
     },
@@ -136,8 +219,26 @@ export default {
         this.$emit('played', this.track.id);
       }
     },
+    async toggleLike() {
+      this.likeLoading = true;
+      const before = this.liked;
+
+      const success = await dispatch('music/favSong', {
+        id: this.track.id,
+        like: !this.liked,
+      });
+      if (success) {
+        if (before) {
+          this.$toast('已从"喜欢的音乐"移除');
+        } else {
+          this.$toast('已添加至"喜欢的音乐"');
+        }
+      } else {
+        this.$toast('操作频繁或者网络出现错误');
+      }
+      this.likeLoading = false;
+    },
     more() {},
-    noop() {},
     openMenu(e) {
       const { clientX: x, clientY: y } = e;
       dispatch('contextmenu/show', { x, y, items: this.menuItems });
@@ -151,6 +252,7 @@ export default {
   grid-gap: 16px;
   align-items: center;
   height: 56px;
+  cursor: pointer;
   &:hover {
     background-color: var(--v-surfaceVariant-base);
   }
@@ -159,8 +261,6 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
     }
   }
   .track-first {
@@ -180,13 +280,19 @@ export default {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 }
-.artist-name {
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+.unavailable {
+  cursor: initial;
+  .track-cover {
+    filter: opacity(0.6) grayscale(1);
+  }
+  .track-index,
+  .track-info,
+  .track-second,
+  .track-third {
+    opacity: 0.6;
   }
 }
 </style>

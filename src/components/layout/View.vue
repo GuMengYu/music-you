@@ -4,7 +4,10 @@
       :class="nogetter ? 'pa-0' : 'pa-4 pa-lg-6 pa-xl-8 pt-4 '"
       fluid
     >
-      <transition name="route-animation">
+      <transition
+        name="custom-classes-transition"
+        enter-active-class="animate__animated animate__fadeIn"
+      >
         <keep-alive v-if="$route.meta.keepAlive">
           <router-view />
         </keep-alive>

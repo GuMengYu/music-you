@@ -4,10 +4,10 @@
     <default-nav-bar class="v-player-nav" />
     <default-view class="v-player-content" />
     <player-bar />
-    <default-setting />
     <playing-page />
-    <default-login />
+    <default-login v-if="!logged" />
     <context-menu />
+    <add-to-playlist />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
   </v-app>
 </template>
@@ -15,7 +15,6 @@
 <script>
 import DefaultNavBar from '@components/layout/Navbar.vue';
 import PlayerBar from '@components/app/playerBar/index.vue';
-import DefaultSetting from '@components/app/settings.vue';
 import DefaultLogin from '@components/app/Login.vue';
 import PlayingPage from '@components/app/playingMode';
 import DefaultHeader from '@components/layout/Header.vue';
@@ -24,13 +23,14 @@ import ContextMenu from '@components/default/ContextMenu.vue';
 
 import { sync, get } from 'vuex-pathify';
 import { mdiCogOutline, mdiInformation } from '@mdi/js';
+import AddToPlaylist from '@components/app/addToPlaylist';
 
 export default {
   name: 'Layout',
   components: {
+    AddToPlaylist,
     ContextMenu,
     DefaultView,
-    DefaultSetting,
     PlayerBar,
     DefaultNavBar,
     DefaultLogin,
@@ -44,6 +44,9 @@ export default {
     mdiInformation,
   }),
   computed: {
+    logged() {
+      return this.$store.getters['settings/logged'];
+    },
     showList: sync('music/showList'),
     showLyricsPage: get('music/showLyricsPage'),
   },

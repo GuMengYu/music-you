@@ -1,15 +1,16 @@
 <template>
   <div>
-    <v-btn @click="show"> show toast </v-btn>
-    <store-card :presence="presence" />
+    <!--    <v-btn @click="show"> show toast </v-btn>-->
+    <!--    <store-card :presence="presence" />-->
     <v-list>
-      <track-item :track="song" />
-      <track-item :track="song" />
+      <track-item :track="song" :index="1" from="list" />
+      <track-item :track="song" :index="2" from="list" :disabled="true" />
     </v-list>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import StoreCard from '@components/app/StoreCard';
 import { generatePaletteFromURL } from 'md3-theme-generator';
 import TrackItem from '@components/app/TrackItem';
@@ -160,6 +161,24 @@ export default {
   methods: {
     show() {
       this.$toast('Default toast', { timeout: -1 });
+    },
+    async handleInfinite($state) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
+      this.list.push(
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi commodi earum tenetur. Asperiores dolorem placeat ab nobis iusto culpa, autem molestias molestiae quidem pariatur. Debitis beatae expedita nam facere perspiciatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus ducimus cupiditate rerum officiis consequuntur laborum doloremque quaerat ipsa voluptates, nobis nam quis nulla ullam at corporis, similique ratione quasi illo!',
+      );
+      $state.loaded();
+    },
+  },
+  computed: {
+    containerStyle() {
+      const { top, footer } = this.$vuetify.application;
+      const sum = top + footer + 48;
+      return {
+        height: `calc(100vh - ${sum}px)`,
+      };
     },
   },
 };

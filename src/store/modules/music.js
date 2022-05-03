@@ -1,8 +1,9 @@
 import { getTrackDetail, sub } from '@api/music';
-import { getLikeList, personalFM } from '@api/index';
+import { getLikeList, personalFM } from '@/api';
 import { getUserPlaylist } from '@api/user';
 import { make } from 'vuex-pathify';
 import { uniqWith, isEqual } from 'lodash-es';
+import { specialType } from '@util/metadata';
 
 let localData = {};
 
@@ -71,6 +72,19 @@ export default {
         index === 0 ? state.playingList?.list?.length - 1 : index - 1
       ]?.id;
     },
+    favPlaylist(state) {
+      return (
+        state.playlist.find((i) => i['specialType'] === specialType.fav.id) ??
+        {}
+      );
+    },
+    ownPlaylist(state, getters, rootState, rootGetters) {
+      return (
+        state.playlist.filter(
+          (i) => i['userId'] === rootGetters['settings/userId'],
+        ) ?? {}
+      );
+    },
     liked: (state) => (id) => !!state.likes.find((i) => i === id),
   },
   actions: {
@@ -133,16 +147,20 @@ export default {
       if (!rootGetters['settings/logged']) {
         return false;
       } else {
-        const { code } = await sub('track', id, like ? 1 : 0);
-        if (code === 200) {
-          if (like) {
-            likes.push(id);
+        try {
+          const { code } = await sub('track', id, like ? 1 : 0);
+          if (code === 200) {
+            if (like) {
+              likes.push(id);
+            } else {
+              likes = likes.filter((i) => i !== id);
+            }
+            commit('likes', likes);
+            return true;
           } else {
-            likes = likes.filter((i) => i !== id);
+            return false;
           }
-          commit('likes', likes);
-          return true;
-        } else {
+        } catch (e) {
           return false;
         }
       }
