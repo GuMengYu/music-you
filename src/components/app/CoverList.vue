@@ -45,12 +45,20 @@ export default {
       @include --columns(3);
     }
   }
-  @media (min-width: 1265px) and (max-width: 1904px) {
+  @media (min-width: 1265px) and (max-width: 1504px) {
     &[data-grid='A'] {
       @include --columns(5);
     }
     &[data-grid='B'] {
       @include --columns(4);
+    }
+  }
+  @media (min-width: 1505px) and (max-width: 1904px) {
+    &[data-grid='A'] {
+      @include --columns(6);
+    }
+    &[data-grid='B'] {
+      @include --columns(5);
     }
   }
   @media screen and (min-width: 1905px) {

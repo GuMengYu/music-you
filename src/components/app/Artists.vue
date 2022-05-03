@@ -1,6 +1,13 @@
 <template>
   <div class="d-flex flex-column align-center v-card cover-container">
-    <v-avatar width="100%" height="100%" @click="go" :size="$attrs.size">
+    <v-avatar
+      :max-width="$attrs.maxWidth"
+      :max-height="$attrs.maxHeight"
+      width="100%"
+      height="100%"
+      @click="go"
+      :size="$attrs.size"
+    >
       <v-img
         :src="artists.picUrl || artists.cover | sizeOfImage"
         class="artist-image"

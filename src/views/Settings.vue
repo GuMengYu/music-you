@@ -164,7 +164,6 @@
 
 <script>
 import { sync, get } from 'vuex-pathify';
-import DetectMode from '@util/detectMode';
 import DefaultSelect from '@components/default/Select.vue';
 import themePalettes from '@/vuetify/theme';
 import {
@@ -262,7 +261,6 @@ export default {
           val: 2048,
         },
       ],
-      dark: false,
     };
   },
   computed: {
@@ -300,12 +298,6 @@ export default {
     ]),
     ...sync('app', ['showLogin']),
   },
-  watch: {
-    dark(val) {
-      if (this.$vuetify.theme.dark === val) return;
-      this.$vuetify.theme.dark = val;
-    },
-  },
   mounted() {
     this.initMode();
   },
@@ -321,27 +313,8 @@ export default {
       playerIDB.clearIDB();
     },
     initMode() {
-      const that = this;
-      const detectMode = new DetectMode();
-      this.theme === 'dark' && (this.dark = true);
-      this.theme === 'auto' && (this.dark = detectMode.isDark());
-      detectMode.onChange((e) => {
-        this.theme === 'auto' && (this.dark = e.matches);
-      });
       this.$store.subscribe((mutation) => {
-        if (mutation.type === 'settings/theme') {
-          switch (mutation.payload) {
-            case 'auto':
-              that.dark = new DetectMode().isDark();
-              break;
-            case 'light':
-              that.dark = false;
-              break;
-            case 'dark':
-              that.dark = true;
-              break;
-          }
-        } else if (mutation.type === 'settings/locale') {
+        if (mutation.type === 'settings/locale') {
           const locale = mutation.payload;
           this.$i18n.locale = locale;
           this.$dayjs.locale(locale);

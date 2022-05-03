@@ -85,13 +85,14 @@
 </template>
 
 <script>
-import { sync, get, dispatch } from 'vuex-pathify';
+import { sync, dispatch } from 'vuex-pathify';
 import {
   mdiClose,
   mdiAccountCircle,
   mdiCog,
   mdiGithub,
   mdiLogout,
+  mdiMenuDown,
 } from '@mdi/js';
 import { isElectron } from '@util/fn';
 
@@ -105,6 +106,7 @@ export default {
         mdiGithub,
         mdiLogout,
         mdiClose,
+        mdiMenuDown,
       },
       showProfile: false,
       options: [
@@ -121,11 +123,13 @@ export default {
   },
   computed: {
     showSettings: sync('app/showSettings'),
-    profile: get('settings/account@profile'),
     showLogin: sync('app/showLogin'),
     logged: (vm) => vm.$store.getters['settings/logged'],
     items() {
       return [{ heading: this.profile?.nickname }, ...this.options];
+    },
+    profile() {
+      return this.$store.state.settings.account?.profile ?? {};
     },
   },
   methods: {

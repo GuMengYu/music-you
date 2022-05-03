@@ -19,7 +19,7 @@
         :min-width="coverWidth"
         class="mr-4"
       />
-      <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card flat rounded="xl" class="d-flex flex-column pa-4 flex-fill">
         <div class="d-flex justify-space-between mb-2 align-center">
           <span class="d-flex align-center">
             <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
@@ -30,6 +30,10 @@
             <span class="primary--text">{{
               playlist.publishTime | formatDate
             }}</span>
+            · <span>总时长 {{ tracksDt | formatDuring }}</span> ·
+            <span class="primary--text"
+              >{{ playlist.playCount | formatNumber }} 次播放</span
+            >
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
@@ -60,60 +64,37 @@
             {{ playlist.description }}
           </p>
         </div>
-        <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
+        <div
+          class="d-flex justify-end"
+          :style="{ marginTop: 'auto', gap: '12px' }"
+        >
           <v-btn
-            depressed
             small
-            outlined
-            class="ml-6"
+            class="onPrimary--text"
             color="primary"
             @click="del"
-            rounded
             :disabled="isDelete"
-            v-if="own"
+            v-if="own && !isMyFav"
           >
             {{ isDelete ? '已删除' : '删除歌单' }}
           </v-btn>
-          <v-tooltip top color="black" v-else>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                depressed
-                small
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                class="ml-6"
-                :color="subscribed ? 'primary' : ''"
-                @click="sub"
-                rounded
-              >
-                {{ subscribed ? '已收藏' : '收藏' }}
-              </v-btn>
-            </template>
-            <span>{{ subscribed ? '取消收藏' : '收藏歌单' }}</span>
-          </v-tooltip>
-          <v-tooltip top color="black">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                depressed
-                small
-                color="primary"
-                icon
-                v-bind="attrs"
-                v-on="on"
-                @click="goto"
-              >
-                <v-icon>
-                  {{ icon.mdiMapMarkerCircle }}
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>转到歌单详细</span>
-          </v-tooltip>
+          <v-btn
+            depressed
+            small
+            class="onPrimary--text"
+            color="primary"
+            @click="sub"
+            v-else-if="!own"
+          >
+            {{ subscribed ? '已收藏' : '收藏' }}
+          </v-btn>
+          <v-btn outlined small color="primary" @click="goto">
+            转到歌单详细
+          </v-btn>
         </div>
       </v-card>
     </div>
-    <v-list>
+    <v-list class="flex-fill py-0">
       <track-item
         v-for="(song, index) in playlist.tracks"
         :key="song.id"
@@ -124,56 +105,16 @@
         :pid="playlist.id"
       />
     </v-list>
-    <div class="mr-4">
-      <v-card
-        :width="coverWidth"
-        :height="108"
-        flat
-        color="surfaceVariant"
-        rounded="xl"
-        class="album-info text-caption"
-      >
-        <div class="album-info-item">
-          <span class="item-title font-weight-bold">发布时间</span>
-          <span class="item-desc">{{ playlist.publishTime | formatDate }}</span>
-        </div>
-        <div class="album-info-item">
-          <span class="item-title font-weight-bold">时长</span>
-          <span class="item-desc">{{ tracksDt | formatDuring }}</span>
-        </div>
-        <div class="album-info-item">
-          <span class="item-title font-weight-bold">播放次数</span>
-          <span class="item-desc h-1x">{{
-            playlist.playCount | formatNumber
-          }}</span>
-        </div>
-      </v-card>
-      <common-card
-        class="mt-4"
-        title="相关歌单推荐"
-        rounded="xl"
-        :width="coverWidth"
-        color="surfaceVariant"
-      >
-        <v-list color="surfaceVariant">
-          <v-list-item
-            v-for="playlist in relatedPlaylist"
-            :key="playlist.id"
-            class="mb-2"
-            @click="gotoPlayList(playlist.id)"
-          >
-            <v-img
-              :src="playlist.coverImgUrl | sizeOfImage(128)"
-              width="48"
-              class="rounded-lg mr-2"
-            />
-            <v-list-item-title class="text-caption">
-              {{ playlist.name }} {{ playlist.publishTime | formatDate }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </common-card>
-    </div>
+    <custom-col title="相关歌单推荐" class="mt-4">
+      <cover-list>
+        <cover
+          v-for="playlist in relatedPlaylist"
+          :key="playlist.id"
+          :data="playlist"
+          type="playlist"
+        />
+      </cover-list>
+    </custom-col>
     <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
       <v-card color="surfaceVariant" class="onSurfaceVariant--text">
         <v-card-title class="text-h5 surfaceVariant">歌单简介</v-card-title>
@@ -196,17 +137,19 @@ import {
 import { getPlayList, getRelatedPlayList, deletePlayList } from '@api/index';
 import TrackItem from '@components/app/TrackItem.vue';
 import Cover from '@components/app/Cover.vue';
-import CommonCard from '@components/CommonCard.vue';
 
 import { dispatch, get } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
 import { sub } from '@api/music';
 import mixin from './mixins';
+import CustomCol from '@components/layout/Col';
+import CoverList from '@components/app/CoverList';
+import { specialType } from '@util/metadata';
 
 export default {
   name: 'List',
-  components: { TrackItem, Cover, CommonCard },
+  components: { CoverList, CustomCol, TrackItem, Cover },
   mixins: [mixin],
   filters: {
     formatDate(datetime) {
@@ -265,6 +208,9 @@ export default {
     profile: get('settings/account@profile'),
     own() {
       return this.playlist.creator?.userId === this.profile.userId;
+    },
+    isMyFav() {
+      return this.playlist.specialType === specialType.fav.id;
     },
   },
   watch: {

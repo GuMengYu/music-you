@@ -10,7 +10,7 @@
       <div class="track-index">
         <span class="track-count" v-show="!hover">{{ index }}</span>
         <v-btn icon @click.stop="play" v-show="hover">
-          <v-icon small v-text="mdiPlay" />
+          <v-icon v-text="mdiPlay" />
         </v-btn>
       </div>
       <div class="track-first">

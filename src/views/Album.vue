@@ -20,7 +20,7 @@
         :min-width="coverWidth"
         class="mr-4"
       />
-      <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card flat rounded="xl" class="d-flex flex-column pa-4 flex-fill">
         <div class="d-flex justify-space-between mb-4 align-center">
           <span>
             <v-icon small>{{ icon.mdiAlbum }}</v-icon>
@@ -31,6 +31,8 @@
             <span class="primary--text">{{
               album.publishTime | formatDate
             }}</span>
+            ·
+            <span>总时长 {{ albumDt | formatDuring }}</span>
           </span>
         </div>
         <div class="d-flex justify-space-between mb-4 align-center">
@@ -38,23 +40,17 @@
             <v-icon small>{{ icon.mdiAlbum }}</v-icon>
             <span class="text-h5 ml-2"> {{ album.name }} </span>
           </span>
-          <v-btn
-            depressed
-            rounded
-            @click="play"
-            color="primary"
-            small
-            class="onPrimary--text"
-          >
+          <v-btn @click="play" color="primary" small class="onPrimary--text">
             <v-icon v-text="icon.mdiPlay" small />
             {{ $t('common.play') }}
           </v-btn>
         </div>
         <div class="d-flex mb-4 align-center">
           <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
-          <span class="text-caption ml-2">
-            {{ album.artist.name }}
-          </span>
+          <v-avatar size="24" class="mx-2">
+            <v-img :src="album.artist.img1v1Url | sizeOfImage(128)" />
+          </v-avatar>
+          <artists-link :artists="[album.artist]" />
         </div>
         <div class="d-flex align-start" @click="showMoreDesc = true">
           <v-icon small>{{ icon.mdiInformation }}</v-icon>
@@ -62,107 +58,42 @@
             {{ album.description }}
           </p>
         </div>
-        <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
-          <v-tooltip top color="black">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                depressed
-                small
-                v-bind="attrs"
-                v-on="on"
-                outlined
-                class="ml-6"
-                :color="subscribed ? 'primary' : ''"
-                @click="sub"
-                rounded
-              >
-                {{ subscribed ? '已收藏' : '收藏' }}
-              </v-btn>
-            </template>
-            <span>{{ subscribed ? '取消收藏' : '收藏专辑' }}</span>
-          </v-tooltip>
-          <v-tooltip top color="black">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                depressed
-                small
-                color="primary"
-                icon
-                v-bind="attrs"
-                v-on="on"
-                @click="goto"
-              >
-                <v-icon>
-                  {{ icon.mdiMapMarkerCircle }}
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>转到歌单详细</span>
-          </v-tooltip>
+        <div
+          class="d-flex justify-end"
+          :style="{ marginTop: 'auto', gap: '12px' }"
+        >
+          <v-btn
+            depressed
+            small
+            color="primary"
+            class="onPrimary--text"
+            @click="sub"
+          >
+            {{ subscribed ? '已收藏' : '收藏' }}
+          </v-btn>
+          <v-btn outlined small color="primary" @click="goto">
+            转到专辑详细
+          </v-btn>
         </div>
       </v-card>
     </div>
-    <div class="d-flex">
-      <div class="mr-4">
-        <v-card
-          :width="coverWidth"
-          :height="108"
-          flat
-          color="tertiaryContainer"
-          rounded="xl"
-          class="album-info text-caption"
-        >
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发行年份</span>
-            <span class="item-desc">{{ album.publishTime | formatDate }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">{{ albumDt | formatDuring }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发行公司</span>
-            <span class="item-desc h-1x">© {{ album['company'] }}</span>
-          </div>
-        </v-card>
-        <common-card
-          class="mt-2"
-          title="Ta的其他热门专辑"
-          rounded="xl"
-          :width="coverWidth"
-          color="surfaceVariant"
-        >
-          <v-list color="surfaceVariant">
-            <v-list-item
-              v-for="album in relatedAlbum"
-              :key="album.id"
-              class="mb-4"
-              @click="gotoAlbum(album.id)"
-            >
-              <v-img
-                :src="album.picUrl | sizeOfImage(128)"
-                width="48"
-                class="rounded-lg mr-2"
-              />
-              <v-list-item-title class="text-caption">
-                {{ album.name }} {{ album.publishTime | formatDate }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </common-card>
-      </div>
-
-      <common-card class="flex-fill" color="surfaceVariant" title="专辑歌曲">
-        <v-list class="surfaceVariant">
-          <track-item
-            v-for="(track, idx) in album.tracks"
-            :track="track"
-            :key="track.id"
-            :index="idx + 1"
-          />
-        </v-list>
-      </common-card>
-    </div>
+    <v-list class="flex-fill rounded-xl py-0">
+      <track-item
+        v-for="(track, idx) in album.tracks"
+        :track="track"
+        :key="track.id"
+        :index="idx + 1"
+      />
+    </v-list>
+    <custom-col title="Ta的其他热门专辑" class="mt-4">
+      <cover-list>
+        <cover
+          v-for="album in relatedAlbum"
+          :key="album.id"
+          :data="album"
+        ></cover>
+      </cover-list>
+    </custom-col>
     <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
       <v-card color="surfaceVariant" class="onSurfaceVariant--text">
         <v-card-title class="text-h5 surfaceVariant">专辑简介</v-card-title>
@@ -188,13 +119,15 @@ import Cover from '@components/app/Cover.vue';
 import { dispatch } from 'vuex-pathify';
 import dayjs from 'dayjs';
 import { isElectron } from '@util/fn';
-import CommonCard from '@components/CommonCard.vue';
 import { sub } from '@api/music';
 import mixin from './mixins';
+import CoverList from '@components/app/CoverList.vue';
+import CustomCol from '@components/layout/Col.vue';
+import ArtistsLink from '@components/app/ArtistsLink.vue';
 
 export default {
   name: 'Album',
-  components: { CommonCard, TrackItem, Cover },
+  components: { ArtistsLink, CustomCol, CoverList, TrackItem, Cover },
   mixins: [mixin],
   filters: {
     formatDate(datetime) {

@@ -6,17 +6,13 @@
         <artists-cover
           :artists="artist"
           :no-info="true"
-          :size="coverWidth"
+          :maxWidth="coverWidth"
           class="mr-4"
         />
-        <v-card
-          flat
-          rounded="xl"
-          class="d-flex flex-column pt-4 px-4 flex-fill"
-        >
+        <v-card flat rounded="xl" class="d-flex flex-column pa-4 flex-fill">
           <div class="d-flex justify-space-between mb-2 align-center">
             <span>
-              <v-icon small>{{ icon.mdiAlbum }}</v-icon>
+              <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
               <span class="text-caption ml-2">歌手</span>
             </span>
             <span class="text-caption">
@@ -26,7 +22,7 @@
           </div>
           <div class="d-flex justify-space-between mb-2 align-center">
             <span class="d-flex align-center">
-              <v-icon small>{{ icon.mdiAlbum }}</v-icon>
+              <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
               <span class="text-h5 ml-2"> {{ artist.name }} </span>
               <span
                 class="text-subtitle-2 ml-2"
@@ -35,8 +31,6 @@
               >
             </span>
             <v-btn
-              depressed
-              rounded
               color="primary"
               class="onPrimary--text"
               @click="play"
@@ -54,24 +48,16 @@
             </p>
           </div>
           <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
-            <v-tooltip top color="black">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  depressed
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  class="ml-6"
-                  :color="followed ? 'primary' : ''"
-                  @click="follow"
-                  rounded
-                >
-                  {{ followed ? '已关注' : '关注' }}
-                </v-btn>
-              </template>
-              <span>{{ followed ? '取消关注歌手' : '关注歌手' }}</span>
-            </v-tooltip>
+            <v-btn
+              depressed
+              small
+              outlined
+              class="ml-6"
+              color="primary"
+              @click="follow"
+            >
+              {{ followed ? '已关注' : '关注' }}
+            </v-btn>
           </div>
         </v-card>
       </section>
@@ -88,7 +74,7 @@
           />
         </v-list>
         <template v-slot:action>
-          <v-btn text plain small @click="showMoreSong = !showMoreSong">
+          <v-btn plain small @click="showMoreSong = !showMoreSong">
             {{ $t(`common.${showMoreSong ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -134,7 +120,7 @@
           />
         </cover-list>
         <template v-slot:action>
-          <v-btn text plain small @click="showMoreMVs = !showMoreMVs">
+          <v-btn plain small @click="showMoreMVs = !showMoreMVs">
             {{ $t(`common.${showMoreMVs ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -214,9 +200,9 @@ export default {
         mdiPlay,
         mdiDotsHorizontal,
         mdiHeart,
-        mdiAccountMusic,
         mdiMapMarkerCircle,
         mdiAlbum,
+        mdiAccountMusic,
         mdiInformation,
       },
       artist: {

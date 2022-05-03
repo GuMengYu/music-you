@@ -5,7 +5,7 @@
     <default-view class="v-player-content" />
     <player-bar />
     <playing-page />
-    <default-login />
+    <default-login v-if="!logged" />
     <context-menu />
     <add-to-playlist />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" />
@@ -44,6 +44,9 @@ export default {
     mdiInformation,
   }),
   computed: {
+    logged() {
+      return this.$store.getters['settings/logged'];
+    },
     showList: sync('music/showList'),
     showLyricsPage: get('music/showLyricsPage'),
   },
