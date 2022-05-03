@@ -15,6 +15,7 @@
       </div>
       <div class="track-first">
         <v-img
+          v-if="from !== 'album'"
           :src="$ochain(album, 'picUrl') | sizeOfImage(64)"
           max-height="40"
           max-width="40"
@@ -165,12 +166,12 @@ export default {
       if (this.from !== 'album') {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 3fr [second] 2fr [last] minmax(100px, 1fr)',
+            '[index] 36px [first] 3fr [second] 2fr [last] minmax(100px, 1fr)',
         };
       } else {
         return {
           gridTemplateColumns:
-            '[index] 28px [first] 4fr [last] minmax(100px, 1fr)',
+            '[index] 36px [first] 4fr [last] minmax(100px, 1fr)',
         };
       }
     },
@@ -224,8 +225,6 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
     }
   }
   .track-first {
@@ -245,7 +244,7 @@ export default {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 }
 .artist-name {

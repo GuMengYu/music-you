@@ -23,7 +23,7 @@
           <div class="d-flex justify-space-between mb-2 align-center">
             <span class="d-flex align-center">
               <v-icon small>{{ icon.mdiAccountMusic }}</v-icon>
-              <span class="text-h5 ml-2"> {{ artist.name }} </span>
+              <span class="text-h4 ml-2"> {{ artist.name }} </span>
               <span
                 class="text-subtitle-2 ml-2"
                 v-if="artist['transNames'].length"

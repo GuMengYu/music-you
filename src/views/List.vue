@@ -3,7 +3,10 @@
     <div v-if="loading" class="skeleton d-flex" style="gap: 20px">
       <v-skeleton-loader
         type="image"
-        style="width: 250px; height: 250px"
+        :style="{
+          width: `${coverWidth}px`,
+          height: `${coverWidth}px`,
+        }"
         boilerplate
       />
       <div class="flex-fill">
@@ -39,7 +42,7 @@
         <div class="d-flex justify-space-between mb-4 align-center">
           <span class="d-flex align-center">
             <v-icon small>{{ icon.mdiPlaylistMusicOutline }}</v-icon>
-            <span class="text-h5 mx-2 h-1x">
+            <span class="text-h4 mx-2 h-1x">
               {{ playlist.name }}
             </span>
           </span>
@@ -94,7 +97,16 @@
         </div>
       </v-card>
     </div>
-    <v-list class="flex-fill py-0">
+    <v-list class="flex-fill rounded-xl">
+      <div class="list-header px-2 text-caption grey--text">
+        <span class="d-flex justify-center">#</span>
+        <span>标题</span>
+        <span>专辑</span>
+        <span class="d-flex justify-end align-center mr-16"
+          ><v-icon small> {{ icon.mdiClockOutline }}</v-icon></span
+        >
+      </div>
+      <v-divider class="mx-2 my-4" />
       <track-item
         v-for="(song, index) in playlist.tracks"
         :key="song.id"
@@ -133,6 +145,7 @@ import {
   mdiAccountMusic,
   mdiHeart,
   mdiMapMarkerCircle,
+  mdiClockOutline,
 } from '@mdi/js';
 import { getPlayList, getRelatedPlayList, deletePlayList } from '@api/index';
 import TrackItem from '@components/app/TrackItem.vue';
@@ -175,6 +188,7 @@ export default {
         mdiAccountMusic,
         mdiHeart,
         mdiMapMarkerCircle,
+        mdiClockOutline,
       },
       playlist: {
         tracks: [],
@@ -280,22 +294,13 @@ export default {
 <style lang="scss" scoped>
 .list {
   position: relative;
-  .album-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    .album-info-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .item-title {
-        min-width: 80px;
-      }
-    }
-  }
-  .virtual-scroll-container {
-    min-height: 350px;
+  .list-header {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: [index] 36px [first] 3fr [second] 2fr [last] minmax(
+        100px,
+        1fr
+      );
   }
 }
 </style>

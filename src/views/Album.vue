@@ -1,15 +1,18 @@
 <template>
   <div class="list">
     <div v-if="loading" class="skeleton">
-      <v-row>
-        <v-col cols="4">
-          <v-skeleton-loader type="image" />
-        </v-col>
-        <v-col cols="8">
-          <v-skeleton-loader boilerplate type="article" />
-          <v-skeleton-loader type="actions" />
-        </v-col>
-      </v-row>
+      <v-skeleton-loader
+        type="image"
+        :style="{
+          width: `${coverWidth}px`,
+          height: `${coverWidth}px`,
+        }"
+        boilerplate
+      />
+      <div class="flex-fill">
+        <v-skeleton-loader boilerplate type="article" />
+        <v-skeleton-loader type="actions" />
+      </div>
     </div>
     <div v-else class="d-flex mb-2">
       <Cover
@@ -38,7 +41,7 @@
         <div class="d-flex justify-space-between mb-4 align-center">
           <span class="d-flex align-center">
             <v-icon small>{{ icon.mdiAlbum }}</v-icon>
-            <span class="text-h5 ml-2"> {{ album.name }} </span>
+            <span class="text-h4 ml-2"> {{ album.name }} </span>
           </span>
           <v-btn @click="play" color="primary" small class="onPrimary--text">
             <v-icon v-text="icon.mdiPlay" small />
@@ -77,7 +80,15 @@
         </div>
       </v-card>
     </div>
-    <v-list class="flex-fill rounded-xl py-0">
+    <v-list class="flex-fill rounded-xl">
+      <div class="list-header px-2 text-caption grey--text">
+        <span class="d-flex justify-center">#</span>
+        <span>标题</span>
+        <span class="d-flex justify-end align-center mr-16"
+          ><v-icon small> {{ icon.mdiClockOutline }}</v-icon></span
+        >
+      </div>
+      <v-divider class="mx-2 my-4" />
       <track-item
         v-for="(track, idx) in album.tracks"
         :track="track"
@@ -112,6 +123,7 @@ import {
   mdiMapMarkerCircle,
   mdiAlbum,
   mdiInformation,
+  mdiClockOutline,
 } from '@mdi/js';
 import { getAlbum, getArtistAlbum, getAlbumDynamic } from '@/api';
 import TrackItem from '@components/app/TrackItem';
@@ -149,6 +161,7 @@ export default {
         mdiMapMarkerCircle,
         mdiAlbum,
         mdiInformation,
+        mdiClockOutline,
       },
       album: {
         tracks: [],
@@ -238,22 +251,10 @@ export default {
 <style lang="scss" scoped>
 .list {
   position: relative;
-  .album-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    .album-info-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .item-title {
-        min-width: 80px;
-      }
-    }
-  }
-  .virtual-scroll-container {
-    min-height: 350px;
+  .list-header {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: [index] 36px [first] 4fr [last] minmax(100px, 1fr);
   }
 }
 </style>
