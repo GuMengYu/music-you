@@ -5,7 +5,9 @@
       @dblclick="play"
       @contextmenu.prevent="openMenu"
       class="track-item-wrapper rounded px-2"
+      :class="{ unavailable: !available.enable }"
       :style="gridTemplate"
+      :title="available.enable ? '' : available.text"
     >
       <div class="track-index">
         <span class="track-count" v-show="!hover">{{ index }}</span>
@@ -19,7 +21,7 @@
           :src="$ochain(album, 'picUrl') | sizeOfImage(64)"
           max-height="40"
           max-width="40"
-          class="rounded"
+          class="rounded track-cover"
           lazy-src="@assets/placeholder.png"
         />
         <div class="track-info">
@@ -175,6 +177,40 @@ export default {
         };
       }
     },
+    logged: (vm) => vm.$store.getters['settings/logged'],
+    isVip() {
+      return (
+        this.$store.state.settings.account?.profile?.vipType === 11 ?? false
+      );
+    },
+    available() {
+      if (this.track.fee === 1) {
+        if (this.logged && this.isVip) {
+          return {
+            enable: true,
+          };
+        } else {
+          return {
+            enable: false,
+            text: 'VIP用户可用',
+          };
+        }
+      } else if (this.track.fee === 4) {
+        return {
+          text: '付费专辑，先购买',
+          enable: false,
+        };
+      } else if (this.track.noCopyrightRcmd) {
+        return {
+          text: '无版权',
+          enable: false,
+        };
+      } else {
+        return {
+          enable: true,
+        };
+      }
+    },
   },
   methods: {
     play() {
@@ -247,10 +283,16 @@ export default {
     justify-content: flex-end;
   }
 }
-.artist-name {
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+.unavailable {
+  cursor: initial;
+  .track-cover {
+    filter: opacity(0.6) grayscale(1);
+  }
+  .track-index,
+  .track-info,
+  .track-second,
+  .track-third {
+    opacity: 0.6;
   }
 }
 </style>

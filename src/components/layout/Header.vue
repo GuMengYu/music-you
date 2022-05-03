@@ -74,7 +74,7 @@ export default {
       return (is.windows() || is.linux()) && !this.showLyricsPage;
     },
     showPlayGround() {
-      return false;
+      return true;
     },
   },
   methods: {},
