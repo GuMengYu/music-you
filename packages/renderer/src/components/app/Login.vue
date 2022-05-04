@@ -182,7 +182,8 @@ const handleLogin = () => {
     md5_password: md5(state.password).toString(),
     countrycode: '86',
   })
-    .then(({ code, profile, token }) => {
+    .then((data) => {
+      const { code, profile, token } = data
       if (code === 200) {
         account.value = { profile, token }
         showLogin.value = false

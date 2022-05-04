@@ -26,7 +26,6 @@ import { storeToRefs } from 'pinia'
 
 import TrackItem from '@/components/app/TrackItem.vue'
 import { usePlayerStore } from '@/store/player'
-
 const playerStore = usePlayerStore()
 const { playingList, track } = storeToRefs(playerStore)
 </script>

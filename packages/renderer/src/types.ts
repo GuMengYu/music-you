@@ -45,20 +45,10 @@ export interface Account {
     id: number
     userName: string
   }
-  token?: ''
+  token?: string
 }
 
 export interface Tracks {
   id?: string
   list: TrackSource[]
-}
-export interface PlayerInstance {
-  updateTracks: (tracks: Tracks | TrackSource[], autoPlay: boolean) => void
-  // isDisabled: boolean
-  // themes: Ref<Record<string, InternalThemeDefinition>>
-  // current: Ref<string>
-  // themeClasses: Ref<string | undefined>
-  // setTheme: (key: string, theme: InternalThemeDefinition) => void
-  // getTheme: (key: string) => InternalThemeDefinition
-  // styles: Ref<string>
 }

@@ -2,9 +2,10 @@ import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { reactive, toRefs, watchEffect } from 'vue'
 
+import { pinia } from '@/plugins/pinia'
+
 import { sub } from '../api/music'
 import type { Playlist, TrackSource } from '../types'
-
 export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',
@@ -29,12 +30,15 @@ export type PlayerState = {
   isCurrentFm: boolean
   fmTrack: null | TrackSource
   fmList: TrackSource[]
+  nextTrackId?: TrackSource['id']
+  nextFmTrackId?: TrackSource['id']
+  prevTrackId?: TrackSource['id']
 }
 export const usePlayerStore = defineStore({
   id: 'player',
-  state: () => {
+  state: (): PlayerState => {
     const restoreState = useLocalStorage('player', {
-      track: {},
+      track: null,
       currentTime: 0,
       playingList: {
         list: [] as TrackSource[],
@@ -53,7 +57,7 @@ export const usePlayerStore = defineStore({
       isCurrentFm: false,
       fmTrack: null,
       fmList: [],
-    }) as PlayerState
+    })
 
     // sync localStorage
     watchEffect(() => {
@@ -125,3 +129,7 @@ export const usePlayerStore = defineStore({
     },
   },
 })
+
+export function usePlayerStoreWithOut() {
+  return usePlayerStore(pinia)
+}

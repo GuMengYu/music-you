@@ -12,8 +12,17 @@ import { musicXhr as xhr } from '../util/xhr'
  *   md5_password: String
  * }
  */
-export const login = (params) => {
-  return xhr.post(`/login/cellphone?timestamp=${now()}`, params)
+export type loginParam = {
+  phone: string
+  md5_password: string
+}
+export interface loginResult {
+  code: number
+  profile: string
+  token: string
+}
+export const login = (params: loginParam) => {
+  return xhr.post<loginResult>(`/login/cellphone?timestamp=${now()}`, params)
 }
 /**
  * banner

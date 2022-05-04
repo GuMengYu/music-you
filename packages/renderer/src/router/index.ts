@@ -1,11 +1,11 @@
 // types
 import type { App } from 'vue'
-import type { RouteLocation } from 'vue-router'
-import { createRouter, createWebHistory, RouterScrollBehavior } from 'vue-router'
+import type { RouteLocation, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const lazyLoad = (name: string) => () => import(`../views/${name}.vue`)
 
-const musicRoutes = [
+const musicRoutes: RouteRecordRaw[] = [
   {
     path: 'discover/',
     name: 'discover',

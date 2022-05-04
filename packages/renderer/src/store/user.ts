@@ -7,8 +7,9 @@ import { getAccount } from '@/api/account'
 import { getUserPlaylist } from '@/api/user'
 import type { Account, Playlist, TrackSource } from '@/types'
 
+type Nullable<T> = T | null
 export type UserState = {
-  account: Account
+  account: Nullable<Account>
   likes: TrackSource[]
   playlists: Playlist[]
 }
@@ -16,10 +17,10 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => {
     return useLocalStorage('user', {
-      account: {},
+      account: null,
       likes: [],
       playlists: [],
-    })
+    } as UserState)
   },
   getters: {
     logged: (state) => {

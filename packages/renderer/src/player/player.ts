@@ -1,6 +1,6 @@
 import { getCurrentInstance, inject } from 'vue'
 
-import type { PlayerInstance } from '../types'
+import type { PlayerInstance } from './base'
 import { Player } from './base'
 
 export const PlayerSymbol = Symbol.for('Player')

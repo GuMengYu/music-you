@@ -112,14 +112,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  mdiAccountMusic,
-  mdiHeart,
-  mdiInformation,
-  mdiMapMarkerCircle,
-  mdiPlay,
-  mdiPlaylistMusicOutline,
-} from '@mdi/js'
+import { mdiAccountMusic, mdiInformation, mdiMapMarkerCircle, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
@@ -183,15 +176,15 @@ async function fetch(id: string | number) {
   state.loading = false
 }
 
-async function subscribe() {
-  const { id } = state.playlist
-  const { code, message } = await sub('playlist', id, this.subscribed ? 0 : 1)
-  if (code === 200) {
-    state.subscribed = !state.subscribed
-  } else {
-    console.log('sub error', message)
-  }
-}
+// async function subscribe() {
+//   const { id } = state.playlist
+//   const { code, message } = await sub('playlist', id, this.subscribed ? 0 : 1)
+//   if (code === 200) {
+//     state.subscribed = !state.subscribed
+//   } else {
+//     console.log('sub error', message)
+//   }
+// }
 async function del() {
   const { code, message } = await deletePlayList(props.id)
   if (code === 200) {

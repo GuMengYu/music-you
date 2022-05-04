@@ -1,6 +1,7 @@
 // types
 import type { App, ComponentPublicInstance, InjectionKey } from 'vue'
 
+import type { PlayerInstance } from './base'
 import { createPlayer as _createPlayer, PlayerSymbol } from './player'
 
 export interface PlayerOptions {
@@ -39,7 +40,7 @@ export function createPlayer(options: PlayerOptions = {}) {
     app.mixin({
       computed: {
         $player() {
-          return inject.call(this, PlayerSymbol) // 利用computed属性给每个组件自动加上$player属性
+          return inject.call(this, PlayerSymbol) as PlayerInstance // 利用computed属性给每个组件自动加上$player属性
         },
       },
     })

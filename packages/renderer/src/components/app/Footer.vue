@@ -86,7 +86,7 @@ function toQueue() {
   if (isQueue.value) {
     router.back()
   } else {
-    router.push({ name: 'queue' })
+    router.push('/queue')
   }
 }
 </script>

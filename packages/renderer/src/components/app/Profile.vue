@@ -72,7 +72,7 @@ const signOut = () => ({})
 
 const openSetting = () => {
   emit('update:modelValue', false)
-  router.push({ name: 'setting' })
+  router.push('/setting')
 }
 </script>
 

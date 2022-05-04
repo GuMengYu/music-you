@@ -26,7 +26,7 @@ onMounted(() => {
   document.documentElement.onfullscreenchange = onfullscreenchange
 })
 
-function onfullscreenchange(event) {
+function onfullscreenchange(event: Event) {
   fullscreen.value = document.fullscreenElement === event.target
 }
 </script>

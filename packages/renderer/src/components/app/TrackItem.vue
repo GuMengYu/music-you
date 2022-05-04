@@ -1,6 +1,6 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
-    <div v-ripple v-bind="props" class="track-item-wrapper rounded px-2" :style="gridTemplate" @dblclick="play">
+  <v-hover v-slot="{ isHovering, props: _props }">
+    <div v-ripple v-bind="_props" class="track-item-wrapper rounded px-2" :style="gridTemplate" @dblclick="play">
       <div class="track-index">
         <span v-show="!isHovering" class="track-count">{{ index }}</span>
         <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
@@ -42,74 +42,62 @@
     </div>
   </v-hover>
 </template>
-<script>
+<script setup lang="ts">
 import { mdiDotsHorizontal, mdiHeart, mdiPlay } from '@mdi/js'
+import { computed } from 'vue'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
+import { usePlayer } from '@/player/player'
+import type { Artist } from '@/types'
 import { formatDuring } from '@/util/fn'
 
-export default {
-  name: 'TrackItem',
-  components: { ArtistsLink },
-  props: {
-    track: {
-      type: Object,
-      default: () => ({}),
-    },
-    from: {
-      type: String,
-      default: 'album',
-    },
-    index: {
-      type: [String, Number],
-      default: 0,
-    },
-    own: {
-      type: Boolean,
-      default: false,
-    },
-    pid: [String, Number],
+const player = usePlayer()
+
+const props = defineProps({
+  track: {
+    type: Object,
+    default: () => ({}),
   },
-  data: () => ({
-    mdiDotsHorizontal,
-    mdiPlay,
-    mdiHeart,
-    placeholderUrl,
-  }),
-  computed: {
-    artists() {
-      const { ar, artists } = this.track
-      const art = ar ?? artists ?? []
-      return art.map((i) => ({ id: i.id, name: i.name }))
-    },
-    album() {
-      const { al, album } = this.track
-      return al ?? album ?? {}
-    },
-    gridTemplate() {
-      if (this.from !== 'album') {
-        return {
-          gridTemplateColumns: '[index] 40px [first] 4fr [second] 2fr [last] minmax(120px, 1fr)',
-        }
-      } else {
-        return {
-          gridTemplateColumns: '[index] 40px [first] 4fr [last] minmax(120px, 1fr)',
-        }
-      }
-    },
+  from: {
+    type: String,
+    default: 'album',
   },
-  methods: {
-    formatDuring,
-    play() {
-      if (this.track?.id) {
-        this.$player.updatePlayerTrack(this.track?.id)
-        this.$emit('played', this.track.id)
-      }
-    },
+  index: {
+    type: [String, Number],
+    default: 0,
   },
+  own: {
+    type: Boolean,
+    default: false,
+  },
+  pid: [String, Number],
+})
+
+const artists = computed(() => {
+  const { ar, artists } = props.track
+  const art = ar ?? artists ?? []
+  return art.map((i: Artist) => ({ id: i.id, name: i.name }))
+})
+const album = computed(() => props.track.al ?? props.track.album ?? {})
+const gridTemplate = computed(() => {
+  if (props.from !== 'album') {
+    return {
+      gridTemplateColumns: '[index] 40px [first] 4fr [second] 2fr [last] minmax(120px, 1fr)',
+    }
+  } else {
+    return {
+      gridTemplateColumns: '[index] 40px [first] 4fr [last] minmax(120px, 1fr)',
+    }
+  }
+})
+
+function play() {
+  player.updatePlayerTrack(props.track.id)
+  // this.$emit('played', this.track.id)
 }
 </script>
+
 <style scoped lang="scss">
 .track-item-wrapper {
   display: grid;

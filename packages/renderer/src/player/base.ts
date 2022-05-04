@@ -1,13 +1,30 @@
 import { Howl, Howler } from 'howler'
 import type { DebouncedFunc } from 'lodash-es'
-import { isArray, shuffle, throttle } from 'lodash-es'
+import { shuffle, throttle } from 'lodash-es'
 import type { Store } from 'pinia'
 
 import { getTrackDetail, scrobble } from '../api/music'
 import type { PlayerState } from '../store/player'
 import { usePlayerStore } from '../store/player'
-import type { TrackSource } from '../types'
+import type { Tracks, TrackSource } from '../types'
 
+export interface PlayerInstance {
+  updateTracks: (tracks: Tracks | TrackSource[], autoPlay?: boolean) => void
+  updatePlayerTrack: (trackId: TrackSource['id'], autoPlay?: boolean, resetProgress?: boolean) => void
+  pause: () => void
+  play: () => void
+  next: () => void
+  prev: () => void
+  togglePlay: () => void
+  setSeek: (seek: number) => void
+  // isDisabled: boolean
+  // themes: Ref<Record<string, InternalThemeDefinition>>
+  // current: Ref<string>
+  // themeClasses: Ref<string | undefined>
+  // setTheme: (key: string, theme: InternalThemeDefinition) => void
+  // getTheme: (key: string) => InternalThemeDefinition
+  // styles: Ref<string>
+}
 export class Player {
   howler: null | Howl
   track: null | TrackSource
@@ -20,13 +37,13 @@ export class Player {
   }
   isCurrentFm: boolean
   stageMusicURL: string | null
-  store: Store
+  store: Store<'player', PlayerState>
   _updateCurrentTime: DebouncedFunc<(currentTime?: number) => void>
   constructor() {
     this.store = usePlayerStore()
     this.howler = null
 
-    const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store.$state as PlayerState
+    const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store
     this.track = track
     this.volume = volume
     this.currentTime = currentTime
@@ -36,9 +53,10 @@ export class Player {
     this.stageMusicURL = null
     this._updateCurrentTime = throttle(this.updateCurrentTime, 1000)
 
+    console.log(this)
     this.init()
   }
-  async init() {
+  private async init() {
     this.initStoreEvent()
     if (this.track?.id) {
       console.log('restore track from storage', this.track)
@@ -66,7 +84,7 @@ export class Player {
     }
     return tracks
   }
-  initStoreEvent() {
+  private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
       const { type, events } = mutation
       const { playing, volume, isCurrentFm } = state as PlayerState
@@ -125,7 +143,7 @@ export class Player {
       // this.next();
     }
   }
-  initSound(src: string) {
+  private initSound(src: string) {
     Howler.autoUnlock = false
     Howler.usingWebAudio = true
     Howler.volume(this.volume)
@@ -162,7 +180,7 @@ export class Player {
     return sound
   }
   // 修正歌曲时长，当实际获取的音源时长，与网易返回的音源时长相差超过1s, 则修正为实际的音源时长
-  fixDuration() {
+  private fixDuration() {
     const duration = this.howler?.duration() ?? 0
     const factDuration = duration * 1000
     const trackDuration = this.track?.dt ?? 0
@@ -175,18 +193,18 @@ export class Player {
       // this.store.commit('music/updateDuration', factDuration);
     }
   }
-  trackLoaded() {
+  private trackLoaded() {
     this.store.$state.loadingTrack = false
   }
   pause() {
     this.howler?.pause()
     this.playing = false
-    this.store.$state.playing = false
+    this.store.playing = false
   }
   play() {
     this.howler?.play()
     this.playing = true
-    this.store.$state.playing = true
+    this.store.playing = true
   }
   togglePlay() {
     if (this.playing) {
@@ -196,47 +214,54 @@ export class Player {
     }
   }
   next() {
-    if (this.nextTrackId()) {
-      this.updatePlayerTrack(this.nextTrackId())
+    const trackId = this.nextTrackId()
+    console.log('next', trackId)
+    if (typeof trackId === 'string' || typeof trackId === 'number') {
+      this.updatePlayerTrack(trackId)
     } else {
       this.pause()
     }
   }
   prev() {
-    this.updatePlayerTrack(this.prevTrackId())
+    const trackId = this.prevTrackId()
+    if (typeof trackId === 'string' || typeof trackId === 'number') {
+      this.updatePlayerTrack(trackId)
+    } else {
+      this.pause()
+    }
   }
-  nextTrackId() {
+  private nextTrackId() {
     if (this.isCurrentFm) {
       return this.store.nextFmTrackId
     } else {
       return this.store.nextTrackId
     }
   }
-  prevTrackId() {
+  private prevTrackId() {
     return this.store.prevTrackId
   }
   updateCurrentTime(this: Player, val: number) {
     const current = val ?? Math.ceil(this.howler?.seek())
     this.currentTime = current
-    this.store.$state.currentTime = current
+    this.store.currentTime = current
   }
   setSeek(val: number) {
     this.howler?.seek(val)
     this._updateCurrentTime(val)
   }
-  step() {
+  private step() {
     if (this.howler?.playing()) {
       this._updateCurrentTime()
       requestAnimationFrame(this.step.bind(this))
     }
   }
-  endCb() {
+  private endCb() {
     this.next()
     // todo update 听歌记录
     // this.setScrobble(this.track, 0, true)
   }
   // 接口无效 暂时不用
-  setScrobble(this: Player, track: TrackSource, time: number, played = false) {
+  private setScrobble(this: Player, track: TrackSource, time: number, played = false) {
     const { id, dt } = track
     const sourceid = this.playingList.id
     if (played) {
@@ -251,7 +276,7 @@ export class Player {
       })
     }
   }
-  initMediaSession(track: TrackSource) {
+  private initMediaSession(track: TrackSource) {
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {
       const { ar: artist, al: album, name: title } = track
