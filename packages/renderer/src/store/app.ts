@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
 import { useUserStore } from '@/store/user'
-import { WindowState, PLAYING_MODE } from '@/util/enum'
+import { PLAYING_MODE, WindowState } from '@/util/enum'
 
 export type AppState = {
   rail: boolean

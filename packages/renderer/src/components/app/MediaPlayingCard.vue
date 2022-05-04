@@ -60,16 +60,16 @@ import {
   mdiPause,
   mdiPlay,
   mdiShuffle,
-  mdiSkipPreviousOutline,
   mdiSkipNextOutline,
+  mdiSkipPreviousOutline,
 } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
-import { sizeOfImage } from '@/util/fn'
 
+import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
-import { usePlayer } from '@/player/player'
+import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const settingStore = useSettingStore()
 

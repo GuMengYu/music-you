@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from 'vue'
 
 import { useAppStore } from '@/store/app'
 

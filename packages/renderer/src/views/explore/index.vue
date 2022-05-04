@@ -25,14 +25,14 @@
   </div>
 </template>
 <script>
-import { getCatList, getNewMv, getTopList, newAlbums } from '@/api/index'
 import { filter, random } from 'lodash-es'
 
+import { getCatList, getNewMv, getTopList, newAlbums } from '@/api/index'
 import Cover from '@/components/app/cover/Cover.vue'
-import CardRow from '@/components/app/layout/CardRow.vue'
-import MTag from '@/components/app/Tag.vue'
 import VideoCover from '@/components/app/cover/VideoCover.vue'
+import CardRow from '@/components/app/layout/CardRow.vue'
 import CustomCol from '@/components/app/layout/Col.vue'
+import MTag from '@/components/app/Tag.vue'
 import { getColorTable } from '@/util/metadata'
 export default {
   components: {

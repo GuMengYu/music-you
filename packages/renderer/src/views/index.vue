@@ -27,10 +27,10 @@ import AppHeader from '../components/app/Header.vue'
 import AppLogin from '../components/app/Login.vue'
 import AppNav from '../components/app/Navbar.vue'
 import PlayingList from '../components/app/nowPlaying/list.vue'
+import AppPlayingPage from '../components/app/nowPlaying/mode/index.vue'
 import AppSearch from '../components/app/search/Search.vue'
 import AppSetting from '../components/app/setting/index.vue'
 import AppToast from '../components/app/toast/Toast.vue'
 import AppContent from '../components/layout/View.vue'
-import AppPlayingPage from '../components/app/nowPlaying/mode/index.vue'
 const theme = useTheme()
 </script>

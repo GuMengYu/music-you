@@ -120,15 +120,15 @@ import {
   mdiPlay,
   mdiPlaylistMusicOutline,
 } from '@mdi/js'
-import { computed, reactive, watchEffect } from 'vue'
 import dayjs from 'dayjs'
+import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { deletePlayList, getPlayList, getRelatedPlayList } from '@/api'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
+import { formatDuring, formatNumber } from '@/util/fn'
 
-import { deletePlayList, getPlayList, getRelatedPlayList } from '@/api'
-import { formatDuring, formatNumber } from "@/util/fn";
 import CommonCard from '../components/app/CommonCard.vue'
 import Cover from '../components/app/cover/Cover.vue'
 import TrackItem from '../components/app/TrackItem.vue'

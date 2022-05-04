@@ -95,8 +95,8 @@ const prev = () => {
 }
 </script>
 <script lang="ts">
-import LottieIcon from '../../LottieIcon.vue'
 import { playToPause as playToPauseAnimationData } from '../../../util/animationData.json'
+import LottieIcon from '../../LottieIcon.vue'
 
 export default {
   name: 'Control',

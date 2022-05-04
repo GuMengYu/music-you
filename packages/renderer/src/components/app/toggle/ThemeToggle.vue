@@ -16,15 +16,15 @@ import type { AnimationItem } from 'lottie-web'
 import { computed, reactive, ref, watchEffect } from 'vue'
 import { useTheme } from 'vuetify'
 
-import LottieIcon from '../../LottieIcon.vue'
 import { APPEARANCE, useSettingStore } from '../../../store/setting'
 import animationJSONData from '../../../util/animationData.json'
+import LottieIcon from '../../LottieIcon.vue'
 
 const lottieIcon = ref<null>(null)
 const state = reactive<{
   modeAnimation: AnimationItem | null
   modeOptions: {
-    animationData: null | {}
+    animationData: any
     loop: boolean
     autoplay: boolean
   }

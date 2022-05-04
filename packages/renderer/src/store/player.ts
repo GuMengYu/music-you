@@ -2,8 +2,8 @@ import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 import { reactive, toRefs, watchEffect } from 'vue'
 
-import type { Playlist, TrackSource } from '../types'
 import { sub } from '../api/music'
+import type { Playlist, TrackSource } from '../types'
 
 export enum PLAY_MODE {
   NORMAL = 'normal',
@@ -13,7 +13,7 @@ export enum PLAY_MODE {
   SHUFFLE = 'shuffle',
 }
 export type PlayerState = {
-  track: {} | TrackSource
+  track: null | TrackSource
   currentTime: number
   playingList: {
     id?: string | number

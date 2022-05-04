@@ -18,8 +18,8 @@
 import { entries, groupBy, random } from 'lodash-es'
 
 import { getCatList } from '@/api/index'
-import MTag from '@/components/app/Tag.vue'
 import CustomCol from '@/components/app/layout/Col.vue'
+import MTag from '@/components/app/Tag.vue'
 import { getColorTable } from '@/util/metadata'
 
 export default {

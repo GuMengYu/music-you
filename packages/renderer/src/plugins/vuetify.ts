@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 // Styles
 import '../styles/main.scss'
 

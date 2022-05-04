@@ -15,17 +15,14 @@
         </v-btn>
       </div>
       <div class="frame-content-info">
-        <v-card class="rounded-lg album-cover my-4"
-                max-height="calc(100vh - 315px)"
-                max-width="calc(100vh - 315px)"
-                min-height="calc(100vh - 315px)"
-                width="100%"
+        <v-card
+          class="rounded-lg album-cover my-4"
+          max-height="calc(100vh - 315px)"
+          max-width="calc(100vh - 315px)"
+          min-height="calc(100vh - 315px)"
+          width="100%"
         >
-          <v-img
-            class="cover-img"
-
-            :src="albumPicUrl"
-          />
+          <v-img class="cover-img" :src="albumPicUrl" />
         </v-card>
         <div class="control_bar d-flex flex-column justify-space-between mb-4">
           <div class="d-flex justify-space-between">
@@ -242,7 +239,6 @@ function startScroll(el, container) {
   console.debug('自动滚动高度：', container.scrollTop)
   // this.autoScrollLocation = container.scrollTop // 缓存滚动后的位置
 }
-function close() {}
 </script>
 
 <style lang="scss" scoped>

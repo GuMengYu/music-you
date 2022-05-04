@@ -27,9 +27,9 @@
   </v-snackbar>
 </template>
 <script setup>
-import { watch } from 'vue'
 import { mdiClose } from '@mdi/js'
 import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
 
 import { useToastStore } from '@/store/toast'
 
@@ -54,7 +54,7 @@ function clean() {
     timeout: 3000,
     showClose: true,
     closeText: '',
-    multiLine: false
+    multiLine: false,
   })
 }
 </script>

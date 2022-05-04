@@ -4,7 +4,7 @@
       <drawer-toggle />
     </div>
     <v-list class="system_nav" rounded :nav="true">
-      <v-list-item class="drawer-item" @click="showSearch = true" active-class="none">
+      <v-list-item class="drawer-item" active-class="none" @click="showSearch = true">
         <v-list-item-avatar left>
           <v-icon :icon="mdiMagnify"></v-icon>
         </v-list-item-avatar>

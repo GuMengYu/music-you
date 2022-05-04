@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import Colors from 'vuetify/lib/util/colors'
 export const officialPlaylist = {
   2829816518: {

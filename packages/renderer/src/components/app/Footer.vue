@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-footer fixed v-show="track.id" class="player-footer">
+    <v-footer v-show="track.id" fixed class="player-footer">
       <v-slider
         :model-value="currentTime * 1000"
         thumb-label
@@ -63,7 +63,7 @@
 import { mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import { usePlayerStore } from '@/store/player'
 

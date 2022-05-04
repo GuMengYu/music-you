@@ -16,11 +16,11 @@ function registerIpcRenderer() {
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
   console.log('registerIpcRenderer', playerStore, ipcRenderer)
-  const showDownloadComplete = once((name) => {})
+  // const showDownloadComplete = once((name) => {})
 
-  ipcRenderer.on('open-settings', () => {
-    // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
-  })
+  // ipcRenderer.on('open-settings', () => {
+  // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
+  // })
   ipcRenderer.on('search', () => {
     appStore.$state.showSearch = !appStore.$state.showSearch
   })

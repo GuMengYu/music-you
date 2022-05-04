@@ -2,12 +2,12 @@ export interface TrackSource {
   id: string
   title: string
   duration?: number
+  dt?: number
   url: string
   picUrl: string
   name: string
   ar: Artist[]
   al: Album
-  dt: number
 }
 
 export interface Artist {

@@ -3,7 +3,7 @@
     <div v-ripple v-bind="props" class="track-item-wrapper rounded px-2" :style="gridTemplate" @dblclick="play">
       <div class="track-index">
         <span v-show="!isHovering" class="track-count">{{ index }}</span>
-        <v-btn v-show="isHovering" icon variant="contained-text" size="small" @click.stop="play" color="primary">
+        <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
           <v-icon size="small">{{ mdiPlay }}</v-icon>
         </v-btn>
       </div>

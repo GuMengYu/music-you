@@ -48,9 +48,10 @@ import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
 
 import { getList } from '@/api/music'
-import placeholderUrl from '../../../assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { sizeOfImage } from '@/util/fn'
+
+import placeholderUrl from '../../../assets/placeholder.png'
 const player = usePlayer()
 const loading = ref<boolean>(false)
 const props = defineProps({

@@ -16,10 +16,10 @@ import { mdiHeart } from '@mdi/js'
 import type { AnimationItem } from 'lottie-web'
 import { computed, reactive } from 'vue'
 
-import LottieIcon from '../../LottieIcon.vue'
 import { usePlayerStore } from '../../../store/player'
 import { heart } from '../../../util/animationData.json'
 import { sleep } from '../../../util/fn'
+import LottieIcon from '../../LottieIcon.vue'
 
 const playerStore = usePlayerStore()
 const props = defineProps({
@@ -30,7 +30,7 @@ type RootState = {
   showAnim: boolean
   heartAnim: AnimationItem | null
   heartOptions: {
-    animationData: null | {}
+    animationData: any
     loop: boolean
     autoplay: boolean
   }

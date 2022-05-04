@@ -46,7 +46,7 @@
           >
             {{ state.subscribed ? '已收藏' : '收藏' }}
           </v-btn>
-          <v-btn size="small" color="primary" icon @click="goto" variant="plain">
+          <v-btn size="small" color="primary" icon variant="plain" @click="goto">
             <v-icon>
               {{ mdiMapMarkerCircle }}
             </v-icon>
@@ -107,9 +107,9 @@ import { useRouter } from 'vue-router'
 
 import { getAlbum, getAlbumDynamic, getArtistAlbum } from '@/api'
 import { sub } from '@/api/music'
+import CommonCard from '@/components/app/CommonCard.vue'
 import Cover from '@/components/app/cover/Cover.vue'
 import TrackItem from '@/components/app/TrackItem.vue'
-import CommonCard from '@/components/app/CommonCard.vue'
 import { usePlayer } from '@/player/player'
 import { formatDuring, isElectron } from '@/util/fn'
 
