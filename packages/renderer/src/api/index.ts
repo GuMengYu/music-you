@@ -43,7 +43,7 @@ export const getSongData = (ids = []) => xhr.get(`/song/detail?ids=${ids.join()}
  * @param params
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongUrl = (params) =>
+export const getSongUrl = (params: { id: string; br: number }) =>
   xhr.get('/song/url', {
     params,
   })
@@ -52,7 +52,7 @@ export const getSongUrl = (params) =>
  * 获取歌曲下载链接
  * @param params
  */
-export const getSongDownloadUrl = (params) => {
+export const getSongDownloadUrl = (params: { id: string; br: number }) => {
   return xhr.get('/song/download/url', {
     params,
   })

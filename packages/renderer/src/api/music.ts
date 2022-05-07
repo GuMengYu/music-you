@@ -1,6 +1,7 @@
 import { now } from 'lodash-es'
 
 import { useUserStore } from '@/store/user'
+import type { TrackSource } from '@/types'
 import { RADARPLAYLISTS } from '@/util/metadata'
 import { musicXhr as xhr } from '@/util/xhr'
 
@@ -21,7 +22,7 @@ export const getTrackDetail = async (id: string | number, br = 320000) => {
   return { ...track, url, lyric }
 }
 
-export const getMusicUrl = async (id, br = 320000) => {
+export const getMusicUrl = async (id: TrackSource['id'], br = 320000) => {
   const userStore = useUserStore()
   let url
   if (userStore.logged) {
@@ -53,13 +54,13 @@ export const search = (keywords = '', conditions) => {
   })
 }
 
-export const multiSearch = (keywords) => {
+export const multiSearch = (keywords: string) => {
   return xhr.get('/search/multimatch', {
     params: { keywords },
   })
 }
 
-export const getList = async (type, id) => {
+export const getList = async (type: 'album' | 'playlist' | 'artist', id: TrackSource['id']) => {
   const service = {
     album: getAlbum,
     playlist: getPlayList,
@@ -84,8 +85,13 @@ export const getList = async (type, id) => {
  * @param t: 1 收藏 其他 取消收藏
  * 根据歌单id返回歌单详细信息
  */
-export const sub = (type, id, t) => {
-  const params = { timestamp: now() }
+export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: TrackSource['id'], t: number) => {
+  const params: {
+    timestamp: number
+    id: string | number
+    t?: number
+    like?: boolean
+  } = { timestamp: now(), id }
   const url = {
     album: '/album/sub',
     playlist: '/playlist/subscribe',
@@ -93,7 +99,7 @@ export const sub = (type, id, t) => {
     artist: '/artist/sub',
     track: '/like',
   }[type]
-  Object.assign(params, { id, t })
+  Object.assign(params, { t })
   if (type === 'track') {
     delete params.t
     params.like = t === 1
@@ -113,10 +119,12 @@ export const sub = (type, id, t) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const scrobble = (params) => {
-  params.timestamp = now()
+export const scrobble = (params: { id: TrackSource['id']; sourceid: number | string }) => {
   return xhr.get('/scrobble', {
-    params,
+    params: {
+      ...params,
+      timestamp: now(),
+    },
   })
 }
 
@@ -127,7 +135,7 @@ export const scrobble = (params) => {
  * @param pid : number 歌单id
  * @param tracks : Array 歌曲id 可多个,用逗号隔开
  */
-export const doPlaylist = (op = 'add', pid, tracks = []) => {
+export const doPlaylist = (op = 'add', pid: string | number, tracks = []) => {
   return xhr.get('/playlist/tracks', {
     params: {
       op,

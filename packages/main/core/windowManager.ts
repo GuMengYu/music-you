@@ -2,7 +2,8 @@ import { app, BrowserWindow, shell } from 'electron'
 import is from 'electron-is'
 import { EventEmitter } from 'events'
 import { join } from 'path'
-import { WindowState } from "../../renderer/src/util/enum";
+
+import { WindowState } from '../../renderer/src/util/enum'
 
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null

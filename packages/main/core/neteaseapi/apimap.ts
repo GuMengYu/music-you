@@ -329,8 +329,8 @@ export default {
   ...others,
 }
 
-function generatorFn(module) {
-  return (req, res) => {
+function generatorFn(module: any) {
+  return (req: any, res: any) => {
     ;[req.query, req.body].forEach((item) => {
       if (typeof item.cookie === 'string') {
         item.cookie = cookieToJson(decode(item.cookie))

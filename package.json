@@ -10,9 +10,9 @@
     "dev:electron": "node scripts/watch.mjs --mode dev",
     "build:electron": "electron-builder",
     "prebuild": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
-    "lint": "npm run lint:es && npm run lint:ts",
-    "lint:es": "eslint \"packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}\" --fix",
-    "lint:prettier": "prettier --write \"packages/renderer/src/**/*.{md,json,html}\"",
+    "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:ts",
+    "lint:eslint": "eslint \"packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}\" --fix",
+    "lint:prettier": "prettier --write \"packages/renderer/src/**/*.{js,tsx,css,scss,vue,md,json,html}\"",
     "lint:ts": "tsc --noEmit --skipLibCheck",
     "lint:lint-staged": "lint-staged",
     "prepare": "husky install"

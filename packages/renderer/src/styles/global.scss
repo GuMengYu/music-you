@@ -3,16 +3,19 @@ html {
 }
 
 @mixin h {
-  overflow: hidden!important;
-  display: -webkit-box!important;
-  -webkit-box-orient: vertical!important;
-  white-space: initial!important;
-  word-break: break-word!important;
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  white-space: initial !important;
+  word-break: break-word !important;
 }
 // 限制文本行数
 
 @for $i from 1 through 4 {
-  .h-#{$i}x { -webkit-line-clamp: #{$i}; @include h;}
+  .h-#{$i}x {
+    -webkit-line-clamp: #{$i};
+    @include h;
+  }
 }
 
 //html, body, div, span, header, footer, section, article, a, img {

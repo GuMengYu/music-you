@@ -1,6 +1,5 @@
 import { getCurrentInstance, inject } from 'vue'
 
-import type { PlayerInstance } from './base'
 import { Player } from './base'
 
 export const PlayerSymbol = Symbol.for('Player')
@@ -10,7 +9,7 @@ export function createPlayer() {
   return new Player()
 }
 
-export function usePlayer(): PlayerInstance {
+export function usePlayer(): Player {
   getCurrentInstance()
 
   const player = inject(PlayerSymbol, null)

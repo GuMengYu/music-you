@@ -37,11 +37,11 @@ export const getQrCodeKey = () => {
   return xhr.get(`/login/qr/key?timestamp=${now()}`)
 }
 
-export const createQRCode = (key) => {
+export const createQRCode = (key: string) => {
   return xhr.get(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
 }
 
-export const checkQRCodeStatus = (key) => {
+export const checkQRCodeStatus = (key: string) => {
   return xhr.get(`/login/qr/check?key=${key}&timestamp=${now()}`)
 }
 

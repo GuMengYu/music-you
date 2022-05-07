@@ -1,6 +1,8 @@
+import type { BrowserWindow } from 'electron'
+
 const { app, Menu } = require('electron')
 const isMac = process.platform === 'darwin'
-export const createElectronMenu = (window) => {
+export const createElectronMenu = (window: BrowserWindow) => {
   const template = [
     ...(isMac
       ? [

@@ -1,16 +1,18 @@
 <template>
   <div class="card-row" :style="{ '--column-count': count, '--grid-gap': gap }">
     <slot />
+    {{ breakname }} {{ mobileL }} {{ desktop4K }}
   </div>
 </template>
 <script setup lang="ts">
-import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
+import { GridType, useResponsiveGrid, useSematicBreakPoint } from '@/hooks/useResponsiveGrid'
 
 const props = defineProps<{
   gridType?: GridType
 }>()
 
 const { count, gap } = useResponsiveGrid(props.gridType ?? GridType.A)
+const { breakname, mobileL, desktop4K } = useSematicBreakPoint()
 </script>
 <style scoped lang="scss">
 .card-row {
