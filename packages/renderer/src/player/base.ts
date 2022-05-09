@@ -166,7 +166,7 @@ export class Player {
         this.trackLoaded()
         const { name, ar = [] } = this.track
         const artists = ar.map((a) => a.name).join('&')
-        document.title = `💿 ${name} - ${artists}`
+        document.title = `${name} - ${artists}`
         this.fixDuration()
       },
       onloaderror: (e) => {

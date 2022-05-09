@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 let BASE_URL: string
 // console.log(import.meta.env, process.env)
@@ -43,7 +44,15 @@ const createRequest = (baseURL: string, successCode = 'ok', returnOrigin = false
       return Promise.reject(error)
     }
   )
+
   return service
 }
-
-export const musicXhr = createRequest(BASE_URL, 200, true)
+const musicXhr = createRequest(BASE_URL, 200, true)
+export function xhrGet<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  return musicXhr.request<T>({
+    url,
+    method: 'get',
+    ...config,
+  }) as unknown as Promise<T>
+}
+export { musicXhr }

@@ -32,6 +32,7 @@ import { useI18n } from 'vue-i18n'
 
 import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api'
 import { getRadarList } from '@/api/music'
+import { personalizedPlaylist } from '@/api/personalized'
 import DiscoverLoader from '@/components/app/skeleton/DiscoverLoader.vue'
 import { useUserStore } from '@/store/user'
 
@@ -81,13 +82,13 @@ const welcome = computed(() => {
 const fetch = async () => {
   state.loading = true
   try {
-    const [recommend, { result: mvs }, { result: songs }, radars] = await Promise.all([
-      logged.value ? recommendPlaylist() : getPersonalized(7),
+    const [{ result: playLists }, { result: mvs }, { result: songs }, radars] = await Promise.all([
+      personalizedPlaylist(7),
       getMv(),
-      getNewRelease({ limit: 7 }),
+      getNewRelease(7),
       getRadarList(),
     ])
-    state.playLists = logged.value ? recommend['recommend'] : recommend['result']
+    state.playLists = playLists
     state.mvs = mvs
     state.songs = songs.map((i) => i?.song)
     state.radarPlayLists = radars
