@@ -54,6 +54,7 @@
           :index="idx + 1"
           :track="track"
           from="list"
+          @play="eventBus.emit(track.id)"
         />
       </v-list>
       <template #action>
@@ -119,6 +120,7 @@
 </template>
 <script lang="ts" setup>
 import { mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
+import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 
@@ -131,6 +133,8 @@ import CardRow from '@/components/app/layout/CardRow.vue'
 import CustomCol from '@/components/app/layout/Col.vue'
 import TrackItem from '@/components/app/TrackItem.vue'
 import { usePlayer } from '@/player/player'
+const eventBus = useEventBus<string>('addToQueue')
+
 const player = usePlayer()
 const props = defineProps({
   id: {

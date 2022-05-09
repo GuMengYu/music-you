@@ -43,22 +43,19 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia'
 import { computed, nextTick, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { favAlbums, favArtists, favMVs, getUserPlaylist, recent } from '@/api/user'
+import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
 import ArtistsCover from '@/components/app/cover/ArtistsCover.vue'
 import Cover from '@/components/app/cover/Cover.vue'
 import VideoCover from '@/components/app/cover/VideoCover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
 import CustomCol from '@/components/app/layout/Col.vue'
-import TrackItem from '@/components/app/TrackItem.vue'
-import { GridType } from '@/hooks/useResponsiveGrid'
-const { t } = useI18n()
-
-import { storeToRefs } from 'pinia'
-
 import { useUserStore } from '@/store/user'
+
+const { t } = useI18n()
 
 const userStore = useUserStore()
 

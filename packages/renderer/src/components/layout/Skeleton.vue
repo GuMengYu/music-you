@@ -1,22 +1,9 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-const loading = ref<boolean>(false)
-
-function toggle() {
-  loading.value = !loading.value
-}
-</script>
 <template>
-  <div class="text-center" style="height: 70vh">
-    <v-btn color="primary" class="mb-6" @click="toggle">toggle</v-btn>
-    <div v-if="loading" class="d-flex" style="gap: 24px">
-      <div v-for="i in 6" :key="i" class="v-skeleton-loader v-skeleton-loader--is-loading flex-fill">
-        <div class="v-skeleton-loader__card v-skeleton-loader__bone">
-          <div class="v-skeleton-loader__image v-skeleton-loader__bone"></div>
-          <div class="v-skeleton-loader__card-heading v-skeleton-loader__bone">
-            <div class="v-skeleton-loader__heading v-skeleton-loader__bone"></div>
-          </div>
-        </div>
+  <div class="v-skeleton-loader mx-auto v-skeleton-loader--is-loading theme--light">
+    <div class="v-skeleton-loader__card v-skeleton-loader__bone">
+      <div class="v-skeleton-loader__image v-skeleton-loader__bone"></div>
+      <div class="v-skeleton-loader__card-heading v-skeleton-loader__bone">
+        <div class="v-skeleton-loader__heading v-skeleton-loader__bone"></div>
       </div>
     </div>
   </div>

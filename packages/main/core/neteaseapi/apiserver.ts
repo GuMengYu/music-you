@@ -3,7 +3,7 @@ const cache = require('NeteaseCloudMusicApi/util/apicache').middleware
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const express = require('express')
-import dotenv from 'dotenv'
+const dotenv = require('dotenv')
 
 import apiMap from './apimap'
 

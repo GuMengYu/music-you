@@ -13,8 +13,8 @@
         </div>
         <div class="d-flex justify-space-between px-2">
           <div class="d-flex flex-column text-caption">
-            <span>{{ track.name }}</span>
-            <span>{{ track.ar?.[0]?.name }}</span>
+            <span>{{ track?.name }}</span>
+            <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
           <v-btn icon flat size="x-small" color="primary" @click="togglePlay">
             <v-icon size="x-small">{{ playing ? mdiPause : mdiPlay }}</v-icon>

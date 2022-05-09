@@ -16,11 +16,11 @@
     </custom-col>
     <custom-col :title="$tc('main.discover.recommend_songs')">
       <card-row>
-        <cover v-for="song in state.songs" :key="song.id" :data="song.album">
-          <v-card-subtitle class="px-3 pb-2">
+        <Cover v-for="song in state.songs" :key="song.id" :data="song.album">
+          <v-card-subtitle class="px-4 pb-4">
             <artists-link :artists="song.artists" />
           </v-card-subtitle>
-        </cover>
+        </Cover>
       </card-row>
     </custom-col>
   </div>

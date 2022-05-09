@@ -1,5 +1,4 @@
 import { now } from 'lodash-es'
-import { number } from 'yargs'
 
 import type { Playlist, TrackSource } from '@/types'
 import { request } from '@/util/fetch'

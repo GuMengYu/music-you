@@ -96,7 +96,7 @@
             :track="song"
             :index="idx + 1"
             from="list"
-            :pid="state.playlist.id"
+            @play="eventBus.emit(song.id)"
           />
         </v-list>
       </common-card>
@@ -113,6 +113,7 @@
 </template>
 <script setup lang="ts">
 import { mdiAccountMusic, mdiInformation, mdiMapMarkerCircle, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
+import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
@@ -126,6 +127,7 @@ import { formatDuring, formatNumber } from '@/util/fn'
 import CommonCard from '../components/app/CommonCard.vue'
 import Cover from '../components/app/cover/Cover.vue'
 import TrackItem from '../components/app/TrackItem.vue'
+
 const player = usePlayer()
 const router = useRouter()
 const props = defineProps({
@@ -164,6 +166,7 @@ function play() {
     true
   )
 }
+const eventBus = useEventBus<string>('addToQueue')
 
 async function fetch(id: number) {
   state.loading = true

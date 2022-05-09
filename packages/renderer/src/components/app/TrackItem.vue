@@ -48,11 +48,8 @@ import { computed } from 'vue'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
-import { usePlayer } from '@/player/player'
 import type { Artist } from '@/types'
 import { formatDuring } from '@/util/fn'
-
-const player = usePlayer()
 
 const props = defineProps({
   track: {
@@ -71,7 +68,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  pid: [String, Number],
 })
 
 const artists = computed(() => {
@@ -91,10 +87,9 @@ const gridTemplate = computed(() => {
     }
   }
 })
-
+const emit = defineEmits(['play'])
 function play() {
-  player.updatePlayerTrack(props.track.id)
-  // this.$emit('played', this.track.id)
+  emit('play', props.track?.id)
 }
 </script>
 

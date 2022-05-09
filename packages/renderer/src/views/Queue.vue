@@ -10,7 +10,7 @@
     </h2>
     <v-list nav density="compact">
       <template v-for="(song, index) in playingList.list" :key="song.id">
-        <track-item :track="song" :index="index + 2" />
+        <track-item :track="song" :index="index + 2" @play="eventBus.emit(song.id)" />
       </template>
       <template v-if="!playingList.list.length">
         <p class="d-flex justify-center font-weight-bold">
@@ -22,12 +22,13 @@
 </template>
 
 <script setup lang="ts">
+import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 
 import TrackItem from '@/components/app/TrackItem.vue'
 import { usePlayerStore } from '@/store/player'
+
 const playerStore = usePlayerStore()
 const { playingList, track } = storeToRefs(playerStore)
+const eventBus = useEventBus<string>('addToQueue')
 </script>
-
-<style scoped lang="scss"></style>

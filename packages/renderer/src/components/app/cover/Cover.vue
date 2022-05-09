@@ -29,7 +29,7 @@
           </transition>
         </div>
       </v-img>
-      <v-card-title v-if="!noInfo" :class="`h-${titleLine}x`" class="text-subtitle-1 text-onSurfaceVariant">
+      <v-card-title v-if="!noInfo" :class="`h-${titleLine}x`" class="text-subtitle-2 text-onSurfaceVariant">
         <router-link :to="`/playlist/${data.id}`" class="text-onSurfaceVariant text-decoration-none">
           {{ data.name }}
         </router-link>

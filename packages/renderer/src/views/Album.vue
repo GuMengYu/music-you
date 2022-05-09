@@ -84,7 +84,13 @@
 
       <common-card class="flex-fill" color="surfaceVariant" title="专辑歌曲">
         <v-list bg-color="surfaceVariant">
-          <track-item v-for="(track, idx) in state.album.tracks" :key="track.id" :track="track" :index="idx + 1" />
+          <track-item
+            v-for="(track, idx) in state.album.tracks"
+            :key="track.id"
+            :track="track"
+            :index="idx + 1"
+            @play="eventBus.emit(track.id)"
+          />
         </v-list>
       </common-card>
     </div>
@@ -100,6 +106,7 @@
 </template>
 <script setup lang="ts">
 import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiMapMarkerCircle, mdiPlay } from '@mdi/js'
+import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
@@ -161,6 +168,8 @@ async function play() {
     true
   )
 }
+const eventBus = useEventBus<string>('addToQueue')
+
 function goto() {
   const url = `https://music.163.com/#/album?id=${state.album.id}`
   if (isElectron()) {

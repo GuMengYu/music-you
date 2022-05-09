@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-footer v-show="track.id" fixed class="player-footer">
+    <v-footer v-show="track?.id" fixed class="player-footer">
       <v-slider
         :model-value="currentTime * 1000"
         thumb-label
@@ -50,7 +50,7 @@
             />
           </div>
           <v-btn icon variant="plain" size="small" :color="isQueue ? 'primary' : ''" @click="toQueue">
-            <v-icon size="small">
+            <v-icon ref="playlistBtn" size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
           </v-btn>
@@ -61,10 +61,13 @@
 </template>
 <script setup lang="ts">
 import { mdiPlaylistMusic, mdiVolumeHigh } from '@mdi/js'
+import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
+import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 
 import ArtistsLink from './artist/ArtistsLink.vue'
@@ -74,6 +77,7 @@ import LikeToggle from './toggle/likeToggle.vue'
 const playerStore = usePlayerStore()
 const router = useRouter()
 const route = useRoute()
+const player = usePlayer()
 const { currentTime, track, volume = 0.8 } = storeToRefs(playerStore)
 
 const trackDt = computed(() => track.value?.dt ?? 0)
@@ -82,6 +86,16 @@ const albumPicUrl = computed(() => track.value?.al?.picUrl)
 const isQueue = computed(() => {
   return route.name === 'queue'
 })
+
+// 播放飞越小动画
+const playlistBtn = ref<HTMLButtonElement>()
+const { playAnimation } = useEmojiAnimation(playlistBtn)
+const eventBus = useEventBus<string>('addToQueue')
+eventBus.on((id) => {
+  player.updatePlayerTrack(id)
+  playAnimation('🎉')
+})
+
 function toQueue() {
   if (isQueue.value) {
     router.back()

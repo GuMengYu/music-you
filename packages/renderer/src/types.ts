@@ -37,6 +37,7 @@ export interface Artist {
 }
 
 export interface Album {
+  tracks: TrackSource[]
   id: number
   name: string
   picUrl: string
