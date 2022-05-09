@@ -20,6 +20,7 @@
   "dependencies": {
     "@mdi/js": "^6.5.95",
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
+    "@vueuse/components": "^8.4.2",
     "@vueuse/core": "^8.2.5",
     "@vueuse/electron": "^8.3.1",
     "cheerio": "^1.0.0-rc.10",
@@ -33,6 +34,7 @@
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
     "pinia": "^2.0.13",
     "vue": "^3.2.25",
+    "vue-content-loader": "^2.0.1",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14",
     "vuetify": "^3.0.0-beta.1",

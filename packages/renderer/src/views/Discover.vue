@@ -1,6 +1,9 @@
 <template>
   <div class="discover">
-    <shortcuts />
+    <discover-loader v-if="state.loading" />
+    <custom-col :title="welcome" h-class="text-h5">
+      <shortcuts />
+    </custom-col>
     <custom-col :title="$tc('main.for_you')">
       <card-row>
         <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
@@ -29,6 +32,7 @@ import { useI18n } from 'vue-i18n'
 
 import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api'
 import { getRadarList } from '@/api/music'
+import DiscoverLoader from '@/components/app/skeleton/DiscoverLoader.vue'
 import { useUserStore } from '@/store/user'
 
 import ArtistsLink from '../components/app/artist/ArtistsLink.vue'
@@ -57,7 +61,7 @@ const state = reactive<RootState>({
 
 const welcome = computed(() => {
   const hours = new Date().getHours()
-  let welcome: string
+  let welcome = ''
   if (hours >= 0 && hours <= 6) {
     welcome = t('common.dawning')
   } else if (hours > 6 && hours <= 11) {
@@ -71,7 +75,7 @@ const welcome = computed(() => {
   } else {
     welcome = t('common.midnight')
   }
-  return `${welcome}${logged.value ? `，${account.value?.profile.nickname}` : ''}`
+  return `${welcome}${logged.value ? `，${account.value?.profile?.nickname}` : ''}`
 })
 
 const fetch = async () => {
@@ -101,32 +105,5 @@ fetch()
   display: flex;
   flex-direction: column;
   gap: 24px;
-  .artist-list {
-    grid-template-columns: repeat(6, 1fr);
-  }
-  .daily-song {
-    max-height: 45vh;
-  }
-  .title {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-end;
-    height: 52px;
-  }
-  //.mini-card-box {
-  //  .mini-card {
-  //    transition: all .2s ease-in-out;
-  //    padding: 1.5rem;
-  //    &:not(:first-child) {
-  //      margin-left: -100px;
-  //    }
-  //    &:hover {
-  //    transform: translateY(-1rem) rotate(3deg);
-  //      &~.mini-card {
-  //        transform: translateX(100px);
-  //      }
-  //    }
-  //  }
-  //}
 }
 </style>
