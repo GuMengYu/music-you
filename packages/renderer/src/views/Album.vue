@@ -115,7 +115,6 @@ import { formatDuring, isElectron } from '@/util/fn'
 
 const player = usePlayer()
 const router = useRouter()
-const ipcRenderer = useIpcRenderer()
 
 const props = defineProps({
   id: {
@@ -165,6 +164,7 @@ async function play() {
 function goto() {
   const url = `https://music.163.com/#/album?id=${state.album.id}`
   if (isElectron()) {
+    const ipcRenderer = useIpcRenderer()
     ipcRenderer.invoke('open-url', url)
   } else {
     window.open(url, '_blank')

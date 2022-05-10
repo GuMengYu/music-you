@@ -1,5 +1,5 @@
 <template>
-  <div class="discover">
+  <div class="discover d-flex flex-column gap-6">
     <discover-loader v-if="state.loading" />
     <custom-col :title="welcome" h-class="text-h5">
       <shortcuts />
@@ -27,14 +27,13 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { getMv, getNewRelease, getPersonalized, recommendPlaylist } from '@/api'
-import { getRadarList } from '@/api/music'
-import { personalizedPlaylist } from '@/api/personalized'
+import { personalizedMV, personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
 import DiscoverLoader from '@/components/app/skeleton/DiscoverLoader.vue'
 import { useUserStore } from '@/store/user'
+import type { MV, Playlist, TrackSource } from '@/types'
 
 import ArtistsLink from '../components/app/artist/ArtistsLink.vue'
 import Cover from '../components/app/cover/Cover.vue'
@@ -46,10 +45,10 @@ const userStore = useUserStore()
 const { t } = useI18n()
 const { logged, account } = storeToRefs(userStore)
 interface RootState {
-  playLists: any[]
-  radarPlayLists: any[]
-  songs: any[]
-  mvs: []
+  playLists: Playlist[]
+  radarPlayLists: Playlist[]
+  songs: TrackSource[]
+  mvs: MV[]
   loading: boolean
 }
 const state = reactive<RootState>({
@@ -79,18 +78,21 @@ const welcome = computed(() => {
   return `${welcome}${logged.value ? `，${account.value?.profile?.nickname}` : ''}`
 })
 
+onMounted(() => {
+  fetch()
+})
 const fetch = async () => {
   state.loading = true
   try {
     const [{ result: playLists }, { result: mvs }, { result: songs }, radars] = await Promise.all([
       personalizedPlaylist(7),
-      getMv(),
-      getNewRelease(7),
-      getRadarList(),
+      personalizedMV(),
+      personalizedSong(7),
+      personalizedRadar(),
     ])
     state.playLists = playLists
     state.mvs = mvs
-    state.songs = songs.map((i) => i?.song)
+    state.songs = songs.map((i) => i.song)
     state.radarPlayLists = radars
   } catch (e) {
     console.log(e)
@@ -98,13 +100,4 @@ const fetch = async () => {
     state.loading = false
   }
 }
-
-fetch()
 </script>
-<style lang="scss" scoped>
-.discover {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-</style>

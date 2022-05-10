@@ -6,6 +6,7 @@ import { getLikeList } from '@/api'
 import { getAccount } from '@/api/account'
 import { getUserPlaylist } from '@/api/user'
 import type { Account, Playlist, TrackSource } from '@/types'
+import { specialType } from '@/util/metadata'
 
 type Nullable<T> = T | null
 export type UserState = {
@@ -28,6 +29,9 @@ export const useUserStore = defineStore({
     },
     uid: (state) => {
       return state.account?.profile?.userId
+    },
+    favorites: (state) => {
+      return (state.playlists.find((playlist) => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
     },
   },
   actions: {

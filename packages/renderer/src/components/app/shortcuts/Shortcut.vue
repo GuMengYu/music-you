@@ -13,7 +13,7 @@
       <div
         :class="`bg-${flag.color}`"
         class="rounded-circle d-flex align-center justify-center ml-4"
-        style="height: 45px; width: 45px"
+        style="height: 45px; width: 45px; min-width: 45px"
       >
         {{ flag.label }}
       </div>
@@ -46,10 +46,11 @@
   </v-hover>
 </template>
 
-<script>
+<script lang="ts">
 import { mdiPlay } from '@mdi/js'
 
-import { getAlbum, getArtist, getDailyRecommend, getPlayList } from '@/api'
+import { getAlbum, getArtist, getDailyRecommend } from '@/api'
+import { getPlaylistDetail } from '@/api/playlist'
 import placeholderUrl from '@/assets/placeholder.png'
 import { sizeOfImage } from '@/util/fn'
 
@@ -102,7 +103,7 @@ export default {
         } else {
           const request = {
             album: getAlbum,
-            playlist: getPlayList,
+            playlist: getPlaylistDetail,
             artist: getArtist,
           }[this.type]
           const data = await request(this.data.id)

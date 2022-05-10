@@ -1,6 +1,6 @@
 <template>
   <div>
-    <custom-col title="最近播放" subtitle="activity" class="mb-4">
+    <!-- <custom-col title="最近播放" subtitle="activity" class="mb-4">
       <card-row :grid-type="GridType.C">
         <track-item
           v-for="(track, idx) in state.recently"
@@ -10,7 +10,7 @@
           from="album"
         />
       </card-row>
-    </custom-col>
+    </custom-col> -->
     <v-tabs v-model="state.tab" class="mb-4">
       <v-tab v-for="t in state.tabs" :key="t.key" class="font-weight-bold" @click="loadData">
         {{ t.name }}

@@ -53,36 +53,32 @@ export interface Options {
   data?: any
 }
 
-class Fetch {
+class YoFetch {
   defaults: Options
 
   constructor(options: Options = {}) {
     this.defaults = options
   }
-  get: BodylessMethod = function (this: Fetch, url, config) {
+  get: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'get')
   }
-  delete: BodylessMethod = function (this: Fetch, url, config) {
+  delete: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'delete')
   }
-  head: BodylessMethod = function (this: Fetch, url, config) {
+  head: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'head')
   }
-  options: BodylessMethod = function (this: Fetch, url, config) {
+  options: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'options')
   }
-  post: BodyMethod = function (this: Fetch, url, data, config) {
+  post: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'post', data)
   }
-  put: BodyMethod = function (this: Fetch, url, data, config) {
+  put: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'put', data)
   }
-  patch: BodyMethod = function (this: Fetch, url, data, config) {
+  patch: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'patch', data)
-  }
-  all = Promise.all.bind(Promise)
-  create(config: Options) {
-    return new Fetch(config)
   }
   request<T>(urlOrConfig: string | Options, config?: Options, _method?: method, data?: any): Promise<Response<T>> {
     let url = ''
@@ -119,9 +115,8 @@ class Fetch {
         // @ts-ignore
         document.cookie.match(RegExp('(^|; )' + options.xsrfCookieName + '=([^;]*)'))[2]
       )
-    } catch (e) {
-      console.error(e)
-    }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
 
     // append baseURL to url
     if (options.baseURL) {
@@ -171,15 +166,14 @@ class Fetch {
         })
     })
   }
+  all = Promise.all.bind(Promise)
+  create(config: Options) {
+    return createInstance(config)
+  }
 }
 
 function deepMerge<T, U>(opts: T, overrides: U, lowerCase = false): Record<string, any> & (T | U) {
   const out: Record<string, any> = {}
-  if (Array.isArray(opts)) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return opts.concat(overrides)
-  }
   for (const i in opts) {
     const key = lowerCase ? i.toLowerCase() : i
     out[key] = opts[i]
@@ -189,14 +183,13 @@ function deepMerge<T, U>(opts: T, overrides: U, lowerCase = false): Record<strin
     const value = overrides[i]
     out[key] = key in out && typeof value == 'object' ? deepMerge(out[key], value, key == 'headers') : value
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return out
+  return out as Record<string, any> & (T | U)
 }
 
-function create() {
+function createInstance(defaults: Options = {}) {
   // create default yofetch instance
-  return new Fetch()
+  return new YoFetch(defaults)
 }
 
-export default create()
+const yofetch = createInstance()
+export default yofetch

@@ -18,6 +18,20 @@ html {
   }
 }
 
+@for $i from 1 through 16 {
+  .gap-#{$i} {
+    gap: #{$i * 4}px;
+  }
+  .gap-col-#{$i} {
+    column-gap: #{$i * 4}px;
+  }
+  .gap-row-#{$i} {
+    row-gap: #{$i * 4}px;
+  }
+}
+
+// gap helper
+
 //html, body, div, span, header, footer, section, article, a, img {
 //  font-family: 'Nunito', 'product sans', sans-serif !important;
 //}

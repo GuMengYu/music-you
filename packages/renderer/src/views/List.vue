@@ -117,8 +117,9 @@ import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { deletePlayList, getPlayList, getRelatedPlayList } from '@/api'
+import { deletePlayList } from '@/api'
 import { sub } from '@/api/music'
+import { getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
 import { usePlayer } from '@/player/player'
 import { formatDuring, formatNumber } from '@/util/fn'
 
@@ -164,9 +165,9 @@ function play() {
   )
 }
 
-async function fetch(id: string | number) {
+async function fetch(id: number) {
   state.loading = true
-  const { playlist } = await getPlayList(id)
+  const { playlist } = await getPlaylistDetail(id)
   if (playlist) {
     const { playlists } = await getRelatedPlayList(playlist.id)
     state.relatedPlaylist = playlists
@@ -176,15 +177,15 @@ async function fetch(id: string | number) {
   state.loading = false
 }
 
-async function subscribe() {
-  const { id } = state.playlist
-  const { code, message } = await sub('playlist', id, this.subscribed ? 0 : 1)
-  if (code === 200) {
-    state.subscribed = !state.subscribed
-  } else {
-    console.log('sub error', message)
-  }
-}
+// async function subscribe() {
+//   const { id } = state.playlist
+//   const { code, message } = await sub('playlist', id, this.subscribed ? 0 : 1)
+//   if (code === 200) {
+//     state.subscribed = !state.subscribed
+//   } else {
+//     console.log('sub error', message)
+//   }
+// }
 async function del() {
   const { code, message } = await deletePlayList(props.id)
   if (code === 200) {
@@ -194,15 +195,15 @@ async function del() {
   }
 }
 
-function goto() {
-  const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
-  window.open(url, '_blank')
-  // if (isElectron()) {
-  //   this.$ipcRenderer.invoke('open-url', url)
-  // } else {
-  //   window.open(url, '_blank')
-  // }
-}
+// function goto() {
+//   const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
+//   window.open(url, '_blank')
+//   // if (isElectron()) {
+//   //   this.$ipcRenderer.invoke('open-url', url)
+//   // } else {
+//   //   window.open(url, '_blank')
+//   // }
+// }
 function gotoPlayList(id) {
   router.push(`/playlist/${id}`)
 }

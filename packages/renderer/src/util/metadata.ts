@@ -35,11 +35,13 @@ export const officialPlaylist = {
 
 export const specialType = {
   fav: {
+    type: 5,
     id: 5,
     title: '我喜欢的音乐',
   },
   radar: {
-    id: 100,
+    type: 100,
+    id: 3136952023,
     title: '私人雷达',
   },
 }

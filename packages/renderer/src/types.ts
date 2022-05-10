@@ -1,33 +1,79 @@
 export interface TrackSource {
-  id: string
-  title: string
+  id: number
+  name: string
   duration?: number
   dt?: number
   url: string
-  picUrl: string
+  ar?: Artist[]
+  artists?: Artist[]
+  al?: Album
+  album?: Album
+}
+export interface MV {
+  artist?: Artist
+  artists?: Artist[]
+  id: string
   name: string
-  ar: Artist[]
-  al: Album
+  copywriter: string
+  picUrl: string
+  playCount: number
+  type: number
+  canDislike: boolean
 }
 
 export interface Artist {
-  id: string
+  id: number
   name: string
-  picUrl: string
-  url: string
+  cover?: string
+  img1v1Url?: string
+  picUrl?: string
+  albumSize: number
+  briefDesc: string
+  rank?: {
+    rank: number
+    type: number
+  }
+  transNames: string[]
 }
 
 export interface Album {
-  id: string
+  id: number
   name: string
   picUrl: string
-  url: string
+  artist: Artist
+  artists: Artist[]
+  description: string
+  company: string
+  companyId: number
+  publishTime: number
+  size: number
+  songs: TrackSource[]
+  subType: string
+  type: string
+  isSub?: boolean
+  subTime?: number
+  alias: string[]
 }
 
 export interface Playlist {
-  id: string
-  title: string
+  id: number
+  name: string
   tracks: TrackSource[]
+  trackIds: number[]
+  backgroundCoverUrl: string
+  coverImgUrl: string
+  createTime: number
+  creator: Record<string, any>
+  description: string
+  englishTitle: string
+  playCount: number
+  subscribed: boolean
+  subscribedCount: number
+  tags: string[]
+  titleImageUrl: string
+  specialType: number
+  updateFrequency?: string
+  userId: number
 }
 
 export interface Account {

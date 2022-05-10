@@ -5,7 +5,8 @@ import type { TrackSource } from '@/types'
 import { RADARPLAYLISTS } from '@/util/metadata'
 import { musicXhr as xhr } from '@/util/xhr'
 
-import { getAlbum, getArtist, getLyric, getPlayList, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
+import { getAlbum, getArtist, getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
+import { getPlaylistDetail } from './playlist'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -54,16 +55,10 @@ export const search = (keywords = '', conditions) => {
   })
 }
 
-export const multiSearch = (keywords: string) => {
-  return xhr.get('/search/multimatch', {
-    params: { keywords },
-  })
-}
-
 export const getList = async (type: 'album' | 'playlist' | 'artist', id: TrackSource['id']) => {
   const service = {
     album: getAlbum,
-    playlist: getPlayList,
+    playlist: getPlaylistDetail,
     artist: getArtist,
   }[type]
   const data = await service(id)
@@ -144,12 +139,4 @@ export const doPlaylist = (op = 'add', pid: string | number, tracks = []) => {
       timestamp: now(),
     },
   })
-}
-
-export async function getRadarList() {
-  const list = RADARPLAYLISTS.map((playlist) => {
-    return getPlayList(playlist.id)
-  })
-  const result = await Promise.all(list)
-  return result.map((i) => i.playlist)
 }

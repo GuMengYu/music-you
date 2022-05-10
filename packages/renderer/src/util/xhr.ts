@@ -14,20 +14,6 @@ const createRequest = (baseURL: string, successCode = 'ok', returnOrigin = false
     withCredentials: true,
     timeout: 15000, // request timeout
   })
-
-  // request interceptor
-  service.interceptors.request.use(
-    (config) => {
-      // Do something before request is sent
-      return config
-    },
-    (error) => {
-      // Do something with request error
-      console.log(error) // for debug
-      Promise.reject(error)
-    }
-  )
-
   // respone interceptor
   service.interceptors.response.use(
     (response) => {
