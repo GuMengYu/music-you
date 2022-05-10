@@ -1,14 +1,22 @@
 import { now } from 'lodash-es'
 
-import { musicXhr as xhr, xhrGet } from '../util/xhr'
+import { request } from '@/util/fetch'
 
+import { musicXhr as xhr } from '../util/xhr'
 /**
  * 获取推荐歌单列表
  * @param limit 返回限制
  * @returns {Promise<{result: Playlist[]}>}
  */
+
+interface personalizedPlaylistModel {
+  category: number
+  code: number
+  result: []
+  hasTaste: boolean
+}
 export const personalizedPlaylist = (limit: number) => {
-  return xhrGet<{ result: [] }>('/personalized', { params: { limit, timestamp: now() } })
+  return request<personalizedPlaylistModel>('/personalized', { params: { limit } })
 }
 
 export const fetchPlaylist = (limit: number) =>
