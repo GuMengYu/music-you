@@ -21,16 +21,25 @@ export const getAlbum = (id: number) =>
  * 获取新专辑
  */
 export const newAlbums = (params: { limit: number; area: string }) => {
-  return request('/album/new', {
+  return request<{
+    code: number
+    albums: Album[]
+  }>('/album/new', {
     params,
   })
 }
+
 /**
- * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
+ * 获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
  * @param id
  */
-export const getPlayListDynamic = (id: number) =>
-  request('/playlist/detail/dynamic', {
+export const getAlbumDynamic = (id: number) =>
+  request<{
+    isSub: boolean
+    onSale: boolean
+    likedCount: number
+    subCount: number
+  }>('/album/detail/dynamic', {
     params: {
       timestamp: now(),
       id,

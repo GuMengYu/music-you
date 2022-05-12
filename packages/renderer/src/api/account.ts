@@ -1,5 +1,7 @@
 import { now } from 'lodash-es'
 
+import type { Account } from '@/types'
+
 import { request } from '../util/fetch'
 
 /**
@@ -11,18 +13,12 @@ import { request } from '../util/fetch'
  *   md5_password: String
  * }
  */
-export type loginParam = {
-  phone: string
-  md5_password: string
-  countrycode?: string
-}
-export interface loginResult {
-  code: number
-  profile: string
-  token: string
-}
-export const login = (params: loginParam) => {
-  return request<loginResult>(`/login/cellphone?timestamp=${now()}`, { params })
+export const login = (params: { phone: string; md5_password: string; countrycode?: string }) => {
+  return request<{
+    code: number
+    profile: string
+    token: string
+  }>(`/login/cellphone?timestamp=${now()}`, { params })
 }
 
 /**
@@ -34,11 +30,17 @@ export const logout = () => {
 }
 
 export const getQrCodeKey = () => {
-  return request(`/login/qr/key?timestamp=${now()}`)
+  return request<{
+    data: {
+      unikey: string
+    }
+  }>(`/login/qr/key?timestamp=${now()}`)
 }
 
 export const createQRCode = (key: string) => {
-  return request(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
+  return request<{
+    qrimg: string
+  }>(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
 }
 
 export const checkQRCodeStatus = (key: string) => {
@@ -50,5 +52,5 @@ export const checkQRCodeStatus = (key: string) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getAccount() {
-  return request(`/user/account?timestamp=${now()}`)
+  return request<Account>(`/user/account?timestamp=${now()}`)
 }

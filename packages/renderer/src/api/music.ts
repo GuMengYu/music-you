@@ -3,7 +3,6 @@ import { now } from 'lodash-es'
 import { useUserStore } from '@/store/user'
 import type { TrackSource } from '@/types'
 import { request } from '@/util/fetch'
-import { musicXhr as xhr } from '@/util/xhr'
 
 import { getAlbum } from './album'
 import { getArtist } from './artist'

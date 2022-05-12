@@ -10,16 +10,19 @@ import { request, requestPost } from '@/util/fetch'
  * @returns {Promise<playListModel>}
  */
 
-export const getPlaylistDetail = (id: number, realTime = false) =>
-  request<{
+export const getPlaylistDetail = (id: number, realTime = false) => {
+  const params: {
+    id: number
+    timestamp?: number
+  } = { id }
+  realTime && (params.timestamp = now())
+  return request<{
     playlist: Playlist
     privileges: []
   }>('/playlist/detail', {
-    params: {
-      id,
-      timestamp: realTime ? now() : undefined,
-    },
+    params,
   })
+}
 
 /**
  * 获取相关歌单
@@ -70,3 +73,18 @@ export const getCatList = () =>
     categories: Record<string, string>
     sub: []
   }>('/playlist/catlist')
+
+/**
+ * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
+ * @param id
+ */
+export const getPlayListDynamic = (id: number) =>
+  request<{
+    isSub: boolean
+    subCount: number
+  }>('/playlist/detail/dynamic', {
+    params: {
+      timestamp: now(),
+      id,
+    },
+  })
