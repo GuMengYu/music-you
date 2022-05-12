@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { newAlbums } from '@/api/index'
+import { newAlbums } from '@/api/album'
 import Cover from '@/components/app/Cover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
 export default {

@@ -1,11 +1,13 @@
 import { now } from 'lodash-es'
+import { number } from 'yargs'
 
 import { useUserStore } from '@/store/user'
 import type { TrackSource } from '@/types'
-import { RADARPLAYLISTS } from '@/util/metadata'
 import { musicXhr as xhr } from '@/util/xhr'
 
-import { getAlbum, getArtist, getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
+import { getAlbum } from './album'
+import { getArtist } from './artist'
+import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
 import { getPlaylistDetail } from './playlist'
 
 /**
@@ -55,20 +57,32 @@ export const search = (keywords = '', conditions) => {
   })
 }
 
-export const getList = async (type: 'album' | 'playlist' | 'artist', id: TrackSource['id']) => {
-  const service = {
-    album: getAlbum,
-    playlist: getPlaylistDetail,
-    artist: getArtist,
-  }[type]
-  const data = await service(id)
-  let res = {}
-  if (type === 'album') {
-    res = data
-  } else if (type === 'playlist') {
-    res = data?.playlist
+/**
+ * 统一获取歌曲列表（从专辑，歌手，歌单）
+ * @param type
+ * @param id
+ * @returns
+ */
+export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: number) => {
+  let res: { id: number; tracks: TrackSource[] }
+  if (type === 'playlist') {
+    const { playlist } = await getPlaylistDetail(id)
+    res = {
+      id: playlist.id,
+      tracks: playlist.tracks,
+    }
+  } else if (type === 'album') {
+    const { album, songs } = await getAlbum(id)
+    res = {
+      id: album.id,
+      tracks: songs,
+    }
   } else {
-    res = data
+    const { artist, hotSongs } = await getArtist(id)
+    res = {
+      id: artist.id,
+      tracks: hotSongs,
+    }
   }
   return res
 }

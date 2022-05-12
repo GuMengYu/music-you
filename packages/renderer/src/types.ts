@@ -61,6 +61,7 @@ export interface Playlist {
   name: string
   tracks: TrackSource[]
   trackIds: number[]
+  trackCount: number
   backgroundCoverUrl: string
   coverImgUrl: string
   createTime: number

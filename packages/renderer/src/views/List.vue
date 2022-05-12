@@ -118,9 +118,8 @@ import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { deletePlayList } from '@/api'
 import { sub } from '@/api/music'
-import { getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
+import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
 import { usePlayer } from '@/player/player'
 import { formatDuring, formatNumber } from '@/util/fn'
 

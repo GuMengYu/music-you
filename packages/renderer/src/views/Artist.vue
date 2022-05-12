@@ -124,7 +124,7 @@ import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 
-import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api'
+import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
 import { sub } from '@/api/music'
 import ArtistsCover from '@/components/app/cover/ArtistsCover.vue'
 import Cover from '@/components/app/cover/Cover.vue'

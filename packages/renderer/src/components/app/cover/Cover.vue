@@ -47,7 +47,7 @@
 import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
 
-import { getList } from '@/api/music'
+import { getTrackList } from '@/api/music'
 import { usePlayer } from '@/player/player'
 import { sizeOfImage } from '@/util/fn'
 
@@ -104,19 +104,14 @@ const to = computed(() => {
 async function play() {
   loading.value = true
   try {
-    const info = await getList(props.type, props.data.id)
-    const tracks = {
-      list:
-        props.type === 'album'
-          ? info.songs
-          : props.type === 'playlist'
-          ? info.tracks
-          : props.type === 'artist'
-          ? info.tracks
-          : [],
-      id: info.id,
-    }
-    await player.updateTracks(tracks, true)
+    const info = await getTrackList(props.type, props.data.id)
+    await player.updateTracks(
+      {
+        list: info.tracks,
+        id: info.id,
+      },
+      true
+    )
   } catch (e) {
     console.log(e)
   } finally {

@@ -18,7 +18,7 @@ export const request = <T>(url: string | Options, config?: Options) => {
     }
   })
 }
-export const requestPost = <T>(url: string | Options, body: any, config: Options) => {
+export const requestPost = <T>(url: string | Options, body: any, config?: Options) => {
   return service.request<T>(url, config, 'post', body).then((response) => {
     const { data, ok } = response
     const { code } = data as any

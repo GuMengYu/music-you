@@ -46,83 +46,74 @@
   </v-hover>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { mdiPlay } from '@mdi/js'
+import { computed, ref } from 'vue'
 
-import { getAlbum, getArtist, getDailyRecommend } from '@/api'
-import { getPlaylistDetail } from '@/api/playlist'
+import { getDailyRecommend } from '@/api'
+import { getTrackList } from '@/api/music'
 import placeholderUrl from '@/assets/placeholder.png'
+import { usePlayer } from '@/player/player'
+import type { TrackSource } from '@/types'
 import { sizeOfImage } from '@/util/fn'
+const player = usePlayer()
+const props = defineProps<{
+  data: {
+    id: number
+    title: string
+    subTitle: string
+    picUrl: string
+  }
+  type: 'album' | 'playlist' | 'artist'
+  flag: {
+    color: string
+    label: string
+  }
+}>()
 
-export default {
-  name: 'QuickCard',
-  props: {
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-    type: {
-      type: String,
-      default: 'playlist',
-    },
-    flag: {
-      type: Object,
-      default: () => ({
-        color: 'primary',
-        label: 'A',
-      }),
-    },
-  },
-  data() {
-    return {
-      mdiPlay,
-      loading: false,
-      placeholderUrl,
+const loading = ref<boolean>(false)
+
+const coverImgUrl = computed(() => {
+  if (props.data.picUrl) {
+    return sizeOfImage(props.data.picUrl, 256)
+  } else {
+    return placeholderUrl
+  }
+})
+
+const to = computed(() => {
+  return {
+    album: `/album/${props.data.id}`,
+    playlist: `/playlist/${props.data.id}`,
+    artist: `/artist/${props.data.id}`,
+  }[props.type]
+})
+async function play() {
+  try {
+    loading.value = true
+    let info: {
+      id: number
+      list: TrackSource[]
     }
-  },
-  computed: {
-    coverImgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.coverImgUrl, 128)
-    },
-    to() {
-      return {
-        album: `/album/${this.data.id}`,
-        playlist: `/playlist/${this.data.id}`,
-        artist: `/artist/${this.data.id}`,
-      }[this.type]
-    },
-  },
-  methods: {
-    async play() {
-      try {
-        this.loading = true
-        let info = {}
-        if (this.type === 'daily') {
-          const { data = {} } = await getDailyRecommend()
-          info = data['dailySongs']
-        } else {
-          const request = {
-            album: getAlbum,
-            playlist: getPlaylistDetail,
-            artist: getArtist,
-          }[this.type]
-          const data = await request(this.data.id)
-          if (this.type === 'album') {
-            info = data
-          } else if (this.type === 'playlist') {
-            info = data?.playlist
-          } else {
-            info = data
-          }
-        }
-        await this.$player.updateTracks(info, true)
-      } catch (e) {
-        console.debug(e)
-      } finally {
-        this.loading = false
+    if (props.type === 'daily') {
+      const { data = {} } = await getDailyRecommend()
+      info = {
+        id: data.id,
+        list: data['dailySongs'],
       }
-    },
-  },
+    } else {
+      const data = await getTrackList(props.type, props.data.id)
+      info = {
+        id: data.id,
+        list: data.tracks,
+      }
+    }
+    await player.updateTracks(info)
+  } catch (e) {
+    console.debug(e)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 

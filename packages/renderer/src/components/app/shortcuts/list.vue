@@ -1,10 +1,10 @@
 <template>
   <div :style="{ gridTemplateColumns: `repeat(${count}, 1fr)`, columnGap: gap }" style="display: grid; row-gap: 16px">
-    <Shortcut v-if="logged" :data="myFav" :flag="{ color: 'primary', label: 'A' }" />
-    <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'B' }" />
-    <Shortcut :data="state.radar" :flag="{ color: 'tertiary', label: 'C' }" />
-    <Shortcut :data="state.randomPlayList" type="daily" :flag="{ color: 'outline', label: 'E' }" />
-    <Shortcut :data="state.radar" :flag="{ color: 'inverseSurface', label: 'F' }" />
+    <Shortcut v-if="logged" :data="myFav" :flag="{ color: 'primary', label: 'F' }" />
+    <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'D' }" />
+    <Shortcut :data="state.radar" :flag="{ color: 'tertiary', label: 'R' }" />
+    <Shortcut v-if="logged" :data="state.randomPlayList" type="daily" :flag="{ color: 'outline', label: 'P' }" />
+    <ShortcutFm />
     <Shortcut :data="state.wallhaven" type="wallhaven" :flag="{ color: 'inverseSurface', label: 'W' }" />
   </div>
 </template>
@@ -20,6 +20,7 @@ import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
 import { specialType } from '@/util/metadata'
 
+import ShortcutFm from './fm.vue'
 import Shortcut from './Shortcut.vue'
 
 const { count, gap } = useResponsiveGrid(GridType.B)
@@ -62,6 +63,7 @@ onMounted(async () => {
     ...randomPlayList,
     title: randomPlayList?.name,
     subTitle: '随机已收藏歌单',
+    picUrl: randomPlayList?.coverImgUrl,
   }
 })
 </script>

@@ -4,6 +4,7 @@ import { reactive, toRefs, watchEffect } from 'vue'
 
 import { pinia } from '@/plugins/pinia'
 
+import { personalFM } from '../api'
 import { sub } from '../api/music'
 import type { Playlist, TrackSource } from '../types'
 export enum PLAY_MODE {
@@ -91,8 +92,9 @@ export const usePlayerStore = defineStore({
     },
     nextTrackId(state): null | undefined | string {
       const currentId = state.track?.id
+      if (!currentId) return null
       const index = this.index
-      let id: null | undefined | string = null
+      let id: number | null = null
       const len = state.playingList?.list?.length
       const { playMode, playingList } = state
       if (playMode === PLAY_MODE.REPEAT_ONCE) {
@@ -126,6 +128,24 @@ export const usePlayerStore = defineStore({
       } catch (e) {
         return false
       }
+    },
+    async updatePersonalFmList() {
+      const cacheList = [...this.fmList]
+      let pop
+      if (cacheList.length <= 1) {
+        const { data } = await personalFM()
+        if (cacheList.length === 1) {
+          pop = cacheList.shift()
+        } else {
+          pop = data?.shift()
+        }
+        this.fmList = data
+      } else {
+        pop = cacheList.shift()
+        this.fmList = cacheList
+      }
+      this.fmTrack = pop
+      return this.fmTrack
     },
   },
 })
