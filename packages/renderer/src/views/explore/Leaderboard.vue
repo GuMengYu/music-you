@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import { getTopList } from '@/api'
+import { getTopList } from '@/api/top'
 import Cover from '@/components/app/cover/Cover.vue'
 export default {
   name: 'DefaultLeaderBoard',

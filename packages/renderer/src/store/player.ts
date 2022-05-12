@@ -4,8 +4,8 @@ import { reactive, toRefs, watchEffect } from 'vue'
 
 import { pinia } from '@/plugins/pinia'
 
-import { personalFM } from '../api'
 import { sub } from '../api/music'
+import { personalFM } from '../api/user'
 import type { Playlist, TrackSource } from '../types'
 export enum PLAY_MODE {
   NORMAL = 'normal',

@@ -1,21 +1,21 @@
 import { now } from 'lodash-es'
 
-import { musicXhr as xhr } from '../util/xhr'
+import { request, requestPost } from '@/util/fetch'
 
 export const cloudDiskMusicList = (params = { limit: 50, offset: 0 }) => {
-  return xhr.get('/user/cloud', { params: { ...params, timestamp: now() } })
+  return request('/user/cloud', { params: { ...params, timestamp: now() } })
 }
 
 export const deleteCloudDiskMusic = (id: number) => {
-  return xhr.get('/user/cloud/del', { params: { id: id } })
+  return request('/user/cloud/del', { params: { id: id } })
 }
 
 export const cloudDiskDetail = (id: number) => {
-  return xhr.get('/user/cloud/detail', { params: { id: id } })
+  return request('/user/cloud/detail', { params: { id: id } })
 }
 
 export const uploadMusicToCloudDisk = (data: { file: File }) => {
-  return xhr.post('/cloud', {
+  return requestPost('/cloud', {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

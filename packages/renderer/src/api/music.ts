@@ -1,14 +1,14 @@
 import { now } from 'lodash-es'
-import { number } from 'yargs'
 
 import { useUserStore } from '@/store/user'
 import type { TrackSource } from '@/types'
+import { request } from '@/util/fetch'
 import { musicXhr as xhr } from '@/util/xhr'
 
 import { getAlbum } from './album'
 import { getArtist } from './artist'
-import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './index'
 import { getPlaylistDetail } from './playlist'
+import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -49,7 +49,7 @@ export const getMusicUrl = async (id: TrackSource['id'], br = 320000) => {
   return url
 }
 export const search = (keywords = '', conditions) => {
-  return xhr.get('/cloudsearch', {
+  return request('/cloudsearch', {
     params: {
       keywords,
       ...conditions,
@@ -113,7 +113,7 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
     delete params.t
     params.like = t === 1
   }
-  return xhr.get(url, {
+  return request(url, {
     params,
   })
 }
@@ -129,7 +129,7 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const scrobble = (params: { id: TrackSource['id']; sourceid: number | string }) => {
-  return xhr.get('/scrobble', {
+  return request('/scrobble', {
     params: {
       ...params,
       timestamp: now(),
@@ -145,7 +145,7 @@ export const scrobble = (params: { id: TrackSource['id']; sourceid: number | str
  * @param tracks : Array 歌曲id 可多个,用逗号隔开
  */
 export const doPlaylist = (op = 'add', pid: string | number, tracks = []) => {
-  return xhr.get('/playlist/tracks', {
+  return request('/playlist/tracks', {
     params: {
       op,
       pid,

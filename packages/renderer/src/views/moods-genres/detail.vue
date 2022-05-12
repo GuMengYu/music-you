@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getPersonalized, getTopPlaylist, getTopPlaylistHighQuality } from '@/api'
+import { getTopPlaylist, getTopPlaylistHighQuality, personalizedPlaylist } from '@/api/top'
 import Cover from '@/components/app/cover/Cover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
 import CustomCol from '@/components/app/layout/Col.vue'
@@ -46,7 +46,7 @@ export default {
     async fetch() {
       this.loading = true
       if (this.type === '推荐') {
-        const { result: playlists = [] } = await getPersonalized()
+        const { result: playlists = [] } = await personalizedPlaylist()
         this.playlists = playlists
       } else if (this.type === '精品') {
         const { playlists } = await getTopPlaylistHighQuality()

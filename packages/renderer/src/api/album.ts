@@ -25,3 +25,14 @@ export const newAlbums = (params: { limit: number; area: string }) => {
     params,
   })
 }
+/**
+ * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
+ * @param id
+ */
+export const getPlayListDynamic = (id: number) =>
+  request('/playlist/detail/dynamic', {
+    params: {
+      timestamp: now(),
+      id,
+    },
+  })

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getNewMv } from '@/api/index'
+import { getNewMv } from '@/api/mv'
 import VideoCover from '@/components/app/cover/VideoCover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
 export default {

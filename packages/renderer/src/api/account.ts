@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import { musicXhr as xhr } from '../util/xhr'
+import { request } from '../util/fetch'
 
 /**
  * 登录
@@ -22,7 +22,7 @@ export interface loginResult {
   token: string
 }
 export const login = (params: loginParam) => {
-  return xhr.get<loginResult>(`/login/cellphone?timestamp=${now()}`, { params })
+  return request<loginResult>(`/login/cellphone?timestamp=${now()}`, { params })
 }
 
 /**
@@ -30,19 +30,19 @@ export const login = (params: loginParam) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const logout = () => {
-  return xhr.get(`/logout?timestamp=${now()}`)
+  return request(`/logout?timestamp=${now()}`)
 }
 
 export const getQrCodeKey = () => {
-  return xhr.get(`/login/qr/key?timestamp=${now()}`)
+  return request(`/login/qr/key?timestamp=${now()}`)
 }
 
 export const createQRCode = (key: string) => {
-  return xhr.get(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
+  return request(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
 }
 
 export const checkQRCodeStatus = (key: string) => {
-  return xhr.get(`/login/qr/check?key=${key}&timestamp=${now()}`)
+  return request(`/login/qr/check?key=${key}&timestamp=${now()}`)
 }
 
 /**
@@ -50,5 +50,5 @@ export const checkQRCodeStatus = (key: string) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getAccount() {
-  return xhr.get(`/user/account?timestamp=${now()}`)
+  return request(`/user/account?timestamp=${now()}`)
 }

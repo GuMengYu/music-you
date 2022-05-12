@@ -41,7 +41,7 @@ import { mdiDelete, mdiPause, mdiPlay, mdiSkipNextOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
-import { fmToTrash } from '@/api'
+import { fmToTrash } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'

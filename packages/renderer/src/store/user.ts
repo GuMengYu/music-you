@@ -2,9 +2,8 @@
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
-import { getLikeList } from '@/api'
 import { getAccount } from '@/api/account'
-import { getUserPlaylist } from '@/api/user'
+import { getLikeList, getUserPlaylist } from '@/api/user'
 import type { Account, Playlist, TrackSource } from '@/types'
 import { specialType } from '@/util/metadata'
 

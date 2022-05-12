@@ -50,8 +50,8 @@
 import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
 
-import { getDailyRecommend } from '@/api'
 import { getTrackList } from '@/api/music'
+import { getDailyRecommend } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import type { TrackSource } from '@/types'

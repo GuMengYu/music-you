@@ -60,3 +60,13 @@ export const createPlaylist = (params: { name: string; privacy: number; type: st
     ...params,
     timestamp: now(),
   })
+
+/**
+ * 获取歌单分类列表
+ * @returns
+ */
+export const getCatList = () =>
+  request<{
+    categories: Record<string, string>
+    sub: []
+  }>('/playlist/catlist')

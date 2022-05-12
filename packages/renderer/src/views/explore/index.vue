@@ -28,7 +28,8 @@
 import { filter, random } from 'lodash-es'
 
 import { newAlbums } from '@/api/album'
-import { getCatList, getNewMv, getTopList } from '@/api/index'
+import { getNewMv, getTopList } from '@/api/mv'
+import { getCatList } from '@/api/playlist'
 import Cover from '@/components/app/cover/Cover.vue'
 import VideoCover from '@/components/app/cover/VideoCover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
