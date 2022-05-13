@@ -1,5 +1,7 @@
 import { now } from 'lodash-es'
 
+import type { TrackSource } from '@/types'
+
 import { request } from '../util/fetch'
 
 /**
@@ -65,7 +67,10 @@ export const recent = (limit = 50, type = 'song') => {
  * 私人fm
  */
 
-export const personalFM = () => request('/personal_fm', { params: { timestamp: now() } })
+export const personalFM = () =>
+  request<{
+    data: TrackSource[]
+  }>('/personal_fm', { params: { timestamp: now() } })
 
 /**
  * 私人fm 不喜欢
@@ -82,7 +87,13 @@ export const recommendPlaylist = () => request('/recommend/resource', { params: 
  * 用户日推歌曲
  * @returns
  */
-export const getDailyRecommend = () => request('/recommend/songs')
+export const getDailyRecommend = () =>
+  request<{
+    data: {
+      dailySongs: TrackSource[]
+      recommendReasons: []
+    }
+  }>('/recommend/songs')
 
 /**
  * 获取喜欢列表

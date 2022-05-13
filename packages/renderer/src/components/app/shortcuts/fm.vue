@@ -45,11 +45,13 @@ import { fmToTrash } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
+import { useToastStore } from '@/store/toast'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const playerStore = usePlayerStore()
+const toastStore = useToastStore()
 
-const { fmTrack } = storeToRefs(playerStore)
+const { fmTrack, track } = storeToRefs(playerStore)
 
 const coverImgUrl = computed(() => {
   if (fmTrack.value?.album?.picUrl) {
@@ -60,23 +62,40 @@ const coverImgUrl = computed(() => {
 })
 
 const title = computed(() => {
-  return `${fmTrack.value?.album?.name} - ${fmTrack.value?.name} `
+  return `${fmTrack.value?.ar?.[0]?.name ?? fmTrack.value?.artists?.[0].name ?? ''} - ${fmTrack.value?.name} `
 })
 const playing = computed(() => {
   return playerStore.playing && playerStore.isCurrentFm
 })
+
 async function trash() {
-  await fmToTrash(fmTrack.value?.id)
-  await player.next()
+  if (fmTrack.value?.id) {
+    await fmToTrash(fmTrack.value.id)
+    await player.next()
+  }
 }
 async function togglePlay() {
-  await player.play()
+  if (playerStore.isCurrentFm) {
+    if (playing.value) {
+      await player.pause()
+    } else {
+      await player.play()
+    }
+  } else if (fmTrack.value?.id) {
+    playerStore.isCurrentFm = true
+    await player.updatePlayerTrack(fmTrack.value.id, true) // 替换当前播放歌曲
+  } else {
+    toastStore.show('FM歌曲未加载')
+  }
 }
 async function next() {
+  !playerStore.isCurrentFm && (playerStore.isCurrentFm = true)
   await player.next()
+  playerStore.updatePersonalFmList()
 }
-fetch()
-async function fetch() {
+
+init()
+async function init() {
   await playerStore.updatePersonalFmList()
 }
 </script>

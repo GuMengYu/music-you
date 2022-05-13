@@ -130,21 +130,25 @@ export const usePlayerStore = defineStore({
       }
     },
     async updatePersonalFmList() {
+      // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...this.fmList]
-      let pop
+      let pop: TrackSource | undefined
+      // 只有一首歌曲时，需要接口拉去新数据
       if (cacheList.length <= 1) {
         const { data } = await personalFM()
+        // 只有一首时，直接弹出最后一首，并用新数据替换fmList
         if (cacheList.length === 1) {
           pop = cacheList.shift()
         } else {
+          // 先弹出，再更新fmList
           pop = data?.shift()
         }
-        this.fmList = data
+        this.fmList = data // 更新数据
       } else {
         pop = cacheList.shift()
         this.fmList = cacheList
       }
-      this.fmTrack = pop
+      pop && (this.fmTrack = pop)
       return this.fmTrack
     },
   },

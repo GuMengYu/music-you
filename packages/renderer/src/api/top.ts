@@ -1,3 +1,4 @@
+import type { Playlist } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
@@ -12,10 +13,15 @@ export const topArtists = () => request('/toplist/artist?type=2')
  limit: 取出歌单数量 , 默认为 50
  offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-export const getTopPlaylist = (params = { limit: 20, cat: '全部', offset: 0 }) => request('/top/playlist', { params })
+export const getTopPlaylist = (params = { limit: 20, cat: '全部', offset: 0 }) =>
+  request<{
+    playlists: Playlist[]
+  }>('/top/playlist', { params })
 
 export const getTopPlaylistHighQuality = (params = { limit: 20, cat: '全部' }) =>
-  request('/top/playlist/highquality', { params })
+  request<{
+    playlists: Playlist[]
+  }>('/top/playlist/highquality', { params })
 
 /**
  * 新歌
@@ -34,4 +40,7 @@ export const topSongs = () => {
 /**
  * 获取所有榜单
  */
-export const getTopList = () => request('/toplist')
+export const getTopList = () =>
+  request<{
+    list: Playlist[]
+  }>('/toplist')

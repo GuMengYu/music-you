@@ -1,5 +1,5 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
+  <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
       rounded="lg"
       color="surfaceVariant"
@@ -7,7 +7,7 @@
       flat
       :height="80"
       :to="to"
-      v-bind="props"
+      v-bind="hoverProps"
       :elevation="isHovering ? 1 : 0"
     >
       <div
@@ -18,10 +18,10 @@
         {{ flag.label }}
       </div>
       <div class="d-flex align-start justify-space-between flex-fill px-4 flex-column text-onSurfaceVariant">
-        <span :title="data.name" class="text-subtitle-1 h-1x">
+        <span :title="data.title" class="text-subtitle-1 h-1x">
           {{ data.title }}
         </span>
-        <span :title="data.name" class="text-subtitle-2 h-1x">
+        <span :title="data.subTitle" class="text-subtitle-2 h-1x">
           {{ data.subTitle }}
         </span>
       </div>
@@ -34,7 +34,7 @@
         :lazy-src="placeholderUrl"
         :src="coverImgUrl"
       >
-        <div class="action d-flex justify-center align-center fill-height flex-fill">
+        <div v-if="canPlay" class="action d-flex justify-center align-center fill-height flex-fill">
           <transition name="slide-fade-x">
             <v-btn v-show="isHovering" icon :color="flag.color" :loading="loading" @click.prevent="play">
               <v-icon color="onPrimary">{{ mdiPlay }}</v-icon>
@@ -59,12 +59,12 @@ import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const props = defineProps<{
   data: {
-    id: number
+    id?: number
     title: string
-    subTitle: string
+    subTitle?: string
     picUrl: string
   }
-  type: 'album' | 'playlist' | 'artist'
+  type: 'album' | 'playlist' | 'artist' | 'daily' | 'wallhaven'
   flag: {
     color: string
     label: string
@@ -86,23 +86,30 @@ const to = computed(() => {
     album: `/album/${props.data.id}`,
     playlist: `/playlist/${props.data.id}`,
     artist: `/artist/${props.data.id}`,
+    daily: `/daily`,
+    wallhaven: '/wallhaven',
   }[props.type]
+})
+
+const canPlay = computed(() => {
+  return ['daily', 'album', 'playlist', 'artist'].includes(props.type)
 })
 async function play() {
   try {
     loading.value = true
     let info: {
-      id: number
+      id?: number
       list: TrackSource[]
     }
-    if (props.type === 'daily') {
-      const { data = {} } = await getDailyRecommend()
+    if (props.type === 'wallhaven') {
+      return
+    } else if (props.type === 'daily') {
+      const { data } = await getDailyRecommend()
       info = {
-        id: data.id,
         list: data['dailySongs'],
       }
     } else {
-      const data = await getTrackList(props.type, props.data.id)
+      const data = await getTrackList(props.type, props.data.id as number)
       info = {
         id: data.id,
         list: data.tracks,

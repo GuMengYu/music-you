@@ -1,8 +1,8 @@
 import type { App } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import en from '../i18n/messages/en'
-import zh from '../i18n/messages/zh'
+import en from '../locale/en.json'
+import zhCN from '../locale/zh-CN.json'
 
 // const messages = Object.fromEntries(
 //     Object.entries(
@@ -14,8 +14,8 @@ import zh from '../i18n/messages/zh'
 
 export const useI18n = (app: App) => {
   const i18n = createI18n({
-    locale: 'zh',
-    messages: { zh, en },
+    locale: 'zhCN',
+    messages: { zhCN, en },
   })
   app.use(i18n)
 }

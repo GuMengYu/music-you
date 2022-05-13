@@ -19,7 +19,9 @@
 </template>
 <script setup lang="ts">
 import { isFunction } from 'lodash-es'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps({
   title: {
     type: String,
@@ -41,6 +43,8 @@ const props = defineProps({
 const handleMore = () => {
   if (isFunction(props.more)) {
     props.more()
+  } else {
+    router.push(props.more)
   }
 }
 </script>

@@ -12,7 +12,9 @@ export default defineConfig({
   envDir: path.resolve(__dirname, '../../'),
   root: __dirname,
   plugins: [
-    vue(),
+    vue({
+      reactivityTransform: true,
+    }),
     electron(),
     resolve(
       /**

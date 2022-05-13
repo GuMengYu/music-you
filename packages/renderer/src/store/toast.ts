@@ -32,7 +32,10 @@ export const useToastStore = defineStore('toast', {
     }
   },
   actions: {
-    async show(options: RootState) {
+    async show(options: RootState | string) {
+      if (typeof options === 'string') {
+        options = { message: options }
+      }
       this.showToast = true
       this.message = options.message
       if (options.x) this.x = options.x

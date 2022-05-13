@@ -1,34 +1,29 @@
 <template>
-  <card-row :list="albums">
-    <cover v-for="album in albums" :key="album.id" :data="album" />
+  <card-row :list="state.albums">
+    <cover v-for="album in state.albums" :key="album.id" :data="album" />
   </card-row>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
 import { newAlbums } from '@/api/album'
-import Cover from '@/components/app/Cover.vue'
+import Cover from '@/components/app/cover/Cover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
-export default {
-  name: 'NewReleasesAlbums',
-  components: {
-    CardRow,
-    Cover,
-  },
-  props: {},
-  data: () => ({
-    loading: false,
-    albums: [],
-  }),
-  created() {
-    this.fetch()
-  },
-  methods: {
-    async fetch() {
-      this.loading = true
-      const { albums } = await newAlbums({ area: 'ALL' })
-      this.albums = albums
-      this.loading = false
-    },
-  },
+import type { Album } from '@/types'
+
+const state: {
+  loading: boolean
+  albums: Album[]
+} = reactive({
+  loading: false,
+  albums: [],
+})
+fetch()
+async function fetch() {
+  state.loading = true
+  const { albums } = await newAlbums({ area: 'ALL' })
+  state.albums = albums
+  state.loading = false
 }
 </script>

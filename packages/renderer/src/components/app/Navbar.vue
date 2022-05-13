@@ -22,8 +22,8 @@
         </v-list-item-avatar>
         <v-list-item-title v-text="item.title"></v-list-item-title>
       </v-list-item>
-      <v-divider />
-      <v-list-subheader class="font-weight-bold text-uppercase ml-2">
+      <v-divider v-show="!rail" class="mx-3" length="2" />
+      <v-list-subheader v-show="!rail" class="font-weight-bold">
         {{ $t('main.nav.library') }}
       </v-list-subheader>
       <v-list-item v-for="item in state.defaultNav2" :key="item.val" class="drawer-item" :to="item.to">
@@ -32,7 +32,7 @@
         </v-list-item-avatar>
         <v-list-item-title v-text="item.title"></v-list-item-title>
       </v-list-item>
-      <v-divider />
+      <v-divider v-show="!rail" class="mx-3" />
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -7,7 +7,7 @@ import { RADARPLAYLISTS } from '@/util/metadata'
  * @param {number} limit 返回数量限制
  * @returns
  */
-export const personalizedPlaylist = (limit: number) => {
+export const personalizedPlaylist = (limit?: number) => {
   return request<{
     category: number
     code: number

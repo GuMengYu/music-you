@@ -53,7 +53,6 @@ export class Player {
     this.stageMusicURL = null
     this._updateCurrentTime = throttle(this.updateCurrentTime, 1000)
 
-    console.log(this)
     this.init()
   }
   private async init() {
@@ -164,10 +163,12 @@ export class Player {
       },
       onload: () => {
         this.trackLoaded()
-        const { name, ar = [] } = this.track
-        const artists = ar.map((a) => a.name).join('&')
-        document.title = `${name} - ${artists}`
-        this.fixDuration()
+        if (this.track) {
+          const { name, ar = [] } = this.track
+          const artists = ar.map((a) => a.name).join('&')
+          document.title = `${name} - ${artists}`
+          this.fixDuration()
+        }
       },
       onloaderror: (e) => {
         console.log(e)
@@ -189,8 +190,9 @@ export class Player {
       console.log(
         `net ease返回的歌曲长度: ${this.track?.dt}， 歌曲实际长度: ${duration * 1000}， 偏差大小: ${offset}，修正`
       )
-      this.store.$state.track.dt = factDuration
-      // this.store.commit('music/updateDuration', factDuration);
+      if (this.store.$state.track) {
+        this.store.$state.track.dt = factDuration
+      }
     }
   }
   private trackLoaded() {
@@ -215,7 +217,6 @@ export class Player {
   }
   next() {
     const trackId = this.nextTrackId()
-    console.log('next', trackId)
     if (typeof trackId === 'string' || typeof trackId === 'number') {
       this.updatePlayerTrack(trackId)
     } else {
@@ -241,7 +242,7 @@ export class Player {
     return this.store.prevTrackId
   }
   updateCurrentTime(this: Player, val: number) {
-    const current = val ?? Math.ceil(this.howler?.seek())
+    const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
     this.currentTime = current
     this.store.currentTime = current
   }
@@ -261,21 +262,21 @@ export class Player {
     // this.setScrobble(this.track, 0, true)
   }
   // 接口无效 暂时不用
-  private setScrobble(this: Player, track: TrackSource, time: number, played = false) {
-    const { id, dt } = track
-    const sourceid = this.playingList.id
-    if (played) {
-      time = +dt / 1000
-    }
-    if (time) {
-      console.log('歌曲打卡', this.track?.name, Math.ceil(time), played)
-      scrobble({
-        id,
-        sourceid,
-        time: Math.ceil(time),
-      })
-    }
-  }
+  // private setScrobble(this: Player, track: TrackSource, time: number, played = false) {
+  //   const { id, dt } = track
+  //   const sourceid = this.playingList.id
+  //   if (played) {
+  //     time = +dt / 1000
+  //   }
+  //   if (time) {
+  //     console.log('歌曲打卡', this.track?.name, Math.ceil(time), played)
+  //     scrobble({
+  //       id,
+  //       sourceid,
+  //       time: Math.ceil(time),
+  //     })
+  //   }
+  // }
   private initMediaSession(track: TrackSource) {
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {
@@ -284,7 +285,7 @@ export class Player {
       navigator.mediaSession.metadata = new MediaMetadata({
         title,
         artist: artist?.map((a) => a.name).join('&'),
-        album: album.name,
+        album: album?.name ?? '',
         artwork: [
           {
             src: album?.picUrl ?? '',
@@ -299,7 +300,7 @@ export class Player {
         ['previoustrack', this.prev],
         ['nexttrack', this.next],
       ].map((ac) => {
-        const [action, handler] = ac
+        const [action, handler] = ac as ['string', () => void]
         navigator.mediaSession.setActionHandler(action as MediaSessionAction, handler.bind(this))
       })
     }

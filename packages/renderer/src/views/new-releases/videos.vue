@@ -1,16 +1,18 @@
 <template>
-  <card-row>
-    <v-col v-for="video in videos" :key="video.id" cols="3">
-      <video-cover :data="video" />
-    </v-col>
+  <card-row :grid-type="GridType.B">
+    <video-cover v-for="video in videos" :key="video.id" :data="video" />
   </card-row>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
 import { getNewMv } from '@/api/mv'
 import VideoCover from '@/components/app/cover/VideoCover.vue'
 import CardRow from '@/components/app/layout/CardRow.vue'
-export default {
+import { GridType } from '@/hooks/useResponsiveGrid'
+import type { MV } from '@/types'
+export default defineComponent({
   name: 'NewReleasesVideos',
   components: {
     CardRow,
@@ -18,7 +20,8 @@ export default {
   },
   data: () => ({
     loading: false,
-    videos: [],
+    videos: [] as MV[],
+    GridType,
   }),
   created() {
     this.fetch()
@@ -31,5 +34,5 @@ export default {
       this.loading = false
     },
   },
-}
+})
 </script>

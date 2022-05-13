@@ -20,7 +20,7 @@ export const getAlbum = (id: number) =>
 /**
  * 获取新专辑
  */
-export const newAlbums = (params: { limit: number; area: string }) => {
+export const newAlbums = (params?: { limit?: number; area?: string }) => {
   return request<{
     code: number
     albums: Album[]

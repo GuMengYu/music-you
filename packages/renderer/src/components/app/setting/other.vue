@@ -31,8 +31,8 @@ import AppTitle from '../Title.vue'
 const { t } = useI18n()
 const localeOptions = [
   {
-    title: t('common.zh'),
-    value: 'zh',
+    title: t('common.zh-CN'),
+    value: 'zh-CN',
     activeClass: 'text-primary',
     rounded: true,
   },
@@ -56,6 +56,6 @@ const qualityOptions = [
     activeClass: 'text-primary',
   },
 ]
-const locale = ref('zh')
+const locale = ref('zh-CN')
 const quality = ref('320')
 </script>

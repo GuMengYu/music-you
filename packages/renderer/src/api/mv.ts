@@ -1,5 +1,6 @@
 import { now } from 'lodash-es'
 
+import type { MV } from '@/types'
 import { request } from '@/util/fetch'
 /**
  * 获取热门视频
@@ -12,7 +13,10 @@ export const recommendVideo = (offset) => request('/video/timeline/recommend', {
  * 获取新mv
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getNewMv = (params) => request('/mv/first', { params })
+export const getNewMv = (params?: { limit?: number }) =>
+  request<{
+    data: MV[]
+  }>('/mv/first', { params })
 
 /**
  * 获取 mv 数据

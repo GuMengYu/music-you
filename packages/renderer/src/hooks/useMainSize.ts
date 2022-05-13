@@ -5,7 +5,8 @@ export function useMainSize() {
   const display = useDisplay()
   const layout = useLayout()
   const width = computed(() => {
-    return display.width.value - parseInt(layout.mainStyles.value?.paddingLeft as string)
+    const containerPadding = 24 * 2
+    return display.width.value - parseInt(layout.mainStyles.value?.paddingLeft as string) - containerPadding
   })
   const height = computed(() => {
     return display.height.value ?? 720
