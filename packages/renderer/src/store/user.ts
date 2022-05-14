@@ -2,7 +2,7 @@
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
-import { getAccount } from '@/api/account'
+import { getAccount, logout } from '@/api/account'
 import { getLikeList, getUserPlaylist } from '@/api/user'
 import type { Account, Playlist, TrackSource } from '@/types'
 import { specialType } from '@/util/metadata'
@@ -12,6 +12,8 @@ export type UserState = {
   account: Nullable<Account>
   likes: TrackSource[]
   playlists: Playlist[]
+  signOut?: () => void
+  refreshAccount?: () => Promise<Account>
 }
 export const useUserStore = defineStore({
   id: 'user',
@@ -51,6 +53,10 @@ export const useUserStore = defineStore({
       const account = await getAccount()
       this.account = account
       return account
+    },
+    async signOut() {
+      await logout()
+      this.account = null
     },
   },
 })
