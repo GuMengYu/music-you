@@ -1,7 +1,7 @@
 import { now } from 'lodash-es'
 
 import { useUserStore } from '@/store/user'
-import type { TrackSource } from '@/types'
+import type { Album, Artist, MV, Playlist, TrackSource } from '@/types'
 import { request } from '@/util/fetch'
 
 import { getAlbum } from './album'
@@ -48,7 +48,15 @@ export const getMusicUrl = async (id: TrackSource['id'], br = 320000) => {
   return url
 }
 export const search = (keywords = '', conditions) => {
-  return request('/cloudsearch', {
+  return request<{
+    result: {
+      songs?: TrackSource[]
+      albums?: Album[]
+      artists?: Artist[]
+      mvs?: MV[]
+      playlists?: Playlist[]
+    }
+  }>('/cloudsearch', {
     params: {
       keywords,
       ...conditions,

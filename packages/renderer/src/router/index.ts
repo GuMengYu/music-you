@@ -139,7 +139,7 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/search/:keywords?',
     name: 'search',
-    component: lazyLoad('Search'),
+    component: lazyLoad('search/index'),
     props: true,
     meta: {
       keepAlive: true,
@@ -149,6 +149,7 @@ const musicRoutes: RouteRecordRaw[] = [
     path: '/search/:keywords/:type',
     name: 'searchMore',
     component: lazyLoad('search/more'),
+    props: true,
   },
   {
     path: '/playground',

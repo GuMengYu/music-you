@@ -74,7 +74,7 @@ onMounted(async () => {
 </script>
 <template>
   <div :style="{ gridTemplateColumns: `repeat(${count}, 1fr)`, columnGap: gap, display: 'grid', rowGap: '16px' }">
-    <Shortcut v-if="logged" :data="myFav" type="daily" :flag="{ color: 'primary', label: 'F' }" />
+    <Shortcut v-if="logged" :data="myFav" type="playlist" :flag="{ color: 'primary', label: 'F' }" />
     <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'D' }" />
     <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', label: 'R' }" />
     <Shortcut v-if="logged" :data="state.randomPlayList" type="playlist" :flag="{ color: 'outline', label: 'P' }" />

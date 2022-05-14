@@ -8,7 +8,7 @@ export type AppState = {
   rail: boolean
   showControlCenter: boolean
   showLogin: boolean
-  showSearch: boolean
+  showCommandPalette: boolean
   showPlaying: boolean
   showLyric: boolean
   playingMode: PLAYING_MODE
@@ -23,7 +23,7 @@ export const useAppStore = defineStore('app', {
       showControlCenter: false,
       showLogin: false,
       showPlaying: false,
-      showSearch: false,
+      showCommandPalette: false,
       showLyric: false,
       playingMode: PLAYING_MODE.BASIC,
       showAddToPlayList: false,

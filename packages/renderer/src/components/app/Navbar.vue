@@ -4,12 +4,6 @@
       <drawer-toggle />
     </div>
     <v-list class="system_nav" rounded :nav="true">
-      <v-list-item class="drawer-item" active-class="none" @click="showSearch = true">
-        <v-list-item-avatar left>
-          <v-icon :icon="mdiMagnify"></v-icon>
-        </v-list-item-avatar>
-        <v-list-item-title>{{ $t('main.nav.search') }}</v-list-item-title>
-      </v-list-item>
       <v-list-item
         v-for="item in state.defaultNav1"
         :key="item.val"
@@ -18,11 +12,11 @@
         active-class="text-primary"
       >
         <v-list-item-avatar left>
-          <v-icon :icon="item.icon"></v-icon>
+          <v-icon size="small" :icon="item.icon"></v-icon>
         </v-list-item-avatar>
         <v-list-item-title v-text="item.title"></v-list-item-title>
       </v-list-item>
-      <v-divider v-show="!rail" class="mx-3" length="2" />
+      <!-- <v-divider v-show="!rail" class="mx-3" />
       <v-list-subheader v-show="!rail" class="font-weight-bold">
         {{ $t('main.nav.library') }}
       </v-list-subheader>
@@ -32,13 +26,13 @@
         </v-list-item-avatar>
         <v-list-item-title v-text="item.title"></v-list-item-title>
       </v-list-item>
-      <v-divider v-show="!rail" class="mx-3" />
+      <v-divider v-show="!rail" class="mx-3" /> -->
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import { mdiAppleFinder, mdiHandHeart, mdiHarddisk, mdiLibrary, mdiMagnify, mdiMusicNoteHalfDotted } from '@mdi/js'
+import { mdiAlbum, mdiHome, mdiMagnify, mdiMusicNoteHalfDotted } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -47,44 +41,37 @@ import { useAppStore } from '@/store/app'
 
 import DrawerToggle from './toggle/DrawerToggle.vue'
 
-const { rail, showSearch } = storeToRefs(useAppStore())
+const { rail } = storeToRefs(useAppStore())
 const { t } = useI18n()
 
 const state = reactive({
   defaultNav1: [
     {
-      icon: mdiMusicNoteHalfDotted,
+      icon: mdiMagnify,
+      val: 'search',
+      title: t('main.nav.search'),
+      to: '/search',
+    },
+    {
+      icon: mdiHome,
       val: 'discover',
       title: t('main.nav.discover'),
       to: '/discover',
     },
     {
-      icon: mdiAppleFinder,
+      icon: mdiAlbum,
       val: 'explore',
       title: t('main.nav.explore'),
       to: '/explore',
     },
     {
-      icon: mdiHandHeart,
-      val: 'daily',
-      title: t('main.nav.daily'),
-      to: '/daily',
-    },
-  ],
-  defaultNav2: [
-    {
-      icon: mdiLibrary,
+      icon: mdiMusicNoteHalfDotted,
       val: 'stars',
       title: t('main.nav.stars'),
       to: '/library',
     },
-    {
-      icon: mdiHarddisk,
-      val: 'cloud_disk',
-      title: t('main.nav.disk'),
-      to: '/cloud_disk',
-    },
   ],
+  defaultNav2: [],
 })
 </script>
 <style lang="scss">

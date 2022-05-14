@@ -1,7 +1,7 @@
 <template>
   <v-btn icon @click="showControlCenter = !showControlCenter">
     <v-icon size="small">{{ mdiCorn }} </v-icon>
-    <v-tooltip activator="parent" anchor="bottom">设置</v-tooltip>
+    <v-tooltip activator="parent" anchor="bottom">CC</v-tooltip>
   </v-btn>
 </template>
 

@@ -5,11 +5,11 @@
   "main": {
     "nav": {
       "search": "Search",
-      "discover": "Discover music",
+      "discover": "main",
       "explore": "Explore",
       "fm": "Private FM",
       "daily": "Daily Recommend",
-      "stars": "My Collection",
+      "stars": "Library",
       "disk": "Cloud Music",
       "radio": "My Radio",
       "created_list": "PLAYLIST",

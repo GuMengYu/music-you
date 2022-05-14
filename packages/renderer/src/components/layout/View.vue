@@ -1,6 +1,6 @@
 <template>
   <v-main class="pb-16">
-    <v-container class="pa-6" fluid>
+    <v-container class="pa-6 pt-5" fluid>
       <router-view v-slot="{ Component }">
         <transition v-if="$route.meta['keepAlive']" name="route-animation" mode="out-in">
           <keep-alive>

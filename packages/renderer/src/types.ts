@@ -12,10 +12,11 @@ export interface TrackSource {
 export interface MV {
   artist?: Artist
   artists?: Artist[]
-  id: string
+  id: number
   name: string
   copywriter: string
-  picUrl: string
+  picUrl?: string
+  cover?: string
   playCount: number
   type: number
   canDislike: boolean

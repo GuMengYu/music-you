@@ -30,13 +30,14 @@
     </span>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { mdiPlay } from '@mdi/js'
+import { defineComponent } from 'vue'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import ArtistsLink from '@/components/app/artist/ArtistsLink.vue'
 import { formatNumber, sizeOfImage } from '@/util/fn'
-export default {
+export default defineComponent({
   name: 'VideoCover',
   components: { ArtistsLink },
   props: {
@@ -87,7 +88,7 @@ export default {
     },
   },
   methods: {},
-}
+})
 </script>
 
 <style lang="scss" scoped>
