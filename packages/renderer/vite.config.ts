@@ -1,5 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+// eslint-disable-next-line import/no-unresolved
+import AutoImport from 'unplugin-auto-import/vite'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // import vuetify from '@vuetify/vite-plugin'
@@ -28,6 +30,11 @@ export default defineConfig(({ command, mode }) => {
     //   autoImport: false,
     // }),
     vueJsx(),
+    // https://github.com/antfu/unplugin-auto-import
+    AutoImport({
+      imports: ['vue', 'vue-router', 'vue/macros', '@vueuse/head', '@vueuse/core'],
+      dts: './src/auto-imports.d.ts',
+    }),
   ]
   if (mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD) {
     plugins.push(

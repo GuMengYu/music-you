@@ -12,6 +12,7 @@
       "isolatedModules": true,
       "esModuleInterop": true,
       "lib": ["esnext", "dom"],
+      "forceConsistentCasingInFileNames": true,
       "baseUrl": "./",
       "paths": {
         "@/*": ["src/*"],

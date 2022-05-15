@@ -24,8 +24,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
-
 import { personalizedMV, personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
 import DiscoverLoader from '@/components/app/skeleton/DiscoverLoader.vue'
 import type { MV, Playlist, TrackSource } from '@/types'

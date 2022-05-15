@@ -33,6 +33,7 @@
     "md5": "^2.3.0",
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
     "pinia": "^2.0.13",
+    "unplugin-auto-import": "^0.7.1",
     "vue": "^3.2.25",
     "vue-content-loader": "^2.0.1",
     "vue-i18n": "^9.1.9",

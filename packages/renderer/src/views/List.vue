@@ -113,12 +113,9 @@
 </template>
 <script setup lang="ts">
 import { mdiAccountMusic, mdiInformation, mdiMapMarkerCircle, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
-import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { computed, reactive, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
 
-import { sub } from '@/api/music'
+// import { sub } from '@/api/music'
 import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
 import { usePlayer } from '@/player/player'
 import { formatDuring, formatNumber } from '@/util/fn'
@@ -138,9 +135,11 @@ const props = defineProps({
 const state = reactive({
   playlist: {
     tracks: [],
+    trackCount: 0,
     coverImgUrl: '',
     name: '',
     id: '',
+    createTime: 0,
   },
   loading: false,
   relatedPlaylist: [],
