@@ -7,7 +7,7 @@
     "preview": "vite preview",
     "dev": "vite --config packages/renderer/vite.config.ts",
     "build": "vite build --config packages/renderer/vite.config.ts",
-    "dev:electron": "node scripts/watch.mjs --mode dev",
+    "dev:electron": "node scripts/watch.mjs",
     "build:electron": "npm run prebuild:electron && electron-builder",
     "prebuild:electron": "node scripts/build.mjs",
     "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:ts",
