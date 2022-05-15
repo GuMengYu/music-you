@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://iplayer-node-api.vercel.app/:match*"
+      "destination": "https://vplayer-api.vercel.app/:match*"
     }
   ]
 }
