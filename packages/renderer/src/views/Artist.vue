@@ -2,7 +2,7 @@
   <div class="d-flex flex-column gap-6">
     <section class="d-flex mb-2">
       <artists-cover :artist="state.artist" :no-info="true" :min-width="225" class="mr-4" />
-      <v-card :flat="true" rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card :flat="true" rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
         <div class="d-flex justify-space-between mb-2 align-center">
           <span>
             <v-icon small>{{ mdiAlbum }}</v-icon>

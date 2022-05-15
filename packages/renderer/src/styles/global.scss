@@ -71,3 +71,9 @@ html {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
+
+/* override some vuetify style */
+
+.rounded-lg {
+  border-radius: 12px !important;
+}

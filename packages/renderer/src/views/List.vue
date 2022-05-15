@@ -2,7 +2,7 @@
   <div class="list">
     <div class="d-flex mb-4">
       <Cover :data="state.playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4" />
-      <v-card flat rounded class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card flat rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
         <div class="d-flex justify-space-between mb-2 align-center">
           <span class="d-flex align-center">
             <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>

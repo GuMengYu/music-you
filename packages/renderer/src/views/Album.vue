@@ -2,7 +2,7 @@
   <div class="list">
     <div class="d-flex mb-2">
       <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" class="mr-4" />
-      <v-card flat rounded="xl" class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card flat rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
         <div class="d-flex justify-space-between mb-4 align-center">
           <span>
             <v-icon small>{{ mdiAlbum }}</v-icon>

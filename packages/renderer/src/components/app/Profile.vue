@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="show">
-    <v-card flat color="surface" width="420" min-height="450">
+    <v-card flat color="surface" width="420" min-height="450" rounded="lg">
       <div class="px-2 pt-2">
         <v-btn icon @click="show = false">
           <v-icon> {{ mdiClose }}</v-icon>
