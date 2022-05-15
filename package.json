@@ -9,7 +9,7 @@
     "build": "vite build --config packages/renderer/vite.config.ts",
     "dev:electron": "node scripts/watch.mjs --mode dev",
     "build:electron": "npm run prebuild:electron && electron-builder",
-    "prebuild:electron": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
+    "prebuild:electron": "node scripts/build.mjs",
     "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:ts",
     "lint:eslint": "eslint \"packages/renderer/src/**/*.{js,jsx,ts,tsx,vue}\" --fix",
     "lint:prettier": "prettier --write \"packages/renderer/src/**/*.{js,tsx,css,scss,vue,md,json,html}\"",
