@@ -1,8 +1,8 @@
 /* eslint-disable import/no-unresolved */
 // Styles
-import '../styles/main.scss'
 
-// types
+import 'vuetify/lib/styles/main.sass'
+
 import type { App } from 'vue'
 // Vuetify
 import { createVuetify } from 'vuetify'

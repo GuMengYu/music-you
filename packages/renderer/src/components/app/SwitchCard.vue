@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useTheme } from 'vuetify/dist/vuetify'
+import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const props = defineProps({

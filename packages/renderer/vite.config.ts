@@ -2,7 +2,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import vuetify from '@vuetify/vite-plugin'
+// import vuetify from '@vuetify/vite-plugin'
 import { defineConfig, loadEnv } from 'vite'
 import electron from 'vite-plugin-electron/renderer'
 import resolve from 'vite-plugin-resolve'
@@ -19,35 +19,34 @@ enum BUILDMODE {
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   console.log(mode, command)
-  const plugins = [
+  const plugins: any = [
     vue({
       reactivityTransform: true,
     }),
-    vuetify({
-      autoImport: true,
-      styles: 'expose',
-    }),
+    // vuetify({
+    //   styles: 'expose',
+    //   autoImport: false,
+    // }),
     vueJsx(),
   ]
   if (mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD) {
     plugins.push(
-      ...[
-        electron(),
-        resolve(
-          /**
-           * Here you can specify other modules
-           * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
-           *    which will ensure that the electron-builder can package it correctly
-           */
-          {
-            // If you use electron-store, this will work
-            'electron-store': 'const Store = require("electron-store"); export default Store;',
-          }
-        ),
-      ]
+      electron(),
+      resolve(
+        /**
+         * Here you can specify other modules
+         * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
+         *    which will ensure that the electron-builder can package it correctly
+         */
+        {
+          // If you use electron-store, this will work
+          'electron-store': 'const Store = require("electron-store"); export default Store;',
+        }
+      )
     )
   }
   return {
+    mode: mode,
     envDir: path.resolve(__dirname, '../../'),
     root: __dirname,
     plugins: plugins,
