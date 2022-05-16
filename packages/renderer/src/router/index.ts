@@ -3,19 +3,20 @@ import type { App } from 'vue'
 import type { RouteLocation, RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
-const lazyLoad = (name: string) => () => import(`../views/${name}.vue`)
+import Home from '@/pages/Home.vue'
+const lazyLoad = (name: string) => () => import(`../pages/${name}.vue`)
 
 const musicRoutes: RouteRecordRaw[] = [
   {
     path: 'discover/',
     name: 'discover',
-    component: lazyLoad('Discover'),
+    component: lazyLoad('discover/Discover'),
     meta: { keepAlive: true },
   },
   {
     path: '/explore',
     name: 'explore',
-    component: lazyLoad('explore/index'),
+    component: lazyLoad('explore/Explore'),
     meta: { keepAlive: true },
   },
   {
@@ -166,14 +167,14 @@ export function useRouter(app: App) {
       {
         path: '/',
         name: 'Home',
-        component: () => import('../views/index.vue'),
+        component: Home,
         children: musicRoutes,
         redirect: { path: '/discover' },
       },
       {
         path: '/:pathMatch(.*)*',
         name: 'FourOhFour',
-        component: () => import('../views/errors/FourOhFour.vue'),
+        component: () => import('../pages/errors/FourOhFour.vue'),
       },
     ],
   })
