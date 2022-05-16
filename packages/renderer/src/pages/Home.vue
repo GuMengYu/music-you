@@ -28,11 +28,13 @@ import AppPlayingPage from './mode/index.vue'
 const theme = useTheme()
 </script>
 <style lang="scss">
+$cubic-bezier: cubic-bezier(0.55, -0.01, 0, 1.03);
+$transition-time: 0.6s;
 .v-player-nav {
   border-inline-end-width: 0;
-  transition-property: width, transform;
-  transition-duration: 0.7s;
-  transition-timing-function: cubic-bezier(0.55, -0.01, 0, 1.03);
+  transition-property: width;
+  transition-duration: $transition-time;
+  transition-timing-function: $cubic-bezier;
   .v-navigation-drawer__content {
     display: flex;
     flex-direction: column;
@@ -42,12 +44,12 @@ const theme = useTheme()
     flex-direction: column;
     .list-content {
       flex: initial;
-      transition: flex 0.7s cubic-bezier(0.55, -0.01, 0, 1.03);
+      transition: flex $transition-time $cubic-bezier;
     }
     // justify-content not the transition property, so use block 'flex' property 'auto' to make it work
     .list-dummy {
       flex: auto;
-      transition: flex 0.7s cubic-bezier(0.55, -0.01, 0, 1.03);
+      transition: flex $transition-time $cubic-bezier;
     }
     &.rail-nav {
       .list-dummy {
@@ -60,9 +62,11 @@ const theme = useTheme()
   }
 }
 .v-player-content {
-  transition: all 0.7s cubic-bezier(0.55, -0.01, 0, 1.03);
+  transition: padding $transition-time $cubic-bezier;
 }
 .v-player-header {
-  transition: all 0.7s cubic-bezier(0.55, -0.01, 0, 1.03);
+  transition-property: margin, width;
+  transition-duration: $transition-time;
+  transition-timing-function: $cubic-bezier;
 }
 </style>

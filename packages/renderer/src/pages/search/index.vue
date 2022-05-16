@@ -64,7 +64,7 @@ async function triggerSearch() {
 <template>
   <v-sheet class="searching d-flex flex-column gap-6">
     <v-progress-linear :active="loading" :indeterminate="loading" color="primary"></v-progress-linear>
-    <CustomCol v-show="state.songs.length" :title="$t('main.songs')">
+    <Col v-show="state.songs.length" :title="$t('main.songs')">
       <v-list>
         <TrackItem
           v-for="(track, idx) in state.songs"
@@ -74,26 +74,26 @@ async function triggerSearch() {
           from="list"
         ></TrackItem>
       </v-list>
-    </CustomCol>
-    <CustomCol v-show="state.artists.length" :title="$t('main.artists')">
+    </Col>
+    <Col v-show="state.artists.length" :title="$t('main.artists')">
       <CardRow>
         <ArtistsCover v-for="artist in state.artists" :key="artist.id" :artist="artist"></ArtistsCover>
       </CardRow>
-    </CustomCol>
-    <CustomCol v-show="state.albums.length" :title="$t('main.albums')">
+    </Col>
+    <Col v-show="state.albums.length" :title="$t('main.albums')">
       <CardRow>
         <Cover v-for="album in state.albums" :key="album.id" :data="album" type="album"></Cover>
       </CardRow>
-    </CustomCol>
-    <CustomCol v-show="state.playlists.length" :title="$t('main.playlists')">
+    </Col>
+    <Col v-show="state.playlists.length" :title="$t('main.playlists')">
       <CardRow>
         <Cover v-for="playlist in state.playlists" :key="playlist.id" :data="playlist"></Cover>
       </CardRow>
-    </CustomCol>
-    <CustomCol v-show="state.mvs.length" :title="$t('main.mvs')">
+    </Col>
+    <Col v-show="state.mvs.length" :title="$t('main.mvs')">
       <CardRow>
         <VideoCover v-for="mv in state.mvs" :key="mv.id" :data="mv" />
       </CardRow>
-    </CustomCol>
+    </Col>
   </v-sheet>
 </template>
