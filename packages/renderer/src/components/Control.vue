@@ -16,6 +16,7 @@
       size="small"
       color="primary"
       :loading="loadingTrack"
+      variant="contained-flat"
       @click="togglePlay"
     >
       <lottie-icon

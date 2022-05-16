@@ -4,7 +4,7 @@
       <b-f-btn />
       <reload-btn />
     </div>
-    <div class="topbar-content-wrapper d-flex">
+    <div class="topbar-content-wrapper d-flex mx-2">
       <search-input />
     </div>
     <div class="append d-flex">
@@ -14,7 +14,11 @@
   </v-app-bar>
 </template>
 <script setup lang="ts">
+import { useLayout } from 'vuetify'
+
 import SearchInput from '@/components/toggle/SearchInput.vue'
+const layout = useLayout()
+console.log(layout)
 </script>
 <style scoped lang="scss">
 .app_header {

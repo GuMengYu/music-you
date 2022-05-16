@@ -1,18 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-footer v-show="track?.id" fixed class="player-footer">
-      <v-slider
-        :model-value="currentTime * 1000"
-        thumb-label
-        :min="0"
-        :max="trackDt"
-        class="track-slider"
-        density="compact"
-        :track-size="2"
-        :thumb-size="12"
-        :hide-details="true"
-        color="primary"
-      ></v-slider>
+    <v-app-bar v-show="track?.id" position="bottom" fixed class="player-footer" :priority="-1">
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-img class="rounded-lg" :aspect-ratio="1" :max-width="40" :max-height="40" :src="albumPicUrl" cover></v-img>
@@ -28,6 +16,18 @@
         </div>
         <div class="playing-bar__center justify-center">
           <Control />
+          <v-slider
+            :model-value="currentTime * 1000"
+            thumb-label
+            :min="0"
+            :max="trackDt"
+            class="track-slider"
+            density="compact"
+            :track-size="2"
+            :thumb-size="12"
+            :hide-details="true"
+            color="primary"
+          ></v-slider>
         </div>
         <div class="playing-bar__right">
           <div class="volume-bar d-flex align-center">
@@ -56,7 +56,7 @@
           </v-btn>
         </div>
       </div>
-    </v-footer>
+    </v-app-bar>
   </transition>
 </template>
 <script setup lang="ts">
@@ -108,12 +108,11 @@ function toQueue() {
   z-index: 1007;
   display: flex;
   flex-flow: column nowrap;
-  padding: 12px;
   .track-slider {
-    width: 100%;
     position: absolute;
-    top: -8px;
-    left: 0;
+    top: -7px;
+    left: -16px;
+    right: -16px;
     :deep(.v-input__control) {
       min-height: 16px;
     }
@@ -130,7 +129,7 @@ function toQueue() {
 
     .playing-bar__center {
       display: flex;
-      flex: 1;
+      flex: 2;
     }
 
     .playing-bar__right {

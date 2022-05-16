@@ -1,22 +1,23 @@
 <template>
-  <v-navigation-drawer class="app-navigation-drawer" :rail="rail">
+  <v-navigation-drawer :rail="rail">
     <div class="pl-2 py-1">
       <drawer-toggle />
     </div>
-    <v-list class="system_nav" rounded :nav="true">
-      <v-list-item
-        v-for="item in state.defaultNav1"
-        :key="item.val"
-        class="drawer-item"
-        :to="item.to"
-        active-class="text-primary"
-      >
-        <v-list-item-avatar left>
-          <v-icon size="small" :icon="item.icon"></v-icon>
-        </v-list-item-avatar>
-        <v-list-item-title v-text="item.title"></v-list-item-title>
-      </v-list-item>
-      <!-- <v-divider v-show="!rail" class="mx-3" />
+    <div class="content-warp flex-fill" :class="{ 'rail-nav': rail }">
+      <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
+        <v-list-item
+          v-for="item in state.defaultNav1"
+          :key="item.val"
+          class="drawer-item rounded-pill"
+          :to="item.to"
+          active-class="text-primary"
+        >
+          <v-list-item-avatar left>
+            <v-icon size="small" :icon="item.icon"></v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title class="font-weight-bold" v-text="item.title"></v-list-item-title>
+        </v-list-item>
+        <!-- <v-divider v-show="!rail" class="mx-3" />
       <v-list-subheader v-show="!rail" class="font-weight-bold">
         {{ $t('main.nav.library') }}
       </v-list-subheader>
@@ -27,7 +28,9 @@
         <v-list-item-title v-text="item.title"></v-list-item-title>
       </v-list-item>
       <v-divider v-show="!rail" class="mx-3" /> -->
-    </v-list>
+      </v-list>
+      <div class="list-dummy"></div>
+    </div>
   </v-navigation-drawer>
 </template>
 
@@ -72,17 +75,3 @@ const state = reactive({
   defaultNav2: [],
 })
 </script>
-<style lang="scss">
-.app-navigation-drawer {
-  border-inline-end-width: 0;
-  transition-property: width, transform;
-  transition-duration: 0.5s;
-  transition-timing-function: cubic-bezier(0, 1.34, 0.02, 1.05);
-
-  .system_nav {
-    .drawer-item {
-      border-radius: 56px;
-    }
-  }
-}
-</style>

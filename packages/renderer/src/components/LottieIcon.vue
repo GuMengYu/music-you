@@ -2,9 +2,9 @@
   <div ref="lavContainer" :style="style" class="lottie-icon"></div>
 </template>
 
-<script>
+<script lang="ts">
 import lottie from 'lottie-web'
-export default {
+export default defineComponent({
   props: {
     options: {
       type: Object,
@@ -47,7 +47,7 @@ export default {
       this.loadAnimation(true)
     },
   },
-}
+})
 </script>
 
 <style>
