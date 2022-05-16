@@ -1,7 +1,10 @@
+/* eslint-disable import/no-unresolved */
+
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-// eslint-disable-next-line import/no-unresolved
 import AutoImport from 'unplugin-auto-import/vite'
+import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // import vuetify from '@vuetify/vite-plugin'
@@ -34,6 +37,10 @@ export default defineConfig(({ command, mode }) => {
     AutoImport({
       imports: ['vue', 'vue-router', 'vue/macros', '@vueuse/head', '@vueuse/core'],
       dts: './src/auto-imports.d.ts',
+    }),
+    Components({
+      dts: './src/components.d.ts',
+      resolvers: [Vuetify3Resolver()],
     }),
   ]
   if (mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD) {
