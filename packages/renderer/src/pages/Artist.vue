@@ -2,20 +2,20 @@
   <div class="d-flex flex-column gap-6">
     <section class="d-flex mb-2">
       <artists-cover :artist="state.artist" :no-info="true" :min-width="225" class="mr-4" />
-      <v-card :flat="true" rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
+      <v-card color="surfaceVariant" :flat="true" rounded="lg" class="d-flex flex-column pa-4 flex-fill">
         <div class="d-flex justify-space-between mb-2 align-center">
           <span>
-            <v-icon small>{{ mdiAlbum }}</v-icon>
+            <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
             <span class="text-caption ml-2">歌手</span>
           </span>
           <span class="text-caption">
-            <span> {{ state.artist['albumSize'] }} albums </span> ·
-            <span> {{ state.artist['musicSize'] }} tracks </span>
+            <span> {{ state.artist['albumSize'] }} {{ $t('main.albums') }} </span> ·
+            <span> {{ state.artist['musicSize'] }} {{ $t('main.tracks') }} </span>
           </span>
         </div>
         <div class="d-flex justify-space-between mb-2 align-center">
           <span class="d-flex align-center">
-            <v-icon small>{{ mdiAlbum }}</v-icon>
+            <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
             <span class="text-h5 ml-2"> {{ state.artist.name }} </span>
             <span v-if="state.artist['transNames']?.length" class="text-subtitle-2 ml-2"
               >( {{ state.artist['transNames']?.join('、') }} )</span
@@ -27,8 +27,8 @@
           </v-btn>
         </div>
         <div class="d-flex align-start" @click="state.showMoreDesc = true">
-          <v-icon small>{{ mdiInformation }}</v-icon>
-          <p class="text-caption h-2x ml-2">
+          <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
+          <p class="text-caption h-3x ml-2">
             {{ state.artist['briefDesc'] }}
           </p>
         </div>
@@ -119,7 +119,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
+import { mdiAccountMusic, mdiInformation, mdiPlay } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'

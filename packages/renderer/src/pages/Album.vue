@@ -1,100 +1,74 @@
 <template>
-  <div class="list">
-    <div class="d-flex mb-2">
-      <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" class="mr-4" />
-      <v-card flat rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
-        <div class="d-flex justify-space-between mb-4 align-center">
+  <div class="list d-flex flex-column gap-6">
+    <div class="d-flex gap-4">
+      <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" />
+      <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+        <div class="d-flex justify-space-between align-center">
           <span>
-            <v-icon small>{{ mdiAlbum }}</v-icon>
+            <v-icon size="small">{{ mdiAlbum }}</v-icon>
             <span class="text-caption ml-2">Album</span>
           </span>
           <span class="text-caption">
             <span> 共{{ state.album.size }}首 </span> ·
-            <span class="primary--text">{{ formatDate(state.album.publishTime) }}</span>
+            <span class="text-primary">{{ formatDate(state.album.publishTime) }}</span>
+            ·
+            <span>总时长 {{ formatDuring(albumDt) }}</span>
           </span>
         </div>
-        <div class="d-flex justify-space-between mb-4 align-center">
+        <div class="d-flex justify-space-between align-center">
           <span class="d-flex align-center">
-            <v-icon small>{{ mdiAlbum }}</v-icon>
-            <span class="text-h5 ml-2"> {{ state.album.name }} </span>
+            <v-icon size="small">{{ mdiAlbum }}</v-icon>
+            <span class="text-h5 mx-2 h-1x"> {{ state.album.name }} </span>
           </span>
           <v-btn color="primary" size="small" class="onPrimary--text" @click="play">
             <v-icon size="small">{{ mdiPlay }}</v-icon>
             {{ $t('common.play') }}
           </v-btn>
         </div>
-        <div class="d-flex mb-4 align-center">
-          <v-icon small>{{ mdiAccountMusic }}</v-icon>
-          <span class="text-caption ml-2">
-            {{ state.album.artist?.name }}
-          </span>
+        <div class="d-flex align-center">
+          <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
+          <v-avatar v-if="state.album.artist?.img1v1Url" size="24" class="mx-2">
+            <v-img :src="sizeOfImage(state.album.artist?.img1v1Url, 128)" />
+          </v-avatar>
+          <artists-link v-if="state.album.artist" :artists="[state.album.artist]" />
         </div>
-        <div class="d-flex align-start" @click="state.showMoreDesc = true">
-          <v-icon small>{{ mdiInformation }}</v-icon>
-          <p class="text-caption h-3x ml-2">
+        <div class="d-flex align-start" @click="showMoreDesc = true">
+          <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
+          <p class="text-caption h-2x ml-2">
             {{ state.album.description }}
           </p>
         </div>
         <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-          <v-btn
-            size="small"
-            variant="outlined"
-            class="ml-6"
-            :color="state.subscribed ? 'primary' : ''"
-            rounded
-            @click="subscribe"
-          >
-            {{ state.subscribed ? '已收藏' : '收藏' }}
+          <v-btn size="small" variant="outlined" class="mr-2" :color="subscribed ? 'primary' : ''" @click="subscribe">
+            {{ subscribed ? '已收藏' : '收藏' }}
           </v-btn>
-          <v-btn size="small" color="primary" icon variant="plain" @click="goto">
-            <v-icon>
-              {{ mdiMapMarkerCircle }}
-            </v-icon>
-          </v-btn>
+          <v-btn variant="outlined" size="small" color="primary" @click="goto"> 转到专辑详细 </v-btn>
         </div>
       </v-card>
     </div>
-    <div class="d-flex">
-      <div class="mr-4">
-        <v-card :width="225" :height="108" flat color="tertiaryContainer" rounded class="album-info text-caption">
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发行年份</span>
-            <span class="item-desc">{{ formatDate(state.album.publishTime, 'YYYY') }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">{{ formatDuring(albumDt) }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发行公司</span>
-            <span class="item-desc h-1x">© {{ state.album['company'] }}</span>
-          </div>
-        </v-card>
-        <common-card class="mt-2" title="Ta的其他热门专辑" rounded="xl" :width="225" color="surfaceVariant">
-          <v-list bg-color="surfaceVariant">
-            <v-list-item v-for="album in state.relatedAlbum" :key="album.id" class="mb-4" @click="gotoAlbum(album.id)">
-              <v-img :src="album.picUrl" width="48" class="rounded-lg mr-2" />
-              <v-list-item-title class="text-caption">
-                {{ album.name }} {{ formatDate(album.publishTime, 'YYYY') }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </common-card>
+    <v-list class="flex-fill rounded-xl">
+      <div class="list-header px-2 text-caption grey--text">
+        <span class="d-flex justify-center">#</span>
+        <span>标题</span>
+        <span class="d-flex justify-end align-center mr-16"
+          ><v-icon small> {{ mdiClockOutline }}</v-icon></span
+        >
       </div>
-
-      <common-card class="flex-fill" color="surfaceVariant" title="专辑歌曲">
-        <v-list bg-color="surfaceVariant">
-          <track-item
-            v-for="(track, idx) in state.album.tracks"
-            :key="track.id"
-            :track="track"
-            :index="idx + 1"
-            @play="eventBus.emit(track.id)"
-          />
-        </v-list>
-      </common-card>
-    </div>
-    <v-dialog v-model="state.showMoreDesc" max-width="50vw" scrollable>
+      <v-divider class="ma-4" />
+      <track-item
+        v-for="(track, idx) in state.album.tracks"
+        :key="track.id"
+        :track="track"
+        :index="idx + 1"
+        @play="eventBus.emit(track.id)"
+      />
+    </v-list>
+    <Col title="Ta的其他热门专辑">
+      <CardRow>
+        <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
+      </CardRow>
+    </Col>
+    <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
       <v-card color="surfaceVariant">
         <v-card-title>专辑简介</v-card-title>
         <v-card-text>
@@ -105,7 +79,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiMapMarkerCircle, mdiPlay } from '@mdi/js'
+import { mdiAccountMusic, mdiAlbum, mdiClockOutline, mdiInformation, mdiPlay } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
@@ -116,36 +90,39 @@ import { getAlbum, getAlbumDynamic } from '@/api/album'
 import { getArtistAlbum } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
-import { formatDuring, isElectron } from '@/util/fn'
-
+import { useToastStore } from '@/store/toast'
+import type { Album } from '@/types'
+import { formatDuring, isElectron, sizeOfImage } from '@/util/fn'
+const toastStore = useToastStore()
 const player = usePlayer()
-const router = useRouter()
 
-const props = defineProps({
-  id: {
-    type: [String, Number],
-    default: '',
-  },
-})
-const state = reactive({
-  album: {},
-  relatedAlbum: [],
-  loading: true,
-  subscribed: false,
-  showMoreDesc: false,
+const props = defineProps<{
+  id: number | string
+}>()
+
+const loading = ref(false)
+const subscribed = ref(false)
+const showMoreDesc = ref(false)
+
+interface RootState {
+  album: Album
+  relatedAlbum: Album[]
+}
+const state: RootState = reactive({
+  album: {} as any,
+  relatedAlbum: [] as any,
 })
 
 const albumDt = computed(() => {
-  return state.album?.tracks?.reduce((p, c) => p + c['dt'], 0)
+  return state.album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 })
 
 watchEffect(() => {
-  fetch(props.id)
+  props.id && fetch(+props.id)
 })
-async function fetch(id: number | string) {
-  state.loading = true
-  state.album = {}
-  const { album = {}, songs } = await getAlbum(id)
+async function fetch(id: number) {
+  loading.value = true
+  const { album, songs } = await getAlbum(id)
   const { isSub } = await getAlbumDynamic(id)
 
   if (album?.artist.id) {
@@ -154,8 +131,8 @@ async function fetch(id: number | string) {
   }
   state.album = album
   state.album.tracks = songs
-  state.subscribed = isSub
-  state.loading = false
+  subscribed.value = isSub
+  loading.value = false
 }
 async function play() {
   player.updateTracks(
@@ -166,7 +143,7 @@ async function play() {
     true
   )
 }
-const eventBus = useEventBus<string>('addToQueue')
+const eventBus = useEventBus<number>('addToQueue')
 
 function goto() {
   const url = `https://music.163.com/#/album?id=${state.album.id}`
@@ -177,16 +154,15 @@ function goto() {
     window.open(url, '_blank')
   }
 }
-function gotoAlbum(id: number) {
-  router.push(`/album/${id}`)
-}
+
 async function subscribe() {
   const { id } = state.album
-  const { code, message } = await sub('album', id, state.subscribed ? 0 : 1)
+  const { code, message } = await sub('album', id, subscribed.value ? 0 : 1)
   if (code === 200) {
-    state.subscribed = !this.subscribed
+    subscribed.value = !subscribed.value
+    toastStore.show(subscribed.value ? '收藏成功' : '已取消收藏')
   } else {
-    console.log('subscribe error', message)
+    toastStore.show(message)
   }
 }
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
@@ -196,22 +172,10 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 <style lang="scss" scoped>
 .list {
   position: relative;
-  .album-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    .album-info-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .item-title {
-        min-width: 80px;
-      }
-    }
-  }
-  .virtual-scroll-container {
-    min-height: 350px;
+  .list-header {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: [index] 40px [first] 4fr [last] minmax(100px, 1fr);
   }
 }
 </style>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
-export type RootState = {
+export interface RootState {
   showToast?: boolean
   message?: string
   x?: string
@@ -18,7 +18,7 @@ export const useToastStore = defineStore('toast', {
     const state = reactive<RootState>({
       showToast: false,
       message: '',
-      x: 'right',
+      x: 'center',
       y: 'bottom',
       color: 'primary',
       icon: '',

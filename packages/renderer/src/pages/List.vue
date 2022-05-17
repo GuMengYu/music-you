@@ -1,22 +1,126 @@
+<script setup lang="ts">
+import { mdiAccountMusic, mdiClockOutline, mdiInformation, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
+import { useIpcRenderer } from '@vueuse/electron'
+import dayjs from 'dayjs'
+
+import { sub } from '@/api/music'
+import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
+import { getSongData } from '@/api/song'
+import { usePlayer } from '@/player/player'
+import { useToastStore } from '@/store/toast'
+import type { Playlist } from '@/types'
+import { formatDuring, formatNumber, isElectron } from '@/util/fn'
+
+const toastStore = useToastStore()
+const player = usePlayer()
+const router = useRouter()
+const props = defineProps<{
+  id: number | string
+}>()
+const loading = ref(false)
+const subscribed = ref(false)
+const isDelete = ref(false)
+const showMoreDesc = ref(false)
+interface RootState {
+  playlist: Playlist
+  relatedPlaylists: Playlist[]
+}
+const state: RootState = reactive({
+  playlist: {} as any,
+  relatedPlaylists: [],
+})
+
+const tracksDt = computed(() => {
+  return state.playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
+})
+
+watchEffect(() => {
+  props.id && fetch(+props.id)
+})
+function play() {
+  if (state.playlist) {
+    player.updateTracks(
+      {
+        list: state.playlist.tracks,
+        id: state.playlist.id,
+      },
+      true
+    )
+  }
+}
+const eventBus = useEventBus<number>('addToQueue')
+
+async function fetch(id: number) {
+  loading.value = true
+  const { playlist } = await getPlaylistDetail(id)
+  state.playlist = playlist
+  if (playlist.trackIds?.length) {
+    const { songs } = await getSongData(playlist.trackIds.map((item) => item.id))
+    state.playlist.tracks = songs
+  }
+  if (playlist) {
+    const { playlists } = await getRelatedPlayList(playlist.id)
+    state.relatedPlaylists = playlists
+  }
+  state.playlist = playlist
+  subscribed.value = playlist.subscribed
+  loading.value = false
+}
+
+async function subscribe() {
+  const { id } = state.playlist
+  const { code, message } = await sub('playlist', id, subscribed.value ? 0 : 1)
+  if (code === 200) {
+    subscribed.value = !subscribed.value
+    toastStore.show(subscribed.value ? '收藏成功' : '已取消收藏')
+  } else {
+    toastStore.show(message)
+  }
+}
+async function del() {
+  const { code, message } = await deletePlayList(+props.id)
+  if (code === 200) {
+    isDelete.value = true
+  } else {
+    toastStore.show(message)
+  }
+}
+
+function goto() {
+  const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
+  if (isElectron()) {
+    const ipcRenderer = useIpcRenderer()
+    ipcRenderer.invoke('open-url', url)
+  } else {
+    window.open(url, '_blank')
+  }
+}
+
+function formatDate(date: number | string, format = 'YYYY-MM-DD') {
+  return dayjs(date).format(format)
+}
+</script>
 <template>
-  <div class="list">
-    <div class="d-flex mb-4">
+  <div class="list d-flex flex-column gap-6">
+    <div class="d-flex gap-4">
       <Cover :data="state.playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4" />
-      <v-card flat rounded="lg" class="d-flex flex-column pt-4 px-4 flex-fill">
-        <div class="d-flex justify-space-between mb-2 align-center">
+      <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+        <div class="d-flex justify-space-between align-center">
           <span class="d-flex align-center">
             <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>
-            <span class="text-caption ml-2 primary--text">歌单</span>
+            <span class="text-caption ml-2 text-primary">歌单</span>
           </span>
           <span class="text-caption">
             <span> 共{{ state.playlist.trackCount }}首 </span> ·
             <span class="text-primary">{{ formatDate(state.playlist.createTime, 'YYYY') }}</span>
+            · <span>总时长 {{ formatDuring(tracksDt) }}</span> ·
+            <span class="text-primary">{{ formatNumber(state.playlist.playCount) }} 次播放</span>
           </span>
         </div>
-        <div class="d-flex justify-space-between mb-4 align-center">
+        <div class="d-flex justify-space-between align-center">
           <span class="d-flex align-center">
             <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>
-            <span class="text-h6 mx-2 h-1x">
+            <span class="text-h5 mx-2 h-1x">
               {{ state.playlist.name }}
             </span>
           </span>
@@ -25,83 +129,54 @@
             播放
           </v-btn>
         </div>
-        <div class="d-flex mb-4 align-center">
+        <div class="d-flex align-center">
           <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
           <span class="text-caption ml-2">
             {{ state.playlist.creator?.nickname }}
           </span>
         </div>
-        <div v-if="state.playlist.description" class="d-flex align-start mb-4" @click="state.showMoreDesc = true">
-          <v-icon size="small">{{ mdiInformation }}</v-icon>
-          <p class="text-caption h-3x ml-2">
+        <div v-if="state.playlist.description" class="d-flex align-start" @click="showMoreDesc = true">
+          <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
+          <p class="text-caption h-2x ml-2">
             {{ state.playlist.description }}
           </p>
         </div>
         <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-          <v-btn
-            size="small"
-            variant="outlined"
-            class="ml-6"
-            color="primary"
-            rounded
-            :disabled="state.isDelete"
-            @click="del"
-          >
-            {{ state.isDelete ? '已删除' : '删除歌单' }}
+          <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="subscribe">
+            {{ subscribed ? '取消收藏' : '收藏歌单' }}
           </v-btn>
-          <v-btn size="small" color="primary" icon variant="plain" plain>
-            <v-icon>
-              {{ mdiMapMarkerCircle }}
-            </v-icon>
+          <v-btn size="small" variant="outlined" class="mr-2" color="primary" :disabled="isDelete" @click="del">
+            {{ isDelete ? '已删除' : '删除歌单' }}
           </v-btn>
+          <v-btn size="small" color="primary" variant="outlined" plain @click="goto"> 转到歌单详细 </v-btn>
         </div>
       </v-card>
     </div>
-    <div class="d-flex">
-      <div class="mr-4">
-        <v-card :width="225" :height="108" flat color="surfaceVariant" rounded class="album-info text-caption">
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">发布时间</span>
-            <span class="item-desc">{{ formatDate(state.playlist.createTime) }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">时长</span>
-            <span class="item-desc">{{ formatDuring(tracksDt) }}</span>
-          </div>
-          <div class="album-info-item">
-            <span class="item-title font-weight-bold">播放次数</span>
-            <span class="item-desc h-1x">{{ formatNumber(state.playlist.playCount) }}</span>
-          </div>
-        </v-card>
-        <common-card class="mt-4" title="相关歌单推荐" rounded="xl" :width="225" color="surfaceVariant">
-          <v-list bg-color="surfaceVariant">
-            <v-list-item
-              v-for="list in state.relatedPlaylist"
-              :key="list.id"
-              class="mb-2"
-              @click="gotoPlayList(list.id)"
-            >
-              <v-img :src="list.coverImgUrl" width="48" max-width="48" class="rounded-lg mr-2" />
-              <v-list-item-title class="text-caption"> {{ list.name }} {{ list.publishTime }} </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </common-card>
+    <v-list>
+      <div class="list-header px-2 text-caption">
+        <span class="d-flex justify-center">#</span>
+        <span>标题</span>
+        <span>专辑</span>
+        <span class="d-flex justify-end align-center mr-16"
+          ><v-icon small> {{ mdiClockOutline }}</v-icon></span
+        >
       </div>
-
-      <common-card class="flex-fill" color="surfaceVariant" title="歌单歌曲">
-        <v-list bg-color="surfaceVariant">
-          <track-item
-            v-for="(song, idx) in state.playlist.tracks"
-            :key="song.id"
-            :track="song"
-            :index="idx + 1"
-            from="list"
-            @play="eventBus.emit(song.id)"
-          />
-        </v-list>
-      </common-card>
-    </div>
-    <v-dialog v-model="state.showMoreDesc" max-width="50vw" :scrollable="true">
+      <v-divider class="ma-4" />
+      <track-item
+        v-for="(song, idx) in state.playlist.tracks"
+        :key="song.id"
+        :track="song"
+        :index="idx + 1"
+        from="list"
+        @play="eventBus.emit(song.id)"
+      />
+    </v-list>
+    <Col title="相关歌单推荐" class="mt-4">
+      <CardRow>
+        <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />
+      </CardRow>
+    </Col>
+    <v-dialog v-model="showMoreDesc" max-width="50vw" :scrollable="true">
       <v-card color="surfaceVariant">
         <v-card-title>歌单简介</v-card-title>
         <v-card-text>
@@ -111,120 +186,14 @@
     </v-dialog>
   </div>
 </template>
-<script setup lang="ts">
-import { mdiAccountMusic, mdiInformation, mdiMapMarkerCircle, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
-import dayjs from 'dayjs'
 
-// import { sub } from '@/api/music'
-import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
-import { usePlayer } from '@/player/player'
-import { formatDuring, formatNumber } from '@/util/fn'
-
-const player = usePlayer()
-const router = useRouter()
-const props = defineProps({
-  id: {
-    type: [String, Number],
-    default: '',
-  },
-})
-const state = reactive({
-  playlist: {
-    tracks: [],
-    trackCount: 0,
-    coverImgUrl: '',
-    name: '',
-    id: '',
-    createTime: 0,
-  },
-  loading: false,
-  relatedPlaylist: [],
-  subscribed: false,
-  isDelete: false,
-  showMoreDesc: false,
-})
-
-const tracksDt = computed(() => {
-  return state.playlist?.tracks?.reduce((p, c) => p + c['dt'], 0)
-})
-
-watchEffect(() => {
-  fetch(props.id)
-})
-function play() {
-  player.updateTracks(
-    {
-      list: state.playlist.tracks,
-      id: state.playlist.id,
-    },
-    true
-  )
-}
-const eventBus = useEventBus<string>('addToQueue')
-
-async function fetch(id: number) {
-  state.loading = true
-  const { playlist } = await getPlaylistDetail(id)
-  if (playlist) {
-    const { playlists } = await getRelatedPlayList(playlist.id)
-    state.relatedPlaylist = playlists
-  }
-  state.playlist = playlist
-  state.subscribed = playlist.subscribed
-  state.loading = false
-}
-
-// async function subscribe() {
-//   const { id } = state.playlist
-//   const { code, message } = await sub('playlist', id, this.subscribed ? 0 : 1)
-//   if (code === 200) {
-//     state.subscribed = !state.subscribed
-//   } else {
-//     console.log('sub error', message)
-//   }
-// }
-async function del() {
-  const { code, message } = await deletePlayList(props.id)
-  if (code === 200) {
-    state.isDelete = true
-  } else {
-    console.log('delete error', message)
-  }
-}
-
-// function goto() {
-//   const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
-//   window.open(url, '_blank')
-//   // if (isElectron()) {
-//   //   this.$ipcRenderer.invoke('open-url', url)
-//   // } else {
-//   //   window.open(url, '_blank')
-//   // }
-// }
-function gotoPlayList(id) {
-  router.push(`/playlist/${id}`)
-}
-
-function formatDate(date: number | string, format = 'YYYY-MM-DD') {
-  return dayjs(date).format(format)
-}
-</script>
 <style lang="scss" scoped>
 .list {
   position: relative;
-  .album-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    .album-info-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .item-title {
-        min-width: 80px;
-      }
-    }
+  .list-header {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr);
   }
 }
 </style>

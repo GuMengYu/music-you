@@ -61,22 +61,25 @@ export interface Playlist {
   id: number
   name: string
   tracks: TrackSource[]
-  trackIds: number[]
+  trackIds: {
+    id: number
+  }[]
   trackCount: number
-  backgroundCoverUrl: string
+  backgroundCoverUrl?: string
   coverImgUrl: string
   createTime: number
+  publishTime?: number
   creator: Record<string, any>
   description: string
-  englishTitle: string
+  englishTitle?: string
   playCount: number
   subscribed: boolean
-  subscribedCount: number
-  tags: string[]
+  subscribedCount?: number
+  tags?: string[]
   titleImageUrl: string
   specialType: number
   updateFrequency?: string
-  userId: number
+  userId?: number
 }
 
 export interface Account {

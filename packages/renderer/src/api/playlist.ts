@@ -42,6 +42,7 @@ export const getRelatedPlayList = (id: number) =>
 export const deletePlayList = (id: number) => {
   return request<{
     code: number
+    message: string
   }>('/playlist/delete', {
     params: {
       id,

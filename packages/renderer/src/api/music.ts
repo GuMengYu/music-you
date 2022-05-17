@@ -120,7 +120,10 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
     delete params.t
     params.like = t === 1
   }
-  return request(url, {
+  return request<{
+    code: number
+    message: string
+  }>(url, {
     params,
   })
 }

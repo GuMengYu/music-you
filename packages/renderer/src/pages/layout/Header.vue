@@ -14,11 +14,7 @@
   </v-app-bar>
 </template>
 <script setup lang="ts">
-import { useLayout } from 'vuetify'
-
 import SearchInput from '@/components/toggle/SearchInput.vue'
-const layout = useLayout()
-console.log(layout)
 </script>
 <style scoped lang="scss">
 .app_header {

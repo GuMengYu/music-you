@@ -29,7 +29,7 @@ const theme = useTheme()
 </script>
 <style lang="scss">
 $cubic-bezier: cubic-bezier(0.55, -0.01, 0, 1.03);
-$transition-time: 0.6s;
+$transition-time: 550ms;
 .v-player-nav {
   border-inline-end-width: 0;
   transition-property: width;
