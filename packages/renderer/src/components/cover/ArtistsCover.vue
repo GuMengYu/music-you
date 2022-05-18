@@ -3,7 +3,7 @@
     <v-img
       cover
       width="100%"
-      :src="artist.picUrl || artist.cover"
+      :src="coverUrl"
       class="artist-image rounded-circle"
       aspect-ratio="1"
       :lazy-src="placeHolderUrl"
@@ -22,6 +22,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import placeHolderUrl from '@/assets/placeholder.png'
+import { sizeOfImage } from '@/util/fn'
 const router = useRouter()
 const props = defineProps({
   artist: {
@@ -36,6 +37,9 @@ const props = defineProps({
 
 const to = computed(() => {
   return `/artist/${props.artist?.id}`
+})
+const coverUrl = computed(() => {
+  return sizeOfImage(props.artist.picUrl ?? props.artist.cover, 256)
 })
 function go() {
   router.push(to.value)

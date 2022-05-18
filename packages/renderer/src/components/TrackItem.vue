@@ -1,61 +1,4 @@
-<template>
-  <v-hover v-slot="{ isHovering, props: _props }">
-    <div
-      v-ripple
-      v-bind="_props"
-      class="track-item-wrapper rounded px-2"
-      :class="{ unavailable: !available.enable }"
-      :style="gridTemplate"
-      :title="available.enable ? '' : available.text"
-      @dblclick="play"
-    >
-      <div class="track-index">
-        <span v-show="!isHovering" class="track-count">{{ index }}</span>
-        <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
-          <v-icon size="small">{{ mdiPlay }}</v-icon>
-        </v-btn>
-      </div>
-      <div class="track-first">
-        <v-img
-          v-if="from !== 'album'"
-          :src="albumCover"
-          max-height="40"
-          max-width="40"
-          class="rounded"
-          :lazy-src="placeholderUrl"
-          :aspect-ratio="1"
-        />
-        <div class="track-info">
-          <v-list-item-title class="h-1x" v-text="track.name" />
-          <v-list-item-subtitle>
-            <artists-link :artists="artists" class="h-1x" />
-          </v-list-item-subtitle>
-        </div>
-      </div>
-      <div v-if="from !== 'album'" class="track-second">
-        <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface h-2x">
-          {{ album.name }}
-        </router-link>
-      </div>
-      <div class="track-third">
-        <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
-          <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
-        </v-btn>
-        <!--        <like-toggle :id="track.id" />-->
-        <div class="track-duration">
-          {{ formatDuring(track.dt || track.duration) }}
-        </div>
-        <v-btn v-visible="isHovering" icon color="primary" variant="contained-text" size="small">
-          <v-icon size="small">
-            {{ mdiDotsHorizontal }}
-          </v-icon>
-        </v-btn>
-      </div>
-    </div>
-  </v-hover>
-</template>
 <script setup lang="ts">
-import { number } from '@intlify/core-base'
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -162,6 +105,62 @@ async function toggleLike() {
   likeLoading.value = false
 }
 </script>
+<template>
+  <v-hover v-slot="{ isHovering, props: _props }">
+    <div
+      v-ripple
+      v-bind="_props"
+      class="track-item-wrapper rounded-lg px-2"
+      :class="{ unavailable: !available.enable }"
+      :style="gridTemplate"
+      :title="available.enable ? '' : available.text"
+      @dblclick="play"
+    >
+      <div class="track-index">
+        <span v-show="!isHovering" class="track-count">{{ index }}</span>
+        <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
+          <v-icon size="small">{{ mdiPlay }}</v-icon>
+        </v-btn>
+      </div>
+      <div class="track-first">
+        <v-img
+          v-if="from !== 'album'"
+          :src="albumCover"
+          max-height="40"
+          max-width="40"
+          class="rounded"
+          :lazy-src="placeholderUrl"
+          :aspect-ratio="1"
+        />
+        <div class="track-info">
+          <v-list-item-title class="h-1x" v-text="track.name" />
+          <v-list-item-subtitle>
+            <artists-link :artists="artists" class="h-1x" />
+          </v-list-item-subtitle>
+        </div>
+      </div>
+      <div v-if="from !== 'album'" class="track-second">
+        <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface h-2x">
+          {{ album.name }}
+        </router-link>
+      </div>
+      <div class="track-third">
+        <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
+          <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
+        </v-btn>
+        <!--        <like-toggle :id="track.id" />-->
+        <div class="track-duration">
+          {{ formatDuring(track.dt || track.duration) }}
+        </div>
+        <v-btn v-visible="isHovering" icon color="primary" variant="contained-text" size="small">
+          <v-icon size="small">
+            {{ mdiDotsHorizontal }}
+          </v-icon>
+        </v-btn>
+      </div>
+    </div>
+  </v-hover>
+</template>
 
 <style scoped lang="scss">
 .track-item-wrapper {

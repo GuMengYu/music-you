@@ -1,5 +1,5 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
+  <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
       class="cover-container"
       :rounded="rounded"
@@ -7,7 +7,7 @@
       color="surfaceVariant"
       :class="{ 'on-hover': isHovering }"
       :elevation="isHovering ? 1 : 0"
-      v-bind="props"
+      v-bind="hoverProps"
       :min-width="$attrs['min-width']"
       :max-width="$attrs['max-width']"
       :max-height="$attrs['max-height']"
@@ -86,7 +86,7 @@ const props = defineProps({
 })
 
 const coverBgUrl = computed(() => {
-  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl, 1024)
+  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl, 256)
 })
 const subTitle = computed(() => {
   return props.extra ?? props.data.copywriter

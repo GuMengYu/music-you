@@ -8,12 +8,13 @@ import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/pla
 import { getSongData } from '@/api/song'
 import { usePlayer } from '@/player/player'
 import { useToastStore } from '@/store/toast'
+import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { formatDuring, formatNumber, isElectron } from '@/util/fn'
 
 const toastStore = useToastStore()
+const userStore = useUserStore()
 const player = usePlayer()
-const router = useRouter()
 const props = defineProps<{
   id: number | string
 }>()
@@ -32,6 +33,10 @@ const state: RootState = reactive({
 
 const tracksDt = computed(() => {
   return state.playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
+})
+
+const createdBySelf = computed(() => {
+  return userStore.account?.profile.userId === state.playlist.creator?.userId
 })
 
 watchEffect(() => {
@@ -101,7 +106,8 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 }
 </script>
 <template>
-  <div class="list d-flex flex-column gap-6">
+  <v-progress-linear v-if="loading" :active="loading" :indeterminate="loading" color="primary"></v-progress-linear>
+  <section v-else class="list d-flex flex-column gap-6">
     <div class="d-flex gap-4">
       <Cover :data="state.playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4" />
       <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
@@ -142,11 +148,19 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </p>
         </div>
         <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-          <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="subscribe">
-            {{ subscribed ? '取消收藏' : '收藏歌单' }}
-          </v-btn>
-          <v-btn size="small" variant="outlined" class="mr-2" color="primary" :disabled="isDelete" @click="del">
+          <v-btn
+            v-if="createdBySelf"
+            size="small"
+            variant="outlined"
+            class="mr-2"
+            color="primary"
+            :disabled="isDelete"
+            @click="del"
+          >
             {{ isDelete ? '已删除' : '删除歌单' }}
+          </v-btn>
+          <v-btn v-else size="small" variant="outlined" class="mr-2" color="primary" @click="subscribe">
+            {{ subscribed ? '取消收藏' : '收藏歌单' }}
           </v-btn>
           <v-btn size="small" color="primary" variant="outlined" plain @click="goto"> 转到歌单详细 </v-btn>
         </div>
@@ -184,7 +198,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </v-card-text>
       </v-card>
     </v-dialog>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>

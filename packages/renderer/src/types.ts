@@ -25,16 +25,19 @@ export interface MV {
 export interface Artist {
   id: number
   name: string
-  cover?: string
   img1v1Url?: string
+  cover?: string
   picUrl?: string
   albumSize: number
+  musicSize?: number
+  mvSize?: number
   briefDesc: string
   rank?: {
     rank: number
     type: number
   }
   transNames: string[]
+  followed: boolean
 }
 
 export interface Album {
