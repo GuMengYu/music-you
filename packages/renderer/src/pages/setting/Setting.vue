@@ -10,6 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import AppSettingsOther from '@/components/setting/other.vue'
-import AppSettingsTheme from '@/components/setting/Theme.vue'
+import AppSettingsOther from './components/Other.vue'
+import AppSettingsTheme from './components/Theme.vue'
 </script>

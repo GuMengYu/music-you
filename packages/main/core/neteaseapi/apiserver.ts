@@ -50,8 +50,11 @@ export const createApiServer = () => {
   Object.entries(apiMap).map(([k, v]) => {
     app.use(k, v)
   })
-  const host = envConfig['VITE_API_SERVER_HOST'] || '127.0.0.1'
-  const port = +envConfig['VITE_API_SERVER_PORT'] || 9902
+  app.use('/env', (req, res) => {
+    res.send(process.env)
+  })
+  const host = '127.0.0.1'
+  const port = 12138
 
   app.server = app.listen(port, host, () => {
     console.log(`server running @ http://${host ? host : 'localhost'}:${port}`)

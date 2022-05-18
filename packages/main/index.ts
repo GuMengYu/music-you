@@ -3,12 +3,15 @@ import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import is from 'electron-is'
 import Express from 'express'
 import { release } from 'os'
+import { join } from 'path'
 
 import { registerIpcMain } from './core/ipcMain'
 import { createElectronMenu } from './core/menu'
 import { createApiServer } from './core/neteaseapi/apiserver'
 import { createTray } from './core/tray'
 import WindowManager from './core/windowManager'
+
+const log = require('electron-log')
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
@@ -86,7 +89,7 @@ function handleAppEvent() {
       }
     }
     createApiServer()
-    is.production() && createProxyServer()
+    is.production() && createAppStaticServer()
     windowManager = new WindowManager()
     const window = await windowManager.openWindow()
     createElectronMenu(window)
@@ -101,11 +104,14 @@ function handleAppEvent() {
   })
 }
 
-function createProxyServer() {
+function createAppStaticServer() {
+  console.log('app create')
   const app = new Express()
-  app.use('/', Express.static(__dirname + '/'))
+  const staticPath = join(__dirname, '../renderer')
+  app.use('/', Express.static(staticPath))
   appProxy = app.listen(12137, '', () => {
-    console.log('app run in port 12137')
+    log.info('app run in port 12137')
+    log.info('web static proxy in', staticPath)
   })
 }
 

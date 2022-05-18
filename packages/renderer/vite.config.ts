@@ -87,7 +87,7 @@ export default defineConfig(({ command, mode }) => {
       port: +env.VITE_DEV_SERVER_PORT,
       proxy: {
         '/api': {
-          target: `http://${env.VITE_API_SERVER_HOST}:${env.VITE_API_SERVER_PORT}`,
+          target: `http://${env.VITE_API_SERVER_HOST}:${buildElectron ? 12138 : env.VITE_API_SERVER_PORT}`,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

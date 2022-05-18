@@ -3,51 +3,67 @@ import type { App } from 'vue'
 import type { RouteLocation, RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
+import Album from '@/pages/Album.vue'
+import Artist from '@/pages/Artist.vue'
+import Daily from '@/pages/Daily.vue'
+import Discover from '@/pages/discover/Discover.vue'
+import FourOhFour from '@/pages/errors/FourOhFour.vue'
+import Explore from '@/pages/explore/Explore.vue'
+import Leaderboard from '@/pages/explore/Leaderboard.vue'
 import Home from '@/pages/Home.vue'
-
-const modules = import.meta.glob('../pages/**/*.vue')
-
+import Library from '@/pages/Library.vue'
+import List from '@/pages/List.vue'
+import MoodsGenresDetail from '@/pages/moods-genres/detail.vue'
+import MoodsGenres from '@/pages/moods-genres/MoodsGenres.vue'
+import MV from '@/pages/MV.vue'
+import NewAlbum from '@/pages/new-releases/albums.vue'
+import NewVideo from '@/pages/new-releases/videos.vue'
+import Playground from '@/pages/playground.vue'
+import Queue from '@/pages/Queue.vue'
+import Search from '@/pages/search/index.vue'
+import SearchMore from '@/pages/search/more.vue'
+import Setting from '@/pages/setting/Setting.vue'
 const musicRoutes: RouteRecordRaw[] = [
   {
     path: 'discover/',
     name: 'discover',
-    component: modules['../pages/discover/Discover.vue'],
+    component: Discover,
     meta: { keepAlive: true },
   },
   {
     path: '/explore',
     name: 'explore',
-    component: modules['../pages/discover/explore/Explore.vue'],
+    component: Explore,
     meta: { keepAlive: true },
   },
   {
     path: '/library',
     name: 'library',
-    component: modules['../pages/discover/Library.vue'],
+    component: Library,
     meta: { keepAlive: true, needLogin: true },
   },
   {
     path: '/leader_board',
     name: 'leader_board',
-    component: modules['../pages/explore/Leaderboard.vue'],
+    component: Leaderboard,
   },
   {
     path: '/daily',
     name: 'daily',
-    component: modules['../pages/Daily.vue'],
+    component: Daily,
     meta: { keepAlive: true, needLogin: true },
   },
   {
     path: '/album/:id',
     name: 'album',
-    component: modules['../pages/Album.vue'],
+    component: Album,
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/playlist/:id',
     name: 'playlist',
-    component: modules['../pages/List.vue'],
+    component: List,
     props: (route: RouteLocation) => ({
       id: route.params.id,
       type: route.matched[1]?.name,
@@ -57,47 +73,47 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/video/:id',
     name: 'video',
-    component: modules['../pages/MV.vue'],
+    component: MV,
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/artist/:id/',
     name: 'artist',
-    component: modules['../pages/Artist.vue'],
+    component: Artist,
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/moods_and_genres',
     name: 'moods_and_genres',
-    component: modules['../pages/MoodsGenres.vue'],
+    component: MoodsGenres,
     meta: { keepAlive: true },
   },
   {
     path: '/moods_and_genres/:type',
     name: 'moods_and_genres_detail',
-    component: modules['../pages/moods-genres/detail.vue'],
+    component: MoodsGenresDetail,
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/new_releases/albums',
     name: 'new_releases_albums',
-    component: modules['../pages/new-releases/album.vue'],
+    component: NewAlbum,
     meta: { keepAlive: true },
   },
   {
     path: '/new_releases/videos',
     name: 'new_releases_videos',
-    component: modules['../pages/new-releases/video.vue'],
+    component: NewVideo,
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/queue',
     name: 'queue',
-    component: modules['../pages/Queue.vue'],
+    component: Queue,
     meta: {
       keepAlive: true,
     },
@@ -105,7 +121,7 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/setting',
     name: 'setting',
-    component: modules['../pages/setting/Setting.vue'],
+    component: Setting,
     meta: {
       keepAlive: true,
     },
@@ -113,7 +129,7 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/search/:keywords?',
     name: 'search',
-    component: modules['../pages/search/index.vue'],
+    component: Search,
     props: true,
     meta: {
       keepAlive: true,
@@ -122,13 +138,13 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/search/:keywords/:type',
     name: 'searchMore',
-    component: modules['../pages/search/more.vue'],
+    component: SearchMore,
     props: true,
   },
   {
     path: '/playground',
     name: 'playground',
-    component: modules['../pages/Playground.vue'],
+    component: Playground,
   },
 ]
 
@@ -147,7 +163,7 @@ export function useRouter(app: App) {
       {
         path: '/:pathMatch(.*)*',
         name: 'FourOhFour',
-        component: () => import('../pages/errors/FourOhFour.vue'),
+        component: FourOhFour,
       },
     ],
   })
