@@ -29,7 +29,7 @@ export default class WindowManager extends EventEmitter {
         minWidth: 800,
         minHeight: 540,
         titleBarStyle: 'hiddenInset',
-        frame: !(is.windows() || is.linux()),
+        // frame: !(is.windows() || is.linux()),
         webPreferences: {
           preload: join(__dirname, '../preload/index.cjs'),
           // Use pluginOptions.nodeIntegration, leave this alone
@@ -97,7 +97,7 @@ export default class WindowManager extends EventEmitter {
   }
   async loadURL() {
     if (app.isPackaged) {
-      this.window?.loadFile(join(__dirname, '../../renderer/index.html'))
+      this.window?.loadFile(join(__dirname, '../renderer/index.html'))
     } else {
       // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
       const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`

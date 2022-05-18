@@ -8,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 // @ts-ignore
 // import vuetify from '@vuetify/vite-plugin'
 import { defineConfig, loadEnv } from 'vite'
+import polyfillExports from 'vite-plugin-electron/polyfill-exports'
 import electron from 'vite-plugin-electron/renderer'
 import resolve from 'vite-plugin-resolve'
 const path = require('path')
@@ -23,6 +24,7 @@ enum BUILDMODE {
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   console.log(mode, command)
+  const buildElectron = mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD
   const plugins: any = [
     vue({
       reactivityTransform: true,
@@ -41,7 +43,7 @@ export default defineConfig(({ command, mode }) => {
       dts: './src/components.d.ts',
     }),
   ]
-  if (mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD) {
+  if (buildElectron) {
     plugins.push(
       electron(),
       resolve(
@@ -54,7 +56,8 @@ export default defineConfig(({ command, mode }) => {
           // If you use electron-store, this will work
           'electron-store': 'const Store = require("electron-store"); export default Store;',
         }
-      )
+      ),
+      polyfillExports()
     )
   }
   return {
@@ -62,11 +65,14 @@ export default defineConfig(({ command, mode }) => {
     envDir: path.resolve(__dirname, '../../'),
     root: __dirname,
     plugins: plugins,
-    base: '/',
+    base: './',
     build: {
       outDir: '../../dist/renderer',
       emptyOutDir: true,
       sourcemap: true,
+      rollupOptions: {
+        format: buildElectron ? 'cjs' : 'es',
+      },
     },
     resolve: {
       alias: {

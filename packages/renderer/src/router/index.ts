@@ -4,65 +4,50 @@ import type { RouteLocation, RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/pages/Home.vue'
-const lazyLoad = (name: string) => () => import(`../pages/${name}.vue`)
+
+const modules = import.meta.glob('../pages/**/*.vue')
 
 const musicRoutes: RouteRecordRaw[] = [
   {
     path: 'discover/',
     name: 'discover',
-    component: lazyLoad('discover/Discover'),
+    component: modules['../pages/discover/Discover.vue'],
     meta: { keepAlive: true },
   },
   {
     path: '/explore',
     name: 'explore',
-    component: lazyLoad('explore/Explore'),
+    component: modules['../pages/discover/explore/Explore.vue'],
     meta: { keepAlive: true },
   },
   {
     path: '/library',
     name: 'library',
-    component: lazyLoad('Library'),
+    component: modules['../pages/discover/Library.vue'],
     meta: { keepAlive: true, needLogin: true },
-  },
-  {
-    path: '/singer',
-    name: 'singer',
-    component: lazyLoad('explore/Singer'),
   },
   {
     path: '/leader_board',
     name: 'leader_board',
-    component: lazyLoad('explore/Leaderboard'),
-  },
-  {
-    path: '/playlistcenter',
-    name: 'playlistcenter',
-    component: lazyLoad('explore/PlaylistCenter'),
-  },
-  {
-    path: '/fm',
-    name: 'fm',
-    component: lazyLoad('Fm'),
-    meta: { keepAlive: true, needLogin: true },
+    component: modules['../pages/explore/Leaderboard.vue'],
   },
   {
     path: '/daily',
     name: 'daily',
-    component: lazyLoad('Daily'),
+    component: modules['../pages/Daily.vue'],
     meta: { keepAlive: true, needLogin: true },
   },
   {
     path: '/album/:id',
     name: 'album',
-    component: lazyLoad('Album'),
+    component: modules['../pages/Album.vue'],
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/playlist/:id',
     name: 'playlist',
-    component: lazyLoad('List'),
+    component: modules['../pages/List.vue'],
     props: (route: RouteLocation) => ({
       id: route.params.id,
       type: route.matched[1]?.name,
@@ -72,59 +57,47 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/video/:id',
     name: 'video',
-    component: lazyLoad('MV'),
+    component: modules['../pages/MV.vue'],
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/artist/:id/',
     name: 'artist',
-    component: lazyLoad('Artist'),
+    component: modules['../pages/Artist.vue'],
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/moods_and_genres',
     name: 'moods_and_genres',
-    component: lazyLoad('moods-genres/index'),
+    component: modules['../pages/MoodsGenres.vue'],
     meta: { keepAlive: true },
   },
   {
     path: '/moods_and_genres/:type',
     name: 'moods_and_genres_detail',
-    component: lazyLoad('moods-genres/detail'),
+    component: modules['../pages/moods-genres/detail.vue'],
     props: true,
     meta: { keepAlive: true },
   },
   {
     path: '/new_releases/albums',
     name: 'new_releases_albums',
-    component: lazyLoad('new-releases/albums'),
+    component: modules['../pages/new-releases/album.vue'],
     meta: { keepAlive: true },
   },
   {
     path: '/new_releases/videos',
     name: 'new_releases_videos',
-    component: lazyLoad('new-releases/videos'),
+    component: modules['../pages/new-releases/video.vue'],
     props: true,
     meta: { keepAlive: true },
   },
   {
-    path: '/radio',
-    name: 'radio',
-    component: lazyLoad('Radio'),
-    meta: { keepAlive: true },
-  },
-  {
-    path: '/cloud_disk',
-    name: 'cloud_disk',
-    component: lazyLoad('CloudDisk'),
-    meta: { keepAlive: true, needLogin: true },
-  },
-  {
     path: '/queue',
     name: 'queue',
-    component: lazyLoad('Queue'),
+    component: modules['../pages/Queue.vue'],
     meta: {
       keepAlive: true,
     },
@@ -132,7 +105,7 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/setting',
     name: 'setting',
-    component: lazyLoad('Setting'),
+    component: modules['../pages/setting/Setting.vue'],
     meta: {
       keepAlive: true,
     },
@@ -140,7 +113,7 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/search/:keywords?',
     name: 'search',
-    component: lazyLoad('search/index'),
+    component: modules['../pages/search/index.vue'],
     props: true,
     meta: {
       keepAlive: true,
@@ -149,13 +122,13 @@ const musicRoutes: RouteRecordRaw[] = [
   {
     path: '/search/:keywords/:type',
     name: 'searchMore',
-    component: lazyLoad('search/more'),
+    component: modules['../pages/search/more.vue'],
     props: true,
   },
   {
     path: '/playground',
     name: 'playground',
-    component: lazyLoad('example/playground'),
+    component: modules['../pages/Playground.vue'],
   },
 ]
 
