@@ -2,6 +2,7 @@ import { app, BrowserWindow, protocol } from 'electron'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import is from 'electron-is'
 import Express from 'express'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import { release } from 'os'
 import { join } from 'path'
 
@@ -109,6 +110,14 @@ function createAppStaticServer() {
   const app = new Express()
   const staticPath = join(__dirname, '../renderer')
   app.use('/', Express.static(staticPath))
+  app.use(
+    '/api',
+    createProxyMiddleware({
+      target: 'http://localhost:12138',
+      changeOrigin: true,
+      pathRewrite: (path) => path.replace(/^\/api/, ''),
+    })
+  )
   appProxy = app.listen(12137, '', () => {
     log.info('app run in port 12137')
     log.info('web static proxy in', staticPath)

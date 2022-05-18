@@ -34,6 +34,7 @@
     "electron-log": "^4.4.7",
     "express": "^4.17.3",
     "howler": "^2.2.3",
+    "http-proxy-middleware": "^2.0.6",
     "lottie-web": "^5.9.2",
     "md3-theme-generator": "^0.0.1",
     "md5": "^2.3.0",
