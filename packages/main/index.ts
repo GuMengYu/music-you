@@ -1,7 +1,8 @@
 import { app, BrowserWindow, protocol } from 'electron'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import is from 'electron-is'
-import Express from 'express'
+import express from 'express'
+import type * as http from 'http'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import { release } from 'os'
 import { join } from 'path'
@@ -18,8 +19,8 @@ const log = require('electron-log')
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
-let appProxy = null
-let windowManager = null
+let appStaticServer: http.Server
+let windowManager: WindowManager
 
 start()
 
@@ -60,7 +61,7 @@ function handleAppEvent() {
     // On macOS, it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) windowManager.openWindow()
-    else windowManager.window.show()
+    else windowManager.window?.show()
   })
 
   // This method will be called when Electron has finished
@@ -72,7 +73,7 @@ function handleAppEvent() {
       try {
         await installExtension(VUEJS_DEVTOOLS)
       } catch (e) {
-        console.error('Vue Devtools failed to install:', e.toString())
+        console.error('Vue Devtools failed to install:', e)
       }
     }
     // Exit cleanly on request from parent process in development mode.
@@ -93,34 +94,36 @@ function handleAppEvent() {
     is.production() && createAppStaticServer()
     windowManager = new WindowManager()
     const window = await windowManager.openWindow()
-    createElectronMenu(window)
-    is.windows() && createTray(window)
-    registerIpcMain(window)
+    if (window) {
+      createElectronMenu(window)
+      is.windows() && createTray(window)
+      registerIpcMain(window)
+    }
   })
   app.on('quit', () => {
-    appProxy && appProxy.close()
+    appStaticServer && appStaticServer.close()
   })
   app.on('before-quit', () => {
     windowManager.willQuit = true
   })
 }
 
+// web静态资源express托管
 function createAppStaticServer() {
-  console.log('app create')
-  const app = new Express()
+  log.info('static app create')
+  const app = express()
   const staticPath = join(__dirname, '../renderer')
-  app.use('/', Express.static(staticPath))
+  app.use('/', express.static(staticPath))
   app.use(
     '/api',
     createProxyMiddleware({
       target: 'http://localhost:12138',
       changeOrigin: true,
       pathRewrite: (path) => path.replace(/^\/api/, ''),
-    })
+    }) as express.RequestHandler
   )
-  appProxy = app.listen(12137, '', () => {
+  appStaticServer = app.listen(12137, '', () => {
     log.info('app run in port 12137')
-    log.info('web static proxy in', staticPath)
   })
 }
 

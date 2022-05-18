@@ -48,6 +48,7 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
     "@types/md5": "^2.3.2",

@@ -3,13 +3,11 @@ const cache = require('NeteaseCloudMusicApi/util/apicache').middleware
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const express = require('express')
-const dotenv = require('dotenv')
 
 import apiMap from './apimap'
 
 export const createApiServer = () => {
   const app = express()
-  const envConfig = dotenv.config().parsed || {}
 
   app.set('trust proxy', true)
   // CORS & Preflight request
