@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import type { TrackSource } from '@/types'
+import type { Album, Artist, MV, Playlist, Track } from '@/types'
 
 import { request } from '../util/fetch'
 
@@ -10,7 +10,9 @@ import { request } from '../util/fetch'
  * @returns
  */
 export const getUserPlaylist = (params = {}) => {
-  return request('/user/playlist', {
+  return request<{
+    playlist: Playlist[]
+  }>('/user/playlist', {
     params: {
       ...params,
       timestamp: now(),
@@ -25,18 +27,25 @@ export const getUserPlaylist = (params = {}) => {
 export const favAlbums = () =>
   request<{
     code: number
+    data: Album[]
   }>('/album/sublist', { params: { timestamp: now() } })
 
 /**
  * 获取收藏的MV
  * @returns {*}
  */
-export const favMVs = () => request('/mv/sublist', { params: { timestamp: now() } })
+export const favMVs = () =>
+  request<{
+    data: MV[]
+  }>('/mv/sublist', { params: { timestamp: now() } })
 /**
  * 获取收藏的歌手
  * @returns {*}
  */
-export const favArtists = () => request('/artist/sublist', { params: { timestamp: now() } })
+export const favArtists = () =>
+  request<{
+    data: Artist[]
+  }>('/artist/sublist', { params: { timestamp: now() } })
 
 /**
  * 获取用户电台
@@ -69,7 +78,7 @@ export const recent = (limit = 50, type = 'song') => {
 
 export const personalFM = () =>
   request<{
-    data: TrackSource[]
+    data: Track[]
   }>('/personal_fm', { params: { timestamp: now() } })
 
 /**
@@ -90,7 +99,7 @@ export const recommendPlaylist = () => request('/recommend/resource', { params: 
 export const getDailyRecommend = () =>
   request<{
     data: {
-      dailySongs: TrackSource[]
+      dailySongs: Track[]
       recommendReasons: []
     }
   }>('/recommend/songs')

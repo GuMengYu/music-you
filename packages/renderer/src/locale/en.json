@@ -10,7 +10,6 @@
       "fm": "Private FM",
       "daily": "Daily Recommend",
       "stars": "Library",
-      "disk": "Cloud Music",
       "radio": "My Radio",
       "created_list": "PLAYLIST",
       "start_list": "FAVORITE",
@@ -58,6 +57,7 @@
     "tracks": "Tracks",
     "artists": "Artists",
     "mvs": "MV",
+    "disk": "Disk Music",
     "my_fav": "My Favorite",
     "create_list": "Create Nww Playlist"
   },

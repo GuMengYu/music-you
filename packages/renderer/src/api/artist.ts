@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import type { Album, Artist, MV, TrackSource } from '@/types'
+import type { Album, Artist, MV, Track } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
@@ -11,7 +11,7 @@ import { request } from '@/util/fetch'
 export const getArtist = (id: number) =>
   request<{
     artist: Artist
-    hotSongs: TrackSource[]
+    hotSongs: Track[]
   }>(`/artists?id=${id}&timestamp=${now()}`)
 
 /**

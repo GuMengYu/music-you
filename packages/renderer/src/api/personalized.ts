@@ -1,4 +1,4 @@
-import type { Playlist, TrackSource } from '@/types'
+import type { Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 import { RADARPLAYLISTS } from '@/util/metadata'
 
@@ -39,7 +39,7 @@ export const personalizedSong = (limit: number) =>
     result: {
       id: number
       name: string
-      song: TrackSource
+      song: Track
     }[]
   }>('/personalized/newsong', { params: { limit } })
 

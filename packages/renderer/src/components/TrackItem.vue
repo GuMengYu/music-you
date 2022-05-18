@@ -150,7 +150,7 @@ async function toggleLike() {
         </v-btn>
         <!--        <like-toggle :id="track.id" />-->
         <div class="track-duration">
-          {{ formatDuring(track.dt || track.duration) }}
+          {{ formatDuring(track.dt || track.duration || 0) }}
         </div>
         <v-btn v-visible="isHovering" icon color="primary" variant="contained-text" size="small">
           <v-icon size="small">

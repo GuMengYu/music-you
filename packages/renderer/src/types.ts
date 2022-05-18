@@ -1,4 +1,4 @@
-export interface TrackSource {
+export interface Track {
   id: number
   name: string
   duration?: number
@@ -41,7 +41,7 @@ export interface Artist {
 }
 
 export interface Album {
-  tracks: TrackSource[]
+  tracks: Track[]
   id: number
   name: string
   picUrl: string
@@ -52,7 +52,7 @@ export interface Album {
   companyId: number
   publishTime: number
   size: number
-  songs: TrackSource[]
+  songs: Track[]
   subType: string
   type: string
   isSub?: boolean
@@ -63,7 +63,7 @@ export interface Album {
 export interface Playlist {
   id: number
   name: string
-  tracks: TrackSource[]
+  tracks: Track[]
   trackIds: {
     id: number
   }[]
@@ -105,5 +105,5 @@ export interface Account {
 
 export interface Tracks {
   id?: string
-  list: TrackSource[]
+  list: Track[]
 }

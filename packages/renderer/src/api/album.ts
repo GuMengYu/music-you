@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import type { Album, TrackSource } from '@/types'
+import type { Album, Track } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
@@ -13,7 +13,7 @@ import { request } from '@/util/fetch'
 export const getAlbum = (id: number) =>
   request<{
     album: Album
-    songs: TrackSource[]
+    songs: Track[]
     resourceState: boolean
   }>('/album', { params: { id } })
 

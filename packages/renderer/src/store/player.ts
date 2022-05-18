@@ -6,7 +6,7 @@ import { pinia } from '@/plugins/pinia'
 
 import { sub } from '../api/music'
 import { personalFM } from '../api/user'
-import type { Playlist, TrackSource } from '../types'
+import type { Playlist, Track } from '../types'
 export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',
@@ -14,12 +14,12 @@ export enum PLAY_MODE {
   DISABLE = 'disable',
   SHUFFLE = 'shuffle',
 }
-export type PlayerState = {
-  track: null | TrackSource
+export interface PlayerState {
+  track: null | Track
   currentTime: number
   playingList: {
     id?: string | number
-    list: TrackSource[]
+    list: Track[]
   }
   playMode: PLAY_MODE
   shuffle: boolean
@@ -29,11 +29,11 @@ export type PlayerState = {
   playing: boolean
   loadingTrack: boolean
   isCurrentFm: boolean
-  fmTrack: null | TrackSource
-  fmList: TrackSource[]
-  nextTrackId?: TrackSource['id']
-  nextFmTrackId?: TrackSource['id']
-  prevTrackId?: TrackSource['id']
+  fmTrack: null | Track
+  fmList: Track[]
+  nextTrackId?: Track['id']
+  nextFmTrackId?: Track['id']
+  prevTrackId?: Track['id']
 }
 export const usePlayerStore = defineStore({
   id: 'player',
@@ -42,7 +42,7 @@ export const usePlayerStore = defineStore({
       track: null,
       currentTime: 0,
       playingList: {
-        list: [] as TrackSource[],
+        list: [] as Track[],
       },
       playMode: PLAY_MODE.NORMAL,
       shuffle: false,
@@ -132,7 +132,7 @@ export const usePlayerStore = defineStore({
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...this.fmList]
-      let pop: TrackSource | undefined
+      let pop: Track | undefined
       // 只有一首歌曲时，需要接口拉去新数据
       if (cacheList.length <= 1) {
         const { data } = await personalFM()

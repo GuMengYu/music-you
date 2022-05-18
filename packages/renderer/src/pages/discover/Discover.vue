@@ -25,13 +25,13 @@
 </template>
 <script setup lang="ts">
 import { personalizedMV, personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
-import type { MV, Playlist, TrackSource } from '@/types'
+import type { MV, Playlist, Track } from '@/types'
 
 import ShortcutGrid from './shortcuts/ShortcutGrid.vue'
 interface RootState {
   playLists: Playlist[]
   radarPlayLists: Playlist[]
-  songs: TrackSource[]
+  songs: Track[]
   mvs: MV[]
   loading: boolean
 }

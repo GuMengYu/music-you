@@ -8,7 +8,7 @@ import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist 
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
 import { useToastStore } from '@/store/toast'
-import type { Album, Artist, MV, TrackSource } from '@/types'
+import type { Album, Artist, MV, Track } from '@/types'
 const eventBus = useEventBus<number>('addToQueue')
 const toastStore = useToastStore()
 
@@ -32,7 +32,7 @@ const more = ref({
 })
 interface RootState {
   artist: Artist
-  hotSongs: TrackSource[]
+  hotSongs: Track[]
   hotAlbums: Album[]
   mvs: MV[]
   simiArtists: Artist[]

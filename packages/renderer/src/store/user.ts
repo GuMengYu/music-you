@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { getAccount, logout } from '@/api/account'
 import { sub } from '@/api/music'
 import { getLikeList, getUserPlaylist } from '@/api/user'
-import type { Account, Playlist, TrackSource } from '@/types'
+import type { Account, Playlist, Track } from '@/types'
 import { specialType } from '@/util/metadata'
 
 type Nullable<T> = T | null

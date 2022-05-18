@@ -1,9 +1,14 @@
 import { now } from 'lodash-es'
 
+import type { Track } from '@/types'
 import { request, requestPost } from '@/util/fetch'
 
 export const cloudDiskMusicList = (params = { limit: 50, offset: 0 }) => {
-  return request('/user/cloud', { params: { ...params, timestamp: now() } })
+  return request<{
+    data: {
+      simpleSong: Track
+    }[]
+  }>('/user/cloud', { params: { ...params, timestamp: now() } })
 }
 
 export const deleteCloudDiskMusic = (id: number) => {

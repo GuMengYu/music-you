@@ -6,11 +6,11 @@ import type { Store } from 'pinia'
 import { getTrackDetail, scrobble } from '../api/music'
 import type { PlayerState } from '../store/player'
 import { usePlayerStore } from '../store/player'
-import type { Tracks, TrackSource } from '../types'
+import type { Track, Tracks } from '../types'
 
 export interface PlayerInstance {
-  updateTracks: (tracks: Tracks | TrackSource[], autoPlay?: boolean) => void
-  updatePlayerTrack: (trackId: TrackSource['id'], autoPlay?: boolean, resetProgress?: boolean) => void
+  updateTracks: (tracks: Tracks | Track[], autoPlay?: boolean) => void
+  updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean) => void
   pause: () => void
   play: () => void
   next: () => void
@@ -27,13 +27,13 @@ export interface PlayerInstance {
 }
 export class Player {
   howler: null | Howl
-  track: null | TrackSource
+  track: null | Track
   volume: number
   currentTime: number
   playing: boolean
   playingList: {
     id?: string | number
-    list: TrackSource[]
+    list: Track[]
   }
   isCurrentFm: boolean
   stageMusicURL: string | null
@@ -71,7 +71,7 @@ export class Player {
   async updateTracks(
     tracks: {
       id?: string | number
-      list: TrackSource[]
+      list: Track[]
     },
     autoPlay = true
   ) {
@@ -262,7 +262,7 @@ export class Player {
     // this.setScrobble(this.track, 0, true)
   }
   // 接口无效 暂时不用
-  // private setScrobble(this: Player, track: TrackSource, time: number, played = false) {
+  // private setScrobble(this: Player, track: Track, time: number, played = false) {
   //   const { id, dt } = track
   //   const sourceid = this.playingList.id
   //   if (played) {
@@ -277,7 +277,7 @@ export class Player {
   //     })
   //   }
   // }
-  private initMediaSession(track: TrackSource) {
+  private initMediaSession(track: Track) {
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {
       const { ar: artist, al: album, name: title } = track

@@ -54,7 +54,7 @@ import { getTrackList } from '@/api/music'
 import { getDailyRecommend } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
-import type { TrackSource } from '@/types'
+import type { Track } from '@/types'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const props = defineProps<{
@@ -99,7 +99,7 @@ async function play() {
     loading.value = true
     let info: {
       id?: number
-      list: TrackSource[]
+      list: Track[]
     }
     if (props.type === 'wallhaven') {
       return

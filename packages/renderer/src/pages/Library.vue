@@ -39,16 +39,38 @@
           <video-cover v-for="mv in state.mvs" :key="mv.id" :data="mv" />
         </card-row>
       </v-window-item>
+      <v-window-item>
+        <!-- <div class="d-flex justify-end">
+          <v-btn size="small" color="primary">
+            <v-icon>
+              {{ mdiPlay }}
+            </v-icon>
+            {{ $t('common.play') }}
+          </v-btn>
+        </div> -->
+
+        <v-list>
+          <TrackItem
+            v-for="(track, index) in state.clouds"
+            :key="track.id"
+            :track="track"
+            :index="index + 1"
+          ></TrackItem>
+        </v-list>
+      </v-window-item>
     </v-window>
   </div>
 </template>
 <script lang="ts" setup>
+import { mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed, nextTick, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { cloudDiskMusicList } from '@/api/cloud'
 import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
 import { useUserStore } from '@/store/user'
+import type { Album, Artist, MV, Track } from '@/types'
 
 const { t } = useI18n()
 
@@ -61,18 +83,21 @@ const state = reactive({
     { key: 'albums', name: t('main.albums') },
     { key: 'artists', name: t('main.artists') },
     { key: 'mvs', name: t('main.mvs') },
+    { key: 'clouds', name: t('main.disk') },
   ],
   tab: 0,
-  albums: [],
-  mvs: [],
-  artists: [],
-  recently: [],
+  albums: [] as Album[],
+  mvs: [] as MV[],
+  artists: [] as Artist[],
+  clouds: [] as Track[],
+  recently: [] as Track[],
   loadingRecent: false,
   loading: {
     playlists: false,
     albums: false,
     artists: false,
     mvs: false,
+    cloud: false,
   },
 })
 const type = computed(() => {
@@ -81,6 +106,7 @@ const type = computed(() => {
     1: 'albums',
     2: 'artists',
     3: 'mvs',
+    4: 'clouds',
   }[state.tab]
 })
 fetch()
@@ -105,6 +131,10 @@ async function loadData() {
     state.loading[type.value] = true
     const { data } = await favMVs()
     state.mvs = data
+  } else if (type.value === 'clouds' && !state.clouds.length) {
+    state.loading[type.value] = true
+    const { data } = await cloudDiskMusicList()
+    state.clouds = data.map((song) => song.simpleSong)
   }
   state.loading[type.value] = false
 }

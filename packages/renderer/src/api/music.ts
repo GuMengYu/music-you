@@ -1,7 +1,7 @@
 import { now } from 'lodash-es'
 
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Playlist, TrackSource } from '@/types'
+import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 
 import { getAlbum } from './album'
@@ -24,7 +24,7 @@ export const getTrackDetail = async (id: string | number, br = 320000) => {
   return { ...track, url, lyric }
 }
 
-export const getMusicUrl = async (id: TrackSource['id'], br = 320000) => {
+export const getMusicUrl = async (id: Track['id'], br = 320000) => {
   const userStore = useUserStore()
   let url
   if (userStore.logged) {
@@ -50,7 +50,7 @@ export const getMusicUrl = async (id: TrackSource['id'], br = 320000) => {
 export const search = (keywords = '', conditions) => {
   return request<{
     result: {
-      songs?: TrackSource[]
+      songs?: Track[]
       albums?: Album[]
       artists?: Artist[]
       mvs?: MV[]
@@ -71,7 +71,7 @@ export const search = (keywords = '', conditions) => {
  * @returns
  */
 export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: number) => {
-  let res: { id: number; tracks: TrackSource[] }
+  let res: { id: number; tracks: Track[] }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
     res = {
@@ -101,7 +101,7 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: nu
  * @param t: 1 收藏 其他 取消收藏
  * 根据歌单id返回歌单详细信息
  */
-export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: TrackSource['id'], t: number) => {
+export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: Track['id'], t: number) => {
   const params: {
     timestamp: number
     id: string | number
@@ -138,7 +138,7 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const scrobble = (params: { id: TrackSource['id']; sourceid: number | string }) => {
+export const scrobble = (params: { id: Track['id']; sourceid: number | string }) => {
   return request('/scrobble', {
     params: {
       ...params,

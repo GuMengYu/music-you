@@ -1,4 +1,4 @@
-import type { TrackSource } from '@/types'
+import type { Track } from '@/types'
 import { request } from '@/util/fetch'
 /**
  * 获取歌曲详情
@@ -7,7 +7,7 @@ import { request } from '@/util/fetch'
  */
 export const getSongData = (ids: number[] = []) =>
   request<{
-    songs: TrackSource[]
+    songs: Track[]
   }>(`/song/detail?ids=${ids.join()}`)
 /**
  * 获取歌曲可播放url
@@ -44,11 +44,11 @@ export const getSongUrlFromUnlockMusic = (id: number) =>
     }
   }>('/unlockmusic', { params: { id } })
 
-type LyricUser = {
+interface LyricUser {
   nickname: string
   userid: number
 }
-type Lyric = {
+interface Lyric {
   lyric: string
   version: number
 }

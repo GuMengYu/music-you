@@ -3,7 +3,7 @@ import { reactive, ref, watchEffect } from 'vue'
 
 import { search } from '@/api/music'
 import { useToastStore } from '@/store/toast'
-import type { Album, Artist, MV, Playlist, TrackSource } from '@/types'
+import type { Album, Artist, MV, Playlist, Track } from '@/types'
 const toast = useToastStore()
 const searchTypes = {
   song: { type: 1, limit: 5 },
@@ -16,7 +16,7 @@ const searchTypes = {
 const loading = ref(false)
 const state = reactive({
   artists: [] as Artist[],
-  songs: [] as TrackSource[],
+  songs: [] as Track[],
   albums: [] as Album[],
   playlists: [] as Playlist[],
   mvs: [] as MV[],

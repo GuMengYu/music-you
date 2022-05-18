@@ -10,7 +10,6 @@
       "fm": "私人FM",
       "daily": "日推",
       "stars": "音乐库",
-      "disk": "音乐云盘",
       "radio": "我的电台",
       "created_list": "创建的歌单",
       "start_list": "收藏的歌单",
@@ -58,6 +57,7 @@
     "playlists": "歌单",
     "artists": "歌手",
     "mvs": "MV",
+    "disk": "云盘",
     "my_fav": "喜欢的音乐",
     "create_list": "创建新歌单"
   },
