@@ -5,15 +5,15 @@ import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 import { getAlbum, getAlbumDynamic } from '@/api/album'
 import { getArtistAlbum } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
-import { useToastStore } from '@/store/toast'
 import type { Album } from '@/types'
 import { formatDuring, isElectron, sizeOfImage } from '@/util/fn'
-const toastStore = useToastStore()
+const toast = useToast()
 const player = usePlayer()
 
 const props = defineProps<{
@@ -80,9 +80,9 @@ async function subscribe() {
   const { code, message } = await sub('album', id, subscribed.value ? 0 : 1)
   if (code === 200) {
     subscribed.value = !subscribed.value
-    toastStore.show(subscribed.value ? '收藏成功' : '已取消收藏')
+    toast.info(subscribed.value ? '收藏成功' : '已取消收藏')
   } else {
-    toastStore.show(message)
+    toast.error(message)
   }
 }
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {

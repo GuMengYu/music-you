@@ -1,9 +1,9 @@
 <template>
-  <v-navigation-drawer :rail="rail">
+  <v-navigation-drawer :rail="rail" class="drag-area">
     <div class="pl-2 py-1">
       <drawer-toggle />
     </div>
-    <div class="content-warp flex-fill" :class="{ 'rail-nav': rail }">
+    <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
         <v-list-item
           v-for="item in state.defaultNav1"

@@ -2,14 +2,14 @@
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import placeholderUrl from '@/assets/placeholder.png'
-import { useToastStore } from '@/store/toast'
 import { useUserStore } from '@/store/user'
 import type { Artist } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 
-const toast = useToastStore()
+const toast = useToast()
 const userStore = useUserStore()
 
 const { logged, account } = storeToRefs(userStore)
@@ -95,12 +95,12 @@ async function toggleLike() {
   const success = await userStore.favSong(props.track.id, !liked.value)
   if (success) {
     if (before) {
-      toast.show('已从"喜欢的音乐"移除')
+      toast.success('已从"喜欢的音乐"移除')
     } else {
-      toast.show('已添加至"喜欢的音乐"')
+      toast.success('已添加至"喜欢的音乐"')
     }
   } else {
-    toast.show('操作频繁或者网络出现错误')
+    toast.error('操作频繁或者网络出现错误')
   }
   likeLoading.value = false
 }

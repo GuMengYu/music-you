@@ -2,17 +2,17 @@
 import { mdiAccountMusic, mdiClockOutline, mdiInformation, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
+import { useToast } from 'vue-toastification'
 
 import { sub } from '@/api/music'
 import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
 import { getSongData } from '@/api/song'
 import { usePlayer } from '@/player/player'
-import { useToastStore } from '@/store/toast'
 import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { formatDuring, formatNumber, isElectron } from '@/util/fn'
 
-const toastStore = useToastStore()
+const toast = useToast()
 const userStore = useUserStore()
 const player = usePlayer()
 const props = defineProps<{
@@ -77,9 +77,9 @@ async function subscribe() {
   const { code, message } = await sub('playlist', id, subscribed.value ? 0 : 1)
   if (code === 200) {
     subscribed.value = !subscribed.value
-    toastStore.show(subscribed.value ? '收藏成功' : '已取消收藏')
+    toast.success(subscribed.value ? '收藏成功' : '已取消收藏')
   } else {
-    toastStore.show(message)
+    toast.error(message)
   }
 }
 async function del() {
@@ -87,7 +87,7 @@ async function del() {
   if (code === 200) {
     isDelete.value = true
   } else {
-    toastStore.show(message)
+    toast.error(message)
   }
 }
 

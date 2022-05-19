@@ -4,7 +4,7 @@
       <b-f-btn />
       <reload-btn />
     </div>
-    <div class="topbar-content-wrapper d-flex mx-2">
+    <div class="topbar-content-wrapper d-flex mx-2 no-drag-area">
       <search-input />
     </div>
     <div class="append d-flex no-drag-area">

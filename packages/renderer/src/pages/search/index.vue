@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref, watchEffect } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import { search } from '@/api/music'
-import { useToastStore } from '@/store/toast'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
-const toast = useToastStore()
+const toast = useToast()
 const searchTypes = {
   song: { type: 1, limit: 5 },
   album: { type: 10, limit: 4 },
@@ -55,7 +55,7 @@ async function triggerSearch() {
     state.playlists = playlist.playlists ?? []
     state.mvs = mv.mvs ?? []
   } catch (e) {
-    toast.show('opps something wrong')
+    toast.error('opps something wrong')
   } finally {
     loading.value = false
   }

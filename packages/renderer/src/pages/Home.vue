@@ -10,12 +10,10 @@
     <context-menu />
     <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" /> -->
     <app-playing-page />
-    <app-toast />
   </v-app>
 </template>
 
 <script setup lang="ts">
-import AppToast from '@/components/Toast.vue'
 import { useTheme } from '@/hooks/useTheme'
 
 import AppCC from './layout/CC.vue'

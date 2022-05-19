@@ -3,14 +3,14 @@ import { mdiAccountMusic, mdiInformation, mdiPlay } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
-import { useToastStore } from '@/store/toast'
 import type { Album, Artist, MV, Track } from '@/types'
 const eventBus = useEventBus<number>('addToQueue')
-const toastStore = useToastStore()
+const toast = useToast()
 
 const player = usePlayer()
 const props = defineProps({
@@ -90,9 +90,9 @@ async function follow() {
   const { code, message } = await sub('artist', id, followed.value ? 0 : 1)
   if (code === 200) {
     followed.value = !followed.value
-    toastStore.show(followed.value ? '关注成功' : '已取消关注')
+    toast.success(followed.value ? '关注成功' : '已取消关注')
   } else {
-    toastStore.show(message)
+    toast.error(message)
   }
 }
 function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {

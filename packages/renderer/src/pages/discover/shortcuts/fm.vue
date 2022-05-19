@@ -40,16 +40,16 @@
 import { mdiDelete, mdiPause, mdiPlay, mdiSkipNextOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import { fmToTrash } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
-import { useToastStore } from '@/store/toast'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const playerStore = usePlayerStore()
-const toastStore = useToastStore()
+const toast = useToast()
 
 const { fmTrack, track } = storeToRefs(playerStore)
 
@@ -85,7 +85,7 @@ async function togglePlay() {
     playerStore.isCurrentFm = true
     await player.updatePlayerTrack(fmTrack.value.id, true) // 替换当前播放歌曲
   } else {
-    toastStore.show('FM歌曲未加载')
+    toast.warning('FM歌曲未加载')
   }
 }
 async function next() {
