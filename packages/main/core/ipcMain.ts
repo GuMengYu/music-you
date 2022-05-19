@@ -1,8 +1,9 @@
 import type { BrowserWindow } from 'electron'
+import { ipcMain, shell } from 'electron'
 
-const { ipcMain, shell } = require('electron')
 import { WindowState } from '../../renderer/src/util/enum'
 import { downloadFile } from './util/download'
+import log from './util/log'
 export const registerIpcMain = (window: BrowserWindow) => {
   ipcMain.handle('zoom-window', () => {
     if (window.isMaximized()) {
@@ -12,7 +13,7 @@ export const registerIpcMain = (window: BrowserWindow) => {
     }
   })
   ipcMain.handle('downloadFile', (_e, data) => {
-    console.log('start download file', data.url)
+    log.info('start download file', data.url)
     downloadFile(data)
   })
   ipcMain.handle(WindowState.MINIMIZED, () => {
@@ -32,6 +33,10 @@ export const registerIpcMain = (window: BrowserWindow) => {
     window.close()
   })
   ipcMain.handle('open-url', (e, url) => {
-    shell.openExternal(url)
+    try {
+      shell.openExternal(url)
+    } catch (e) {
+      log.error('open external url failed', e)
+    }
   })
 }

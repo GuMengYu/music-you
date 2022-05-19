@@ -1,8 +1,10 @@
 {
   "name": "vplayer-next",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "private": true,
   "main": "dist/main/index.cjs",
+  "author": "gumengyu",
+  "description": "A 163 netease music player (base on vue@3)",
   "scripts": {
     "preview": "vite preview",
     "dev": "vite --config packages/renderer/vite.config.ts",

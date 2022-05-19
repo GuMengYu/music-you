@@ -4,6 +4,7 @@ import { EventEmitter } from 'events'
 import { join } from 'path'
 
 import { WindowState } from '../../renderer/src/util/enum'
+import log from './util/log'
 
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null
@@ -44,16 +45,16 @@ export default class WindowManager extends EventEmitter {
       this.initWindowListener()
       return this.window
     } catch (e) {
-      console.log(e)
+      log.info(e)
     }
   }
   initWindowListener() {
     this.window?.on('enter-full-screen', () => {
-      console.log('enter-full-screen')
+      log.info('enter-full-screen')
       this.window?.webContents.send('fullscreen', true)
     })
     this.window?.on('leave-full-screen', () => {
-      console.log('leave-full-screen')
+      log.info('leave-full-screen')
       this.window?.webContents.send('fullscreen', false)
     })
     this.window?.on('close', (event) => {
@@ -68,19 +69,19 @@ export default class WindowManager extends EventEmitter {
       }
     })
     this.window?.on('maximize', () => {
-      console.log('window maximize')
+      log.info('window maximize')
       this.window?.webContents.send('windowState', WindowState.MAXIMIZED)
     })
     this.window?.on('unmaximize', () => {
-      console.log('window unmaximize')
+      log.info('window unmaximize')
       this.window?.webContents.send('windowState', WindowState.NORMAL)
     })
     this.window?.on('minimize', () => {
-      console.log('window minimize')
+      log.info('window minimize')
       this.window?.webContents.send('windowState', WindowState.MINIMIZED)
     })
     this.window?.on('restore', () => {
-      console.log('window restore')
+      log.info('window restore')
       this.window?.webContents.send('windowState', WindowState.NORMAL)
     })
 

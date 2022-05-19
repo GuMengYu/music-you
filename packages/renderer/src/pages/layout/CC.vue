@@ -22,6 +22,11 @@
           <switch-card v-model="darkMode" title="跟随系统" subtitle="在日落时开启" :icon="mdiCircleHalfFull" />
         </v-col>
       </v-row>
+      <v-row dense class="mt-1">
+        <v-col>
+          <switch-card v-if="isDev" title="Playground" subtitle="" :icon="mdiBook" @click="toPlayground" />
+        </v-col>
+      </v-row>
       <v-divider class="my-4" />
       <MediaCard />
     </v-container>
@@ -29,7 +34,8 @@
 </template>
 
 <script lang="ts">
-import { mdiCircleHalfFull } from '@mdi/js'
+import { mdiBook, mdiCircleHalfFull } from '@mdi/js'
+import is from 'electron-is'
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 
@@ -42,6 +48,7 @@ export default defineComponent({
     const app = useAppStore()
     const setting = useSettingStore()
     const theme = useTheme()
+    const router = useRouter()
     const isDark = computed(() => {
       return theme.getTheme(theme.current.value)?.dark
     })
@@ -53,10 +60,18 @@ export default defineComponent({
         setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
       },
     })
+    const isDev = is.dev()
+    // for dev
+    function toPlayground() {
+      router.push('/playground')
+    }
     return {
       darkMode,
       app,
       mdiCircleHalfFull,
+      mdiBook,
+      isDev,
+      toPlayground,
     }
   },
 })

@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon @click="reload()">
+  <v-btn icon class="no-drag-area" @click="reload()">
     <v-icon size="small">
       {{ mdiReload }}
     </v-icon>

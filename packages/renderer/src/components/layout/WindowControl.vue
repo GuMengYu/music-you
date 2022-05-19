@@ -1,22 +1,21 @@
 <template>
-  <div class="window-control">
-    <div class="window-actions">
-      <v-btn variant="plain" class="action-item px-0" @click="handleMinimize">
-        <v-icon size="small">
-          {{ mdiWindowMinimize }}
-        </v-icon>
-      </v-btn>
-      <v-btn variant="plain" class="action-item px-0" @click="handleToggleMaximize">
-        <v-icon size="small">
-          {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
-        </v-icon>
-      </v-btn>
-      <v-btn variant="plain" class="action-item action-close px-0" @click="handleClose">
-        <v-icon size="small">
-          {{ mdiWindowClose }}
-        </v-icon>
-      </v-btn>
-    </div>
+  <div class="window-actions">
+    <v-divider vertical class="my-4 mx-2" />
+    <v-btn icon size="small" class="action-item px-0" @click="handleMinimize">
+      <v-icon size="small">
+        {{ mdiWindowMinimize }}
+      </v-icon>
+    </v-btn>
+    <v-btn size="small" icon class="action-item px-0" @click="handleToggleMaximize">
+      <v-icon size="small">
+        {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
+      </v-icon>
+    </v-btn>
+    <v-btn size="small" icon class="action-item action-close px-0" @click="handleClose">
+      <v-icon size="small">
+        {{ mdiWindowClose }}
+      </v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -48,24 +47,17 @@ function handleClose() {
 </script>
 
 <style lang="scss">
-.window-control {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 999;
-  .window-actions {
-    display: flex;
-    > .action-item {
-      min-width: 36px;
-      border-radius: initial;
-      &:hover {
-        background: rgb(var(--v-theme-surfaceVariant));
-      }
+.window-actions {
+  display: flex;
+  align-items: center;
+  > .action-item {
+    &:hover {
+      background: rgb(var(--v-theme-surfaceVariant));
     }
-    .action-close {
-      &:hover {
-        background: rgba(204, 8, 8, 0.863);
-      }
+  }
+  .action-close {
+    &:hover {
+      background: rgba(204, 8, 8, 0.863);
     }
   }
 }
