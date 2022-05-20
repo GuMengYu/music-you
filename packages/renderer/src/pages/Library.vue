@@ -11,7 +11,7 @@
         />
       </card-row>
     </Col> -->
-    <v-tabs v-model="current" class="mb-4">
+    <v-tabs v-model="current" class="mb-4" dense>
       <v-tab v-for="tab in tabs" :key="tab.key" :value="tab.key" class="font-weight-bold">
         {{ tab.name }}
       </v-tab>
@@ -24,9 +24,7 @@
       </v-window-item>
       <v-window-item :value="TYPES.ALBUM">
         <card-row>
-          <div v-for="album in data.albums" :key="album.id">
-            <cover :data="album" />
-          </div>
+          <cover v-for="album in data.albums" :key="album.id" :data="album" />
         </card-row>
       </v-window-item>
       <v-window-item :value="TYPES.ARTIST">
@@ -64,18 +62,17 @@
 <script lang="ts" setup>
 import { mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useToast } from 'vue-toastification'
 
 import { cloudDiskMusicList } from '@/api/cloud'
 import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Track } from '@/types'
-
 const { t } = useI18n()
 
 const userStore = useUserStore()
-
+const toast = useToast()
 const { playlists } = storeToRefs(userStore)
 enum TYPES {
   PLAYLIST = 'playlist',
@@ -103,39 +100,25 @@ const data: {
   mvs: [],
   clouds: [],
 })
-const tabLoading = reactive({
-  album: false,
-  artist: false,
-  mv: false,
-  cloud: false,
-})
-
-watch(current, () => {
-  console.log('tabs.value.current', current.value)
-  loadData()
-})
+const loading = ref(false)
+loadData()
 async function loadData() {
-  console.log(current.value)
-  if (current.value === TYPES.ALBUM && !data.albums.length) {
-    tabLoading[current.value] = true
-    const { data: albums } = await favAlbums()
+  loading.value = true
+  try {
+    const [{ data: albums }, { data: artists }, { data: mvs }, { data: clouds }] = await Promise.all([
+      favAlbums(),
+      favArtists(),
+      favMVs(),
+      cloudDiskMusicList(),
+    ])
     data.albums = albums
-    tabLoading[current.value] = false
-  } else if (current.value === TYPES.ARTIST && !data.artists.length) {
-    tabLoading[current.value] = true
-    const { data: artists } = await favArtists()
     data.artists = artists
-    tabLoading[current.value] = false
-  } else if (current.value === TYPES.MV && !data.mvs.length) {
-    tabLoading[current.value] = true
-    const { data: mvs } = await favMVs()
     data.mvs = mvs
-    tabLoading[current.value] = false
-  } else if (current.value === TYPES.CLOUD && !data.clouds.length) {
-    tabLoading[current.value] = true
-    const { data: clouds } = await cloudDiskMusicList()
     data.clouds = clouds.map((song) => song.simpleSong)
-    tabLoading[current.value] = false
+  } catch (e) {
+    toast.error('something wrong')
+  } finally {
+    loading.value = false
   }
 }
 </script>

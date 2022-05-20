@@ -39,7 +39,7 @@ const to = computed(() => {
   return `/artist/${props.artist?.id}`
 })
 const coverUrl = computed(() => {
-  return sizeOfImage(props.artist.picUrl ?? props.artist.cover, 256)
+  return sizeOfImage(props.artist.picUrl ?? props.artist.cover, 512)
 })
 function go() {
   router.push(to.value)
@@ -49,10 +49,12 @@ function go() {
 <style scoped lang="scss">
 .artists-container {
   .artist-image {
-    transition: transform 0.3s;
-    &:hover {
-      transform: scale(1.05);
+    &:hover :deep(.v-img__img) {
+      transform: scale(1.075);
       cursor: pointer;
+    }
+    :deep(.v-img__img) {
+      transition: transform 0.3s;
     }
   }
 }

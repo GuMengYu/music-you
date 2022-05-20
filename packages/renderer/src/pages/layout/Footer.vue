@@ -93,7 +93,7 @@ const currentTheme = computed(() => {
 
 // store state
 const { currentTime, track, volume } = storeToRefs(playerStore)
-const trackDt = computed(() => track.value?.dt ?? 0)
+const trackDt = computed(() => track.value?.dt ?? 10)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
 const cacheVolume = ref(0.8)
