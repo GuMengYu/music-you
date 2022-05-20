@@ -12,11 +12,11 @@
       </card-row>
     </Col> -->
     <v-tabs v-model="state.tab" class="mb-4">
-      <v-tab v-for="t in state.tabs" :key="t.key" class="font-weight-bold" @click="loadData">
-        {{ t.name }}
+      <v-tab v-for="tab in state.tabs" :key="tab.key" class="font-weight-bold" @click="loadData">
+        {{ tab.name }}
       </v-tab>
     </v-tabs>
-    <v-window v-model="state.tab" class="tab_page pt-4">
+    <v-window v-model="state.tab" class="tab_page">
       <v-window-item>
         <card-row>
           <cover v-for="item in playlists" :key="item.id" :data="item" type="playlist" />

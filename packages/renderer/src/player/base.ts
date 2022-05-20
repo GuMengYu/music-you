@@ -35,6 +35,7 @@ export class Player {
     id?: string | number
     list: Track[]
   }
+  _progressInterval: ReturnType<typeof setInterval> | undefined
   isCurrentFm: boolean
   stageMusicURL: string | null
   store: Store<'player', PlayerState>
@@ -97,6 +98,7 @@ export class Player {
         }
         if (events.key === 'volume') {
           this.volume = volume
+          Howler.volume(volume)
         }
         if (events.key === 'isCurrentFm') {
           this.isCurrentFm = isCurrentFm
@@ -152,14 +154,13 @@ export class Player {
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {
-        requestAnimationFrame(this.step.bind(this))
+        this.setProgressInterval()
       },
       onplayerror: (id, e) => {
         console.log(id, e)
       },
       onseek: () => {
-        // Start updating the progress of the track.
-        requestAnimationFrame(this.step.bind(this))
+        // do noting
       },
       onload: () => {
         this.trackLoaded()
@@ -248,13 +249,30 @@ export class Player {
   }
   setSeek(val: number) {
     this.howler?.seek(val)
-    this._updateCurrentTime(val)
+    // this._updateCurrentTime(val)
   }
-  private step() {
-    if (this.howler?.playing()) {
-      this._updateCurrentTime()
-      requestAnimationFrame(this.step.bind(this))
-    }
+  // private step() {
+  //   if (this.howler?.playing()) {
+  //     if (!this.pauseProgress) {
+  //       this._updateCurrentTime()
+  //     }
+  //     requestAnimationFrame(this.step.bind(this))
+  //   }
+  // }
+  pauseProgress() {
+    clearInterval(this._progressInterval)
+  }
+  restoreProgress() {
+    this.setProgressInterval()
+  }
+  private setProgressInterval(this: Player) {
+    this._progressInterval = setInterval(() => {
+      if (this.howler?.playing()) {
+        const current = Math.ceil(this.howler?.seek() ?? 0)
+        this.currentTime = current
+        this.store.currentTime = current
+      }
+    }, 1000)
   }
   private endCb() {
     this.next()

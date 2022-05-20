@@ -13,7 +13,7 @@
           active-class="text-primary"
         >
           <v-list-item-avatar left>
-            <v-icon size="small" :icon="item.icon"></v-icon>
+            <v-icon size="small" :icon="item.icon" color="primary"></v-icon>
           </v-list-item-avatar>
           <v-list-item-title class="font-weight-bold" v-text="item.title"></v-list-item-title>
         </v-list-item>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAlbum, mdiHome, mdiMagnify, mdiMusicNoteHalfDotted } from '@mdi/js'
+import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -66,7 +66,7 @@ const state = reactive({
       to: '/explore',
     },
     {
-      icon: mdiMusicNoteHalfDotted,
+      icon: mdiRhombusSplit,
       val: 'stars',
       title: t('main.nav.stars'),
       to: '/library',

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center align-center control-buttons">
+  <div class="d-flex justify-center align-center control-buttons gap-2">
     <v-btn icon :disabled="isCurrentFm" flat size="small" @click="toggleShuffle">
       <v-icon size="x-small">
         {{ shuffle ? icon.mdiShuffle : icon.mdiShuffleDisabled }}
@@ -141,8 +141,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .control-buttons {
-  gap: 12px;
-
   .play-fab {
     &.playing {
       animation: pulseWarn 1.5s infinite;
