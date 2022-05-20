@@ -11,35 +11,35 @@
         />
       </card-row>
     </Col> -->
-    <v-tabs v-model="state.tab" class="mb-4">
-      <v-tab v-for="tab in state.tabs" :key="tab.key" class="font-weight-bold" @click="loadData">
+    <v-tabs v-model="current" class="mb-4">
+      <v-tab v-for="tab in tabs" :key="tab.key" :value="tab.key" class="font-weight-bold">
         {{ tab.name }}
       </v-tab>
     </v-tabs>
-    <v-window v-model="state.tab" class="tab_page">
-      <v-window-item>
+    <v-window :model-value="current" class="tab_page">
+      <v-window-item :value="TYPES.PLAYLIST">
         <card-row>
           <cover v-for="item in playlists" :key="item.id" :data="item" type="playlist" />
         </card-row>
       </v-window-item>
-      <v-window-item>
+      <v-window-item :value="TYPES.ALBUM">
         <card-row>
-          <div v-for="album in state.albums" :key="album.id">
+          <div v-for="album in data.albums" :key="album.id">
             <cover :data="album" />
           </div>
         </card-row>
       </v-window-item>
-      <v-window-item>
+      <v-window-item :value="TYPES.ARTIST">
         <card-row>
-          <artists-cover v-for="artist in state.artists" :key="artist.id" :artist="artist" />
+          <artists-cover v-for="artist in data.artists" :key="artist.id" :artist="artist" />
         </card-row>
       </v-window-item>
-      <v-window-item>
+      <v-window-item :value="TYPES.MV">
         <card-row>
-          <video-cover v-for="mv in state.mvs" :key="mv.id" :data="mv" />
+          <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
         </card-row>
       </v-window-item>
-      <v-window-item>
+      <v-window-item :value="TYPES.CLOUD">
         <!-- <div class="d-flex justify-end">
           <v-btn size="small" color="primary">
             <v-icon>
@@ -51,7 +51,7 @@
 
         <v-list>
           <TrackItem
-            v-for="(track, index) in state.clouds"
+            v-for="(track, index) in data.clouds"
             :key="track.id"
             :track="track"
             :index="index + 1"
@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import { mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed, nextTick, reactive } from 'vue'
+import { nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { cloudDiskMusicList } from '@/api/cloud'
@@ -77,65 +77,65 @@ const { t } = useI18n()
 const userStore = useUserStore()
 
 const { playlists } = storeToRefs(userStore)
-const state = reactive({
-  tabs: [
-    { key: 'playlists', name: t('main.playlists') },
-    { key: 'albums', name: t('main.albums') },
-    { key: 'artists', name: t('main.artists') },
-    { key: 'mvs', name: t('main.mvs') },
-    { key: 'clouds', name: t('main.disk') },
-  ],
-  tab: 0,
-  albums: [] as Album[],
-  mvs: [] as MV[],
-  artists: [] as Artist[],
-  clouds: [] as Track[],
-  recently: [] as Track[],
-  loadingRecent: false,
-  loading: {
-    playlists: false,
-    albums: false,
-    artists: false,
-    mvs: false,
-    cloud: false,
-  },
-})
-const type = computed(() => {
-  return {
-    0: 'playlists',
-    1: 'albums',
-    2: 'artists',
-    3: 'mvs',
-    4: 'clouds',
-  }[state.tab]
-})
-fetch()
-async function fetch() {
-  const {
-    data: { list = [] },
-  } = await recent(15)
-  state.recently = list
+enum TYPES {
+  PLAYLIST = 'playlist',
+  ALBUM = 'album',
+  ARTIST = 'artist',
+  MV = 'mv',
+  CLOUD = 'cloud',
 }
+const tabs = [
+  { key: TYPES.PLAYLIST, name: t('main.playlists') },
+  { key: TYPES.ALBUM, name: t('main.albums') },
+  { key: TYPES.ARTIST, name: t('main.artists') },
+  { key: TYPES.MV, name: t('main.mvs') },
+  { key: TYPES.CLOUD, name: t('main.disk') },
+]
+const current = ref(TYPES.PLAYLIST)
+const data: {
+  albums: Album[]
+  artists: Artist[]
+  mvs: MV[]
+  clouds: Track[]
+} = reactive({
+  albums: [],
+  artists: [],
+  mvs: [],
+  clouds: [],
+})
+const tabLoading = reactive({
+  album: false,
+  artist: false,
+  mv: false,
+  cloud: false,
+})
 
+watch(current, () => {
+  console.log('tabs.value.current', current.value)
+  loadData()
+})
 async function loadData() {
-  await nextTick()
-  if (type.value === 'albums' && !state.albums.length) {
-    state.loading[type.value] = true
-    const { data } = await favAlbums()
-    state.albums = data
-  } else if (type.value === 'artists' && !state.artists.length) {
-    state.loading[type.value] = true
-    const { data } = await favArtists()
-    state.artists = data
-  } else if (type.value === 'mvs' && !state.mvs.length) {
-    state.loading[type.value] = true
-    const { data } = await favMVs()
-    state.mvs = data
-  } else if (type.value === 'clouds' && !state.clouds.length) {
-    state.loading[type.value] = true
-    const { data } = await cloudDiskMusicList()
-    state.clouds = data.map((song) => song.simpleSong)
+  console.log(current.value)
+  if (current.value === TYPES.ALBUM && !data.albums.length) {
+    tabLoading[current.value] = true
+    const { data: albums } = await favAlbums()
+    data.albums = albums
+    tabLoading[current.value] = false
+  } else if (current.value === TYPES.ARTIST && !data.artists.length) {
+    tabLoading[current.value] = true
+    const { data: artists } = await favArtists()
+    data.artists = artists
+    tabLoading[current.value] = false
+  } else if (current.value === TYPES.MV && !data.mvs.length) {
+    tabLoading[current.value] = true
+    const { data: mvs } = await favMVs()
+    data.mvs = mvs
+    tabLoading[current.value] = false
+  } else if (current.value === TYPES.CLOUD && !data.clouds.length) {
+    tabLoading[current.value] = true
+    const { data: clouds } = await cloudDiskMusicList()
+    data.clouds = clouds.map((song) => song.simpleSong)
+    tabLoading[current.value] = false
   }
-  state.loading[type.value] = false
 }
 </script>
