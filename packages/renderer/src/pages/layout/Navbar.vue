@@ -15,7 +15,9 @@
           <v-list-item-avatar left>
             <v-icon size="small" :icon="item.icon" color="primary"></v-icon>
           </v-list-item-avatar>
-          <v-list-item-title class="font-weight-bold" v-text="item.title"></v-list-item-title>
+          <v-list-item-title class="font-weight-bold">
+            {{ $t(item.title) }}
+          </v-list-item-title>
         </v-list-item>
         <!-- <v-divider v-show="!rail" class="mx-3" />
       <v-list-subheader v-show="!rail" class="font-weight-bold">
@@ -50,25 +52,25 @@ const state = reactive({
     {
       icon: mdiMagnify,
       val: 'search',
-      title: t('main.nav.search'),
+      title: 'main.nav.search',
       to: '/search',
     },
     {
       icon: mdiHome,
       val: 'discover',
-      title: t('main.nav.discover'),
+      title: 'main.nav.discover',
       to: '/discover',
     },
     {
       icon: mdiAlbum,
       val: 'explore',
-      title: t('main.nav.explore'),
+      title: 'main.nav.explore',
       to: '/explore',
     },
     {
       icon: mdiRhombusSplit,
       val: 'stars',
-      title: t('main.nav.stars'),
+      title: 'main.nav.stars',
       to: '/library',
     },
   ],

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiClockOutline, mdiInformation, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
+import { mdiAccountMusic, mdiInformation, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
 import { useToast } from 'vue-toastification'
@@ -53,7 +53,6 @@ function play() {
     )
   }
 }
-const eventBus = useEventBus<number>('addToQueue')
 
 async function fetch(id: number) {
   loading.value = true
@@ -114,13 +113,13 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         <div class="d-flex justify-space-between align-center">
           <span class="d-flex align-center">
             <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>
-            <span class="text-caption ml-2 text-primary">歌单</span>
+            <span class="text-caption ml-2 text-primary">{{ $t('main.playlists') }}</span>
           </span>
           <span class="text-caption">
-            <span> 共{{ state.playlist.trackCount }}首 </span> ·
-            <span class="text-primary">{{ formatDate(state.playlist.createTime, 'YYYY') }}</span>
-            · <span>总时长 {{ formatDuring(tracksDt) }}</span> ·
-            <span class="text-primary">{{ formatNumber(state.playlist.playCount) }} 次播放</span>
+            <span> {{ $t('common.track_size', [state.playlist.trackCount]) }} </span> ·
+            <span class="text-primary">{{ formatDate(state.playlist.createTime, 'YYYY') }}</span> ·
+            <span>{{ $t('common.duration_total', [formatDuring(tracksDt)]) }}</span> ·
+            <span class="text-primary">{{ $t('common.play_count', [formatNumber(state.playlist.playCount)]) }}</span>
           </span>
         </div>
         <div class="d-flex justify-space-between align-center">
@@ -132,7 +131,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </span>
           <v-btn color="primary" size="small" @click="play">
             <v-icon> {{ mdiPlay }}</v-icon>
-            播放
+            {{ $t('common.play') }}
           </v-btn>
         </div>
         <div class="d-flex align-center">
@@ -157,42 +156,26 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             :disabled="isDelete"
             @click="del"
           >
-            {{ isDelete ? '已删除' : '删除歌单' }}
+            {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
           </v-btn>
           <v-btn v-else size="small" variant="outlined" class="mr-2" color="primary" @click="subscribe">
-            {{ subscribed ? '取消收藏' : '收藏歌单' }}
+            {{ $tc('common.collect', subscribed ? 2 : 1) }}
           </v-btn>
-          <v-btn size="small" color="primary" variant="outlined" plain @click="goto"> 转到歌单详细 </v-btn>
+          <v-btn size="small" color="primary" variant="outlined" plain @click="goto">
+            {{ $t('main.playlist.to163') }}
+          </v-btn>
         </div>
       </v-card>
     </div>
-    <v-list>
-      <div class="list-header px-2 text-caption">
-        <span class="d-flex justify-center">#</span>
-        <span>标题</span>
-        <span>专辑</span>
-        <span class="d-flex justify-end align-center mr-16"
-          ><v-icon small> {{ mdiClockOutline }}</v-icon></span
-        >
-      </div>
-      <v-divider class="ma-4" />
-      <track-item
-        v-for="(song, idx) in state.playlist.tracks"
-        :key="song.id"
-        :track="song"
-        :index="idx + 1"
-        from="list"
-        @play="eventBus.emit(song.id)"
-      />
-    </v-list>
-    <Col title="相关歌单推荐" class="mt-4">
+    <track-list type="list" :tracks="state.playlist.tracks" />
+    <Col :title="$t('main.playlist.simi')" class="mt-4">
       <CardRow>
         <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />
       </CardRow>
     </Col>
     <v-dialog v-model="showMoreDesc" max-width="50vw" :scrollable="true">
       <v-card color="surfaceVariant">
-        <v-card-title>歌单简介</v-card-title>
+        <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
         <v-card-text>
           {{ state.playlist['description'] }}
         </v-card-text>
@@ -200,14 +183,3 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
     </v-dialog>
   </section>
 </template>
-
-<style lang="scss" scoped>
-.list {
-  position: relative;
-  .list-header {
-    display: grid;
-    grid-gap: 16px;
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr);
-  }
-}
-</style>

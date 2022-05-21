@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiAlbum, mdiClockOutline, mdiInformation, mdiPlay } from '@mdi/js'
+import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
-import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { getAlbum, getAlbumDynamic } from '@/api/album'
 import { getArtistAlbum } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
+import dayjs from '@/plugins/dayjs'
 import type { Album } from '@/types'
 import { formatDuring, isElectron, sizeOfImage } from '@/util/fn'
 const toast = useToast()
@@ -63,7 +62,6 @@ async function play() {
     true
   )
 }
-const eventBus = useEventBus<number>('addToQueue')
 
 function goto() {
   const url = `https://music.163.com/#/album?id=${state.album.id}`
@@ -101,10 +99,10 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             <span class="text-caption ml-2">Album</span>
           </span>
           <span class="text-caption">
-            <span> 共{{ state.album.size }}首 </span> ·
-            <span class="text-primary">{{ formatDate(state.album.publishTime) }}</span>
+            <span> {{ $t('common.track_size', [state.album.size]) }} </span> ·
+            <span class="text-primary">{{ formatDate(state.album.publishTime, 'YYYY') }}</span>
             ·
-            <span>总时长 {{ formatDuring(albumDt) }}</span>
+            <span>{{ $t('common.duration_total', [formatDuring(albumDt)]) }}</span>
           </span>
         </div>
         <div class="d-flex justify-space-between align-center">
@@ -132,37 +130,26 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </div>
         <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
           <v-btn size="small" variant="outlined" class="mr-2" :color="subscribed ? 'primary' : ''" @click="subscribe">
-            {{ subscribed ? '已收藏' : '收藏' }}
+            {{ $tc('common.collect', subscribed ? 2 : 1) }}
           </v-btn>
-          <v-btn variant="outlined" size="small" color="primary" @click="goto"> 转到专辑详细 </v-btn>
+          <v-btn variant="outlined" size="small" color="primary" @click="goto"> {{ $t('main.album.to163') }} </v-btn>
         </div>
       </v-card>
     </div>
-    <v-list class="flex-fill rounded-xl">
-      <div class="list-header px-2 text-caption grey--text">
-        <span class="d-flex justify-center">#</span>
-        <span>标题</span>
-        <span class="d-flex justify-end align-center mr-16"
-          ><v-icon small> {{ mdiClockOutline }}</v-icon></span
-        >
-      </div>
-      <v-divider class="ma-4" />
-      <track-item
-        v-for="(track, idx) in state.album.tracks"
-        :key="track.id"
-        :track="track"
-        :index="idx + 1"
-        @play="eventBus.emit(track.id)"
-      />
-    </v-list>
-    <Col title="Ta的其他热门专辑">
+    <track-list type="album" :tracks="state.album.tracks"></track-list>
+    <div class="d-flex flex-column">
+      <span class="text-caption"> {{ $t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
+      <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
+    </div>
+    <v-divider />
+    <Col :title="$t('main.album.simi')">
       <CardRow>
         <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
       </CardRow>
     </Col>
     <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
       <v-card color="surfaceVariant">
-        <v-card-title>专辑简介</v-card-title>
+        <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
         <v-card-text>
           {{ state.album['description'] }}
         </v-card-text>
@@ -170,13 +157,3 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
     </v-dialog>
   </section>
 </template>
-<style lang="scss" scoped>
-.list {
-  position: relative;
-  .list-header {
-    display: grid;
-    grid-gap: 16px;
-    grid-template-columns: [index] 40px [first] 4fr [last] minmax(100px, 1fr);
-  }
-}
-</style>

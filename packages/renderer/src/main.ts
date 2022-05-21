@@ -4,6 +4,7 @@ import App from './App.vue'
 // directives
 import { useDirectives } from './directives'
 // plugins
+import { useDayjs } from './plugins/dayjs'
 import { useElectron } from './plugins/electron'
 import { useI18n } from './plugins/i18n'
 import { usePinia } from './plugins/pinia'
@@ -29,6 +30,7 @@ useI18n(app)
 usePlayer(app)
 useToast(app)
 useDirectives(app)
+useDayjs(app)
 useElectron()
 app.mount('#app').$nextTick(() => {
   isElectron() && window.removeLoading()

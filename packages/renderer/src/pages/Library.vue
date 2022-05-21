@@ -1,16 +1,5 @@
 <template>
   <div>
-    <!-- <Col title="最近播放" subtitle="activity" class="mb-4">
-      <card-row :grid-type="GridType.C">
-        <track-item
-          v-for="(track, idx) in state.recently"
-          :key="track['resourceId']"
-          :track="track.data"
-          :index="idx + 1"
-          from="album"
-        />
-      </card-row>
-    </Col> -->
     <v-tabs v-model="current" class="mb-4" dense>
       <v-tab v-for="tab in tabs" :key="tab.key" :value="tab.key" class="font-weight-bold">
         {{ tab.name }}

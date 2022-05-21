@@ -86,7 +86,7 @@ const props = defineProps({
 })
 
 const coverBgUrl = computed(() => {
-  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl, 256)
+  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl)
 })
 const subTitle = computed(() => {
   return props.extra ?? props.data.copywriter

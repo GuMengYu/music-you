@@ -108,7 +108,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
         <div class="d-flex justify-space-between mb-2 align-center">
           <span>
             <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
-            <span class="text-caption ml-2">歌手</span>
+            <span class="text-caption ml-2">{{ $t('main.artists') }}</span>
           </span>
           <span class="text-caption">
             <span> {{ state.artist['albumSize'] }} {{ $t('main.albums') }} </span> ·
@@ -125,7 +125,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           </span>
           <v-btn color="primary" size="small" :loadin="playLoading" @click="play">
             <v-icon>{{ mdiPlay }}</v-icon>
-            播放
+            {{ $t('common.play') }}
           </v-btn>
         </div>
         <div class="d-flex align-start" @click="more.showMoreDesc = true">
@@ -143,7 +143,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
             rounded
             @click="follow"
           >
-            {{ followed ? '已关注' : '关注' }}
+            {{ $tc('common.follow', followed ? 2 : 1) }}
           </v-btn>
         </div>
       </v-card>
@@ -155,7 +155,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           :key="track.id"
           :index="idx + 1"
           :track="track"
-          from="list"
+          type="list"
           @play="eventBus.emit(track.id)"
         />
       </v-list>
@@ -212,7 +212,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
     </Col>
     <v-dialog v-model="more.showMoreDesc" max-width="50vw" :scrollable="true">
       <v-card color="surfaceVariant">
-        <v-card-title>艺人简介</v-card-title>
+        <v-card-title> {{ $t('main.artist.desc') }}</v-card-title>
         <v-card-text>
           {{ state.artist['briefDesc'] }}
         </v-card-text>

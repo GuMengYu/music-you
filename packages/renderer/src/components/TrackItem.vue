@@ -18,7 +18,7 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  from: {
+  type: {
     type: String,
     default: 'album',
   },
@@ -44,15 +44,11 @@ const artists = computed(() => {
 })
 const album = computed(() => props.track.al ?? props.track.album ?? {})
 const albumCover = computed(() => sizeOfImage(album.value.picUrl ?? album.value.coverImgUrl, 128))
-const gridTemplate = computed(() => {
-  if (props.from !== 'album') {
-    return {
-      gridTemplateColumns: '[index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr)',
-    }
+const className = computed(() => {
+  if (props.type !== 'album') {
+    return 'track-item'
   } else {
-    return {
-      gridTemplateColumns: '[index] 40px [first] 4fr [last] minmax(100px, 1fr)',
-    }
+    return 'track-item album-item'
   }
 })
 const isVip = computed(() => account.value?.profile.vipType === 11)
@@ -110,9 +106,8 @@ async function toggleLike() {
     <div
       v-ripple
       v-bind="_props"
-      class="track-item-wrapper rounded-lg px-2"
-      :class="{ unavailable: !available.enable }"
-      :style="gridTemplate"
+      class="rounded-lg px-2"
+      :class="{ unavailable: !available.enable, [className]: true }"
       :title="available.enable ? '' : available.text"
       @dblclick="play"
     >
@@ -124,7 +119,7 @@ async function toggleLike() {
       </div>
       <div class="track-first">
         <v-img
-          v-if="from !== 'album'"
+          v-if="type !== 'album'"
           :src="albumCover"
           max-height="40"
           max-width="40"
@@ -139,7 +134,7 @@ async function toggleLike() {
           </v-list-item-subtitle>
         </div>
       </div>
-      <div v-if="from !== 'album'" class="track-second">
+      <div v-if="type !== 'album'" class="track-second">
         <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface h-2x">
           {{ album.name }}
         </router-link>
@@ -163,13 +158,17 @@ async function toggleLike() {
 </template>
 
 <style scoped lang="scss">
-.track-item-wrapper {
+.track-item {
   display: grid;
   grid-gap: 16px;
   align-items: center;
   height: 56px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.25s ease;
+  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr);
+  &.album-item {
+    grid-template-columns: [index] 40px [first] 4fr [last] minmax(100px, 1fr);
+  }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);
   }

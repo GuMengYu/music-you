@@ -1,7 +1,7 @@
 // types
 import type { App } from 'vue'
 import type { RouteLocation, RouteRecordRaw } from 'vue-router'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Album from '@/pages/Album.vue'
 import Artist from '@/pages/Artist.vue'
@@ -150,7 +150,7 @@ const musicRoutes: RouteRecordRaw[] = [
 
 export function useRouter(app: App) {
   const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     scrollBehavior: (to, from, savedPosition) => savedPosition || ({ x: 0, y: 0 } as any),
     routes: [
       {
@@ -167,14 +167,17 @@ export function useRouter(app: App) {
       },
     ],
   })
-  router.beforeEach(({ meta }, from, next) => {
-    next()
-    // const logged = store.getters['settings/logged'];
-    // if (meta.needLogin && !logged) {
-    //   store.commit('app/showLogin', true);
-    // } else {
+  // router.beforeEach(({ meta }, from, next) => {
+  //   next()
+  //   // const logged = store.getters['settings/logged'];
+  //   // if (meta.needLogin && !logged) {
+  //   //   store.commit('app/showLogin', true);
+  //   // } else {
 
-    // }
+  //   // }
+  // })
+  router.afterEach((to, from, failed) => {
+    console.log(failed)
   })
   app.use(router)
 }

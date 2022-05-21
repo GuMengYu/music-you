@@ -6,7 +6,7 @@
       <v-list-item-title>{{ $t('common.language') }}</v-list-item-title>
     </v-list-item-header>
     <v-list-item-media>
-      <App-Select v-model="locale" :items="localeOptions" />
+      <App-Select v-model="lang" :items="localeOptions" />
     </v-list-item-media>
   </v-list-item>
   <v-list-item>
@@ -19,19 +19,21 @@
   </v-list-item>
   <v-divider class="mt-4 mb-3 mx-n3" />
 </template>
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
 import AppSelect from '@/components/menu/Select.vue'
 import AppTitle from '@/components/Title.vue'
 import { useSettingStore } from '@/store/setting'
 
-const { t } = useI18n()
+const settingStore = useSettingStore()
+const { locale: lang, quality } = storeToRefs(settingStore)
+const { t, locale } = useI18n({ useScope: 'global' })
 const localeOptions = [
   {
     title: t('common.zh-CN'),
-    value: 'zh-CN',
+    value: 'zhCN',
     activeClass: 'text-primary',
     rounded: true,
   },
@@ -46,15 +48,21 @@ const localeOptions = [
 const qualityOptions = [
   {
     title: '128kb',
-    value: '128',
+    value: '128000',
     activeClass: 'text-primary',
   },
   {
     title: '320kb',
-    value: '320',
+    value: '320000',
+    activeClass: 'text-primary',
+  },
+  {
+    title: 'flac',
+    value: '999000',
     activeClass: 'text-primary',
   },
 ]
-const locale = ref('zh-CN')
-const quality = ref('320')
+watch(lang, () => {
+  locale.value = lang.value
+})
 </script>

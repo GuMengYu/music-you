@@ -5,7 +5,7 @@
   "main": {
     "nav": {
       "search": "Search",
-      "discover": "main",
+      "discover": "Home",
       "explore": "Explore",
       "fm": "Private FM",
       "daily": "Daily Recommend",
@@ -25,7 +25,18 @@
       "albums": "Album",
       "epAndSingle": "Singles & EP",
       "mv": "Popular MV",
-      "simi": "Similar Artist"
+      "simi": "Similar Artist",
+      "desc": "Description"
+    },
+    "playlist": {
+      "simi": "Similar Playlist",
+      "desc": "Description",
+      "to163": "jump to music 163"
+    },
+    "album": {
+      "simi": "Other Hot Album",
+      "desc": "Description",
+      "to163": "jump to 163 music"
     },
     "discover": {
       "common": "common",
@@ -95,14 +106,21 @@
     "dynamicBg": "Dynamic Background",
     "lyric": "Lyric",
     "clear_cache": "Clear Cache",
-    "lastupdate": "last update {0} · {2} songs",
+    "track_size": "{0} songs in total",
     "dawning": "Good dawning",
     "morning": "Good morning",
     "noon": "Good noon",
     "afternoon": "Good afternoon",
     "evening": "Good evening",
     "midnight": "Good midnight",
-    "other": "other"
+    "other": "other",
+    "title": "Title",
+    "released": "Released in {0}",
+    "duration_total": "Duration {0}",
+    "play_count": "{0} plays",
+    "follow": "follow | followed",
+    "collect": "collect | collected",
+    "isDelete": "delete | deleted"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

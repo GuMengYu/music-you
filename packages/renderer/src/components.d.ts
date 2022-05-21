@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     ThemeToggle: typeof import('./components/toggle/ThemeToggle.vue')['default']
     Title: typeof import('./components/Title.vue')['default']
     TrackItem: typeof import('./components/TrackItem.vue')['default']
+    TrackList: typeof import('./components/track/TrackList.vue')['default']
     VideoCover: typeof import('./components/cover/VideoCover.vue')['default']
     WindowControl: typeof import('./components/layout/WindowControl.vue')['default']
   }

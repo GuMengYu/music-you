@@ -25,7 +25,18 @@
       "albums": "专辑",
       "epAndSingle": "单曲与EP",
       "mv": "热门MV",
-      "simi": "相似歌手"
+      "simi": "相似歌手",
+      "desc": "歌手简介"
+    },
+    "playlist": {
+      "simi": "相似歌单",
+      "desc": "歌单简介",
+      "to163": "转到歌单详细"
+    },
+    "album": {
+      "simi": "Ta的其他热门专辑",
+      "desc": "专辑简介",
+      "to163": "跳转专辑详情"
     },
     "discover": {
       "common": "常用",
@@ -96,13 +107,20 @@
     "dynamicBg": "歌词动态背景",
     "lyric": "歌词",
     "clear_cache": "清除歌曲缓存",
-    "lastupdate": "最后更新于 {0} · {1} 首歌",
+    "track_size": "共 {0} 首",
     "dawning": "凌晨好",
     "morning": "早安",
     "noon": "中午好",
     "afternoon": "下午好",
     "evening": "晚安",
-    "midnight": "午夜好"
+    "midnight": "午夜好",
+    "title": "标题",
+    "released": "发行于 {0}",
+    "duration_total": "总时长 {0}",
+    "play_count": "{0} 次播放",
+    "follow": "关注 ｜ 已关注",
+    "collect": "收藏 | 已收藏",
+    "isDelete": "删除歌单 | 已删除"
   },
   "theme": {
     "RedSandDunes": "红沙滩",
