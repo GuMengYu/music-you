@@ -4,6 +4,7 @@ import App from './App.vue'
 // directives
 import { useDirectives } from './directives'
 // plugins
+import { useContextMenu } from './plugins/contextmenu'
 import { useDayjs } from './plugins/dayjs'
 import { useElectron } from './plugins/electron'
 import { useI18n } from './plugins/i18n'
@@ -32,6 +33,9 @@ useToast(app)
 useDirectives(app)
 useDayjs(app)
 useElectron()
+useContextMenu(app)
 app.mount('#app').$nextTick(() => {
   isElectron() && window.removeLoading()
 })
+
+console.log(import.meta.env)

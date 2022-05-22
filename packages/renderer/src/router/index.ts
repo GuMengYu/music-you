@@ -176,8 +176,8 @@ export function useRouter(app: App) {
 
   //   // }
   // })
-  router.afterEach((to, from, failed) => {
-    console.log(failed)
-  })
+  // router.afterEach((to, from, failed) => {
+  //   console.log(failed)
+  // })
   app.use(router)
 }

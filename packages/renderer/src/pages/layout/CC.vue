@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { mdiBook, mdiCircleHalfFull } from '@mdi/js'
-import is from 'electron-is'
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 
@@ -60,7 +59,7 @@ export default defineComponent({
         setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
       },
     })
-    const isDev = is.dev()
+    const isDev = import.meta.env.DEV
     // for dev
     function toPlayground() {
       router.push('/playground')

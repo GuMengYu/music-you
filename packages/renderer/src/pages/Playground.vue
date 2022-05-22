@@ -1,15 +1,110 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { mdiCrystalBall, mdiEmoticon } from '@mdi/js'
 import { useToast } from 'vue-toastification'
-const loading = ref<boolean>(false)
+
+import { useContextMenu } from '@/plugins/contextMenu/ContextMenuInstance'
+const contextMenu = useContextMenu()
 const toast = useToast()
-function toggle() {
-  loading.value = !loading.value
-  toast.info('🤡小丑竟是我自己', { icon: false })
+
+const options = {
+  items: [
+    {
+      label: '带图标菜单项',
+      onClick: () => {
+        toast.info('You click a menu item')
+      },
+      icon: mdiEmoticon,
+    },
+    {
+      label: '菜单项 2',
+      disabled: true,
+      onClick: () => {
+        alert('You click a menu item')
+      },
+      icon: mdiEmoticon,
+    },
+    {
+      label: '带子菜单',
+      icon: mdiCrystalBall,
+      onClick: () => {
+        alert('You click a menu item')
+      },
+      children: [
+        {
+          label: 'A submenu item 4',
+          onClick: () => {
+            toast.info('You click a submenu item')
+          },
+        },
+        {
+          label: 'A submenu item 5',
+          onClick: () => {
+            alert('You click a submenu item')
+          },
+        },
+        {
+          label: 'A submenu item 6',
+          onClick: () => {
+            alert('You click a submenu item')
+          },
+        },
+      ],
+    },
+    {
+      label: '带子菜单 4',
+      icon: mdiCrystalBall,
+      onClick: () => {
+        alert('You click a menu item')
+      },
+      children: [
+        {
+          label: 'A submenu item 1',
+          onClick: () => {
+            alert('You click a submenu item')
+          },
+        },
+        {
+          label: 'A submenu item 2',
+          onClick: () => {
+            alert('You click a submenu item')
+          },
+        },
+        {
+          label: 'A submenu item 3',
+          onClick: () => {
+            alert('You click a submenu item')
+          },
+        },
+      ],
+    },
+    {
+      divided: true,
+    },
+    {
+      label: 'Menu Item 5',
+    },
+  ],
+  x: 0,
+  y: 0,
+}
+function show(e: MouseEvent) {
+  options.x = e.x
+  options.y = e.y
+  contextMenu(options)
 }
 </script>
+
 <template>
-  <div class="text-center" style="height: 70vh">
-    <v-btn color="primary" class="mb-6" @click="toggle">show toast</v-btn>
-  </div>
+  <v-container>
+    <v-card
+      color="secondary"
+      flat
+      height="200"
+      width="200"
+      class="d-flex align-center justify-center"
+      @contextmenu.prevent="show"
+    >
+      右键点击我
+    </v-card>
+  </v-container>
 </template>
