@@ -1,7 +1,6 @@
 import type { App } from 'vue'
-
-import contextMenu from './contextMenu/ContextMenuInstance'
+import ctxmenu from 'vuetify-ctx-menu/lib/main'
 
 export function useContextMenu(app: App) {
-  app.use(contextMenu)
+  app.use(ctxmenu)
 }

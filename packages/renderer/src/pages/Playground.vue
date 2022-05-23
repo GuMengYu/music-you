@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { mdiCrystalBall, mdiEmoticon } from '@mdi/js'
 import { useToast } from 'vue-toastification'
+import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
-import { useContextMenu } from '@/plugins/contextMenu/ContextMenuInstance'
+import { useTheme } from '@/hooks/useTheme'
+const theme = useTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 
@@ -86,10 +88,12 @@ const options = {
   ],
   x: 0,
   y: 0,
+  theme: theme.value,
 }
 function show(e: MouseEvent) {
   options.x = e.x
   options.y = e.y
+  options.theme = theme.value
   contextMenu(options)
 }
 </script>

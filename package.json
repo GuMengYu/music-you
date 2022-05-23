@@ -41,6 +41,7 @@
     "md3-theme-generator": "^0.0.1",
     "md5": "^2.3.0",
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
+    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
     "pinia": "^2.0.13",
     "vue": "^3.2.25",
     "vue-content-loader": "^2.0.1",
