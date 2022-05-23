@@ -39,4 +39,15 @@ export const registerIpcMain = (window: BrowserWindow) => {
       log.error('open external url failed', e)
     }
   })
+  ipcMain.handle('capturePage', async () => {
+    const nativeImage = await window.capturePage()
+    const buffer = nativeImage.toBitmap()
+    const { width, height } = nativeImage.getSize()
+    const result = {
+      buffer,
+      width,
+      height,
+    }
+    return result
+  })
 }

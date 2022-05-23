@@ -3,17 +3,17 @@
     <discover-loader v-if="state.loading" />
     <ShortcutGrid />
     <Col :title="$t('main.for_you')">
-      <card-row>
+      <card-row single-line>
         <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
       </card-row>
     </Col>
     <Col :title="$t('main.radar')">
-      <card-row>
+      <card-row single-line>
         <cover v-for="list in state.radarPlayLists" :key="list.id" :data="list" type="playlist" :title-line="2" />
       </card-row>
     </Col>
     <Col :title="$t('main.discover.recommend_songs')">
-      <card-row>
+      <card-row single-line>
         <Cover v-for="song in state.songs" :key="song.id" :data="song.album">
           <v-card-subtitle class="px-4 pb-4">
             <artists-link :artists="song.artists" />

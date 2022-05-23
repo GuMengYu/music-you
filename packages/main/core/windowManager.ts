@@ -98,7 +98,7 @@ export default class WindowManager extends EventEmitter {
   }
   async loadURL() {
     if (app.isPackaged) {
-      const url = `http://127.0.0.1:12137`
+      const url = `http://127.0.0.1:12140`
       this.window?.loadURL(url)
     } else {
       // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
