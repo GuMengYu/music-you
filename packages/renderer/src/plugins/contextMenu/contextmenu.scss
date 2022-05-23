@@ -1,0 +1,71 @@
+.mx-context-menu {
+    overflow: hidden;
+    position: absolute !important;
+    // animation: menuAnimation 4s 0s both;
+    transform-origin: left;
+    height: 0;
+    .mx-context-menu-items {
+      position: relative;
+      overflow: hidden;
+      overflow-y: scroll;
+      &.menu-overflow {
+        padding: 16px 0;
+      }
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .mx-context-menu-item {
+        animation: menuItemAnimation 0.3s 0s both;
+        display: flex;
+        align-items: center;
+        user-select: none;
+        :deep(.v-list-item-title) {
+          font-size: 0.875rem;
+        }
+      }
+    }
+    .mx-context-menu-updown {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 10px;
+      border-radius: 10px;
+      user-select: none;
+      cursor: pointer;
+      z-index: 1;
+    }
+  
+    .mx-context-menu-updown.up {
+      top: 0;
+    }
+    .mx-context-menu-updown.down {
+      bottom: 0;
+    }
+  }
+
+  @keyframes menuAnimation {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  
+    100% {
+      height: var(--height);
+      opacity: 1;
+      border-radius: 8px;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes menuItemAnimation {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }

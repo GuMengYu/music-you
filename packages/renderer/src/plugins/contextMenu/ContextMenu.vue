@@ -1,4 +1,6 @@
 <script lang="ts">
+import './contextmenu.scss'
+
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 

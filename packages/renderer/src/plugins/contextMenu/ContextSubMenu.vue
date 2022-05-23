@@ -1,20 +1,22 @@
 <template>
   <v-sheet
     v-if="items"
-    :elevation="2"
+    ref="menu"
     :theme="theme"
+    :elevation="2"
     class="rounded mx-context-menu bg-surface py-0"
     :class="{
-        'menu-overflow': menuOverflow,
-        ready: menuReady,
-        [options.customClass as string]: options.customClass,
-      }"
+      'menu-overflow': menuOverflow,
+      ready: menuReady,
+      [options.customClass as string]: options.customClass,
+    }"
     :style="{
       maxWidth: parentItem && parentItem.maxWidth ? `${parentItem.maxWidth}px` : `${constOptions.defaultMaxWidth}px`,
       minWidth: parentItem && parentItem.minWidth ? `${parentItem.minWidth}px` : `${constOptions.defaultMinWidth}px`,
       zIndex,
       left: `${position.x}px`,
       top: `${position.y}px`,
+      '--height': `${menuHeight}px`,
     }"
     @mouseenter="onMenuMouseEnter"
     @mouseleave="onMenuMouseLeave($event)"
@@ -26,7 +28,6 @@
       <v-icon size="x-small" :icon="icon.mdiMenuDown"></v-icon>
     </div>
     <v-list
-      ref="menu"
       class="rounded mx-context-menu-items bg-surface"
       :style="{
         maxHeight: maxHeight > 0 ? `${maxHeight}px` : '',
@@ -77,13 +78,15 @@
 
 <script lang="ts">
 import { mdiMenuDown, mdiMenuRight, mdiMenuUp } from '@mdi/js'
+import { useElementBounding, useElementSize } from '@vueuse/core'
 import type { PropType } from 'vue'
-import { defineComponent, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
+import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 
 import { useTheme } from '@/hooks/useTheme'
 
 import type { ContextMenuGlobalData, ContextMenuPositionData, MenuItem, MenuOptions } from './ContextMenuDefine'
 import { MenuConstOptions } from './ContextMenuDefine'
+
 export default defineComponent({
   name: 'ContextSubMenu',
   props: {
@@ -115,6 +118,7 @@ export default defineComponent({
   emits: ['close', 'keepOpen', 'preUpdatePos'],
   setup(prop, context) {
     const theme = useTheme()
+
     const { globalData, position, options, parentItem } = toRefs(prop)
 
     const menu = ref<HTMLElement>()
@@ -132,6 +136,7 @@ export default defineComponent({
       x: 0,
       y: 0,
     })
+    const menuHeight = ref(0)
 
     //显示和隐藏子菜单
     function showChildItem(e: Event, item: MenuItem) {
@@ -182,7 +187,7 @@ export default defineComponent({
     function onMouseClick(item: MenuItem) {
       if (!item.disabled) {
         if (typeof item.onClick === 'function') {
-          item.onClick()
+          item.onClick(item)
           context.emit('close', true)
         } else if (!item.children || item.children.length === 0) {
           context.emit('close', true)
@@ -244,6 +249,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      startAnimation()
       solveOverflowTimeOut = window.setTimeout(() => doCheckPos(), 100)
     })
     onBeforeUnmount(() => {
@@ -252,9 +258,15 @@ export default defineComponent({
         solveOverflowTimeOut = 0
       }
     })
-
+    async function startAnimation() {
+      await nextTick()
+      const el = menu.value?.$el as HTMLElement
+      const height = el.scrollHeight ?? 0
+      menuHeight.value = height
+      el.style.animation = 'menuAnimation 0.4s 0s both'
+      el.style.overflow = 'visible'
+    }
     return {
-      theme,
       menu,
       menuOverflow,
       childMenu,
@@ -279,56 +291,10 @@ export default defineComponent({
         mdiMenuDown,
         mdiMenuUp,
       },
+      menuHeight,
+      theme,
+      // menuWidth,
     }
   },
 })
 </script>
-
-<style scoped lang="scss">
-.mx-context-menu {
-  overflow: visible;
-  position: absolute !important;
-  opacity: 0;
-  &.ready {
-    opacity: 1;
-  }
-  .mx-context-menu-items {
-    position: relative;
-    overflow: hidden;
-    overflow-y: scroll;
-    &.menu-overflow {
-      padding: 16px 0;
-    }
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    .mx-context-menu-item {
-      display: flex;
-      align-items: center;
-      user-select: none;
-      :deep(.v-list-item-title) {
-        font-size: 0.875rem;
-      }
-    }
-  }
-  .mx-context-menu-updown {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 10px;
-    border-radius: 10px;
-    user-select: none;
-    cursor: pointer;
-    z-index: 1;
-  }
-
-  .mx-context-menu-updown.up {
-    top: 0;
-  }
-  .mx-context-menu-updown.down {
-    bottom: 0;
-  }
-}
-</style>

@@ -36,6 +36,5 @@ export default {
   },
 }
 export function useContextMenu() {
-  console.log('useContextMenu')
   return $contextmenu
 }

@@ -9,7 +9,7 @@ const toast = useToast()
 const options = {
   items: [
     {
-      label: '带图标菜单项',
+      label: 'with icon menu item',
       onClick: () => {
         toast.info('You click a menu item')
       },

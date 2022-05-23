@@ -27,7 +27,7 @@ export interface MenuItem {
   customClass?: string
   maxWidth?: number
   minWidth?: number
-  onClick?: () => void
+  onClick?: (item: MenuItem) => void
   children?: MenuItem[]
 }
 
