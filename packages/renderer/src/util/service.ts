@@ -50,7 +50,6 @@ export function goto(container: HTMLElement, _options = {}) {
       const clientWidth = container.clientWidth
       const reachRight = container.scrollLeft + clientWidth >= container.scrollWidth
       const reachLeft = container.scrollLeft <= 0 && offset < 0
-      console.log(container.scrollLeft, reachRight, reachLeft)
       if (progress === 1 || reachRight || reachLeft) {
         return resolve(offset)
       }

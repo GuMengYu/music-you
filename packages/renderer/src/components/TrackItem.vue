@@ -6,7 +6,7 @@ import { useToast } from 'vue-toastification'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import { useUserStore } from '@/store/user'
-import type { Artist } from '@/types'
+import type { Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 
 const toast = useToast()
@@ -35,7 +35,7 @@ const props = defineProps({
 const likeLoading = ref(false)
 
 const liked = computed(() => {
-  return userStore.likes.find((id) => id === props.track.id)
+  return !!userStore.likes.find((id) => id === props.track.id)
 })
 const artists = computed(() => {
   const { ar, artists } = props.track
@@ -80,9 +80,28 @@ const available = computed(() => {
     }
   }
 })
-const emit = defineEmits(['play'])
+const emit = defineEmits<{
+  (
+    event: 'openctxmenu',
+    payload: {
+      x: number
+      y: number
+      track: Track
+      liked: boolean
+    }
+  ): void
+  (event: 'play', id: number): void
+}>()
 function play() {
   emit('play', props.track?.id)
+}
+function openMenu(e: MouseEvent) {
+  emit('openctxmenu', {
+    x: e.x,
+    y: e.y,
+    track: props.track as Track,
+    liked: liked.value,
+  })
 }
 async function toggleLike() {
   likeLoading.value = true
@@ -110,6 +129,7 @@ async function toggleLike() {
       :class="{ unavailable: !available.enable, [className]: true }"
       :title="available.enable ? '' : available.text"
       @dblclick="play"
+      @contextmenu.prevent="openMenu"
     >
       <div class="track-index">
         <span v-show="!isHovering" class="track-count">{{ index }}</span>
@@ -147,7 +167,14 @@ async function toggleLike() {
         <div class="track-duration">
           {{ formatDuring(track.dt || track.duration || 0) }}
         </div>
-        <v-btn v-visible="isHovering" icon color="primary" variant="contained-text" size="small">
+        <v-btn
+          v-visible="isHovering"
+          icon
+          color="primary"
+          variant="contained-text"
+          size="small"
+          @click.prevent="openMenu"
+        >
           <v-icon size="small">
             {{ mdiDotsHorizontal }}
           </v-icon>
