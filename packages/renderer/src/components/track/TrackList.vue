@@ -11,7 +11,7 @@ import {
 } from '@mdi/js'
 import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
-import { useContextMenu } from 'vuetify-ctx-menu/lib/ContextMenuInstance'
+import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { useTheme } from '@/hooks/useTheme'
 import { useUserStore } from '@/store/user'
@@ -25,11 +25,12 @@ const toast = useToast()
 const props = defineProps<{
   tracks: Track[]
   type: string
+  ownId: number | null // 是否是自己的歌单id
 }>()
 const eventBus = useEventBus<number>('addToQueue')
 
 const playlists = computed(() => {
-  return userStore.playlists.map((i) => {
+  return userStore.createdPlaylists.map((i) => {
     return {
       id: i.id,
       name: i.name,
@@ -54,13 +55,16 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
   contextMenu(option)
 }
 function genMenu(liked: boolean, track: Track): MenuItem[] {
-  const items = [
+  const items: MenuItem[] = [
     {
       icon: mdiPlaylistMusic,
       label: '添加到播放队列',
       onClick: () => {
         addToQueue(i)
       },
+    },
+    {
+      divided: true,
     },
     {
       icon: mdiFaceMan,
@@ -75,6 +79,9 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       onClick: (i) => {
         go()
       },
+    },
+    {
+      divided: true,
     },
     {
       icon: mdiPlaylistMusic,
@@ -95,14 +102,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
         download()
       },
     },
-    // todo add
-    // {
-    //   icon: mdiDelete,
-    //   label: '从此歌单删除',
-    //   onClick: (i) => {
-    //     console.log(i)
-    //   },
-    // },
   ]
   if (liked) {
     items.push({
@@ -118,6 +117,16 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       label: '添加到"喜欢的音乐"',
       onClick: (i) => {
         toggleLike(false, i.track)
+      },
+    })
+  }
+  if (props.ownId) {
+    items.push({
+      icon: mdiDelete,
+      label: '从此歌单删除',
+      onClick: (i) => {
+        // “!”非空断言
+        removeFromList(props.ownId!, i.track.id)
       },
     })
   }
@@ -149,6 +158,9 @@ function addToPlayList(playlistId: number, trackId: number) {
 }
 function go() {
   // todo go
+}
+function removeFromList(id: number, trackId: number) {
+  // remove from list
 }
 </script>
 <template>

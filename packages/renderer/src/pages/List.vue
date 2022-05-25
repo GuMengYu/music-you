@@ -167,7 +167,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </div>
       </v-card>
     </div>
-    <track-list type="list" :tracks="state.playlist.tracks" />
+    <track-list type="list" :tracks="state.playlist.tracks" :own-id="createdBySelf ? state.playlist.id : null" />
     <Col :title="$t('main.playlist.simi')" class="mt-4">
       <CardRow>
         <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />

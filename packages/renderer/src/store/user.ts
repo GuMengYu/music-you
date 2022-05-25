@@ -35,6 +35,12 @@ export const useUserStore = defineStore({
     favorites: (state) => {
       return (state.playlists.find((playlist) => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
     },
+    createdPlaylists(state): Playlist[] {
+      return state.playlists.filter((i) => i.creator.userId === this.uid)
+    },
+    subscribedPlaylists(state): Playlist[] {
+      return state.playlists.filter((i) => i.creator.userId !== this.uid)
+    },
   },
   actions: {
     async init() {

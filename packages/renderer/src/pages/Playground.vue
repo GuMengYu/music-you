@@ -91,8 +91,8 @@ const options = {
   theme: theme.value,
 }
 function show(e: MouseEvent) {
-  options.x = e.x
-  options.y = e.y
+  options.x = e.clientX
+  options.y = e.clientY
   options.theme = theme.value
   contextMenu(options)
 }
