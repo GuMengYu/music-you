@@ -1,38 +1,40 @@
 <template>
-  <v-card class="frame" color="surfaceVariant">
+  <v-card class="frame">
     <div class="frame-header d-flex justify-space-between mt-6 drag-area px-4">
       <span
-        class="frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 onSurfaceVariant--text"
+        class="frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant"
       >
-        {{ track.dt }} /
-        {{ currentTime * 1000 }}
+        {{ formatDuring(track.dt) }} /
+        {{ formatDuring(currentTime * 1000) }}
       </span>
       <div class="frame-header-action d-flex no-drag-area flex-column">
-        <v-btn icon color="onPrimary" variant="text" @click="close">
+        <v-btn icon variant="text" @click="close">
           <v-icon>
             {{ icon.mdiClose }}
           </v-icon>
         </v-btn>
         <v-btn icon variant="text">
-          <v-icon color="onPrimary">
+          <v-icon>
             {{ icon.mdiDotsHorizontal }}
           </v-icon>
         </v-btn>
       </div>
     </div>
-    <div class="frame-content onSurfaceVariant--text">
-      <v-img max-height="200" max-width="200" class="frame-cover-img rounded" :src="albumPicUrl" />
+    <div class="frame-content text-onSurfaceVariant px-6">
+      <div class="lyric"></div>
+      <v-img max-height="50vh" max-width="50vh" class="frame-cover-img rounded-lg" :src="albumPicUrl" />
     </div>
-    <div class="frame-footer onSurfaceVariant--text px-4 mb-8 d-flex flex-column">
-      <span class="text-h4 mb-4">{{ track['al'] && track['al']['name'] }}</span>
-      <span class="text-h4 mb-4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
+    <div class="frame-footer text-onSurfaceVariant px-4 pb-8 d-flex flex-column gap-4">
+      <span class="text-h4">{{ track['al'] && track['al']['name'] }}</span>
+      <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
       <span class="text-h2 font-weight-bold">{{ track.name }}</span>
     </div>
     <v-progress-linear :value="playPercent" rounded />
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { placeholder } from '@babel/types'
 import {
   mdiArrowCollapse,
   mdiArrowExpand,
@@ -50,8 +52,9 @@ import {
 import { storeToRefs } from 'pinia'
 
 import { usePlayerStore } from '@/store/player'
-
-export default {
+import type { Artist, Track } from '@/types'
+import { formatDuring, sizeOfImage } from '@/util/fn'
+export default defineComponent({
   name: 'Playing',
   setup() {
     const playerStore = usePlayerStore()
@@ -59,6 +62,7 @@ export default {
     return {
       currentTime,
       track,
+      formatDuring,
     }
   },
   data: () => ({
@@ -81,7 +85,7 @@ export default {
   }),
   computed: {
     albumPicUrl() {
-      return `${this.track.al?.picUrl}?param=512y512`
+      return sizeOfImage(this.track.al.picUrl)
     },
     playPercent() {
       const total = this.track.dt
@@ -94,7 +98,7 @@ export default {
       this.$emit('close')
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

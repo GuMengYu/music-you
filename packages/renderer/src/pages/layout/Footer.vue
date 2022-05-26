@@ -3,15 +3,23 @@
     <v-app-bar v-show="track?.id" position="bottom" fixed class="player-footer" :priority="-1" :height="70">
       <div class="playing-control">
         <div class="playing-bar__left">
-          <v-img
-            class="rounded"
-            :aspect-ratio="1"
-            :min-width="46"
-            :max-width="46"
-            :max-height="46"
-            :src="albumPicUrl"
-            cover
-          ></v-img>
+          <v-hover v-slot="{ isHovering, props }">
+            <v-img
+              v-bind="props"
+              class="rounded"
+              :aspect-ratio="1"
+              :min-width="46"
+              :max-width="46"
+              :max-height="46"
+              :src="albumPicUrl"
+              cover
+            >
+              <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
+                <v-icon color="pink">{{ mdiArrowExpand }}</v-icon>
+              </v-btn>
+            </v-img>
+          </v-hover>
+
           <div class="song-info mx-2 d-flex align-start flex-column">
             <span class="song-name h-1x text-subtitle-2">
               {{ track?.name }}
@@ -69,7 +77,7 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { mdiPlaylistMusic, mdiVolumeHigh, mdiVolumeLow, mdiVolumeMedium, mdiVolumeMute } from '@mdi/js'
+import { mdiArrowExpand, mdiPlaylistMusic, mdiVolumeHigh, mdiVolumeLow, mdiVolumeMedium, mdiVolumeMute } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
@@ -79,10 +87,12 @@ import { useTheme } from 'vuetify'
 
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import { usePlayer } from '@/player/player'
+import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 // utitlity
 const playerStore = usePlayerStore()
+const appStore = useAppStore()
 const router = useRouter()
 const route = useRoute()
 const player = usePlayer()
@@ -159,6 +169,9 @@ function toggleMute() {
   }
 }
 
+function showPlayingPage() {
+  appStore.showLyric = true
+}
 const volumnDebouncedFn = useDebounceFn(
   (val: Event | number) => {
     volume.value = val as number

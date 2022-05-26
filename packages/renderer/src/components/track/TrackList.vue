@@ -25,7 +25,7 @@ const toast = useToast()
 const props = defineProps<{
   tracks: Track[]
   type: string
-  ownId: number | null // 是否是自己的歌单id
+  ownId?: number | null // 是否是自己的歌单id
 }>()
 const eventBus = useEventBus<number>('addToQueue')
 

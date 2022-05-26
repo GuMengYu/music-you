@@ -25,7 +25,7 @@ export const useAppStore = defineStore('app', {
       showPlaying: false,
       showCommandPalette: false,
       showLyric: false,
-      playingMode: PLAYING_MODE.BASIC,
+      playingMode: PLAYING_MODE.SIMPLE,
       showAddToPlayList: false,
       toPlayListTrackId: null,
       windowState: WindowState.NORMAL,

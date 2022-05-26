@@ -1,5 +1,5 @@
 <template>
-  <v-card :color="theme.background" class="basic-container">
+  <v-card :color="_theme.background" class="basic-container">
     <div class="frame">
       <div class="frame-header">
         <v-btn icon variant="text" @click="close">
@@ -22,7 +22,7 @@
           min-height="calc(100vh - 315px)"
           width="100%"
         >
-          <v-img class="cover-img" :src="albumPicUrl" />
+          <v-img class="cover-img rounded-lg" :src="albumPicUrl" />
         </v-card>
         <div class="control_bar d-flex flex-column justify-space-between mb-4">
           <div class="d-flex justify-space-between">
@@ -192,7 +192,7 @@ onMounted(() => {
   clearInterval(state.interval)
 })
 function init() {
-  initInterval()
+  // initInterval()
   initColor()
 }
 async function initColor() {
@@ -236,6 +236,9 @@ function startScroll(el, container) {
   el.scrollIntoView({ block: 'center', behavior: 'smooth' })
   console.debug('自动滚动高度：', container.scrollTop)
   // this.autoScrollLocation = container.scrollTop // 缓存滚动后的位置
+}
+function close() {
+  showLyric.value = false
 }
 </script>
 
