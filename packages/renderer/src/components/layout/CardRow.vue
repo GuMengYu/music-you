@@ -42,6 +42,7 @@
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
 import type { StyleValue } from 'vue'
 
+import { useElementScrollSize } from '@/hooks/useElementScrollSize'
 import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
 import { goto } from '@/util/service'
 
@@ -53,11 +54,13 @@ const cardRow = ref<HTMLElement>()
 const { count, gap } = useResponsiveGrid(props.gridType ?? GridType.A)
 const { x, arrivedState } = useScroll(cardRow)
 const { width: scrollPageOffset } = useElementSize(cardRow)
+const { willScoll } = useElementScrollSize(cardRow)
+
 const showPrevious = computed(() => {
   return props.singleLine && x.value > 0
 })
 const showNext = computed(() => {
-  return props.singleLine && !arrivedState.right
+  return props.singleLine && !arrivedState.right && willScoll.value
 })
 
 const cardRowStyle = computed(() => {
