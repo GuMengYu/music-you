@@ -2,16 +2,15 @@
 import { storeToRefs } from 'pinia'
 
 import { usePlayerStore } from '@/store/player'
-import { formatLyric } from '@/util/fn'
+import { formatLyric, sleep } from '@/util/fn'
 const playerStore = usePlayerStore()
-const activeIdx = ref(0)
 const { currentTime, track } = storeToRefs(playerStore)
 interface Lyric {
   sentence: string
   time: number
 }
 const lyrics = computed<Lyric[]>(() => {
-  const { tlyric, lrc } = track.value.lyric ?? {}
+  const { tlyric, lrc } = track.value?.lyric ?? {}
   let lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
   let _tlyric = tlyric?.lyric ? formatLyric(tlyric.lyric) : []
   if (_tlyric.length) {
@@ -25,50 +24,91 @@ const lyrics = computed<Lyric[]>(() => {
     return lyric
   }
 })
+
 const currentLyric = computed(() => {
-  const past = lyrics.value.filter(i => i.time < currentTime.value)
-  const current = lyrics.value[past.length - 1]
-  // const actived = lyrics.value.find((o, idx) => {
-  //   const next = lyrics.value[idx + 1]
-  //   return (next ? currentTime.value < next.time : true) && currentTime.value >= o.time
-  // })
-  return current ?? {}
+  if (lyrics.value.length) {
+    const past = lyrics.value.filter((i) => i.time < currentTime.value)
+    const current = lyrics.value[past.length - 1]
+    if (!current) {
+      return lyrics.value[0]
+    } else {
+      return current
+    }
+  }
+  return null
 })
+const currentText = ref('')
 watch(currentLyric, (val) => {
-  console.log(val)
+  switchText()
 })
+const text = ref<HTMLElement>()
+const animate = ref(false)
+async function switchText() {
+  if (currentLyric.value?.sentence) {
+    animate.value = true
+    currentText.value = currentLyric.value.sentence
+    await sleep(400)
+    animate.value = false
+  }
+}
+
+const displayAll = ref(false)
 </script>
 <template>
   <div class="lyrics-wrapper">
-    {{ currentLyric }}
-    <ul ref="lyricContainer" class="lyrics-list text-xl-h6 text-lg-subtitle-1 font-weight-bold text-onSurfaceVariant">
-      <li
-        v-for="(item, index) in lyrics"
-        :key="index"
-        :data-time="item.time"
-        :class="{
-          active: index === activeIdx,
-        }"
-        v-html="item.sentence"
-      ></li>
-    </ul>
+    <div class="lyrics-slider">
+      <span v-if="!currentLyric" class="current text-h4 text-onSurfaceVariant">
+        {{ $t('common.no_lyric') }}
+      </span>
+      <span
+        v-else
+        ref="text"
+        class="current text-h3 text-onSurfaceVariant"
+        :class="{ animate }"
+        @click="displayAll = true"
+      >
+        {{ currentText }}
+      </span>
+    </div>
+
+    <v-dialog v-model="displayAll" scrollable max-height="70vh">
+      <v-card color="surfaceVariant" :width="550" class="text-onSurfaceVariant rounded-lg pa-4 overflow-y-auto">
+        <ul class="lyrics-list text-xl-h6 text-lg-subtitle-1 font-weight-bold">
+          <li v-for="(item, index) in lyrics" :key="index" :data-time="item.time" v-html="item.sentence"></li>
+        </ul>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <style scoped lang="scss">
 .lyrics-wrapper {
-  .lyrics-list {
-    position: relative;
-    z-index: 1;
-    overflow-y: hidden;
-    padding-left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    li {
-      text-align: center;
-      list-style: none;
-    }
+  .current {
+    display: inline-block;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+    font-family: AaLanSong, serif !important;
+  }
+}
+.animate {
+  animation-name: lyric;
+}
+.lyrics-list {
+  position: relative;
+  z-index: 1;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+  li {
+    font-family: AaLanSong, serif !important;
+    text-align: center;
+    list-style: none;
   }
 }
 </style>

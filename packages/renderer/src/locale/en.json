@@ -120,7 +120,8 @@
     "play_count": "{0} plays",
     "follow": "follow | followed",
     "collect": "collect | collected",
-    "isDelete": "delete | deleted"
+    "isDelete": "delete | deleted",
+    "no_lyric": "No Lyric"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

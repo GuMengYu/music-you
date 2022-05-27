@@ -4,15 +4,11 @@ import { useToast } from 'vue-toastification'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { useTheme } from '@/hooks/useTheme'
-
-import Lyric from './mode/lyric.vue'
 const theme = useTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 </script>
 
 <template>
-  <v-container>
-    <lyric></lyric>
-  </v-container>
+  <v-container> </v-container>
 </template>

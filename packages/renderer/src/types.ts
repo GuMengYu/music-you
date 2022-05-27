@@ -8,6 +8,14 @@ export interface Track {
   artists?: Artist[]
   al?: Album
   album?: Album
+  lyric?: {
+    tlyric: {
+      lyric: string
+    }
+    lrc: {
+      lyric: string
+    }
+  }
 }
 export interface MV {
   artist?: Artist

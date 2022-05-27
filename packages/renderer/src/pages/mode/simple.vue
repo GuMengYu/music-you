@@ -21,7 +21,9 @@
       </div>
     </div>
     <div class="frame-content text-onSurfaceVariant px-6">
-      <div class="lyric"></div>
+      <div class="lyric">
+        <lyric />
+      </div>
       <v-img max-height="50vh" max-width="50vh" class="frame-cover-img rounded-lg" :src="albumPicUrl" />
     </div>
     <div class="frame-footer text-onSurfaceVariant px-4 pb-8 d-flex flex-column gap-4">
@@ -34,7 +36,6 @@
 </template>
 
 <script lang="ts">
-import { placeholder } from '@babel/types'
 import {
   mdiArrowCollapse,
   mdiArrowExpand,
@@ -51,11 +52,13 @@ import {
 } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
+import Lyric from '@/pages/mode/lyric.vue'
 import { usePlayerStore } from '@/store/player'
 import type { Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 export default defineComponent({
   name: 'Playing',
+  components: { Lyric },
   setup() {
     const playerStore = usePlayerStore()
     const { currentTime, track } = storeToRefs(playerStore)

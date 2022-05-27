@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'AaLanSong';
+  src: url('../assets/fonts/AaLanSong.ttf');
+}
+
 html {
   overflow-y: auto;
 }
@@ -76,4 +81,23 @@ html {
 
 .rounded-lg {
   border-radius: 12px !important;
+}
+
+// override vuetify font family set
+
+html,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6,
+.text-caption,
+.text-subtitle-1,
+.text-subtitle-2,
+.text-body-1,
+.text-body-2,
+.text-button,
+.text-overline {
+  font-family: 'Google Sans', sans-serif !important;
 }

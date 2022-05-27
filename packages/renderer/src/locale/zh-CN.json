@@ -120,7 +120,8 @@
     "play_count": "{0} 次播放",
     "follow": "关注 ｜ 已关注",
     "collect": "收藏 | 已收藏",
-    "isDelete": "删除歌单 | 已删除"
+    "isDelete": "删除歌单 | 已删除",
+    "no_lyric": "暂无歌词"
   },
   "theme": {
     "RedSandDunes": "红沙滩",
