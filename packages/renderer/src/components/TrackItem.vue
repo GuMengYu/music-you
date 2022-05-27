@@ -223,7 +223,7 @@ async function toggleLike() {
     display: flex;
     gap: 16px;
     align-items: center;
-    justify-content: end;
+    justify-content: space-between;
   }
 }
 .unavailable {
