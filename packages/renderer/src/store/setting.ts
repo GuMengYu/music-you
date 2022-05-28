@@ -23,7 +23,6 @@ export const useSettingStore = defineStore('setting', {
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: 'GreenRockyMountains',
       customPalette: {
-        dataURL: '',
         darkColors: null,
         lightColors: null,
       },

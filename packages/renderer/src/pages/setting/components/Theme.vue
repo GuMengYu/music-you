@@ -141,20 +141,9 @@ export default {
         const _palette = await generatePaletteFromURL(dataURL)
         const palette = _palette.save()
         customPalette.value = {
-          dataURL: dataURL as string,
           lightColors: palette.light,
           darkColors: palette.dark,
         }
-        // theme.setTheme('CustomizeLight', {
-        //   dark: false,
-        //   colors: palette.light,
-        //   variables: {},
-        // })
-        // theme.setTheme('CustomizeDark', {
-        //   dark: true,
-        //   colors: palette.dark,
-        //   variables: {},
-        // })
         color.value = 'Customize'
         location.reload()
       } catch (e) {

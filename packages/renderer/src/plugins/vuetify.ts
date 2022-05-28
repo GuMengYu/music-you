@@ -23,7 +23,6 @@ export const useVuetify = (app: App) => {
     themes['CustomizeLight'] = {
       name: 'CustomizeLight',
       dark: false,
-      dataURL: customPalette.dataURL,
       colors: customPalette.lightColors,
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -31,7 +30,6 @@ export const useVuetify = (app: App) => {
     themes['CustomizeDark'] = {
       name: 'CustomizeDark',
       dark: true,
-      dataURL: customPalette.dataURL,
       colors: customPalette.darkColors,
     }
   }
