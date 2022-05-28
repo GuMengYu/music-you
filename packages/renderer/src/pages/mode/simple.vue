@@ -29,7 +29,23 @@
     <div class="frame-footer text-onSurfaceVariant px-4 pb-8 d-flex flex-column gap-4">
       <span class="text-h4">{{ track['al'] && track['al']['name'] }}</span>
       <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
-      <span class="text-h2 font-weight-bold">{{ track.name }}</span>
+      <div class="d-flex justify-space-between">
+        <span class="text-h2 font-weight-bold">
+          {{ track.name }}
+        </span>
+        <div>
+          <v-btn icon variant="text" @click="prev">
+            <v-icon size="56">
+              {{ icon.mdiChevronLeft }}
+            </v-icon>
+          </v-btn>
+          <v-btn icon variant="text" class="ml-4" @click="next">
+            <v-icon size="56">
+              {{ icon.mdiChevronRight }}
+            </v-icon>
+          </v-btn>
+        </div>
+      </div>
     </div>
   </v-card>
 </template>
@@ -38,6 +54,8 @@
 import {
   mdiArrowCollapse,
   mdiArrowExpand,
+  mdiChevronLeft,
+  mdiChevronRight,
   mdiClose,
   mdiCommentQuoteOutline,
   mdiDotsHorizontal,
@@ -46,12 +64,11 @@ import {
   mdiPodcast,
   mdiRepeat,
   mdiShuffle,
-  mdiSkipNext,
-  mdiSkipPrevious,
 } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import Lyric from '@/pages/mode/lyric.vue'
+import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import type { Artist, Track } from '@/types'
@@ -61,19 +78,29 @@ export default defineComponent({
   setup() {
     const playerStore = usePlayerStore()
     const appStore = useAppStore()
+    const player = usePlayer()
+
     const { currentTime, track } = storeToRefs(playerStore)
 
     const albumPicUrl = computed(() => {
-      return sizeOfImage(track.al.picUrl)
+      return track.value?.al && sizeOfImage(track.value.al.picUrl)
     })
     function close() {
       appStore.showLyric = false
+    }
+    function prev() {
+      player.prev()
+    }
+    function next() {
+      player.next()
     }
     return {
       currentTime,
       track,
       formatDuring,
       close,
+      prev,
+      next,
       albumPicUrl,
     }
   },
@@ -82,8 +109,8 @@ export default defineComponent({
       mdiHeart,
       mdiDotsHorizontal,
       mdiShuffle,
-      mdiSkipPrevious,
-      mdiSkipNext,
+      mdiChevronLeft,
+      mdiChevronRight,
       mdiRepeat,
       mdiPauseCircle,
       mdiPodcast,

@@ -1,5 +1,6 @@
 <template>
   <div class="explore d-flex flex-column gap-6">
+    <explore-loader v-if="state.loading" />
     <Col :title="$t('main.new_releases_album')" subtitle="new release" more="/new_releases/albums">
       <card-row>
         <cover v-for="release in state.newRelease" :key="release.id" :data="release" />
@@ -11,7 +12,7 @@
       </card-row>
     </Col>
     <Col :title="$t('main.new_releases_mv')" subtitle="videos" more="/new_releases/videos/">
-      <card-row>
+      <card-row :grid-type="GridType.B">
         <video-cover v-for="mv in state.mvs" :key="mv.id" :data="mv" />
       </card-row>
     </Col>
@@ -30,6 +31,7 @@ import { newAlbums } from '@/api/album'
 import { getNewMv } from '@/api/mv'
 import { getCatList } from '@/api/playlist'
 import { getTopList } from '@/api/top'
+import { GridType } from '@/hooks/useResponsiveGrid'
 import type { Album, MV, Playlist } from '@/types'
 import { getColorTable } from '@/util/metadata'
 

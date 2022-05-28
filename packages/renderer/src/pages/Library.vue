@@ -22,7 +22,7 @@
         </card-row>
       </v-window-item>
       <v-window-item :value="TYPES.MV">
-        <card-row>
+        <card-row :grid-type="GridType.B">
           <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
         </card-row>
       </v-window-item>
@@ -56,8 +56,10 @@ import { useToast } from 'vue-toastification'
 
 import { cloudDiskMusicList } from '@/api/cloud'
 import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
+import { GridType } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Track } from '@/types'
+
 const { t } = useI18n()
 
 const userStore = useUserStore()

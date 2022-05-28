@@ -6,7 +6,7 @@
       </v-icon>
     </v-btn>
     <v-btn icon :disabled="isCurrentFm" flat size="small" @click="prev">
-      <v-icon size="x-small">{{ icon.mdiSkipBackward }}</v-icon>
+      <v-icon size="x-small">{{ icon.mdiSkipPrevious }}</v-icon>
     </v-btn>
 
     <v-btn
@@ -25,7 +25,7 @@
         :options="playOptions"
         :width="30"
         :height="30"
-        @animCreated="handleAnimation"
+        @anim-created="handleAnimation"
       ></lottie-icon>
       <!--      <v-icon :size="24" color="onPrimary">-->
       <!--        {{ playingState.icon }}-->
@@ -33,7 +33,7 @@
     </v-btn>
 
     <v-btn icon flat size="small" @click="next">
-      <v-icon size="x-small">{{ icon.mdiSkipForward }}</v-icon>
+      <v-icon size="x-small">{{ icon.mdiSkipNext }}</v-icon>
     </v-btn>
     <v-btn icon :disabled="isCurrentFm" flat size="small" @click="switchMode">
       <v-icon size="x-small">
@@ -49,8 +49,8 @@ import {
   mdiRepeatOnce,
   mdiShuffle,
   mdiShuffleDisabled,
-  mdiSkipBackward,
-  mdiSkipForward,
+  mdiSkipNext,
+  mdiSkipPrevious,
 } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -103,8 +103,8 @@ export default {
   data() {
     return {
       icon: {
-        mdiSkipBackward,
-        mdiSkipForward,
+        mdiSkipNext,
+        mdiSkipPrevious,
         mdiShuffle,
         mdiShuffleDisabled,
       },

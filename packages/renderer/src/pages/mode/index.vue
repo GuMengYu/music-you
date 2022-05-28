@@ -1,9 +1,3 @@
-<template>
-  <v-dialog v-model="showLyric" fullscreen transition="dialog-bottom-transition" :scrim="false">
-    <component :is="component" />
-  </v-dialog>
-</template>
-
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
@@ -30,3 +24,15 @@ function onfullscreenchange(event: Event) {
   fullscreen.value = document.fullscreenElement === event.target
 }
 </script>
+<template>
+  <v-dialog v-model="showLyric" fullscreen transition="dialog-bottom-transition" :scrim="false">
+    <component :is="component" />
+  </v-dialog>
+</template>
+
+<style>
+.dialog-bottom-transition-enter-active,
+.dialog-bottom-transition-leave-active {
+  transition: transform 0.3s cubic-bezier(0.55, -0.01, 0, 1.03);
+}
+</style>

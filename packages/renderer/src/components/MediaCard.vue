@@ -26,7 +26,7 @@
           </v-btn>
           <v-slider
             :model-value="currentTime * 1000"
-            thumb-label
+            :thumb-label="false"
             :min="0"
             :max="trackDt"
             class="track-slider"
@@ -41,9 +41,9 @@
           <v-btn icon variant="text" size="x-small" color="white" @click="next">
             <v-icon size="x-small">{{ mdiSkipNextOutline }}</v-icon>
           </v-btn>
-          <v-btn icon variant="text" size="x-small">
+          <!-- <v-btn icon variant="text" size="x-small">
             <v-icon size="x-small">{{ mdiShuffle }}</v-icon>
-          </v-btn>
+          </v-btn> -->
           <v-btn icon variant="text" size="x-small">
             <v-icon size="x-small">{{ mdiHeartOutline }}</v-icon>
           </v-btn>

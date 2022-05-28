@@ -2,11 +2,15 @@ import { Howl, Howler } from 'howler'
 import type { DebouncedFunc } from 'lodash-es'
 import { shuffle, throttle } from 'lodash-es'
 import type { Store } from 'pinia'
+import { useToast } from 'vue-toastification'
+
+import { sleep } from '@/util/fn'
 
 import { getTrackDetail, scrobble } from '../api/music'
 import type { PlayerState } from '../store/player'
 import { usePlayerStore } from '../store/player'
 import type { Track, Tracks } from '../types'
+const toast = useToast()
 
 export interface PlayerInstance {
   updateTracks: (tracks: Tracks | Track[], autoPlay?: boolean) => void
@@ -139,9 +143,9 @@ export class Player {
       //     playerIDB.cacheTrack(trackInfo, cacheLimit);
       // }
     } else {
-      // window?.app?.$toast.warning(`${trackInfo.name} 暂不可用, 自动播放下一曲`);
-      // await sleep(1000);
-      // this.next();
+      toast.warning(`${trackInfo.name} 暂不可用, 将自动播放下一曲`)
+      await sleep(500)
+      this.next()
     }
   }
   private initSound(src: string) {

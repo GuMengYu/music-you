@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
-import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
 import { useToast } from 'vue-toastification'
@@ -88,72 +87,74 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 }
 </script>
 <template>
-  <v-progress-linear v-if="loading" :active="loading" :indeterminate="loading" color="primary"></v-progress-linear>
-  <section v-else class="list d-flex flex-column gap-6">
-    <div class="d-flex gap-4">
-      <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" />
-      <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
-        <div class="d-flex justify-space-between align-center">
-          <span>
-            <v-icon size="small">{{ mdiAlbum }}</v-icon>
-            <span class="text-caption ml-2">Album</span>
-          </span>
-          <span class="text-caption">
-            <span> {{ $t('common.track_size', [state.album.size]) }} </span> ·
-            <span class="text-primary">{{ formatDate(state.album.publishTime, 'YYYY') }}</span>
-            ·
-            <span>{{ $t('common.duration_total', [formatDuring(albumDt)]) }}</span>
-          </span>
-        </div>
-        <div class="d-flex justify-space-between align-center">
-          <span class="d-flex align-center">
-            <v-icon size="small">{{ mdiAlbum }}</v-icon>
-            <span class="text-h5 mx-2 h-1x"> {{ state.album.name }} </span>
-          </span>
-          <v-btn color="primary" size="small" class="onPrimary--text" @click="play">
-            <v-icon size="small">{{ mdiPlay }}</v-icon>
-            {{ $t('common.play') }}
-          </v-btn>
-        </div>
-        <div class="d-flex align-center">
-          <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
-          <v-avatar v-if="state.album.artist?.img1v1Url" size="24" class="mx-2">
-            <v-img :src="sizeOfImage(state.album.artist?.img1v1Url, 128)" />
-          </v-avatar>
-          <artists-link v-if="state.album.artist" :artists="[state.album.artist]" />
-        </div>
-        <div class="d-flex align-start" @click="showMoreDesc = true">
-          <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
-          <p class="text-caption h-2x ml-2">
-            {{ state.album.description }}
-          </p>
-        </div>
-        <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-          <v-btn size="small" variant="outlined" class="mr-2" :color="subscribed ? 'primary' : ''" @click="subscribe">
-            {{ $tc('common.collect', subscribed ? 2 : 1) }}
-          </v-btn>
-          <v-btn variant="outlined" size="small" color="primary" @click="goto"> {{ $t('main.album.to163') }} </v-btn>
-        </div>
-      </v-card>
+  <section>
+    <list-loader v-if="loading" />
+    <div v-else class="list d-flex flex-column gap-6">
+      <div class="d-flex gap-4">
+        <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" />
+        <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+          <div class="d-flex justify-space-between align-center">
+            <span>
+              <v-icon size="small">{{ mdiAlbum }}</v-icon>
+              <span class="text-caption ml-2">Album</span>
+            </span>
+            <span class="text-caption">
+              <span> {{ $t('common.track_size', [state.album.size]) }} </span> ·
+              <span class="text-primary">{{ formatDate(state.album.publishTime, 'YYYY') }}</span>
+              ·
+              <span>{{ $t('common.duration_total', [formatDuring(albumDt)]) }}</span>
+            </span>
+          </div>
+          <div class="d-flex justify-space-between align-center">
+            <span class="d-flex align-center">
+              <v-icon size="small">{{ mdiAlbum }}</v-icon>
+              <span class="text-h5 mx-2 h-1x"> {{ state.album.name }} </span>
+            </span>
+            <v-btn color="primary" size="small" class="onPrimary--text" @click="play">
+              <v-icon size="small">{{ mdiPlay }}</v-icon>
+              {{ $t('common.play') }}
+            </v-btn>
+          </div>
+          <div class="d-flex align-center">
+            <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
+            <v-avatar v-if="state.album.artist?.img1v1Url" size="24" class="mx-2">
+              <v-img :src="sizeOfImage(state.album.artist?.img1v1Url, 128)" />
+            </v-avatar>
+            <artists-link v-if="state.album.artist" :artists="[state.album.artist]" />
+          </div>
+          <div class="d-flex align-start" @click="showMoreDesc = true">
+            <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
+            <p class="text-caption h-2x ml-2">
+              {{ state.album.description }}
+            </p>
+          </div>
+          <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
+            <v-btn size="small" variant="outlined" class="mr-2" :color="subscribed ? 'primary' : ''" @click="subscribe">
+              {{ $tc('common.collect', subscribed ? 2 : 1) }}
+            </v-btn>
+            <v-btn variant="outlined" size="small" color="primary" @click="goto"> {{ $t('main.album.to163') }} </v-btn>
+          </div>
+        </v-card>
+      </div>
+      <track-list type="album" :tracks="state.album.tracks"></track-list>
+      <div class="d-flex flex-column">
+        <span class="text-caption"> {{ $t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
+        <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
+      </div>
+      <v-divider />
+      <Col :title="$t('main.album.simi')">
+        <CardRow>
+          <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
+        </CardRow>
+      </Col>
+      <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
+        <v-card color="surfaceVariant">
+          <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
+          <v-card-text>
+            {{ state.album['description'] }}
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </div>
-    <track-list type="album" :tracks="state.album.tracks"></track-list>
-    <div class="d-flex flex-column">
-      <span class="text-caption"> {{ $t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
-      <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
-    </div>
-    <v-divider />
-    <Col :title="$t('main.album.simi')">
-      <CardRow>
-        <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
-      </CardRow>
-    </Col>
-    <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
-      <v-card color="surfaceVariant">
-        <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
-        <v-card-text>
-          {{ state.album['description'] }}
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </section>
 </template>
