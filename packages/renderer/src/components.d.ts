@@ -28,7 +28,6 @@ declare module '@vue/runtime-core' {
     LottieIcon: typeof import('./components/LottieIcon.vue')['default']
     MediaCard: typeof import('./components/MediaCard.vue')['default']
     Menu: typeof import('./components/menu/Menu.vue')['default']
-    PlaylistLoader: typeof import('./components/skeleton/PlaylistSkeleton.vue')['default']
     ReloadBtn: typeof import('./components/button/ReloadBtn.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
