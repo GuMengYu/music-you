@@ -1,0 +1,103 @@
+@font-face {
+  font-family: 'AaLanSong';
+  src: url('../assets/fonts/AaLanSong.ttf');
+}
+
+html {
+  overflow-y: auto;
+}
+
+@mixin h {
+  overflow: hidden !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  white-space: initial !important;
+  word-break: break-word !important;
+}
+// 限制文本行数
+
+@for $i from 1 through 4 {
+  .h-#{$i}x {
+    -webkit-line-clamp: #{$i};
+    @include h;
+  }
+}
+
+@for $i from 1 through 16 {
+  .gap-#{$i} {
+    gap: #{$i * 4}px;
+  }
+  .gap-col-#{$i} {
+    column-gap: #{$i * 4}px;
+  }
+  .gap-row-#{$i} {
+    row-gap: #{$i * 4}px;
+  }
+}
+
+// gap helper
+
+//html, body, div, span, header, footer, section, article, a, img {
+//  font-family: 'Nunito', 'product sans', sans-serif !important;
+//}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  // border-left: 1px solid rgba(128, 128, 128, 0.18);
+  height: 10px;
+  background: rgb(var(--v-theme-background));
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgb(var(--v-theme-primary));
+}
+
+.drag-area {
+  -webkit-app-region: drag;
+}
+.no-drag-area {
+  -webkit-app-region: no-drag;
+}
+
+@keyframes pulseWarn {
+  0% {
+    box-shadow: 0 0 0 0 rgb(var(--v-theme-primary));
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* override some vuetify style */
+
+.rounded-lg {
+  border-radius: 12px !important;
+}
+
+// override vuetify font family set
+
+html,
+.text-h1,
+.text-h2,
+.text-h3,
+.text-h4,
+.text-h5,
+.text-h6,
+.text-caption,
+.text-subtitle-1,
+.text-subtitle-2,
+.text-body-1,
+.text-body-2,
+.text-button,
+.text-overline {
+  font-family: 'Google Sans', sans-serif !important;
+}
