@@ -22,9 +22,10 @@ export const useSettingStore = defineStore('setting', {
       locale: 'en',
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: 'GreenRockyMountains',
-      customPalettes: {
+      customPalette: {
         dataURL: '',
-        colors: {},
+        darkColors: null,
+        lightColors: null,
       },
       rail: false,
       quality: 320000,

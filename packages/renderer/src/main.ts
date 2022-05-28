@@ -24,8 +24,8 @@ import { isElectron } from '@/util/fn'
 
 const app = createApp(App)
 
-useVuetify(app)
 usePinia(app)
+useVuetify(app)
 useRouter(app)
 useI18n(app)
 usePlayer(app)

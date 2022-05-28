@@ -10,9 +10,31 @@ import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
 import { aliases, mdi } from 'vuetify/lib/iconsets/mdi-svg'
 
+import { useSettingStore } from '@/store/setting'
+
 import themes from './theme'
 
 export const useVuetify = (app: App) => {
+  const settingStore = useSettingStore()
+  const { customPalette, wallpaperColor } = settingStore
+  if (wallpaperColor === 'Customize') {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    themes['CustomizeLight'] = {
+      name: 'CustomizeLight',
+      dark: false,
+      dataURL: customPalette.dataURL,
+      colors: customPalette.lightColors,
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    themes['CustomizeDark'] = {
+      name: 'CustomizeDark',
+      dark: true,
+      dataURL: customPalette.dataURL,
+      colors: customPalette.darkColors,
+    }
+  }
   const vuetify = createVuetify({
     components,
     directives,

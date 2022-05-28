@@ -10,7 +10,7 @@
       @update:model-value="$emit('update:modelValue', $event)"
     >
       <v-row :dense="true">
-        <v-col v-for="{ icon, text, value } in items" :key="value ?? text" cols="6">
+        <v-col v-for="{ icon, text, value } in items" :key="value ?? text" cols="4">
           <v-item :value="value ?? text">
             <template #default="{ isSelected, toggle }">
               <switch-card :title="t(text)" :model-value="isSelected" :icon="icon" @click="toggle" />
@@ -27,13 +27,12 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
 
-import AppSwitchCard from '@/components/SwitchCard.vue'
 import AppTitle from '@/components/Title.vue'
 
 export default {
   name: 'SettingsGroup',
 
-  components: { AppSwitchCard, AppTitle },
+  components: { AppTitle },
   props: {
     title: String,
     modelValue: null,
