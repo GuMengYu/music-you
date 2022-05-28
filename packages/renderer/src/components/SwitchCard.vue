@@ -7,9 +7,9 @@
     @click="change"
   >
     <v-icon v-if="icon" :icon="icon" size="x-small" />
-    <div class="d-flex flex-column align-start ml-3">
+    <div class="d-flex flex-column align-start justify-center ml-3" style="min-height: 40px">
       <span class="text-caption h-1x">{{ title }}</span>
-      <span class="text-caption h-1x">{{ subtitle }}</span>
+      <span class="text-caption h-1x" v-if="subtitle">{{ subtitle }}</span>
     </div>
   </v-card>
 </template>
@@ -71,4 +71,3 @@ function change() {
   selected.value = !selected.value
 }
 </script>
-<style scoped></style>

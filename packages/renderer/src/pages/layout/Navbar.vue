@@ -42,9 +42,9 @@ import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { useAppStore } from '@/store/app'
+import { useSettingStore } from '@/store/setting'
 
-const { rail } = storeToRefs(useAppStore())
+const { rail } = storeToRefs(useSettingStore())
 const { t } = useI18n()
 
 const state = reactive({

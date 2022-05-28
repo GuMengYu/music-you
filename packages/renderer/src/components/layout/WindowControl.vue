@@ -56,8 +56,10 @@ function handleClose() {
     }
   }
   .action-close {
+    transition: all 0.25s;
     &:hover {
-      background: rgba(204, 8, 8, 0.863);
+      color: #fff;
+      background: rgb(232, 17, 35);
     }
   }
 }

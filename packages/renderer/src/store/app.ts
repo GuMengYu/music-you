@@ -4,8 +4,7 @@ import { reactive, toRefs } from 'vue'
 import { useUserStore } from '@/store/user'
 import { PLAYING_MODE, WindowState } from '@/util/enum'
 
-export type AppState = {
-  rail: boolean
+export interface AppState {
   showControlCenter: boolean
   showLogin: boolean
   showCommandPalette: boolean
@@ -19,7 +18,6 @@ export type AppState = {
 export const useAppStore = defineStore('app', {
   state: () => {
     const state = reactive<AppState>({
-      rail: false,
       showControlCenter: false,
       showLogin: false,
       showPlaying: false,

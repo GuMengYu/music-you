@@ -190,9 +190,9 @@ function removeFromList(id: number, trackId: number) {
   .list-header {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr);
+    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(156px, 1fr);
     &.album-header {
-      grid-template-columns: [index] 40px [first] 4fr [last] minmax(100px, 1fr);
+      grid-template-columns: [index] 40px [first] 4fr [last] minmax(156px, 1fr);
     }
   }
 }

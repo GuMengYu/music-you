@@ -1,8 +1,8 @@
 <template>
   <v-card class="frame">
-    <div class="frame-header d-flex justify-space-between mt-6 drag-area px-4">
+    <div class="frame-header d-flex justify-space-between drag-area pa-2">
       <span
-        class="frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant"
+        class="ml-4 mt-4 frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant"
       >
         {{ formatDuring(track.dt) }} /
         {{ formatDuring(currentTime * 1000) }}
@@ -20,13 +20,11 @@
         </v-btn>
       </div>
     </div>
-    <div class="frame-content text-onSurfaceVariant px-6">
-      <div class="lyric">
-        <lyric />
-      </div>
+    <div class="frame-content text-onSurfaceVariant mx-6">
+      <lyric />
       <v-img max-height="50vh" max-width="50vh" class="frame-cover-img rounded-lg" :src="albumPicUrl" />
     </div>
-    <div class="frame-footer text-onSurfaceVariant px-4 pb-8 d-flex flex-column gap-4">
+    <div class="frame-footer text-onSurfaceVariant mx-6 mb-8 mr-2 d-flex flex-column gap-4">
       <span class="text-h4">{{ track['al'] && track['al']['name'] }}</span>
       <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
       <div class="d-flex justify-space-between">
@@ -133,7 +131,6 @@ export default defineComponent({
   height: 100%;
   overflow: hidden;
   position: relative;
-  padding: 0 24px;
   &-header {
     z-index: 2;
     display: flex;

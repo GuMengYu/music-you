@@ -6,8 +6,8 @@
       :options="state.modeOptions"
       :width="20"
       :height="20"
-      @animCreated="handleAnimation"
-      @animUpdated="handleAnimationUpdated"
+      @anim-created="handleAnimation"
+      @anim-updated="handleAnimationUpdated"
     />
   </v-btn>
 </template>

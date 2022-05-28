@@ -10,7 +10,7 @@
 import { mdiMenu } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
-import { useAppStore } from '@/store/app'
+import { useSettingStore } from '@/store/setting'
 
-const { rail } = storeToRefs(useAppStore())
+const { rail } = storeToRefs(useSettingStore())
 </script>

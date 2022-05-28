@@ -1,6 +1,8 @@
 import { now } from 'lodash-es'
 
 import { useUserStore } from '@/store/user'
+import { useSettingStore } from '@/store/setting'
+
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 
@@ -15,17 +17,19 @@ import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './
  * @param br: 码率
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id: string | number, br = 320000) => {
+export const getTrackDetail = async (id: number) => {
   const {
     songs: [track],
   } = await getSongData([id])
   const lyric = await getLyric(id)
-  const url = await getMusicUrl(id, br)
+  const url = await getMusicUrl(id)
   return { ...track, url, lyric }
 }
 
-export const getMusicUrl = async (id: Track['id'], br = 320000) => {
+export const getMusicUrl = async (id: Track['id']) => {
   const userStore = useUserStore()
+  const settingStore = useSettingStore()
+  const br = settingStore.quality
   let url
   if (userStore.logged) {
     const {
@@ -47,7 +51,7 @@ export const getMusicUrl = async (id: Track['id'], br = 320000) => {
   }
   return url
 }
-export const search = (keywords = '', conditions) => {
+export const search = (keywords = '', conditions = {}) => {
   return request<{
     result: {
       songs?: Track[]

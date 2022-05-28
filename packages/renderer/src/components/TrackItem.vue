@@ -192,9 +192,9 @@ async function toggleLike() {
   height: 56px;
   cursor: pointer;
   transition: background-color 0.25s ease;
-  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(100px, 1fr);
+  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 1fr);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 4fr [last] minmax(100px, 1fr);
+    grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 1fr);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);

@@ -48,17 +48,17 @@ const localeOptions = [
 const qualityOptions = [
   {
     title: '128kb',
-    value: '128000',
+    value: 128000,
     activeClass: 'text-primary',
   },
   {
     title: '320kb',
-    value: '320000',
+    value: 320000,
     activeClass: 'text-primary',
   },
   {
     title: 'flac',
-    value: '999000',
+    value: 999000,
     activeClass: 'text-primary',
   },
 ]

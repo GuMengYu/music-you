@@ -14,9 +14,12 @@ export const getSongData = (ids: number[] = []) =>
  * @param params
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongUrl = (params: { id: string; br: number }) =>
+export const getSongUrl = (params: { id: number; br: number }) =>
   request<{
-    data: []
+    data: {
+      freeTrialInfo: boolean
+      url: string
+    }[]
   }>('/song/url', {
     params,
   })

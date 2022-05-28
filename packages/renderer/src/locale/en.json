@@ -99,6 +99,7 @@
     "light": "light",
     "dark": "dark",
     "theme_color": "Theme color",
+    "dark_theme": "Dark Theme",
     "auto": "auto",
     "mixed": "mixed",
     "quality": "Quality",
@@ -121,7 +122,12 @@
     "follow": "follow | followed",
     "collect": "collect | collected",
     "isDelete": "delete | deleted",
-    "no_lyric": "No Lyric"
+    "open": "opened | closed",
+    "no_lyric": "No Lyric",
+    "shortcut": "Shortcut",
+    "queue": "Queue",
+    "current_play": "Current Playing",
+    "next_from": "Next Track"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",
