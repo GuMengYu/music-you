@@ -31,7 +31,6 @@
       <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
       <span class="text-h2 font-weight-bold">{{ track.name }}</span>
     </div>
-    <v-progress-linear :value="playPercent" rounded />
   </v-card>
 </template>
 
@@ -53,19 +52,29 @@ import {
 import { storeToRefs } from 'pinia'
 
 import Lyric from '@/pages/mode/lyric.vue'
+import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import type { Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 export default defineComponent({
-  name: 'Playing',
   components: { Lyric },
   setup() {
     const playerStore = usePlayerStore()
+    const appStore = useAppStore()
     const { currentTime, track } = storeToRefs(playerStore)
+
+    const albumPicUrl = computed(() => {
+      return sizeOfImage(track.al.picUrl)
+    })
+    function close() {
+      appStore.showLyric = false
+    }
     return {
       currentTime,
       track,
       formatDuring,
+      close,
+      albumPicUrl,
     }
   },
   data: () => ({
@@ -86,21 +95,6 @@ export default defineComponent({
     activeIdx: -1,
     showLyric: true,
   }),
-  computed: {
-    albumPicUrl() {
-      return sizeOfImage(this.track.al.picUrl)
-    },
-    playPercent() {
-      const total = this.track.dt
-      const current = this.currentTime * 1000
-      return Math.ceil((current / total) * 100)
-    },
-  },
-  methods: {
-    close() {
-      this.$emit('close')
-    },
-  },
 })
 </script>
 
@@ -117,6 +111,9 @@ export default defineComponent({
     z-index: 2;
     display: flex;
     justify-content: space-between;
+    &-title {
+      font-family: AaLanSong, serif !important;
+    }
     &-action {
       gap: 5px;
     }
@@ -131,6 +128,9 @@ export default defineComponent({
   &-footer {
     z-index: 2;
     display: flex;
+    span {
+      font-family: AaLanSong, serif !important;
+    }
   }
   &-play-progress {
     position: absolute;

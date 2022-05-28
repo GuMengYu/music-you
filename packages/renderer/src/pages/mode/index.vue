@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="showLyric" fullscreen transition="dialog-bottom-transition">
+  <v-dialog v-model="showLyric" fullscreen transition="dialog-bottom-transition" :scrim="false">
     <component :is="component" />
   </v-dialog>
 </template>

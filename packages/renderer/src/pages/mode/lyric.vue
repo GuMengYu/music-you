@@ -30,6 +30,7 @@ const currentLyric = computed(() => {
     const past = lyrics.value.filter((i) => i.time < currentTime.value)
     const current = lyrics.value[past.length - 1]
     if (!current) {
+      currentText.value = lyrics.value[0].sentence
       return lyrics.value[0]
     } else {
       return current
@@ -39,14 +40,14 @@ const currentLyric = computed(() => {
 })
 const currentText = ref('')
 watch(currentLyric, (val) => {
-  switchText()
+  val && switchText(val)
 })
 const text = ref<HTMLElement>()
 const animate = ref(false)
-async function switchText() {
-  if (currentLyric.value?.sentence) {
+async function switchText(lyric: Lyric) {
+  if (lyric.sentence) {
     animate.value = true
-    currentText.value = currentLyric.value.sentence
+    currentText.value = lyric.sentence
     await sleep(400)
     animate.value = false
   }
