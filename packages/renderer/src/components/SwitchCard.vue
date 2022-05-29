@@ -1,15 +1,15 @@
 <template>
   <v-card
     :color="selected ? 'primary' : `grey-${dark ? 'darken' : 'lighten'}-3`"
-    class="py-3 px-4 cursor-pointer d-flex align-center"
+    class="py-3 px-4 cursor-pointer d-flex align-center flex-grow-1"
     rounded="lg"
     flat
     @click="change"
   >
     <v-icon v-if="icon" :icon="icon" size="x-small" />
-    <div class="d-flex flex-column align-start justify-center ml-3" style="min-height: 40px">
+    <div class="d-flex flex-column align-start justify-center ml-3">
       <span class="text-caption h-1x">{{ title }}</span>
-      <span class="text-caption h-1x" v-if="subtitle">{{ subtitle }}</span>
+      <span v-if="subtitle" class="text-caption h-1x">{{ subtitle }}</span>
     </div>
   </v-card>
 </template>

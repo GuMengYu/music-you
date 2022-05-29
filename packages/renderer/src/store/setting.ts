@@ -18,7 +18,20 @@ export enum CATGORY {
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
-    return useLocalStorage('setting', {
+    return useLocalStorage<{
+      locale: string
+      appearance: APPEARANCE
+      wallpaperColor: string
+      customPalette: {
+        darkColors: null | Record<string, string>
+        lightColors: null | Record<string, string>
+      }
+      rail: boolean
+      quality: number
+      cacheLimit: number
+      volume: number
+      account: Record<string, string>
+    }>('setting', {
       locale: 'en',
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: 'GreenRockyMountains',
@@ -31,9 +44,6 @@ export const useSettingStore = defineStore('setting', {
       cacheLimit: 500,
       volume: 0.8,
       account: {},
-      wallhaven: false,
-      purity: [PURITY.SFW, PURITY.SKETCHY],
-      categories: [CATGORY.GENERAL, CATGORY.ANIME, CATGORY.PEOPLE],
     })
   },
 })

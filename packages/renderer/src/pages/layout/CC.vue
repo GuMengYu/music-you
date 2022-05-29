@@ -18,7 +18,7 @@
     <v-divider />
     <v-container>
       <v-row dense>
-        <v-col>
+        <v-col class="d-flex">
           <switch-card
             v-model="darkMode"
             :title="$t('common.dark_theme')"
@@ -26,12 +26,12 @@
             :icon="mdiCircleHalfFull"
           />
         </v-col>
-        <v-col>
+        <v-col class="d-flex">
           <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
       <v-row dense class="mt-1">
-        <v-col>
+        <v-col class="d-flex">
           <switch-card v-if="isDev" title="Playground" :icon="mdiTestTube" @click="to('playground')" />
         </v-col>
         <v-col></v-col>
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { mdiTestTube, mdiCircleHalfFull, mdiClose, mdiCog } from '@mdi/js'
+import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
 import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 
@@ -61,7 +61,7 @@ export default defineComponent({
     const isDark = computed(() => {
       return theme.getTheme(theme.current.value)?.dark
     })
-    const darkMode = computed({
+    const darkMode = computed<boolean>({
       get() {
         return isDark.value
       },

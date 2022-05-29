@@ -1,6 +1,7 @@
 {
   "message": {
-    "hello": "hello world"
+    "hello": "hello world",
+    "pic_limit": "Select image size cannot exceed 2M"
   },
   "main": {
     "nav": {

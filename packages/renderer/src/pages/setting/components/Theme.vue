@@ -14,7 +14,8 @@
       bottom: '86px',
       borderRadius: '16px',
       height: '64px',
-      zIndex: 9999,
+      zIndex: 1,
+      transtion: 'all 0.3s ease-in-out',
     }"
     @click="handleCustomPalette"
   >
@@ -30,9 +31,11 @@ import { mdiDesktopTowerMonitor, mdiPalette, mdiPlus, mdiWeatherNight, mdiWhiteB
 import { generatePaletteFromURL } from 'md3-theme-generator'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { useTheme } from 'vuetify'
 
+import type { APPEARANCE } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import { fileToDataURL } from '@/util/fn'
 
@@ -44,6 +47,7 @@ export default {
   components: { AppSettingsGroup },
 
   setup() {
+    const { t } = useI18n()
     const theme = useTheme()
     const setting = useSettingStore()
     const { customPalette, wallpaperColor } = storeToRefs(setting)
@@ -112,7 +116,7 @@ export default {
       get() {
         return setting.appearance
       },
-      set(value) {
+      set(value: APPEARANCE) {
         setting.appearance = value
       },
     })
@@ -121,7 +125,7 @@ export default {
       get() {
         return wallpaperColor.value
       },
-      set(value) {
+      set(value: string) {
         wallpaperColor.value = value
       },
     })
@@ -130,24 +134,25 @@ export default {
       upload.value?.click()
     }
     async function handleChange(e: Event) {
-      const { files = [] } = e.target
-      const [file = {}] = files
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error('选择图片大小不能超过2M')
-        return
-      }
-      try {
-        const dataURL = await fileToDataURL(files[0])
-        const _palette = await generatePaletteFromURL(dataURL)
-        const palette = _palette.save()
-        customPalette.value = {
-          lightColors: palette.light,
-          darkColors: palette.dark,
+      const { files = [] } = e.target as HTMLInputElement
+      if (files?.length) {
+        if (files[0].size > 2 * 1024 * 1024) {
+          toast.error(t('message.pic_limit'))
+          return
         }
-        color.value = 'Customize'
-        location.reload()
-      } catch (e) {
-        console.log(e)
+        try {
+          const dataURL = await fileToDataURL(files[0])
+          const _palette = await generatePaletteFromURL(<string>dataURL)
+          const palette = _palette.save()
+          customPalette.value = {
+            lightColors: palette.light,
+            darkColors: palette.dark,
+          }
+          color.value = 'Customize'
+          location.reload()
+        } catch (e) {
+          console.log(e)
+        }
       }
     }
     return {
