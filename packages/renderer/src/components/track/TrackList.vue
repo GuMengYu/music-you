@@ -13,12 +13,12 @@ import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
-import { useTheme } from '@/hooks/useTheme'
+import { useCurrentTheme } from '@/hooks/useTheme'
 import { useUserStore } from '@/store/user'
 import type { Track } from '@/types'
 
 const userStore = useUserStore()
-const theme = useTheme()
+const { theme } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 

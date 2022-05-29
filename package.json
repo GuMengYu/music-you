@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.5.95",
+    "@types/overlayscrollbars": "^1.12.1",
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
     "@vueuse/components": "^8.4.2",
     "@vueuse/core": "^8.2.5",
@@ -41,7 +42,7 @@
     "md3-theme-generator": "^0.0.1",
     "md5": "^2.3.0",
     "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
-    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
+    "overlayscrollbars": "^1.13.1",
     "pinia": "^2.0.13",
     "vue": "^3.2.25",
     "vue-content-loader": "^2.0.1",
@@ -50,6 +51,7 @@
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-slider": "^1.6.9",
     "vuetify": "^3.0.0-beta.2",
+    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {

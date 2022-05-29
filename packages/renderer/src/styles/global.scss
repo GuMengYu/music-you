@@ -3,9 +3,9 @@
   src: url('../assets/fonts/AaLanSong.ttf');
 }
 
-html {
-  overflow-y: auto;
-}
+// html {
+//   overflow-y: auto;
+// }
 
 @mixin h {
   overflow: hidden !important;
@@ -35,27 +35,9 @@ html {
   }
 }
 
-// gap helper
-
-//html, body, div, span, header, footer, section, article, a, img {
-//  font-family: 'Nunito', 'product sans', sans-serif !important;
-//}
-
 /* Let's get this party started */
 ::-webkit-scrollbar {
-  width: 2px;
-}
-
-::-webkit-scrollbar-track {
-  // border-left: 1px solid rgba(128, 128, 128, 0.18);
-  height: 10px;
-  background: rgb(var(--v-theme-background));
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: rgb(var(--v-theme-primary));
+  width: 0px;
 }
 
 .drag-area {

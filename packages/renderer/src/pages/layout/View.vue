@@ -14,3 +14,22 @@
     </v-container>
   </v-main>
 </template>
+<script setup lang="ts">
+import 'overlayscrollbars/css/OverlayScrollbars.css'
+
+import OverlayScrollbars from 'overlayscrollbars'
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+const isDark = computed((): boolean => {
+  return theme.getTheme(theme.current.value)?.dark
+})
+
+watchEffect(() => {
+  const osTheme = isDark.value ? 'os-theme-light' : 'os-theme-dark'
+  const body = document.querySelectorAll('body')
+  OverlayScrollbars(body, {
+    className: osTheme,
+  })
+})
+</script>
