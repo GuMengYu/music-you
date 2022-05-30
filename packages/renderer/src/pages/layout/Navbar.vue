@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :rail="rail" class="drag-area">
-    <div class="pl-2 py-1">
+    <div class="pl-2 py-1" :class="{ 'mt-5': isMac }">
       <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
+import is from 'electron-is'
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -45,8 +46,8 @@ import { useI18n } from 'vue-i18n'
 import { useSettingStore } from '@/store/setting'
 
 const { rail } = storeToRefs(useSettingStore())
-const { t } = useI18n()
 
+const isMac = is.macOS()
 const state = reactive({
   defaultNav1: [
     {
