@@ -23,7 +23,6 @@ enum BUILDMODE {
 }
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  console.log(mode, command)
   const buildElectron = mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD
   const plugins: any = [
     vue({
@@ -69,7 +68,7 @@ export default defineConfig(({ command, mode }) => {
     build: {
       outDir: '../../dist/renderer',
       emptyOutDir: true,
-      sourcemap: true,
+      sourcemap: mode === BUILDMODE.DEV || mode === BUILDMODE.ELECTRON_DEV,
       rollupOptions: {
         format: buildElectron ? 'cjs' : 'es',
       },
