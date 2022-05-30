@@ -60,7 +60,7 @@ import { useRouter } from 'vue-router'
 
 import vipPicUrl from '@/assets/vip.png'
 import { useUserStore } from '@/store/user'
-import { isElectron } from '@/util/fn'
+import is from '@/util/is'
 const userStore = useUserStore()
 const router = useRouter()
 const { account } = storeToRefs(userStore)
@@ -85,7 +85,7 @@ const show = computed<boolean>({
 })
 
 const goto = (url: string) => {
-  if (isElectron()) {
+  if (is.electron()) {
     const ipcRenderer = useIpcRenderer()
     ipcRenderer.invoke('open-url', url)
   } else {

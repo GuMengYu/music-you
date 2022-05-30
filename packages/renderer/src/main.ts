@@ -20,7 +20,7 @@ useFonts()
 import './styles/animate.scss'
 import './styles/global.scss'
 
-import { isElectron } from '@/util/fn'
+import is from '@/util/is'
 
 const app = createApp(App)
 
@@ -35,7 +35,7 @@ useDayjs(app)
 useElectron()
 useContextMenu(app)
 app.mount('#app').$nextTick(() => {
-  isElectron() && window.removeLoading()
+  is.electron() && window.removeLoading()
 })
 
 console.log(import.meta.env)

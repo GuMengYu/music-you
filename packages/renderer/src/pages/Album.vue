@@ -10,7 +10,8 @@ import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import type { Album } from '@/types'
-import { formatDuring, isElectron, sizeOfImage } from '@/util/fn'
+import { formatDuring, sizeOfImage } from '@/util/fn'
+import is from '@/util/is'
 const toast = useToast()
 const player = usePlayer()
 
@@ -64,7 +65,7 @@ async function play() {
 
 function goto() {
   const url = `https://music.163.com/#/album?id=${state.album.id}`
-  if (isElectron()) {
+  if (is.electron()) {
     const ipcRenderer = useIpcRenderer()
     ipcRenderer.invoke('open-url', url)
   } else {

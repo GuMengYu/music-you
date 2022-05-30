@@ -10,7 +10,8 @@ import { getSongData } from '@/api/song'
 import { usePlayer } from '@/player/player'
 import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
-import { formatDuring, formatNumber, isElectron } from '@/util/fn'
+import { formatDuring, formatNumber } from '@/util/fn'
+import is from '@/util/is'
 
 const toast = useToast()
 const userStore = useUserStore()
@@ -92,7 +93,7 @@ async function del() {
 
 function goto() {
   const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
-  if (isElectron()) {
+  if (is.electron()) {
     const ipcRenderer = useIpcRenderer()
     ipcRenderer.invoke('open-url', url)
   } else {

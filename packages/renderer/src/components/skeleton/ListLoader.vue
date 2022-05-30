@@ -11,7 +11,7 @@ const theme = useTheme()
 const surfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surfaceVariant)
 const onSurfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surface)
 const props = defineProps<{
-  artist: boolean
+  artist?: boolean
 }>()
 </script>
 <template>

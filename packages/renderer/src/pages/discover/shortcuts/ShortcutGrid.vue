@@ -9,7 +9,7 @@ import { getPlaylistDetail } from '@/api/playlist'
 import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
-import { isElectron } from '@/util/fn'
+// import is from '@/util/is'
 import { specialType } from '@/util/metadata'
 
 import ShortcutFm from './fm.vue'
@@ -53,9 +53,9 @@ const state = reactive({
   },
 })
 
-const enableWallhaven = computed(() => {
-  return settingStore.wallhaven && isElectron()
-})
+// const enableWallhaven = computed(() => {
+//   return settingStore.wallhaven && is.electron()
+// })
 onMounted(async () => {
   // 私人雷达歌单
   const { playlist: radarPlaylist } = await getPlaylistDetail(specialType.radar.id)
@@ -79,11 +79,11 @@ onMounted(async () => {
     <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', label: 'R' }" />
     <Shortcut v-if="logged" :data="state.randomPlayList" type="playlist" :flag="{ color: 'outline', label: 'P' }" />
     <ShortcutFm />
-    <Shortcut
+    <!-- <Shortcut
       v-if="enableWallhaven"
       :data="state.wallhaven"
       type="wallhaven"
       :flag="{ color: 'inverseSurface', label: 'W' }"
-    />
+    /> -->
   </div>
 </template>

@@ -15,9 +15,8 @@
   </v-app-bar>
 </template>
 <script setup lang="ts">
-import is from 'electron-is'
-
 import SearchInput from '@/components/toggle/SearchInput.vue'
+import is from '@/util/is'
 const isShowWindowControl = computed(() => {
   return is.windows() || is.linux()
 })

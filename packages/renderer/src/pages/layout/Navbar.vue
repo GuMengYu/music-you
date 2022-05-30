@@ -38,12 +38,12 @@
 
 <script setup lang="ts">
 import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
-import is from 'electron-is'
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useSettingStore } from '@/store/setting'
+import is from '@/util/is'
 
 const { rail } = storeToRefs(useSettingStore())
 
