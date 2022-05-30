@@ -11,9 +11,16 @@ import { defineConfig, loadEnv } from 'vite'
 import polyfillExports from 'vite-plugin-electron/polyfill-exports'
 import electron from 'vite-plugin-electron/renderer'
 import resolve from 'vite-plugin-resolve'
+
+import { dependencies, devDependencies, name, version } from '../../package.json'
 const path = require('path')
 
 const env = loadEnv('', path.resolve(__dirname, '../../'))
+
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: new Date().toISOString(),
+}
 
 enum BUILDMODE {
   DEV = 'development',
@@ -80,6 +87,7 @@ export default defineConfig(({ command, mode }) => {
     },
     define: {
       'process.env': {},
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
     },
     server: {
       host: env.VITE_DEV_SERVER_HOST,
