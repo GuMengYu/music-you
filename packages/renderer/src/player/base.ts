@@ -90,21 +90,21 @@ export class Player {
   }
   private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
-      const { type, events } = mutation
+      const { type } = mutation
       const { playing, volume, isCurrentFm } = state as PlayerState
       if (type === 'direct') {
-        if (events.key === 'playing') {
+        if (this.playing !== playing) {
           if (playing) {
             this.play()
           } else {
             this.pause()
           }
         }
-        if (events.key === 'volume') {
+        if (this.volume !== volume) {
           this.volume = volume
           Howler.volume(volume)
         }
-        if (events.key === 'isCurrentFm') {
+        if (this.isCurrentFm !== isCurrentFm) {
           this.isCurrentFm = isCurrentFm
         }
       }
