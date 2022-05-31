@@ -97,9 +97,9 @@ function toggleShuffle() {
       variant="contained-flat"
       @click="togglePlay"
     >
-      <v-progress-circular v-if="loadingTrack" indeterminate color="onPrimary" />
+      <v-progress-circular v-show="loadingTrack" indeterminate color="onPrimary" />
       <lottie-icon
-        v-else
+        v-show="!loadingTrack"
         class="lottie-icon"
         style="position: relative; top: 1px"
         :options="playOptions"
