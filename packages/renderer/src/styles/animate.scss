@@ -269,7 +269,7 @@
 
 @keyframes pulseWarn {
   0% {
-    box-shadow: 0 0 0 0 var(--v-primary-lighten4);
+    box-shadow: 0 0 0 0 rgb(var(--v-theme-primary));
   }
   70% {
     box-shadow: 0 0 0 6px rgba(0, 0, 0, 0);

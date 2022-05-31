@@ -16,22 +16,23 @@ export enum CATGORY {
   ANIME = 'anime',
   PEOPLE = 'people',
 }
+export interface SettingState {
+  locale: string
+  appearance: APPEARANCE
+  wallpaperColor: string
+  customPalette: {
+    darkColors: null | Record<string, string>
+    lightColors: null | Record<string, string>
+  }
+  rail: boolean
+  quality: number
+  cacheLimit: number
+  volume: number
+  account: Record<string, string>
+}
 export const useSettingStore = defineStore('setting', {
   state: () => {
-    return useLocalStorage<{
-      locale: string
-      appearance: APPEARANCE
-      wallpaperColor: string
-      customPalette: {
-        darkColors: null | Record<string, string>
-        lightColors: null | Record<string, string>
-      }
-      rail: boolean
-      quality: number
-      cacheLimit: number
-      volume: number
-      account: Record<string, string>
-    }>('setting', {
+    return useLocalStorage<SettingState>('setting', {
       locale: 'en',
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: 'GreenRockyMountains',

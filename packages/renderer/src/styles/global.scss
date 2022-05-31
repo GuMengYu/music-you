@@ -3,60 +3,9 @@
   src: url('../assets/fonts/AaLanSong.ttf');
 }
 
-// html {
-//   overflow-y: auto;
-// }
-
-@mixin h {
-  overflow: hidden !important;
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  white-space: initial !important;
-  word-break: break-word !important;
-}
-// 限制文本行数
-
-@for $i from 1 through 4 {
-  .h-#{$i}x {
-    -webkit-line-clamp: #{$i};
-    @include h;
-  }
-}
-
-@for $i from 1 through 16 {
-  .gap-#{$i} {
-    gap: #{$i * 4}px;
-  }
-  .gap-col-#{$i} {
-    column-gap: #{$i * 4}px;
-  }
-  .gap-row-#{$i} {
-    row-gap: #{$i * 4}px;
-  }
-}
-
 /* Let's get this party started */
 ::-webkit-scrollbar {
   width: 0px;
-}
-
-.drag-area {
-  -webkit-app-region: drag;
-}
-.no-drag-area {
-  -webkit-app-region: no-drag;
-}
-
-@keyframes pulseWarn {
-  0% {
-    box-shadow: 0 0 0 0 rgb(var(--v-theme-primary));
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-  }
 }
 
 /* override some vuetify style */

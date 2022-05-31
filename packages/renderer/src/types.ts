@@ -3,7 +3,6 @@ export interface Track {
   name: string
   duration?: number
   dt?: number
-  url: string
   ar?: Artist[]
   artists?: Artist[]
   al?: Album

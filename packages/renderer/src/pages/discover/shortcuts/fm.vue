@@ -8,7 +8,7 @@
       FM
     </div>
     <div class="d-flex align-center justify-space-between flex-fill px-4 flex-column text-onSurfaceVariant">
-      <span :title="title" class="text-caption font-weight-bold text-decoration-none h-1x">
+      <span :title="title" class="text-caption font-weight-bold text-decoration-none line-clamp-1">
         {{ title }}
       </span>
       <div class="d-flex align-center justify-center gap-3" style="height: 48px">

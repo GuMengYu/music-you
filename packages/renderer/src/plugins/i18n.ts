@@ -23,4 +23,5 @@ export const useI18n = (app: App) => {
     messages: { zhCN, en },
   })
   app.use(i18n)
+  return i18n
 }

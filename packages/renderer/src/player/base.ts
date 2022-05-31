@@ -2,16 +2,34 @@ import { Howl, Howler } from 'howler'
 import type { DebouncedFunc } from 'lodash-es'
 import { shuffle, throttle } from 'lodash-es'
 import type { Store } from 'pinia'
+import type { I18n } from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { sleep } from '@/util/fn'
 
-import { getTrackDetail, scrobble } from '../api/music'
+import { getTrackDetail } from '../api/music'
 import type { PlayerState } from '../store/player'
 import { usePlayerStore } from '../store/player'
+import type { SettingState } from '../store/setting'
+import { useSettingStore } from '../store/setting'
 import type { Track, Tracks } from '../types'
 const toast = useToast()
 
+const messages = {
+  zhCN: {
+    message: {
+      can_not_play: '播放失败, 将自动播放下一曲',
+      loadFail: '歌曲加载失败，跳过或稍后再试试哦 🥲',
+    },
+  },
+  en: {
+    message: {
+      can_not_play: 'Can not play, will play next automatically',
+      loadFail: 'Load failed, skip or try again later 🥲',
+    },
+  },
+}
 export interface PlayerInstance {
   updateTracks: (tracks: Tracks | Track[], autoPlay?: boolean) => void
   updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean) => void
@@ -43,12 +61,17 @@ export class Player {
   isCurrentFm: boolean
   stageMusicURL: string | null
   store: Store<'player', PlayerState>
+  settingStore: Store<'setting', SettingState>
+  i18n: I18n<unknown, unknown, unknown, boolean>
+  locale: string
   _updateCurrentTime: DebouncedFunc<(currentTime?: number) => void>
   constructor() {
     this.store = usePlayerStore()
+    this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
 
     const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store
+    const { locale } = this.settingStore
     this.track = track
     this.volume = volume
     this.currentTime = currentTime
@@ -57,6 +80,12 @@ export class Player {
     this.isCurrentFm = isCurrentFm
     this.stageMusicURL = null
     this._updateCurrentTime = throttle(this.updateCurrentTime, 1000)
+    this.locale = locale
+    this.i18n = createI18n({
+      locale: this.locale,
+      fallbackLocale: 'en',
+      messages,
+    })
 
     this.init()
   }
@@ -91,7 +120,7 @@ export class Player {
   private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
       const { type } = mutation
-      const { playing, volume, isCurrentFm } = state as PlayerState
+      const { playing, volume, isCurrentFm } = state
       if (type === 'direct') {
         if (this.playing !== playing) {
           if (playing) {
@@ -109,25 +138,35 @@ export class Player {
         }
       }
     })
+    this.settingStore.$subscribe((mutation, state) => {
+      const { locale } = state
+      if (mutation.type === 'direct') {
+        if (this.locale !== locale) {
+          this.locale = locale
+          this.i18n.global.locale = locale
+        }
+      }
+    })
   }
-  async updatePlayerTrack(trackId: string | number, autoplay = true, resetProgress = true) {
+  async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true) {
     if (!trackId) return
     const { isCurrentFm } = this.store.$state as PlayerState
     this.store.$state.loadingTrack = true
-    const trackInfo = await getTrackDetail(trackId)
-    if (trackInfo.url) {
-      this.store.$state.track = trackInfo
+    const { track, url, lyric } = await getTrackDetail(trackId)
+    if (url) {
+      track.lyric = lyric // 存入歌词
+      this.store.$state.track = track // 保存到 store
       if (isCurrentFm) {
-        this.store.$state.fmTrack = trackInfo
+        this.store.$state.fmTrack = track
       }
       if (resetProgress) {
         this.updateCurrentTime(0)
       }
-      this.track = trackInfo
+      this.track = track
       Howler.unload()
       this.howler = null
-      this.howler = this.initSound(trackInfo.url)
-      this.initMediaSession(trackInfo)
+      this.howler = this.initSound(url)
+      this.initMediaSession(track)
       if (resetProgress) {
         this.setSeek(0)
       } else {
@@ -143,7 +182,7 @@ export class Player {
       //     playerIDB.cacheTrack(trackInfo, cacheLimit);
       // }
     } else {
-      toast.warning(`${trackInfo.name} 暂不可用, 将自动播放下一曲`)
+      toast.error(track?.name + this.t('message.can_not_play'))
       await sleep(500)
       this.next()
     }
@@ -161,7 +200,7 @@ export class Player {
         this.setProgressInterval()
       },
       onplayerror: (id, e) => {
-        console.log(id, e)
+        toast.error(this.track?.name + this.t('message.loadFail'))
       },
       onseek: () => {
         // do noting
@@ -178,7 +217,7 @@ export class Player {
       onloaderror: (e) => {
         console.log(e)
         this.trackLoaded()
-        // window?.app?.$toast.error('歌曲加载失败');
+        toast.error(this.t('message.loadFail'))
       },
     })
     sound.once('end', this.endCb.bind(this))
@@ -326,5 +365,8 @@ export class Player {
         navigator.mediaSession.setActionHandler(action as MediaSessionAction, handler.bind(this))
       })
     }
+  }
+  private t(key: string) {
+    return this.i18n.global.t(key)
   }
 }

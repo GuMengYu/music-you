@@ -29,13 +29,13 @@
           </transition>
         </div>
       </v-img>
-      <v-card-title v-if="!noInfo" :class="`h-${titleLine}x`" class="text-subtitle-2 text-onSurfaceVariant">
+      <v-card-title v-if="!noInfo" :class="`line-clamp-${titleLine}`" class="text-subtitle-2 text-onSurfaceVariant">
         <router-link :to="`/playlist/${data.id}`" class="text-onSurfaceVariant text-decoration-none">
           {{ data.name }}
         </router-link>
       </v-card-title>
       <v-card-subtitle v-if="!noInfo && subTitle" class="text-subtitle-2 pb-4">
-        <span v-if="subTitle" class="h-1x">
+        <span v-if="subTitle" class="line-clamp-1">
           {{ subTitle }}
         </span>
       </v-card-subtitle>

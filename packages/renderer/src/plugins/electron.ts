@@ -15,7 +15,6 @@ function registerIpcRenderer() {
   const playerStore = usePlayerStore()
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
-  console.log('registerIpcRenderer', playerStore, ipcRenderer)
   // const showDownloadComplete = once((name) => {})
 
   // ipcRenderer.on('open-settings', () => {

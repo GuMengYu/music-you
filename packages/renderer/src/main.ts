@@ -19,6 +19,7 @@ import { useRouter } from './router'
 useFonts()
 import './styles/animate.scss'
 import './styles/global.scss'
+import './styles/utility.scss'
 
 import is from '@/util/is'
 
@@ -37,5 +38,3 @@ useContextMenu(app)
 app.mount('#app').$nextTick(() => {
   is.electron() && window.removeLoading()
 })
-
-console.log(import.meta.env)

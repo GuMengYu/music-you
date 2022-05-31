@@ -21,7 +21,7 @@
           </v-hover>
 
           <div class="song-info mx-2 d-flex align-start flex-column">
-            <span class="song-name h-1x text-subtitle-2">
+            <span class="song-name line-clamp-1 text-subtitle-2">
               {{ track?.name }}
             </span>
             <artists-link :artists="track?.ar" class="text-caption" />

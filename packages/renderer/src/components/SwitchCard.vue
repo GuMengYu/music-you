@@ -8,8 +8,8 @@
   >
     <v-icon v-if="icon" :icon="icon" size="x-small" />
     <div class="d-flex flex-column align-start justify-center ml-3">
-      <span class="text-caption h-1x">{{ title }}</span>
-      <span v-if="subtitle" class="text-caption h-1x">{{ subtitle }}</span>
+      <span class="text-caption line-clamp-1">{{ title }}</span>
+      <span v-if="subtitle" class="text-caption line-clamp-1">{{ subtitle }}</span>
     </div>
   </v-card>
 </template>

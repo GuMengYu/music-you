@@ -18,10 +18,10 @@
         {{ flag.label }}
       </div>
       <div class="d-flex align-start justify-space-between flex-fill px-4 flex-column text-onSurfaceVariant">
-        <span :title="data.title" class="text-subtitle-1 h-1x">
+        <span :title="data.title" class="text-subtitle-1 line-clamp-1">
           {{ data.title }}
         </span>
-        <span :title="data.subTitle" class="text-subtitle-2 h-1x">
+        <span :title="data.subTitle" class="text-subtitle-2 line-clamp-1">
           {{ data.subTitle }}
         </span>
       </div>

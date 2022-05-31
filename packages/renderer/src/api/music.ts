@@ -1,8 +1,7 @@
 import { now } from 'lodash-es'
 
-import { useUserStore } from '@/store/user'
 import { useSettingStore } from '@/store/setting'
-
+import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 
@@ -23,7 +22,7 @@ export const getTrackDetail = async (id: number) => {
   } = await getSongData([id])
   const lyric = await getLyric(id)
   const url = await getMusicUrl(id)
-  return { ...track, url, lyric }
+  return { track, url, lyric }
 }
 
 export const getMusicUrl = async (id: Track['id']) => {

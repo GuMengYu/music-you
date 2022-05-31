@@ -131,7 +131,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           </div>
           <div class="d-flex align-start" @click="more.showMoreDesc = true">
             <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
-            <p class="text-caption h-3x ml-2">
+            <p class="text-caption line-clamp-3 ml-2">
               {{ state.artist['briefDesc'] }}
             </p>
           </div>

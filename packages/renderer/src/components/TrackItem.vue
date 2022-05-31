@@ -148,14 +148,14 @@ async function toggleLike() {
           :aspect-ratio="1"
         />
         <div class="track-info">
-          <v-list-item-title class="h-1x" v-text="track.name" />
+          <v-list-item-title class="line-clamp-1" v-text="track.name" />
           <v-list-item-subtitle>
-            <artists-link :artists="artists" class="h-1x" />
+            <artists-link :artists="artists" class="line-clamp-1" />
           </v-list-item-subtitle>
         </div>
       </div>
       <div v-if="type !== 'album'" class="track-second">
-        <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface h-2x">
+        <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
           {{ album.name }}
         </router-link>
       </div>

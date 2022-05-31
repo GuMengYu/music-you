@@ -21,10 +21,10 @@
         </v-img>
       </v-card>
     </v-hover>
-    <span class="h-1x mt-2 text-caption text--primary">
+    <span class="line-clamp-1 mt-2 text-caption text--primary">
       {{ title }}
     </span>
-    <span class="h-1x text-caption">
+    <span class="line-clamp-1 text-caption">
       <artists-link :artists="artists" />
       {{ $t('main.play_count', [count]) }}
     </span>

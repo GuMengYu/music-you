@@ -127,7 +127,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <div class="d-flex justify-space-between align-center">
             <span class="d-flex align-center">
               <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>
-              <span class="text-h5 mx-2 h-1x">
+              <span class="text-h5 mx-2 line-clamp-1">
                 {{ state.playlist.name }}
               </span>
             </span>
@@ -144,7 +144,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </div>
           <div v-if="state.playlist.description" class="d-flex align-start" @click="showMoreDesc = true">
             <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
-            <p class="text-caption h-2x ml-2">
+            <p class="text-caption line-clamp-2 ml-2">
               {{ state.playlist.description }}
             </p>
           </div>

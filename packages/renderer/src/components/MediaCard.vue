@@ -93,5 +93,3 @@ const prev = () => {
   player.prev()
 }
 </script>
-
-<style scoped></style>
