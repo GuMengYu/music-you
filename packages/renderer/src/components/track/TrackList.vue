@@ -28,7 +28,11 @@ const props = defineProps<{
   ownId?: number | null // 是否是自己的歌单id
 }>()
 const eventBus = useEventBus<number>('addToQueue')
-
+const TrackItemHeight = 56
+const listHeight = computed(() => {
+  const realHeight = props.tracks.length * TrackItemHeight
+  return props.tracks.length > 30 ? 30 * TrackItemHeight : realHeight
+})
 const playlists = computed(() => {
   return userStore.createdPlaylists.map((i) => {
     return {
@@ -174,15 +178,24 @@ function removeFromList(id: number, trackId: number) {
       >
     </div>
     <v-divider class="mx-4 my-2" />
-    <track-item
-      v-for="(track, idx) in tracks"
-      :key="track.id"
-      :track="track"
-      :index="idx + 1"
-      :type="type"
-      @play="eventBus.emit(track.id)"
-      @openctxmenu="openMenu"
-    />
+    <RecycleScroller
+      v-slot="{ item: track, index }"
+      class="scroller"
+      :style="{
+        height: `${listHeight}px`,
+      }"
+      :items="tracks"
+      :item-size="TrackItemHeight"
+      key-field="id"
+    >
+      <track-item
+        :track="track"
+        :index="index + 1"
+        :type="type"
+        @play="eventBus.emit(track.id)"
+        @openctxmenu="openMenu"
+      />
+    </RecycleScroller>
   </v-list>
 </template>
 <style lang="scss" scoped>

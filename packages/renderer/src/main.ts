@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import VueVirtualScroller from 'vue-virtual-scroller'
 
 import App from './App.vue'
 // directives
@@ -20,11 +21,13 @@ useFonts()
 import './styles/animate.scss'
 import './styles/global.scss'
 import './styles/utility.scss'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 import is from '@/util/is'
 
 const app = createApp(App)
 
+app.use(VueVirtualScroller)
 usePinia(app)
 useVuetify(app)
 useRouter(app)

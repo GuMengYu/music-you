@@ -122,65 +122,71 @@ async function toggleLike() {
 </script>
 <template>
   <v-hover v-slot="{ isHovering, props: _props }">
-    <div
-      v-ripple
+    <v-list-item
       v-bind="_props"
-      class="rounded-lg px-2"
-      :class="{ unavailable: !available.enable, [className]: true }"
-      :title="available.enable ? '' : available.text"
+      rounded="lg"
+      class="pa-0"
+      active-color="primary"
+      :value="track.id"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
     >
-      <div class="track-index">
-        <span v-show="!isHovering" class="track-count">{{ index }}</span>
-        <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
-          <v-icon size="small">{{ mdiPlay }}</v-icon>
-        </v-btn>
-      </div>
-      <div class="track-first">
-        <v-img
-          v-if="type !== 'album'"
-          :src="albumCover"
-          max-height="40"
-          max-width="40"
-          class="rounded"
-          :lazy-src="placeholderUrl"
-          :aspect-ratio="1"
-        />
-        <div class="track-info">
-          <v-list-item-title class="line-clamp-1" v-text="track.name" />
-          <v-list-item-subtitle>
-            <artists-link :artists="artists" class="line-clamp-1" />
-          </v-list-item-subtitle>
+      <div
+        class="px-2 rounded-lg"
+        :title="available.enable ? '' : available.text"
+        :class="{ [className]: true, unavailable: !available.enable }"
+      >
+        <div class="track-index">
+          <span v-show="!isHovering" class="track-count">{{ index }}</span>
+          <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
+            <v-icon size="small">{{ mdiPlay }}</v-icon>
+          </v-btn>
+        </div>
+        <div class="track-first">
+          <v-img
+            v-if="type !== 'album'"
+            :src="albumCover"
+            max-height="40"
+            max-width="40"
+            class="rounded"
+            :lazy-src="placeholderUrl"
+            :aspect-ratio="1"
+          />
+          <div class="track-info">
+            <v-list-item-title class="line-clamp-1" v-text="track.name" />
+            <v-list-item-subtitle>
+              <artists-link :artists="artists" class="line-clamp-1" />
+            </v-list-item-subtitle>
+          </div>
+        </div>
+        <div v-if="type !== 'album'" class="track-second">
+          <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
+            {{ album.name }}
+          </router-link>
+        </div>
+        <div class="track-third">
+          <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
+            <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
+          </v-btn>
+          <!--        <like-toggle :id="track.id" />-->
+          <div class="track-duration">
+            {{ formatDuring(track.dt || track.duration || 0) }}
+          </div>
+          <v-btn
+            v-visible="isHovering"
+            icon
+            color="primary"
+            variant="contained-text"
+            size="small"
+            @click.prevent="openMenu"
+          >
+            <v-icon size="small">
+              {{ mdiDotsHorizontal }}
+            </v-icon>
+          </v-btn>
         </div>
       </div>
-      <div v-if="type !== 'album'" class="track-second">
-        <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
-          {{ album.name }}
-        </router-link>
-      </div>
-      <div class="track-third">
-        <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
-          <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
-        </v-btn>
-        <!--        <like-toggle :id="track.id" />-->
-        <div class="track-duration">
-          {{ formatDuring(track.dt || track.duration || 0) }}
-        </div>
-        <v-btn
-          v-visible="isHovering"
-          icon
-          color="primary"
-          variant="contained-text"
-          size="small"
-          @click.prevent="openMenu"
-        >
-          <v-icon size="small">
-            {{ mdiDotsHorizontal }}
-          </v-icon>
-        </v-btn>
-      </div>
-    </div>
+    </v-list-item>
   </v-hover>
 </template>
 

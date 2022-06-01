@@ -59,6 +59,7 @@ async function fetch(id: number) {
   loading.value = true
   const { playlist } = await getPlaylistDetail(id)
   state.playlist = playlist
+  loading.value = false
   if (playlist.trackIds?.length) {
     const { songs } = await getSongData(playlist.trackIds.map((item) => item.id))
     state.playlist.tracks = songs
@@ -69,7 +70,6 @@ async function fetch(id: number) {
   }
   state.playlist = playlist
   subscribed.value = playlist.subscribed
-  loading.value = false
 }
 
 async function subscribe() {
