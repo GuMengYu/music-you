@@ -3,8 +3,11 @@ import { reactive, ref, watchEffect } from 'vue'
 import { useToast } from 'vue-toastification'
 
 import { search } from '@/api/music'
+import { usePlayer } from '@/player/player'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 const toast = useToast()
+const player = usePlayer()
+
 const searchTypes = {
   song: { type: 1, limit: 5 },
   album: { type: 10, limit: 4 },
@@ -55,10 +58,13 @@ async function triggerSearch() {
     state.playlists = playlist.playlists ?? []
     state.mvs = mv.mvs ?? []
   } catch (e) {
-    toast.error('opps something wrong')
+    toast.error('oops something wrong')
   } finally {
     loading.value = false
   }
+}
+function playMusic(trackId: number) {
+  player.updatePlayerTrack(trackId)
 }
 </script>
 <template>
@@ -72,6 +78,7 @@ async function triggerSearch() {
           :track="track"
           :index="idx + 1"
           from="list"
+          @play="playMusic"
         ></TrackItem>
       </v-list>
     </Col>

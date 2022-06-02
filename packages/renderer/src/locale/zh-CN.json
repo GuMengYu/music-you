@@ -1,7 +1,10 @@
 {
   "message": {
     "hello": "你好 世界",
-    "pic_limit": "选择图片大小不能超过2M"
+    "pic_limit": "选择图片大小不能超过2M",
+    "remove_fav_success": "已从\"喜欢的音乐\"移除",
+    "add_fav_success": "已添加至\"喜欢的音乐\"",
+    "something_wrong": "出错了"
   },
   "main": {
     "nav": {

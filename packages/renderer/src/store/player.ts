@@ -23,8 +23,6 @@ export interface PlayerState {
   }
   playMode: PLAY_MODE
   shuffle: boolean
-  likes: number[]
-  playlist: Playlist[]
   volume: number
   playing: boolean
   loadingTrack: boolean
@@ -46,8 +44,6 @@ export const usePlayerStore = defineStore({
       },
       playMode: PLAY_MODE.NORMAL,
       shuffle: false,
-      likes: [] as number[],
-      playlist: [] as Playlist[],
       volume: 0.8,
     })
 
@@ -67,8 +63,6 @@ export const usePlayerStore = defineStore({
       restoreState.value.playingList = data.playingList
       restoreState.value.playMode = data.playMode
       restoreState.value.shuffle = data.shuffle
-      restoreState.value.likes = data.likes
-      restoreState.value.playlist = data.playlist
       restoreState.value.volume = data.volume
     })
     return {
@@ -90,7 +84,7 @@ export const usePlayerStore = defineStore({
     nextFmTrackId(state) {
       return state.fmList[0]?.id
     },
-    nextTrackId(state): null | undefined | string {
+    nextTrackId(state): null | number {
       const currentId = state.track?.id
       if (!currentId) return null
       const index = this.index
@@ -110,25 +104,6 @@ export const usePlayerStore = defineStore({
     },
   },
   actions: {
-    async toggleFavorite(payload: { id: number; like: boolean }) {
-      const { id, like } = payload
-      try {
-        const { code } = await sub('track', id, like ? 1 : 0)
-        if (code === 200) {
-          const index = this.likes.findIndex((item) => item.id === id)
-          if (index === -1 && like) {
-            this.likes.push(id)
-          } else {
-            this.likes.splice(index, 1)
-          }
-          return true
-        } else {
-          return false
-        }
-      } catch (e) {
-        return false
-      }
-    },
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...this.fmList]

@@ -9,6 +9,7 @@ import {
   mdiHeartBroken,
   mdiPlaylistMusic,
 } from '@mdi/js'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
@@ -21,6 +22,7 @@ const userStore = useUserStore()
 const { themeName } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
+const { t } = useI18n()
 
 const props = defineProps<{
   tracks: Track[]
@@ -142,16 +144,16 @@ function download() {
 function fav() {
   // todo fav
 }
-async function toggleLike(liked: boolean, track: Track) {
-  const success = await userStore.favSong(track.id, !liked)
+async function toggleLike(liked: boolean, trackId: number) {
+  const success = await userStore.favSong(trackId, !liked)
   if (success) {
     if (liked) {
-      toast.success('已从"喜欢的音乐"移除')
+      toast.success(t('message.add_fav_success'))
     } else {
-      toast.success('已添加至"喜欢的音乐"')
+      toast.success(t('message.remove_fav_success'))
     }
   } else {
-    toast.error('操作频繁或者网络出现错误')
+    toast.error(t('message.something_wrong'))
   }
 }
 function addToQueue(track: Track) {

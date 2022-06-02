@@ -1,21 +1,23 @@
 import { Howl, Howler } from 'howler'
-import type { DebouncedFunc } from 'lodash-es'
-import { shuffle, throttle } from 'lodash-es'
+import { shuffle } from 'lodash-es'
 import type { Store } from 'pinia'
 import type { I18n } from 'vue-i18n'
 import { createI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
+import { getTrackDetail } from '@/api/music'
+import type { PlayerState } from '@/store/player'
+import { usePlayerStore } from '@/store/player'
+import type { SettingState } from '@/store/setting'
+import { useSettingStore } from '@/store/setting'
+import type { Track, Tracks } from '@/types'
 import { sleep } from '@/util/fn'
-
-import { getTrackDetail } from '../api/music'
-import type { PlayerState } from '../store/player'
-import { usePlayerStore } from '../store/player'
-import type { SettingState } from '../store/setting'
-import { useSettingStore } from '../store/setting'
-import type { Track, Tracks } from '../types'
 const toast = useToast()
 
+enum LIST_TYPE {
+  ALBUM,
+  PLAYLIST,
+}
 const messages = {
   zhCN: {
     message: {
@@ -48,39 +50,45 @@ export interface PlayerInstance {
   // styles: Ref<string>
 }
 export class Player {
-  howler: null | Howl
+  private howler: null | Howl
   track: null | Track
   volume: number
-  currentTime: number
+  private currentTime: number
   playing: boolean
   playingList: {
     id?: string | number
     list: Track[]
   }
-  _progressInterval: ReturnType<typeof setInterval> | undefined
-  isCurrentFm: boolean
-  stageMusicURL: string | null
-  store: Store<'player', PlayerState>
-  settingStore: Store<'setting', SettingState>
-  i18n: I18n<unknown, unknown, unknown, boolean>
-  locale: string
-  _updateCurrentTime: DebouncedFunc<(currentTime?: number) => void>
+  playQueue: {
+    list?: {
+      id: number
+      type: LIST_TYPE
+    }
+    queue: Track[]
+    nextQueue?: Track[]
+  }
+  private progressInterval: ReturnType<typeof setInterval> | undefined
+  private isCurrentFm: boolean
+  private stageMusicURL: string | null
+  private readonly store: Store<'player', PlayerState>
+  private readonly settingStore: Store<'setting', SettingState>
+  private i18n: I18n<unknown, unknown, unknown, boolean>
+  private locale: string
   constructor() {
     this.store = usePlayerStore()
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
 
     const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store
-    const { locale } = this.settingStore
     this.track = track
     this.volume = volume
     this.currentTime = currentTime
     this.playing = playing
     this.playingList = playingList
+    this.playQueue = {}
     this.isCurrentFm = isCurrentFm
     this.stageMusicURL = null
-    this._updateCurrentTime = throttle(this.updateCurrentTime, 1000)
-    this.locale = locale
+    this.locale = this.settingStore.locale
     this.i18n = createI18n({
       locale: this.locale,
       fallbackLocale: 'en',
@@ -89,11 +97,11 @@ export class Player {
 
     this.init()
   }
-  private async init() {
+  private init() {
     this.initStoreEvent()
     if (this.track?.id) {
       console.log('restore track from storage', this.track)
-      await this.updatePlayerTrack(this.track.id, false, false)
+      this.updatePlayerTrack(this.track.id, false, false)
     }
   }
   shuffle() {
@@ -292,24 +300,15 @@ export class Player {
   }
   setSeek(val: number) {
     this.howler?.seek(val)
-    // this._updateCurrentTime(val)
   }
-  // private step() {
-  //   if (this.howler?.playing()) {
-  //     if (!this.pauseProgress) {
-  //       this._updateCurrentTime()
-  //     }
-  //     requestAnimationFrame(this.step.bind(this))
-  //   }
-  // }
   pauseProgress() {
-    clearInterval(this._progressInterval)
+    clearInterval(this.progressInterval)
   }
   restoreProgress() {
     this.setProgressInterval()
   }
   private setProgressInterval(this: Player) {
-    this._progressInterval = setInterval(() => {
+    this.progressInterval = setInterval(() => {
       if (this.howler?.playing()) {
         const current = Math.ceil(this.howler?.seek() ?? 0)
         this.currentTime = current

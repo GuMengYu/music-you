@@ -1,7 +1,10 @@
 {
   "message": {
     "hello": "hello world",
-    "pic_limit": "Select image size cannot exceed 2M"
+    "pic_limit": "Select image size cannot exceed 2M",
+    "remove_fav_success": "Remove favorite success",
+    "add_fav_success": "Add favorite success",
+    "something_wrong": "oops something wrong"
   },
   "main": {
     "nav": {
