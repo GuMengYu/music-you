@@ -31,8 +31,8 @@ vue3 + ts 重构 2.0 版本
 ...and more
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/dark-home.png">
-  <img alt="" src="./doc/light-home.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577580-b75fffdc-d09e-42d2-9cb4-21d888fcf459.png">
+  <img width="1920" alt="home" src="https://user-images.githubusercontent.com/22021419/171577619-7d94b815-ed26-44c2-b307-dc2ef4fa8874.png">
 </picture>
 
 ## 运行
@@ -64,29 +64,38 @@ npm run electron:build
 ## 预览
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/album-dark.png">
-  <img alt="" src="./doc/album-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577554-b327e276-7fb2-43a3-a2ef-71486b8fad4e.png">
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/171577562-d01b073e-036d-4030-b266-8835cf20211b.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/artist-dark.png">
-  <img alt="" src="./doc/artist-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577531-2becfb40-a4f5-40fa-8aa4-1f4bbdebf457.png">
+  <img alt="album" src="https://user-images.githubusercontent.com/22021419/171577547-1ae54a78-3267-4723-8e31-fceeffa5d7fd.png">
 </picture>
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/center-dark.png">
-  <img alt="" src="./doc/center-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577643-24cd2c38-f3dd-45b9-9c08-abd5c4b0e10e.png">
+  <img alt="playlist" src="https://user-images.githubusercontent.com/22021419/171577650-ac978f49-8df3-4e75-80ca-5707a2106ab8.png">
 </picture>
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/ground-dark.png">
-  <img alt="" src="./doc/ground-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577571-11444997-775e-4750-b6ae-bcf73aa0402b.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/171577576-00f045b5-d35b-4597-9288-50887bdb3699.png">
 </picture>
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/lyric-dark.png">
-  <img alt="" src="./doc/lyric-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577603-39d2efba-327b-4054-92f6-4c3eb08d47ca.png">
+  <img alt="ground" src="https://user-images.githubusercontent.com/22021419/171577611-3ed58e5b-9bbc-4f40-a183-1565502a4d25.png">
 </picture>
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./doc/setting-dark.png">
-  <img alt="" src="./doc/setting-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577631-6c1d71eb-95a7-484c-be69-e09cbd8dff06.png">
+  <img alt="lyric" src="https://user-images.githubusercontent.com/22021419/171577639-ca54b4e9-d451-4f6a-b2ec-7626478da430.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171577655-3bb75577-af8c-4eaa-88f5-79858783a15b.png">
+  <img alt="setting" src="https://user-images.githubusercontent.com/22021419/171577657-af2e01d6-00f5-4f26-9c57-ce684c90205d.png">
 </picture>
 
 ## License
