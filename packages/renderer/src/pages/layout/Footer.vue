@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-app-bar v-show="track?.id" position="bottom" fixed class="player-footer" :priority="-1" :height="70">
+    <v-app-bar v-show="track?.id" location="bottom" fixed class="player-footer" :order="-1" :height="70">
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-hover v-slot="{ isHovering, props }">
@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="playing-bar__right">
-          <div class="volume-bar d-flex align-center">
+          <div class="volume-bar d-flex align-center mx-2">
             <v-btn icon variant="plain" size="small" @click="toggleMute">
               <v-icon size="small">
                 {{ volumeIcon }}
@@ -98,7 +98,7 @@ const route = useRoute()
 const player = usePlayer()
 const theme = useTheme()
 const currentTheme = computed(() => {
-  return theme.getTheme(theme.current.value)
+  return theme.current.value
 })
 
 // store state
@@ -126,7 +126,7 @@ const volumeIcon = computed(() => {
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()
 const { playAnimation } = useEmojiAnimation(playlistBtn)
-const eventBus = useEventBus<string>('addToQueue')
+const eventBus = useEventBus<number>('addToQueue')
 eventBus.on((id) => {
   player.updatePlayerTrack(id)
   playAnimation('🎉')

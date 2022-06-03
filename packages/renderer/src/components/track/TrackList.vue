@@ -18,7 +18,7 @@ import { useUserStore } from '@/store/user'
 import type { Track } from '@/types'
 
 const userStore = useUserStore()
-const { theme } = useCurrentTheme()
+const { themeName } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 
@@ -51,7 +51,7 @@ const className = computed(() => {
 function openMenu(payload: { x: number; y: number; track: Track; liked: boolean }) {
   const { x, y, liked, track } = payload
   const option = {
-    theme: theme.value,
+    theme: themeName.value,
     x,
     y,
     items: genMenu(liked, track),
@@ -174,7 +174,7 @@ function removeFromList(id: number, trackId: number) {
       <span>{{ $t('common.title') }}</span>
       <span v-if="type === 'list'">{{ $t('main.albums') }}</span>
       <span class="d-flex justify-end align-center mr-16"
-        ><v-icon small> {{ mdiClockOutline }}</v-icon></span
+        ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
       >
     </div>
     <v-divider class="mx-4 my-2" />

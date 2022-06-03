@@ -50,7 +50,7 @@ export default {
 
     return {
       t,
-      dark: computed(() => theme.getTheme(theme.current.value).dark),
+      dark: computed(() => theme.current.value.dark),
     }
   },
 }

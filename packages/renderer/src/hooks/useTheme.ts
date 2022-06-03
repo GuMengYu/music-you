@@ -18,6 +18,6 @@ export function useCurrentTheme() {
     return `${settingStore.wallpaperColor}${suffix}`
   })
   return {
-    theme: themeName,
+    themeName,
   }
 }

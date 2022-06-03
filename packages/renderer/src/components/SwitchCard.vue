@@ -53,7 +53,7 @@ const selected = computed({
   },
 })
 
-const dark = computed(() => theme.getTheme(theme.current.value).dark)
+const dark = computed(() => theme.current.value.dark)
 
 const height = computed(() => {
   switch (props.size) {

@@ -8,8 +8,8 @@ import { useMainSize } from '@/hooks/useMainSize'
 const { width } = useMainSize()
 
 const theme = useTheme()
-const surfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surfaceVariant)
-const onSurfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surface)
+const surfaceColor = computed(() => theme.current.value.colors?.surfaceVariant)
+const onSurfaceColor = computed(() => theme.current.value.colors?.surface)
 const props = defineProps<{
   artist?: boolean
 }>()

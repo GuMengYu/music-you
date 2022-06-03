@@ -158,8 +158,7 @@ const enableLyric = computed(() => {
 })
 
 const _theme = computed(() => {
-  const isDark = theme.getTheme(theme.current.value)?.dark
-  return isDark ? state.palette.dark : state.palette.light
+  return theme.current.value.dark ? state.palette.dark : state.palette.light
 })
 
 const beforeMaskImages = computed(() => {

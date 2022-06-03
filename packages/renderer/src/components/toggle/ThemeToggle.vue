@@ -39,7 +39,7 @@ const state = reactive<{
 const settingStore = useSettingStore()
 const theme = useTheme()
 const isDark = computed((): boolean => {
-  return theme.getTheme(theme.current.value)?.dark
+  return theme.current.value.dark
 })
 
 watchEffect(

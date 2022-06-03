@@ -23,8 +23,8 @@ const shortCutWidth = computed(() => {
   return (width.value - gapShortVal.value * (countShort.value - 1)) / countShort.value
 })
 const theme = useTheme()
-const surfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surfaceVariant)
-const onSurfaceColor = computed(() => theme.getTheme(theme.current.value).colors?.surface)
+const surfaceColor = computed(() => theme.current.value.colors?.surfaceVariant)
+const onSurfaceColor = computed(() => theme.current.value.colors?.surface)
 </script>
 <template>
   <content-loader

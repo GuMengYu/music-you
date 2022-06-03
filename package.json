@@ -85,7 +85,7 @@
     "vue-tsc": "^0.34.11",
     "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vue3-slider": "^1.6.9",
-    "vuetify": "^3.0.0-beta.2",
+    "vuetify": "^3.0.0-beta.3",
     "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
     "webfontloader": "^1.0.0"
   },

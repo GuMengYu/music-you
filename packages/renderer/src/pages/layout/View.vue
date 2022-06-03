@@ -21,12 +21,9 @@ import OverlayScrollbars from 'overlayscrollbars'
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
-const isDark = computed((): boolean => {
-  return theme.getTheme(theme.current.value)?.dark
-})
 
 watchEffect(() => {
-  const osTheme = isDark.value ? 'os-theme-light' : 'os-theme-dark'
+  const osTheme = theme.current.value.dark ? 'os-theme-light' : 'os-theme-dark'
   const body = document.querySelectorAll('body')
   OverlayScrollbars(body, {
     className: osTheme,

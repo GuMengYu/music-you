@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
     v-model="app.showControlCenter"
-    position="right"
+    location="right"
     hide-overlay
     temporary
     width="300"
@@ -58,12 +58,9 @@ export default defineComponent({
     const setting = useSettingStore()
     const theme = useTheme()
     const router = useRouter()
-    const isDark = computed(() => {
-      return theme.getTheme(theme.current.value)?.dark
-    })
     const darkMode = computed<boolean>({
       get() {
-        return isDark.value
+        return theme.current.value.dark
       },
       set(value) {
         setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
