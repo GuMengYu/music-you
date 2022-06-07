@@ -4,7 +4,9 @@
     "pic_limit": "选择图片大小不能超过2M",
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
-    "something_wrong": "出错了"
+    "something_wrong": "出错了",
+    "reset_app": "重置应用",
+    "reset_msg": "重置应用状态，将会退出登录，所有设置恢复到安装时的状态"
   },
   "main": {
     "nav": {
@@ -131,7 +133,9 @@
     "shortcut": "快捷操作",
     "queue": "队列",
     "current_play": "正在播放",
-    "next_from": "下一首歌"
+    "next_from": "下一首歌",
+    "disagree": "不同意",
+    "agree": "同意"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

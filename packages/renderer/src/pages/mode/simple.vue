@@ -4,7 +4,7 @@
       <span
         class="ml-4 mt-4 frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant"
       >
-        {{ formatDuring(track.dt) }} /
+        {{ formatDuring(track!.dt) }} /
         {{ formatDuring(currentTime * 1000) }}
       </span>
       <div class="frame-header-action d-flex no-drag-area flex-column">
@@ -22,14 +22,21 @@
     </div>
     <div class="frame-content text-onSurfaceVariant mx-6">
       <lyric />
-      <v-img max-height="50vh" max-width="50vh" class="frame-cover-img rounded-lg" :src="albumPicUrl" />
+      <v-img
+        max-height="50vh"
+        max-width="50vh"
+        class="frame-cover-img rounded-lg"
+        :src="albumPicUrl"
+        :lazy-src="placeholderUrl"
+        :aspect-ratio="1"
+      />
     </div>
     <div class="frame-footer text-onSurfaceVariant mx-6 mb-8 mr-2 d-flex flex-column gap-4">
-      <span class="text-h4">{{ track['al'] && track['al']['name'] }}</span>
-      <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
+      <span class="text-h4">{{ track!['al'] && track!['al']['name'] }}</span>
+      <span class="text-h4">by - {{ track!['ar'] && track!['ar'][0]['name'] }}</span>
       <div class="d-flex justify-space-between">
-        <span class="text-h2 font-weight-bold">
-          {{ track.name }}
+        <span class="text-h2 font-weight-bold line-clamp-1" style="max-width: 70vw">
+          {{ track!.name }}
         </span>
         <div>
           <v-btn icon variant="text" @click="prev">
@@ -65,6 +72,7 @@ import {
 } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
+import placeholderUrl from '@/assets/placeholder.png'
 import Lyric from '@/pages/mode/lyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
@@ -100,6 +108,7 @@ export default defineComponent({
       prev,
       next,
       albumPicUrl,
+      placeholderUrl,
     }
   },
   data: () => ({

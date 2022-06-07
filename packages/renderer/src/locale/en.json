@@ -4,7 +4,9 @@
     "pic_limit": "Select image size cannot exceed 2M",
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
-    "something_wrong": "oops something wrong"
+    "something_wrong": "oops something wrong",
+    "reset_app": "Reset App",
+    "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation"
   },
   "main": {
     "nav": {
@@ -131,7 +133,9 @@
     "shortcut": "Shortcut",
     "queue": "Queue",
     "current_play": "Current Playing",
-    "next_from": "Next Track"
+    "next_from": "Next Track",
+    "disagree": "Disagree",
+    "agree": "Agree"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

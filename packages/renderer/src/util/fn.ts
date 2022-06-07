@@ -170,7 +170,7 @@ export function sizeOfImage(url: string, size = 512) {
  * @param t
  * @param i18n
  */
-export function formatDuring(t: number, i18n = false) {
+export function formatDuring(t = 0, i18n = false) {
   const HOUR = 1000 * 60 * 60
   const d = Math.floor(t / (HOUR * 24))
   const h = Math.floor((t % (HOUR * 24)) / HOUR)

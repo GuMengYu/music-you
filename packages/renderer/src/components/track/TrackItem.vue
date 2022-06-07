@@ -194,15 +194,16 @@ async function toggleLike() {
 
 <style scoped lang="scss">
 .track-item {
+  flex: 1;
   display: grid;
   grid-gap: 16px;
   align-items: center;
   height: 56px;
   cursor: pointer;
   transition: background-color 0.25s ease;
-  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 1fr);
+  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 1fr);
+    grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);
@@ -220,6 +221,7 @@ async function toggleLike() {
     gap: 16px;
   }
   .track-second {
+    width: fit-content;
     a {
       text-decoration: none;
       &:hover {

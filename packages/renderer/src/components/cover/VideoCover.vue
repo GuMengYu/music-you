@@ -41,13 +41,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object,
-      default: () => ({
-        artistName: 'Willie Gomez',
-        id: 14257948,
-        name: 'Salvaje',
-        picUrl: 'https://p2.music.126.net/Yc0acfKEG7KhCVo2iWD6bA==/109951165763294506.jpg',
-        type: 5,
-      }),
+      default: () => ({}),
     },
   },
   data() {

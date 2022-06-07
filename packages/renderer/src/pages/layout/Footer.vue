@@ -1,6 +1,17 @@
 <template>
   <transition name="slide-fade-y">
-    <v-app-bar v-show="track?.id" location="bottom" fixed class="player-footer" :order="-1" :height="70">
+    <v-app-bar v-show="track?.id" location="bottom" fixed class="player-footer" :order="-1">
+      <Slider
+        class="track-slider"
+        :model-value="currentTime"
+        :min="0"
+        :max="trackDt / 1000"
+        :color="currentTheme.colors.primary"
+        track-color="rgba(66,66,66,0.28)"
+        :height="2"
+        @drag-start="dragStart"
+        @drag-end="dragEnd"
+      ></Slider>
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-hover v-slot="{ isHovering, props }">
@@ -31,21 +42,11 @@
         </div>
         <div class="playing-bar__center justify-center">
           <Control />
-          <div class="d-flex align-center gap-2 font-weight-bold">
+          <!-- <div class="d-flex align-center gap-2 font-weight-bold">
             <span class="progress-time left">{{ formatDuring(currentTime * 1000) }}</span>
-            <Slider
-              class="track-slider"
-              :model-value="currentTime"
-              :min="0"
-              :max="trackDt / 1000"
-              :color="currentTheme.colors.primary"
-              track-color="rgba(66,66,66,0.28)"
-              :height="5"
-              @drag-start="dragStart"
-              @drag-end="dragEnd"
-            ></Slider>
+
             <span class="progress-time right">{{ formatDuring(trackDt) }}</span>
-          </div>
+          </div> -->
         </div>
         <div class="playing-bar__right">
           <div class="volume-bar d-flex align-center mx-2">
@@ -188,6 +189,8 @@ const volumnDebouncedFn = useDebounceFn(
   z-index: 1007;
   display: flex;
   flex-flow: column nowrap;
+  overflow: visible;
+  padding: 0 12px;
 
   .playing-control {
     display: flex;
@@ -228,6 +231,16 @@ const volumnDebouncedFn = useDebounceFn(
         width: 100%;
         max-width: 165px;
       }
+    }
+  }
+  .track-slider {
+    position: absolute;
+    top: -5px;
+    :deep(.handle) {
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      top: -2px;
     }
   }
 }

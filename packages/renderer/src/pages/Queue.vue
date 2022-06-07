@@ -1,6 +1,5 @@
 <template>
   <section>
-    {{ index }}
     <h1 class="text-h6">{{ $t('common.queue') }}</h1>
     <h2 class="text-subtitle-2 my-2">{{ $t('common.current_play') }}</h2>
     <track-item v-if="current" :track="current" :index="1" type="list" playing />

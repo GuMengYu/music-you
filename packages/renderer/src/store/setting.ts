@@ -40,7 +40,7 @@ export const useSettingStore = defineStore('setting', {
         darkColors: null,
         lightColors: null,
       },
-      rail: false,
+      rail: true,
       quality: 320000,
       cacheLimit: 500,
       volume: 0.8,
