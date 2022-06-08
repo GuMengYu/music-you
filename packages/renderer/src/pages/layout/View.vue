@@ -27,6 +27,9 @@ watchEffect(() => {
   const body = document.querySelectorAll('body')
   OverlayScrollbars(body, {
     className: osTheme,
+    scrollbars: {
+      autoHide: 'scroll',
+    },
   })
 })
 </script>

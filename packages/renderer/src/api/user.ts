@@ -82,7 +82,11 @@ export const fmToTrash = (id: number) => request('/fm_trash', { params: { id } }
 /**
  * 获取推荐歌单（需要登录）
  */
-export const recommendPlaylist = () => request('/recommend/resource', { params: { timestamp: now() } })
+export const recommendPlaylist = () =>
+  request<{
+    recommend: Playlist[]
+    featureFirst: boolean
+  }>('/recommend/resource', { params: { timestamp: now() } })
 
 /**
  * 用户日推歌曲

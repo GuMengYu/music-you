@@ -22,9 +22,9 @@ const GridTypeToGap = {
   [GridType.B]: {
     [DisplayBreakpoint.xxs]: { columnCount: 1, gap: '10px' },
     [DisplayBreakpoint.xs]: { columnCount: 2, gap: '18px' },
-    [DisplayBreakpoint.sm]: { columnCount: 2, gap: '24px' },
-    [DisplayBreakpoint.md]: { columnCount: 3, gap: '24px' },
-    [DisplayBreakpoint.lg]: { columnCount: 3, gap: '24px' },
+    [DisplayBreakpoint.sm]: { columnCount: 2, gap: '16px' },
+    [DisplayBreakpoint.md]: { columnCount: 3, gap: '16px' },
+    [DisplayBreakpoint.lg]: { columnCount: 3, gap: '16px' },
     [DisplayBreakpoint.xl]: { columnCount: 4, gap: '24px' },
     [DisplayBreakpoint.xll]: { columnCount: 4, gap: '24px' },
     [DisplayBreakpoint.desktop4K]: { columnCount: 4, gap: '24px' },

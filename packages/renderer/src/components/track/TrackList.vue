@@ -33,7 +33,7 @@ const eventBus = useEventBus<number>('addToQueue')
 const TrackItemHeight = 56
 const listHeight = computed(() => {
   const realHeight = props.tracks.length * TrackItemHeight
-  return props.tracks.length > 30 ? 30 * TrackItemHeight : realHeight
+  return props.tracks.length > 40 ? 40 * TrackItemHeight : realHeight
 })
 const playlists = computed(() => {
   return userStore.createdPlaylists.map((i) => {

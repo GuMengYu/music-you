@@ -1,19 +1,31 @@
+import { useUserStore } from '@/store/user'
 import type { Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 import { RADARPLAYLISTS } from '@/util/metadata'
 
+import { recommendPlaylist } from './user'
 /**
  * 获取推荐歌单列表
  * @param {number} limit 返回数量限制
  * @returns
  */
-export const personalizedPlaylist = (limit?: number) => {
+export const personalized = (limit?: number) => {
   return request<{
-    category: number
-    code: number
-    result: []
-    hasTaste: boolean
+    result: Playlist[]
   }>('/personalized', { params: { limit } })
+}
+
+export const personalizedPlaylist = async () => {
+  const userStore = useUserStore()
+  let result: Playlist[]
+  if (userStore.logged) {
+    const { recommend } = await recommendPlaylist()
+    result = recommend.slice(1) // 第一个是私人定制雷达歌单，去除
+  } else {
+    const { result: list } = await personalized(7)
+    result = list
+  }
+  return result
 }
 
 /**

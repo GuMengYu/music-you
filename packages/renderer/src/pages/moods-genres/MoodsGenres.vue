@@ -1,11 +1,13 @@
 <template>
-  <Col v-for="(item, index) in items" :key="item.title" :class="index !== 0 ? 'mt-4' : void 0" :title="item.title">
-    <v-row>
-      <v-col v-for="tag in item.tags" :key="tag.name" cols="2">
-        <m-tag :name="tag.name" :color="tag.color" />
-      </v-col>
-    </v-row>
-  </Col>
+  <section>
+    <Col v-for="(item, index) in items" :key="item.title" :class="index !== 0 ? 'mt-4' : void 0" :title="item.title">
+      <v-row>
+        <v-col v-for="tag in item.tags" :key="tag.name" cols="2">
+          <m-tag :name="tag.name" :color="tag.color" />
+        </v-col>
+      </v-row>
+    </Col>
+  </section>
 </template>
 <script lang="ts">
 import { entries, groupBy, random } from 'lodash-es'

@@ -1,5 +1,5 @@
 <template>
-  <v-card rounded="lg" height="130" :theme="theme">
+  <v-card v-if="track" rounded="lg" height="130" :theme="theme">
     <v-img
       :src="coverImage"
       cover
@@ -16,11 +16,11 @@
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
-          <v-btn icon flat size="x-small" color="primary" @click="togglePlay">
-            <v-icon size="x-small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
+          <v-btn icon flat size="small" color="primary" @click="togglePlay">
+            <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
         </div>
-        <div class="d-flex justify-lg-space-between">
+        <div class="d-flex justify-lg-space-between py-1">
           <v-btn icon variant="text" size="x-small" @click="prev">
             <v-icon size="x-small">{{ mdiSkipPreviousOutline }}</v-icon>
           </v-btn>
@@ -41,9 +41,6 @@
           <v-btn icon variant="text" size="x-small" color="white" @click="next">
             <v-icon size="x-small">{{ mdiSkipNextOutline }}</v-icon>
           </v-btn>
-          <!-- <v-btn icon variant="text" size="x-small">
-            <v-icon size="x-small">{{ mdiShuffle }}</v-icon>
-          </v-btn> -->
           <v-btn icon variant="text" size="x-small">
             <v-icon size="x-small">{{ mdiHeartOutline }}</v-icon>
           </v-btn>
@@ -54,17 +51,8 @@
 </template>
 
 <script setup lang="ts">
-import {
-  mdiHeartOutline,
-  mdiMusicCircle,
-  mdiPause,
-  mdiPlay,
-  mdiShuffle,
-  mdiSkipNextOutline,
-  mdiSkipPreviousOutline,
-} from '@mdi/js'
+import { mdiHeartOutline, mdiMusicCircle, mdiPause, mdiPlay, mdiSkipNextOutline, mdiSkipPreviousOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
 
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'

@@ -6,16 +6,6 @@ export enum APPEARANCE {
   DARK = 'dark',
   SYSTEM = 'system',
 }
-export enum PURITY {
-  SFW = 'sfw',
-  SKETCHY = 'sketchy',
-  NSFW = 'nsfw',
-}
-export enum CATGORY {
-  GENERAL = 'general',
-  ANIME = 'anime',
-  PEOPLE = 'people',
-}
 export interface SettingState {
   locale: string
   appearance: APPEARANCE

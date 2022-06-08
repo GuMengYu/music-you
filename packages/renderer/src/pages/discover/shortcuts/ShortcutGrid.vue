@@ -46,16 +46,7 @@ const state = reactive({
     picUrl:
       'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
   },
-  wallhaven: {
-    title: 'wallhaven',
-    picUrl:
-      'https://is5-ssl.mzstatic.com/image/thumb/Music126/v4/26/9d/ec/269decc6-fa27-94e4-64c9-d9c5ea8f98ee/21UMGIM68090.rgb.jpg/380x380bb.webp',
-  },
 })
-
-// const enableWallhaven = computed(() => {
-//   return settingStore.wallhaven && is.electron()
-// })
 onMounted(async () => {
   // 私人雷达歌单
   const { playlist: radarPlaylist } = await getPlaylistDetail(specialType.radar.id)
@@ -79,11 +70,5 @@ onMounted(async () => {
     <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', label: 'R' }" />
     <Shortcut v-if="logged" :data="state.randomPlayList" type="playlist" :flag="{ color: 'outline', label: 'P' }" />
     <ShortcutFm />
-    <!-- <Shortcut
-      v-if="enableWallhaven"
-      :data="state.wallhaven"
-      type="wallhaven"
-      :flag="{ color: 'inverseSurface', label: 'W' }"
-    /> -->
   </div>
 </template>

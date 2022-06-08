@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-app-bar v-show="track?.id" location="bottom" fixed class="player-footer" :order="-1">
+    <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer" :order="-1">
       <Slider
         class="track-slider"
         :model-value="currentTime"
@@ -31,8 +31,8 @@
             </v-img>
           </v-hover>
 
-          <div class="song-info mx-2 d-flex align-start flex-column">
-            <span class="song-name line-clamp-1 text-subtitle-2">
+          <div class="mx-2 d-flex align-start flex-column">
+            <span class="line-clamp-1 text-subtitle-2">
               {{ track?.name }}
             </span>
             <artists-link :artists="track?.ar" class="text-caption" />
@@ -40,14 +40,7 @@
           <like-toggle :id="track?.id" />
           <v-spacer />
         </div>
-        <div class="playing-bar__center justify-center">
-          <Control />
-          <!-- <div class="d-flex align-center gap-2 font-weight-bold">
-            <span class="progress-time left">{{ formatDuring(currentTime * 1000) }}</span>
-
-            <span class="progress-time right">{{ formatDuring(trackDt) }}</span>
-          </div> -->
-        </div>
+        <Control />
         <div class="playing-bar__right">
           <div class="volume-bar d-flex align-center mx-2">
             <v-btn icon variant="plain" size="small" @click="toggleMute">
@@ -61,7 +54,7 @@
               :max="1"
               :min="0"
               :step="0.01"
-              :height="5"
+              :height="2"
               :color="currentTheme.colors.primary"
               track-color="rgba(66,66,66,0.28)"
               @change="volumnDebouncedFn"
@@ -200,25 +193,6 @@ const volumnDebouncedFn = useDebounceFn(
       display: flex;
       flex: 1;
       align-items: center;
-    }
-
-    .playing-bar__center {
-      display: flex;
-      flex: 1.3;
-      flex-direction: column;
-      .progress-time {
-        font-size: 0.6875rem;
-        line-height: 1rem;
-        text-transform: none;
-        letter-spacing: normal;
-        min-width: 40px;
-        &.left {
-          text-align: right;
-        }
-        &.right {
-          text-align: left;
-        }
-      }
     }
 
     .playing-bar__right {

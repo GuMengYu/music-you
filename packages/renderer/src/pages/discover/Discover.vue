@@ -5,7 +5,7 @@
       <ShortcutGrid />
       <Col :title="$t('main.for_you')">
         <card-row single-line>
-          <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
+          <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" :title-line="2" />
         </card-row>
       </Col>
       <Col :title="$t('main.radar')">
@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { personalizedMV, personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
+import { recommendPlaylist } from '@/api/user'
 import type { MV, Playlist, Track } from '@/types'
 
 import ShortcutGrid from './shortcuts/ShortcutGrid.vue'
@@ -51,8 +52,8 @@ onMounted(() => {
 const fetch = async () => {
   state.loading = true
   try {
-    const [{ result: playLists }, { result: mvs }, { result: songs }, radars] = await Promise.all([
-      personalizedPlaylist(7),
+    const [playLists, { result: mvs }, { result: songs }, radars] = await Promise.all([
+      personalizedPlaylist(),
       personalizedMV(),
       personalizedSong(7),
       personalizedRadar(),

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-tabs v-model="current" class="mb-4" dense>
-      <v-tab v-for="tab in tabs" :key="tab.key" :value="tab.key" class="font-weight-bold">
+    <v-btn-toggle v-model="current" color="primary" variant="text">
+      <v-btn v-for="tab in tabs" :key="tab.key" rounded="lg" :value="tab.key" class="mx-1 px-6">
         {{ tab.name }}
-      </v-tab>
-    </v-tabs>
-    <v-window :model-value="current" class="tab_page">
+      </v-btn>
+    </v-btn-toggle>
+    <v-window :model-value="current" class="mt-3">
       <v-window-item :value="TYPES.PLAYLIST">
         <card-row>
           <cover v-for="item in playlists" :key="item.id" :data="item" type="playlist" />

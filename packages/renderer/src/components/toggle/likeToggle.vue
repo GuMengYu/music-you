@@ -17,14 +17,14 @@ import { mdiHeart } from '@mdi/js'
 import type { AnimationItem } from 'lottie-web'
 import { computed, reactive } from 'vue'
 
-import { usePlayerStore } from '@/store/player'
+import { useUserStore } from '@/store/user'
 import { heart } from '@/util/animationData.json'
 import { sleep } from '@/util/fn'
 
-const playerStore = usePlayerStore()
-const props = defineProps({
-  id: Number,
-})
+const userStore = useUserStore()
+const props = defineProps<{
+  id?: number
+}>()
 
 interface RootState {
   showAnim: boolean
@@ -46,17 +46,14 @@ const state = reactive<RootState>({
 })
 
 const liked = computed(() => {
-  return playerStore.likes.includes(props.id)
+  return userStore.likes.includes(props.id!)
 })
 function handleAnimation(animation: AnimationItem) {
   state.heartAnim = animation
 }
 async function likeSong() {
   const _liked = liked.value
-  const success = await playerStore.toggleFavorite({
-    id: props.id,
-    like: !liked.value,
-  })
+  const success = await userStore.favSong(props.id!, !liked.value)
   if (!_liked && success) {
     state.showAnim = true
     state.heartAnim?.goToAndPlay(0, true)
