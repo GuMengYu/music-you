@@ -1,5 +1,4 @@
 import { Howl, Howler } from 'howler'
-import { shuffle } from 'lodash-es'
 import type { Store } from 'pinia'
 import type { I18n } from 'vue-i18n'
 import { createI18n } from 'vue-i18n'
@@ -7,17 +6,13 @@ import { useToast } from 'vue-toastification'
 
 import { getTrackDetail } from '@/api/music'
 import type { PlayerState } from '@/store/player'
-import { usePlayerStore } from '@/store/player'
+import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
-import type { Track, Tracks } from '@/types'
+import type { Track } from '@/types'
 import { sleep } from '@/util/fn'
 const toast = useToast()
 
-enum LIST_TYPE {
-  ALBUM,
-  PLAYLIST,
-}
 const messages = {
   zhCN: {
     message: {
@@ -33,7 +28,6 @@ const messages = {
   },
 }
 export interface PlayerInstance {
-  updateTracks: (tracks: Tracks | Track[], autoPlay?: boolean) => void
   updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean) => void
   pause: () => void
   play: () => void
@@ -41,13 +35,6 @@ export interface PlayerInstance {
   prev: () => void
   togglePlay: () => void
   setSeek: (seek: number) => void
-  // isDisabled: boolean
-  // themes: Ref<Record<string, InternalThemeDefinition>>
-  // current: Ref<string>
-  // themeClasses: Ref<string | undefined>
-  // setTheme: (key: string, theme: InternalThemeDefinition) => void
-  // getTheme: (key: string) => InternalThemeDefinition
-  // styles: Ref<string>
 }
 export class Player {
   private howler: null | Howl
@@ -55,21 +42,8 @@ export class Player {
   volume: number
   private currentTime: number
   playing: boolean
-  playingList: {
-    id?: string | number
-    list: Track[]
-  }
-  playQueue: {
-    list?: {
-      id: number
-      type: LIST_TYPE
-    }
-    queue: Track[]
-    nextQueue?: Track[]
-  }
   private progressInterval: ReturnType<typeof setInterval> | undefined
   private isCurrentFm: boolean
-  private stageMusicURL: string | null
   private readonly store: Store<'player', PlayerState>
   private readonly settingStore: Store<'setting', SettingState>
   private i18n: I18n<unknown, unknown, unknown, boolean>
@@ -79,22 +53,18 @@ export class Player {
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
 
-    const { track, playing, volume = 0.8, currentTime, playingList, isCurrentFm } = this.store
+    const { track, playing, volume = 0.8, currentTime, isCurrentFm } = this.store
     this.track = track
     this.volume = volume
     this.currentTime = currentTime
     this.playing = playing
-    this.playingList = playingList
-    this.playQueue = {}
     this.isCurrentFm = isCurrentFm
-    this.stageMusicURL = null
     this.locale = this.settingStore.locale
     this.i18n = createI18n({
       locale: this.locale,
       fallbackLocale: 'en',
       messages,
     })
-
     this.init()
   }
   private init() {
@@ -103,27 +73,6 @@ export class Player {
       console.log('restore track from storage', this.track)
       this.updatePlayerTrack(this.track.id, false, false)
     }
-  }
-  shuffle() {
-    const list = shuffle(this.playingList?.list)
-    // this.store.$patch('music/updatePlayingList', {
-    //     list,
-    // });
-  }
-  async updateTracks(
-    tracks: {
-      id?: string | number
-      list: Track[]
-    },
-    autoPlay = true
-  ) {
-    // update store
-    this.store.$patch({ playingList: tracks })
-    this.playingList = tracks
-    if (autoPlay) {
-      await this.updatePlayerTrack(tracks.list[0]?.id, true)
-    }
-    return tracks
   }
   private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
@@ -156,6 +105,13 @@ export class Player {
       }
     })
   }
+  /**
+   * 播放指定歌曲
+   * @param trackId 歌曲id
+   * @param autoplay 立即播放（true）
+   * @param resetProgress 重置进度条（true）
+   * @returns
+   */
   async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true) {
     if (!trackId) return
     const { isCurrentFm } = this.store.$state as PlayerState
@@ -267,15 +223,32 @@ export class Player {
       this.play()
     }
   }
+  replay() {
+    this.howler?.seek(0)
+    this.howler?.play()
+  }
   next() {
+    if (this.store.playMode === PLAY_MODE.REPEAT_ONCE) {
+      this.replay()
+      return
+    }
     const trackId = this.nextTrackId()
-    if (typeof trackId === 'string' || typeof trackId === 'number') {
+    if (trackId) {
       this.updatePlayerTrack(trackId)
     } else {
       this.pause()
     }
   }
   prev() {
+    if (this.store.playMode === PLAY_MODE.REPEAT_ONCE) {
+      this.replay()
+      return
+    }
+    // 当前播放歌曲超过 30s，点击上一曲倒退回初始
+    if (this.howler!.seek() > 30) {
+      this.replay()
+      return
+    }
     const trackId = this.prevTrackId()
     if (typeof trackId === 'string' || typeof trackId === 'number') {
       this.updatePlayerTrack(trackId)
@@ -284,14 +257,15 @@ export class Player {
     }
   }
   private nextTrackId() {
-    if (this.isCurrentFm) {
-      return this.store.nextFmTrackId
-    } else {
-      return this.store.nextTrackId
-    }
+    // if (this.isCurrentFm) {
+    //   return this.store.nextFmTrackId
+    // } else {
+    //   return this.store.nextTrackId
+    // }
+    return this.store.popNextTrackId()
   }
   private prevTrackId() {
-    return this.store.prevTrackId
+    return this.store.popPrevTrackId()
   }
   updateCurrentTime(this: Player, val: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)

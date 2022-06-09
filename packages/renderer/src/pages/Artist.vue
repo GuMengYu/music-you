@@ -8,10 +8,12 @@ import { useToast } from 'vue-toastification'
 import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album, Artist, MV, Track } from '@/types'
 const eventBus = useEventBus<number>('addToQueue')
 const toast = useToast()
 
+const playQueue = usePlayQueueStore()
 const player = usePlayer()
 const props = defineProps({
   id: {
@@ -77,12 +79,8 @@ async function fetch(id: number) {
 }
 async function play() {
   playLoading.value = true
-  await player.updateTracks(
-    {
-      list: state.hotSongs,
-    },
-    true
-  )
+  playQueue.updatePlayQueue(state.artist.id, 'artist', state.artist.name, state.hotSongs)
+  player.next()
   playLoading.value = false
 }
 async function follow() {
@@ -103,7 +101,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6">
-      <div class="d-flex mb-2">
+      <div class="d-flex gap-4">
         <artists-cover :artist="state.artist" :no-info="true" :min-width="225" class="mr-4" />
         <v-card color="surfaceVariant" :flat="true" rounded="lg" class="d-flex flex-column pa-4 flex-fill">
           <div class="d-flex justify-space-between mb-2 align-center">

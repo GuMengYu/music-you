@@ -26,16 +26,19 @@ import { defineComponent, ref } from 'vue'
 
 import { getDailyRecommend } from '@/api/user'
 import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
 export default defineComponent({
   name: 'Daily',
   setup() {
     const player = usePlayer()
+    const playQueueStore = usePlayQueueStore()
     const loading = ref(false)
     const daily = ref<Track[]>([])
     async function play() {
       loading.value = true
-      await player.updateTracks({ list: daily.value }, true)
+      playQueueStore.updatePlayQueue(0, 'daily', '日推', daily.value)
+      player.next()
       loading.value = false
     }
     return {

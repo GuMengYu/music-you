@@ -1,20 +1,30 @@
 <template>
-  <div class="d-flex flex-column align-center artists-container">
-    <v-img
-      cover
-      width="100%"
-      :src="coverUrl"
-      class="artist-image rounded-circle"
-      aspect-ratio="1"
-      :lazy-src="placeHolderUrl"
+  <v-hover v-slot="{ isHovering, props: hoverProps }">
+    <v-card
+      class="d-flex flex-column align-center artists-container pa-4"
+      color="surfaceVariant"
+      flat
+      rounded="lg"
+      :class="{ 'on-hover': isHovering }"
+      :elevation="isHovering ? 1 : 0"
+      v-bind="hoverProps"
       :min-width="$attrs['min-width']"
       :max-width="$attrs['max-width']"
       :max-height="$attrs['max-height']"
       :min-height="$attrs['min-height']"
-      @click="go"
-    />
-    <artists-link v-if="!noInfo" :artists="[artist]" />
-  </div>
+    >
+      <v-img
+        cover
+        width="100%"
+        :src="coverUrl"
+        class="artist-image rounded-circle"
+        :aspect-ratio="1"
+        :lazy-src="placeHolderUrl"
+        @click="go"
+      />
+      <artists-link v-if="!noInfo" :artists="[artist]" class="mt-4 line-clamp-1" />
+    </v-card>
+  </v-hover>
 </template>
 
 <script setup lang="ts">

@@ -4,23 +4,18 @@ import { reactive, toRefs, watchEffect } from 'vue'
 
 import { pinia } from '@/plugins/pinia'
 
-import { sub } from '../api/music'
 import { personalFM } from '../api/user'
-import type { Playlist, Track } from '../types'
+import type { Track } from '../types'
+import { usePlayQueueStore } from './playQueue'
 export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',
   REPEAT_ONCE = 'repeatOnce',
   DISABLE = 'disable',
-  SHUFFLE = 'shuffle',
 }
 export interface PlayerState {
-  track: null | Track
+  track: Track | null
   currentTime: number
-  playingList: {
-    id?: string | number
-    list: Track[]
-  }
   playMode: PLAY_MODE
   shuffle: boolean
   volume: number
@@ -29,9 +24,9 @@ export interface PlayerState {
   isCurrentFm: boolean
   fmTrack: null | Track
   fmList: Track[]
-  nextTrackId?: Track['id']
-  nextFmTrackId?: Track['id']
-  prevTrackId?: Track['id']
+  popNextTrackId: () => number
+  popPrevTrackId: () => number
+  setQueue: (trackId: number) => void
 }
 export const usePlayerStore = defineStore({
   id: 'player',
@@ -39,9 +34,6 @@ export const usePlayerStore = defineStore({
     const restoreState = useLocalStorage('player', {
       track: null,
       currentTime: 0,
-      playingList: {
-        list: [] as Track[],
-      },
       playMode: PLAY_MODE.NORMAL,
       shuffle: false,
       volume: 0.8,
@@ -58,9 +50,8 @@ export const usePlayerStore = defineStore({
 
     // sync localStorage
     watchEffect(() => {
-      restoreState.value.track = data.track as any
+      restoreState.value.track = data.track
       restoreState.value.currentTime = data.currentTime
-      restoreState.value.playingList = data.playingList
       restoreState.value.playMode = data.playMode
       restoreState.value.shuffle = data.shuffle
       restoreState.value.volume = data.volume
@@ -69,41 +60,40 @@ export const usePlayerStore = defineStore({
       ...toRefs(data),
     }
   },
-  getters: {
-    index: (state) => {
-      const { playingList, track } = state
-      if (!playingList.list.length) return -1
-      return playingList.list.findIndex((item) => item.id === track?.id)
-    },
-    prevTrackId: (state) => {
-      const { playingList, track } = state
-      if (!playingList.list.length) return -1
-      const index = playingList.list.findIndex((item) => item.id === track?.id)
-      return playingList.list[index - 1]?.id
-    },
-    nextFmTrackId(state) {
-      return state.fmList[0]?.id
-    },
-    nextTrackId(state): null | number {
-      const currentId = state.track?.id
-      if (!currentId) return null
-      const index = this.index
-      let id: number | null = null
-      const len = state.playingList?.list?.length
-      const { playMode, playingList } = state
-      if (playMode === PLAY_MODE.REPEAT_ONCE) {
-        id = currentId
-        // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
-      } else if (playMode === PLAY_MODE.NORMAL || len - 1 !== index) {
-        id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id
-      } else if (playMode === PLAY_MODE.DISABLE && len - 1 === index) {
-        // 顺序播放最后一首后不在继续播放
-        id = null
-      }
-      return id
-    },
-  },
   actions: {
+    popNextTrackId() {
+      const playQueue = usePlayQueueStore()
+      if (this.playMode === PLAY_MODE.NORMAL) {
+        if (playQueue.queue.states.length) {
+          return playQueue.queue.states.shift()
+        } else {
+          return null
+        }
+      } else if (this.playMode === PLAY_MODE.REPEAT) {
+        if (!playQueue.queue.states.length) {
+          playQueue.restoreStates()
+        }
+        return playQueue.queue.states.shift()
+      }
+    },
+    popPrevTrackId() {
+      const playQueue = usePlayQueueStore()
+      const sequence = playQueue.queue.sequence
+      // 处于第一首时，不能再往前
+      if (playQueue.queue.states.length === sequence.length - 1) {
+        return null
+      } else {
+        // 往前移动一首，取回前一首放到队列开头, 并返回前一首id
+        const prev = sequence[sequence.length - playQueue.queue.states.length - 1]
+        const prev2 = sequence[sequence.length - playQueue.queue.states.length - 2]
+        if (prev2) {
+          playQueue.queue.states.unshift(prev)
+          return prev2
+        } else {
+          return null
+        }
+      }
+    },
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...this.fmList]

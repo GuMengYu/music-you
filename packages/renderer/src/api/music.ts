@@ -74,17 +74,19 @@ export const search = (keywords = '', conditions = {}) => {
  * @returns
  */
 export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: number) => {
-  let res: { id: number; tracks: Track[] }
+  let res: { id: number; tracks: Track[]; name?: string }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
     res = {
       id: playlist.id,
+      name: playlist.name,
       tracks: playlist.tracks,
     }
   } else if (type === 'album') {
     const { album, songs } = await getAlbum(id)
     res = {
       id: album.id,
+      name: album.name,
       tracks: songs,
     }
   } else {

@@ -83,9 +83,11 @@ import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 // utitlity
 const playerStore = usePlayerStore()
+const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
 const router = useRouter()
 const route = useRoute()
@@ -121,9 +123,12 @@ const volumeIcon = computed(() => {
 const playlistBtn = ref<HTMLButtonElement>()
 const { playAnimation } = useEmojiAnimation(playlistBtn)
 const eventBus = useEventBus<number>('addToQueue')
-eventBus.on((id) => {
+eventBus.on((id, setQueue) => {
   player.updatePlayerTrack(id)
   playAnimation('🎉')
+  if (setQueue) {
+    playQueueStore.setQueue(id)
+  }
 })
 
 // 跳转播放列表

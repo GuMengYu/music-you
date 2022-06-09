@@ -8,6 +8,7 @@ import { sub } from '@/api/music'
 import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
 import { getSongData } from '@/api/song'
 import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { formatDuring, formatNumber } from '@/util/fn'
@@ -15,6 +16,7 @@ import is from '@/util/is'
 
 const toast = useToast()
 const userStore = useUserStore()
+const playQueueStore = usePlayQueueStore()
 const player = usePlayer()
 const props = defineProps<{
   id: number | string
@@ -43,15 +45,10 @@ const createdBySelf = computed(() => {
 watchEffect(() => {
   props.id && fetch(+props.id)
 })
-function play() {
+async function play() {
   if (state.playlist) {
-    player.updateTracks(
-      {
-        list: state.playlist.tracks,
-        id: state.playlist.id,
-      },
-      true
-    )
+    playQueueStore.updatePlayQueue(state.playlist.id, 'playlist', state.playlist.name, state.playlist.tracks)
+    player.next()
   }
 }
 
@@ -169,7 +166,12 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </div>
         </v-card>
       </div>
-      <track-list type="list" :tracks="state.playlist.tracks" :own-id="createdBySelf ? state.playlist.id : null" />
+      <track-list
+        type="list"
+        :tracks="state.playlist.tracks"
+        :own-id="createdBySelf ? state.playlist.id : null"
+        virtual-scroll-optimization
+      />
       <Col :title="$t('main.playlist.simi')" class="mt-4">
         <CardRow>
           <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />

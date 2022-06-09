@@ -54,9 +54,11 @@ import { getTrackList } from '@/api/music'
 import { getDailyRecommend } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
+const playQueueStore = usePlayQueueStore()
 const props = defineProps<{
   data: {
     id?: number
@@ -64,7 +66,7 @@ const props = defineProps<{
     subTitle?: string
     picUrl: string
   }
-  type: 'album' | 'playlist' | 'artist' | 'daily' | 'wallhaven'
+  type: 'album' | 'playlist' | 'artist' | 'daily'
   flag: {
     color: string
     label: string
@@ -101,21 +103,21 @@ async function play() {
       id?: number
       list: Track[]
     }
-    if (props.type === 'wallhaven') {
-      return
-    } else if (props.type === 'daily') {
+    if (props.type === 'daily') {
       const { data } = await getDailyRecommend()
       info = {
         list: data['dailySongs'],
       }
+      playQueueStore.updatePlayQueue(0, 'daily', '日推', info.list)
     } else {
       const data = await getTrackList(props.type, props.data.id as number)
       info = {
         id: data.id,
         list: data.tracks,
       }
+      playQueueStore.updatePlayQueue(info.id!, props.type, data.name!, info.list)
     }
-    await player.updateTracks(info)
+    player.next()
   } catch (e) {
     console.debug(e)
   } finally {

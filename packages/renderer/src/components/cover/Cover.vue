@@ -50,8 +50,10 @@ import { computed, ref } from 'vue'
 import { getTrackList } from '@/api/music'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
+const playQueue = usePlayQueueStore()
 const loading = ref<boolean>(false)
 const props = defineProps({
   data: {
@@ -103,14 +105,9 @@ const to = computed(() => {
 async function play() {
   loading.value = true
   try {
-    const info = await getTrackList(props.type, props.data.id)
-    await player.updateTracks(
-      {
-        list: info.tracks,
-        id: info.id,
-      },
-      true
-    )
+    const info = await getTrackList(<'album' | 'playlist'>props.type, props.data.id)
+    playQueue.updatePlayQueue(info.id, <'album' | 'playlist'>props.type, props.data.name, info.tracks)
+    player.next()
   } catch (e) {
     console.log(e)
   } finally {

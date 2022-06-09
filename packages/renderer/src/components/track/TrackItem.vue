@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
+import type { ComponentPublicInstance } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
@@ -38,6 +39,7 @@ const props = defineProps({
   },
 })
 
+const itemRef = ref<ComponentPublicInstance>()
 const likeLoading = ref(false)
 
 const liked = computed(() => {
@@ -98,6 +100,9 @@ function play() {
   emit('play', props.track?.id)
 }
 function openMenu(e: MouseEvent) {
+  // active current item
+  itemRef!.value!.$el.click()
+  // display context menu
   emit('openctxmenu', {
     x: e.x,
     y: e.y,
@@ -126,6 +131,7 @@ async function toggleLike() {
   <v-hover v-slot="{ isHovering, props: _props }">
     <v-list-item
       v-bind="_props"
+      ref="itemRef"
       rounded="lg"
       class="pa-0"
       active-color="primary"

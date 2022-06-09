@@ -9,11 +9,13 @@ import { getArtistAlbum } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
+import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 const toast = useToast()
 const player = usePlayer()
+const playQueue = usePlayQueueStore()
 
 const props = defineProps<{
   id: number | string
@@ -54,13 +56,8 @@ async function fetch(id: number) {
   loading.value = false
 }
 async function play() {
-  player.updateTracks(
-    {
-      list: state.album.tracks,
-      id: state.album.id,
-    },
-    true
-  )
+  playQueue.updatePlayQueue(state.album.id, 'album', state.album.name, state.album.tracks)
+  player.next()
 }
 
 function goto() {

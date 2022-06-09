@@ -1,24 +1,16 @@
 <script setup lang="ts">
-import {
-  mdiAlbum,
-  mdiClockOutline,
-  mdiDelete,
-  mdiDownload,
-  mdiFaceMan,
-  mdiHeart,
-  mdiHeartBroken,
-  mdiPlaylistMusic,
-} from '@mdi/js'
+import { mdiClockOutline } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { Track } from '@/types'
-
 const userStore = useUserStore()
+const playQueueStore = usePlayQueueStore()
 const { themeName } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
@@ -28,12 +20,18 @@ const props = defineProps<{
   tracks: Track[]
   type: string
   ownId?: number | null // 是否是自己的歌单id
+  header?: boolean
+  offsetIndex?: number
+  virtualScrollOptimization?: boolean
+  setQueue?: boolean
 }>()
+
 const eventBus = useEventBus<number>('addToQueue')
 const TrackItemHeight = 56
+const needScrollNumber = 80
 const listHeight = computed(() => {
   const realHeight = props.tracks.length * TrackItemHeight
-  return props.tracks.length > 40 ? 40 * TrackItemHeight : realHeight
+  return props.tracks.length > needScrollNumber ? needScrollNumber * TrackItemHeight : realHeight
 })
 const playlists = computed(() => {
   return userStore.createdPlaylists.map((i) => {
@@ -50,6 +48,9 @@ const className = computed(() => {
     return 'list-header album-header'
   }
 })
+const offsetIndex = computed(() => {
+  return props.offsetIndex ?? 1
+})
 function openMenu(payload: { x: number; y: number; track: Track; liked: boolean }) {
   const { x, y, liked, track } = payload
   const option = {
@@ -63,24 +64,24 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
 function genMenu(liked: boolean, track: Track): MenuItem[] {
   const items: MenuItem[] = [
     {
-      icon: mdiPlaylistMusic,
+      // icon: mdiPlaylistMusic,
       label: '添加到播放队列',
-      onClick: () => {
-        addToQueue(i)
+      onClick: (i) => {
+        addToQueue(track)
       },
     },
     {
       divided: true,
     },
     {
-      icon: mdiFaceMan,
+      // icon: mdiFaceMan,
       label: '转至艺人',
       onClick: (i) => {
         go()
       },
     },
     {
-      icon: mdiAlbum,
+      // icon: mdiAlbum,
       label: '转至专辑',
       onClick: (i) => {
         go()
@@ -90,7 +91,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       divided: true,
     },
     {
-      icon: mdiPlaylistMusic,
+      // icon: mdiPlaylistMusic,
       label: '加入歌单',
       children: playlists.value.map((list) => {
         return {
@@ -102,7 +103,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       }),
     },
     {
-      icon: mdiDownload,
+      // icon: mdiDownload,
       label: '下载到本地',
       onClick: (i) => {
         download()
@@ -111,7 +112,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   ]
   if (liked) {
     items.push({
-      icon: mdiHeartBroken,
+      // icon: mdiHeartBroken,
       label: '从"喜欢的音乐"移除',
       onClick: (i) => {
         toggleLike(true, i.track)
@@ -119,7 +120,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     })
   } else {
     items.push({
-      icon: mdiHeart,
+      // icon: mdiHeart,
       label: '添加到"喜欢的音乐"',
       onClick: (i) => {
         toggleLike(false, i.track)
@@ -128,7 +129,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   }
   if (props.ownId) {
     items.push({
-      icon: mdiDelete,
+      // icon: mdiDelete,
       label: '从此歌单删除',
       onClick: (i) => {
         // “!”非空断言
@@ -157,6 +158,8 @@ async function toggleLike(liked: boolean, trackId: number) {
   }
 }
 function addToQueue(track: Track) {
+  console.log(track)
+  playQueueStore.addToPlayQueue(track)
   // add to queue
 }
 function addToPlayList(playlistId: number, trackId: number) {
@@ -171,16 +174,19 @@ function removeFromList(id: number, trackId: number) {
 </script>
 <template>
   <v-list class="track-list">
-    <div class="px-2 text-caption" :class="[className]">
-      <span class="d-flex justify-center">#</span>
-      <span>{{ $t('common.title') }}</span>
-      <span v-if="type === 'list'">{{ $t('main.albums') }}</span>
-      <span class="d-flex justify-center align-center"
-        ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
-      >
+    <div v-if="header">
+      <div class="px-2 text-caption" :class="[className]">
+        <span class="d-flex justify-center">#</span>
+        <span>{{ $t('common.title') }}</span>
+        <span v-if="type === 'list'">{{ $t('main.albums') }}</span>
+        <span class="d-flex justify-center align-center"
+          ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
+        >
+      </div>
+      <v-divider class="mx-4 my-2" />
     </div>
-    <v-divider class="mx-4 my-2" />
     <RecycleScroller
+      v-if="virtualScrollOptimization"
       v-slot="{ item: track, index }"
       class="scroller"
       :style="{
@@ -192,12 +198,23 @@ function removeFromList(id: number, trackId: number) {
     >
       <track-item
         :track="track"
-        :index="index + 1"
+        :index="index + offsetIndex"
         :album="type === 'list'"
-        @play="eventBus.emit(track.id)"
+        @play="eventBus.emit(track.id, setQueue)"
         @openctxmenu="openMenu"
       />
     </RecycleScroller>
+    <template v-else>
+      <track-item
+        v-for="(track, index) in tracks"
+        :key="track.id"
+        :track="track"
+        :index="index + offsetIndex"
+        :album="type === 'list'"
+        @play="eventBus.emit(track.id, setQueue)"
+        @openctxmenu="openMenu"
+      />
+    </template>
   </v-list>
 </template>
 <style lang="scss" scoped>
