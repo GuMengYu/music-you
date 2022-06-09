@@ -77,7 +77,7 @@ function playMusic(trackId: number) {
           :key="track.id"
           :track="track"
           :index="idx + 1"
-          from="list"
+          album
           @play="playMusic"
         ></TrackItem>
       </v-list>

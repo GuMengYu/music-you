@@ -14,7 +14,7 @@
       </div>
     </div>
     <v-list>
-      <TrackItem v-for="track in daily" :key="track.id" :track="track"> </TrackItem>
+      <TrackItem v-for="track in daily" :key="track.id" :track="track" album> </TrackItem>
     </v-list>
   </div>
 </template>

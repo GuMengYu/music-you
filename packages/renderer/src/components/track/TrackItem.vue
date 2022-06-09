@@ -7,7 +7,7 @@ import { useToast } from 'vue-toastification'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import { useUserStore } from '@/store/user'
-import type { Artist, Track } from '@/types'
+import type { Album, Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 
 const toast = useToast()
@@ -20,9 +20,13 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  type: {
-    type: String,
-    default: 'album',
+  album: {
+    type: Boolean,
+    default: false,
+  },
+  cover: {
+    type: Boolean,
+    default: false,
   },
   index: {
     type: [String, Number],
@@ -44,14 +48,10 @@ const artists = computed(() => {
   const art = ar ?? artists ?? []
   return art.map((i: Artist) => ({ id: i.id, name: i.name }))
 })
-const album = computed(() => props.track.al ?? props.track.album ?? {})
-const albumCover = computed(() => sizeOfImage(album.value.picUrl ?? album.value.coverImgUrl, 128))
+const trackAlbum = computed<Album>(() => props.track.al ?? props.track.album ?? {})
+const albumCover = computed(() => sizeOfImage(trackAlbum.value.picUrl ?? trackAlbum.value.coverImgUrl, 128))
 const className = computed(() => {
-  if (props.type !== 'album') {
-    return 'track-item'
-  } else {
-    return 'track-item album-item'
-  }
+  return props.album ? 'track-item album-item' : 'track-item'
 })
 const isVip = computed(() => account.value?.profile.vipType === 11)
 const available = computed(() => {
@@ -146,7 +146,7 @@ async function toggleLike() {
         </div>
         <div class="track-first">
           <v-img
-            v-if="type !== 'album'"
+            v-if="cover"
             :src="albumCover"
             max-height="40"
             max-width="40"
@@ -161,16 +161,15 @@ async function toggleLike() {
             </v-list-item-subtitle>
           </div>
         </div>
-        <div v-if="type !== 'album'" class="track-second">
-          <router-link :to="`/album/${album.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
-            {{ album.name }}
+        <div v-if="album" class="track-second">
+          <router-link :to="`/album/${trackAlbum.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
+            {{ trackAlbum.name }}
           </router-link>
         </div>
         <div class="track-third">
           <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
             <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
           </v-btn>
-          <!--        <like-toggle :id="track.id" />-->
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
           </div>
@@ -201,9 +200,9 @@ async function toggleLike() {
   height: 56px;
   cursor: pointer;
   transition: background-color 0.25s ease;
-  grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
+  grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
+    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);

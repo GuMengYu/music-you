@@ -43,7 +43,7 @@
         <Control />
         <div class="playing-bar__right">
           <div class="volume-bar d-flex align-center mx-2">
-            <v-btn icon variant="plain" size="small" @click="toggleMute">
+            <v-btn icon size="small" @click="toggleMute">
               <v-icon size="small">
                 {{ volumeIcon }}
               </v-icon>

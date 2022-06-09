@@ -156,7 +156,6 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
             :key="track.id"
             :index="idx + 1"
             :track="track"
-            type="list"
             @play="eventBus.emit(track.id)"
           />
         </v-list>

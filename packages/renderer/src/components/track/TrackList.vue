@@ -175,7 +175,7 @@ function removeFromList(id: number, trackId: number) {
       <span class="d-flex justify-center">#</span>
       <span>{{ $t('common.title') }}</span>
       <span v-if="type === 'list'">{{ $t('main.albums') }}</span>
-      <span class="d-flex justify-end align-center mr-16"
+      <span class="d-flex justify-center align-center"
         ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
       >
     </div>
@@ -193,7 +193,7 @@ function removeFromList(id: number, trackId: number) {
       <track-item
         :track="track"
         :index="index + 1"
-        :type="type"
+        :album="type === 'list'"
         @play="eventBus.emit(track.id)"
         @openctxmenu="openMenu"
       />
@@ -205,9 +205,9 @@ function removeFromList(id: number, trackId: number) {
   .list-header {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(156px, 1fr);
+    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
     &.album-header {
-      grid-template-columns: [index] 40px [first] 4fr [last] minmax(156px, 1fr);
+      grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
     }
   }
 }

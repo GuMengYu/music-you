@@ -52,6 +52,7 @@ export interface Album {
   id: number
   name: string
   picUrl: string
+  coverImgUrl?: string
   artist: Artist
   artists: Artist[]
   description: string

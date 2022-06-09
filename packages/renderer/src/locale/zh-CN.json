@@ -135,7 +135,9 @@
     "current_play": "正在播放",
     "next_from": "下一首歌",
     "disagree": "不同意",
-    "agree": "同意"
+    "agree": "同意",
+    "created_playlist": "我创建的歌单",
+    "sub_playlist": "我收藏的歌单"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

@@ -135,7 +135,9 @@
     "current_play": "Current Playing",
     "next_from": "Next Track",
     "disagree": "Disagree",
-    "agree": "Agree"
+    "agree": "Agree",
+    "created_playlist": "My created playlist",
+    "sub_playlist": "My favorite playlist"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

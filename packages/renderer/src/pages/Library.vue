@@ -5,11 +5,18 @@
         {{ tab.name }}
       </v-btn>
     </v-btn-toggle>
-    <v-window :model-value="current" class="mt-3">
+    <v-window :model-value="current" class="mt-4">
       <v-window-item :value="TYPES.PLAYLIST">
-        <card-row>
-          <cover v-for="item in playlists" :key="item.id" :data="item" type="playlist" />
-        </card-row>
+        <Col :title="$t('common.created_playlist')" class="mb-4">
+          <card-row>
+            <cover v-for="item in filteredPlaylist.create" :key="item.id" :data="item" type="playlist" />
+          </card-row>
+        </Col>
+        <Col :title="$t('common.sub_playlist')">
+          <card-row>
+            <cover v-for="item in filteredPlaylist.sub" :key="item.id" :data="item" type="playlist" />
+          </card-row>
+        </Col>
       </v-window-item>
       <v-window-item :value="TYPES.ALBUM">
         <card-row>
@@ -42,6 +49,7 @@
             :key="track.id"
             :track="track"
             :index="index + 1"
+            album
           ></TrackItem>
         </v-list>
       </v-window-item>
@@ -50,6 +58,7 @@
 </template>
 <script lang="ts" setup>
 import { mdiPlay } from '@mdi/js'
+import { groupBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
@@ -58,13 +67,20 @@ import { cloudDiskMusicList } from '@/api/cloud'
 import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Track } from '@/types'
+import type { Album, Artist, MV, Playlist, Track } from '@/types'
 
 const { t } = useI18n()
 
 const userStore = useUserStore()
 const toast = useToast()
-const { playlists } = storeToRefs(userStore)
+const { playlists, uid } = storeToRefs(userStore)
+
+const filteredPlaylist = computed(() => {
+  return groupBy(playlists.value, (i) => {
+    return i.userId === uid.value ? 'create' : 'sub'
+  })
+})
+
 enum TYPES {
   PLAYLIST = 'playlist',
   ALBUM = 'album',
@@ -72,13 +88,15 @@ enum TYPES {
   MV = 'mv',
   CLOUD = 'cloud',
 }
-const tabs = [
-  { key: TYPES.PLAYLIST, name: t('main.playlists') },
-  { key: TYPES.ALBUM, name: t('main.albums') },
-  { key: TYPES.ARTIST, name: t('main.artists') },
-  { key: TYPES.MV, name: t('main.mvs') },
-  { key: TYPES.CLOUD, name: t('main.disk') },
-]
+const tabs = computed(() => {
+  return [
+    { key: TYPES.PLAYLIST, name: t('main.playlists') },
+    { key: TYPES.ALBUM, name: t('main.albums') },
+    { key: TYPES.ARTIST, name: t('main.artists') },
+    { key: TYPES.MV, name: t('main.mvs') },
+    { key: TYPES.CLOUD, name: t('main.disk') },
+  ]
+})
 const current = ref(TYPES.PLAYLIST)
 const data: {
   albums: Album[]
