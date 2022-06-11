@@ -141,10 +141,8 @@ export const usePlayQueueStore = defineStore({
     },
     setQueue(id: number) {
       const foundIndex = this.queue.states.findIndex((_id) => _id === id)
-      console.log('reset queue states before', this.queue.states, this.queue.sequence)
       if (foundIndex > -1) {
         this.queue.states.splice(0, foundIndex + 1)
-        console.log('reset queue states', this.queue.states, this.queue.sequence)
       }
     },
   },

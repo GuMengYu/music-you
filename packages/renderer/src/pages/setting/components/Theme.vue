@@ -130,7 +130,6 @@ export default {
       },
     })
     function handleCustomPalette() {
-      console.log(upload.value)
       upload.value?.click()
     }
     async function handleChange(e: Event) {
