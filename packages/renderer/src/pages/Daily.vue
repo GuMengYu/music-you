@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="text-caption grey--text font-weight-bold">
-      {{ date }}
+      {{ toDay }}
     </div>
     <div class="d-flex justify-space-between">
       <div class="text-h6 font-weight-bold">
         {{ $t('main.nav.daily') }}
       </div>
       <v-btn size="small" :loading="loading" color="primary" @click="play">
-        <v-icon> {{ icon.mdiPlay }}</v-icon>
+        <v-icon> {{ mdiPlay }}</v-icon>
       </v-btn>
     </div>
     <track-list :tracks="daily" header type="list"> </track-list>
@@ -37,26 +37,19 @@ export default defineComponent({
       player.next()
       loading.value = false
     }
+    const toDay = dayjs().format('MM/DD')
+    fetch()
+    async function fetch() {
+      const { data } = await getDailyRecommend()
+      daily.value = data?.dailySongs ?? []
+    }
     return {
       daily,
       play,
       loading,
-    }
-  },
-  data: () => ({
-    icon: {
+      toDay,
       mdiPlay,
-    },
-    date: dayjs().format('MM/DD'),
-  }),
-  created() {
-    this.fetch()
-  },
-  methods: {
-    async fetch() {
-      const { data } = await getDailyRecommend()
-      this.daily = data?.dailySongs ?? []
-    },
+    }
   },
 })
 </script>
