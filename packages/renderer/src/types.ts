@@ -27,6 +27,8 @@ export interface MV {
   playCount: number
   type: number
   canDislike: boolean
+  publishTime?: string
+  briefDesc?: string
 }
 
 export interface Artist {

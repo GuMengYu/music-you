@@ -1,137 +1,122 @@
 <template>
-  <div class="video-container">
-    <custom-col :title="video.data.name">
+  <v-row class="video-container">
+    <v-col cols="9">
       <div>
         <div class="video rounded-lg">
           <video ref="videoPlayer" class="plyr" />
         </div>
-        <div class="d-flex mt-4">
-          <div class="font-weight-bold">
-            <artists-link :artists="artists" />
-            ·
+        <v-card rounded="lg" color="surfaceVariant" class="pa-4 mt-4" flat>
+          <span class="text-h5">
+            {{ video?.name }}
+          </span>
+          <div class="font-weight-bold my-2">
             <span>
-              {{ $t('main.play_count', [video.data.playCount]) }}
+              {{ $t('main.play_count', [formatNumber(video?.playCount ?? 0)]) }}
             </span>
             ·
             <span>
-              {{ video.data.publishTime }}
+              {{ video?.publishTime }}
             </span>
           </div>
-        </div>
+          <div class="d-flex align-center my-2">
+            <v-avatar v-if="video?.artists?.[0].img1v1Url" size="24" class="mr-2">
+              <v-img :src="sizeOfImage(video?.artists[0].img1v1Url, 128)" />
+            </v-avatar>
+            <artists-link :artists="video?.artists" />
+          </div>
+          <span class="text-caption">
+            {{ video?.briefDesc }}
+          </span>
+        </v-card>
       </div>
-    </custom-col>
-    <custom-col :title="$t('main.simi')">
-      <v-row>
-        <v-col v-for="mv in simi" :key="mv.id" cols="3">
-          <video-cover :data="mv" />
-        </v-col>
-      </v-row>
-    </custom-col>
-  </div>
+    </v-col>
+    <v-col cols="3">
+      <Col :title="$t('main.simi')">
+        <video-cover v-for="mv in simis" :key="mv.id" :data="mv" class="mb-4" />
+      </Col>
+    </v-col>
+  </v-row>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import 'plyr/dist/plyr.css'
 
 import Plyr from 'plyr'
 
 import { getMvUrl, mvDetail, simiMv } from '@/api/mv'
-export default defineComponent({
-  name: 'MusicVideo',
-  props: {
-    id: [String, Number],
-  },
-  data() {
-    return {
-      player: null,
-      video: {
-        url: '',
-        data: {
-          name: '',
-          artistName: '',
-          playCount: '',
-          publishTime: '',
-        },
-      },
-      simi: [],
-    }
-  },
-  computed: {
-    liked() {
-      return true
-    },
-    artists() {
-      return [
-        {
-          id: this.video.data.artistId,
-          name: this.video.data.artistName,
-        },
-      ]
-    },
-  },
-  watch: {
-    id() {
-      this.fetch()
-    },
-  },
-  mounted() {
-    this.initPlayer()
-    this.fetch()
-  },
-  methods: {
-    initPlayer() {
-      const videoOptions = {
-        settings: ['quality'],
-        autoplay: false,
-        quality: {
-          default: 1080,
-          options: [1080, 720],
-        },
-      }
-      this.player = new Plyr(this.$refs['videoPlayer'], videoOptions)
-      this.player.volume = this.volume
-      this.player.on('playing', () => {
-        this.$player.pause()
-      })
-    },
-    async fetch() {
-      const _video = await mvDetail(this.id)
-      this.video = _video
-      const { name: title, cover } = _video.data
-      const sources = await this.getAllUrl([1080, 720], this.id)
-      this.player.source = {
-        type: 'video',
-        title,
-        sources,
-        poster: cover.replace(/^http:/, 'https:'),
-      }
-      const { mvs } = await simiMv(this.id)
-      this.simi = mvs
-    },
-    async getAllUrl(qualities, id) {
-      const fns = qualities.map((quality) => {
-        return getMvUrl({ id, r: quality })
-      })
-      const urls = await Promise.all(fns)
-      return urls.map((result) => {
-        return {
-          src: result.data.url.replace(/^http:/, 'https:'),
-          type: 'video/mp4',
-          size: result.data.r,
-        }
-      })
-    },
-  },
+import type { MV } from '@/types'
+import { formatNumber, sizeOfImage } from '@/util/fn'
+
+const props = defineProps<{
+  id: string
+}>()
+const videoPlayer = ref<HTMLElement>()
+const playerInstance = ref<Plyr>()
+const video = ref<MV>()
+const simis = ref<MV[]>([])
+
+onMounted(() => {
+  initPlayer()
+  fetch()
 })
+async function fetch() {
+  const { data } = await mvDetail(+props.id)
+  video.value = data
+  const { name: title, cover } = data
+  const sources = await getAllUrl([1080, 720], +props.id)
+  playerInstance.value!.source = {
+    type: 'video',
+    title,
+    sources,
+    poster: cover!.replace(/^http:/, 'https:'),
+  }
+  const { mvs } = await simiMv(+props.id)
+  simis.value = mvs
+}
+
+async function getAllUrl(qualities: number[], id: number) {
+  const fns = qualities.map((quality) => {
+    return getMvUrl({ id, r: quality })
+  })
+  const urls = await Promise.all(fns)
+  return urls.map((result) => {
+    return {
+      src: result.data.url.replace(/^http:/, 'https:'),
+      type: 'video/mp4',
+      size: result.data.r,
+    }
+  })
+}
+function initPlayer() {
+  playerInstance.value = new Plyr(videoPlayer.value!, {
+    settings: ['quality'],
+    autoplay: false,
+    quality: {
+      default: 1080,
+      options: [1080, 720],
+    },
+  })
+  // playerInstance.volume = this.volume
+  // playerInstance.on('playing', () => {
+  //   this.$player.pause()
+  // })
+}
+watch(
+  () => {
+    return props.id
+  },
+  () => {
+    if (props.id) {
+      fetch()
+    }
+  }
+)
 </script>
 <style lang="scss" scoped>
 .video-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
   .video {
     overflow: hidden;
-    --plyr-color-main: var(--v-primary-base);
+    --plyr-color-main: rgba(var(--v-theme-primary));
   }
 }
 </style>

@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import type { MV } from '@/types'
+import type { Artist, MV } from '@/types'
 import { request } from '@/util/fetch'
 /**
  * 获取热门视频
@@ -23,8 +23,19 @@ export const getNewMv = (params?: { limit?: number }) =>
  * @param mvid
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const mvDetail = (mvid) => {
-  return request('/mv/detail', {
+interface mvDetailModel {
+  name: string
+  cover: string
+  artists: Artist[]
+  artistName: string
+  artistId: number
+  briefDesc: string
+}
+export const mvDetail = (mvid: number) => {
+  return request<{
+    data: MV
+    subed: boolean
+  }>('/mv/detail', {
     params: {
       mvid,
       timestamp: now(),
@@ -40,8 +51,15 @@ export const mvDetail = (mvid) => {
  * @param {number} params.id
  * @param {number=} params.r
  */
-export const getMvUrl = (params) => {
-  return request('/mv/url', {
+export const getMvUrl = (params: { id: number; r: number }) => {
+  return request<{
+    data: {
+      url: string
+      size: number
+      id: number
+      r: number
+    }
+  }>('/mv/url', {
     params,
   })
 }
@@ -51,8 +69,10 @@ export const getMvUrl = (params) => {
  * 说明 : 调用此接口 , 传入 mvid 可获取相似 mv
  * @param {number} mvid
  */
-export const simiMv = (mvid) => {
-  return request('/simi/mv', {
+export const simiMv = (mvid: number) => {
+  return request<{
+    mvs: MV[]
+  }>('/simi/mv', {
     params: {
       mvid,
     },
