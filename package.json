@@ -29,7 +29,8 @@
     "electron-log": "^4.4.7",
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.6",
-    "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock"
+    "NeteaseCloudMusicApi": "git+https://gitee.com/YuSaKiYo/NeteaseCloudMusicApi.git#unlock",
+    "plyr": "^3.7.2"
   },
   "devDependencies": {
     "@mdi/js": "^6.5.95",

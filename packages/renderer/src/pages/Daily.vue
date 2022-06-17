@@ -7,7 +7,7 @@
       <div class="text-h6 font-weight-bold">
         {{ $t('main.nav.daily') }}
       </div>
-      <v-btn size="small" :loading="loading" color="primary" @click="play">
+      <v-btn size="small" rounded :loading="loading" color="primary" @click="play">
         <v-icon> {{ mdiPlay }}</v-icon>
       </v-btn>
     </div>
