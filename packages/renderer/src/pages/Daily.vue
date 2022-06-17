@@ -1,21 +1,17 @@
 <template>
   <div>
-    <div class="title mb-5">
-      <div class="text-caption grey--text font-weight-bold">
-        {{ date }}
-      </div>
-      <div class="d-flex justify-space-between">
-        <div class="text-h6 font-weight-bold">
-          {{ $t('main.nav.daily') }}
-        </div>
-        <v-btn size="small" :loading="loading" color="primary" @click="play">
-          <v-icon> {{ icon.mdiPlay }}</v-icon>
-        </v-btn>
-      </div>
+    <div class="text-caption grey--text font-weight-bold">
+      {{ date }}
     </div>
-    <v-list>
-      <TrackItem v-for="track in daily" :key="track.id" :track="track" album> </TrackItem>
-    </v-list>
+    <div class="d-flex justify-space-between">
+      <div class="text-h6 font-weight-bold">
+        {{ $t('main.nav.daily') }}
+      </div>
+      <v-btn size="small" :loading="loading" color="primary" @click="play">
+        <v-icon> {{ icon.mdiPlay }}</v-icon>
+      </v-btn>
+    </div>
+    <track-list :tracks="daily" header type="list"> </track-list>
   </div>
 </template>
 

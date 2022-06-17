@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLogin" persistent>
-    <v-card outlined color="surface" class="login-container py-6" rounded="lg">
+    <v-card outlined color="surface" class="login-container py-4" rounded="lg">
       <div class="d-flex justify-center">
         <v-icon color="secondary" size="large">
           {{ mdiLogin }}

@@ -5,7 +5,7 @@
       <ShortcutGrid />
       <Col :title="$t('main.for_you')">
         <card-row single-line>
-          <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" :title-line="2" />
+          <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
         </card-row>
       </Col>
       <Col :title="$t('main.radar')">

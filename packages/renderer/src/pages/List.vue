@@ -171,6 +171,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         :tracks="state.playlist.tracks"
         :own-id="createdBySelf ? state.playlist.id : null"
         virtual-scroll-optimization
+        header
       />
       <Col :title="$t('main.playlist.simi')" class="mt-4">
         <CardRow>

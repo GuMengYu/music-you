@@ -18,7 +18,7 @@ const { t } = useI18n()
 
 const props = defineProps<{
   tracks: Track[]
-  type: string
+  type: 'album' | 'list' | 'artist'
   ownId?: number | null // 是否是自己的歌单id
   header?: boolean
   offsetIndex?: number

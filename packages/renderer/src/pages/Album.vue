@@ -134,7 +134,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </div>
         </v-card>
       </div>
-      <track-list type="album" :tracks="state.album.tracks"></track-list>
+      <track-list type="album" :tracks="state.album.tracks" header></track-list>
       <div class="d-flex flex-column">
         <span class="text-caption"> {{ $t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
         <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
