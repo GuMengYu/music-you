@@ -54,13 +54,13 @@ const cardRow = ref<HTMLElement>()
 const { count, gap } = useResponsiveGrid(props.gridType ?? GridType.A)
 const { x, arrivedState } = useScroll(cardRow)
 const { width: scrollPageOffset } = useElementSize(cardRow)
-const { willScoll } = useElementScrollSize(cardRow)
+const { willScroll } = useElementScrollSize(cardRow)
 
 const showPrevious = computed(() => {
   return props.singleLine && x.value > 0
 })
 const showNext = computed(() => {
-  return props.singleLine && !arrivedState.right && willScoll.value
+  return props.singleLine && !arrivedState.right && willScroll.value
 })
 
 const cardRowStyle = computed(() => {

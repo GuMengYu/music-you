@@ -11,6 +11,7 @@ import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
 import { sleep } from '@/util/fn'
+import { PipLyric } from '@/util/pipLyric'
 const toast = useToast()
 
 const messages = {
@@ -36,6 +37,12 @@ export interface PlayerInstance {
   togglePlay: () => void
   setSeek: (seek: number) => void
 }
+export interface PipLyric {
+  enter: () => void
+  leave: () => void
+  setData: () => void
+}
+
 export class Player {
   private howler: null | Howl
   track: null | Track
@@ -48,10 +55,12 @@ export class Player {
   private readonly settingStore: Store<'setting', SettingState>
   private i18n: I18n<unknown, unknown, unknown, boolean>
   private locale: string
+  pipLyric: null | PipLyric
   constructor() {
     this.store = usePlayerStore()
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
+    this.pipLyric = null
 
     const { track, playing, volume = 0.8, currentTime, isCurrentFm } = this.store
     this.track = track
@@ -68,6 +77,7 @@ export class Player {
     this.init()
   }
   private init() {
+    this.pipLyric = PipLyric()()
     this.initStoreEvent()
     if (this.track?.id) {
       console.log('restore track from storage', this.track)
@@ -163,7 +173,7 @@ export class Player {
       onplay: () => {
         this.setProgressInterval()
       },
-      onplayerror: (id, e) => {
+      onplayerror: () => {
         toast.error(this.track?.name + this.t('message.loadFail'))
       },
       onseek: () => {
@@ -176,6 +186,8 @@ export class Player {
           const artists = ar.map((a) => a.name).join('&')
           document.title = `${name} - ${artists}`
           this.fixDuration()
+          this.pipLyric.setData(this.track, this.track.lyric)
+          // this.pipLyric.enter()
         }
       },
       onloaderror: (e) => {
@@ -210,11 +222,13 @@ export class Player {
     this.howler?.pause()
     this.playing = false
     this.store.playing = false
+    this.pipLyric.pause()
   }
   play() {
     this.howler?.play()
     this.playing = true
     this.store.playing = true
+    this.pipLyric.play()
   }
   togglePlay() {
     if (this.playing) {
@@ -284,9 +298,11 @@ export class Player {
   private setProgressInterval(this: Player) {
     this.progressInterval = setInterval(() => {
       if (this.howler?.playing()) {
-        const current = Math.ceil(this.howler?.seek() ?? 0)
-        this.currentTime = current
-        this.store.currentTime = current
+        const current = this.howler?.seek() ?? 0
+        const currentTime = Math.ceil(current)
+        this.currentTime = currentTime
+        this.store.currentTime = currentTime
+        this.pipLyric.updateTime(current)
       }
     }, 1000)
   }

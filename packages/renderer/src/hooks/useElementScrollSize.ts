@@ -13,13 +13,13 @@ export const useElementScrollSize = (el: MaybeElementRef) => {
     clientWidth.value = cWidth
   })
 
-  const willScoll = computed(() => {
+  const willScroll = computed(() => {
     return scrollWidth.value > clientWidth.value
   })
 
   return {
     scrollWidth,
     clientWidth,
-    willScoll,
+    willScroll,
   }
 }

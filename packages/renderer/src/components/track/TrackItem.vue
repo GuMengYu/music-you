@@ -43,7 +43,7 @@ const itemRef = ref<ComponentPublicInstance>()
 const likeLoading = ref(false)
 
 const liked = computed(() => {
-  return !!userStore.likes.find((id) => id === props.track.id)
+  return !!userStore.likes.find((id: number) => id === props.track.id)
 })
 const artists = computed(() => {
   const { ar, artists } = props.track
@@ -146,7 +146,7 @@ async function toggleLike() {
       >
         <div class="track-index">
           <span v-show="!isHovering" class="track-count">{{ index }}</span>
-          <v-btn v-show="isHovering" icon variant="contained-text" size="small" color="primary" @click.stop="play">
+          <v-btn v-show="isHovering" icon variant="text" size="small" color="primary" @click.stop="play">
             <v-icon size="small">{{ mdiPlay }}</v-icon>
           </v-btn>
         </div>
@@ -179,14 +179,7 @@ async function toggleLike() {
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
           </div>
-          <v-btn
-            v-visible="isHovering"
-            icon
-            color="primary"
-            variant="contained-text"
-            size="small"
-            @click.prevent="openMenu"
-          >
+          <v-btn v-visible="isHovering" icon color="primary" variant="text" size="small" @click.prevent="openMenu">
             <v-icon size="small">
               {{ mdiDotsHorizontal }}
             </v-icon>

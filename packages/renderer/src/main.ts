@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import VueVirtualScroller from 'vue-virtual-scroller'
 
 import App from './App.vue'
@@ -22,9 +24,9 @@ import './styles/animate.scss'
 import './styles/global.scss'
 import './styles/utility.scss'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import './util/pipLyric'
 
 import is from '@/util/is'
-
 const app = createApp(App)
 
 app.use(VueVirtualScroller)

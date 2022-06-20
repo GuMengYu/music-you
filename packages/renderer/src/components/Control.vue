@@ -107,7 +107,7 @@ function toggleShuffle() {
       size="small"
       color="primary"
       :loading="loadingTrack"
-      variant="contained-flat"
+      variant="flat"
       @click="togglePlay"
     >
       <v-progress-circular v-show="loadingTrack" indeterminate color="onPrimary" :width="2" />

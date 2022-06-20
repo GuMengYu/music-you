@@ -7,8 +7,5 @@
 import { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
-bootstrap()
-function bootstrap() {
-  appStore.init()
-}
+appStore.init()
 </script>

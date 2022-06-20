@@ -42,6 +42,11 @@
         </div>
         <Control />
         <div class="playing-bar__right">
+          <v-btn icon size="small" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
+            <v-icon ref="playlistBtn" size="small">
+              {{ mdiPictureInPictureTopRight }}
+            </v-icon>
+          </v-btn>
           <div class="volume-bar d-flex align-center mx-2">
             <v-btn icon size="small" @click="toggleMute">
               <v-icon size="small">
@@ -71,7 +76,15 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { mdiArrowExpand, mdiPlaylistMusic, mdiVolumeHigh, mdiVolumeLow, mdiVolumeMedium, mdiVolumeMute } from '@mdi/js'
+import {
+  mdiArrowExpand,
+  mdiPictureInPictureTopRight,
+  mdiPlaylistMusic,
+  mdiVolumeHigh,
+  mdiVolumeLow,
+  mdiVolumeMedium,
+  mdiVolumeMute,
+} from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
@@ -104,6 +117,7 @@ const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 12
 
 const cacheVolume = ref(0.8)
 const sliderVolume = ref(0)
+const showPipLyric = ref(false)
 sliderVolume.value = volume.value
 
 // 音量icon状态
@@ -168,6 +182,15 @@ function toggleMute() {
   }
 }
 
+function togglePipLyric() {
+  if (!showPipLyric.value) {
+    player.pipLyric?.enter()
+    showPipLyric.value = true
+  } else {
+    player.pipLyric?.leave()
+    showPipLyric.value = false
+  }
+}
 function showPlayingPage() {
   appStore.showLyric = true
 }
