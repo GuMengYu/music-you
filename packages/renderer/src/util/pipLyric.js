@@ -280,7 +280,7 @@ export function PipLyric() {
     q = function (n) {
       return String(n || '').trim()
     },
-    _ =
+    fontFamily =
       'SFDisplay, PingFang SC, Lantinghei SC, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif"',
     $svg = function (n) {
       return 'data:image/svg+xml,'.concat(encodeURIComponent(n))
@@ -325,7 +325,7 @@ export function PipLyric() {
         e = (function (n) {
           var t = document.createDocumentFragment()
           t.appendChild(document.createElement('style')).innerHTML = '\n    .container {\n      font-family: '
-            .concat(_, ';\n      font-weight: 400;\n      padding: 0 ')
+            .concat(fontFamily, ';\n      font-weight: 400;\n      padding: 0 ')
             .concat(
               v(16),
               'px;\n      box-sizing: border-box;\n      color: white;\n      width: 100%;\n      height: 100%;\n      overflow: hidden;\n    }\n    .line {\n      text-align: center;\n      padding: '
@@ -397,7 +397,7 @@ export function PipLyric() {
         if (!t && !e) return null
         var r = document.createDocumentFragment()
         r.appendChild(document.createElement('style')).innerHTML = '\n    .container {\n      font-family: '
-          .concat(_, ';\n      font-weight: 500;\n      padding: 0 ')
+          .concat(fontFamily, ';\n      font-weight: 500;\n      padding: 0 ')
           .concat(
             v(16),
             'px;\n      box-sizing: border-box;\n      color: white;\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n    }\n    .title,\n    .subtitle {\n      text-align: center;\n      width: 100%;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n    .title {\n      font-size: '
@@ -435,7 +435,7 @@ export function PipLyric() {
               return (
                 (i.appendChild(document.createElement('style')).innerHTML = '\n    .container {\n      font-family: '
                   .concat(
-                    _,
+                    fontFamily,
                     ';\n      font-weight: 700;\n      box-sizing: border-box;\n      color: red;\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n    }\n    .image {\n      object-fit: cover;\n      width: '
                   )
                   .concat(r, 'px;\n      height: ')
@@ -467,7 +467,7 @@ export function PipLyric() {
               var r = document.createDocumentFragment()
               r.appendChild(document.createElement('style')).innerHTML = '\n    .container {\n      font-family: '
                 .concat(
-                  _,
+                  fontFamily,
                   ';\n      font-weight: 400;\n      box-sizing: border-box;\n      color: white;\n      width: 100%;\n    }\n    .text {\n      text-align: center;\n      line-height: 2;\n      font-size: '
                 )
                 .concat(v(20), 'px;\n      opacity: 0.4;\n    }\n  ')

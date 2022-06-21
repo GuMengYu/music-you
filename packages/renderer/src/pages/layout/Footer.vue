@@ -46,6 +46,9 @@
             <v-icon ref="playlistBtn" size="small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
+            <v-tooltip activator="parent" location="top">
+              {{ showPipLyric ? $t('common.hide_pip') : $t('common.show_pip') }}
+            </v-tooltip>
           </v-btn>
           <div class="volume-bar d-flex align-center mx-2">
             <v-btn icon size="small" @click="toggleMute">
@@ -111,13 +114,12 @@ const currentTheme = computed(() => {
 })
 
 // store state
-const { currentTime, track, volume } = storeToRefs(playerStore)
+const { currentTime, track, volume, showPipLyric } = storeToRefs(playerStore)
 const trackDt = computed(() => track.value?.dt ?? 10)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
 const cacheVolume = ref(0.8)
 const sliderVolume = ref(0)
-const showPipLyric = ref(false)
 sliderVolume.value = volume.value
 
 // 音量icon状态
@@ -182,15 +184,23 @@ function toggleMute() {
   }
 }
 
+// 桌面歌词
 function togglePipLyric() {
   if (!showPipLyric.value) {
     player.pipLyric?.enter()
-    showPipLyric.value = true
   } else {
     player.pipLyric?.leave()
-    showPipLyric.value = false
   }
 }
+player.pipLyric.onLeave = function () {
+  console.log('on leave')
+  showPipLyric.value = false
+}
+player.pipLyric.onEnter = function () {
+  console.log('on enter')
+  showPipLyric.value = true
+}
+
 function showPlayingPage() {
   appStore.showLyric = true
 }
@@ -198,7 +208,7 @@ const volumnDebouncedFn = useDebounceFn(
   (val: Event | number) => {
     volume.value = val as number
   },
-  50,
+  200,
   { maxWait: 1000 }
 )
 </script>

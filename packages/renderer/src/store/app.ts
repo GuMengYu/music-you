@@ -11,8 +11,6 @@ export interface AppState {
   showPlaying: boolean
   showLyric: boolean
   playingMode: PLAYING_MODE
-  showAddToPlayList: boolean
-  toPlayListTrackId: null | number
   windowState: WindowState
 }
 export const useAppStore = defineStore('app', {
@@ -24,8 +22,6 @@ export const useAppStore = defineStore('app', {
       showCommandPalette: false,
       showLyric: false,
       playingMode: PLAYING_MODE.SIMPLE,
-      showAddToPlayList: false,
-      toPlayListTrackId: null,
       windowState: WindowState.NORMAL,
     })
     return {

@@ -138,7 +138,9 @@
     "disagree": "Disagree",
     "agree": "Agree",
     "created_playlist": "My created playlist",
-    "sub_playlist": "My favorite playlist"
+    "sub_playlist": "My favorite playlist",
+    "show_pip": "open desktop lyrics",
+    "hide_pip": "close desktop lyrics"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

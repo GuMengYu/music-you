@@ -17,6 +17,7 @@ export interface PlayerState {
   track: Track | null
   currentTime: number
   playMode: PLAY_MODE
+  showPipLyric: boolean
   shuffle: boolean
   volume: number
   playing: boolean
@@ -41,6 +42,7 @@ export const usePlayerStore = defineStore({
 
     const data = reactive({
       ...restoreState.value,
+      showPipLyric: false,
       playing: false,
       loadingTrack: false,
       isCurrentFm: false,

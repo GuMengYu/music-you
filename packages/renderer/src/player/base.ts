@@ -281,10 +281,11 @@ export class Player {
   private prevTrackId() {
     return this.store.popPrevTrackId()
   }
-  updateCurrentTime(this: Player, val: number) {
+  updateCurrentTime(this: Player, val?: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
     this.currentTime = current
     this.store.currentTime = current
+    this.pipLyric.updateTime(current)
   }
   setSeek(val: number) {
     this.howler?.seek(val)
@@ -298,11 +299,7 @@ export class Player {
   private setProgressInterval(this: Player) {
     this.progressInterval = setInterval(() => {
       if (this.howler?.playing()) {
-        const current = this.howler?.seek() ?? 0
-        const currentTime = Math.ceil(current)
-        this.currentTime = currentTime
-        this.store.currentTime = currentTime
-        this.pipLyric.updateTime(current)
+        this.updateCurrentTime()
       }
     }, 1000)
   }

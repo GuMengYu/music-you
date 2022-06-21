@@ -138,7 +138,9 @@
     "disagree": "不同意",
     "agree": "同意",
     "created_playlist": "我创建的歌单",
-    "sub_playlist": "我收藏的歌单"
+    "sub_playlist": "我收藏的歌单",
+    "show_pip": "打开桌面歌词",
+    "hide_pip": "关闭桌面歌词"
   },
   "theme": {
     "RedSandDunes": "红沙滩",
