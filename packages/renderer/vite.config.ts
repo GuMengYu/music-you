@@ -4,12 +4,10 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// import vuetify from '@vuetify/vite-plugin'
 import { defineConfig, loadEnv } from 'vite'
 import polyfillExports from 'vite-plugin-electron/polyfill-exports'
 import electron from 'vite-plugin-electron/renderer'
+// import vuetify from 'vite-plugin-vuetify'
 import resolve from 'vite-plugin-resolve'
 
 import { dependencies, devDependencies, name, version } from '../../package.json'

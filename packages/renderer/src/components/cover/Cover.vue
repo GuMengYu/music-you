@@ -23,7 +23,7 @@
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade-y">
-            <v-btn v-if="isHovering" icon color="primary" @click.prevent="play">
+            <v-btn v-if="isHovering" icon color="primary" :loading="loading" @click.prevent="play">
               <v-icon color="onPrimary">{{ mdiPlay }} </v-icon>
             </v-btn>
           </transition>
