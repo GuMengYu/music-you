@@ -1,6 +1,6 @@
 import { now } from 'lodash-es'
 
-import type { Playlist } from '@/types'
+import type { Playlist, Track } from '@/types'
 import { request, requestPost } from '@/util/fetch'
 
 /**
@@ -20,6 +20,29 @@ export const getPlaylistDetail = (id: number, realTime = false) => {
     playlist: Playlist
     privileges: []
   }>('/playlist/detail', {
+    params,
+  })
+}
+
+/**
+ * 获取歌单所有歌曲
+ * @param id 歌单 id
+ * @param limit 限制获取歌曲的数量，默认值为当前歌单的歌曲数量
+ * @param offset 默认值为0
+ * @returns Playlist
+ */
+export const getPlaylistTrackAll = (id: number, limit?: number, offset = 0) => {
+  const params: {
+    id: number
+    limit?: number
+    offset?: number
+    timestamp?: number
+  } = { id, offset }
+  limit && (params.limit = limit)
+  return request<{
+    songs: Track[]
+    privileges: []
+  }>('/playlist/track/all', {
     params,
   })
 }

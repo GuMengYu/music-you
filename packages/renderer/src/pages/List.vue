@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { useToast } from 'vue-toastification'
 
 import { sub } from '@/api/music'
-import { deletePlayList, getPlaylistDetail, getRelatedPlayList } from '@/api/playlist'
+import { deletePlayList, getPlaylistDetail, getPlaylistTrackAll, getRelatedPlayList } from '@/api/playlist'
 import { getSongData } from '@/api/song'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
@@ -63,11 +63,13 @@ async function fetch(id: number) {
   const { playlist } = await getPlaylistDetail(id)
   state.playlist = playlist
   loading.value = false
-  if (playlist.trackIds?.length) {
-    const { songs } = await getSongData(playlist.trackIds.map((item) => item.id))
+  // ”我喜欢的音乐“ 歌单能够返回完整的tracks
+  await nextTick()
+  if (isMyFavPlayList.value && state.playlist.trackIds?.length) {
+    const { songs } = await getPlaylistTrackAll(id)
     state.playlist.tracks = songs
   }
-  if (playlist) {
+  if (playlist.id) {
     const { playlists } = await getRelatedPlayList(playlist.id)
     state.relatedPlaylists = playlists
   }
