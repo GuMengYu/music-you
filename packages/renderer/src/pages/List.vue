@@ -13,6 +13,7 @@ import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { formatDuring, formatNumber } from '@/util/fn'
 import is from '@/util/is'
+import { specialType } from '@/util/metadata'
 
 const toast = useToast()
 const userStore = useUserStore()
@@ -40,6 +41,11 @@ const tracksDt = computed(() => {
 
 const createdBySelf = computed(() => {
   return userStore.account?.profile.userId === state.playlist.creator?.userId
+})
+
+// 特殊歌单“喜欢的音乐”
+const isMyFavPlayList = computed(() => {
+  return state.playlist.specialType === specialType.fav.type
 })
 
 watchEffect(() => {
@@ -98,6 +104,16 @@ function goto() {
   }
 }
 
+// 在视图中移除歌曲
+function handleRemoveTrack(trackId: number) {
+  const list = [...state.playlist.tracks]
+  const index = state.playlist.tracks.findIndex((i) => i.id === trackId)
+  if (index > -1) {
+    list.splice(index, 1)
+    state.playlist.tracks = list
+  }
+}
+
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
@@ -147,7 +163,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           </div>
           <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
             <v-btn
-              v-if="createdBySelf"
+              v-if="createdBySelf && !isMyFavPlayList"
               size="small"
               variant="outlined"
               class="mr-2"
@@ -157,7 +173,14 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             >
               {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
             </v-btn>
-            <v-btn v-else size="small" variant="outlined" class="mr-2" color="primary" @click="subscribe">
+            <v-btn
+              v-else-if="!isMyFavPlayList"
+              size="small"
+              variant="outlined"
+              class="mr-2"
+              color="primary"
+              @click="subscribe"
+            >
               {{ $tc('common.collect', subscribed ? 2 : 1) }}
             </v-btn>
             <v-btn size="small" color="primary" variant="outlined" plain @click="goto">
@@ -167,11 +190,12 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </v-card>
       </div>
       <track-list
-        type="list"
+        :type="isMyFavPlayList ? 'fav' : 'list'"
         :tracks="state.playlist.tracks"
         :own-id="createdBySelf ? state.playlist.id : null"
         virtual-scroll-optimization
         header
+        @remove-track="handleRemoveTrack"
       />
       <Col :title="$t('main.playlist.simi')" class="mt-4">
         <CardRow>

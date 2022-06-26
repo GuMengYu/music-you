@@ -1,29 +1,37 @@
 <script setup lang="ts">
-import { mdiClockOutline } from '@mdi/js'
+import { mdiClockOutline, mdiFaceMan } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
+import { opPlaylist } from '@/api/music'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { Track } from '@/types'
+import { specialType } from '@/util/metadata'
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
 const { themeName } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 const { t } = useI18n()
+const router = useRouter()
 
 const props = defineProps<{
   tracks: Track[]
-  type: 'album' | 'list' | 'artist'
+  type: 'album' | 'list' | 'artist' | 'fav'
   ownId?: number | null // 是否是自己的歌单id
   header?: boolean
   offsetIndex?: number
   virtualScrollOptimization?: boolean
   setQueue?: boolean
+}>()
+
+const emits = defineEmits<{
+  (event: 'removeTrack', payload: number): void
 }>()
 
 const eventBus = useEventBus<number>('addToQueue')
@@ -34,12 +42,15 @@ const listHeight = computed(() => {
   return props.tracks.length > needScrollNumber ? needScrollNumber * TrackItemHeight : realHeight
 })
 const playlists = computed(() => {
-  return userStore.createdPlaylists.map((i) => {
-    return {
-      id: i.id,
-      name: i.name,
-    }
-  })
+  return userStore.createdPlaylists
+    .map((i) => {
+      return {
+        id: i.id,
+        name: i.name,
+        specialType: i.specialType,
+      }
+    })
+    .filter((playlist) => playlist.specialType !== specialType.fav.type)
 })
 const className = computed(() => {
   if (props.type !== 'album') {
@@ -47,6 +58,9 @@ const className = computed(() => {
   } else {
     return 'list-header album-header'
   }
+})
+const showAlbum = computed(() => {
+  return props.type !== 'album'
 })
 const offsetIndex = computed(() => {
   return props.offsetIndex ?? 1
@@ -65,7 +79,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   const items: MenuItem[] = [
     {
       // icon: mdiPlaylistMusic,
-      label: '添加到播放队列',
+      label: t('common.add_to_queue'),
       onClick: (i) => {
         addToQueue(track)
       },
@@ -74,17 +88,29 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       divided: true,
     },
     {
-      // icon: mdiFaceMan,
-      label: '转至艺人',
-      onClick: (i) => {
-        go()
-      },
+      label: t('common.to_artist'),
+      ...(track.ar!.length > 1
+        ? {
+            children: track.ar?.map((artist) => {
+              return {
+                label: artist.name,
+                onClick: () => {
+                  toArtist(artist.id)
+                },
+              }
+            }),
+          }
+        : {
+            onClick: (i) => {
+              toArtist(track.ar![0].id)
+            },
+          }),
     },
     {
       // icon: mdiAlbum,
-      label: '转至专辑',
+      label: t('common.to_album'),
       onClick: (i) => {
-        go()
+        toAlbum(track.al!.id)
       },
     },
     {
@@ -92,84 +118,84 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     },
     {
       // icon: mdiPlaylistMusic,
-      label: '加入歌单',
+      label: t('common.add_to_playlist'),
       children: playlists.value.map((list) => {
         return {
           label: list.name,
           onClick: (i) => {
-            addToPlayList(list.id, i.id)
+            trackToPlayList('add', list.id, track.id)
           },
         }
       }),
     },
-    {
-      // icon: mdiDownload,
-      label: '下载到本地',
-      onClick: (i) => {
-        download()
-      },
-    },
+    // {
+    //   // icon: mdiDownload,
+    //   label: '下载到本地',
+    //   onClick: (i) => {
+    //     download()
+    //   },
+    // },
   ]
   if (liked) {
     items.push({
       // icon: mdiHeartBroken,
-      label: '从"喜欢的音乐"移除',
+      label: t('common.remove_from_fav'),
       onClick: (i) => {
-        toggleLike(true, i.track)
+        toggleLike(true, track.id)
       },
     })
   } else {
     items.push({
       // icon: mdiHeart,
-      label: '添加到"喜欢的音乐"',
+      label: t('common.add_to_fav'),
       onClick: (i) => {
-        toggleLike(false, i.track)
+        toggleLike(false, track.id)
       },
     })
   }
-  if (props.ownId) {
+  if (props.ownId && props.type !== 'fav') {
     items.push({
       // icon: mdiDelete,
-      label: '从此歌单删除',
+      label: t('common.remove_from_playlist'),
       onClick: (i) => {
         // “!”非空断言
-        removeFromList(props.ownId!, i.track.id)
+        trackToPlayList('del', props.ownId!, track.id)
       },
     })
   }
   return items
 }
-function download() {
-  // todo download
-}
-function fav() {
-  // todo fav
-}
 async function toggleLike(liked: boolean, trackId: number) {
   const success = await userStore.favSong(trackId, !liked)
   if (success) {
     if (liked) {
-      toast.success(t('message.add_fav_success'))
-    } else {
       toast.success(t('message.remove_fav_success'))
+    } else {
+      toast.success(t('message.add_fav_success'))
     }
   } else {
     toast.error(t('message.something_wrong'))
   }
 }
 function addToQueue(track: Track) {
-  console.log(track)
   playQueueStore.addToPlayQueue(track)
-  // add to queue
 }
-function addToPlayList(playlistId: number, trackId: number) {
+async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, trackId: number) {
   // add to playlist
+  try {
+    const { code } = await opPlaylist(op, playlistId, trackId)
+    if (code === 200 && op === 'del') {
+      emits('removeTrack', trackId)
+    }
+  } catch (e) {
+    toast.error(t('message.something_wrong'))
+  }
 }
-function go() {
-  // todo go
+function toArtist(id: number) {
+  router.push(`/artist/${id}`)
 }
-function removeFromList(id: number, trackId: number) {
-  // remove from list
+function toAlbum(id: number) {
+  router.push(`/album/${id}`)
 }
 </script>
 <template>
@@ -178,7 +204,7 @@ function removeFromList(id: number, trackId: number) {
       <div class="px-2 text-caption" :class="[className]">
         <span class="d-flex justify-center">#</span>
         <span>{{ $t('common.title') }}</span>
-        <span v-if="type === 'list'">{{ $t('main.albums') }}</span>
+        <span v-if="showAlbum">{{ $t('main.albums') }}</span>
         <span class="d-flex justify-center align-center"
           ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
         >
@@ -199,7 +225,7 @@ function removeFromList(id: number, trackId: number) {
       <track-item
         :track="track"
         :index="index + offsetIndex"
-        :album="type === 'list'"
+        :album="showAlbum"
         @play="eventBus.emit(track.id, setQueue)"
         @openctxmenu="openMenu"
       />
@@ -210,7 +236,7 @@ function removeFromList(id: number, trackId: number) {
         :key="track.id"
         :track="track"
         :index="index + offsetIndex"
-        :album="type === 'list'"
+        :album="showAlbum"
         @play="eventBus.emit(track.id, setQueue)"
         @openctxmenu="openMenu"
       />

@@ -4,7 +4,7 @@
     "pic_limit": "Select image size cannot exceed 2M",
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
-    "something_wrong": "oops something wrong",
+    "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
     "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation"
   },
@@ -139,9 +139,15 @@
     "agree": "Agree",
     "created_playlist": "My created playlist",
     "sub_playlist": "My favorite playlist",
-    "show_pip": "open desktop lyrics",
-    "hide_pip": "close desktop lyrics"
-  },
+    "show_pip": "Open desktop lyrics",
+    "hide_pip": "Close desktop lyrics",
+    "add_to_queue": "Add to play queue",
+    "to_artist": "Go to artist",
+    "to_album": "Go to album",
+    "add_to_playlist": "Add to play queue",
+    "remove_from_playlist": "Remove from this playlist",
+    "remove_from_fav": "Remove from \"favorite\"",
+    "add_to_fav": "Add to \"favorite\""  },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",
     "GreenMountainTop": "Green Mountain Top",

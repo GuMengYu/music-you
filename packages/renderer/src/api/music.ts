@@ -1,4 +1,4 @@
-import { now } from 'lodash-es'
+import { isArray, now } from 'lodash-es'
 
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
@@ -159,12 +159,16 @@ export const scrobble = (params: { id: Track['id']; sourceid: number | string })
  * @param pid : number 歌单id
  * @param tracks : Array 歌曲id 可多个,用逗号隔开
  */
-export const doPlaylist = (op = 'add', pid: string | number, tracks = []) => {
-  return request('/playlist/tracks', {
+export const opPlaylist = (op: 'add' | 'del' = 'add', pid: number, trackId: number[] | number = []) => {
+  return request<{
+    code: number
+    count: number
+    cloudCount: number
+  }>('/playlist/tracks', {
     params: {
       op,
       pid,
-      tracks: tracks.join(','),
+      tracks: isArray(trackId) ? trackId.join(',') : trackId,
       timestamp: now(),
     },
   })

@@ -140,7 +140,14 @@
     "created_playlist": "我创建的歌单",
     "sub_playlist": "我收藏的歌单",
     "show_pip": "打开桌面歌词",
-    "hide_pip": "关闭桌面歌词"
+    "hide_pip": "关闭桌面歌词",
+    "add_to_queue": "添加到播放队列",
+    "to_artist": "转至艺人",
+    "to_album": "转至专辑",
+    "add_to_playlist": "加入歌单",
+    "remove_from_playlist": "从此歌单删除",
+    "remove_from_fav": "从\"喜欢的音乐\"移除",
+    "add_to_fav": "添加到\"喜欢的音乐\""
   },
   "theme": {
     "RedSandDunes": "红沙滩",
