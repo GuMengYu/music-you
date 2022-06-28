@@ -220,16 +220,23 @@ export class Player {
     this.store.$state.loadingTrack = false
   }
   pause() {
-    this.howler?.pause()
-    this.playing = false
-    this.store.playing = false
-    this.pipLyric.pause()
+    this.howler?.fade(this.volume, 0, 500)
+    this.howler?.once('fade', () => {
+      this.howler?.pause()
+      this.playing = false
+      this.store.playing = false
+      this.pipLyric.pause()
+    })
   }
   play() {
+    if (this.howler?.playing()) return
     this.howler?.play()
-    this.playing = true
-    this.store.playing = true
-    this.pipLyric.play()
+    this.howler?.once('play', () => {
+      this.howler?.fade(0, this.volume, 500)
+      this.playing = true
+      this.store.playing = true
+      this.pipLyric.play()
+    })
   }
   togglePlay() {
     if (this.playing) {
