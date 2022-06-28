@@ -37,7 +37,11 @@
     "playlist": {
       "simi": "Similar Playlist",
       "desc": "Description",
-      "to163": "View in NetEase Cloud Music (web)"
+      "to163": "View in NetEase Cloud Music (web)",
+      "privacy": "Privacy Playlist",
+      "name": "Playlist Name",
+      "new": "Create Playlist",
+      "edit": "Edit Playlist"
     },
     "album": {
       "simi": "Other Hot Album",
@@ -75,10 +79,15 @@
     "artists": "Artists",
     "mvs": "MV",
     "disk": "Disk Music",
-    "my_fav": "My Favorite",
-    "create_list": "Create Nww Playlist"
+    "setting": {
+      "quality": "Streaming quality",
+      "language": "Select language - changes will take effect immediately",
+      "reset": "Reset app data (including cache, user login info)"
+    }
   },
   "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "forward": "Forward",
     "backward": "Backward",
     "play": "Play",
@@ -108,7 +117,7 @@
     "dark_theme": "Dark Theme",
     "auto": "auto",
     "mixed": "mixed",
-    "quality": "Quality",
+    "quality": "Audio quality",
     "usageSize": "cache",
     "dynamicBg": "Dynamic Background",
     "lyric": "Lyric",
@@ -147,7 +156,8 @@
     "add_to_playlist": "Add to play queue",
     "remove_from_playlist": "Remove from this playlist",
     "remove_from_fav": "Remove from \"favorite\"",
-    "add_to_fav": "Add to \"favorite\""  },
+    "add_to_fav": "Add to \"favorite\""
+  },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",
     "GreenMountainTop": "Green Mountain Top",

@@ -12,7 +12,7 @@
             <v-btn rounded="lg" variant="tonal" color="primary" @click="handleCreatePlaylist">
               <span class="d-flex align-center">
                 <v-icon>{{ mdiPlus }}</v-icon>
-                创建歌单
+                {{ $t('main.playlist.new') }}
               </span>
             </v-btn>
           </template>
@@ -63,23 +63,27 @@
       </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
-      <v-card color="surfaceVariant" max-width="400" min-width="400" rounded="lg" class="py-2">
-        <v-card-title>新建歌单</v-card-title>
+      <v-card max-width="420" min-width="420" rounded="lg" class="py-2">
+        <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
         <v-card-content>
           <v-text-field
             v-model="createState.playlistName"
-            label="歌单名"
+            :label="$t('main.playlist.name')"
             maxlength="45"
             variant="outlined"
             density="compact"
             hide-details
           ></v-text-field>
-          <v-checkbox v-model="createState.playlistPrivate" label="设为隐私歌单" hide-details></v-checkbox>
+          <v-checkbox
+            v-model="createState.playlistPrivate"
+            :label="$t('main.playlist.privacy')"
+            hide-details
+          ></v-checkbox>
         </v-card-content>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="text" @click="createState.show = false"> 取消 </v-btn>
-          <v-btn variant="text" color="primary" @click="createNewPlaylist"> 保存 </v-btn>
+          <v-btn variant="text" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>
+          <v-btn variant="text" color="primary" @click="createNewPlaylist"> {{ $t('common.confirm') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

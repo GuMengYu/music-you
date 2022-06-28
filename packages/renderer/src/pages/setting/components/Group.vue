@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-title v-if="title" :path="title" class="mb-2 pl-1" />
+    <app-title v-if="title" :path="title" class="mb-2" />
 
     <v-item-group
       class="mx-auto"

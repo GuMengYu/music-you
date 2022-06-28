@@ -2,7 +2,7 @@
   <v-menu>
     <template #activator="{ props }">
       <slot name="activator" v-bind="{ props }">
-        <v-btn variant="text" v-bind="props" class="text-lowercase font-weight-bold">
+        <v-btn size="small" variant="tonal" color="primary" v-bind="props" class="text-lowercase font-weight-bold">
           {{ text }}
           <v-icon right class="ml-0" size="14">{{ mdiChevronDown }}</v-icon>
         </v-btn>
@@ -13,7 +13,7 @@
     </v-sheet>
   </v-menu>
 </template>
-<script setup>
+<script setup lang="ts">
 import { mdiChevronDown } from '@mdi/js'
 import { computed } from 'vue'
 

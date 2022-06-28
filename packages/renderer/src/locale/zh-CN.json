@@ -37,7 +37,11 @@
     "playlist": {
       "simi": "相似歌单",
       "desc": "歌单简介",
-      "to163": "在网易云音乐中查看(web)"
+      "to163": "在网易云音乐中查看(web)",
+      "privacy": "隐私歌单",
+      "name": "歌单名称",
+      "new": "创建歌单",
+      "edit": "编辑歌单"
     },
     "album": {
       "simi": "Ta的其他热门专辑",
@@ -75,10 +79,15 @@
     "artists": "歌手",
     "mvs": "MV",
     "disk": "云盘",
-    "my_fav": "喜欢的音乐",
-    "create_list": "创建新歌单"
+    "setting": {
+      "quality": "流媒体质量",
+      "language": "选择语言-改变将会立即生效",
+      "reset": "重置应用数据(包括缓存，用户登录信息)"
+    }
   },
   "common": {
+    "cancel": "取消",
+    "confirm": "确定",
     "forward": "前进",
     "backward": "后退",
     "reload": "刷新",
@@ -109,7 +118,7 @@
     "auto": "跟随系统",
     "other": "其他",
     "mixed": "混合",
-    "quality": "音质",
+    "quality": "音频质量",
     "usageSize": "缓存占用空间",
     "dynamicBg": "歌词动态背景",
     "lyric": "歌词",

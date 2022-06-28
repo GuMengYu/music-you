@@ -57,6 +57,7 @@ import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
 import { sizeOfImage } from '@/util/fn'
+
 const player = usePlayer()
 const playQueueStore = usePlayQueueStore()
 const props = defineProps<{

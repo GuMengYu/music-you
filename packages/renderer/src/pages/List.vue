@@ -200,7 +200,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
             <template v-if="createdBySelf && !isMyFavPlayList">
               <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="showEdit = true">
-                编辑歌单
+                {{ $t('main.playlist.edit') }}
               </v-btn>
               <v-btn size="small" variant="outlined" class="mr-2" color="primary" :disabled="isDelete" @click="del">
                 {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
@@ -235,8 +235,8 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />
         </CardRow>
       </Col>
-      <v-dialog v-model="showMoreDesc" max-width="50vw" :scrollable="true">
-        <v-card color="surfaceVariant" min-width="40vw" min-height="200" rounded="lg">
+      <v-dialog v-model="showMoreDesc" :scrollable="true">
+        <v-card color="surfaceVariant" width="420" rounded="lg">
           <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
           <v-card-text>
             {{ state.playlist['description'] }}
@@ -244,16 +244,21 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </v-card>
       </v-dialog>
       <v-dialog v-model="showEdit" :scrollable="true">
-        <v-card color="surfaceVariant" max-width="45vw" min-width="45vw" min-height="200" rounded="lg" class="py-2">
-          <v-card-title> Edit Playlist </v-card-title>
+        <v-card width="420" min-height="200" rounded="lg" class="py-2">
+          <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
           <v-card-content>
-            <v-text-field v-model="editForm.title" variant="outlined" label="playlist title"> </v-text-field>
-            <v-textarea v-model="editForm.description" hide-details variant="outlined" label="description">
+            <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
+            <v-textarea
+              v-model="editForm.description"
+              hide-details
+              variant="outlined"
+              :label="$t('main.playlist.desc')"
+            >
             </v-textarea>
           </v-card-content>
           <v-card-actions class="justify-end">
-            <v-btn color="primary" variant="text" plain @click="cancel"> 取消 </v-btn>
-            <v-btn color="primary" variant="text" plain @click="edit"> 确定 </v-btn>
+            <v-btn variant="text" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
+            <v-btn color="primary" variant="text" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

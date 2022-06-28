@@ -1,6 +1,5 @@
 <template>
   <app-settings-group v-model="appearance" title="common.theme" :items="appearanceItems" />
-  <v-divider class="my-3 mx-n3" />
   <app-settings-group v-model="color" title="common.theme_color" :items="colorItems" />
   <v-btn
     fixed

@@ -1,25 +1,56 @@
 <template>
-  <app-title path="common.other" class="mb-2 pl-1" />
-
-  <v-list-item>
-    <v-list-item-header>
-      <v-list-item-title>{{ $t('common.language') }}</v-list-item-title>
-    </v-list-item-header>
-    <v-list-item-media>
-      <App-Select v-model="lang" :items="localeOptions" />
-    </v-list-item-media>
-  </v-list-item>
-  <v-list-item>
-    <v-list-item-header>
-      <v-list-item-title>{{ $t('common.quality') }}</v-list-item-title>
-    </v-list-item-header>
-    <v-list-item-media>
-      <App-Select v-model="quality" :items="qualityOptions" />
-    </v-list-item-media>
-  </v-list-item>
-  <v-divider class="mt-4 mb-3 mx-n3" />
+  <div>
+    <app-title path="common.language" />
+    <v-list-item class="pa-0">
+      <v-list-item-header class="text-caption"> {{ $t('main.setting.language') }} </v-list-item-header>
+      <v-list-item-media>
+        <AppSelect v-model="lang" :items="localeOptions" />
+      </v-list-item-media>
+    </v-list-item>
+  </div>
+  <div>
+    <app-title path="common.quality" />
+    <v-list-item class="pa-0">
+      <v-list-item-header class="text-caption"> {{ $t('main.setting.quality') }} </v-list-item-header>
+      <v-list-item-media>
+        <AppSelect v-model="quality" :items="qualityOptions" />
+      </v-list-item-media>
+    </v-list-item>
+  </div>
+  <div>
+    <app-title path="message.reset_app" />
+    <v-list-item class="pa-0">
+      <v-list-item-header class="text-caption"> {{ $t('main.setting.reset') }}</v-list-item-header>
+      <v-list-item-media>
+        <v-dialog v-model="showAlert" persistent max-width="350">
+          <template #activator="{ props }">
+            <v-btn color="primary" size="small" v-bind="props" variant="outlined" rounded>
+              {{ $t('message.reset_app') }}
+            </v-btn>
+          </template>
+          <v-card class="pt-4 pb-1" rounded="lg" color="surface">
+            <div class="d-flex justify-center">
+              <v-icon color="secondary" size="large">
+                {{ mdiRestore }}
+              </v-icon>
+            </div>
+            <v-card-title class="justify-center onSurface--text">{{ $t('message.reset_app') }}</v-card-title>
+            <v-card-subtitle class="text-center onSurfaceVariant--text">{{ $t('message.reset_msg') }}</v-card-subtitle>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn variant="text" @click="showAlert = false">
+                {{ $t('common.disagree') }}
+              </v-btn>
+              <v-btn color="primary" variant="text" @click="resetApp"> {{ $t('common.agree') }} </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-list-item-media>
+    </v-list-item>
+  </div>
 </template>
 <script setup lang="ts">
+import { mdiRestore } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
@@ -47,17 +78,17 @@ const localeOptions = [
 
 const qualityOptions = [
   {
-    title: '128kb',
+    title: '128kbs',
     value: 128000,
     activeClass: 'text-primary',
   },
   {
-    title: '320kb',
+    title: '320kbs',
     value: 320000,
     activeClass: 'text-primary',
   },
   {
-    title: 'flac',
+    title: 'flac(999kbs)',
     value: 999000,
     activeClass: 'text-primary',
   },
@@ -65,4 +96,11 @@ const qualityOptions = [
 watch(lang, () => {
   locale.value = lang.value
 })
+
+const showAlert = ref(false)
+function resetApp() {
+  showAlert.value = false
+  window.localStorage.clear()
+  window.location.reload()
+}
 </script>
