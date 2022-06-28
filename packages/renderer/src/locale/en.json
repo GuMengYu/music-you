@@ -37,12 +37,12 @@
     "playlist": {
       "simi": "Similar Playlist",
       "desc": "Description",
-      "to163": "jump to music 163"
+      "to163": "View in NetEase Cloud Music (web)"
     },
     "album": {
       "simi": "Other Hot Album",
       "desc": "Description",
-      "to163": "jump to 163 music"
+      "to163": "View in NetEase Cloud Music (web)"
     },
     "discover": {
       "common": "common",

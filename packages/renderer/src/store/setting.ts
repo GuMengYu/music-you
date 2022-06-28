@@ -6,10 +6,19 @@ export enum APPEARANCE {
   DARK = 'dark',
   SYSTEM = 'system',
 }
+
+export enum WallpaperColor {
+  RedSandDunes = 'RedSandDunes',
+  GreenRockyMountains = 'GreenRockyMountains',
+  GreenMountainTop = 'GreenMountainTop',
+  OrangeDesert = 'OrangeDesert',
+  BlueMountains = 'BlueMountains',
+  Customize = 'Customize',
+}
 export interface SettingState {
   locale: string
   appearance: APPEARANCE
-  wallpaperColor: string
+  wallpaperColor: WallpaperColor
   customPalette: {
     darkColors: null | Record<string, string>
     lightColors: null | Record<string, string>
@@ -23,9 +32,9 @@ export interface SettingState {
 export const useSettingStore = defineStore('setting', {
   state: () => {
     return useLocalStorage<SettingState>('setting', {
-      locale: 'en',
+      locale: 'zhCN',
       appearance: APPEARANCE.SYSTEM,
-      wallpaperColor: 'GreenRockyMountains',
+      wallpaperColor: WallpaperColor.GreenRockyMountains,
       customPalette: {
         darkColors: null,
         lightColors: null,

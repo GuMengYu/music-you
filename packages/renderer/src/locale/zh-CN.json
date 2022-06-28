@@ -37,12 +37,12 @@
     "playlist": {
       "simi": "相似歌单",
       "desc": "歌单简介",
-      "to163": "转到歌单详细"
+      "to163": "在网易云音乐中查看(web)"
     },
     "album": {
       "simi": "Ta的其他热门专辑",
       "desc": "专辑简介",
-      "to163": "跳转专辑详情"
+      "to163": "在网易云音乐中查看(web)"
     },
     "discover": {
       "common": "常用",
@@ -151,10 +151,10 @@
   },
   "theme": {
     "RedSandDunes": "红沙滩",
-    "GreenMountainTop": "绿山峰",
+    "GreenMountainTop": "绿色峰顶",
     "OrangeDesert": "橙色沙漠",
     "BlueMountains": "蓝色山峰",
-    "GreenRockyMountains": "绿色山峰",
+    "GreenRockyMountains": "落基山脉",
     "Customize": "自定义"
   }
 }

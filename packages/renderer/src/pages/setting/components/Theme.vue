@@ -36,7 +36,7 @@ import { useToast } from 'vue-toastification'
 import { useTheme } from 'vuetify'
 
 import type { APPEARANCE } from '@/store/setting'
-import { useSettingStore } from '@/store/setting'
+import { useSettingStore, WallpaperColor } from '@/store/setting'
 import { fileToDataURL } from '@/util/fn'
 
 import AppSettingsGroup from './Group.vue'
@@ -74,27 +74,27 @@ export default {
     const defaultThemes = [
       {
         icon: mdiPalette,
-        value: 'RedSandDunes',
+        value: WallpaperColor.RedSandDunes,
         text: 'theme.RedSandDunes',
       },
       {
         icon: mdiPalette,
-        value: 'GreenMountainTop',
+        value: WallpaperColor.GreenMountainTop,
         text: 'theme.GreenMountainTop',
       },
       {
         icon: mdiPalette,
-        value: 'OrangeDesert',
+        value: WallpaperColor.OrangeDesert,
         text: 'theme.OrangeDesert',
       },
       {
         icon: mdiPalette,
-        value: 'BlueMountains',
+        value: WallpaperColor.BlueMountains,
         text: 'theme.BlueMountains',
       },
       {
         icon: mdiPalette,
-        value: 'GreenRockyMountains',
+        value: WallpaperColor.GreenRockyMountains,
         text: 'theme.GreenRockyMountains',
       },
     ]
@@ -125,7 +125,7 @@ export default {
       get() {
         return wallpaperColor.value
       },
-      set(value: string) {
+      set(value: WallpaperColor) {
         wallpaperColor.value = value
       },
     })
@@ -147,7 +147,7 @@ export default {
             lightColors: palette.light,
             darkColors: palette.dark,
           }
-          color.value = 'Customize'
+          color.value = WallpaperColor.Customize
           location.reload()
         } catch (e) {
           console.log(e)
