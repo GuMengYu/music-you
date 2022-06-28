@@ -26,40 +26,32 @@
   </div>
 </template>
 <script setup lang="ts">
-import { personalizedMV, personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
-import { recommendPlaylist } from '@/api/user'
-import type { MV, Playlist, Track } from '@/types'
+import { personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
+import type { Playlist, Track } from '@/types'
 
 import ShortcutGrid from './shortcuts/ShortcutGrid.vue'
 interface RootState {
   playLists: Playlist[]
   radarPlayLists: Playlist[]
   songs: Track[]
-  mvs: MV[]
   loading: boolean
 }
 const state = reactive<RootState>({
   radarPlayLists: [],
   playLists: [],
-  mvs: [],
   songs: [],
   loading: false,
 })
 
-onMounted(() => {
-  fetch()
-})
 const fetch = async () => {
   state.loading = true
   try {
-    const [playLists, { result: mvs }, { result: songs }, radars] = await Promise.all([
+    const [playLists, { result: songs }, radars] = await Promise.all([
       personalizedPlaylist(),
-      personalizedMV(),
       personalizedSong(7),
       personalizedRadar(),
     ])
     state.playLists = playLists
-    state.mvs = mvs
     state.songs = songs.map((i) => i.song)
     state.radarPlayLists = radars
   } catch (e) {
@@ -68,4 +60,5 @@ const fetch = async () => {
     state.loading = false
   }
 }
+fetch()
 </script>
