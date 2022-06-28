@@ -428,7 +428,7 @@ export function PipLyric() {
           ? (function (n) {
               var t = (n || {}).program
               if (!t) return null
-              var e = (t.coverUrl || (t.radio || {}).picUrl || K).replace(/^https?:/, ''),
+              var e = t.coverUrl || (t.radio || {}).picUrl || K,
                 r = g - 2 * v(70),
                 a = [, 'y', ,].join(100 * Math.ceil(r / 100)),
                 i = document.createDocumentFragment()
@@ -928,9 +928,8 @@ export function PipLyric() {
               u,
               d,
               s = (C.id += 1),
-              m = (
+              m =
                 (e.program ? e.program.coverUrl || (e.program.radio || {}).picUrl : (e.al || e.album || {}).picUrl) || K
-              ).replace(/^https?:/, '')
             ;(c = (l = (i = a) || {}).lrc),
               (u = l.tlyric),
               (d = l.nolyric),
@@ -969,7 +968,7 @@ export function PipLyric() {
                       return n[0] - t[0]
                     })
                   })(a),
-              f = ''.concat(m, '?param=').concat([, 'y', ,].join(130))
+              f = ''.concat(m, '?param=').concat([, 'y', ,].join(128))
             return Promise.all([
               h.lyric || renderLyric(p),
               h.background || renderLogo(f),
