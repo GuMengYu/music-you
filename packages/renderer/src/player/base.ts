@@ -126,9 +126,10 @@ export class Player {
     if (!trackId) return
     const { isCurrentFm } = this.store.$state as PlayerState
     this.store.$state.loadingTrack = true
-    const { track, url, lyric } = await getTrackDetail(trackId)
-    if (url) {
+    const { track, trackMeta, lyric } = await getTrackDetail(trackId)
+    if (trackMeta.url) {
       track.lyric = lyric // 存入歌词
+      track.meta = trackMeta
       this.store.$state.track = track // 保存到 store
       if (isCurrentFm) {
         this.store.$state.fmTrack = track
@@ -139,7 +140,7 @@ export class Player {
       this.track = track
       Howler.unload()
       this.howler = null
-      this.howler = this.initSound(url)
+      this.howler = this.initSound(trackMeta.url)
       this.initMediaSession(track)
       if (resetProgress) {
         this.setSeek(0)

@@ -163,7 +163,7 @@ async function toggleLike() {
           <div class="track-info">
             <v-list-item-title class="line-clamp-1" v-text="track.name" />
             <v-list-item-subtitle>
-              <artists-link :artists="artists" class="line-clamp-1" />
+              <artists-link :artists="artists" class="line-clamp-1 text-caption" />
             </v-list-item-subtitle>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { getAccount, logout } from '@/api/account'
 import { sub } from '@/api/music'
 import { getLikeList, getUserPlaylist } from '@/api/user'
-import type { Account, Playlist, Track } from '@/types'
+import type { Account, Playlist } from '@/types'
 import { specialType } from '@/util/metadata'
 
 type Nullable<T> = T | null
@@ -43,7 +43,7 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async init() {
+    async fetch() {
       if (this.logged) {
         const [likesRes, playlistRes] = await Promise.all([
           getLikeList(),
@@ -55,6 +55,13 @@ export const useUserStore = defineStore({
         this.likes = likesRes.ids
         this.playlists = playlistRes.playlist
       }
+    },
+    async flushPlaylist() {
+      const { playlist } = await getUserPlaylist({
+        timestamp: new Date().getTime(),
+        uid: this.uid,
+      })
+      this.playlists = playlist
     },
     async refreshAccount() {
       const account = await getAccount()

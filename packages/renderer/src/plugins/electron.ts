@@ -29,9 +29,9 @@ function registerIpcRenderer() {
   // ipcRenderer.on('prev', () => {
   //   window?.app?.$player.prev()
   // })
-  ipcRenderer.on('playOrPause', () => {
-    playerStore.$state.playing = !playerStore.$state.playing
-  })
+  // ipcRenderer.on('playOrPause', () => {
+  //   playerStore.$state.playing = !playerStore.$state.playing
+  // })
   ipcRenderer.on('volumeUp', () => {
     const volume = playerStore.$state.volume
     const tem = volume + 0.05

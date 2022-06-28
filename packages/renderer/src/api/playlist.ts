@@ -75,6 +75,45 @@ export const deletePlayList = (id: number) => {
 }
 
 /**
+ * 更新歌单信息
+ * @param id 歌单id
+ * @param name 歌单名字
+ * @param desc 歌单描述
+ * @param tags 歌单tag ,多个用 `;` 隔开,只能用官方规定标签
+ * @returns
+ */
+export const updatePlaylist = (id: number, name: string, desc: string, tags: string[]) => {
+  return request<{
+    code: number
+  }>('/playlist/update', {
+    params: {
+      id,
+      name,
+      desc,
+      tags,
+      timestamp: now(),
+    },
+  })
+}
+
+export const updatePlayListCover = (
+  id: number,
+  formdata: FormData,
+  options: {
+    imgX: number
+    imgY: number
+  }
+) => {
+  return requestPost('/playlist/cover/update', formdata, {
+    params: {
+      id,
+      imgX: options.imgX,
+      imgY: options.imgY,
+    },
+  })
+}
+
+/**
  * 新建歌单
  * name 歌单名
  * privacy 是否设置为隐私歌单，默认否，'10' 为隐私歌单
@@ -82,11 +121,18 @@ export const deletePlayList = (id: number) => {
  * @param {name: string, privacy: number, type: string} params
  * @returns
  */
-export const createPlaylist = (params: { name: string; privacy: number; type: string }) =>
-  requestPost('/playlist/create', {
-    ...params,
-    timestamp: now(),
-  })
+export const createPlaylist = (params: { name: string; privacy: number }) =>
+  requestPost(
+    '/playlist/create',
+    {
+      ...params,
+    },
+    {
+      params: {
+        timestamp: now(),
+      },
+    }
+  )
 
 /**
  * 获取歌单分类列表

@@ -23,9 +23,12 @@
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade-y">
-            <v-btn v-if="isHovering" icon color="primary" :loading="loading" @click.prevent="play">
-              <v-icon color="onPrimary">{{ mdiPlay }} </v-icon>
-            </v-btn>
+            <div v-if="isHovering" class="d-flex flex-fill justify-space-between">
+              <v-btn icon color="primary" :loading="loading" @click.prevent="play">
+                <v-icon color="onPrimary">{{ mdiPlay }} </v-icon>
+              </v-btn>
+              <slot name="action" />
+            </div>
           </transition>
         </div>
       </v-img>

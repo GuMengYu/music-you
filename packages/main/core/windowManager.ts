@@ -25,7 +25,7 @@ export default class WindowManager extends EventEmitter {
 
     try {
       this.window = new BrowserWindow({
-        width: 1280,
+        width: 1150,
         height: 720,
         minWidth: 800,
         minHeight: 540,

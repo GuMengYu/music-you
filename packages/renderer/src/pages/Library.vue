@@ -8,6 +8,14 @@
     <v-window :model-value="current" class="mt-4">
       <v-window-item :value="TYPES.PLAYLIST">
         <Col :title="$t('common.created_playlist')" class="mb-4">
+          <template #more>
+            <v-btn rounded="lg" variant="tonal" color="primary" @click="handleCreatePlaylist">
+              <span class="d-flex align-center">
+                <v-icon>{{ mdiPlus }}</v-icon>
+                创建歌单
+              </span>
+            </v-btn>
+          </template>
           <card-row>
             <cover v-for="item in filteredPlaylist.create" :key="item.id" :data="item" type="playlist" />
           </card-row>
@@ -54,17 +62,39 @@
         </v-list>
       </v-window-item>
     </v-window>
+    <v-dialog v-model="createState.show">
+      <v-card color="surfaceVariant" max-width="400" min-width="400" rounded="lg" class="py-2">
+        <v-card-title>新建歌单</v-card-title>
+        <v-card-content>
+          <v-text-field
+            v-model="createState.playlistName"
+            label="歌单名"
+            maxlength="45"
+            variant="outlined"
+            density="compact"
+            hide-details
+          ></v-text-field>
+          <v-checkbox v-model="createState.playlistPrivate" label="设为隐私歌单" hide-details></v-checkbox>
+        </v-card-content>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" @click="createState.show = false"> 取消 </v-btn>
+          <v-btn variant="text" color="primary" @click="createNewPlaylist"> 保存 </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script lang="ts" setup>
-import { mdiPlay } from '@mdi/js'
+import { mdiPlus } from '@mdi/js'
 import { groupBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { cloudDiskMusicList } from '@/api/cloud'
-import { favAlbums, favArtists, favMVs, recent } from '@/api/user'
+import { createPlaylist } from '@/api/playlist'
+import { favAlbums, favArtists, favMVs } from '@/api/user'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
@@ -128,6 +158,31 @@ async function loadData() {
     toast.error('something wrong')
   } finally {
     loading.value = false
+  }
+}
+
+const createState = reactive({
+  show: false,
+  playlistName: '',
+  playlistPrivate: false,
+})
+function handleCreatePlaylist() {
+  createState.show = true
+  createState.playlistName = ''
+  createState.playlistPrivate = false
+}
+
+async function createNewPlaylist() {
+  try {
+    await createPlaylist({
+      name: createState.playlistName,
+      privacy: createState.playlistPrivate ? 10 : 0,
+    })
+    toast.success('创建成功')
+    createState.show = false
+    await userStore.flushPlaylist()
+  } catch (e) {
+    toast.error(t('message.something_wrong'))
   }
 }
 </script>

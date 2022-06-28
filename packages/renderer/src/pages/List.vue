@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiInformation, mdiPlay, mdiPlaylistMusicOutline } from '@mdi/js'
+import { mdiAccountMusic, mdiCandyOutline, mdiInformation, mdiPlaylistMusicOutline } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
 import { useToast } from 'vue-toastification'
 
 import { sub } from '@/api/music'
-import { deletePlayList, getPlaylistDetail, getPlaylistTrackAll, getRelatedPlayList } from '@/api/playlist'
-import { getSongData } from '@/api/song'
+import {
+  deletePlayList,
+  getPlaylistDetail,
+  getPlaylistTrackAll,
+  getRelatedPlayList,
+  updatePlaylist,
+} from '@/api/playlist'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -26,6 +31,14 @@ const loading = ref(false)
 const subscribed = ref(false)
 const isDelete = ref(false)
 const showMoreDesc = ref(false)
+const showEdit = ref(false)
+
+const editForm = reactive({
+  title: '',
+  description: '',
+  tags: [] as string[],
+})
+
 interface RootState {
   playlist: Playlist
   relatedPlaylists: Playlist[]
@@ -58,9 +71,9 @@ async function play() {
   }
 }
 
-async function fetch(id: number) {
+async function fetch(id: number, flush = false) {
   loading.value = true
-  const { playlist } = await getPlaylistDetail(id)
+  const { playlist } = await getPlaylistDetail(id, flush)
   state.playlist = playlist
   loading.value = false
   // ”我喜欢的音乐“ 歌单能够返回完整的tracks
@@ -75,6 +88,7 @@ async function fetch(id: number) {
   }
   state.playlist = playlist
   subscribed.value = playlist.subscribed
+  reset()
 }
 
 async function subscribe() {
@@ -96,6 +110,27 @@ async function del() {
   }
 }
 
+async function edit() {
+  const { code } = await updatePlaylist(props.id as number, editForm.title, editForm.description, editForm.tags)
+  if (code === 200) {
+    showEdit.value = false
+    state.playlist.description = editForm.description
+    state.playlist.tags = editForm.tags
+    state.playlist.name = editForm.title
+  }
+  // fetch(+props.id, true)
+}
+
+function cancel() {
+  reset()
+  showEdit.value = false
+}
+
+const reset = () => {
+  editForm.title = state.playlist.name
+  editForm.description = state.playlist.description
+  editForm.tags = state.playlist.tags ?? []
+}
 function goto() {
   const url = `https://music.163.com/#/playlist?id=${state.playlist.id}`
   if (is.electron()) {
@@ -146,8 +181,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
                 {{ state.playlist.name }}
               </span>
             </span>
-            <v-btn color="primary" size="small" @click="play">
-              <v-icon> {{ mdiPlay }}</v-icon>
+            <v-btn size="small" color="primary" variant="flat" rounded class="px-5" @click="play">
               {{ $t('common.play') }}
             </v-btn>
           </div>
@@ -164,17 +198,14 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             </p>
           </div>
           <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-            <v-btn
-              v-if="createdBySelf && !isMyFavPlayList"
-              size="small"
-              variant="outlined"
-              class="mr-2"
-              color="primary"
-              :disabled="isDelete"
-              @click="del"
-            >
-              {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
-            </v-btn>
+            <template v-if="createdBySelf && !isMyFavPlayList">
+              <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="showEdit = true">
+                编辑歌单
+              </v-btn>
+              <v-btn size="small" variant="outlined" class="mr-2" color="primary" :disabled="isDelete" @click="del">
+                {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
+              </v-btn>
+            </template>
             <v-btn
               v-else-if="!isMyFavPlayList"
               size="small"
@@ -205,11 +236,25 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </CardRow>
       </Col>
       <v-dialog v-model="showMoreDesc" max-width="50vw" :scrollable="true">
-        <v-card color="surfaceVariant">
+        <v-card color="surfaceVariant" min-width="40vw" min-height="200" rounded="lg">
           <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
           <v-card-text>
             {{ state.playlist['description'] }}
           </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="showEdit" :scrollable="true">
+        <v-card color="surfaceVariant" max-width="45vw" min-width="45vw" min-height="200" rounded="lg" class="py-2">
+          <v-card-title> Edit Playlist </v-card-title>
+          <v-card-content>
+            <v-text-field v-model="editForm.title" variant="outlined" label="playlist title"> </v-text-field>
+            <v-textarea v-model="editForm.description" hide-details variant="outlined" label="description">
+            </v-textarea>
+          </v-card-content>
+          <v-card-actions class="justify-end">
+            <v-btn color="primary" variant="text" plain @click="cancel"> 取消 </v-btn>
+            <v-btn color="primary" variant="text" plain @click="edit"> 确定 </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </div>

@@ -32,9 +32,16 @@
           </v-hover>
 
           <div class="mx-2 d-flex align-start flex-column">
-            <span class="line-clamp-1 text-subtitle-2">
-              {{ track?.name }}
-            </span>
+            <div class="d-flex align-center line-clamp-1">
+              <span class="text-subtitle-2"> {{ track?.name }} · </span>
+
+              <span class="text-caption font-weight-bold text-secondary"> {{ track.meta?.type }} · </span>
+
+              <span class="text-caption font-weight-bold text-secondary">
+                {{ `${Math.ceil((track.meta?.br ?? 0) / 1000)}` }}kbps
+              </span>
+            </div>
+
             <artists-link :artists="track?.ar" class="text-caption" />
           </div>
           <like-toggle :id="track?.id" />
@@ -100,7 +107,7 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { formatDuring, sizeOfImage } from '@/util/fn'
+import { formatNumber, sizeOfImage } from '@/util/fn'
 // utitlity
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()

@@ -7,6 +7,12 @@ export interface Track {
   artists?: Artist[]
   al?: Album
   album?: Album
+  meta?: {
+    url: null | string
+    br: null | number
+    type: string
+    encodeType: string
+  }
   lyric?: {
     tlyric: {
       lyric: string

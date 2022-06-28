@@ -6,7 +6,7 @@
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
         <v-list-item
-          v-for="item in state.defaultNav1"
+          v-for="item in nav"
           :key="item.val"
           class="drawer-item rounded-pill"
           :to="item.to"
@@ -40,16 +40,17 @@
 import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { reactive } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 import { useSettingStore } from '@/store/setting'
+import { useUserStore } from '@/store/user'
 import is from '@/util/is'
 
 const { rail } = storeToRefs(useSettingStore())
+const { logged } = storeToRefs(useUserStore())
 
 const isMac = is.macOS()
-const state = reactive({
-  defaultNav1: [
+const nav = computed(() => {
+  const list = [
     {
       icon: mdiMagnify,
       val: 'search',
@@ -68,13 +69,15 @@ const state = reactive({
       title: 'main.nav.explore',
       to: '/explore',
     },
-    {
+  ]
+  if (logged.value) {
+    list.push({
       icon: mdiRhombusSplit,
       val: 'stars',
       title: 'main.nav.stars',
       to: '/library',
-    },
-  ],
-  defaultNav2: [],
+    })
+  }
+  return list
 })
 </script>

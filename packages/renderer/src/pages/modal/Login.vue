@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showLogin" persistent>
-    <v-card outlined color="surface" class="login-container py-4" rounded="lg">
+    <v-card outlined color="surface" class="login-container py-4" rounded="lg" max-width="390">
       <div class="d-flex justify-center">
         <v-icon color="secondary" size="large">
           {{ mdiLogin }}
@@ -11,14 +11,19 @@
       <v-card-subtitle class="text-center onSurfaceVariant--text mt-0"
         >使用手机号或者邮箱来登录, 也可切换二维码用网易云App扫码登录</v-card-subtitle
       >
-      <div v-if="state.loginType === LOGIN_TYPE.ACCOUNT" class="form-area mx-6 py-9">
-        <v-text-field v-model="state.phone" outlined filled dense label="手机号或邮箱" :prepend-inner-icon="mdiPacMan">
+      <div v-if="state.loginType === LOGIN_TYPE.ACCOUNT" class="mx-6 py-6">
+        <v-text-field
+          v-model="state.phone"
+          variant="outlined"
+          density="compact"
+          label="手机号或邮箱"
+          :prepend-inner-icon="mdiPacMan"
+        >
         </v-text-field>
         <v-text-field
           v-model="state.password"
-          outlined
-          filled
-          dense
+          variant="outlined"
+          density="compact"
           :prepend-inner-icon="mdiLock"
           type="password"
           label="密码"
@@ -44,9 +49,9 @@
         <span class="text-caption my-2" :class="qrTips[1]">{{ qrTips[0] }}</span>
       </div>
       <v-divider class="mx-6" />
-      <div class="d-flex justify-space-between mt-2 mx-4 align-center">
+      <div class="d-flex justify-space-between mx-3 align-center">
         <v-btn class="align-self-start" color="primary" variant="text" @click="toggleType">
-          {{ state.loginType === LOGIN_TYPE.ACCOUNT ? '二维码' : '账号登录' }}
+          {{ state.loginType === LOGIN_TYPE.ACCOUNT ? '二维码登录' : '账号登录' }}
         </v-btn>
         <div>
           <v-btn variant="text" color="primary" :loading="state.loading" class="login-button" @click="handleCancel">
@@ -54,7 +59,8 @@
           </v-btn>
           <v-btn
             v-show="state.loginType === LOGIN_TYPE.ACCOUNT"
-            text
+            variant="text"
+            rounded
             color="primary"
             :loading="state.loading"
             class="login-button"

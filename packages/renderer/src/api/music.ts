@@ -21,15 +21,20 @@ export const getTrackDetail = async (id: number) => {
     songs: [track],
   } = await getSongData([id])
   const lyric = await getLyric(id)
-  const url = await getMusicUrl(id)
-  return { track, url, lyric }
+  const trackMeta = await getMusicUrl(id)
+  return { track, trackMeta, lyric }
 }
 
 export const getMusicUrl = async (id: Track['id']) => {
   const userStore = useUserStore()
   const settingStore = useSettingStore()
   const br = settingStore.quality
-  let url
+  const meta: Track['meta'] = {
+    url: null,
+    br: null,
+    type: '',
+    encodeType: '',
+  }
   if (userStore.logged) {
     const {
       data: [song],
@@ -37,18 +42,21 @@ export const getMusicUrl = async (id: Track['id']) => {
     if (song?.freeTrialInfo || !song.url) {
       try {
         const { data } = await getSongUrlFromUnlockMusic(id) // 尝试解锁灰色或者试听歌曲
-        url = data?.url
+        meta.url = data.url ?? ''
       } catch (e) {
         console.log(e)
-        url = null
+        meta.url = null
       }
     } else {
-      url = song.url
+      meta.url = song.url
+      meta.br = song['br']
+      meta.type = song['type'].toUpperCase()
+      meta.encodeType = song['encodeType'].toUpperCase()
     }
   } else {
-    url = `https://music.163.com/song/media/outer/url?id=${id}`
+    meta.url = `https://music.163.com/song/media/outer/url?id=${id}`
   }
-  return url
+  return meta
 }
 export const search = (keywords = '', conditions = {}) => {
   return request<{

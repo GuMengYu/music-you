@@ -31,7 +31,7 @@ export const useAppStore = defineStore('app', {
   actions: {
     async init() {
       const userStore = useUserStore()
-      await userStore.init()
+      await userStore.fetch()
     },
   },
 })

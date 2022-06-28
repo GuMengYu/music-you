@@ -193,13 +193,13 @@ export function formatDuring(t = 0, i18n = false) {
  * 格式化数字
  * @param number
  */
-export const formatNumber = (number: number) => {
+export const formatNumber = (number: number, fractionDigits = 2) => {
   if (inRange(number, 1000, 1000000)) {
-    return `${(number / 1000).toFixed(2)} K`
+    return `${(number / 1000).toFixed(fractionDigits)} K`
   } else if (inRange(number, 1000001, 1000000000)) {
-    return `${(number / 1000000).toFixed(2)} M`
+    return `${(number / 1000000).toFixed(fractionDigits)} M`
   } else if (inRange(number, 1000000001, Infinity)) {
-    return `${(number / 1000000000).toFixed(2)} B`
+    return `${(number / 1000000000).toFixed(fractionDigits)} B`
   } else {
     return number
   }

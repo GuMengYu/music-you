@@ -11,6 +11,7 @@
         <v-btn v-if="props.more" variant="plain" size="small" @click="handleMore">
           {{ $t('common.more') }}
         </v-btn>
+        <slot name="more" />
       </div>
     </div>
     <slot />
