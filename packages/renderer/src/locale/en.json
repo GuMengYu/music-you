@@ -4,9 +4,14 @@
     "pic_limit": "Select image size cannot exceed 2M",
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
+    "add_list_success": "Added to playlist",
     "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
-    "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation"
+    "delete_list": "delete | deleted",
+    "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation",
+    "delete_list_alert": "The playlist will be removed from the \"created playlist\", are you sure you want to delete it?",
+    "sub_msg": "Collection success | Removed collection",
+    "follow_msg": "Followed | Unfollowed"
   },
   "main": {
     "nav": {

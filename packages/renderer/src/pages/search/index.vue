@@ -33,7 +33,6 @@ const props = defineProps({
 
 watchEffect(() => {
   if (props.keywords) {
-    console.log('search', props.keywords)
     triggerSearch()
   }
 })

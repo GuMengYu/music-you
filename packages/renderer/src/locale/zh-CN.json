@@ -4,9 +4,14 @@
     "pic_limit": "选择图片大小不能超过2M",
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
+    "add_list_success": "已添加到歌单",
     "something_wrong": "出错了",
     "reset_app": "重置应用",
-    "reset_msg": "重置应用状态，将会退出登录，所有设置恢复到安装时的状态"
+    "reset_msg": "重置应用状态，将会退出登录，所有设置恢复到安装时的状态",
+    "delete_list": "删除歌单 | 已删除",
+    "delete_list_alert": "歌单将会从\"创建的歌单\"移除，确定删除？",
+    "sub_msg": "收藏成功 | 已取消收藏",
+    "follow_msg": "关注成功 | 已取消关注"
   },
   "main": {
     "nav": {

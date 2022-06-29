@@ -103,6 +103,7 @@ import Slider from 'vue3-slider'
 import { useTheme } from 'vuetify'
 
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
+import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
@@ -155,9 +156,8 @@ eventBus.on((id, setQueue) => {
 })
 
 // 跳转播放列表
-const isQueue = computed(() => {
-  return route.name === 'queue'
-})
+
+const { isActive: isQueue } = useInForeground('queue')
 function toQueue() {
   if (isQueue.value) {
     router.back()

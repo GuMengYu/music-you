@@ -31,6 +31,7 @@ import { newAlbums } from '@/api/album'
 import { getNewMv } from '@/api/mv'
 import { getCatList } from '@/api/playlist'
 import { getTopList } from '@/api/top'
+import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import type { Album, MV, Playlist } from '@/types'
 import { getColorTable } from '@/util/metadata'
@@ -51,6 +52,8 @@ const state = reactive({
 })
 const colors = Object.values(getColorTable() ?? {}) ?? []
 fetch()
+useAjaxReloadHook('explore', fetch)
+
 async function fetch() {
   state.loading = true
   try {

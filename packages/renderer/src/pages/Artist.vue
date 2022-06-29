@@ -3,6 +3,7 @@ import { mdiAccountMusic, mdiInformation, mdiPlay } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
@@ -12,6 +13,7 @@ import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album, Artist, MV, Track } from '@/types'
 const eventBus = useEventBus<number>('addToQueue')
 const toast = useToast()
+const { t } = useI18n()
 
 const playQueue = usePlayQueueStore()
 const player = usePlayer()
@@ -68,7 +70,7 @@ async function fetch(id: number) {
       getSimiArtist(id),
     ])
     state.artist = artist?.data['artist']
-    state.hotSongs = hotSong['hotSongs'].slice(0, 10)
+    state.hotSongs = hotSong['hotSongs'].slice(0, 20)
     state.hotAlbums = album['hotAlbums']
     state.mvs = mv['mvs']
     state.simiArtists = simiArtist['artists'].slice(0, 6)
@@ -88,7 +90,7 @@ async function follow() {
   const { code, message } = await sub('artist', id, followed.value ? 0 : 1)
   if (code === 200) {
     followed.value = !followed.value
-    toast.success(followed.value ? '关注成功' : '已取消关注')
+    toast.success(t('message.follow_msg', followed.value ? 1 : 2))
   } else {
     toast.error(message)
   }
@@ -148,15 +150,10 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
         </v-card>
       </div>
       <Col :title="$t('main.artist.hot')">
-        <v-list class="surface">
-          <track-item
-            v-for="(track, idx) in more.showMoreSong ? state.hotSongs : state.hotSongs.slice(0, 5)"
-            :key="track.id"
-            :index="idx + 1"
-            :track="track"
-            @play="eventBus.emit(track.id)"
-          />
-        </v-list>
+        <track-list
+          :tracks="more.showMoreSong ? state.hotSongs : state.hotSongs.slice(0, 5)"
+          type="artist"
+        ></track-list>
         <template #action>
           <v-btn variant="text" size="small" @click="more.showMoreSong = !more.showMoreSong">
             {{ $t(`common.${more.showMoreSong ? 'collapse' : 'expand'}`) }}

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiCandyOutline, mdiInformation, mdiPlaylistMusicOutline } from '@mdi/js'
+import { mdiAccountMusic, mdiDeleteAlert, mdiInformation, mdiMap, mdiPlaylistMusicOutline } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { sub } from '@/api/music'
@@ -12,6 +13,8 @@ import {
   getRelatedPlayList,
   updatePlaylist,
 } from '@/api/playlist'
+import useAjaxReloadHook from '@/hooks/useAjaxReload'
+import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -19,7 +22,7 @@ import type { Playlist } from '@/types'
 import { formatDuring, formatNumber } from '@/util/fn'
 import is from '@/util/is'
 import { specialType } from '@/util/metadata'
-
+const { t } = useI18n()
 const toast = useToast()
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
@@ -30,6 +33,7 @@ const props = defineProps<{
 const loading = ref(false)
 const subscribed = ref(false)
 const isDelete = ref(false)
+const showDeleteAlert = ref(false)
 const showMoreDesc = ref(false)
 const showEdit = ref(false)
 
@@ -96,7 +100,7 @@ async function subscribe() {
   const { code, message } = await sub('playlist', id, subscribed.value ? 0 : 1)
   if (code === 200) {
     subscribed.value = !subscribed.value
-    toast.success(subscribed.value ? '收藏成功' : '已取消收藏')
+    toast.success(t('message.sub_msg', subscribed.value ? 1 : 2))
   } else {
     toast.error(message)
   }
@@ -104,7 +108,9 @@ async function subscribe() {
 async function del() {
   const { code, message } = await deletePlayList(+props.id)
   if (code === 200) {
+    toast.success(t('message.delete_list', 2))
     isDelete.value = true
+    showDeleteAlert.value = false
   } else {
     toast.error(message)
   }
@@ -154,6 +160,7 @@ function handleRemoveTrack(trackId: number) {
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
+useAjaxReloadHook('playlist', fetch.bind(null, +props.id, true))
 </script>
 <template>
   <section>
@@ -198,26 +205,52 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             </p>
           </div>
           <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
+            <v-square-btn size="small" color="primary" class="mr-2" @click="goto">
+              <v-icon>
+                {{ mdiMap }}
+              </v-icon>
+            </v-square-btn>
             <template v-if="createdBySelf && !isMyFavPlayList">
               <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="showEdit = true">
                 {{ $t('main.playlist.edit') }}
               </v-btn>
-              <v-btn size="small" variant="outlined" class="mr-2" color="primary" :disabled="isDelete" @click="del">
-                {{ $tc('common.isDelete', isDelete ? 2 : 1) }}
-              </v-btn>
+              <v-dialog v-model="showDeleteAlert" persistent max-width="350">
+                <template #activator="{ props }">
+                  <v-btn
+                    color="primary"
+                    size="small"
+                    v-bind="props"
+                    variant="outlined"
+                    class="mr-2"
+                    :disabled="isDelete"
+                  >
+                    {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
+                  </v-btn>
+                </template>
+                <v-card class="pt-4 pb-1" rounded="lg" color="surface">
+                  <div class="d-flex justify-center">
+                    <v-icon color="secondary" size="large">
+                      {{ mdiDeleteAlert }}
+                    </v-icon>
+                  </div>
+                  <v-card-title class="justify-center onSurface--text">{{
+                    $tc('message.delete_list', 1)
+                  }}</v-card-title>
+                  <v-card-subtitle class="text-center onSurfaceVariant--text">{{
+                    $t('message.delete_list_alert')
+                  }}</v-card-subtitle>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn variant="text" @click="showDeleteAlert = false">
+                      {{ $t('common.disagree') }}
+                    </v-btn>
+                    <v-btn color="primary" variant="text" @click="del"> {{ $t('common.agree') }} </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </template>
-            <v-btn
-              v-else-if="!isMyFavPlayList"
-              size="small"
-              variant="outlined"
-              class="mr-2"
-              color="primary"
-              @click="subscribe"
-            >
+            <v-btn v-else-if="!isMyFavPlayList" size="small" variant="outlined" color="primary" @click="subscribe">
               {{ $tc('common.collect', subscribed ? 2 : 1) }}
-            </v-btn>
-            <v-btn size="small" color="primary" variant="outlined" plain @click="goto">
-              {{ $t('main.playlist.to163') }}
             </v-btn>
           </div>
         </v-card>

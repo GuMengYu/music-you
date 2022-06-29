@@ -2,6 +2,7 @@
 import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { getAlbum, getAlbumDynamic } from '@/api/album'
@@ -13,6 +14,8 @@ import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
+
+const { t } = useI18n()
 const toast = useToast()
 const player = usePlayer()
 const playQueue = usePlayQueueStore()
@@ -75,7 +78,7 @@ async function subscribe() {
   const { code, message } = await sub('album', id, subscribed.value ? 0 : 1)
   if (code === 200) {
     subscribed.value = !subscribed.value
-    toast.info(subscribed.value ? '收藏成功' : '已取消收藏')
+    toast.success(t('message.sub_msg', subscribed.value ? 1 : 2))
   } else {
     toast.error(message)
   }

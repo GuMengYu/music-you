@@ -99,6 +99,8 @@ import { useToast } from 'vue-toastification'
 import { cloudDiskMusicList } from '@/api/cloud'
 import { createPlaylist } from '@/api/playlist'
 import { favAlbums, favArtists, favMVs } from '@/api/user'
+import useAjaxReloadHook from '@/hooks/useAjaxReload'
+import useInForeground from '@/hooks/useInForeground'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
@@ -144,8 +146,9 @@ const data: {
   clouds: [],
 })
 const loading = ref(false)
-loadData()
-async function loadData() {
+fetch()
+useAjaxReloadHook('library', fetch)
+async function fetch() {
   loading.value = true
   try {
     const [{ data: albums }, { data: artists }, { data: mvs }, { data: clouds }] = await Promise.all([

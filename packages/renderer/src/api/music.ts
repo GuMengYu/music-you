@@ -172,6 +172,7 @@ export const opPlaylist = (op: 'add' | 'del' = 'add', pid: number, trackId: numb
     code: number
     count: number
     cloudCount: number
+    message?: string
   }>('/playlist/tracks', {
     params: {
       op,

@@ -183,9 +183,16 @@ function addToQueue(track: Track) {
 async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, trackId: number) {
   // add to playlist
   try {
-    const { code } = await opPlaylist(op, playlistId, trackId)
-    if (code === 200 && op === 'del') {
-      emits('removeTrack', trackId)
+    const { code, message } = await opPlaylist(op, playlistId, trackId)
+    if (code === 200) {
+      if (op === 'del') {
+        emits('removeTrack', trackId)
+        toast.success(t('message.remove_fav_success'))
+      } else {
+        toast.success(t('message.add_list_success'))
+      }
+    } else {
+      toast.error(message!)
     }
   } catch (e) {
     toast.error(t('message.something_wrong'))

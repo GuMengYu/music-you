@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
+import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import type { Playlist, Track } from '@/types'
 
 import ShortcutGrid from './shortcuts/ShortcutGrid.vue'
@@ -61,4 +62,5 @@ const fetch = async () => {
   }
 }
 fetch()
+useAjaxReloadHook('discover', fetch)
 </script>

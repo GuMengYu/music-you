@@ -6,12 +6,10 @@ const loading = ref(false)
 
 <template>
   <v-container>
-    <v-btn icon color="primary" :loading="loading">
+    <v-square-btn>
       <v-icon>
         {{ mdiCrystalBall }}
       </v-icon>
-    </v-btn>
-
-    <v-btn @click="loading = !loading"> toggle </v-btn>
+    </v-square-btn>
   </v-container>
 </template>
