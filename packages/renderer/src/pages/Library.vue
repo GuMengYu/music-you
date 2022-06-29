@@ -149,6 +149,7 @@ const loading = ref(false)
 fetch()
 useAjaxReloadHook('library', fetch)
 async function fetch() {
+  current.value = TYPES.PLAYLIST
   loading.value = true
   try {
     const [{ data: albums }, { data: artists }, { data: mvs }, { data: clouds }] = await Promise.all([

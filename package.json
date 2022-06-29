@@ -51,6 +51,7 @@
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "dayjs": "^1.11.1",
+    "dmg-license": "^1.0.11",
     "electron": "^18.1.0",
     "electron-builder": "^23.0.3",
     "electron-dl": "^3.3.1",

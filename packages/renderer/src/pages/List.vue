@@ -80,9 +80,9 @@ async function fetch(id: number, flush = false) {
   const { playlist } = await getPlaylistDetail(id, flush)
   state.playlist = playlist
   loading.value = false
-  // ”我喜欢的音乐“ 歌单能够返回完整的tracks
+  // ”我喜欢的音乐“ 歌单能够返回完整的tracks, 所以不用重新请求完整列表
   await nextTick()
-  if (isMyFavPlayList.value && state.playlist.trackIds?.length) {
+  if (!isMyFavPlayList.value && state.playlist.trackIds?.length) {
     const { songs } = await getPlaylistTrackAll(id)
     state.playlist.tracks = songs
   }
@@ -160,12 +160,14 @@ function handleRemoveTrack(trackId: number) {
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
-useAjaxReloadHook('playlist', fetch.bind(null, +props.id, true))
+useAjaxReloadHook('playlist', () => {
+  fetch(+props.id, true)
+})
 </script>
 <template>
   <section>
     <list-loader v-if="loading" />
-    <div v-else class="list d-flex flex-column gap-6">
+    <div v-else class="list d-flex flex-column gap-4">
       <div class="d-flex gap-4">
         <Cover :data="state.playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4" />
         <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
@@ -215,11 +217,11 @@ useAjaxReloadHook('playlist', fetch.bind(null, +props.id, true))
                 {{ $t('main.playlist.edit') }}
               </v-btn>
               <v-dialog v-model="showDeleteAlert" persistent max-width="350">
-                <template #activator="{ props }">
+                <template #activator="{ props: dialogProps }">
                   <v-btn
                     color="primary"
                     size="small"
-                    v-bind="props"
+                    v-bind="dialogProps"
                     variant="outlined"
                     class="mr-2"
                     :disabled="isDelete"
@@ -263,7 +265,7 @@ useAjaxReloadHook('playlist', fetch.bind(null, +props.id, true))
         header
         @remove-track="handleRemoveTrack"
       />
-      <Col :title="$t('main.playlist.simi')" class="mt-4">
+      <Col :title="$t('main.playlist.simi')">
         <CardRow>
           <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />
         </CardRow>

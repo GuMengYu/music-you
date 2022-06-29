@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiPlay } from '@mdi/js'
+import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiMap, mdiPlay } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -90,7 +90,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 <template>
   <section>
     <list-loader v-if="loading" />
-    <div v-else class="list d-flex flex-column gap-6">
+    <div v-else class="list d-flex flex-column gap-4">
       <div class="d-flex gap-4">
         <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" />
         <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
@@ -111,8 +111,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
               <v-icon size="small">{{ mdiAlbum }}</v-icon>
               <span class="text-h5 mx-2 line-clamp-1"> {{ state.album.name }} </span>
             </span>
-            <v-btn color="primary" size="small" class="onPrimary--text" @click="play">
-              <v-icon size="small">{{ mdiPlay }}</v-icon>
+            <v-btn size="small" color="primary" variant="flat" rounded class="px-5" @click="play">
               {{ $t('common.play') }}
             </v-btn>
           </div>
@@ -130,10 +129,14 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
             </p>
           </div>
           <div class="d-flex justify-end align-center" :style="{ marginTop: 'auto' }">
-            <v-btn size="small" variant="outlined" class="mr-2" :color="subscribed ? 'primary' : ''" @click="subscribe">
+            <v-square-btn size="small" color="primary" class="mr-2" @click="goto">
+              <v-icon>
+                {{ mdiMap }}
+              </v-icon>
+            </v-square-btn>
+            <v-btn size="small" variant="outlined" :color="subscribed ? 'primary' : ''" @click="subscribe">
               {{ $tc('common.collect', subscribed ? 2 : 1) }}
             </v-btn>
-            <v-btn variant="outlined" size="small" color="primary" @click="goto"> {{ $t('main.album.to163') }} </v-btn>
           </div>
         </v-card>
       </div>
@@ -148,8 +151,8 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
         </CardRow>
       </Col>
-      <v-dialog v-model="showMoreDesc" max-width="50vw" scrollable>
-        <v-card color="surfaceVariant">
+      <v-dialog v-model="showMoreDesc" width="420" scrollable>
+        <v-card rounded="lg" color="surfaceVariant">
           <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
           <v-card-text>
             {{ state.album['description'] }}
