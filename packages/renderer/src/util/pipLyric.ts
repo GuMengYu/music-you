@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 import * as StackBlur from 'stackblur-canvas/dist/stackblur-es'
 // window.pipLyric = pipLyric()
 export function PipLyric() {
