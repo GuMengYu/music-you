@@ -4,7 +4,6 @@
       {{ mdiReload }}
     </v-icon>
   </v-btn>
-  {{ currentRouteName }}
 </template>
 <script setup lang="ts">
 import { mdiReload } from '@mdi/js'
