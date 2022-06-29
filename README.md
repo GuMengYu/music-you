@@ -31,8 +31,8 @@ vue3 + ts 重构 2.0 版本
 ...and more
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/171580063-1a388850-e514-4ad3-91ef-2246846d149d.png">
-  <img width="1920" alt="home" src="https://user-images.githubusercontent.com/22021419/171580098-ffbbed15-b3d0-407b-a9d1-310b607caa6c.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176350540-463dd27b-14a8-4b4a-bcb4-0ef9174c580e.png">
+  <img width="1920" alt="home" src="https://user-images.githubusercontent.com/22021419/176350547-7f1b6d6d-0af9-4a6f-8a7f-f406d26f9d5f.png">
 </picture>
 
 ## 运行
