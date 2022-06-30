@@ -206,7 +206,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
         </card-row>
       </Col>
       <v-dialog v-model="more.showMoreDesc" max-width="50vw" :scrollable="true">
-        <v-card color="surfaceVariant">
+        <v-card color="surfaceVariant" rounded="xl" class="py-4">
           <v-card-title> {{ $t('main.artist.desc') }}</v-card-title>
           <v-card-text>
             {{ state.artist['briefDesc'] }}

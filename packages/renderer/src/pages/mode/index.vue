@@ -12,7 +12,7 @@ const { showLyric, playingMode } = storeToRefs(appStore)
 
 const fullscreen = ref(false)
 
-const component = computed(() => {
+const currentComponent = computed(() => {
   return playingMode.value === 'simple' ? simple : basic
 })
 
@@ -26,7 +26,7 @@ function onfullscreenchange(event: Event) {
 </script>
 <template>
   <v-dialog v-model="showLyric" fullscreen transition="dialog-bottom-transition" :scrim="false">
-    <component :is="component" />
+    <component :is="currentComponent" />
   </v-dialog>
 </template>
 

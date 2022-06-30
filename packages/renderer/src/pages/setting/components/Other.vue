@@ -28,20 +28,20 @@
               {{ $t('message.reset_app') }}
             </v-btn>
           </template>
-          <v-card class="pt-4 pb-1" rounded="lg" color="surface">
+          <v-card class="pt-4 pb-2" rounded="xl" color="surface">
             <div class="d-flex justify-center">
-              <v-icon color="secondary" size="large">
+              <v-icon color="secondary">
                 {{ mdiRestore }}
               </v-icon>
             </div>
-            <v-card-title class="justify-center onSurface--text">{{ $t('message.reset_app') }}</v-card-title>
-            <v-card-subtitle class="text-center onSurfaceVariant--text">{{ $t('message.reset_msg') }}</v-card-subtitle>
+            <v-card-title class="justify-center">{{ $t('message.reset_app') }}</v-card-title>
+            <v-card-subtitle class="text-center">{{ $t('message.reset_msg') }}</v-card-subtitle>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn variant="text" @click="showAlert = false">
+              <v-btn color="primary" variant="plain" @click="showAlert = false">
                 {{ $t('common.disagree') }}
               </v-btn>
-              <v-btn color="primary" variant="text" @click="resetApp"> {{ $t('common.agree') }} </v-btn>
+              <v-btn color="primary" variant="plain" @click="resetApp"> {{ $t('common.agree') }} </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

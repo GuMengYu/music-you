@@ -63,7 +63,7 @@
       </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
-      <v-card max-width="420" min-width="420" rounded="lg" class="py-2">
+      <v-card max-width="420" min-width="420" rounded="xl" class="py-2">
         <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
         <v-card-content>
           <v-text-field
@@ -82,8 +82,8 @@
         </v-card-content>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="text" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>
-          <v-btn variant="text" color="primary" @click="createNewPlaylist"> {{ $t('common.confirm') }} </v-btn>
+          <v-btn variant="plain" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>
+          <v-btn variant="plain" color="primary" @click="createNewPlaylist"> {{ $t('common.confirm') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -99,6 +99,7 @@ export interface Playlist {
   specialType: number
   updateFrequency?: string
   userId?: number
+  privacy?: number
 }
 
 export interface Account {

@@ -152,7 +152,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         </CardRow>
       </Col>
       <v-dialog v-model="showMoreDesc" width="420" scrollable>
-        <v-card rounded="lg" color="surfaceVariant">
+        <v-card rounded="xl" color="surfaceVariant" class="py-4">
           <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
           <v-card-text>
             {{ state.album['description'] }}

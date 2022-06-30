@@ -3,6 +3,7 @@ import {
   mdiAccountMusic,
   mdiDeleteAlert,
   mdiInformation,
+  mdiLockOutline,
   mdiMap,
   mdiPlaylistEdit,
   mdiPlaylistMusicOutline,
@@ -21,7 +22,6 @@ import {
   updatePlaylist,
 } from '@/api/playlist'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
-import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -180,8 +180,10 @@ useAjaxReloadHook('playlist', () => {
         <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
           <div class="d-flex justify-space-between align-center">
             <span class="d-flex align-center">
-              <v-icon size="small">{{ mdiPlaylistMusicOutline }}</v-icon>
-              <span class="text-caption ml-2 text-primary">{{ $t('main.playlists') }}</span>
+              <v-icon size="small">{{ state.playlist.privacy ? mdiLockOutline : mdiPlaylistMusicOutline }}</v-icon>
+              <span class="text-caption ml-2 text-primary">{{
+                $t(`main.${state.playlist.privacy ? 'p_playlists' : 'playlists'}`)
+              }}</span>
             </span>
             <span class="text-caption">
               <span> {{ $t('common.track_size', [state.playlist.trackCount]) }} </span> ·
@@ -238,24 +240,20 @@ useAjaxReloadHook('playlist', () => {
                     {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
                   </v-btn>
                 </template>
-                <v-card class="pt-4 pb-1" rounded="lg" color="surface">
+                <v-card class="pt-4 pb-2" rounded="xl" color="surface">
                   <div class="d-flex justify-center">
-                    <v-icon color="secondary" size="large">
+                    <v-icon color="secondary">
                       {{ mdiDeleteAlert }}
                     </v-icon>
                   </div>
-                  <v-card-title class="justify-center onSurface--text">{{
-                    $tc('message.delete_list', 1)
-                  }}</v-card-title>
-                  <v-card-subtitle class="text-center onSurfaceVariant--text">{{
-                    $t('message.delete_list_alert')
-                  }}</v-card-subtitle>
+                  <v-card-title class="justify-center">{{ $tc('message.delete_list', 1) }}</v-card-title>
+                  <v-card-subtitle class="text-center">{{ $t('message.delete_list_alert') }}</v-card-subtitle>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn variant="text" @click="showDeleteAlert = false">
+                    <v-btn color="primary" variant="plain" @click="showDeleteAlert = false">
                       {{ $t('common.disagree') }}
                     </v-btn>
-                    <v-btn color="primary" variant="text" @click="del"> {{ $t('common.agree') }} </v-btn>
+                    <v-btn color="primary" variant="plain" @click="del"> {{ $t('common.agree') }} </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -280,7 +278,7 @@ useAjaxReloadHook('playlist', () => {
         </CardRow>
       </Col>
       <v-dialog v-model="showMoreDesc" :scrollable="true">
-        <v-card color="surfaceVariant" width="420" rounded="lg">
+        <v-card color="surfaceVariant" width="420" rounded="xl" class="py-4">
           <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
           <v-card-text>
             {{ state.playlist['description'] }}
@@ -288,7 +286,7 @@ useAjaxReloadHook('playlist', () => {
         </v-card>
       </v-dialog>
       <v-dialog v-model="showEdit" :scrollable="true">
-        <v-card width="420" min-height="200" rounded="lg" class="py-2">
+        <v-card width="420" min-height="300" rounded="xl" class="py-2">
           <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
           <v-card-content>
             <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
@@ -301,8 +299,8 @@ useAjaxReloadHook('playlist', () => {
             </v-textarea>
           </v-card-content>
           <v-card-actions class="justify-end">
-            <v-btn variant="text" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
-            <v-btn color="primary" variant="text" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>
+            <v-btn color="primary" variant="plain" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
+            <v-btn color="primary" variant="plain" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
