@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiDeleteAlert, mdiInformation, mdiMap, mdiPlaylistMusicOutline } from '@mdi/js'
+import {
+  mdiAccountMusic,
+  mdiDeleteAlert,
+  mdiInformation,
+  mdiMap,
+  mdiPlaylistEdit,
+  mdiPlaylistMusicOutline,
+} from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
@@ -213,9 +220,11 @@ useAjaxReloadHook('playlist', () => {
               </v-icon>
             </v-square-btn>
             <template v-if="createdBySelf && !isMyFavPlayList">
-              <v-btn size="small" variant="outlined" class="mr-2" color="primary" @click="showEdit = true">
-                {{ $t('main.playlist.edit') }}
-              </v-btn>
+              <v-square-btn size="small" class="mr-2" color="primary" @click="showEdit = true">
+                <v-icon>
+                  {{ mdiPlaylistEdit }}
+                </v-icon>
+              </v-square-btn>
               <v-dialog v-model="showDeleteAlert" persistent max-width="350">
                 <template #activator="{ props: dialogProps }">
                   <v-btn

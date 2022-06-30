@@ -88,7 +88,7 @@ const displayAll = ref(false)
     animation-duration: 0.4s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: both;
-    font-family: AaLanSong, serif !important;
+    // font-family: AaLanSong, serif !important;
   }
 }
 .animate {
@@ -107,7 +107,7 @@ const displayAll = ref(false)
     width: 0;
   }
   li {
-    font-family: AaLanSong, serif !important;
+    // font-family: AaLanSong, serif !important;
     text-align: center;
     list-style: none;
   }

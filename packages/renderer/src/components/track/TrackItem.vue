@@ -174,7 +174,9 @@ async function toggleLike() {
         </div>
         <div class="track-third">
           <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
-            <v-icon size="small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
+            <v-icon size="small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
+              liked ? mdiHeart : mdiHeartOutline
+            }}</v-icon>
           </v-btn>
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}

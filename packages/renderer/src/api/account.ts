@@ -16,7 +16,7 @@ import { request } from '../util/fetch'
 export const login = (params: { phone: string; md5_password: string; countrycode?: string }) => {
   return request<{
     code: number
-    profile: string
+    profile: Account['profile']
     token: string
   }>(`/login/cellphone?timestamp=${now()}`, { params })
 }
@@ -39,7 +39,10 @@ export const getQrCodeKey = () => {
 
 export const createQRCode = (key: string) => {
   return request<{
-    qrimg: string
+    data: {
+      qrimg: string
+    }
+    code: number
   }>(`/login/qr/create?key=${key}&qrimg=1&timestamp=${now()}`)
 }
 

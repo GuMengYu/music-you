@@ -8,15 +8,13 @@
       </div>
 
       <v-card-title class="justify-center onSurface--text">Login</v-card-title>
-      <v-card-subtitle class="text-center onSurfaceVariant--text mt-0"
-        >使用手机号或者邮箱来登录, 也可切换二维码用网易云App扫码登录</v-card-subtitle
-      >
+      <v-card-subtitle class="text-center onSurfaceVariant--text mt-0">{{ $t('message.login') }}</v-card-subtitle>
       <div v-if="state.loginType === LOGIN_TYPE.ACCOUNT" class="mx-6 py-6">
         <v-text-field
           v-model="state.phone"
           variant="outlined"
           density="compact"
-          label="手机号或邮箱"
+          :label="$t('message.phone_email')"
           :prepend-inner-icon="mdiPacMan"
         >
         </v-text-field>
@@ -26,7 +24,7 @@
           density="compact"
           :prepend-inner-icon="mdiLock"
           type="password"
-          label="密码"
+          :label="$t('message.password')"
         >
         </v-text-field>
       </div>
@@ -51,11 +49,11 @@
       <v-divider class="mx-6" />
       <div class="d-flex justify-space-between mx-3 align-center">
         <v-btn class="align-self-start" color="primary" variant="text" @click="toggleType">
-          {{ state.loginType === LOGIN_TYPE.ACCOUNT ? '二维码登录' : '账号登录' }}
+          {{ state.loginType === LOGIN_TYPE.ACCOUNT ? $t('message.login_by_code') : $t('message.login_by_account') }}
         </v-btn>
         <div>
           <v-btn variant="text" color="primary" :loading="state.loading" class="login-button" @click="handleCancel">
-            取消
+            {{ $t('common.cancel') }}
           </v-btn>
           <v-btn
             v-show="state.loginType === LOGIN_TYPE.ACCOUNT"
@@ -66,7 +64,7 @@
             class="login-button"
             @click="handleLogin"
           >
-            登录
+            {{ $t('common.sign_in') }}
           </v-btn>
         </div>
       </div>
@@ -107,7 +105,7 @@ const state = reactive({
   loading: false,
   loginType: LOGIN_TYPE.QRCODE,
   qrImageSrc: '',
-  qrTimer: null,
+  qrTimer: null as any,
   qrState: QR_STATUS.WAIT,
   qrHeadImage: '',
   qrNickName: '',
@@ -138,15 +136,15 @@ const toggleType = () => {
   }
 }
 const genCode = async () => {
-  const { data = {} } = await getQrCodeKey()
+  const { data } = await getQrCodeKey()
   const { data: { qrimg } = {}, code } = await createQRCode(data.unikey)
-  if (code === 200) {
+  if (code === 200 && qrimg) {
     state.loginType = LOGIN_TYPE.QRCODE
     state.qrState = QR_STATUS.WAIT
     state.qrImageSrc = qrimg
     checkQrStatus(data.unikey)
   } else {
-    console.log('生成二维码失败')
+    console.log('generate qrcode failed')
     state.loginType = LOGIN_TYPE.ACCOUNT
   }
 }
@@ -158,7 +156,12 @@ const checkQrStatus = (key: string) => {
       await checkQRCodeStatus(key)
     } catch (e) {
       console.log(e)
-      const { code, avatarUrl = '', nickname = '' } = e
+      interface codeStatus {
+        code: number
+        avatarUrl: string
+        nickname: string
+      }
+      const { code, avatarUrl = '', nickname = '' } = e as codeStatus
       if (code === QR_STATUS.EXPIRED) {
         state.qrState = QR_STATUS.EXPIRED
         await genCode() // 重新生成QrCode
@@ -171,10 +174,7 @@ const checkQrStatus = (key: string) => {
       } else if (code === QR_STATUS.AUTHED) {
         state.qrState = QR_STATUS.AUTHED
         await userStore.refreshAccount()
-        await userStore.init()
-        // await dispatch('settings/getAccount');
-        // showLogin.value = false;
-        // location.reload();
+        await userStore.fetch()
         handleCancel()
       }
     }

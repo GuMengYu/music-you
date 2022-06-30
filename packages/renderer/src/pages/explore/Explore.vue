@@ -1,8 +1,8 @@
 <template>
-  <div class="explore d-flex flex-column gap-6">
+  <section class="d-flex flex-column gap-6">
     <explore-loader v-if="state.loading" />
     <Col :title="$t('main.new_releases_album')" subtitle="new release" more="/new_releases/albums">
-      <card-row>
+      <card-row single-line>
         <cover v-for="release in state.newRelease" :key="release.id" :data="release" />
       </card-row>
     </Col>
@@ -12,16 +12,16 @@
       </card-row>
     </Col>
     <Col :title="$t('main.new_releases_mv')" subtitle="videos" more="/new_releases/videos/">
-      <card-row :grid-type="GridType.B">
+      <card-row :grid-type="GridType.B" single-line>
         <video-cover v-for="mv in state.mvs" :key="mv.id" :data="mv" />
       </card-row>
     </Col>
-    <Col :title="$t('main.leader_board')" subtitle="toplist" more="/leader_board/">
+    <Col :title="$t('main.leader_board')" subtitle="toplist" more="/leader_board/" single-line>
       <card-row>
-        <cover v-for="top in state.topList" :key="top.id" :data="top" />
+        <cover v-for="top in state.topList" :key="top.id" :data="top" type="playlist" />
       </card-row>
     </Col>
-  </div>
+  </section>
 </template>
 <script lang="ts" setup>
 import { filter, random } from 'lodash-es'
@@ -30,7 +30,7 @@ import { reactive } from 'vue'
 import { newAlbums } from '@/api/album'
 import { getNewMv } from '@/api/mv'
 import { getCatList } from '@/api/playlist'
-import { getTopList } from '@/api/top'
+import { getTopList, topMvs } from '@/api/top'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import type { Album, MV, Playlist } from '@/types'
@@ -59,8 +59,8 @@ async function fetch() {
   try {
     const [{ sub }, { albums }, { data: mvs }, { list: topList }] = await Promise.all([
       getCatList(),
-      newAlbums({ limit: 7 }),
-      getNewMv({ limit: 5 }),
+      newAlbums({ limit: 10 }),
+      topMvs(),
       getTopList(),
     ])
     state.tags = sub.slice(0, 20).map((i: Tag) => {

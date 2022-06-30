@@ -1,6 +1,6 @@
 <template>
   <transition name="slide-fade-y">
-    <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer" :order="-1">
+    <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
       <Slider
         class="track-slider"
         :model-value="currentTime"
@@ -19,14 +19,14 @@
               v-bind="props"
               class="rounded"
               :aspect-ratio="1"
-              :min-width="46"
-              :max-width="46"
-              :max-height="46"
+              :min-width="48"
+              :max-width="48"
+              :max-height="48"
               :src="albumPicUrl"
               cover
             >
               <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
-                <v-icon color="pink">{{ mdiArrowExpand }}</v-icon>
+                <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
               </v-btn>
             </v-img>
           </v-hover>
@@ -199,11 +199,11 @@ function togglePipLyric() {
     player.pipLyric?.leave()
   }
 }
-player.pipLyric.onLeave = function () {
+player.pipLyric!.onLeave = function () {
   console.log('on leave')
   showPipLyric.value = false
 }
-player.pipLyric.onEnter = function () {
+player.pipLyric!.onEnter = function () {
   console.log('on enter')
   showPipLyric.value = true
 }
@@ -229,6 +229,9 @@ const volumnDebouncedFn = useDebounceFn(
   flex-flow: column nowrap;
   overflow: visible;
   padding: 0 12px;
+  :deep(.v-toolbar__content) {
+    padding: 8px 0;
+  }
 
   .playing-control {
     display: flex;

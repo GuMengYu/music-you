@@ -1,7 +1,10 @@
 <template>
-  <card-row :list="state.albums">
-    <cover v-for="album in state.albums" :key="album.id" :data="album" />
-  </card-row>
+  <section>
+    <h6 class="text-h5 mb-4">{{ $t('main.new_releases_album') }}</h6>
+    <card-row>
+      <cover v-for="album in state.albums" :key="album.id" :data="album" />
+    </card-row>
+  </section>
 </template>
 
 <script lang="ts" setup>

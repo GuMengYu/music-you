@@ -39,6 +39,8 @@ export interface PlayerInstance {
 }
 export interface PipLyric {
   enter: () => void
+  onLeave: () => void
+  onEnter: () => void
   leave: () => void
   setData: () => void
 }

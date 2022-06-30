@@ -5,7 +5,6 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
-import vipPicUrl from '@/assets/vip.png'
 import { useUserStore } from '@/store/user'
 import type { Account } from '@/types'
 import is from '@/util/is'
@@ -79,22 +78,22 @@ const signOut = () => {
           <v-list-item-title>{{ profile.nickname }}</v-list-item-title>
           <v-list-item-subtitle class="text-caption"> {{ profile.signature }}</v-list-item-subtitle>
           <v-btn class="mt-2" variant="outlined" size="small" @click="goto('https://music.163.com/#/user/update')">
-            管理您的网易云账号
+            {{ $t('main.setting.manage_account') }}
           </v-btn>
         </div>
       </v-list-item>
       <v-divider class="my-2" />
       <v-list-item dense class="px-6" @click="dispatch('settings')">
         <v-list-item-icon :icon="mdiCog"> </v-list-item-icon>
-        <v-list-item-title class="ml-4">设置</v-list-item-title>
+        <v-list-item-title class="ml-4"> {{ $t('common.setting') }} </v-list-item-title>
       </v-list-item>
       <v-list-item dense class="px-6" @click="dispatch('sign_out')">
         <v-list-item-icon :icon="mdiLogout"> </v-list-item-icon>
-        <v-list-item-title class="ml-4">退出登录</v-list-item-title>
+        <v-list-item-title class="ml-4">{{ $t('message.logout') }}</v-list-item-title>
       </v-list-item>
       <div class="mt-auto py-2">
         <span class="d-flex justify-center align-center">
-          <v-btn variant="text" size="small"> 免责声明 </v-btn>
+          <v-btn variant="text" size="small"> {{ $t('message.disclaimer') }} </v-btn>
           ·
           <v-btn
             variant="text"

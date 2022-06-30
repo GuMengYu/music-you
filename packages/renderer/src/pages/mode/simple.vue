@@ -1,9 +1,7 @@
 <template>
   <v-card class="frame">
     <div class="frame-header d-flex justify-space-between drag-area pa-2">
-      <span
-        class="ml-4 mt-4 frame-header-title font-weight-bold text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant"
-      >
+      <span class="ml-4 mt-4 frame-header-title text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant">
         {{ formatDuring(track!.dt) }} /
         {{ formatDuring(currentTime * 1000) }}
       </span>
@@ -23,19 +21,21 @@
     <div class="frame-content text-onSurfaceVariant mx-6">
       <lyric />
       <v-img
-        max-height="50vh"
-        max-width="50vh"
+        max-height="40vh"
+        min-height="40vh"
+        max-width="40vh"
+        min-width="40vh"
         class="frame-cover-img rounded-lg"
         :src="albumPicUrl"
         :lazy-src="placeholderUrl"
         :aspect-ratio="1"
       />
     </div>
-    <div class="frame-footer text-onSurfaceVariant mx-6 mb-8 mr-2 d-flex flex-column gap-4">
+    <div class="frame-footer text-onSurfaceVariant mb-6 mx-6 d-flex flex-column gap-4">
       <span class="text-h4">{{ track!['al'] && track!['al']['name'] }}</span>
       <span class="text-h4">by - {{ track!['ar'] && track!['ar'][0]['name'] }}</span>
-      <div class="d-flex justify-space-between">
-        <span class="text-h2 font-weight-bold line-clamp-1" style="max-width: 70vw">
+      <div class="d-flex justify-space-between align-center">
+        <span class="text-h2 line-clamp-1" style="max-width: 60vw">
           {{ track!.name }}
         </span>
         <div>
@@ -144,9 +144,9 @@ export default defineComponent({
     z-index: 2;
     display: flex;
     justify-content: space-between;
-    &-title {
-      font-family: AaLanSong, serif !important;
-    }
+    // &-title {
+    //   font-family: AaLanSong, serif !important;
+    // }
     &-action {
       gap: 5px;
     }
@@ -161,9 +161,9 @@ export default defineComponent({
   &-footer {
     z-index: 2;
     display: flex;
-    span {
-      font-family: AaLanSong, serif !important;
-    }
+    // span {
+    //   font-family: AaLanSong, serif !important;
+    // }
   }
   &-play-progress {
     position: absolute;

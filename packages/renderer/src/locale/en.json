@@ -8,6 +8,13 @@
     "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
     "delete_list": "delete | deleted",
+    "disclaimer": "disclaimer",
+    "phone_email": "Mobile or email",
+    "password": "Password",
+    "login_by_account": "Mobile or email",
+    "login_by_code": "Qrcode",
+    "logout": "Logout",
+    "login": "Use your mobile phone number or email to log in, or switch the QR code to log in with the NetEase Cloud App.",
     "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation",
     "delete_list_alert": "The playlist will be removed from the \"created playlist\", are you sure you want to delete it?",
     "sub_msg": "Collection success | Removed collection",
@@ -87,8 +94,10 @@
     "setting": {
       "quality": "Streaming quality",
       "language": "Select language - changes will take effect immediately",
-      "reset": "Reset app data (including cache, user login info)"
+      "reset": "Reset app data (including cache, user login info)",
+      "manage_account": "Manage Account (web)"
     }
+
   },
   "common": {
     "cancel": "Cancel",

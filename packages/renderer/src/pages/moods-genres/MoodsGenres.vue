@@ -1,5 +1,6 @@
 <template>
   <section>
+    <h6 class="text-h5 mb-4">{{ $t('main.moods_genres') }}</h6>
     <Col v-for="(item, index) in items" :key="item.title" :class="index !== 0 ? 'mt-4' : void 0" :title="item.title">
       <v-row>
         <v-col v-for="tag in item.tags" :key="tag.name" cols="2">

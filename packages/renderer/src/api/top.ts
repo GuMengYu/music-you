@@ -1,4 +1,4 @@
-import type { Playlist } from '@/types'
+import type { MV, Playlist } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
@@ -33,6 +33,21 @@ export const topSongs = () => {
       limit: 20,
       area: 'ALL',
       type: 'hot',
+    },
+  })
+}
+
+/**
+ * mv排行
+ * @returns {AxiosPromise}
+ */
+export const topMvs = () => {
+  return request<{
+    data: MV[]
+    hasMore: boolean
+  }>('/top/mv', {
+    params: {
+      limit: 20,
     },
   })
 }
