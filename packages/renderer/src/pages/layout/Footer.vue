@@ -96,6 +96,7 @@ import {
   mdiVolumeMute,
 } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
+import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -109,6 +110,7 @@ import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { formatNumber, sizeOfImage } from '@/util/fn'
+import is from '@/util/is'
 // utitlity
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
@@ -208,7 +210,11 @@ player.pipLyric!.onEnter = function () {
   showPipLyric.value = true
 }
 
-function showPlayingPage() {
+async function showPlayingPage() {
+  if (is.electron()) {
+    const ipcRenderer = useIpcRenderer()
+    await ipcRenderer.invoke('adjustWidth')
+  }
   appStore.showLyric = true
 }
 const volumnDebouncedFn = useDebounceFn(

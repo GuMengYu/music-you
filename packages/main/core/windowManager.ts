@@ -6,6 +6,12 @@ import { join } from 'path'
 import { WindowState } from '../../renderer/src/util/enum'
 import log from './util/log'
 
+export const WindowDefaultSize = {
+  height: 730,
+  width: 1300,
+  minWidth: 800,
+  minHeight: 540,
+}
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null
   willQuit: boolean
@@ -25,10 +31,10 @@ export default class WindowManager extends EventEmitter {
 
     try {
       this.window = new BrowserWindow({
-        width: 1300,
-        height: 730,
-        minWidth: 800,
-        minHeight: 540,
+        width: WindowDefaultSize.width,
+        height: WindowDefaultSize.height,
+        minWidth: WindowDefaultSize.minWidth,
+        minHeight: WindowDefaultSize.minHeight,
         titleBarStyle: 'hiddenInset',
         frame: !(is.windows() || is.linux()),
         webPreferences: {

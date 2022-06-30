@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
 import { useUserStore } from '@/store/user'
-import { PLAYING_MODE, WindowState } from '@/util/enum'
+import { WindowState } from '@/util/enum'
 
 export interface AppState {
   showControlCenter: boolean
@@ -10,7 +10,6 @@ export interface AppState {
   showCommandPalette: boolean
   showPlaying: boolean
   showLyric: boolean
-  playingMode: PLAYING_MODE
   windowState: WindowState
 }
 export const useAppStore = defineStore('app', {
@@ -21,7 +20,6 @@ export const useAppStore = defineStore('app', {
       showPlaying: false,
       showCommandPalette: false,
       showLyric: false,
-      playingMode: PLAYING_MODE.SIMPLE,
       windowState: WindowState.NORMAL,
     })
     return {

@@ -7,4 +7,5 @@ export enum WindowState {
 export enum PLAYING_MODE {
   BASIC = 'basic',
   SIMPLE = 'simple',
+  MD = 'md',
 }

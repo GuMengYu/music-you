@@ -1,6 +1,8 @@
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
+import { PLAYING_MODE } from '@/util/enum'
+
 export enum APPEARANCE {
   LIGHT = 'light',
   DARK = 'dark',
@@ -23,6 +25,7 @@ export interface SettingState {
     darkColors: null | Record<string, string>
     lightColors: null | Record<string, string>
   }
+  playingMode: PLAYING_MODE
   rail: boolean
   quality: number
   cacheLimit: number
@@ -35,6 +38,7 @@ export const useSettingStore = defineStore('setting', {
       locale: 'zhCN',
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: WallpaperColor.GreenRockyMountains,
+      playingMode: PLAYING_MODE.MD,
       customPalette: {
         darkColors: null,
         lightColors: null,

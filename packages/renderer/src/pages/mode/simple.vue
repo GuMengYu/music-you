@@ -11,20 +11,15 @@
             {{ icon.mdiClose }}
           </v-icon>
         </v-btn>
-        <v-btn icon variant="text">
-          <v-icon>
-            {{ icon.mdiDotsHorizontal }}
-          </v-icon>
-        </v-btn>
       </div>
     </div>
     <div class="frame-content text-onSurfaceVariant mx-6">
       <lyric />
       <v-img
-        max-height="40vh"
-        min-height="40vh"
-        max-width="40vh"
-        min-width="40vh"
+        max-height="50vh"
+        min-height="50vh"
+        max-width="50vh"
+        min-width="50vh"
         class="frame-cover-img rounded-lg"
         :src="albumPicUrl"
         :lazy-src="placeholderUrl"
@@ -70,6 +65,7 @@ import {
   mdiRepeat,
   mdiShuffle,
 } from '@mdi/js'
+import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
@@ -79,6 +75,7 @@ import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import type { Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
+import is from '@/util/is'
 export default defineComponent({
   components: { Lyric },
   setup() {
@@ -91,7 +88,11 @@ export default defineComponent({
     const albumPicUrl = computed(() => {
       return track.value?.al && sizeOfImage(track.value.al.picUrl)
     })
-    function close() {
+    async function close() {
+      if (is.electron()) {
+        const ipcRenderer = useIpcRenderer()
+        await ipcRenderer.invoke('restoreSize')
+      }
       appStore.showLyric = false
     }
     function prev() {

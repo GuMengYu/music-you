@@ -4,6 +4,7 @@ import { ipcMain, shell } from 'electron'
 import { WindowState } from '../../renderer/src/util/enum'
 import { downloadFile } from './util/download'
 import log from './util/log'
+import { WindowDefaultSize } from './windowManager'
 export const registerIpcMain = (window: BrowserWindow) => {
   ipcMain.handle('zoom-window', () => {
     if (window.isMaximized()) {
@@ -49,5 +50,27 @@ export const registerIpcMain = (window: BrowserWindow) => {
       height,
     }
     return result
+  })
+  let cacheSize: number[] = []
+  ipcMain.handle('adjustWidth', async () => {
+    const aspectRatio = 2
+    const [width, height] = window.getSize()
+    console.log('adjustWidth: current', width, height)
+    cacheSize = [width, height]
+    const resizedWidth = height * aspectRatio
+    if (resizedWidth !== width) {
+      window.setSize(resizedWidth, height, true)
+    }
+    console.log('adjustWidth: resized', resizedWidth)
+
+    return resizedWidth
+  })
+  ipcMain.handle('restoreSize', () => {
+    const [width, height] = cacheSize
+    if (width && height) {
+      window.setSize(width, height, true)
+    } else {
+      window.setSize(WindowDefaultSize.width, WindowDefaultSize.height, true)
+    }
   })
 }

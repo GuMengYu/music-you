@@ -58,23 +58,17 @@ const displayAll = ref(false)
 <template>
   <div class="lyrics-wrapper">
     <div class="lyrics-slider">
-      <span v-if="!currentLyric" class="current text-h4 text-onSurfaceVariant">
+      <span v-if="!currentLyric" class="current">
         {{ $t('common.no_lyric') }}
       </span>
-      <span
-        v-else
-        ref="text"
-        class="current text-h3 text-onSurfaceVariant"
-        :class="{ animate }"
-        @click="displayAll = true"
-      >
+      <span v-else ref="text" class="current" :class="{ animate }" @click="displayAll = true">
         {{ currentText }}
       </span>
     </div>
 
     <v-dialog v-model="displayAll" scrollable max-height="70vh">
-      <v-card color="surfaceVariant" :width="550" class="text-onSurfaceVariant rounded-lg pa-4 overflow-y-auto">
-        <ul class="lyrics-list text-xl-h6 text-lg-subtitle-1 font-weight-bold">
+      <v-card color="surfaceVariant" width="45vw" class="text-onSurfaceVariant rounded-lg pa-4 overflow-y-auto">
+        <ul class="lyrics-list text-xl-h6 text-lg-subtitle-1">
           <li v-for="(item, index) in lyrics" :key="index" :data-time="item.time" v-html="item.sentence"></li>
         </ul>
       </v-card>

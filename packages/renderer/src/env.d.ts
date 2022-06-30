@@ -8,10 +8,10 @@ declare module '*.vue' {
 }
 
 declare module 'md3-theme-generator' {
-  export const generatePaletteFromURL: (url: string) => Promise<{
-    save: () => {
-      light: Record<string, string>
-      dark: Record<string, string>
-    }
-  }>
+  interface themeAdaptor {
+    light: Record<string, string>
+    dark: Record<string, string>
+  }
+
+  export const generatePaletteFromURL: (url: string) => Promise<themeAdaptor>
 }

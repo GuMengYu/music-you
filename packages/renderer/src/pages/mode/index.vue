@@ -3,17 +3,23 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
 
 import { useAppStore } from '@/store/app'
+import { useSettingStore } from '@/store/setting'
+import { PLAYING_MODE } from '@/util/enum'
 
-import { basic, simple } from './exports'
+import { basic, md, simple } from './exports'
 
 const appStore = useAppStore()
-
-const { showLyric, playingMode } = storeToRefs(appStore)
+const settingStore = useSettingStore()
+const { showLyric } = storeToRefs(appStore)
 
 const fullscreen = ref(false)
 
 const currentComponent = computed(() => {
-  return playingMode.value === 'simple' ? simple : basic
+  return {
+    [PLAYING_MODE.SIMPLE]: simple,
+    [PLAYING_MODE.BASIC]: basic,
+    [PLAYING_MODE.MD]: md,
+  }[settingStore.playingMode]
 })
 
 onMounted(() => {
