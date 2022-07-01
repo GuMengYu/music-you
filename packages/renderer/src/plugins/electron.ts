@@ -1,6 +1,7 @@
 import { useIpcRenderer } from '@vueuse/electron'
 import { once } from 'lodash-es'
 
+import { usePlayerOutsideComponent } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import is from '@/util/is'
@@ -15,23 +16,24 @@ function registerIpcRenderer() {
   const playerStore = usePlayerStore()
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
+  const player = usePlayerOutsideComponent()
   // const showDownloadComplete = once((name) => {})
 
   // ipcRenderer.on('open-settings', () => {
   // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
   // })
-  ipcRenderer.on('search', () => {
-    appStore.$state.showSearch = !appStore.$state.showSearch
+  // ipcRenderer.on('search', () => {
+  //   appStore.$state.showSearch = !appStore.$state.showSearch
+  // })
+  ipcRenderer.on('next', () => {
+    player.next()
   })
-  // ipcRenderer.on('next', () => {
-  //   player.next()
-  // })
-  // ipcRenderer.on('prev', () => {
-  //   window?.app?.$player.prev()
-  // })
-  // ipcRenderer.on('playOrPause', () => {
-  //   playerStore.$state.playing = !playerStore.$state.playing
-  // })
+  ipcRenderer.on('prev', () => {
+    player.prev()
+  })
+  ipcRenderer.on('playOrPause', () => {
+    playerStore.$state.playing = !playerStore.$state.playing
+  })
   ipcRenderer.on('volumeUp', () => {
     const volume = playerStore.$state.volume
     const tem = volume + 0.05

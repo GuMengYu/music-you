@@ -42,7 +42,10 @@ export interface PipLyric {
   onLeave: () => void
   onEnter: () => void
   leave: () => void
-  setData: () => void
+  setData: (trac: Track, lyric: Track['lyric']) => void
+  pause: () => void
+  play: () => void
+  updateTime: (time: number) => void
 }
 
 export class Player {
@@ -79,7 +82,7 @@ export class Player {
     this.init()
   }
   private init() {
-    this.pipLyric = PipLyric()()
+    this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
     if (this.track?.id) {
       console.log('restore track from storage', this.track)
@@ -189,7 +192,7 @@ export class Player {
           const artists = ar.map((a) => a.name).join('&')
           document.title = `${name} - ${artists}`
           this.fixDuration()
-          this.pipLyric.setData(this.track, this.track.lyric)
+          this.pipLyric?.setData(this.track, this.track.lyric)
           // this.pipLyric.enter()
         }
       },
@@ -227,7 +230,7 @@ export class Player {
       this.howler?.pause()
       this.playing = false
       this.store.playing = false
-      this.pipLyric.pause()
+      this.pipLyric?.pause()
     })
   }
   play() {
@@ -237,11 +240,11 @@ export class Player {
       this.howler?.fade(0, this.volume, 500)
       this.playing = true
       this.store.playing = true
-      this.pipLyric.play()
+      this.pipLyric?.play()
     })
   }
   togglePlay() {
-    if (this.playing) {
+    if (this.howler?.playing()) {
       this.pause()
     } else {
       this.play()
@@ -295,7 +298,7 @@ export class Player {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
     this.currentTime = current
     this.store.currentTime = current
-    this.pipLyric.updateTime(current)
+    this.pipLyric?.updateTime(current)
   }
   setSeek(val: number) {
     this.howler?.seek(val)

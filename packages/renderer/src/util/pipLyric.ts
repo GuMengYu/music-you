@@ -1089,23 +1089,23 @@ export function PipLyric() {
   } catch (n) {
     xn.support = !1
   }
-  var Xn = function (n) {
+  var Xn = function () {
     var t = xn(),
       e = (window.navigator || {}).userAgent,
       r = {},
-      a = function (t) {
-        try {
-          n('mobile_monitor', {
-            'meta._ver': 2,
-            'meta._dataName': 'pip_lyric_monitor',
-            action: t,
-            userAgent: e,
-            chromeVersion: m,
-            resourceId: r.id,
-            resourceType: r.type,
-          })
-        } catch (n) {}
-      },
+      // a = function (t) {
+      //   try {
+      //     n('mobile_monitor', {
+      //       'meta._ver': 2,
+      //       'meta._dataName': 'pip_lyric_monitor',
+      //       action: t,
+      //       userAgent: e,
+      //       chromeVersion: m,
+      //       resourceId: r.id,
+      //       resourceType: r.type,
+      //     })
+      //   } catch (n) {}
+      // },
       i = document.createElement('a')
     ;(i.href = 'javascript:;'),
       i.setAttribute('hidefocus', 'true'),

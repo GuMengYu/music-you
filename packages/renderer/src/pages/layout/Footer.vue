@@ -33,12 +33,14 @@
 
           <div class="mx-2 d-flex align-start flex-column">
             <div class="d-flex align-center line-clamp-1">
-              <span class="text-subtitle-2"> {{ track?.name }} · </span>
+              <span class="text-subtitle-2"> {{ track?.name }} </span>
 
-              <span class="text-caption font-weight-bold text-secondary"> {{ track.meta?.type }} · </span>
+              <span v-if="track.meta?.type" class="text-caption font-weight-bold text-secondary">
+                · {{ track.meta.type }}
+              </span>
 
-              <span class="text-caption font-weight-bold text-secondary">
-                {{ `${Math.ceil((track.meta?.br ?? 0) / 1000)}` }}kbps
+              <span v-if="track.meta?.br" class="text-caption font-weight-bold text-secondary">
+                · {{ `${Math.ceil((track.meta.br ?? 0) / 1000)}` }}kbps
               </span>
             </div>
 
@@ -72,7 +74,7 @@
               :height="2"
               :color="currentTheme.colors.primary"
               track-color="rgba(66,66,66,0.28)"
-              @change="volumnDebouncedFn"
+              @change="volumeDebouncedFn"
             />
           </div>
           <v-btn icon size="small" :color="isQueue ? 'primary' : ''" @click="toQueue">
@@ -129,7 +131,14 @@ const trackDt = computed(() => track.value?.dt ?? 10)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
 const cacheVolume = ref(0.8)
-const sliderVolume = ref(0)
+const sliderVolume = computed({
+  get() {
+    return volume.value
+  },
+  set(val) {
+    volume.value = val
+  },
+})
 sliderVolume.value = volume.value
 
 // 音量icon状态
@@ -217,7 +226,7 @@ async function showPlayingPage() {
   }
   appStore.showLyric = true
 }
-const volumnDebouncedFn = useDebounceFn(
+const volumeDebouncedFn = useDebounceFn(
   (val: Event | number) => {
     volume.value = val as number
   },

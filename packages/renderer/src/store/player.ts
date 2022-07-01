@@ -58,9 +58,7 @@ export const usePlayerStore = defineStore({
       restoreState.value.shuffle = data.shuffle
       restoreState.value.volume = data.volume
     })
-    return {
-      ...toRefs(data),
-    }
+    return { ...toRefs(data) }
   },
   actions: {
     popNextTrackId() {

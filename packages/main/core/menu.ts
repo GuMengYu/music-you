@@ -55,7 +55,6 @@ export const createElectronMenu = (window: BrowserWindow) => {
       submenu: [
         {
           label: '播放|暂停',
-          accelerator: 'Space',
           click: () => {
             window.webContents.send('playOrPause')
           },
@@ -86,20 +85,6 @@ export const createElectronMenu = (window: BrowserWindow) => {
           accelerator: 'CmdOrCtrl+Down',
           click: () => {
             window.webContents.send('volumeDown')
-          },
-        },
-        {
-          label: '喜欢|不喜欢',
-          accelerator: 'CmdOrCtrl+L',
-          click: () => {
-            window.webContents.send('like')
-          },
-        },
-        {
-          label: '搜索',
-          accelerator: 'CmdOrCtrl+K',
-          click: () => {
-            window.webContents.send('search')
           },
         },
       ],

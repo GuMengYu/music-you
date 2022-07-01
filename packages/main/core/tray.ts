@@ -28,12 +28,12 @@ export const createTray = (win: BrowserWindow) => {
         win.webContents.send('next')
       },
     },
-    {
-      label: '设置',
-      click: () => {
-        win.webContents.send('open-settings')
-      },
-    },
+    // {
+    //   label: '设置',
+    //   click: () => {
+    //     win.webContents.send('open-settings')
+    //   },
+    // },
     {
       label: '退出',
       click: () => {
@@ -45,7 +45,7 @@ export const createTray = (win: BrowserWindow) => {
   handleEvents(tray, win)
 }
 
-function handleEvents(tray, win) {
+function handleEvents(tray: Tray, win: BrowserWindow) {
   tray.on('click', () => {
     win.show()
   })

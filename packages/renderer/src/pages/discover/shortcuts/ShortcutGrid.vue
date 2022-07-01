@@ -55,7 +55,7 @@ onMounted(async () => {
   // 得到一个随机收藏的歌单
   const filtersId = [favorites.value.id, specialType.radar.id]
   const list = filter(playlists.value, (item) => !filtersId.includes(item.id) && item.trackCount > 0)
-  const randomPlayList = list[random(0, list.length)]
+  const randomPlayList = list[random(0, list.length - 1)]
   if (randomPlayList?.id) {
     state.randomPlayList.id = randomPlayList.id
     state.randomPlayList.picUrl = randomPlayList.coverImgUrl
@@ -68,7 +68,12 @@ onMounted(async () => {
     <Shortcut v-if="logged" :data="myFav" type="playlist" :flag="{ color: 'primary', label: 'F' }" />
     <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'D' }" />
     <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', label: 'R' }" />
-    <Shortcut v-if="logged" :data="state.randomPlayList" type="playlist" :flag="{ color: 'outline', label: 'P' }" />
+    <Shortcut
+      v-if="logged && state.randomPlayList.id"
+      :data="state.randomPlayList"
+      type="playlist"
+      :flag="{ color: 'outline', label: 'P' }"
+    />
     <ShortcutFm />
   </div>
 </template>

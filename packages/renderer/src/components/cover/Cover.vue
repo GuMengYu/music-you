@@ -23,9 +23,9 @@
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade-y">
-            <div v-if="isHovering" class="d-flex flex-fill justify-space-between">
-              <v-btn icon color="primary" :loading="loading" @click.prevent="play">
-                <v-icon color="onPrimary">{{ mdiPlay }} </v-icon>
+            <div v-if="isHovering || inActive" class="d-flex flex-fill justify-space-between">
+              <v-btn icon color="primary" :loading="loading" @click.prevent="toggle">
+                <v-icon color="onPrimary">{{ coverPlaying ? mdiPause : mdiPlay }} </v-icon>
               </v-btn>
               <slot name="action" />
             </div>
@@ -47,17 +47,22 @@
   </v-hover>
 </template>
 <script setup lang="ts">
-import { mdiPlay } from '@mdi/js'
+import { mdiPause, mdiPlay } from '@mdi/js'
+import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 import { getTrackList } from '@/api/music'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
+import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
+const playStore = usePlayerStore()
 const playQueue = usePlayQueueStore()
 const loading = ref<boolean>(false)
+const { playing } = storeToRefs(playStore)
+const loaded = ref(false)
 const props = defineProps({
   data: {
     type: Object,
@@ -104,17 +109,32 @@ const to = computed(() => {
     artist: `/artist/${props.data.id}`,
   }[props.type]
 })
+const inActive = computed(() => {
+  return props.data.id === playQueue.queue.id
+})
+const coverPlaying = computed(() => {
+  return playing.value && inActive.value
+})
 
-async function play() {
-  loading.value = true
-  try {
-    const info = await getTrackList(<'album' | 'playlist'>props.type, props.data.id)
-    playQueue.updatePlayQueue(info.id, <'album' | 'playlist'>props.type, props.data.name, info.tracks)
-    player.next()
-  } catch (e) {
-    console.log(e)
-  } finally {
-    loading.value = false
+async function toggle() {
+  if (coverPlaying.value) {
+    player.pause()
+  } else {
+    if (loaded.value && inActive.value) {
+      player.play()
+    } else {
+      loading.value = true
+      try {
+        const info = await getTrackList(<'album' | 'playlist'>props.type, props.data.id)
+        playQueue.updatePlayQueue(info.id, <'album' | 'playlist'>props.type, props.data.name, info.tracks)
+        player.next()
+        loaded.value = true
+      } catch (e) {
+        console.log(e)
+      } finally {
+        loading.value = false
+      }
+    }
   }
 }
 </script>

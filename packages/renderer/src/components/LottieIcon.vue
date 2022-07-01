@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import type { AnimationItem } from 'lottie-web'
 import lottie from 'lottie-web'
 export default defineComponent({
   props: {
@@ -13,6 +14,7 @@ export default defineComponent({
     height: Number,
     width: Number,
   },
+  emits: ['animCreated', 'animUpdated'],
   data() {
     return {
       style: {
@@ -21,6 +23,7 @@ export default defineComponent({
         overflow: 'hidden',
         margin: '0 auto',
       },
+      anim: null as unknown as AnimationItem,
     }
   },
   mounted() {
@@ -29,7 +32,7 @@ export default defineComponent({
   methods: {
     loadAnimation(updated = false) {
       this.anim = lottie.loadAnimation({
-        container: this.$refs.lavContainer,
+        container: this.$refs.lavContainer as Element,
         renderer: 'svg',
         loop: this.options.loop !== false,
         autoplay: this.options.autoplay !== false,
