@@ -72,19 +72,25 @@ npm run electron:build
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804674-9b20b7e2-7de9-4349-b638-ecd727425b4a.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804699-c1499b10-63f3-4b9f-919d-33fe8b9f8287.png
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804699-c1499b10-63f3-4b9f-919d-33fe8b9f8287.png>
+</picture>
 
 <hr></hr>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804691-ff4a663e-8906-4192-af76-ba195cd5e4bb.png">
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804694-fa497594-ba2a-45be-8581-dd266214f7e1.png">
 </picture>
+
 <hr></hr>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804706-5525c3d8-9ea9-46d3-b9d0-64cbc056a6fe.png">
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804696-1d4674fb-aae5-464f-91cd-835b660b28bb.png">
 </picture>
+
 <hr></hr>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804692-3a3a0902-6e3c-4a37-a596-f59494d88020.png">
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804702-ea40c49c-aa4a-46fe-8e28-eadfc0519eb6.png">
