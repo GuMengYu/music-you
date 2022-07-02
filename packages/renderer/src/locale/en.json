@@ -5,6 +5,7 @@
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
     "add_list_success": "Added to playlist",
+    "remove_list_success": "Removed from playlist",
     "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
     "delete_list": "delete | deleted",
@@ -168,7 +169,7 @@
     "add_to_queue": "Add to play queue",
     "to_artist": "Go to artist",
     "to_album": "Go to album",
-    "add_to_playlist": "Add to play queue",
+    "add_to_playlist": "Add to playlist",
     "remove_from_playlist": "Remove from this playlist",
     "remove_from_fav": "Remove from \"favorite\"",
     "add_to_fav": "Add to \"favorite\""

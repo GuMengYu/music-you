@@ -117,9 +117,9 @@ async function toggleLike() {
   const success = await userStore.favSong(props.track.id, !liked.value)
   if (success) {
     if (before) {
-      toast.success(t('message.add_fav_success'))
-    } else {
       toast.success(t('message.remove_fav_success'))
+    } else {
+      toast.success(t('message.add_fav_success'))
     }
   } else {
     toast.error(t('message.something_wrong'))
@@ -173,7 +173,14 @@ async function toggleLike() {
           </router-link>
         </div>
         <div class="track-third">
-          <v-btn v-visible="liked || isHovering" size="small" icon variant="text" @click.prevent="toggleLike">
+          <v-btn
+            v-visible="liked || isHovering"
+            :loading="likeLoading"
+            size="small"
+            icon
+            variant="text"
+            @click.prevent="toggleLike"
+          >
             <v-icon size="small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
               liked ? mdiHeart : mdiHeartOutline
             }}</v-icon>

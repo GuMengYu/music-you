@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { mdiClockOutline, mdiFaceMan } from '@mdi/js'
+import {
+  mdiAccountMusic,
+  mdiAlbum,
+  mdiClockOutline,
+  mdiCloseCircleOutline,
+  mdiHeart,
+  mdiHeartRemove,
+  mdiPlaylistMusicOutline,
+  mdiPlaylistPlay,
+} from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -72,22 +81,21 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
     x,
     y,
     items: genMenu(liked, track),
+    offsetFooter: 64,
   }
   contextMenu(option)
 }
 function genMenu(liked: boolean, track: Track): MenuItem[] {
   const items: MenuItem[] = [
     {
-      // icon: mdiPlaylistMusic,
+      icon: mdiPlaylistPlay,
       label: t('common.add_to_queue'),
       onClick: (i) => {
         addToQueue(track)
       },
     },
     {
-      divided: true,
-    },
-    {
+      icon: mdiAccountMusic,
       label: t('common.to_artist'),
       ...(track.ar!.length > 1
         ? {
@@ -107,7 +115,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
           }),
     },
     {
-      // icon: mdiAlbum,
+      icon: mdiAlbum,
       label: t('common.to_album'),
       onClick: (i) => {
         toAlbum(track.al!.id)
@@ -117,7 +125,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       divided: true,
     },
     {
-      // icon: mdiPlaylistMusic,
+      icon: mdiPlaylistMusicOutline,
       label: t('common.add_to_playlist'),
       children: playlists.value.map((list) => {
         return {
@@ -138,7 +146,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   ]
   if (liked) {
     items.push({
-      // icon: mdiHeartBroken,
+      icon: mdiHeartRemove,
       label: t('common.remove_from_fav'),
       onClick: (i) => {
         toggleLike(true, track.id)
@@ -146,7 +154,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     })
   } else {
     items.push({
-      // icon: mdiHeart,
+      icon: mdiHeart,
       label: t('common.add_to_fav'),
       onClick: (i) => {
         toggleLike(false, track.id)
@@ -155,7 +163,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   }
   if (props.ownId && props.type !== 'fav') {
     items.push({
-      // icon: mdiDelete,
+      icon: mdiCloseCircleOutline,
       label: t('common.remove_from_playlist'),
       onClick: (i) => {
         // “!”非空断言
@@ -187,7 +195,7 @@ async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, tr
     if (code === 200) {
       if (op === 'del') {
         emits('removeTrack', trackId)
-        toast.success(t('message.remove_fav_success'))
+        toast.success(t('message.remove_list_success'))
       } else {
         toast.success(t('message.add_list_success'))
       }

@@ -12,7 +12,7 @@
     "dist"
   ],
   "mac": {
-    "artifactName": "${productName}_v${version}_${arch}.${ext}",
+    "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
       {
         "target":"dmg",
@@ -33,7 +33,7 @@
         "arch": ["x64"]
       }
     ],
-    "artifactName": "${productName}_v${version}_${arch}.${ext}"
+    "publisherName": 'VPlayer',
   },
   "linux": {
     "target": [

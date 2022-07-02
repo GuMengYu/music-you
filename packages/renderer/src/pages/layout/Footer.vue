@@ -52,7 +52,7 @@
         <Control />
         <div class="playing-bar__right">
           <v-btn icon size="small" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
-            <v-icon ref="playlistBtn" size="small">
+            <v-icon ref="playlistBtn" size="x-small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
             <v-tooltip activator="parent" location="top">

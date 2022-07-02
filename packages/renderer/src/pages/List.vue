@@ -288,7 +288,7 @@ useAjaxReloadHook('playlist', () => {
       <v-dialog v-model="showEdit" :scrollable="true">
         <v-card width="420" min-height="300" rounded="xl" class="py-2">
           <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
-          <v-card-content>
+          <v-card-text>
             <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
             <v-textarea
               v-model="editForm.description"
@@ -297,7 +297,7 @@ useAjaxReloadHook('playlist', () => {
               :label="$t('main.playlist.desc')"
             >
             </v-textarea>
-          </v-card-content>
+          </v-card-text>
           <v-card-actions class="justify-end">
             <v-btn color="primary" variant="plain" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
             <v-btn color="primary" variant="plain" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>

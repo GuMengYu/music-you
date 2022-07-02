@@ -2,7 +2,7 @@
   <v-btn
     variant="outlined"
     :style="{
-      minWidth: 'var(--v-btn-height)',
+      minWidth: 'calc(var(--v-btn-height) + 4px)',
       padding: 0,
     }"
     v-bind="$attrs"

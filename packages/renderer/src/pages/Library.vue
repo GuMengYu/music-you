@@ -65,7 +65,7 @@
     <v-dialog v-model="createState.show">
       <v-card max-width="420" min-width="420" rounded="xl" class="py-2">
         <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
-        <v-card-content>
+        <v-card-text>
           <v-text-field
             v-model="createState.playlistName"
             :label="$t('main.playlist.name')"
@@ -79,7 +79,7 @@
             :label="$t('main.playlist.privacy')"
             hide-details
           ></v-checkbox>
-        </v-card-content>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>

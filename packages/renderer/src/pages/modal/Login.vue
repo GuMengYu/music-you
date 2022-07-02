@@ -173,6 +173,7 @@ const checkQrStatus = (key: string) => {
         state.qrNickName = nickname
       } else if (code === QR_STATUS.AUTHED) {
         state.qrState = QR_STATUS.AUTHED
+        clearTimer()
         await userStore.refreshAccount()
         await userStore.fetch()
         handleCancel()

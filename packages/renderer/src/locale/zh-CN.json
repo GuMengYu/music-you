@@ -5,6 +5,7 @@
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
     "add_list_success": "已添加到歌单",
+    "remove_list_success": "已从歌单移除",
     "something_wrong": "出错了",
     "reset_app": "重置应用",
     "disclaimer": "免责声明",
