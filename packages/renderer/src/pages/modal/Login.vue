@@ -7,8 +7,8 @@
         </v-icon>
       </div>
 
-      <v-card-title class="justify-center onSurface--text">Login</v-card-title>
-      <v-card-subtitle class="text-center onSurfaceVariant--text mt-0">{{ $t('message.login') }}</v-card-subtitle>
+      <v-card-title class="text-center">Login</v-card-title>
+      <v-card-subtitle class="text-center mt-0">{{ $t('message.login') }}</v-card-subtitle>
       <div v-if="state.loginType === LOGIN_TYPE.ACCOUNT" class="mx-6 py-6">
         <v-text-field
           v-model="state.phone"

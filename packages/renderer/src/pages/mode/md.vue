@@ -131,7 +131,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .md-container {
-  :deep(.v-card-img) {
+  :deep(.v-card__image) {
     filter: blur(140px);
   }
   .md-content {

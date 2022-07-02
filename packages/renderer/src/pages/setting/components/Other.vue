@@ -22,19 +22,19 @@
     <v-list-item class="pa-0">
       <v-list-item-header class="text-caption"> {{ $t('main.setting.reset') }}</v-list-item-header>
       <v-list-item-media>
-        <v-dialog v-model="showAlert" persistent max-width="350">
+        <v-dialog v-model="showAlert" persistent>
           <template #activator="{ props }">
             <v-btn color="primary" size="small" v-bind="props" variant="outlined" rounded>
               {{ $t('message.reset_app') }}
             </v-btn>
           </template>
-          <v-card class="pt-4 pb-2" rounded="xl" color="surface">
+          <v-card class="pt-4 pb-2" rounded="xl" color="surface" max-width="350">
             <div class="d-flex justify-center">
               <v-icon color="secondary">
                 {{ mdiRestore }}
               </v-icon>
             </div>
-            <v-card-title class="justify-center">{{ $t('message.reset_app') }}</v-card-title>
+            <v-card-title class="text-center">{{ $t('message.reset_app') }}</v-card-title>
             <v-card-subtitle class="text-center">{{ $t('message.reset_msg') }}</v-card-subtitle>
             <v-card-actions>
               <v-spacer></v-spacer>

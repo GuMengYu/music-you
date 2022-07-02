@@ -246,7 +246,7 @@ useAjaxReloadHook('playlist', () => {
                       {{ mdiDeleteAlert }}
                     </v-icon>
                   </div>
-                  <v-card-title class="justify-center">{{ $tc('message.delete_list', 1) }}</v-card-title>
+                  <v-card-title class="text-center">{{ $tc('message.delete_list', 1) }}</v-card-title>
                   <v-card-subtitle class="text-center">{{ $t('message.delete_list_alert') }}</v-card-subtitle>
                   <v-card-actions>
                     <v-spacer></v-spacer>
