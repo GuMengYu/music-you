@@ -72,7 +72,7 @@ npm run electron:build
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804674-9b20b7e2-7de9-4349-b638-ecd727425b4a.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804699-c1499b10-63f3-4b9f-919d-33fe8b9f8287.png>
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804699-c1499b10-63f3-4b9f-919d-33fe8b9f8287.png">
 </picture>
 
 <hr></hr>
