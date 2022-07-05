@@ -11,7 +11,7 @@
         <div class="d-flex justify-space-between px-2">
           <v-icon color="primary" size="small"> {{ mdiMusicCircle }} </v-icon>
         </div>
-        <div class="d-flex justify-space-between px-2">
+        <div class="d-flex justify-space-between align-center px-2">
           <div class="d-flex flex-column text-caption">
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
@@ -20,7 +20,7 @@
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
         </div>
-        <div class="d-flex justify-lg-space-between py-1">
+        <div class="d-flex justify-space-between align-center px-1">
           <v-btn icon variant="text" size="x-small" @click="prev">
             <v-icon size="x-small">{{ mdiSkipPreviousOutline }}</v-icon>
           </v-btn>

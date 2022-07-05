@@ -89,12 +89,12 @@ function toggleShuffle() {
 </script>
 <template>
   <div class="d-flex justify-center align-center control-buttons gap-2">
-    <v-btn icon :disabled="isCurrentFm" flat size="small" @click="toggleShuffle">
+    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="toggleShuffle">
       <v-icon size="x-small" :color="shuffle ? 'primary' : ''">
         {{ shuffle ? mdiShuffle : mdiShuffleDisabled }}
       </v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" flat size="small" @click="prev">
+    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="prev">
       <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
     </v-btn>
 
@@ -104,7 +104,6 @@ function toggleShuffle() {
       :style="{
         animation: playing ? 'pulseWarn 1.5s infinite' : '',
       }"
-      size="small"
       color="primary"
       :loading="loadingTrack"
       variant="flat"
@@ -121,10 +120,10 @@ function toggleShuffle() {
       ></lottie-icon>
     </v-btn>
 
-    <v-btn icon flat size="small" @click="next">
+    <v-btn icon variant="text" size="small" @click="next">
       <v-icon size="small">{{ mdiSkipNext }}</v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" flat size="small" @click="switchMode">
+    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="switchMode">
       <v-icon size="x-small" :color="repeatOn ? 'primary' : ''">
         {{ orderIconState }}
       </v-icon>

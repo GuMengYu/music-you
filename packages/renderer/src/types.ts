@@ -1,3 +1,10 @@
+interface Quality {
+  br: number // 码率
+  fid: number
+  size: number // 大小
+  sr: number // 采样率
+  vd: number
+}
 export interface Track {
   id: number
   name: string
@@ -7,6 +14,11 @@ export interface Track {
   artists?: Artist[]
   al?: Album
   album?: Album
+  h?: Quality
+  l?: Quality
+  m?: Quality
+  sq?: Quality
+  hr?: Quality
   meta?: {
     url: null | string
     br: null | number

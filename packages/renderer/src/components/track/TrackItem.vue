@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPlay } from '@mdi/js'
+import { track } from '@vue/reactivity'
 import { storeToRefs } from 'pinia'
 import type { ComponentPublicInstance } from 'vue'
 import { computed } from 'vue'
@@ -54,6 +55,22 @@ const trackAlbum = computed<Album>(() => props.track.al ?? props.track.album ?? 
 const albumCover = computed(() => sizeOfImage(trackAlbum.value.picUrl ?? trackAlbum.value.coverImgUrl, 128))
 const className = computed(() => {
   return props.album ? 'track-item album-item' : 'track-item'
+})
+interface TrackSymbol {
+  q?: 'Hi-Res' | 'SQ'
+  vip?: boolean
+}
+const symbol = computed(() => {
+  let _symbol: TrackSymbol = {}
+  if (props.track.hr) {
+    _symbol.q = 'Hi-Res'
+  } else if (props.track.sq) {
+    _symbol.q = 'SQ'
+  }
+  if (props.track.fee === 1) {
+    _symbol.vip = true
+  }
+  return _symbol
 })
 const isVip = computed(() => account.value?.profile.vipType === 11)
 const available = computed(() => {
@@ -161,8 +178,10 @@ async function toggleLike() {
             :aspect-ratio="1"
           />
           <div class="track-info">
-            <v-list-item-title class="line-clamp-1" v-text="track.name" />
-            <v-list-item-subtitle>
+            <v-list-item-title class="line-clamp-1"> {{ props.track.name }}</v-list-item-title>
+            <v-list-item-subtitle class="d-flex align-center">
+              <span v-if="symbol.vip" class="track-quality"> vip </span>
+              <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span>
               <artists-link :artists="artists" class="line-clamp-1 text-caption" />
             </v-list-item-subtitle>
           </div>
@@ -226,6 +245,14 @@ async function toggleLike() {
     display: flex;
     align-items: center;
     gap: 16px;
+    .track-quality {
+      border-radius: 4px;
+      border: 1px solid rgba(var(--v-theme-primary));
+      color: rgba(var(--v-theme-primary));
+      padding: 0 3px;
+      font-size: 12px;
+      transform: scale(0.8) translateX(-2px);
+    }
   }
   .track-second {
     width: fit-content;

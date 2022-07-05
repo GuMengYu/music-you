@@ -16,13 +16,24 @@
         </div>
       </v-col>
       <v-col cols="6" class="pa-xl-16 pa-lg-12 pa-md-8 d-flex align-center">
-        <v-img
-          class="frame-cover-img rounded-xl"
-          :src="albumPicUrl"
-          :lazy-src="placeholderUrl"
-          :aspect-ratio="1"
-          :gradient="`90deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 50%) 100%`"
-        />
+        <v-hover v-slot="{ isHovering, props: hoverProps }">
+          <v-img
+            v-bind="hoverProps"
+            class="frame-cover-img rounded-xl"
+            :src="albumPicUrl"
+            :lazy-src="placeholderUrl"
+            :aspect-ratio="1"
+            :gradient="`90deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 50%) 100%`"
+          >
+            <div class="d-flex flex-fill fill-height align-end justify-center pa-4">
+              <transition name="slide-fade-y">
+                <div v-if="isHovering" class="d-flex flex-fil justify-center">
+                  <Control />
+                </div>
+              </transition>
+            </div>
+          </v-img>
+        </v-hover>
       </v-col>
     </v-row>
   </v-card>
@@ -49,17 +60,16 @@ import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import Lyric from '@/pages/mode/lyric.vue'
-import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { formatDuring } from '@/util/fn'
 import is from '@/util/is'
+
 export default defineComponent({
   components: { Lyric },
   setup() {
     const playerStore = usePlayerStore()
     const appStore = useAppStore()
-    const player = usePlayer()
     const palette = ref<{
       light: Record<string, string>
       dark: Record<string, any>

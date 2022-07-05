@@ -25,7 +25,7 @@
               :src="albumPicUrl"
               cover
             >
-              <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
+              <v-btn v-show="isHovering" size="large" icon @click.stop="showPlayingPage">
                 <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
               </v-btn>
             </v-img>
