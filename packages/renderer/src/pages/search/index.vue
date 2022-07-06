@@ -93,7 +93,7 @@ function playMusic(trackId: number) {
     </Col>
     <Col v-show="state.playlists.length" :title="$t('main.playlists')">
       <CardRow>
-        <Cover v-for="playlist in state.playlists" :key="playlist.id" :data="playlist"></Cover>
+        <Cover v-for="playlist in state.playlists" :key="playlist.id" :data="playlist" type="playlist"></Cover>
       </CardRow>
     </Col>
     <Col v-show="state.mvs.length" :title="$t('main.mvs')">

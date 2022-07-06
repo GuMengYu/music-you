@@ -250,8 +250,7 @@ async function toggleLike() {
       border: 1px solid rgba(var(--v-theme-primary));
       color: rgba(var(--v-theme-primary));
       padding: 0 3px;
-      font-size: 12px;
-      transform: scale(0.8) translateX(-2px);
+      font-size: 0.625rem;
     }
   }
   .track-second {

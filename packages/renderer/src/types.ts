@@ -112,6 +112,7 @@ export interface Playlist {
   updateFrequency?: string
   userId?: number
   privacy?: number
+  officialPlaylistType?: string
 }
 
 export interface Account {
