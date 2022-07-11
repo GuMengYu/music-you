@@ -29,7 +29,7 @@ const messages = {
   },
 }
 export interface PlayerInstance {
-  updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean) => void
+  updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean, isFm?: boolean) => void
   pause: () => void
   play: () => void
   next: () => void
@@ -127,18 +127,18 @@ export class Player {
    * @param resetProgress 重置进度条（true）
    * @returns
    */
-  async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true) {
+  async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true, isFm = false) {
     if (!trackId) return
-    const { isCurrentFm } = this.store.$state as PlayerState
     this.store.$state.loadingTrack = true
     const { track, trackMeta, lyric } = await getTrackDetail(trackId)
+    // restore common mode
+    if (!isFm) {
+      this.store.$state.isCurrentFm = false
+    }
     if (trackMeta.url) {
       track.lyric = lyric // 存入歌词
       track.meta = trackMeta
       this.store.$state.track = track // 保存到 store
-      if (isCurrentFm) {
-        this.store.$state.fmTrack = track
-      }
       if (resetProgress) {
         this.updateCurrentTime(0)
       }
@@ -264,6 +264,15 @@ export class Player {
       this.updatePlayerTrack(trackId)
     } else {
       this.pause()
+    }
+  }
+  async nextFm() {
+    if (!this.store.isCurrentFm) {
+      this.store.$state.isCurrentFm = true
+    }
+    const track = await this.store.updatePersonalFmList()
+    if (track?.id) {
+      this.updatePlayerTrack(track.id, true, true, true)
     }
   }
   prev() {

@@ -5,21 +5,25 @@
       class="rounded-circle d-flex align-center justify-center ml-4"
       style="height: 45px; width: 45px; min-width: 45px"
     >
-      FM
+      <v-progress-circular width="5" :model-value="0" color="deep-orange" size="45">
+        <v-btn icon flat color="primary" @click="togglePlay">
+          <v-icon>{{ playing ? mdiPause : mdiPlay }}</v-icon>
+        </v-btn>
+      </v-progress-circular>
     </div>
-    <div class="d-flex align-center justify-space-between flex-fill px-4 flex-column text-onSurfaceVariant">
-      <span :title="title" class="text-caption font-weight-bold text-decoration-none line-clamp-1">
-        {{ title }}
-      </span>
-      <div class="d-flex align-center justify-center gap-3" style="height: 48px">
-        <v-btn icon size="x-small" variant="text" @click="trash">
-          <v-icon size="x-small">{{ mdiDelete }} </v-icon>
+    <div class="d-flex align-center justify-space-between flex-fill px-4 gap-1 text-onSurfaceVariant">
+      <div class="d-flex text-subtitle-1 flex-column">
+        <span class="line-clamp-1">
+          {{ fmTrack?.name }}
+        </span>
+        <artists-link v-if="fmTrack" class="text-subtitle-2 line-clamp-1" :artists="fmTrack.ar ?? fmTrack.artists" />
+      </div>
+      <div class="d-flex align-center justify-center" style="height: 48px">
+        <v-btn icon size="small" variant="text" @click="trash">
+          <v-icon size="small">{{ mdiHeartOffOutline }} </v-icon>
         </v-btn>
-        <v-btn icon flat size="x-small" color="primary" @click="togglePlay">
-          <v-icon size="x-small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
-        </v-btn>
-        <v-btn icon size="x-small" variant="text" @click="next">
-          <v-icon size="x-small">{{ mdiSkipNextOutline }}</v-icon>
+        <v-btn icon size="small" variant="text" @click="next">
+          <v-icon size="small">{{ mdiSkipNext }}</v-icon>
         </v-btn>
       </div>
     </div>
@@ -37,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiDelete, mdiPause, mdiPlay, mdiSkipNextOutline } from '@mdi/js'
+import { mdiHeartOffOutline, mdiPause, mdiPlay, mdiSkipNext } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useToast } from 'vue-toastification'
@@ -51,19 +55,18 @@ const player = usePlayer()
 const playerStore = usePlayerStore()
 const toast = useToast()
 
-const { fmTrack, track } = storeToRefs(playerStore)
+const { fmTrack } = storeToRefs(playerStore)
 
 const coverImgUrl = computed(() => {
   if (fmTrack.value?.album?.picUrl) {
     return sizeOfImage(fmTrack.value?.album?.picUrl, 256)
+  } else if (fmTrack.value?.al?.picUrl) {
+    return sizeOfImage(fmTrack.value?.al?.picUrl, 256)
   } else {
     return placeholderUrl
   }
 })
 
-const title = computed(() => {
-  return `${fmTrack.value?.ar?.[0]?.name ?? fmTrack.value?.artists?.[0].name ?? ''} - ${fmTrack.value?.name} `
-})
 const playing = computed(() => {
   return playerStore.playing && playerStore.isCurrentFm
 })
@@ -83,15 +86,13 @@ async function togglePlay() {
     }
   } else if (fmTrack.value?.id) {
     playerStore.isCurrentFm = true
-    await player.updatePlayerTrack(fmTrack.value.id, true) // 替换当前播放歌曲
+    await player.updatePlayerTrack(fmTrack.value.id, true, true, true) // 替换当前播放歌曲
   } else {
     toast.warning('FM歌曲未加载')
   }
 }
 async function next() {
-  !playerStore.isCurrentFm && (playerStore.isCurrentFm = true)
-  await player.next()
-  playerStore.updatePersonalFmList()
+  player.nextFm()
 }
 
 init()

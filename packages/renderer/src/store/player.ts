@@ -28,6 +28,7 @@ export interface PlayerState {
   popNextTrackId: () => number
   popPrevTrackId: () => number
   setQueue: (trackId: number) => void
+  updatePersonalFmList: () => Track
 }
 export const usePlayerStore = defineStore({
   id: 'player',

@@ -77,7 +77,7 @@
               @change="volumeDebouncedFn"
             />
           </div>
-          <v-btn icon size="small" :color="isQueue ? 'primary' : ''" @click="toQueue">
+          <v-btn icon size="small" :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
             <v-icon ref="playlistBtn" size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
@@ -111,14 +111,13 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { formatNumber, sizeOfImage } from '@/util/fn'
+import { sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 // utitlity
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
 const router = useRouter()
-const route = useRoute()
 const player = usePlayer()
 const theme = useTheme()
 const currentTheme = computed(() => {
@@ -126,7 +125,7 @@ const currentTheme = computed(() => {
 })
 
 // store state
-const { currentTime, track, volume, showPipLyric } = storeToRefs(playerStore)
+const { currentTime, track, volume, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
 const trackDt = computed(() => track.value?.dt ?? 10)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 

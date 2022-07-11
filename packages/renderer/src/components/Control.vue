@@ -67,7 +67,11 @@ watch(playing, (val) => {
   }
 })
 function next() {
-  player.next()
+  if (isCurrentFm) {
+    player.nextFm()
+  } else {
+    player.next()
+  }
 }
 function prev() {
   player.prev()
@@ -124,7 +128,7 @@ function toggleShuffle() {
       <v-icon size="small">{{ mdiSkipNext }}</v-icon>
     </v-btn>
     <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="switchMode">
-      <v-icon size="x-small" :color="repeatOn ? 'primary' : ''">
+      <v-icon size="x-small" :color="repeatOn && !isCurrentFm ? 'primary' : ''">
         {{ orderIconState }}
       </v-icon>
     </v-btn>

@@ -7,18 +7,16 @@ import { useI18n } from 'vue-i18n'
 
 import { getPlaylistDetail } from '@/api/playlist'
 import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
-import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 // import is from '@/util/is'
 import { specialType } from '@/util/metadata'
 
-import ShortcutFm from './fm.vue'
 import Shortcut from './Shortcut.vue'
+import ShortcutFM from './ShortcutFM.vue'
 
 const { count, gap } = useResponsiveGrid(GridType.B)
 const { t } = useI18n()
 const userStore = useUserStore()
-const settingStore = useSettingStore()
 const { logged, favorites, playlists } = storeToRefs(userStore)
 
 const myFav = computed(() => {
@@ -74,6 +72,6 @@ onMounted(async () => {
       type="playlist"
       :flag="{ color: 'outline', label: 'P' }"
     />
-    <ShortcutFm />
+    <ShortcutFM />
   </div>
 </template>
