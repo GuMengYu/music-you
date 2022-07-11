@@ -262,7 +262,7 @@ function toAlbum(id: number) {
 .track-list {
   .list-header {
     display: grid;
-    grid-gap: 16px;
+    grid-gap: 5px;
     grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
     &.album-header {
       grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);

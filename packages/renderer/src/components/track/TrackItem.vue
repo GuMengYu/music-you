@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPlay } from '@mdi/js'
+import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPause, mdiPlay } from '@mdi/js'
 import { track } from '@vue/reactivity'
 import { storeToRefs } from 'pinia'
 import type { ComponentPublicInstance } from 'vue'
@@ -7,7 +7,9 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
+import equaliser from '@/assets/equaliser-animated-green.gif'
 import placeholderUrl from '@/assets/placeholder.png'
+import { usePlayerStore } from '@/store/player'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
@@ -15,6 +17,7 @@ import { formatDuring, sizeOfImage } from '@/util/fn'
 const toast = useToast()
 const { t } = useI18n()
 const userStore = useUserStore()
+const playerStore = usePlayerStore()
 
 const { logged, account } = storeToRefs(userStore)
 const props = defineProps({
@@ -45,6 +48,9 @@ const likeLoading = ref(false)
 
 const liked = computed(() => {
   return !!userStore.likes.find((id: number) => id === props.track.id)
+})
+const current = computed(() => {
+  return props.track.id === playerStore.track?.id
 })
 const artists = computed(() => {
   const { ar, artists } = props.track
@@ -116,6 +122,13 @@ const emit = defineEmits<{
 function play() {
   emit('play', props.track?.id)
 }
+function togglePlay() {
+  if (current.value) {
+    playerStore.playing = !playerStore.playing
+  } else {
+    play()
+  }
+}
 function openMenu(e: MouseEvent) {
   // active current item
   itemRef!.value!.$el.click()
@@ -153,6 +166,7 @@ async function toggleLike() {
       class="pa-0"
       active-color="primary"
       :value="track.id"
+      @click="() => {}"
       @dblclick="play"
       @contextmenu.prevent="openMenu"
     >
@@ -162,10 +176,20 @@ async function toggleLike() {
         :class="{ [className]: true, unavailable: !available.enable }"
       >
         <div class="track-index">
-          <span v-show="!isHovering" class="track-count">{{ index }}</span>
-          <v-btn v-show="isHovering" icon variant="text" size="small" color="primary" @click.stop="play">
-            <v-icon size="small">{{ mdiPlay }}</v-icon>
+          <span
+            v-show="!current && !isHovering"
+            :class="{
+              'track-count': true,
+              'text-primary font-weight-bold': current,
+            }"
+            >{{ index }}</span
+          >
+          <v-btn v-show="isHovering" icon variant="text" color="primary" @click.stop="togglePlay">
+            <v-icon>{{ current && playerStore.playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
+          <div v-if="current && playerStore.playing && !isHovering" class="d-flex justify-center align-center">
+            <v-img :src="equaliser" max-height="14" max-width="14"></v-img>
+          </div>
         </div>
         <div class="track-first">
           <v-img
@@ -178,7 +202,9 @@ async function toggleLike() {
             :aspect-ratio="1"
           />
           <div class="track-info">
-            <v-list-item-title class="line-clamp-1"> {{ props.track.name }}</v-list-item-title>
+            <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary font-weight-bold' : ''">
+              {{ props.track.name }}</v-list-item-title
+            >
             <v-list-item-subtitle class="d-flex align-center">
               <span v-if="symbol.vip" class="track-quality"> vip </span>
               <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span>
@@ -200,9 +226,7 @@ async function toggleLike() {
             variant="text"
             @click.prevent="toggleLike"
           >
-            <v-icon size="small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
-              liked ? mdiHeart : mdiHeartOutline
-            }}</v-icon>
+            <v-icon size="small" :color="liked ? 'pink' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
           </v-btn>
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
@@ -222,11 +246,9 @@ async function toggleLike() {
 .track-item {
   flex: 1;
   display: grid;
-  grid-gap: 16px;
+  grid-gap: 5px;
   align-items: center;
   height: 56px;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
   grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
   &.album-item {
     grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
@@ -251,6 +273,7 @@ async function toggleLike() {
       color: rgba(var(--v-theme-primary));
       padding: 0 3px;
       font-size: 0.625rem;
+      margin-right: 5px;
     }
   }
   .track-second {
