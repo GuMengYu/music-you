@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPause, mdiPlay } from '@mdi/js'
-import { track } from '@vue/reactivity'
 import { storeToRefs } from 'pinia'
 import type { ComponentPublicInstance } from 'vue'
 import { computed } from 'vue'
@@ -203,7 +202,7 @@ async function toggleLike() {
           />
           <div class="track-info">
             <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary font-weight-bold' : ''">
-              {{ props.track.name }}</v-list-item-title
+              {{ track.name }}</v-list-item-title
             >
             <v-list-item-subtitle class="d-flex align-center">
               <span v-if="symbol.vip" class="track-quality"> vip </span>
