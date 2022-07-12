@@ -84,7 +84,7 @@ function playMusic(trackId: number) {
     <v-progress-linear v-if="loading" :indeterminate="loading" color="primary"></v-progress-linear>
     <h2 v-show="keywords" class="text-h5 font-weight-bold">{{ $t('common.search_type_1') }}: "{{ keywords }}"</h2>
     <v-row>
-      <v-col v-if="state.bestMatch.length" cols="6">
+      <v-col v-if="state.bestMatch.length" cols="6" xl="4">
         <Col :title="$t('common.search_hot')">
           <v-card class="pa-4" color="surfaceVariant" rounded="lg" height="auto">
             <div class="d-flex gap-4">
@@ -100,16 +100,16 @@ function playMusic(trackId: number) {
                   <span class="font-weight-bold line-clamp-1">
                     {{ o.object.name }}
                   </span>
-                  <span>{{ o.type === 'artist' ? '艺人' : '专辑' }}</span>
+                  <span>{{ $t(`main.${o.type}s`) }}</span>
                 </div>
               </div>
             </div>
           </v-card>
         </Col>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="6" xl="8">
         <Col v-if="state.songs.length" :title="$t('main.songs')">
-          <track-list :tracks="state.songs" type="list"> </track-list>
+          <track-list :tracks="state.songs" type="album" cover> </track-list>
         </Col>
       </v-col>
     </v-row>

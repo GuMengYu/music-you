@@ -90,7 +90,7 @@
     "tracks": "歌曲",
     "playlists": "歌单",
     "p_playlists": "隐私歌单",
-    "artists": "歌手",
+    "artists": "艺人",
     "mvs": "MV",
     "disk": "云盘",
     "setting": {
@@ -113,7 +113,7 @@
     "sign_out": "登出",
     "personal": "个人中心",
     "search_type_1": "搜索",
-    "search_type_2": "歌手、专辑、歌单等",
+    "search_type_2": "歌手、专辑和歌单",
     "more": "显示更多",
     "expand": "查看更多",
     "collapse": "收起",

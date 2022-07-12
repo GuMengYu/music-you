@@ -248,9 +248,9 @@ async function toggleLike() {
   grid-gap: 5px;
   align-items: center;
   height: 56px;
-  grid-template-columns: [index] 40px [first] 4fr [last] minmax(160px, 200px);
+  grid-template-columns: [index] 40px [first] 4fr [last] minmax(140px, 1fr);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(160px, 200px);
+    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);
@@ -266,6 +266,11 @@ async function toggleLike() {
     display: flex;
     align-items: center;
     gap: 16px;
+    .track-info {
+      :deep(.v-list-item-title) {
+        white-space: initial;
+      }
+    }
     .track-quality {
       border-radius: 4px;
       border: 1px solid rgba(var(--v-theme-primary));
