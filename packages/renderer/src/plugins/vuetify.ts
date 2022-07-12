@@ -16,8 +16,8 @@ import themes from './theme'
 
 export const useVuetify = (app: App) => {
   const settingStore = useSettingStore()
-  const { customPalette, wallpaperColor } = settingStore
-  if (wallpaperColor === 'Customize') {
+  const { customPalette } = settingStore
+  if (customPalette.darkColors && customPalette.lightColors) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     themes['CustomizeLight'] = {
