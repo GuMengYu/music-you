@@ -1,6 +1,6 @@
 <template>
   <v-btn v-if="logged" flat icon class="account-avatar" @click="showProfile = !showProfile">
-    <v-avatar size="x-small">
+    <v-avatar size="small">
       <v-img :aspect-ratio="1" contain :src="profile.avatarUrl" :lazy-src="placeholderUrl" />
     </v-avatar>
   </v-btn>

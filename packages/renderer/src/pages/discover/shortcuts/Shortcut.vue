@@ -15,7 +15,12 @@
         class="rounded-circle d-flex align-center justify-center ml-4"
         style="height: 45px; width: 45px; min-width: 45px"
       >
-        {{ flag.label }}
+        <v-icon v-if="flag.icon" size="small">
+          {{ flag.icon }}
+        </v-icon>
+        <span v-if="flag.label">
+          {{ flag.label }}
+        </span>
       </div>
       <div class="d-flex align-start justify-space-between flex-fill px-4 flex-column text-onSurfaceVariant">
         <span :title="data.title" class="text-subtitle-1 line-clamp-1">
@@ -70,7 +75,8 @@ const props = defineProps<{
   type: 'album' | 'playlist' | 'artist' | 'daily'
   flag: {
     color: string
-    label: string
+    label?: string
+    icon?: string
   }
 }>()
 

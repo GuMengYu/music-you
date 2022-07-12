@@ -1,11 +1,12 @@
 <template>
-  <v-app-bar class="app_header drag-area" elevate-on-scroll flat app>
+  <v-app-bar class="app_header drag-area" flat height="72">
     <div class="d-flex align-center">
       <b-f-btn />
       <reload-btn />
     </div>
-    <div class="topbar-content-wrapper d-flex mx-2 no-drag-area">
-      <search-input />
+    <div class="topbar-content-wrapper d-flex justify-start">
+      <v-divider vertical class="ma-3 mr-5" />
+      <search-input class="no-drag-area" />
     </div>
     <div class="append d-flex no-drag-area">
       <control-center-toggle />

@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :rail="rail" class="drag-area">
-    <div class="pl-2 py-1" :class="{ 'mt-5': isMac }">
+    <div class="pl-2 py-2" :class="{ 'mt-5': isMac }">
       <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { reactive } from 'vue'
 
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'

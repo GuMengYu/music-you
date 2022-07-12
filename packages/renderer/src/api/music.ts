@@ -75,6 +75,22 @@ export const search = (keywords = '', conditions = {}) => {
   })
 }
 
+export const multiMatchSearch = (keywords = '') => {
+  return request<{
+    code: number
+    result: {
+      album: Album[]
+      artist: Artist[]
+      playlist: Playlist[]
+      orders: Array<'artist' | 'album' | 'playlist'>
+    }
+  }>('/search/multimatch', {
+    params: {
+      keywords,
+    },
+  })
+}
+
 /**
  * 统一获取歌曲列表（从专辑，歌手，歌单）
  * @param type

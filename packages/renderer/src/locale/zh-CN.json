@@ -171,7 +171,8 @@
     "add_to_playlist": "加入歌单",
     "remove_from_playlist": "从此歌单删除",
     "remove_from_fav": "从\"喜欢的音乐\"移除",
-    "add_to_fav": "添加到\"喜欢的音乐\""
+    "add_to_fav": "添加到\"喜欢的音乐\"",
+    "search_hot": "热门结果"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

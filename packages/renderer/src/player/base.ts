@@ -326,7 +326,11 @@ export class Player {
     }, 1000)
   }
   private endCb() {
-    this.next()
+    if (this.store.isCurrentFm) {
+      this.nextFm()
+    } else {
+      this.next()
+    }
     // todo update 听歌记录
     // this.setScrobble(this.track, 0, true)
   }

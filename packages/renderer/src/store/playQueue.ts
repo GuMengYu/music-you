@@ -139,6 +139,7 @@ export const usePlayQueueStore = defineStore({
     restoreStates() {
       this.queue.states = [...this.queue.sequence]
     },
+    // 按照歌曲id 更新队列
     setQueue(id: number) {
       const foundIndex = this.queue.states.findIndex((_id) => _id === id)
       if (foundIndex > -1) {

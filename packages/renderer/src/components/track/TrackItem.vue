@@ -176,7 +176,7 @@ async function toggleLike() {
       >
         <div class="track-index">
           <span
-            v-show="!current && !isHovering"
+            v-show="(!current || !playerStore.playing) && !isHovering"
             :class="{
               'track-count': true,
               'text-primary font-weight-bold': current,

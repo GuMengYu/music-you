@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mdiCalendarToday, mdiDiceMultiple, mdiHeart, mdiRadar } from '@mdi/js'
 import dayjs from 'dayjs'
 import { filter, random } from 'lodash-es'
 import { storeToRefs } from 'pinia'
@@ -63,14 +64,14 @@ onMounted(async () => {
 </script>
 <template>
   <div :style="{ gridTemplateColumns: `repeat(${count}, 1fr)`, columnGap: gap, display: 'grid', rowGap: '16px' }">
-    <Shortcut v-if="logged" :data="myFav" type="playlist" :flag="{ color: 'primary', label: 'F' }" />
-    <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', label: 'D' }" />
-    <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', label: 'R' }" />
+    <Shortcut v-if="logged" :data="myFav" type="playlist" :flag="{ color: 'primary', icon: mdiHeart }" />
+    <Shortcut :data="state.daily" type="daily" :flag="{ color: 'secondary', icon: mdiCalendarToday }" />
+    <Shortcut :data="state.radar" type="playlist" :flag="{ color: 'tertiary', icon: mdiRadar }" />
     <Shortcut
       v-if="logged && state.randomPlayList.id"
       :data="state.randomPlayList"
       type="playlist"
-      :flag="{ color: 'outline', label: 'P' }"
+      :flag="{ color: 'outline', icon: mdiDiceMultiple }"
     />
     <ShortcutFM />
   </div>

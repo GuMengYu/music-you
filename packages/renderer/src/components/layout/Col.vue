@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="mb-4">
+    <div class="mb-3">
       <div v-if="props.subtitle" class="text-caption text-grey-lighten-1">
         {{ props.subtitle }}
       </div>

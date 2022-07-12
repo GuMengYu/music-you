@@ -67,7 +67,7 @@ watch(playing, (val) => {
   }
 })
 function next() {
-  if (isCurrentFm) {
+  if (isCurrentFm.value) {
     player.nextFm()
   } else {
     player.next()

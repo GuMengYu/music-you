@@ -172,7 +172,8 @@
     "add_to_playlist": "Add to playlist",
     "remove_from_playlist": "Remove from this playlist",
     "remove_from_fav": "Remove from \"favorite\"",
-    "add_to_fav": "Add to \"favorite\""
+    "add_to_fav": "Add to \"favorite\"",
+    "search_hot": "Top Results"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

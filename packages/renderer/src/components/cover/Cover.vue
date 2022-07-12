@@ -23,7 +23,7 @@
       >
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade-y">
-            <div v-if="isHovering || inActive" class="d-flex flex-fill justify-space-between">
+            <div v-if="(isHovering || inActive) && showHover" class="d-flex flex-fill justify-space-between">
               <v-btn icon color="primary" :loading="loading" @click.prevent="toggle">
                 <v-icon color="onPrimary">{{ coverPlaying ? mdiPause : mdiPlay }} </v-icon>
               </v-btn>
@@ -88,6 +88,10 @@ const props = defineProps({
   noInfo: {
     type: Boolean,
     default: false,
+  },
+  showHover: {
+    type: Boolean,
+    default: true,
   },
   extra: {
     type: String,
