@@ -98,6 +98,7 @@ export interface Playlist {
   trackCount: number
   backgroundCoverUrl?: string
   coverImgUrl: string
+  picUrl?: string
   createTime: number
   publishTime?: number
   creator: Record<string, any>

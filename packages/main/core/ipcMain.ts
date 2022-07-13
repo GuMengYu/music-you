@@ -14,7 +14,6 @@ export const registerIpcMain = (window: BrowserWindow) => {
     }
   })
   ipcMain.handle('downloadFile', (_e, data) => {
-    log.info('start download file', data.url)
     downloadFile(data)
   })
   ipcMain.handle(WindowState.MINIMIZED, () => {

@@ -7,7 +7,7 @@ import { request } from '@/util/fetch'
 
 import { getAlbum } from './album'
 import { getArtist } from './artist'
-import { getPlaylistDetail } from './playlist'
+import { getPlaylistDetail, getPlaylistTrackAll } from './playlist'
 import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
 
 /**
@@ -101,10 +101,11 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: nu
   let res: { id: number; tracks: Track[]; name?: string }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
+    const { songs } = await getPlaylistTrackAll(id)
     res = {
       id: playlist.id,
       name: playlist.name,
-      tracks: playlist.tracks,
+      tracks: songs,
     }
   } else if (type === 'album') {
     const { album, songs } = await getAlbum(id)

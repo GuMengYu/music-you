@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiAlbum, mdiInformation, mdiMap, mdiPlay } from '@mdi/js'
+import { mdiAccountMusic, mdiAlbum, mdiImage, mdiInformation, mdiMap } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -8,6 +8,7 @@ import { useToast } from 'vue-toastification'
 import { getAlbum, getAlbumDynamic } from '@/api/album'
 import { getArtistAlbum } from '@/api/artist'
 import { sub } from '@/api/music'
+import useDonwload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'
@@ -86,13 +87,25 @@ async function subscribe() {
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
+
+function saveCover() {
+  const url = state.album.picUrl
+  useDonwload(url)
+}
 </script>
 <template>
   <section>
     <list-loader v-if="loading" />
     <div v-else class="list d-flex flex-column gap-4">
       <div class="d-flex gap-4">
-        <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225" />
+        <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225">
+          <template #action>
+            <v-btn icon variant="flat" color="primary" @click="saveCover">
+              <v-icon color="onPrimary">{{ mdiImage }} </v-icon>
+              <v-tooltip activator="parent" location="top"> 保存封面 </v-tooltip>
+            </v-btn>
+          </template>
+        </Cover>
         <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
           <div class="d-flex justify-space-between align-center">
             <span>

@@ -53,11 +53,13 @@ export const formatLyric = (lyric = '') => {
  * @param url
  * @param name
  */
-export const downloadFile = (url: string, name: string) => {
+export const downloadFile = (url: string, name?: string) => {
+  const fileName = name || (url.split('/').pop() ?? url)
+
   const tempLink = document.createElement('a')
   tempLink.style.display = 'none'
   tempLink.href = url
-  tempLink.download = name
+  tempLink.download = fileName
   tempLink.setAttribute('download', 'download')
 
   tempLink.setAttribute('target', '_blank')

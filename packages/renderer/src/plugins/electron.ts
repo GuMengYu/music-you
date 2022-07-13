@@ -1,9 +1,12 @@
 import { useIpcRenderer } from '@vueuse/electron'
 import { once } from 'lodash-es'
+import { useToast } from 'vue-toastification'
 
 import { usePlayerOutsideComponent } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
+
+const toast = useToast()
 import is from '@/util/is'
 
 export function useElectron() {
@@ -17,7 +20,9 @@ function registerIpcRenderer() {
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
   const player = usePlayerOutsideComponent()
-  // const showDownloadComplete = once((name) => {})
+  const showDownloadComplete = once((name) => {
+    toast.success(`下载成功 ${name}`)
+  })
 
   // ipcRenderer.on('open-settings', () => {
   // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
@@ -63,9 +68,12 @@ function registerIpcRenderer() {
     // playerStore.commit('app/downloadprogress', percent)
   })
   ipcRenderer.on('downloadCompleted', (e, file) => {
-    const { fileName } = file
+    const { fileName, path } = file
     console.log(file)
-    // showDownloadComplete(fileName)
+    toast.success(`${fileName} 已下载到:${path}`, {
+      timeout: false,
+    })
+
     // playerStore.commit('app/downloadprogress', 0)
   })
   ipcRenderer.on('windowState', (e, state) => {

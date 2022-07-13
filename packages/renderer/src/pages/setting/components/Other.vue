@@ -78,17 +78,22 @@ const localeOptions = [
 
 const qualityOptions = [
   {
-    title: '128kbs',
+    title: '低 (128Kbps)',
     value: 128000,
     activeClass: 'text-primary',
   },
   {
-    title: '320kbs',
+    title: '标准 (198Kbps)',
+    value: 192000,
+    activeClass: 'text-primary',
+  },
+  {
+    title: '较高 (320Kbps)',
     value: 320000,
     activeClass: 'text-primary',
   },
   {
-    title: 'flac(999kbs)',
+    title: '无损-需VIP',
     value: 999000,
     activeClass: 'text-primary',
   },

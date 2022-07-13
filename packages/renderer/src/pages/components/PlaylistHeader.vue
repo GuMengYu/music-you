@@ -3,6 +3,7 @@
 import {
   mdiAccountMusic,
   mdiDeleteAlert,
+  mdiImage,
   mdiInformation,
   mdiLockOutline,
   mdiMap,
@@ -15,12 +16,13 @@ import { useToast } from 'vue-toastification'
 
 import { sub } from '@/api/music'
 import { deletePlayList, updatePlaylist } from '@/api/playlist'
+import useDonwload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
-import { formatDuring, formatNumber } from '@/util/fn'
+import { downloadFile, formatDuring, formatNumber } from '@/util/fn'
 import is from '@/util/is'
 import { specialType } from '@/util/metadata'
 const { t } = useI18n()
@@ -125,10 +127,22 @@ function goto() {
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
+
+function saveCover() {
+  const url = props.playlist.picUrl ?? props.playlist.coverImgUrl
+  useDonwload(url)
+}
 </script>
 <template>
   <div class="d-flex gap-4">
-    <Cover :data="playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4" />
+    <Cover :data="playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4">
+      <template #action>
+        <v-btn icon variant="flat" color="primary" @click="saveCover">
+          <v-icon color="onPrimary">{{ mdiImage }} </v-icon>
+          <v-tooltip activator="parent" location="top"> 保存封面 </v-tooltip>
+        </v-btn>
+      </template>
+    </Cover>
     <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
       <div class="d-flex justify-space-between align-center">
         <span class="d-flex align-center">
@@ -227,6 +241,14 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <v-btn color="primary" variant="plain" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
           <v-btn color="primary" variant="plain" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>
         </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="showMoreDesc" :scrollable="true">
+      <v-card color="surfaceVariant" width="420" rounded="xl" class="py-4">
+        <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
+        <v-card-text>
+          {{ playlist['description'] }}
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>

@@ -11,8 +11,6 @@ const props = defineProps<{
   id: number | string
 }>()
 const loading = ref(false)
-const subscribed = ref(false)
-const showMoreDesc = ref(false)
 
 interface RootState {
   playlist: Playlist
@@ -52,7 +50,6 @@ async function fetch(id: number, flush = false) {
     state.relatedPlaylists = playlists
   }
   state.playlist = playlist
-  subscribed.value = playlist.subscribed
 }
 
 // 在视图中移除歌曲
@@ -87,14 +84,6 @@ useAjaxReloadHook('playlist', () => {
           <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />
         </CardRow>
       </Col>
-      <v-dialog v-model="showMoreDesc" :scrollable="true">
-        <v-card color="surfaceVariant" width="420" rounded="xl" class="py-4">
-          <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
-          <v-card-text>
-            {{ state.playlist['description'] }}
-          </v-card-text>
-        </v-card>
-      </v-dialog>
     </div>
   </section>
 </template>

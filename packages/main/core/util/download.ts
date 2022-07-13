@@ -13,14 +13,17 @@ export const downloadFile = (data: { fileName?: string; url: string }) => {
       showBadge: false,
       filename: fileName,
       onStarted(item) {
+        log.info('download file start', fileName)
         win.webContents.send('startDownload', { name: item.getFilename() })
       },
       onProgress(progress) {
         progress.percent = (progress.transferredBytes / progress.totalBytes) * 100
         win.webContents.send('downloadProgress', progress)
+        log.info('download file progress', progress)
       },
       onCompleted(file) {
         win.webContents.send('downloadCompleted', file)
+        log.info('download file completed', file)
       },
     })
   } else {
