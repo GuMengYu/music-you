@@ -8,7 +8,7 @@
     floating
     class="bg-surface"
   >
-    <v-toolbar dense class="pr-2" color="surface">
+    <v-toolbar density="compact" class="pr-4" color="surface">
       <v-toolbar-title class="text-caption text-onSurfaceVariant">{{ $t('common.shortcut') }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon size="small" @click="app.showControlCenter = false">

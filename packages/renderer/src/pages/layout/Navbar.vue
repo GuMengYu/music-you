@@ -50,12 +50,12 @@ const { logged } = storeToRefs(useUserStore())
 const isMac = is.macOS()
 const nav = computed(() => {
   const list = [
-    {
-      icon: mdiMagnify,
-      val: 'search',
-      title: 'main.nav.search',
-      to: '/search',
-    },
+    // {
+    //   icon: mdiMagnify,
+    //   val: 'search',
+    //   title: 'main.nav.search',
+    //   to: '/search',
+    // },
     {
       icon: mdiHome,
       val: 'discover',

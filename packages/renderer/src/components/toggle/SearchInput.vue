@@ -1,10 +1,9 @@
 <template>
   <v-text-field
-    v-if="showInput"
     ref="searchInput"
     :model-value="keywords"
     color="primary"
-    density="compact"
+    density="comfortable"
     :placeholder="$t('common.search_type_2')"
     :prepend-inner-icon="mdiMagnify"
     bg-color="surfaceVariant"
@@ -44,17 +43,17 @@ function handleChange(text: string) {
   keywords.value = text
 }
 function handleSearch() {
-  router.replace(`/search/${keywords.value}`)
+  router.push(`/search/${keywords.value}`)
 }
 </script>
 <style lang="scss" scoped>
 .search-input {
-  flex: 0 1 256px;
+  flex: 0 1 356px;
 
   :deep(.v-field--variant-solo) {
     box-shadow: none;
-    border-radius: 40px;
-    padding-inline-end: 4px;
+    border-radius: 48px;
+    padding-inline-end: 6px;
 
     .v-field__field {
       padding-top: 0px;

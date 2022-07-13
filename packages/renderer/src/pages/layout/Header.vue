@@ -1,16 +1,16 @@
 <template>
-  <v-app-bar class="app_header drag-area" flat height="72">
+  <v-app-bar class="app_header drag-area" flat>
     <div class="d-flex align-center">
       <b-f-btn />
       <reload-btn />
     </div>
-    <div class="topbar-content-wrapper d-flex justify-start">
-      <v-divider vertical class="ma-3 mr-5" />
+    <div class="topbar-content-wrapper d-flex justify-end">
+      <!-- <v-divider vertical class="ma-3 mr-5" /> -->
       <search-input class="no-drag-area" />
     </div>
-    <div class="append d-flex no-drag-area">
-      <control-center-toggle />
+    <div class="append d-flex no-drag-area ml-2 align-center gap-2">
       <Account />
+      <control-center-toggle />
       <window-control v-if="isShowWindowControl" />
     </div>
   </v-app-bar>
