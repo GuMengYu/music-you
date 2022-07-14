@@ -6,9 +6,10 @@
       color="surfaceVariant"
       class="d-flex quick-card align-center"
       flat
-      :height="80"
+      :height="height"
     >
       <div
+        v-if="smAndUp"
         :class="`bg-primary`"
         class="rounded-circle d-flex align-center justify-center ml-4"
         style="height: 45px; width: 45px; min-width: 45px"
@@ -24,7 +25,7 @@
           </span>
           <artists-link v-if="fmTrack" class="text-subtitle-2 line-clamp-1" :artists="fmTrack.ar ?? fmTrack.artists" />
         </div>
-        <div class="d-flex align-center justify-center" style="height: 48px">
+        <div v-if="smAndUp" class="d-flex align-center justify-center" style="height: 48px">
           <v-btn icon size="small" variant="text" @click="trash">
             <v-icon size="small">{{ mdiHeartOffOutline }} </v-icon>
           </v-btn>
@@ -34,10 +35,10 @@
         </div>
       </div>
       <v-img
-        :min-width="80"
-        :min-height="80"
-        :max-height="80"
-        :max-width="80"
+        :min-width="height"
+        :min-height="height"
+        :max-height="height"
+        :max-width="height"
         class="card-img"
         :lazy-src="placeholderUrl"
         :src="coverImgUrl"
@@ -59,6 +60,7 @@ import { mdiHeartOffOutline, mdiPause, mdiPlay, mdiRadio, mdiSkipNext } from '@m
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useToast } from 'vue-toastification'
+import { useDisplay } from 'vuetify'
 
 import { fmToTrash } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
@@ -68,6 +70,7 @@ import { sizeOfImage } from '@/util/fn'
 const player = usePlayer()
 const playerStore = usePlayerStore()
 const toast = useToast()
+const { smAndUp } = useDisplay()
 
 const { fmTrack } = storeToRefs(playerStore)
 
@@ -80,7 +83,9 @@ const coverImgUrl = computed(() => {
     return placeholderUrl
   }
 })
-
+const height = computed(() => {
+  return smAndUp.value ? 80 : 64
+})
 const playing = computed(() => {
   return playerStore.playing && playerStore.isCurrentFm
 })

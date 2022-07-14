@@ -7,12 +7,15 @@ import {
   mdiInformation,
   mdiLockOutline,
   mdiMap,
+  mdiPlay,
   mdiPlaylistEdit,
   mdiPlaylistMusicOutline,
+  mdiShuffle,
 } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import { useDisplay } from 'vuetify'
 
 import { sub } from '@/api/music'
 import { deletePlayList, updatePlaylist } from '@/api/playlist'
@@ -25,6 +28,7 @@ import type { Playlist } from '@/types'
 import { downloadFile, formatDuring, formatNumber } from '@/util/fn'
 import is from '@/util/is'
 import { specialType } from '@/util/metadata'
+const { smAndUp } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
 const playQueueStore = usePlayQueueStore()
@@ -134,7 +138,7 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex gap-4">
+  <div class="d-flex gap-4" :class="smAndUp ? '' : 'flex-column align-center'">
     <Cover :data="playlist" :no-info="true" type="playlist" :max-width="225" :min-width="225" class="mr-4">
       <template #action>
         <v-btn icon variant="flat" color="primary" @click="saveCover">
@@ -143,7 +147,7 @@ function saveCover() {
         </v-btn>
       </template>
     </Cover>
-    <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+    <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
       <div class="d-flex justify-space-between align-center">
         <span class="d-flex align-center">
           <v-icon size="small">{{ playlist.privacy ? mdiLockOutline : mdiPlaylistMusicOutline }}</v-icon>
@@ -193,7 +197,7 @@ function saveCover() {
               {{ mdiPlaylistEdit }}
             </v-icon>
           </v-square-btn>
-          <v-dialog v-model="showDeleteAlert" persistent max-width="350">
+          <v-dialog v-model="showDeleteAlert" persistent>
             <template #activator="{ props: dialogProps }">
               <v-btn
                 color="primary"
@@ -206,7 +210,7 @@ function saveCover() {
                 {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
               </v-btn>
             </template>
-            <v-card class="pt-4 pb-2" rounded="xl" color="surface">
+            <v-card class="pt-4 pb-2" rounded="xl" color="surface" width="90vw" max-width="350">
               <div class="d-flex justify-center">
                 <v-icon color="secondary">
                   {{ mdiDeleteAlert }}
@@ -229,8 +233,15 @@ function saveCover() {
         </v-btn>
       </div>
     </v-card>
+    <div v-else class="d-flex justify-space-between align-center">
+      <span class="d-flex align-center">
+        <span class="text-h5 mx-2 line-clamp-1">
+          {{ playlist.name }}
+        </span>
+      </span>
+    </div>
     <v-dialog v-model="showEdit" :scrollable="true">
-      <v-card width="420" min-height="300" rounded="xl" class="py-2">
+      <v-card width="90vw" max-width="450" min-height="300" rounded="xl" class="py-2">
         <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
         <v-card-text>
           <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
@@ -244,7 +255,7 @@ function saveCover() {
       </v-card>
     </v-dialog>
     <v-dialog v-model="showMoreDesc" :scrollable="true">
-      <v-card color="surfaceVariant" width="420" rounded="xl" class="py-4">
+      <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="py-4">
         <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
         <v-card-text>
           {{ playlist['description'] }}

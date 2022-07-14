@@ -5,15 +5,16 @@ import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import { useDisplay } from 'vuetify'
 
 import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
 import { sub } from '@/api/music'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album, Artist, MV, Track } from '@/types'
-const eventBus = useEventBus<number>('addToQueue')
 const toast = useToast()
 const { t } = useI18n()
+const { smAndUp } = useDisplay()
 
 const playQueue = usePlayQueueStore()
 const player = usePlayer()
@@ -103,9 +104,15 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6">
-      <div class="d-flex gap-4">
+      <div class="d-flex gap-4" :class="smAndUp ? '' : 'flex-column align-center'">
         <artists-cover :artist="state.artist" :no-info="true" :min-width="225" class="mr-4" />
-        <v-card color="surfaceVariant" :flat="true" rounded="lg" class="d-flex flex-column pa-4 flex-fill">
+        <v-card
+          v-if="smAndUp"
+          color="surfaceVariant"
+          :flat="true"
+          rounded="lg"
+          class="d-flex flex-column pa-4 flex-fill"
+        >
           <div class="d-flex justify-space-between mb-2 align-center">
             <span>
               <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
@@ -155,7 +162,12 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           type="artist"
         ></track-list>
         <template #action>
-          <v-btn variant="text" size="small" @click="more.showMoreSong = !more.showMoreSong">
+          <v-btn
+            v-if="state.hotSongs.length > 5"
+            variant="text"
+            size="small"
+            @click="more.showMoreSong = !more.showMoreSong"
+          >
             {{ $t(`common.${more.showMoreSong ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -170,7 +182,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           />
         </card-row>
         <template #action>
-          <v-btn variant="text" size="small" @click="more.showMoreAlbum = !more.showMoreAlbum">
+          <v-btn v-if="albums.length > 7" variant="text" size="small" @click="more.showMoreAlbum = !more.showMoreAlbum">
             {{ $t(`common.${more.showMoreAlbum ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -185,7 +197,12 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           />
         </card-row>
         <template #action>
-          <v-btn variant="text" size="small" @click="more.showMoreEps = !more.showMoreEps">
+          <v-btn
+            v-if="epAndSingle.length > 7"
+            variant="text"
+            size="small"
+            @click="more.showMoreEps = !more.showMoreEps"
+          >
             {{ $t(`common.${more.showMoreEps ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -195,7 +212,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           <video-cover v-for="mv in more.showMoreMVs ? state.mvs : state.mvs.slice(0, 6)" :key="mv.id" :data="mv" />
         </card-row>
         <template #action>
-          <v-btn variant="text" size="small" @click="more.showMoreMVs = !more.showMoreMVs">
+          <v-btn v-if="state.mvs.length > 6" variant="text" size="small" @click="more.showMoreMVs = !more.showMoreMVs">
             {{ $t(`common.${more.showMoreMVs ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
@@ -205,8 +222,8 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           <artists-cover v-for="ar in state.simiArtists" :key="ar.id" :artist="ar" />
         </card-row>
       </Col>
-      <v-dialog v-model="more.showMoreDesc" max-width="50vw" :scrollable="true">
-        <v-card color="surfaceVariant" rounded="xl" class="py-4">
+      <v-dialog v-model="more.showMoreDesc" :scrollable="true">
+        <v-card color="surfaceVariant" rounded="xl" class="py-4" width="90vw" max-width="450">
           <v-card-title> {{ $t('main.artist.desc') }}</v-card-title>
           <v-card-text>
             {{ state.artist['briefDesc'] }}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 
 import { useAppStore } from '@/store/app'
 import { useSettingStore } from '@/store/setting'
@@ -11,15 +12,18 @@ import { basic, md, simple } from './exports'
 const appStore = useAppStore()
 const settingStore = useSettingStore()
 const { showLyric } = storeToRefs(appStore)
+const { smAndDown } = useDisplay()
 
 const fullscreen = ref(false)
 
 const currentComponent = computed(() => {
-  return {
+  const component = {
     [PLAYING_MODE.SIMPLE]: simple,
     [PLAYING_MODE.BASIC]: basic,
     [PLAYING_MODE.MD]: md,
   }[settingStore.playingMode]
+
+  return smAndDown.value ? basic : component
 })
 
 onMounted(() => {

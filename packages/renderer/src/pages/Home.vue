@@ -1,31 +1,36 @@
 <template>
   <v-app class="v-player">
     <AppCC />
-    <app-nav class="v-player-nav" />
+
+    <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
+
     <app-content class="v-player-content" />
-    <app-footer />
+    <app-playbar v-if="mdAndUp" />
+    <app-mobile-playbar v-else />
+    <app-bottom-nav v-if="smAndDown" />
     <app-login />
-    <!--
-    <context-menu />
-    <v-overlay :value="showList" z-index="6" class="overlay" opacity="1" /> -->
     <app-playing-page />
   </v-app>
 </template>
 
 <script setup lang="ts">
-import { useTheme } from 'vuetify'
+import { useDisplay, useTheme } from 'vuetify'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
 
+import AppBottomNav from './layout/BottomNav.vue'
 import AppCC from './layout/CC.vue'
-import AppFooter from './layout/Footer.vue'
+import AppPlaybar from './layout/Footer.vue'
 import AppHeader from './layout/Header.vue'
+import AppMobilePlaybar from './layout/MobilePlaybar.vue'
 import AppNav from './layout/Navbar.vue'
 import AppContent from './layout/View.vue'
 import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'
 const { themeName } = useCurrentTheme()
+const display = useDisplay()
+const { smAndUp, mdAndUp, smAndDown } = display
 const theme = useTheme()
 watchEffect(() => {
   theme.name.value = themeName.value

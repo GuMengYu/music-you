@@ -1,6 +1,5 @@
 <template>
   <div class="window-actions">
-    <v-divider vertical class="my-4 mx-2" />
     <v-btn icon size="small" class="action-item px-0" @click="handleMinimize">
       <v-icon size="small">
         {{ mdiWindowMinimize }}
@@ -50,6 +49,9 @@ function handleClose() {
 .window-actions {
   display: flex;
   align-items: center;
+  position: relative;
+  left: 12px;
+  top: -20px;
   > .action-item {
     &:hover {
       background: rgb(var(--v-theme-surfaceVariant));

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
 import { getPlaylistDetail, getPlaylistTrackAll, getRelatedPlayList } from '@/api/playlist'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { useUserStore } from '@/store/user'
@@ -10,6 +12,7 @@ const userStore = useUserStore()
 const props = defineProps<{
   id: number | string
 }>()
+const { smAndUp } = useDisplay()
 const loading = ref(false)
 
 interface RootState {
@@ -72,11 +75,11 @@ useAjaxReloadHook('playlist', () => {
     <div v-else class="list d-flex flex-column gap-4">
       <PlaylistHeader :playlist="state.playlist" />
       <track-list
-        :type="isMyFavPlayList ? 'fav' : 'list'"
+        :type="smAndUp ? (isMyFavPlayList ? 'fav' : 'list') : 'album'"
         :tracks="state.playlist.tracks"
         :own-id="createdBySelf ? state.playlist.id : null"
         virtual-scroll-optimization
-        header
+        :header="smAndUp"
         @remove-track="handleRemoveTrack"
       />
       <Col :title="$t('main.playlist.simi')">

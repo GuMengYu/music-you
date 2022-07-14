@@ -63,7 +63,7 @@
       </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
-      <v-card max-width="420" min-width="420" rounded="xl" class="py-2">
+      <v-card width="90vw" max-width="450" rounded="xl" class="py-2">
         <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
         <v-card-text>
           <v-text-field

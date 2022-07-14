@@ -5,12 +5,13 @@
       color="surfaceVariant"
       class="d-flex quick-card align-center"
       flat
-      :height="80"
+      :height="height"
       :to="to"
       v-bind="hoverProps"
       :elevation="isHovering ? 1 : 0"
     >
       <div
+        v-if="smAndUp"
         :class="`bg-${flag.color}`"
         class="rounded-circle d-flex align-center justify-center ml-4"
         style="height: 45px; width: 45px; min-width: 45px"
@@ -31,10 +32,10 @@
         </span>
       </div>
       <v-img
-        :min-width="80"
-        :min-height="80"
-        :max-height="80"
-        :max-width="80"
+        :min-width="height"
+        :min-height="height"
+        :max-height="height"
+        :max-width="height"
         class="card-img"
         :lazy-src="placeholderUrl"
         :src="coverImgUrl"
@@ -54,6 +55,7 @@
 <script lang="ts" setup>
 import { mdiPlay } from '@mdi/js'
 import { computed, ref } from 'vue'
+import { useDisplay } from 'vuetify'
 
 import { getTrackList } from '@/api/music'
 import { getDailyRecommend } from '@/api/user'
@@ -62,7 +64,11 @@ import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
 import { sizeOfImage } from '@/util/fn'
+const { smAndUp } = useDisplay()
 
+const height = computed(() => {
+  return smAndUp.value ? 80 : 64
+})
 const player = usePlayer()
 const playQueueStore = usePlayQueueStore()
 const props = defineProps<{

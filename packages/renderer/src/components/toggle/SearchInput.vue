@@ -16,6 +16,12 @@
     @keydown.enter="handleSearch"
     @update:model-value="handleChange"
   >
+    <template v-if="smAndUp" #append>
+      <account />
+    </template>
+    <template v-else #append-inner>
+      <account />
+    </template>
   </v-text-field>
 </template>
 <script setup lang="ts">
@@ -23,10 +29,13 @@ import { mdiMagnify } from '@mdi/js'
 import type { ComponentPublicInstance } from 'vue'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 
 const router = useRouter()
 const route = useRoute()
 const keywords = ref('')
+const display = useDisplay()
+const { smAndUp } = display
 const searchInput = ref<ComponentPublicInstance>()
 
 const showInput = computed(() => {
@@ -48,8 +57,7 @@ function handleSearch() {
 </script>
 <style lang="scss" scoped>
 .search-input {
-  flex: 0 1 356px;
-
+  max-width: 390px;
   :deep(.v-field--variant-solo) {
     box-shadow: none;
     border-radius: 48px;
@@ -65,6 +73,11 @@ function handleSearch() {
       padding-top: 0px;
       align-items: center;
     }
+  }
+  :deep(.v-input__append) {
+    padding-top: 0px;
+    align-items: center;
+    margin-inline-start: 8px;
   }
 }
 </style>

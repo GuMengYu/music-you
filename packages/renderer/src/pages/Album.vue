@@ -4,6 +4,7 @@ import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import { useDisplay } from 'vuetify'
 
 import { getAlbum, getAlbumDynamic } from '@/api/album'
 import { getArtistAlbum } from '@/api/artist'
@@ -20,7 +21,7 @@ const { t } = useI18n()
 const toast = useToast()
 const player = usePlayer()
 const playQueue = usePlayQueueStore()
-
+const { smAndUp } = useDisplay()
 const props = defineProps<{
   id: number | string
 }>()
@@ -97,7 +98,7 @@ function saveCover() {
   <section>
     <list-loader v-if="loading" />
     <div v-else class="list d-flex flex-column gap-4">
-      <div class="d-flex gap-4">
+      <div class="d-flex gap-4" :class="smAndUp ? '' : 'flex-column align-center'">
         <Cover :data="state.album" :no-info="true" type="album" :max-width="225" :min-width="225">
           <template #action>
             <v-btn icon variant="flat" color="primary" @click="saveCover">
@@ -106,7 +107,7 @@ function saveCover() {
             </v-btn>
           </template>
         </Cover>
-        <v-card color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+        <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
           <div class="d-flex justify-space-between align-center">
             <span>
               <v-icon size="small">{{ mdiAlbum }}</v-icon>
@@ -152,8 +153,15 @@ function saveCover() {
             </v-btn>
           </div>
         </v-card>
+        <div v-else class="d-flex justify-space-between align-center">
+          <span class="d-flex align-center">
+            <span class="text-h5 mx-2 line-clamp-1">
+              {{ state.album.name }}
+            </span>
+          </span>
+        </div>
       </div>
-      <track-list type="album" :tracks="state.album.tracks" header></track-list>
+      <track-list type="album" :tracks="state.album.tracks" :header="smAndUp"></track-list>
       <div class="d-flex flex-column">
         <span class="text-caption"> {{ $t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
         <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
@@ -164,8 +172,8 @@ function saveCover() {
           <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
         </CardRow>
       </Col>
-      <v-dialog v-model="showMoreDesc" width="420" scrollable>
-        <v-card rounded="xl" color="surfaceVariant" class="py-4">
+      <v-dialog v-model="showMoreDesc" scrollable>
+        <v-card rounded="xl" color="surfaceVariant" class="py-4" width="90vw" max-width="450">
           <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
           <v-card-text>
             {{ state.album['description'] }}

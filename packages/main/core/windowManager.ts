@@ -7,10 +7,10 @@ import { WindowState } from '../../renderer/src/util/enum'
 import log from './util/log'
 
 export const WindowDefaultSize = {
-  height: 730,
+  height: 750,
   width: 1300,
-  minWidth: 800,
-  minHeight: 540,
+  minWidth: 393,
+  minHeight: 750,
 }
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null
