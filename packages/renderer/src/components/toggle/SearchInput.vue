@@ -12,7 +12,6 @@
     :clearable="true"
     :single-line="true"
     class="search-input"
-    autofocus
     @keydown.enter="handleSearch"
     @update:model-value="handleChange"
   >

@@ -306,6 +306,7 @@ export class Player {
   updateCurrentTime(this: Player, val?: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
     this.currentTime = current
+    console.log('current update', this.currentTime)
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
   }

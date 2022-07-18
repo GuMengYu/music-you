@@ -9,6 +9,7 @@
         :color="currentTheme.colors.primary"
         track-color="rgba(66,66,66,0.28)"
         :height="2"
+        :handle-scale="5"
         @drag-start="dragStart"
         @drag-end="dragEnd"
       ></Slider>
@@ -271,13 +272,8 @@ const volumeDebouncedFn = useDebounceFn(
   }
   .track-slider {
     position: absolute;
-    top: -5px;
-    :deep(.handle) {
-      width: 6px;
-      height: 6px;
-      border-radius: 6px;
-      top: -2px;
-    }
+    top: -15px;
+    margin: 15px 0;
   }
 }
 </style>
