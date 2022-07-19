@@ -306,7 +306,6 @@ export class Player {
   updateCurrentTime(this: Player, val?: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
     this.currentTime = current
-    console.log('current update', this.currentTime)
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
   }
@@ -314,15 +313,17 @@ export class Player {
     this.howler?.seek(val)
   }
   pauseProgress() {
-    clearInterval(this.progressInterval)
+    clearTimeout(this.progressInterval)
+    this.progressInterval = void 0
   }
   restoreProgress() {
     this.setProgressInterval()
   }
   private setProgressInterval(this: Player) {
-    this.progressInterval = setInterval(() => {
-      if (this.howler?.playing()) {
+    this.progressInterval = setTimeout(() => {
+      if (this.howler?.playing() && this.progressInterval) {
         this.updateCurrentTime()
+        this.setProgressInterval()
       }
     }, 1000)
   }

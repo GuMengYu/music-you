@@ -1,5 +1,5 @@
 <template>
-  <div class="window-actions">
+  <div class="window-actions no-drag-area">
     <v-btn icon size="small" class="action-item px-0" @click="handleMinimize">
       <v-icon size="small">
         {{ mdiWindowMinimize }}

@@ -8,6 +8,8 @@
         :max="trackDt / 1000"
         :color="currentTheme.colors.primary"
         track-color="rgba(66,66,66,0.28)"
+        tooltip
+        :format-tooltip="(v: number) => formatDuring(v * 1000)"
         :height="2"
         :handle-scale="5"
         @drag-start="dragStart"
@@ -72,7 +74,8 @@
               :max="1"
               :min="0"
               :step="0.01"
-              :height="2"
+              :height="3"
+              :handle-scale="3"
               :color="currentTheme.colors.primary"
               track-color="rgba(66,66,66,0.28)"
               @change="volumeDebouncedFn"
@@ -112,7 +115,7 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { sizeOfImage } from '@/util/fn'
+import { formatDuring, sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 // utitlity
 const playerStore = usePlayerStore()
@@ -272,8 +275,7 @@ const volumeDebouncedFn = useDebounceFn(
   }
   .track-slider {
     position: absolute;
-    top: -15px;
-    margin: 15px 0;
+    top: -10px;
   }
 }
 </style>
