@@ -1,4 +1,10 @@
-export default {
+export interface VuetifyTheme {
+  name: string
+  dark: boolean
+  colors: Record<string, string>
+}
+
+const defaultTheme: Record<string, VuetifyTheme> = {
   RedSandDunesLight: {
     name: 'RedSandDunesLight',
     dark: false,
@@ -152,35 +158,6 @@ export default {
       outline: '#85746a',
       inverseOnSurface: '#faeee8',
       inverseSurface: '#362f2b',
-    },
-    palette: {
-      dark: {
-        primary: '#ffb683',
-        onPrimary: '#502400',
-        primaryContainer: '#723600',
-        onPrimaryContainer: '#ffdcc4',
-        secondary: '#e4bfa8',
-        onSecondary: '#422b1b',
-        secondaryContainer: '#5b412f',
-        onSecondaryContainer: '#ffdcc4',
-        tertiary: '#c8ca94',
-        onTertiary: '#31320b',
-        tertiaryContainer: '#47491f',
-        onTertiaryContainer: '#e5e6ae',
-        error: '#ffb4a9',
-        errorContainer: '#930006',
-        onError: '#680003',
-        onErrorContainer: '#ffdad4',
-        background: '#201a17',
-        onBackground: '#ece0da',
-        surface: '#201a17',
-        onSurface: '#ece0da',
-        surfaceVariant: '#52443b',
-        onSurfaceVariant: '#d7c3b7',
-        outline: '#9f8d83',
-        inverseOnSurface: '#201a17',
-        inverseSurface: '#ece0da',
-      },
     },
   },
   OrangeDesertDark: {
@@ -339,3 +316,4 @@ export default {
     },
   },
 }
+export default defaultTheme

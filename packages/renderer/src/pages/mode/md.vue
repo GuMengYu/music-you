@@ -1,5 +1,5 @@
 <template>
-  <v-card :image="albumPicUrl" class="md-container" :color="palette.dark.surfaceVariant">
+  <v-card :image="albumPicUrl" class="md-container">
     <v-row no-gutters class="md-content">
       <v-col cols="6" class="pa-4 d-flex align-center justify-center">
         <v-btn icon variant="plain" position="absolute" location="top start" @click="close">
@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { hexFromArgb, sourceColorFromImage } from '@material/material-color-utilities'
 import {
   mdiArrowCollapse,
   mdiArrowExpand,
@@ -55,7 +56,6 @@ import {
   mdiShuffle,
 } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
-import { generatePaletteFromURL } from 'md3-theme-generator'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
@@ -70,14 +70,7 @@ export default defineComponent({
   setup() {
     const playerStore = usePlayerStore()
     const appStore = useAppStore()
-    const palette = ref<{
-      light: Record<string, string>
-      dark: Record<string, any>
-    }>({
-      light: {},
-      dark: {},
-    })
-
+    const bgColor = ref<string>('')
     const { currentTime, track } = storeToRefs(playerStore)
 
     const albumPicUrl = computed(() => {
@@ -99,13 +92,14 @@ export default defineComponent({
       if (!albumPicUrl.value) {
         return
       }
-      const themeAdaptor = await generatePaletteFromURL(url)
-      console.log(themeAdaptor)
-      palette.value.light = themeAdaptor.light
-      palette.value.dark = themeAdaptor.dark
+      const image = new Image()
+      image.crossOrigin = 'anonymous'
+      image.src = url
+      const color = await sourceColorFromImage(image)
+      bgColor.value = hexFromArgb(color)
     }
     const textColor = computed(() => {
-      return palette.value.light.onPrimary
+      return '#fff'
     })
     return {
       currentTime,
@@ -114,8 +108,8 @@ export default defineComponent({
       close,
       albumPicUrl,
       placeholderUrl,
-      palette,
       textColor,
+      bgColor,
     }
   },
   data: () => ({

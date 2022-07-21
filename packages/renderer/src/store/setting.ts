@@ -17,14 +17,16 @@ export enum WallpaperColor {
   BlueMountains = 'BlueMountains',
   Customize = 'Customize',
 }
+export interface VuetifyTheme {
+  name: string
+  dark: boolean
+  colors: Record<string, string>
+}
 export interface SettingState {
   locale: string
   appearance: APPEARANCE
   wallpaperColor: WallpaperColor
-  customPalette: {
-    darkColors: null | Record<string, string>
-    lightColors: null | Record<string, string>
-  }
+  customTheme: VuetifyTheme[]
   playingMode: PLAYING_MODE
   rail: boolean
   quality: number
@@ -39,10 +41,7 @@ export const useSettingStore = defineStore('setting', {
       appearance: APPEARANCE.SYSTEM,
       wallpaperColor: WallpaperColor.GreenRockyMountains,
       playingMode: PLAYING_MODE.MD,
-      customPalette: {
-        darkColors: null,
-        lightColors: null,
-      },
+      customTheme: [],
       rail: true,
       quality: 320000,
       cacheLimit: 500,

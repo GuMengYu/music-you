@@ -3,6 +3,8 @@
 
 import 'vuetify/lib/styles/main.sass'
 
+import type { Scheme, Theme } from '@material/material-color-utilities'
+import { argbFromHex, hexFromArgb, themeFromImage, themeFromSourceColor } from '@material/material-color-utilities'
 import type { App } from 'vue'
 // Vuetify
 import { createVuetify } from 'vuetify'
@@ -16,22 +18,11 @@ import themes from './theme'
 
 export const useVuetify = (app: App) => {
   const settingStore = useSettingStore()
-  const { customPalette } = settingStore
-  if (customPalette.darkColors && customPalette.lightColors) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    themes['CustomizeLight'] = {
-      name: 'CustomizeLight',
-      dark: false,
-      colors: customPalette.lightColors,
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    themes['CustomizeDark'] = {
-      name: 'CustomizeDark',
-      dark: true,
-      colors: customPalette.darkColors,
-    }
+  const { customTheme } = settingStore
+  if (customTheme && customTheme.length) {
+    customTheme.map((theme) => {
+      themes[theme.name] = theme
+    })
   }
   const vuetify = createVuetify({
     components,
@@ -53,4 +44,34 @@ export const useVuetify = (app: App) => {
   })
   app.use(vuetify)
   return vuetify
+}
+
+export async function generateVuetifyTheme(colorOrImage: string | HTMLImageElement, name: string) {
+  let theme: Theme
+  if (typeof colorOrImage === 'string') {
+    theme = await themeFromSourceColor(argbFromHex(colorOrImage))
+  } else {
+    theme = await themeFromImage(colorOrImage)
+  }
+  const toHex = (scheme: Scheme) => {
+    const map: Record<string, string> = {}
+    for (const [key, value] of Object.entries(scheme.toJSON())) {
+      map[key] = hexFromArgb(value)
+    }
+    return map
+  }
+  return [
+    {
+      name: `${name}Light`,
+      dark: false,
+      colors: toHex(theme.schemes.light),
+      variables: {},
+    },
+    {
+      name: `${name}Dark`,
+      dark: true,
+      colors: toHex(theme.schemes.dark),
+      variables: {},
+    },
+  ]
 }

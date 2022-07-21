@@ -22,21 +22,19 @@
       {{ mdiPalette }}
     </v-icon>
   </v-btn>
-  <input v-show="false" ref="upload" type="file" accept="image/png,image/jpeg" @change="handleChange" />
+  <input v-show="false" ref="upload" type="file" accept="image/png,image/jpeg,image/webp" @change="handleChange" />
 </template>
 
 <script lang="ts">
 import { mdiDesktopTowerMonitor, mdiPalette, mdiPlus, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
-import { generatePaletteFromURL } from 'md3-theme-generator'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
-import { useTheme } from 'vuetify'
 
+import { generateVuetifyTheme } from '@/plugins/vuetify'
 import type { APPEARANCE } from '@/store/setting'
 import { useSettingStore, WallpaperColor } from '@/store/setting'
-import { fileToDataURL } from '@/util/fn'
 
 import AppSettingsGroup from './Group.vue'
 
@@ -47,9 +45,8 @@ export default {
 
   setup() {
     const { t } = useI18n()
-    const theme = useTheme()
     const setting = useSettingStore()
-    const { customPalette, wallpaperColor } = storeToRefs(setting)
+    const { customTheme, wallpaperColor } = storeToRefs(setting)
     const toast = useToast()
     const upload = ref<HTMLInputElement>()
     const appearanceItems = computed(() => [
@@ -98,8 +95,7 @@ export default {
       },
     ]
     const colorItems = computed(() => {
-      const { darkColors, lightColors } = customPalette?.value ?? {}
-      if (darkColors && lightColors) {
+      if (customTheme.value.length) {
         return [
           ...defaultThemes,
           {
@@ -139,13 +135,11 @@ export default {
           return
         }
         try {
-          const dataURL = await fileToDataURL(files[0])
-          const _palette = await generatePaletteFromURL(<string>dataURL)
-          const palette = _palette.save()
-          customPalette.value = {
-            lightColors: palette.light,
-            darkColors: palette.dark,
-          }
+          const objectURL = URL.createObjectURL(files[0])
+          const image = new Image()
+          image.src = objectURL
+          const themes = await generateVuetifyTheme(image, 'Customize')
+          customTheme.value = themes
           color.value = WallpaperColor.Customize
           location.reload()
         } catch (e) {

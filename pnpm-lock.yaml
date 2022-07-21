@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@material/material-color-utilities': ^0.1.2
   '@mdi/js': ^6.5.95
   '@types/express': ^4.17.13
   '@types/howler': ^2.2.7
@@ -68,6 +69,7 @@ specifiers:
   webfontloader: ^1.0.0
 
 dependencies:
+  '@material/material-color-utilities': 0.1.2
   '@unblockneteasemusic/server': 0.27.0-rc.6
   NeteaseCloudMusicApi: github.com/GuMengYu/NeteaseCloudMusicApi/079bd695951e9bcf00d2e4b8fcaed7408dac0caa
   dotenv: 16.0.1
@@ -705,6 +707,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@material/material-color-utilities/0.1.2:
+    resolution: {integrity: sha512-uKkkx7Xo1AZJR0eMjH902rAb0vEjDbb3tgXt0cC3SHbpDGkPNhkuDKtxnw147axOM6uKuI7vywHRQlDrjDGhCA==}
+    dev: false
 
   /@mdi/js/6.9.96:
     resolution: {integrity: sha512-rK0/vLFaiItYS2W7uVmaKPKnhNQE4XVkylpk5njtVwENnp8elwY5uRL6qvdj2esuvUHG7DwygE4Qu3eKxxuJiQ==}
@@ -6686,7 +6692,7 @@ packages:
     optional: true
 
   github.com/GuMengYu/NeteaseCloudMusicApi/079bd695951e9bcf00d2e4b8fcaed7408dac0caa:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/NeteaseCloudMusicApi/tar.gz/079bd695951e9bcf00d2e4b8fcaed7408dac0caa}
+    resolution: {commit: 079bd695951e9bcf00d2e4b8fcaed7408dac0caa, repo: git+ssh://git@github.com/GuMengYu/NeteaseCloudMusicApi.git, type: git}
     name: NeteaseCloudMusicApi
     version: 4.6.6
     engines: {node: '>=12'}
@@ -6711,7 +6717,7 @@ packages:
     dev: false
 
   github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484_356fjx7kpwcpknuhxdzbwzjy2u:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-context-menu/tar.gz/c6d0a0b508a81681535cce03f10d9b7353e34484}
+    resolution: {commit: c6d0a0b508a81681535cce03f10d9b7353e34484, repo: git+ssh://git@github.com/GuMengYu/vue3-context-menu.git, type: git}
     id: github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484
     name: vuetify-ctx-menu
     version: 0.0.1
@@ -6726,7 +6732,7 @@ packages:
     dev: true
 
   github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad_vue@3.2.37:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-slider/tar.gz/a7ad077eeb77dc493b90ddde83c026da09ac2aad}
+    resolution: {commit: a7ad077eeb77dc493b90ddde83c026da09ac2aad, repo: git+ssh://git@github.com/GuMengYu/vue3-slider.git, type: git}
     id: github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad
     name: vue3-slider
     version: 1.8.0

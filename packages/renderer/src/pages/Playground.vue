@@ -1,26 +1,41 @@
 <script lang="ts" setup>
-import { mdiCrystalBall, mdiEmoticon } from '@mdi/js'
+import type { Scheme, Theme } from '@material/material-color-utilities'
+import { hexFromArgb, themeFromImage } from '@material/material-color-utilities'
 
-const loading = ref(false)
-const items = [
-  { text: 'Real-Time', icon: mdiEmoticon },
-  { text: 'Audience', icon: 'mdi-account' },
-  { text: 'Conversions', icon: 'mdi-flag' },
-]
+const image = new Image()
+image.src = 'https://material-foundation.github.io/material-theme-builder/assets/1_wallpaper.webp'
+image.crossOrigin = 'anonymous'
+
+themeFromImage(image).then((theme) => {
+  console.log(theme)
+  console.log(generateVuetifyTheme(theme, 'Customer'))
+})
+
+function generateVuetifyTheme(theme: Theme, name: string) {
+  const toHex = (scheme: Scheme) => {
+    let map: Record<string, string> = {}
+    for (const [key, value] of Object.entries(scheme.toJSON())) {
+      map[key] = hexFromArgb(value)
+    }
+    return map
+  }
+  const light = {
+    name: `${name}Light`,
+    dark: false,
+    colors: toHex(theme.schemes.light),
+  }
+  const dark = {
+    name: `${name}Dark`,
+    dark: true,
+    colors: toHex(theme.schemes.light),
+  }
+  return {
+    [light.name]: light,
+    [dark.name]: dark,
+  }
+}
 </script>
 
 <template>
-  <v-container>
-    <v-list>
-      <v-list-subheader>
-        <v-icon>{{ mdiCrystalBall }}</v-icon>
-      </v-list-subheader>
-      <v-list-item v-for="(item, i) in items" :key="i" :value="i" active-color="primary">
-        <v-list-item-avatar start>
-          <v-icon :icon="item.icon"></v-icon>
-        </v-list-item-avatar>
-        <v-list-item-title v-text="item.text"></v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-container>
+  <v-container> </v-container>
 </template>
