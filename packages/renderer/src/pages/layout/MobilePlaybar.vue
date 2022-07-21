@@ -1,17 +1,7 @@
 <template>
   <transition name="slide-fade-y">
-    <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1" height="56">
-      <Slider
-        class="track-slider"
-        :model-value="currentTime"
-        :min="0"
-        :max="trackDt / 1000"
-        :color="currentTheme.colors.primary"
-        track-color="rgba(66,66,66,0.28)"
-        :height="2"
-        @drag-start="dragStart"
-        @drag-end="dragEnd"
-      ></Slider>
+    <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="1" height="56" flat>
+      <TrackSlider class="track-slider" />
       <div class="playing-control" @click="showPlayingPage">
         <div class="playing-bar__left">
           <v-img
@@ -66,9 +56,9 @@ import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Slider from 'vue3-slider'
 import { useTheme } from 'vuetify'
 
+import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'
@@ -85,13 +75,9 @@ const appStore = useAppStore()
 const router = useRouter()
 const player = usePlayer()
 const theme = useTheme()
-const currentTheme = computed(() => {
-  return theme.current.value
-})
 
 // store state
-const { currentTime, track, volume, isCurrentFm, playing, loadingTrack } = storeToRefs(playerStore)
-const trackDt = computed(() => track.value?.dt ?? 10)
+const { track, volume, isCurrentFm, playing, loadingTrack } = storeToRefs(playerStore)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
 const sliderVolume = computed({
@@ -125,20 +111,6 @@ function toQueue() {
   } else {
     router.push('/queue')
   }
-}
-
-// 进度条拖拽
-async function dragStart() {
-  await nextTick()
-  player.pauseProgress()
-}
-
-async function dragEnd(value: number) {
-  player.setSeek(value)
-  // 恢复
-  await nextTick()
-  player.restoreProgress()
-  // state.displayTime = playerTime
 }
 
 async function showPlayingPage() {
@@ -195,13 +167,7 @@ function handleAnimation(animation) {
   }
   .track-slider {
     position: absolute;
-    bottom: 0px;
-    :deep(.handle) {
-      width: 6px;
-      height: 6px;
-      border-radius: 6px;
-      top: -2px;
-    }
+    bottom: -10px;
   }
 }
 </style>

@@ -38,6 +38,7 @@ declare module '@vue/runtime-core' {
     Title: typeof import('./components/Title.vue')['default']
     TrackItem: typeof import('./components/track/TrackItem.vue')['default']
     TrackList: typeof import('./components/track/TrackList.vue')['default']
+    TrackSlider: typeof import('./components/TrackSlider.vue')['default']
     VideoCover: typeof import('./components/cover/VideoCover.vue')['default']
     VSquareBtn: typeof import('./components/button/VSquareBtn.vue')['default']
     WindowControl: typeof import('./components/layout/WindowControl.vue')['default']

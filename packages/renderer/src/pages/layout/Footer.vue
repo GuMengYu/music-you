@@ -1,7 +1,8 @@
 <template>
   <transition name="slide-fade-y">
     <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
-      <Slider
+      <track-slider class="track-slider" tooltip />
+      <!-- <Slider
         class="track-slider"
         :model-value="currentTime"
         :min="0"
@@ -14,7 +15,7 @@
         :handle-scale="5"
         @drag-start="dragStart"
         @drag-end="dragEnd"
-      ></Slider>
+      ></Slider> -->
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-hover v-slot="{ isHovering, props }">
@@ -105,7 +106,7 @@ import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Slider from 'vue3-slider'
 import { useTheme } from 'vuetify'
 
@@ -129,8 +130,7 @@ const currentTheme = computed(() => {
 })
 
 // store state
-const { currentTime, track, volume, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
-const trackDt = computed(() => track.value?.dt ?? 10)
+const { track, volume, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
 const cacheVolume = ref(0.8)
@@ -180,19 +180,6 @@ function toQueue() {
   }
 }
 
-// 进度条拖拽
-async function dragStart() {
-  await nextTick()
-  player.pauseProgress()
-}
-
-async function dragEnd(value: number) {
-  player.setSeek(value)
-  // 恢复
-  await nextTick()
-  player.restoreProgress()
-  // state.displayTime = playerTime
-}
 // 音量调整
 function toggleMute() {
   if (volume.value === 0) {

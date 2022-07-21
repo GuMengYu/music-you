@@ -7,7 +7,7 @@
       class="rounded-lg"
       gradient="90deg, rgb(0 0 0 / 76%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 76%) 100%"
     >
-      <div class="d-flex flex-column justify-space-between fill-height pt-2">
+      <div class="d-flex flex-column justify-space-between fill-height pt-2 pb-1">
         <div class="d-flex justify-space-between px-2">
           <v-icon color="primary" size="small"> {{ mdiMusicCircle }} </v-icon>
         </div>
@@ -20,30 +20,15 @@
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
         </div>
-        <div class="d-flex justify-space-between align-center px-1">
-          <v-btn icon variant="text" size="x-small" @click="prev">
-            <v-icon size="x-small">{{ mdiSkipPreviousOutline }}</v-icon>
+        <div class="d-flex justify-space-between align-center mx-1">
+          <v-btn icon variant="text" size="small" @click="prev">
+            <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
           </v-btn>
-          <v-slider
-            :model-value="currentTime * 1000"
-            :thumb-label="false"
-            :min="0"
-            :max="trackDt"
-            class="track-slider"
-            density="compact"
-            :track-size="2"
-            track-color="#fff"
-            track-fill-color="#fff"
-            :thumb-size="8"
-            thumb-color="#fff"
-            :hide-details="true"
-          />
-          <v-btn icon variant="text" size="x-small" color="white" @click="next">
-            <v-icon size="x-small">{{ mdiSkipNextOutline }}</v-icon>
+          <track-slider class="mx-1" />
+          <v-btn icon variant="text" size="small" color="white" @click="next">
+            <v-icon size="small">{{ mdiSkipNext }}</v-icon>
           </v-btn>
-          <v-btn icon variant="text" size="x-small">
-            <v-icon size="x-small">{{ mdiHeartOutline }}</v-icon>
-          </v-btn>
+          <like-toggle :id="track.id" />
         </div>
       </div>
     </v-img>
@@ -51,22 +36,24 @@
 </template>
 
 <script setup lang="ts">
-import { mdiHeartOutline, mdiMusicCircle, mdiPause, mdiPlay, mdiSkipNextOutline, mdiSkipPreviousOutline } from '@mdi/js'
+import { mdiMusicCircle, mdiPause, mdiPlay, mdiSkipNext, mdiSkipPrevious } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
 import { sizeOfImage } from '@/util/fn'
+
+import LikeToggle from './toggle/likeToggle.vue'
 const player = usePlayer()
 const settingStore = useSettingStore()
 
 const playerStore = usePlayerStore()
-const { currentTime, track, playing } = storeToRefs(playerStore)
-const trackDt = computed(() => track.value?.dt ?? 0)
+const { track, playing, isCurrentFm } = storeToRefs(playerStore)
 const theme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'
 })
+
 const togglePlay = () => {
   playing.value = !playing.value
 }
@@ -75,7 +62,11 @@ const coverImage = computed(() => {
 })
 
 const next = () => {
-  player.next()
+  if (isCurrentFm.value) {
+    player.nextFm()
+  } else {
+    player.next()
+  }
 }
 const prev = () => {
   player.prev()

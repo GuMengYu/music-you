@@ -1,5 +1,5 @@
 <template>
-  <v-card :image="albumPicUrl" class="basic-container">
+  <v-card :image="albumPicUrl" class="basic-container" :theme="theme">
     <div class="frame">
       <div class="frame-header">
         <v-btn icon variant="text" @click="close">
@@ -40,19 +40,7 @@
         </transition>
         <div class="control_process d-flex align-center my-4">
           <span>{{ formatDuring(currentTime * 1000) }}</span>
-          <v-slider
-            :model-value="currentTime * 1000"
-            thumb-label
-            :min="0"
-            :max="trackDt"
-            class="track-slider"
-            density="compact"
-            :track-size="2"
-            track-color="#fff"
-            :thumb-size="8"
-            thumb-color="#fff"
-            :hide-details="true"
-          />
+          <track-slider class="mx-2" />
           <span>{{ formatDuring(track.dt) }}</span>
         </div>
         <div class="control_bar d-flex flex-column flex-fill justify-space-evenly">
@@ -89,8 +77,10 @@ import { storeToRefs } from 'pinia'
 import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
+import TrackSlider from '@/components/TrackSlider.vue'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
+import { useSettingStore } from '@/store/setting'
 import { formatDuring, formatLyric } from '@/util/fn'
 
 const router = useRouter()
@@ -99,8 +89,10 @@ const playerStore = usePlayerStore()
 const appStore = useAppStore()
 const { currentTime, track } = storeToRefs(playerStore)
 const { showLyric } = storeToRefs(appStore)
-const trackDt = computed(() => track.value?.dt ?? 0)
-
+const settingStore = useSettingStore()
+const theme = computed(() => {
+  return settingStore.wallpaperColor + 'Dark'
+})
 const lyricContainer = ref()
 const state = reactive({
   activeIdx: -1,
