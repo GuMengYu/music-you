@@ -6,12 +6,3 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
-
-declare module 'md3-theme-generator' {
-  interface themeAdaptor {
-    light: Record<string, string>
-    dark: Record<string, string>
-  }
-
-  export const generatePaletteFromURL: (url: string) => Promise<themeAdaptor>
-}
