@@ -41,7 +41,6 @@ specifiers:
   lint-staged: ^12.4.1
   lodash-es: ^4.17.21
   lottie-web: ^5.9.2
-  md3-theme-generator: ^0.0.1
   md5: ^2.3.0
   overlayscrollbars: ^1.13.1
   pinia: ^2.0.13
@@ -69,7 +68,6 @@ specifiers:
   webfontloader: ^1.0.0
 
 dependencies:
-  '@material/material-color-utilities': 0.1.2
   '@unblockneteasemusic/server': 0.27.0-rc.6
   NeteaseCloudMusicApi: github.com/GuMengYu/NeteaseCloudMusicApi/079bd695951e9bcf00d2e4b8fcaed7408dac0caa
   dotenv: 16.0.1
@@ -77,10 +75,10 @@ dependencies:
   electron-log: 4.4.8
   express: 4.18.1
   http-proxy-middleware: 2.0.6_@types+express@4.17.13
-  plyr: 3.7.2
   stackblur-canvas: 2.5.0
 
 devDependencies:
+  '@material/material-color-utilities': 0.1.2
   '@mdi/js': 6.9.96
   '@types/express': 4.17.13
   '@types/howler': 2.2.7
@@ -113,10 +111,10 @@ devDependencies:
   lint-staged: 12.5.0
   lodash-es: 4.17.21
   lottie-web: 5.9.6
-  md3-theme-generator: 0.0.1
   md5: 2.3.0
   overlayscrollbars: 1.13.3
   pinia: 2.0.16_j6bzmzd4ujpabbp5objtwxyjp4
+  plyr: 3.7.2
   prettier: 2.7.1
   sass: 1.53.0
   typescript: 4.7.4
@@ -710,7 +708,7 @@ packages:
 
   /@material/material-color-utilities/0.1.2:
     resolution: {integrity: sha512-uKkkx7Xo1AZJR0eMjH902rAb0vEjDbb3tgXt0cC3SHbpDGkPNhkuDKtxnw147axOM6uKuI7vywHRQlDrjDGhCA==}
-    dev: false
+    dev: true
 
   /@mdi/js/6.9.96:
     resolution: {integrity: sha512-rK0/vLFaiItYS2W7uVmaKPKnhNQE4XVkylpk5njtVwENnp8elwY5uRL6qvdj2esuvUHG7DwygE4Qu3eKxxuJiQ==}
@@ -2094,7 +2092,7 @@ packages:
   /core-js/3.23.5:
     resolution: {integrity: sha512-7Vh11tujtAZy82da4duVreQysIoO2EvVrur7y6IzZkH1IHPSekuDi8Vuw1+YKjkbfWLRD7Nc9ICQ/sIUDutcyg==}
     requiresBuild: true
-    dev: false
+    dev: true
 
   /core-util-is/1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -2176,7 +2174,7 @@ packages:
 
   /custom-event-polyfill/1.0.7:
     resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
-    dev: false
+    dev: true
 
   /cz-conventional-changelog/3.3.0:
     resolution: {integrity: sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw==}
@@ -3899,6 +3897,7 @@ packages:
 
   /immediate/3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
 
   /immutable/4.1.0:
     resolution: {integrity: sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ==}
@@ -4299,6 +4298,7 @@ packages:
       pako: 1.0.11
       readable-stream: 2.3.7
       setimmediate: 1.0.5
+    dev: false
 
   /keyv/3.1.0:
     resolution: {integrity: sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA==}
@@ -4342,6 +4342,7 @@ packages:
     resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
     dependencies:
       immediate: 3.0.6
+    dev: false
 
   /lilconfig/2.0.5:
     resolution: {integrity: sha512-xaYmXZtTHPAw5m+xLN8ab9C+3a8YmV3asNSPOATITbtwrfbwaLJj8h66H1WMIpALCkqsIzK3h7oQ+PdX+LQ9Eg==}
@@ -4397,7 +4398,7 @@ packages:
 
   /loadjs/4.2.0:
     resolution: {integrity: sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==}
-    dev: false
+    dev: true
 
   /local-pkg/0.4.2:
     resolution: {integrity: sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg==}
@@ -4509,13 +4510,6 @@ packages:
       escape-string-regexp: 4.0.0
     dev: true
     optional: true
-
-  /md3-theme-generator/0.0.1:
-    resolution: {integrity: sha512-qSxbPSP5cIyc3hCJSw2ZtOFzgUHiaVW0SxPsbFIfjuT2TP/5hBcGDmR277xQNn9pXLYo5w+MdwovoDIAWBoHXg==}
-    dependencies:
-      esbuild: 0.14.49
-      jszip: 3.10.0
-    dev: true
 
   /md5/2.3.0:
     resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
@@ -4937,6 +4931,7 @@ packages:
 
   /pako/1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+    dev: false
 
   /parent-module/1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -5110,7 +5105,7 @@ packages:
       loadjs: 4.2.0
       rangetouch: 2.0.1
       url-polyfill: 1.1.12
-    dev: false
+    dev: true
 
   /pngjs/5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
@@ -5238,7 +5233,7 @@ packages:
 
   /rangetouch/2.0.1:
     resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
-    dev: false
+    dev: true
 
   /raw-body/2.5.1:
     resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
@@ -5574,6 +5569,7 @@ packages:
 
   /setimmediate/1.0.5:
     resolution: {integrity: sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==}
+    dev: false
 
   /setprototypeof/1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
@@ -6267,7 +6263,7 @@ packages:
 
   /url-polyfill/1.1.12:
     resolution: {integrity: sha512-mYFmBHCapZjtcNHW0MDq9967t+z4Dmg5CJ0KqysK3+ZbyoNOWQHksGCTWwDhxGXllkWlOc10Xfko6v4a3ucM6A==}
-    dev: false
+    dev: true
 
   /utf8-byte-length/1.0.4:
     resolution: {integrity: sha512-4+wkEYLBbWxqTahEsWrhxepcoVOJ+1z5PGIjPZxRkytcdSUaNjIjBM7Xn8E+pdSuV7SzvWovBFA54FO0JSoqhA==}
@@ -6692,7 +6688,7 @@ packages:
     optional: true
 
   github.com/GuMengYu/NeteaseCloudMusicApi/079bd695951e9bcf00d2e4b8fcaed7408dac0caa:
-    resolution: {commit: 079bd695951e9bcf00d2e4b8fcaed7408dac0caa, repo: git+ssh://git@github.com/GuMengYu/NeteaseCloudMusicApi.git, type: git}
+    resolution: {tarball: https://codeload.github.com/GuMengYu/NeteaseCloudMusicApi/tar.gz/079bd695951e9bcf00d2e4b8fcaed7408dac0caa}
     name: NeteaseCloudMusicApi
     version: 4.6.6
     engines: {node: '>=12'}
@@ -6717,7 +6713,7 @@ packages:
     dev: false
 
   github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484_356fjx7kpwcpknuhxdzbwzjy2u:
-    resolution: {commit: c6d0a0b508a81681535cce03f10d9b7353e34484, repo: git+ssh://git@github.com/GuMengYu/vue3-context-menu.git, type: git}
+    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-context-menu/tar.gz/c6d0a0b508a81681535cce03f10d9b7353e34484}
     id: github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484
     name: vuetify-ctx-menu
     version: 0.0.1
@@ -6732,7 +6728,7 @@ packages:
     dev: true
 
   github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad_vue@3.2.37:
-    resolution: {commit: a7ad077eeb77dc493b90ddde83c026da09ac2aad, repo: git+ssh://git@github.com/GuMengYu/vue3-slider.git, type: git}
+    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-slider/tar.gz/a7ad077eeb77dc493b90ddde83c026da09ac2aad}
     id: github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad
     name: vue3-slider
     version: 1.8.0
