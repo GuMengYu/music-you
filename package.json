@@ -24,13 +24,12 @@
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock",
     "dotenv": "^16.0.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "^4.4.7",
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.6",
-    "stackblur-canvas": "^2.5.0"
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.1.2",
@@ -69,9 +68,10 @@
     "md5": "^2.3.0",
     "overlayscrollbars": "^1.13.1",
     "pinia": "^2.0.13",
-    "prettier": "^2.6.2",
     "plyr": "^3.7.2",
+    "prettier": "^2.6.2",
     "sass": "^1.38.0",
+    "stackblur-canvas": "^2.5.0",
     "typescript": "^4.6.3",
     "unplugin-auto-import": "^0.7.1",
     "unplugin-vue-components": "^0.19.5",

@@ -42,7 +42,10 @@ vue3 + ts 重构 2.0 版本
 ```
 npm install
 or
-yarn install
+pnpm install
+
+// pnpm 由于pnpm 默认并不会将所有依赖平铺展开到node_modules下，所以build后的包可能会报错，某些依赖找不到，建议加上 --shamefully-hoist 参数 `pnpm i --shamefully-hoist ` 来安装
+
 ```
 
 ### 启动服务
