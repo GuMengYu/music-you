@@ -28,9 +28,14 @@ export const getSongUrl = (params: { id: number; br: number }) =>
  * 获取歌曲下载链接
  * @param params
  */
-export const getSongDownloadUrl = (params: { id: string; br: number }) => {
+export const getSongDownloadUrl = (params: { id: number; br?: number }) => {
   return request<{
-    data: []
+    data: {
+      id: Track['id']
+      url: string
+      type: string
+    }
+    code: number
   }>('/song/download/url', {
     params,
   })

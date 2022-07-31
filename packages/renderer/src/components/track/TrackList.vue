@@ -4,6 +4,7 @@ import {
   mdiAlbum,
   mdiClockOutline,
   mdiCloseCircleOutline,
+  mdiDownload,
   mdiHeart,
   mdiHeartRemove,
   mdiPlaylistMusicOutline,
@@ -16,6 +17,8 @@ import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
+import { getSongDownloadUrl } from '@/api/song'
+import useDonwload from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -122,6 +125,20 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       },
     },
     {
+      icon: mdiDownload,
+      label: '下载到本地',
+      onClick: async (i) => {
+        try {
+          // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
+          const { data } = await getSongDownloadUrl({ id: track.id })
+          const fileName = `${track.name}.${data.type}`
+          useDonwload(data.url, fileName)
+        } catch (e) {
+          toast.error(t('message.something_wrong'))
+        }
+      },
+    },
+    {
       divided: true,
     },
     {
@@ -136,13 +153,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
         }
       }),
     },
-    // {
-    //   // icon: mdiDownload,
-    //   label: '下载到本地',
-    //   onClick: (i) => {
-    //     download()
-    //   },
-    // },
   ]
   if (liked) {
     items.push({
