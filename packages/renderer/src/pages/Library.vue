@@ -147,7 +147,12 @@ const data: {
 })
 const loading = ref(false)
 fetch()
-useAjaxReloadHook('library', fetch)
+useAjaxReloadHook('library', () => {
+  // reload
+  fetch()
+  // reload playlist
+  userStore.fetch()
+})
 async function fetch() {
   current.value = TYPES.PLAYLIST
   loading.value = true
