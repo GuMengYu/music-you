@@ -22,7 +22,7 @@ export const downloadFile = (data: { fileName?: string; url: string }) => {
         log.info('download file progress', progress)
       },
       onCompleted(file) {
-        win.webContents.send('downloadCompleted', file)
+        win.webContents.send('downloadCompleted', file, fileName)
         log.info('download file completed', file)
       },
     })

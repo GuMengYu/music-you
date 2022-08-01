@@ -67,11 +67,11 @@ function registerIpcRenderer() {
     console.log(percent)
     // playerStore.commit('app/downloadprogress', percent)
   })
-  ipcRenderer.on('downloadCompleted', (e, file) => {
-    const { fileName, path } = file
+  ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
+    const { path } = file
     console.log(file)
     toast.success(`${fileName} 已下载到:${path}`, {
-      timeout: false,
+      timeout: 5000,
     })
 
     // playerStore.commit('app/downloadprogress', 0)

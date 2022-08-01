@@ -131,7 +131,8 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
         try {
           // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
           const { data } = await getSongDownloadUrl({ id: track.id })
-          const fileName = `${track.name}.${data.type}`
+          const artistName = track.ar?.map((i) => i.name)?.join(',')
+          const fileName = `${artistName} - ${track.name}.${data.type}`
           useDonwload(data.url, fileName)
         } catch (e) {
           toast.error(t('message.something_wrong'))
