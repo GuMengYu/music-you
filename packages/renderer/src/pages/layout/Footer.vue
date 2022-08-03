@@ -116,12 +116,15 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { formatDuring, sizeOfImage } from '@/util/fn'
+import { useSettingStore } from '@/store/setting'
+import { PLAYING_MODE } from '@/util/enum'
+import { sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 // utitlity
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
+const settingStore = useSettingStore()
 const router = useRouter()
 const player = usePlayer()
 const theme = useTheme()
@@ -210,7 +213,7 @@ player.pipLyric!.onEnter = function () {
 }
 
 async function showPlayingPage() {
-  if (is.electron()) {
+  if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {
     const ipcRenderer = useIpcRenderer()
     await ipcRenderer.invoke('adjustWidth')
   }

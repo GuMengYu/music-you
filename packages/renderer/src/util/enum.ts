@@ -5,7 +5,6 @@ export enum WindowState {
   CLOSED = 'closed',
 }
 export enum PLAYING_MODE {
-  BASIC = 'basic',
   SIMPLE = 'simple',
   MD = 'md',
 }

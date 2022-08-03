@@ -7,7 +7,7 @@ import { useAppStore } from '@/store/app'
 import { useSettingStore } from '@/store/setting'
 import { PLAYING_MODE } from '@/util/enum'
 
-import { basic, md, simple } from './exports'
+import { md, mobile, simple, visual } from './exports'
 
 const appStore = useAppStore()
 const settingStore = useSettingStore()
@@ -19,11 +19,15 @@ const fullscreen = ref(false)
 const currentComponent = computed(() => {
   const component = {
     [PLAYING_MODE.SIMPLE]: simple,
-    [PLAYING_MODE.BASIC]: basic,
     [PLAYING_MODE.MD]: md,
   }[settingStore.playingMode]
-
-  return smAndDown.value ? basic : component
+  if (smAndDown.value) {
+    return mobile
+  } else if (settingStore.visualization) {
+    return visual
+  } else {
+    return component
+  }
 })
 
 onMounted(() => {

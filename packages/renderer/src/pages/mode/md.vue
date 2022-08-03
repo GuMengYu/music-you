@@ -59,7 +59,7 @@ import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
-import Lyric from '@/pages/mode/lyric.vue'
+import Lyric from '@/pages/mode/components/lyric.vue'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { formatDuring } from '@/util/fn'

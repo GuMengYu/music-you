@@ -18,6 +18,15 @@
     </v-list-item>
   </div>
   <div>
+    <app-title path="message.visualization" />
+    <v-list-item class="pa-0">
+      <v-list-item-header class="text-caption"> {{ $t('main.setting.visualization') }}</v-list-item-header>
+      <v-list-item-media style="min-width: 48px">
+        <v-switch v-model="visualization" color="primary" hide-details density="compact" inset></v-switch>
+      </v-list-item-media>
+    </v-list-item>
+  </div>
+  <div>
     <app-title path="message.reset_app" />
     <v-list-item class="pa-0">
       <v-list-item-header class="text-caption"> {{ $t('main.setting.reset') }}</v-list-item-header>
@@ -59,7 +68,8 @@ import AppTitle from '@/components/Title.vue'
 import { useSettingStore } from '@/store/setting'
 
 const settingStore = useSettingStore()
-const { locale: lang, quality } = storeToRefs(settingStore)
+const { locale: lang, quality, visualization } = storeToRefs(settingStore)
+
 const { t, locale } = useI18n({ useScope: 'global' })
 const localeOptions = [
   {

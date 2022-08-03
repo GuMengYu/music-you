@@ -24,12 +24,12 @@
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock",
     "dotenv": "^16.0.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "^4.4.7",
     "express": "^4.17.3",
-    "http-proxy-middleware": "^2.0.6",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock"
+    "http-proxy-middleware": "^2.0.6"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.1.2",
@@ -82,6 +82,7 @@
     "vue": "^3.2.37",
     "vue-content-loader": "^2.0.1",
     "vue-i18n": "^9.1.9",
+    "vue-kinesis": "^2.0.5",
     "vue-router": "^4.0.14",
     "vue-toastification": "^2.0.0-rc.5",
     "vue-tsc": "^0.34.11",
@@ -89,6 +90,7 @@
     "vue3-slider": "git+https://github.com/GuMengYu/vue3-slider.git",
     "vuetify": "^3.0.0-beta.5",
     "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
+    "wavesurfer.js": "^6.2.0",
     "webfontloader": "^1.0.0"
   },
   "config": {

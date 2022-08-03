@@ -49,7 +49,7 @@ export interface PipLyric {
 }
 
 export class Player {
-  private howler: null | Howl
+  howler: null | Howl
   track: null | Track
   volume: number
   private currentTime: number
@@ -61,11 +61,13 @@ export class Player {
   private i18n: I18n<unknown, unknown, unknown, boolean>
   private locale: string
   pipLyric: null | PipLyric
+  html5: boolean
   constructor() {
     this.store = usePlayerStore()
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
     this.pipLyric = null
+    this.html5 = !this.settingStore.visualization
 
     const { track, playing, volume = 0.8, currentTime, isCurrentFm } = this.store
     this.track = track
@@ -103,7 +105,8 @@ export class Player {
         }
         if (this.volume !== volume) {
           this.volume = volume
-          Howler.volume(volume)
+          this.howler?.volume(volume)
+          // Howler.volume(volume)
         }
         if (this.isCurrentFm !== isCurrentFm) {
           this.isCurrentFm = isCurrentFm
@@ -170,10 +173,10 @@ export class Player {
   private initSound(src: string) {
     Howler.autoUnlock = false
     Howler.usingWebAudio = true
-    Howler.volume(this.volume)
     const sound = new Howl({
-      src: [src],
-      html5: true,
+      volume: this.volume,
+      src,
+      html5: this.html5,
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {
@@ -237,7 +240,7 @@ export class Player {
     if (this.howler?.playing()) return
     this.howler?.play()
     this.howler?.once('play', () => {
-      this.howler?.fade(0, this.volume, 500)
+      this.howler?.fade(0, this.volume, 400)
       this.playing = true
       this.store.playing = true
       this.pipLyric?.play()

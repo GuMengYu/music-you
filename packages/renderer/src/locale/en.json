@@ -8,6 +8,7 @@
     "remove_list_success": "Removed from playlist",
     "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
+    "visualization": "Music Visualization",
     "delete_list": "delete | deleted",
     "disclaimer": "disclaimer",
     "phone_email": "Mobile or email",
@@ -94,6 +95,7 @@
     "mvs": "MV",
     "disk": "Disk Music",
     "setting": {
+      "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on",
       "quality": "Streaming quality",
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",

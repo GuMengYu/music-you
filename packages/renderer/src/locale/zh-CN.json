@@ -8,6 +8,7 @@
     "remove_list_success": "已从歌单移除",
     "something_wrong": "出错了",
     "reset_app": "重置应用",
+    "visualization": "音乐可视化",
     "disclaimer": "免责声明",
     "logout": "退出登录",
     "login": "使用手机号或者邮箱来登录, 也可切换二维码用网易云App扫码登录",
@@ -94,6 +95,7 @@
     "mvs": "MV",
     "disk": "云盘",
     "setting": {
+      "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）",
       "quality": "流媒体质量",
       "language": "选择语言-改变将会立即生效",
       "reset": "重置应用数据(包括缓存，用户登录信息)",

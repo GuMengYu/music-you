@@ -33,6 +33,7 @@ export interface SettingState {
   cacheLimit: number
   volume: number
   account: Record<string, string>
+  visualization: boolean
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
@@ -47,6 +48,7 @@ export const useSettingStore = defineStore('setting', {
       cacheLimit: 500,
       volume: 0.8,
       account: {},
+      visualization: false,
     })
   },
 })

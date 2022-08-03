@@ -58,6 +58,7 @@ specifiers:
   vue: ^3.2.37
   vue-content-loader: ^2.0.1
   vue-i18n: ^9.1.9
+  vue-kinesis: ^2.0.5
   vue-router: ^4.0.14
   vue-toastification: ^2.0.0-rc.5
   vue-tsc: ^0.34.11
@@ -65,6 +66,7 @@ specifiers:
   vue3-slider: git+https://github.com/GuMengYu/vue3-slider.git
   vuetify: ^3.0.0-beta.5
   vuetify-ctx-menu: git+https://github.com/GuMengYu/vue3-context-menu.git
+  wavesurfer.js: ^6.2.0
   webfontloader: ^1.0.0
 
 dependencies:
@@ -127,6 +129,7 @@ devDependencies:
   vue: 3.2.37
   vue-content-loader: 2.0.1_vue@3.2.37
   vue-i18n: 9.1.10_vue@3.2.37
+  vue-kinesis: 2.0.5_vue@3.2.37
   vue-router: 4.1.2_vue@3.2.37
   vue-toastification: 2.0.0-rc.5_vue@3.2.37
   vue-tsc: 0.34.17_typescript@4.7.4
@@ -134,6 +137,7 @@ devDependencies:
   vue3-slider: github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad_vue@3.2.37
   vuetify: 3.0.0-beta.5_mvjygmzaujws4yixdfdv5re5r4
   vuetify-ctx-menu: github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484_356fjx7kpwcpknuhxdzbwzjy2u
+  wavesurfer.js: 6.2.0
   webfontloader: 1.6.28
 
 packages:
@@ -6419,6 +6423,15 @@ packages:
       vue: 3.2.37
     dev: true
 
+  /vue-kinesis/2.0.5_vue@3.2.37:
+    resolution: {integrity: sha512-uO2lG9A/L4I9KvyJuUzAkAWqd37In/kWxQ6rZ3/heJZ8+7rHAbBO5Knz6xG+cpO+9Q4cYurxXsPfWM6e7X9E3Q==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.37
+    dev: true
+
   /vue-observe-visibility/2.0.0-alpha.1_vue@3.2.37:
     resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
     peerDependencies:
@@ -6505,6 +6518,34 @@ packages:
       vite-plugin-vuetify: 1.0.0-alpha.12_6r6kade2ubrg75ihnmvk343mau
       vue: 3.2.37
       vue-i18n: 9.1.10_vue@3.2.37
+    dev: true
+
+  /vuetify/3.0.0-beta.6_mvjygmzaujws4yixdfdv5re5r4:
+    resolution: {integrity: sha512-eL8l4YdpB8ePWex1NkB35nqgWIJCsElTk4XzZEXeN7ECh5Qd1JqPwxEE+JVVC5e1+Ut2EQw+08ouLkeEk2uMow==}
+    engines: {node: ^12.20 || >=14.13}
+    peerDependencies:
+      '@formatjs/intl': ^1.0.0 || ^2.0.0
+      vite-plugin-vuetify: ^1.0.0-alpha.12
+      vue: ^3.2.0
+      vue-i18n: ^9.0.0
+      webpack-plugin-vuetify: ^2.0.0-alpha.11
+    peerDependenciesMeta:
+      '@formatjs/intl':
+        optional: true
+      vite-plugin-vuetify:
+        optional: true
+      vue-i18n:
+        optional: true
+      webpack-plugin-vuetify:
+        optional: true
+    dependencies:
+      vite-plugin-vuetify: 1.0.0-alpha.12_6r6kade2ubrg75ihnmvk343mau
+      vue: 3.2.37
+      vue-i18n: 9.1.10_vue@3.2.37
+    dev: true
+
+  /wavesurfer.js/6.2.0:
+    resolution: {integrity: sha512-yuOteX+RKgJl4p5V+YNflm79QRNFWpNo0UHtKaGf1G05qMNChfbcJU0MZYL7+OJTHgYszYqN3dgUXjugYd/Iew==}
     dev: true
 
   /wcwidth/1.0.1:
@@ -6688,7 +6729,7 @@ packages:
     optional: true
 
   github.com/GuMengYu/NeteaseCloudMusicApi/079bd695951e9bcf00d2e4b8fcaed7408dac0caa:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/NeteaseCloudMusicApi/tar.gz/079bd695951e9bcf00d2e4b8fcaed7408dac0caa}
+    resolution: {commit: 079bd695951e9bcf00d2e4b8fcaed7408dac0caa, repo: git+ssh://git@github.com/GuMengYu/NeteaseCloudMusicApi.git, type: git}
     name: NeteaseCloudMusicApi
     version: 4.6.6
     engines: {node: '>=12'}
@@ -6713,13 +6754,13 @@ packages:
     dev: false
 
   github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484_356fjx7kpwcpknuhxdzbwzjy2u:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-context-menu/tar.gz/c6d0a0b508a81681535cce03f10d9b7353e34484}
+    resolution: {commit: c6d0a0b508a81681535cce03f10d9b7353e34484, repo: git+ssh://git@github.com/GuMengYu/vue3-context-menu.git, type: git}
     id: github.com/GuMengYu/vue3-context-menu/c6d0a0b508a81681535cce03f10d9b7353e34484
     name: vuetify-ctx-menu
     version: 0.0.1
     dependencies:
       vue: 3.2.37
-      vuetify: 3.0.0-beta.5_mvjygmzaujws4yixdfdv5re5r4
+      vuetify: 3.0.0-beta.6_mvjygmzaujws4yixdfdv5re5r4
     transitivePeerDependencies:
       - '@formatjs/intl'
       - vite-plugin-vuetify
@@ -6728,7 +6769,7 @@ packages:
     dev: true
 
   github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad_vue@3.2.37:
-    resolution: {tarball: https://codeload.github.com/GuMengYu/vue3-slider/tar.gz/a7ad077eeb77dc493b90ddde83c026da09ac2aad}
+    resolution: {commit: a7ad077eeb77dc493b90ddde83c026da09ac2aad, repo: git+ssh://git@github.com/GuMengYu/vue3-slider.git, type: git}
     id: github.com/GuMengYu/vue3-slider/a7ad077eeb77dc493b90ddde83c026da09ac2aad
     name: vue3-slider
     version: 1.8.0
