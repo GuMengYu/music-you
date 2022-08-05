@@ -147,6 +147,18 @@ function init() {
   getSongData()
   player.howler?.once('play', getSongData)
 }
+useResizeObserver(canvasContainer, (entries) => {
+  resizeCanvas()
+})
+
+const resizeCanvas = useDebounceFn(
+  () => {
+    setSize()
+  },
+  1000,
+  { maxWait: 2000 }
+)
+
 function getSongData() {
   if (player.howler?.playing() && audioArray) {
     analyser.value?.getByteFrequencyData(audioArray)
@@ -158,7 +170,6 @@ function getSongData() {
     ]
     amplitude.value = _amplitude
     showAnimBar.value && draw()
-    // audioData.value = new Array(audioArray.value)
     animationFrameId.value = requestAnimationFrame(getSongData)
   }
 }
@@ -179,13 +190,17 @@ function handleAudio() {
 function initCanvas() {
   const canvas = canvasRef.value
   if (canvas && canvasContainer.value) {
-    const { width, height } = canvasContainer.value.getBoundingClientRect()
-    canvas.height = height
-    canvas.width = width
-    canvasState.width = width
-    canvasState.height = height
+    setSize()
     canvasState.ctx = canvas.getContext('2d')
   }
+}
+function setSize() {
+  const canvas = canvasRef.value
+  const { width, height } = canvasContainer.value!.getBoundingClientRect()
+  canvas!.height = height
+  canvas!.width = width
+  canvasState.width = width
+  canvasState.height = height
 }
 
 function draw() {
