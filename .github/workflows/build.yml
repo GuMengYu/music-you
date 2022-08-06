@@ -42,18 +42,12 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: v-player-artifact
-          path: release/*/vplayer-next*
+          name: v-player-macos
+          path: release/*/vplayer-next-mac*.dmg
           if-no-files-found: ignore
 
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: v-player-win
-      #     path: dist_electron/*Setup*.exe
-      #     if-no-files-found: ignore
-
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: v-player-linux
-      #     path: dist_electron/*.AppImage
-      #     if-no-files-found: ignore
+      - uses: actions/upload-artifact@v3
+        with:
+          name: v-player-windows
+          path: release/*/vplayer-next*.exe
+          if-no-files-found: ignore
