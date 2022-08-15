@@ -76,7 +76,6 @@ export default defineConfig(({ command, mode }) => {
       sourcemap: mode === BUILDMODE.DEV || mode === BUILDMODE.ELECTRON_DEV,
       rollupOptions: {
         format: buildElectron ? 'cjs' : 'es',
-        external: ['vue-demi'],
       },
     },
     resolve: {
