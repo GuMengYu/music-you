@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-fade-y">
     <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
-      <track-slider class="track-slider" tooltip />
+      <TrackSlider class="track-slider" tooltip />
       <!-- <Slider
         class="track-slider"
         :model-value="currentTime"
@@ -105,11 +105,11 @@ import {
 import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Slider from 'vue3-slider'
 import { useTheme } from 'vuetify'
 
+import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'

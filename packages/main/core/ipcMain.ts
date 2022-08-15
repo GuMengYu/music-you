@@ -72,4 +72,7 @@ export const registerIpcMain = (window: BrowserWindow) => {
       window.setSize(WindowDefaultSize.width, WindowDefaultSize.height, true)
     }
   })
+  ipcMain.handle('setProgress', (e, progress) => {
+    window.setProgressBar(progress)
+  })
 }

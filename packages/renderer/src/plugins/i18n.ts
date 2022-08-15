@@ -19,6 +19,7 @@ export const useI18n = (app: App) => {
   const locale = settingStore.locale
 
   const i18n = createI18n({
+    allowComposition: true, // you need to specify that!
     locale,
     messages: { zhCN, en },
   })

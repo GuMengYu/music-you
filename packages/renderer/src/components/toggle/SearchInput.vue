@@ -25,17 +25,16 @@
 </template>
 <script setup lang="ts">
 import { mdiMagnify } from '@mdi/js'
-import type { ComponentPublicInstance } from 'vue'
-import { computed, ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
+import type { VTextField } from 'vuetify/components'
 
 const router = useRouter()
 const route = useRoute()
 const keywords = ref('')
 const display = useDisplay()
 const { smAndUp } = display
-const searchInput = ref<ComponentPublicInstance>()
+const searchInput = ref<InstanceType<typeof VTextField>>()
 
 const showInput = computed(() => {
   return route.path.includes('/search')

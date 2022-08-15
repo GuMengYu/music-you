@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { mdiDotsHorizontal, mdiHeart, mdiHeartOutline, mdiPause, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import type { ComponentPublicInstance } from 'vue'
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import type { VListItem } from 'vuetify/components'
 
 import equaliser from '@/assets/equaliser-animated-green.gif'
 import placeholderUrl from '@/assets/placeholder.png'
@@ -42,7 +41,7 @@ const props = defineProps({
   },
 })
 
-const itemRef = ref<ComponentPublicInstance>()
+const itemRef = ref<InstanceType<typeof VListItem>>()
 const likeLoading = ref(false)
 
 const liked = computed(() => {

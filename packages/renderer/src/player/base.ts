@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import { Howl, Howler } from 'howler'
 import type { Store } from 'pinia'
 import type { I18n } from 'vue-i18n'
@@ -11,6 +12,7 @@ import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
 import { sleep } from '@/util/fn'
+import is from '@/util/is'
 import { PipLyric } from '@/util/pipLyric'
 const toast = useToast()
 
@@ -311,9 +313,15 @@ export class Player {
     this.currentTime = current
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
+    if (is.electron() && this.track?.dt) {
+      const p = current / (this.track.dt / 1000)
+      const progress = p >= 1 ? 1 : p
+      ipcRenderer.invoke('setProgress', progress)
+    }
   }
   setSeek(val: number) {
     this.howler?.seek(val)
+    this.updateCurrentTime()
   }
   pauseProgress() {
     clearTimeout(this.progressInterval)
