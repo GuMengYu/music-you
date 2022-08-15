@@ -20,7 +20,12 @@
     "delete_list": "删除歌单 | 已删除",
     "delete_list_alert": "歌单将会从\"创建的歌单\"移除，确定删除？",
     "sub_msg": "收藏成功 | 已取消收藏",
-    "follow_msg": "关注成功 | 已取消关注"
+    "follow_msg": "关注成功 | 已取消关注",
+    "exit_tip": "关闭提示",
+    "exit_prompt": "询问",
+    "exit_min": "最小化到系统托盘",
+    "exit_direct": "直接退出",
+    "reminder": "不再提醒"
   },
   "main": {
     "nav": {
@@ -99,7 +104,8 @@
       "quality": "流媒体质量",
       "language": "选择语言-改变将会立即生效",
       "reset": "重置应用数据(包括缓存，用户登录信息)",
-      "manage_account": "管理您的网易云账号(web)"
+      "manage_account": "管理您的网易云账号(web)",
+      "exit": "点击窗口关闭按钮的行为..."
     }
   },
   "common": {
@@ -136,6 +142,7 @@
     "other": "其他",
     "mixed": "混合",
     "quality": "音频质量",
+    "exitmode": "关闭主面板",
     "usageSize": "缓存占用空间",
     "dynamicBg": "歌词动态背景",
     "lyric": "歌词",

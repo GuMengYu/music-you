@@ -64,6 +64,7 @@ export default class WindowManager extends EventEmitter {
       this.window?.webContents.send('fullscreen', false)
     })
     this.window?.on('close', (event) => {
+      log.info('window close', this.willQuit)
       if (!this.willQuit) {
         event.preventDefault()
         if (this.window?.isFullScreen()) {

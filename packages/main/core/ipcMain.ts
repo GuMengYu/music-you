@@ -1,5 +1,5 @@
 import type { BrowserWindow } from 'electron'
-import { ipcMain, shell } from 'electron'
+import { app, ipcMain, shell } from 'electron'
 
 import { WindowState } from '../../renderer/src/util/enum'
 import { downloadFile } from './util/download'
@@ -30,6 +30,9 @@ export const registerIpcMain = (window: BrowserWindow) => {
     window.unmaximize()
   })
   ipcMain.handle(WindowState.CLOSED, () => {
+    app.quit()
+  })
+  ipcMain.handle(WindowState.MINIMIZEDTRAY, () => {
     window.close()
   })
   ipcMain.handle('open-url', (e, url) => {

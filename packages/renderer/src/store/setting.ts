@@ -9,6 +9,11 @@ export enum APPEARANCE {
   SYSTEM = 'system',
 }
 
+export enum ExitMode {
+  minimize,
+  exit,
+  prompt,
+}
 export enum WallpaperColor {
   RedSandDunes = 'RedSandDunes',
   GreenRockyMountains = 'GreenRockyMountains',
@@ -34,6 +39,7 @@ export interface SettingState {
   volume: number
   account: Record<string, string>
   visualization: boolean
+  exitMode: ExitMode
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
@@ -49,6 +55,7 @@ export const useSettingStore = defineStore('setting', {
       volume: 0.8,
       account: {},
       visualization: false,
+      exitMode: ExitMode.prompt,
     })
   },
 })

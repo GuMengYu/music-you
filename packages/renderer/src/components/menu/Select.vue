@@ -15,7 +15,6 @@
 </template>
 <script setup lang="ts">
 import { mdiChevronDown } from '@mdi/js'
-import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: [String, Number],
@@ -31,6 +30,7 @@ const selected = computed({
     return [props.modelValue]
   },
   set(value) {
+    console.log(value[0])
     emit('update:modelValue', value[0])
   },
 })

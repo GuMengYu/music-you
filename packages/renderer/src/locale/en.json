@@ -20,7 +20,12 @@
     "reset_msg": "Reset the application state, you will be logged out, and all settings will be restored to the state at the time of installation",
     "delete_list_alert": "The playlist will be removed from the \"created playlist\", are you sure you want to delete it?",
     "sub_msg": "Collection success | Removed collection",
-    "follow_msg": "Followed | Unfollowed"
+    "follow_msg": "Followed | Unfollowed",
+    "exit_tip": "Close Prompt",
+    "exit_min": "Minimize to system tray",
+    "exit_direct": "Exit directly",
+    "exit_prompt": "Ask",
+    "reminder": "No more reminders"
   },
   "main": {
     "nav": {
@@ -99,7 +104,8 @@
       "quality": "Streaming quality",
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",
-      "manage_account": "Manage Account (web)"
+      "manage_account": "Manage Account (web)",
+      "exit": "Behavior of closing the app..."
     }
 
   },
@@ -136,6 +142,7 @@
     "auto": "auto",
     "mixed": "mixed",
     "quality": "Audio quality",
+    "exitmode": "Close the main panel",
     "usageSize": "cache",
     "dynamicBg": "Dynamic Background",
     "lyric": "Lyric",

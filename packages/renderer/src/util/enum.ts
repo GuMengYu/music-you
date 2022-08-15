@@ -3,6 +3,7 @@ export enum WindowState {
   MAXIMIZED = 'maximized',
   MINIMIZED = 'minimized',
   CLOSED = 'closed',
+  MINIMIZEDTRAY = 'minimizedTray',
 }
 export enum PLAYING_MODE {
   SIMPLE = 'simple',
