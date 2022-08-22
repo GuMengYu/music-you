@@ -313,7 +313,7 @@ export class Player {
     this.currentTime = current
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
-    if (is.electron() && this.track?.dt) {
+    if (is.electron() && is.windows() && this.track?.dt) {
       const p = current / (this.track.dt / 1000)
       const progress = p >= 1 ? 1 : p
       ipcRenderer.invoke('setProgress', progress)

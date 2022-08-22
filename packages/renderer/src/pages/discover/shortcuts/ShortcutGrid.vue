@@ -27,38 +27,41 @@ const myFav = computed(() => {
     picUrl: favorites.value.coverImgUrl,
   }
 })
-const state = reactive({
+const state = ref({
   radar: {
     id: 0,
-    title: t('main.discover.radar'),
+    title: '',
     picUrl: '',
   },
   randomPlayList: {
     id: 0,
     title: '',
-    subTitle: t('main.discover.random'),
+    subTitle: '',
     picUrl: '',
   },
   daily: {
-    title: t('main.discover.daily'),
-    subTitle: dayjs().format('MM-DD'),
+    title: '',
+    subTitle: '',
     picUrl:
       'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
   },
 })
 onMounted(async () => {
+  state.value.daily.title = t('main.discover.daily')
+  state.value.daily.subTitle = dayjs().format('MM-DD')
   // 私人雷达歌单
   const { playlist: radarPlaylist } = await getPlaylistDetail(specialType.radar.id)
-  state.radar.id = radarPlaylist.id
-  state.radar.picUrl = radarPlaylist.coverImgUrl
+  state.value.radar.id = radarPlaylist.id
+  state.value.radar.picUrl = radarPlaylist.coverImgUrl
+  state.value.radar.title = t('main.discover.radar')
   // 得到一个随机收藏的歌单
   const filtersId = [favorites.value.id, specialType.radar.id]
   const list = filter(playlists.value, (item) => !filtersId.includes(item.id) && item.trackCount > 0)
   const randomPlayList = list[random(0, list.length - 1)]
   if (randomPlayList?.id) {
-    state.randomPlayList.id = randomPlayList.id
-    state.randomPlayList.picUrl = randomPlayList.coverImgUrl
-    state.randomPlayList.title = randomPlayList.name
+    state.value.randomPlayList.id = randomPlayList.id
+    state.value.randomPlayList.picUrl = randomPlayList.coverImgUrl
+    state.value.randomPlayList.title = randomPlayList.name
   }
 })
 </script>
