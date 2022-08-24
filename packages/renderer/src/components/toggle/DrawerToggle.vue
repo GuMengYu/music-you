@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon class="no-drag-area" variant="text" width="56" height="56" @click="rail = !rail">
+  <v-btn icon class="no-drag-area" variant="text" width="64" height="64" @click="rail = !rail">
     <v-icon>
       {{ mdiMenu }}
     </v-icon>

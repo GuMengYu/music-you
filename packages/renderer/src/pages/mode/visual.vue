@@ -70,10 +70,10 @@
           </v-icon>
         </v-btn>
         <lyric class="text-body-1 mt-4 ml-1" />
+        <div ref="canvasContainer" class="wavecontainer" @click="toggleAnimBar">
+          <canvas ref="canvasRef"></canvas>
+        </div>
       </div>
-    </div>
-    <div ref="canvasContainer" class="frame-footer" @click="toggleAnimBar">
-      <canvas ref="canvasRef"></canvas>
     </div>
   </v-card>
 </template>
@@ -144,6 +144,7 @@ watch(track, () => {
 function init() {
   handleAudio()
   resolved.value = true
+  cancelAnimationFrame(animationFrameId.value)
   getSongData()
   player.howler?.once('play', getSongData)
 }
@@ -179,7 +180,7 @@ function handleAudio() {
   Howler.masterGain.connect(_analyser)
   const destination = context.createMediaStreamDestination()
   _analyser.connect(destination)
-  _analyser.fftSize = 4096
+  _analyser.fftSize = 2048
   const bufferLength = _analyser.frequencyBinCount
   const _audioArray = new Uint8Array(bufferLength)
   audioArray = _audioArray
@@ -205,8 +206,8 @@ function setSize() {
 
 function draw() {
   const frqBits = audioArray.length
-  const space = 4
-  const barWidth = 8
+  const space = 8
+  const barWidth = 4
   const step = Math.round(((barWidth + space) / frqBits) * canvasState.width)
   let x = 0
   clearRect()
@@ -221,7 +222,7 @@ function draw() {
 function drawBar(barWidth: number, barHeight: number, barX: number, color: string) {
   if (canvasState.ctx) {
     canvasState.ctx.fillStyle = color
-    drawRoundedRect(canvasState.ctx, barX, canvasState.height - barHeight, barWidth, barHeight, 2)
+    drawRoundedRect(canvasState.ctx, barX, (canvasState.height - barHeight) / 2, barWidth, barHeight, 2)
   }
 }
 
@@ -312,9 +313,7 @@ onUnmounted(() => {
       }
     }
   }
-  &-footer {
-    position: absolute;
-    bottom: 0;
+  .wavecontainer {
     width: 100%;
     height: 200px;
     z-index: 1;

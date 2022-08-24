@@ -1,7 +1,7 @@
 <template>
   <v-app class="v-player">
     <AppCC />
-
+    <app-system-bar class="v-player-header" />
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
 
@@ -25,6 +25,7 @@ import AppPlaybar from './layout/Footer.vue'
 import AppHeader from './layout/Header.vue'
 import AppMobilePlaybar from './layout/MobilePlaybar.vue'
 import AppNav from './layout/Navbar.vue'
+import AppSystemBar from './layout/SystemBar.vue'
 import AppContent from './layout/View.vue'
 import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'

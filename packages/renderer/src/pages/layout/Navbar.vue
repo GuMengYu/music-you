@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :rail="rail" class="drag-area">
-    <div class="pl-2 pt-3">
+    <div class="pl-2">
       <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">

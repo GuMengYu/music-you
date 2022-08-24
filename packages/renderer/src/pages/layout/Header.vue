@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="app_header drag-area" flat :height="80">
+  <v-app-bar class="app_header drag-area" flat>
     <div v-if="mdAndUp" class="d-flex align-center">
       <b-f-btn />
       <reload-btn />
@@ -19,7 +19,7 @@ import { useDisplay } from 'vuetify'
 
 import SearchInput from '@/components/toggle/SearchInput.vue'
 import is from '@/util/is'
-const { smAndUp, mdAndUp, lgAndUp } = useDisplay()
+const { mdAndUp } = useDisplay()
 const isShowWindowControl = computed(() => {
   return (is.windows() || is.linux()) && mdAndUp.value
 })

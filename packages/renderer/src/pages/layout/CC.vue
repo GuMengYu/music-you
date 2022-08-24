@@ -30,15 +30,15 @@
           <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
-      <v-row dense class="mt-1">
+      <!-- <v-row dense class="mt-1">
         <v-col class="d-flex">
           <switch-card v-if="isDev" title="Playground" :icon="mdiTestTube" @click="to('playground')" />
         </v-col>
         <v-col></v-col>
-      </v-row>
-      <v-divider class="my-4" />
+      </v-row> -->
+      <v-divider class="my-2" />
       <MediaCard />
-      <v-divider class="my-4" />
+      <v-divider class="my-2" />
     </v-container>
   </v-navigation-drawer>
 </template>
@@ -51,7 +51,6 @@ import { useTheme } from 'vuetify'
 // Composables
 import { useAppStore } from '@/store/app'
 import { APPEARANCE, useSettingStore } from '@/store/setting'
-
 export default defineComponent({
   setup() {
     const app = useAppStore()

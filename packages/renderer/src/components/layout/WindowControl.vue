@@ -1,17 +1,17 @@
 <template>
   <div class="window-actions no-drag-area">
-    <v-btn icon size="small" class="action-item px-0" @click="handleMinimize">
-      <v-icon size="small">
+    <v-btn size="small" variant="text" class="action-item" @click="handleMinimize">
+      <v-icon>
         {{ mdiWindowMinimize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" icon class="action-item px-0" @click="handleToggleMaximize">
-      <v-icon size="small">
+    <v-btn size="small" variant="text" class="action-item" @click="handleToggleMaximize">
+      <v-icon>
         {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" icon class="action-item action-close px-0" @click="handleClose">
-      <v-icon size="small">
+    <v-btn size="small" variant="text" class="action-item action-close" @click="handleClose">
+      <v-icon>
         {{ mdiWindowClose }}
       </v-icon>
     </v-btn>
@@ -52,7 +52,13 @@
 </template>
 
 <script setup lang="ts">
-import { mdiExitToApp, mdiWindowClose, mdiWindowMaximize, mdiWindowMinimize, mdiWindowRestore } from '@mdi/js'
+import {
+  mdiCheckboxBlankOutline as mdiWindowMaximize,
+  mdiClose as mdiWindowClose,
+  mdiExitToApp,
+  mdiMinus as mdiWindowMinimize,
+  mdiWindowRestore,
+} from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 
@@ -106,9 +112,6 @@ async function confirmExit() {
 .window-actions {
   display: flex;
   align-items: center;
-  position: relative;
-  left: 12px;
-  top: -20px;
   > .action-item {
     &:hover {
       background: rgb(var(--v-theme-surfaceVariant));
