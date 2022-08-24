@@ -25,7 +25,7 @@
   <input v-show="false" ref="upload" type="file" accept="image/png,image/jpeg,image/webp" @change="handleChange" />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { mdiDesktopTowerMonitor, mdiPalette, mdiPlus, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -38,125 +38,107 @@ import { useSettingStore, WallpaperColor } from '@/store/setting'
 
 import AppSettingsGroup from './Group.vue'
 
-export default {
-  name: 'AppSettingsTheme',
+const { t } = useI18n()
+const setting = useSettingStore()
+const { customTheme, wallpaperColor } = storeToRefs(setting)
+const toast = useToast()
+const upload = ref<HTMLInputElement>()
+const appearanceItems = computed(() => [
+  {
+    text: 'common.light',
+    icon: mdiWhiteBalanceSunny,
+    value: 'light',
+  },
+  {
+    value: 'dark',
+    text: 'common.dark',
+    icon: mdiWeatherNight,
+  },
+  {
+    value: 'system',
+    text: 'common.auto',
+    icon: mdiDesktopTowerMonitor,
+  },
+])
 
-  components: { AppSettingsGroup },
-
-  setup() {
-    const { t } = useI18n()
-    const setting = useSettingStore()
-    const { customTheme, wallpaperColor } = storeToRefs(setting)
-    const toast = useToast()
-    const upload = ref<HTMLInputElement>()
-    const appearanceItems = computed(() => [
-      {
-        text: 'common.light',
-        icon: mdiWhiteBalanceSunny,
-        value: 'light',
-      },
-      {
-        value: 'dark',
-        text: 'common.dark',
-        icon: mdiWeatherNight,
-      },
-      {
-        value: 'system',
-        text: 'common.auto',
-        icon: mdiDesktopTowerMonitor,
-      },
-    ])
-
-    const defaultThemes = [
-      {
-        icon: mdiPalette,
-        value: WallpaperColor.RedSandDunes,
-        text: 'theme.RedSandDunes',
-      },
-      {
-        icon: mdiPalette,
-        value: WallpaperColor.GreenMountainTop,
-        text: 'theme.GreenMountainTop',
-      },
+const defaultThemes = [
+  {
+    icon: mdiPalette,
+    value: WallpaperColor.RedSandDunes,
+    text: 'theme.RedSandDunes',
+  },
+  {
+    icon: mdiPalette,
+    value: WallpaperColor.GreenMountainTop,
+    text: 'theme.GreenMountainTop',
+  },
+  {
+    icon: mdiPalette,
+    value: WallpaperColor.OrangeDesert,
+    text: 'theme.OrangeDesert',
+  },
+  {
+    icon: mdiPalette,
+    value: WallpaperColor.BlueMountains,
+    text: 'theme.BlueMountains',
+  },
+  {
+    icon: mdiPalette,
+    value: WallpaperColor.GreenRockyMountains,
+    text: 'theme.GreenRockyMountains',
+  },
+]
+const colorItems = computed(() => {
+  if (customTheme.value.length) {
+    return [
+      ...defaultThemes,
       {
         icon: mdiPalette,
-        value: WallpaperColor.OrangeDesert,
-        text: 'theme.OrangeDesert',
-      },
-      {
-        icon: mdiPalette,
-        value: WallpaperColor.BlueMountains,
-        text: 'theme.BlueMountains',
-      },
-      {
-        icon: mdiPalette,
-        value: WallpaperColor.GreenRockyMountains,
-        text: 'theme.GreenRockyMountains',
+        value: 'Customize',
+        text: 'theme.Customize',
       },
     ]
-    const colorItems = computed(() => {
-      if (customTheme.value.length) {
-        return [
-          ...defaultThemes,
-          {
-            icon: mdiPalette,
-            value: 'Customize',
-            text: 'theme.Customize',
-          },
-        ]
-      }
-      return [...defaultThemes]
-    })
-    const appearance = computed({
-      get() {
-        return setting.appearance
-      },
-      set(value: APPEARANCE) {
-        setting.appearance = value
-      },
-    })
-
-    const color = computed({
-      get() {
-        return wallpaperColor.value
-      },
-      set(value: WallpaperColor) {
-        wallpaperColor.value = value
-      },
-    })
-    function handleCustomPalette() {
-      upload.value?.click()
-    }
-    async function handleChange(e: Event) {
-      const { files = [] } = e.target as HTMLInputElement
-      if (files?.length) {
-        if (files[0].size > 2 * 1024 * 1024) {
-          toast.error(t('message.pic_limit'))
-          return
-        }
-        try {
-          const objectURL = URL.createObjectURL(files[0])
-          const image = new Image()
-          image.src = objectURL
-          const themes = await generateVuetifyTheme(image, 'Customize')
-          customTheme.value = themes
-          color.value = WallpaperColor.Customize
-          location.reload()
-        } catch (e) {
-          console.log(e)
-        }
-      }
-    }
-    return {
-      appearanceItems,
-      colorItems,
-      appearance,
-      color,
-      handleCustomPalette,
-      handleChange,
-      mdiPalette,
-      upload,
-    }
+  }
+  return [...defaultThemes]
+})
+const appearance = computed({
+  get() {
+    return setting.appearance
   },
+  set(value: APPEARANCE) {
+    setting.appearance = value
+  },
+})
+
+const color = computed({
+  get() {
+    return wallpaperColor.value
+  },
+  set(value: WallpaperColor) {
+    wallpaperColor.value = value
+  },
+})
+function handleCustomPalette() {
+  upload.value?.click()
+}
+async function handleChange(e: Event) {
+  const { files = [] } = e.target as HTMLInputElement
+  if (files?.length) {
+    if (files[0].size > 2 * 1024 * 1024) {
+      toast.error(t('message.pic_limit'))
+      return
+    }
+    try {
+      const objectURL = URL.createObjectURL(files[0])
+      const image = new Image()
+      image.src = objectURL
+      const themes = await generateVuetifyTheme(image, 'Customize')
+      customTheme.value = themes
+      color.value = WallpaperColor.Customize
+      location.reload()
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
