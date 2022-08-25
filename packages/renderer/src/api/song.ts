@@ -19,6 +19,9 @@ export const getSongUrl = (params: { id: number; br: number }) =>
     data: {
       freeTrialInfo: boolean
       url: string
+      br: number
+      type: string
+      encodeType: string
     }[]
   }>('/song/url', {
     params,

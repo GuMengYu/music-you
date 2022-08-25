@@ -7,7 +7,7 @@ import { request } from '@/util/fetch'
  * @param offset
  * @returns {*}
  */
-export const recommendVideo = (offset) => request('/video/timeline/recommend', { offset })
+export const recommendVideo = (offset: number) => request('/video/timeline/recommend', { params: { offset } })
 
 /**
  * 获取新mv
