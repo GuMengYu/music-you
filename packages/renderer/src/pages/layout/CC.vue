@@ -9,7 +9,9 @@
     class="bg-surface"
   >
     <v-toolbar density="compact" class="pr-4" color="surface">
-      <v-toolbar-title class="text-caption text-onSurfaceVariant">{{ $t('common.shortcut') }}</v-toolbar-title>
+      <v-toolbar-title class="text-caption font-weight-bold text-onSurfaceVariant">{{
+        $t('common.shortcut')
+      }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon size="small" @click="app.showControlCenter = false">
         <v-icon size="small"> {{ mdiClose }} </v-icon>
@@ -39,6 +41,7 @@
       <v-divider class="my-2" />
       <MediaCard />
       <v-divider class="my-2" />
+      <PlayingList />
     </v-container>
   </v-navigation-drawer>
 </template>
@@ -51,7 +54,10 @@ import { useTheme } from 'vuetify'
 // Composables
 import { useAppStore } from '@/store/app'
 import { APPEARANCE, useSettingStore } from '@/store/setting'
+
+import PlayingList from '../components/PlayingList.vue'
 export default defineComponent({
+  components: { PlayingList },
   setup() {
     const app = useAppStore()
     const setting = useSettingStore()

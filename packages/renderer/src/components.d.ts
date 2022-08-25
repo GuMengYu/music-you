@@ -41,6 +41,7 @@ declare module '@vue/runtime-core' {
     TrackSlider: typeof import('./components/TrackSlider.vue')['default']
     VideoCover: typeof import('./components/cover/VideoCover.vue')['default']
     VSquareBtn: typeof import('./components/button/VSquareBtn.vue')['default']
+    Wave: typeof import('./components/Wave.vue')['default']
     WindowControl: typeof import('./components/layout/WindowControl.vue')['default']
   }
 }

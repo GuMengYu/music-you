@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { pinia } from '@/plugins/pinia'
 
 import type { Track } from '../types'
-export type listType = 'album' | 'playlist' | 'artist' | 'daily'
+export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud'
 
 export interface PlayQueueState {
   queue: {

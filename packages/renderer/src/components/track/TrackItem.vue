@@ -173,7 +173,7 @@ async function toggleLike() {
         :title="available.enable ? '' : available.text"
         :class="{ [className]: true, unavailable: !available.enable }"
       >
-        <div class="track-index">
+        <div class="track-index d-flex justify-center">
           <span
             v-show="(!current || !playerStore.playing) && !isHovering"
             :class="{
@@ -185,9 +185,7 @@ async function toggleLike() {
           <v-btn v-show="isHovering" icon variant="text" color="primary" @click.stop="togglePlay">
             <v-icon>{{ current && playerStore.playing ? mdiPause : mdiPlay }}</v-icon>
           </v-btn>
-          <div v-if="current && playerStore.playing && !isHovering" class="d-flex justify-center align-center">
-            <v-img :src="equaliser" max-height="14" max-width="14"></v-img>
-          </div>
+          <Wave v-if="current && playerStore.playing && !isHovering" :playing="playerStore.playing" />
         </div>
         <div class="track-first">
           <v-img

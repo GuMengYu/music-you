@@ -37,9 +37,10 @@ const musicRoutes: RouteRecordRaw[] = [
     meta: { keepAlive: true },
   },
   {
-    path: '/library',
+    path: '/library/:tab?',
     name: 'library',
     component: Library,
+    props: true,
     meta: { keepAlive: true, needLogin: true },
   },
   {

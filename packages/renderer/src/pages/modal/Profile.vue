@@ -2,7 +2,6 @@
 import { mdiClose, mdiCog, mdiGithub, mdiLogout } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useUserStore } from '@/store/user'

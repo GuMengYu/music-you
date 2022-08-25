@@ -71,6 +71,7 @@ const to = computed(() => {
     playlist: `/playlist/${queue.value.id}`,
     artist: `/artist/${queue.value.id}`,
     daily: `/daily`,
+    cloud: '/library/cloud',
   }[queue.value.type!]
 })
 </script>

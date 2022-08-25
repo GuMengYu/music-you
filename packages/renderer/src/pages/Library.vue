@@ -42,24 +42,17 @@
         </card-row>
       </v-window-item>
       <v-window-item :value="TYPES.CLOUD">
-        <!-- <div class="d-flex justify-end">
-          <v-btn size="small" color="primary">
-            <v-icon>
-              {{ mdiPlay }}
-            </v-icon>
-            {{ $t('common.play') }}
-          </v-btn>
-        </div> -->
-
-        <v-list>
-          <TrackItem
-            v-for="(track, index) in data.clouds"
-            :key="track.id"
-            :track="track"
-            :index="index + 1"
-            album
-          ></TrackItem>
-        </v-list>
+        <Col :title="$t('common.cloud_music')" class="mb-4">
+          <template #more>
+            <v-btn rounded="lg" variant="tonal" color="primary" @click="handlePlayCloud">
+              <span class="d-flex align-center">
+                <v-icon>{{ mdiPlay }}</v-icon>
+                {{ $t('common.play') }}
+              </span>
+            </v-btn>
+          </template>
+          <TrackList type="list" :tracks="data.clouds"> </TrackList>
+        </Col>
       </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
@@ -90,23 +83,28 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { mdiPlus } from '@mdi/js'
+import { mdiPlus, mdiPlay } from '@mdi/js'
 import { groupBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
-
+import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { cloudDiskMusicList } from '@/api/cloud'
 import { createPlaylist } from '@/api/playlist'
 import { favAlbums, favArtists, favMVs } from '@/api/user'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
-import useInForeground from '@/hooks/useInForeground'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
+import TrackList from "@/components/track/TrackList.vue";
 
 const { t } = useI18n()
 
+const route = useRoute()
+const player = usePlayer()
+const playerQueue = usePlayQueueStore()
 const userStore = useUserStore()
 const toast = useToast()
 const { playlists, uid } = storeToRefs(userStore)
@@ -173,7 +171,12 @@ async function fetch() {
     loading.value = false
   }
 }
-
+onActivated(() => {
+  const tab = route.params.tab as TYPES
+  if (tab) {
+    current.value = tab
+  }
+})
 const createState = reactive({
   show: false,
   playlistName: '',
@@ -197,5 +200,10 @@ async function createNewPlaylist() {
   } catch (e) {
     toast.error(t('message.something_wrong'))
   }
+}
+
+function handlePlayCloud() {
+  playerQueue.updatePlayQueue(0, 'cloud', '我的云盘', data.clouds)
+  player.next()
 }
 </script>

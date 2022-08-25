@@ -91,16 +91,14 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
 function genMenu(liked: boolean, track: Track): MenuItem[] {
   const items: MenuItem[] = [
     {
-      icon: mdiPlaylistPlay,
       label: t('common.add_to_queue'),
       onClick: (i) => {
         addToQueue(track)
       },
     },
     {
-      icon: mdiAccountMusic,
       label: t('common.to_artist'),
-      ...(track.ar!.length > 1
+      ...(track.ar?.length > 1
         ? {
             children: track.ar?.map((artist) => {
               return {
@@ -118,14 +116,12 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
           }),
     },
     {
-      icon: mdiAlbum,
       label: t('common.to_album'),
       onClick: (i) => {
         toAlbum(track.al!.id)
       },
     },
     {
-      icon: mdiDownload,
       label: '下载到本地',
       onClick: async (i) => {
         try {
@@ -143,7 +139,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       divided: true,
     },
     {
-      icon: mdiPlaylistMusicOutline,
       label: t('common.add_to_playlist'),
       children: playlists.value.map((list) => {
         return {
@@ -157,7 +152,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   ]
   if (liked) {
     items.push({
-      icon: mdiHeartRemove,
       label: t('common.remove_from_fav'),
       onClick: (i) => {
         toggleLike(true, track.id)
@@ -165,7 +159,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     })
   } else {
     items.push({
-      icon: mdiHeart,
       label: t('common.add_to_fav'),
       onClick: (i) => {
         toggleLike(false, track.id)
@@ -174,7 +167,6 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
   }
   if (props.ownId && props.type !== 'fav') {
     items.push({
-      icon: mdiCloseCircleOutline,
       label: t('common.remove_from_playlist'),
       onClick: (i) => {
         // “!”非空断言

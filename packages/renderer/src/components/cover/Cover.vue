@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { mdiPause, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
 
 import { getTrackList } from '@/api/music'
 import placeholderUrl from '@/assets/placeholder.png'
