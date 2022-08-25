@@ -1,10 +1,10 @@
 {
   "name": "vplayer-next",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": true,
   "main": "dist/main/index.cjs",
   "author": "gumengyu",
-  "description": "A 163 netease music player (base on vue@3)",
+  "description": "A NetEaseCloudMusic third-party music player (base on vue@3 and vuetify)",
   "scripts": {
     "preview": "vite preview",
     "dev": "vite --config packages/renderer/vite.config.ts",
