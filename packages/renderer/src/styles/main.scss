@@ -1,0 +1,6 @@
+$fonts-family: Google Sans, sans-serif;
+@use 'vuetify/styles' with (
+  $color-pack: true,
+  $body-font-family: $fonts-family,
+  $border-radius-root: 6px
+);

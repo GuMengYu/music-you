@@ -1,0 +1,29 @@
+// 限制文本行数
+@for $i from 1 through 4 {
+  .line-clamp-#{$i} {
+    -webkit-line-clamp: #{$i};
+    line-clamp: #{$i};
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+  }
+}
+
+@for $i from 1 through 16 {
+  .gap-#{$i} {
+    gap: #{$i * 4}px;
+  }
+  .gap-col-#{$i} {
+    column-gap: #{$i * 4}px;
+  }
+  .gap-row-#{$i} {
+    row-gap: #{$i * 4}px;
+  }
+}
+
+.drag-area {
+  -webkit-app-region: drag;
+}
+.no-drag-area {
+  -webkit-app-region: no-drag;
+}

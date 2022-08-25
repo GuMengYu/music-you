@@ -1,0 +1,56 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  "appId": "com.vplayer.app",
+  "copyright": 'Copyright © gumengyu 2022', //版权信息
+  "asar": true,
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": [
+    "dist"
+  ],
+  "mac": {
+    "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
+    "target": [
+      {
+        "target":"dmg",
+        "arch": ["x64", "arm64"]
+      }
+    ],
+    "darkModeSupport": true,
+    "category": "public.app-category.music"
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ],
+    "publisherName": 'VPlayer',
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "snap",
+      "deb",
+      "rpm",
+      "freebsd",
+      "pacman",
+      "tar.xz",
+    ],
+    "category": "Audio"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false
+  }
+}
