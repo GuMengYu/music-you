@@ -24,6 +24,7 @@
         <h2 class="text-subtitle-2">{{ $t('common.next_from') }}</h2>
         <router-link :to="to" class="text-primary text-decoration-none">{{ queue.name }}</router-link>
       </div>
+      <!-- todo: 需要虚拟列表优化此处渲染 -->
       <track-list :tracks="nextList" type="list" :offset-index="priorityQueue.length + 2" set-queue> </track-list>
     </div>
     <template v-if="noMore">

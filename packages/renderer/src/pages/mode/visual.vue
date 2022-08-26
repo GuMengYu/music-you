@@ -1,7 +1,7 @@
 <template>
   <v-card class="frame">
     <div class="frame-header d-flex justify-end drag-area pa-2">
-      <v-btn icon variant="text" class="no-drag-area" @click="close">
+      <v-btn :icon="true" variant="text" class="no-drag-area" @click="close">
         <v-icon>
           {{ mdiClose }}
         </v-icon>
@@ -9,7 +9,7 @@
     </div>
     <div class="frame-content gap-4 text-onSurfaceVariant">
       <kinesis-container class="kinesis-container">
-        <kinesis-element class="circel oneposition" :strength="-20" type="depth">
+        <kinesis-element class="circle one-position" :strength="-20" type="depth">
           <div
             class="smooth"
             :style="{
@@ -17,7 +17,7 @@
             }"
           ></div>
         </kinesis-element>
-        <kinesis-element class="circel secondposition" :strength="-10" type="depth">
+        <kinesis-element class="circle second-position" :strength="-10" type="depth">
           <div
             class="smooth"
             :style="{
@@ -40,7 +40,7 @@
             }"
           />
         </kinesis-element>
-        <kinesis-element class="circel thirdposition" :strength="25" type="depth">
+        <kinesis-element class="circle third-position" :strength="25" type="depth">
           <div
             class="smooth"
             :style="{
@@ -51,10 +51,10 @@
       </kinesis-container>
       <div class="d-flex flex-column w-50">
         <div class="d-flex align-center gap-1">
-          <v-img max-width="30" min-width="30" :src="neteaseLogo"></v-img>
-          <span class="text-h5 line-clamp-1">{{ track!.name }}</span>
+          <v-img max-width="30" min-width="30" :src="netEaseLogo"></v-img>
+          <span class="text-h5 line-clamp-1">{{ track?.name }}</span>
         </div>
-        <span class="text-body-1 ml-1">by {{ track!['ar'] && track!['ar'][0]['name'] }}</span>
+        <span class="text-body-1 ml-1">by {{ track?.['ar'] && track?.['ar'][0]['name'] }}</span>
 
         <v-btn
           color="primary mt-4"
@@ -70,7 +70,7 @@
           </v-icon>
         </v-btn>
         <lyric class="text-body-1 mt-4 ml-1" />
-        <div ref="canvasContainer" class="wavecontainer" @click="toggleAnimBar">
+        <div ref="canvasContainer" class="wave-container" @click="toggleAnimBar">
           <canvas ref="canvasRef"></canvas>
         </div>
       </div>
@@ -84,7 +84,7 @@ import { storeToRefs } from 'pinia'
 import { KinesisContainer, KinesisElement } from 'vue-kinesis'
 import { useTheme } from 'vuetify'
 
-import neteaseLogo from '@/assets/netease-outline.svg'
+import netEaseLogo from '@/assets/netease-outline.svg'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
@@ -93,6 +93,7 @@ import { drawRoundedRect } from '@/util/canvas'
 import { sizeOfImage } from '@/util/fn'
 
 import Lyric from './components/lyric.vue'
+
 const player = usePlayer()
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
@@ -124,18 +125,13 @@ const albumPicUrl = computed(() => {
   return track.value?.al && sizeOfImage(track.value.al.picUrl)
 })
 
-watch(playing, (playing) => {
-  if (!resolved.value) {
-    handleAudio()
-    resolved.value = true
-  }
-  if (playing) {
-    getSongData()
-  }
+watch(playing, () => {
+  active()
 })
 
 onMounted(() => {
   track.value && init()
+  // document.addEventListener('visibilitychange', handleVisibilityChange)
 })
 watch(track, () => {
   track.value && init()
@@ -145,10 +141,22 @@ function init() {
   handleAudio()
   resolved.value = true
   cancelAnimationFrame(animationFrameId.value)
-  getSongData()
-  player.howler?.once('play', getSongData)
+  if (player.howler?.playing()) {
+    getSongData()
+  } else {
+    player.howler?.once('play', getSongData)
+  }
 }
-useResizeObserver(canvasContainer, (entries) => {
+function active() {
+  if (!resolved.value) {
+    handleAudio()
+    resolved.value = true
+  }
+  if (playing.value) {
+    getSongData()
+  }
+}
+useResizeObserver(canvasContainer, () => {
   resizeCanvas()
 })
 
@@ -163,13 +171,12 @@ const resizeCanvas = useDebounceFn(
 function getSongData() {
   if (player.howler?.playing() && audioArray) {
     analyser.value?.getByteFrequencyData(audioArray)
-    const _amplitude = [
+    amplitude.value = [
       audioArray[10] > 1 ? audioArray[10] : 1,
       audioArray[30] > 1 ? audioArray[30] : 1,
       audioArray[50] > 1 ? audioArray[50] : 1,
       audioArray[70] > 1 ? audioArray[70] : 1,
     ]
-    amplitude.value = _amplitude
     showAnimBar.value && draw()
     animationFrameId.value = requestAnimationFrame(getSongData)
   }
@@ -182,8 +189,7 @@ function handleAudio() {
   _analyser.connect(destination)
   _analyser.fftSize = 2048
   const bufferLength = _analyser.frequencyBinCount
-  const _audioArray = new Uint8Array(bufferLength)
-  audioArray = _audioArray
+  audioArray = new Uint8Array(bufferLength)
   analyser.value = _analyser
   initCanvas()
 }
@@ -244,10 +250,20 @@ function togglePlay() {
   player.togglePlay()
 }
 
+// 页面不可见时，应该会停止调用requestAnimationFrame
+// https://developer.mozilla.org/zh-CN/docs/Web/API/Page_Visibility_API
+// function handleVisibilityChange() {
+//   if (document.hidden) {
+//     cancelAnimationFrame(animationFrameId.value)
+//   } else {
+//     active()
+//   }
+// }
 onUnmounted(() => {
   analyser.value && Howler.masterGain.disconnect(analyser.value)
   player.howler?.off('play')
   cancelAnimationFrame(animationFrameId.value)
+  // document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 </script>
 
@@ -270,7 +286,7 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       justify-content: center;
-      .circel {
+      .circle {
         border-radius: 100%;
         position: absolute;
         .smooth {
@@ -284,7 +300,7 @@ onUnmounted(() => {
           transition: transform 0.1s;
         }
       }
-      .oneposition {
+      .one-position {
         top: 20%;
         left: 20px;
         .smooth {
@@ -293,7 +309,7 @@ onUnmounted(() => {
           height: 170px;
         }
       }
-      .secondposition {
+      .second-position {
         top: 18%;
         left: 15px;
         .smooth {
@@ -302,7 +318,7 @@ onUnmounted(() => {
           height: 90px;
         }
       }
-      .thirdposition {
+      .third-position {
         bottom: 25%;
         right: 8%;
         .smooth {
@@ -313,7 +329,7 @@ onUnmounted(() => {
       }
     }
   }
-  .wavecontainer {
+  .wave-container {
     width: 100%;
     height: 200px;
     z-index: 1;

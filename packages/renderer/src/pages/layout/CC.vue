@@ -48,7 +48,6 @@
 
 <script lang="ts">
 import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
-import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 
 // Composables
