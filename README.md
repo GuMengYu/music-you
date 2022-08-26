@@ -99,6 +99,9 @@ npm run electron:build
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804702-ea40c49c-aa4a-46fe-8e28-eadfc0519eb6.png">
 </picture>
 
+https://user-images.githubusercontent.com/22021419/186813168-48a2d0ae-0388-4b70-9844-a540305a1096.mov
+
+
 ## License
 
 ```
