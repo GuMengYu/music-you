@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { mdiMusic } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
@@ -13,6 +12,7 @@ const appStore = useAppStore()
 const ipcRenderer = useIpcRenderer()
 const { windowState } = storeToRefs(appStore)
 
+const title = useTitle(void 0, { observe: true })
 const { mdAndUp } = useDisplay()
 const isShowWindowControl = computed(() => {
   return (is.windows() || is.linux()) && mdAndUp.value
@@ -29,9 +29,8 @@ function handleToggleMaximize() {
 </script>
 <template>
   <v-system-bar :window="isShowWindowControl" class="drag-area px-0" color="surface" @dblclick="handleToggleMaximize">
-    <span v-if="isShowWindowControl" class="ml-2">
-      <v-icon size="x-small" class="mr-2">{{ mdiMusic }}</v-icon>
-      <span>v-player</span>
+    <span v-if="isShowWindowControl" class="ml-4">
+      <span>{{ title }}</span>
     </span>
 
     <v-spacer></v-spacer>

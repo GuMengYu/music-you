@@ -10,7 +10,6 @@
     </div>
     <div v-if="mdAndUp" class="append d-flex no-drag-area ml-2 align-center">
       <control-center-toggle />
-      <window-control v-if="isShowWindowControl" />
     </div>
   </v-app-bar>
 </template>
@@ -18,11 +17,7 @@
 import { useDisplay } from 'vuetify'
 
 import SearchInput from '@/components/toggle/SearchInput.vue'
-import is from '@/util/is'
 const { mdAndUp } = useDisplay()
-const isShowWindowControl = computed(() => {
-  return (is.windows() || is.linux()) && mdAndUp.value
-})
 </script>
 <style scoped lang="scss">
 .app_header {
