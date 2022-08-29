@@ -1,6 +1,6 @@
 <template>
-  <v-btn variant="text" icon size="small" :color="liked ? 'rgb(255, 76, 76)' : ''" @click="likeSong">
-    <v-icon v-show="!state.showAnim" size="small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
+  <v-btn variant="text" icon :color="liked ? 'rgb(255, 76, 76)' : ''" @click="likeSong">
+    <v-icon v-show="!state.showAnim" size="x-small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
       liked ? mdiHeart : mdiHeartOutline
     }}</v-icon>
     <lottie-icon
@@ -9,6 +9,7 @@
       :options="state.heartOptions"
       :height="40"
       :width="40"
+      :style="{ position: 'relative', left: '-1px' }"
       @anim-created="handleAnimation"
     ></lottie-icon>
   </v-btn>
@@ -16,7 +17,6 @@
 <script setup lang="ts">
 import { mdiHeart, mdiHeartOutline } from '@mdi/js'
 import type { AnimationItem } from 'lottie-web'
-import { computed, reactive } from 'vue'
 
 import { useUserStore } from '@/store/user'
 import { sleep } from '@/util/fn'

@@ -217,18 +217,20 @@ async function toggleLike() {
           <v-btn
             v-visible="liked || isHovering"
             :loading="likeLoading"
-            size="small"
             icon
             variant="text"
+            :color="liked ? 'rgb(255, 76, 76)' : ''"
             @click.prevent="toggleLike"
           >
-            <v-icon size="small" :color="liked ? 'pink' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
+            <v-icon size="x-small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
+              liked ? mdiHeart : mdiHeartOutline
+            }}</v-icon>
           </v-btn>
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
           </div>
-          <v-btn v-visible="isHovering" icon color="primary" variant="text" size="small" @click.prevent="openMenu">
-            <v-icon size="small">
+          <v-btn v-visible="isHovering" icon color="primary" variant="text" @click.prevent="openMenu">
+            <v-icon size="x-small">
               {{ mdiDotsHorizontal }}
             </v-icon>
           </v-btn>

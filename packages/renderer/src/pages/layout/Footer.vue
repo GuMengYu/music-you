@@ -2,20 +2,6 @@
   <transition name="slide-fade-y">
     <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
       <TrackSlider class="track-slider" tooltip />
-      <!-- <Slider
-        class="track-slider"
-        :model-value="currentTime"
-        :min="0"
-        :max="trackDt / 1000"
-        :color="currentTheme.colors.primary"
-        track-color="rgba(66,66,66,0.28)"
-        tooltip
-        :format-tooltip="(v: number) => formatDuring(v * 1000)"
-        :height="2"
-        :handle-scale="5"
-        @drag-start="dragStart"
-        @drag-end="dragEnd"
-      ></Slider> -->
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-hover v-slot="{ isHovering, props }">
