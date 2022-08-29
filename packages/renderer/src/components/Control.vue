@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { mdiSkipNext, mdiSkipPrevious } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 
 import { usePlayer } from '@/player/player'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
@@ -93,12 +92,12 @@ function toggleShuffle() {
 </script>
 <template>
   <div class="d-flex justify-center align-center control-buttons gap-2">
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="toggleShuffle">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="toggleShuffle">
       <v-icon size="x-small" :color="shuffle ? 'primary' : ''">
         {{ shuffle ? mdiShuffle : mdiShuffleDisabled }}
       </v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="prev">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="prev">
       <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
     </v-btn>
 
@@ -124,10 +123,10 @@ function toggleShuffle() {
       ></lottie-icon>
     </v-btn>
 
-    <v-btn icon variant="text" size="small" @click="next">
+    <v-btn icon variant="text" @click="next">
       <v-icon size="small">{{ mdiSkipNext }}</v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="switchMode">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="switchMode">
       <v-icon size="x-small" :color="repeatOn && !isCurrentFm ? 'primary' : ''">
         {{ orderIconState }}
       </v-icon>

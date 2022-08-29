@@ -55,7 +55,7 @@
         </div>
         <Control />
         <div class="playing-bar__right">
-          <v-btn icon size="small" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
+          <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
             <v-icon ref="playlistBtn" size="x-small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
@@ -63,8 +63,8 @@
               {{ showPipLyric ? $t('common.hide_pip') : $t('common.show_pip') }}
             </v-tooltip>
           </v-btn>
-          <div class="volume-bar d-flex align-center mx-2">
-            <v-btn icon size="small" @click="toggleMute">
+          <div class="volume-bar d-flex align-center mr-2">
+            <v-btn icon @click="toggleMute">
               <v-icon size="small">
                 {{ volumeIcon }}
               </v-icon>
@@ -82,7 +82,7 @@
               @change="volumeDebouncedFn"
             />
           </div>
-          <v-btn icon size="small" :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
+          <v-btn icon :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
             <v-icon ref="playlistBtn" size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
