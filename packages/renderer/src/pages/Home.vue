@@ -1,7 +1,7 @@
 <template>
   <v-app class="v-player">
     <AppCC />
-    <app-system-bar class="v-player-header" />
+    <app-system-bar v-if="is.electron()" class="v-player-header" />
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
 
@@ -18,6 +18,7 @@
 import { useDisplay, useTheme } from 'vuetify'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
+import is from '@/util/is'
 
 import AppBottomNav from './layout/BottomNav.vue'
 import AppCC from './layout/CC.vue'
