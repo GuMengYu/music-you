@@ -75,7 +75,9 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: true,
       sourcemap: mode === BUILDMODE.DEV || mode === BUILDMODE.ELECTRON_DEV,
       rollupOptions: {
-        format: buildElectron ? 'cjs' : 'es',
+        output: {
+          format: buildElectron ? 'cjs' : 'es',
+        },
       },
     },
     resolve: {
