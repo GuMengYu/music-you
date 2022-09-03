@@ -57,7 +57,7 @@ const signOut = () => {
 </script>
 <template>
   <v-dialog v-model="show">
-    <v-card flat color="surface" width="90vw" max-width="450" rounded="xl">
+    <v-card flat color="surface" width="90vw" max-width="420" rounded="xl">
       <div class="px-2 pt-2">
         <v-btn icon @click="show = false">
           <v-icon> {{ mdiClose }}</v-icon>
@@ -65,15 +65,17 @@ const signOut = () => {
       </div>
 
       <v-list-item v-if="profile">
-        <v-badge content="vip" color="primary" location="bottom end">
-          <!-- <template v-if="profile.vipType === 11" #badge>
+        <template #prepend>
+          <v-badge content="vip" color="primary" location="bottom end">
+            <!-- <template v-if="profile.vipType === 11" #badge>
             <v-img :src="vipPicUrl" :min-width="16"></v-img>
           </template> -->
-          <v-avatar size="56">
-            <v-img :src="profile.avatarUrl" />
-          </v-avatar>
-        </v-badge>
-        <div class="ml-6">
+            <v-avatar size="56">
+              <v-img :src="profile.avatarUrl" />
+            </v-avatar>
+          </v-badge>
+        </template>
+        <div class="ml-5">
           <v-list-item-title>{{ profile.nickname }}</v-list-item-title>
           <v-list-item-subtitle class="text-caption"> {{ profile.signature }}</v-list-item-subtitle>
           <v-btn class="mt-2" variant="outlined" size="small" @click="goto('https://music.163.com/#/user/update')">
@@ -82,13 +84,21 @@ const signOut = () => {
         </div>
       </v-list-item>
       <v-divider class="my-2" />
-      <v-list-item dense class="px-6" @click="dispatch('settings')">
-        <v-list-item-icon :icon="mdiCog"> </v-list-item-icon>
-        <v-list-item-title class="ml-4"> {{ $t('common.setting') }} </v-list-item-title>
+      <v-list-item class="px-6" @click="dispatch('settings')">
+        <template #prepend>
+          <div>
+            <v-icon>{{ mdiCog }}</v-icon>
+          </div>
+        </template>
+        <v-list-item-title class="ml-2"> {{ $t('common.setting') }} </v-list-item-title>
       </v-list-item>
-      <v-list-item dense class="px-6" @click="dispatch('sign_out')">
-        <v-list-item-icon :icon="mdiLogout"> </v-list-item-icon>
-        <v-list-item-title class="ml-4">{{ $t('message.logout') }}</v-list-item-title>
+      <v-list-item class="px-6" @click="dispatch('sign_out')">
+        <template #prepend>
+          <div>
+            <v-icon>{{ mdiLogout }}</v-icon>
+          </div>
+        </template>
+        <v-list-item-title class="ml-2">{{ $t('message.logout') }}</v-list-item-title>
       </v-list-item>
       <div class="mt-auto py-2">
         <span class="d-flex justify-center align-center">

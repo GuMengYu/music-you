@@ -61,8 +61,8 @@ function handleSearch() {
     border-radius: 48px;
     padding-inline-end: 6px;
 
-    .v-field__field {
-      padding-top: 0px;
+    .v-field__input {
+      padding-top: 3px;
       font-size: 0.875rem;
       font-weight: 500;
     }

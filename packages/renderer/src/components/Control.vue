@@ -91,7 +91,7 @@ function toggleShuffle() {
 }
 </script>
 <template>
-  <div class="d-flex justify-center align-center control-buttons gap-2">
+  <div class="d-flex justify-center align-center control-buttons">
     <v-btn icon :disabled="isCurrentFm" variant="text" @click="toggleShuffle">
       <v-icon size="x-small" :color="shuffle ? 'primary' : ''">
         {{ shuffle ? mdiShuffle : mdiShuffleDisabled }}
@@ -103,7 +103,7 @@ function toggleShuffle() {
 
     <v-btn
       icon
-      class="play-fab"
+      class="play-fab mx-2"
       :style="{
         animation: playing ? 'pulseWarn 1.5s infinite' : '',
       }"

@@ -7,7 +7,7 @@
       class="rounded-lg"
       gradient="90deg, rgb(0 0 0 / 76%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 76%) 100%"
     >
-      <div class="d-flex flex-column justify-space-between fill-height pt-2 pb-1">
+      <div class="d-flex flex-column justify-space-between fill-height pt-2">
         <div class="d-flex justify-space-between px-2">
           <v-icon color="primary" size="small"> {{ mdiMusicCircle }} </v-icon>
         </div>
@@ -16,16 +16,16 @@
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
-          <v-btn icon flat size="small" color="primary" @click="togglePlay">
+          <v-square-btn variant="flat" color="primary" class="rounded-lg" @click="togglePlay">
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
-          </v-btn>
+          </v-square-btn>
         </div>
         <div class="d-flex justify-space-between align-center mx-1">
-          <v-btn icon variant="text" size="small" @click="prev">
+          <v-btn density="comfortable" icon variant="text" size="small" @click="prev">
             <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
           </v-btn>
           <track-slider class="mx-1" />
-          <v-btn icon variant="text" size="small" color="white" @click="next">
+          <v-btn density="comfortable" icon variant="text" size="small" color="white" @click="next">
             <v-icon size="small">{{ mdiSkipNext }}</v-icon>
           </v-btn>
           <like-toggle :id="track.id" />
@@ -44,6 +44,7 @@ import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
 import { sizeOfImage } from '@/util/fn'
 
+import VSquareBtn from './button/VSquareBtn.vue'
 import LikeToggle from './toggle/likeToggle.vue'
 const player = usePlayer()
 const settingStore = useSettingStore()

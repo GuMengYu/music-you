@@ -1,5 +1,5 @@
 <template>
-  <v-btn variant="text" icon :color="liked ? 'rgb(255, 76, 76)' : ''" @click="likeSong">
+  <v-btn density="comfortable" variant="text" icon :color="liked ? 'rgb(255, 76, 76)' : ''" @click="likeSong">
     <v-icon v-show="!state.showAnim" size="x-small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
       liked ? mdiHeart : mdiHeartOutline
     }}</v-icon>

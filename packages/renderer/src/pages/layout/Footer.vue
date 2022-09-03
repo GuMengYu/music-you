@@ -34,7 +34,7 @@
               </span>
             </div>
 
-            <artists-link :artists="track?.ar" class="text-caption" />
+            <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
           </div>
           <like-toggle :id="track?.id" />
           <v-spacer />

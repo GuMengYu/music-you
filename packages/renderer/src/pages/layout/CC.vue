@@ -8,7 +8,7 @@
     floating
     class="bg-surface"
   >
-    <v-toolbar density="compact" class="pr-4" color="surface">
+    <v-toolbar density="compact" color="surface">
       <v-toolbar-title class="text-caption font-weight-bold text-onSurfaceVariant">{{
         $t('common.shortcut')
       }}</v-toolbar-title>

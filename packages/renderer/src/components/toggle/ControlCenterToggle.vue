@@ -1,5 +1,12 @@
 <template>
-  <v-btn icon variant="tonal" rounded="lg" color="primary" size="small" @click="showControlCenter = !showControlCenter">
+  <v-btn
+    icon
+    variant="tonal"
+    rounded="lg"
+    color="primary"
+    density="comfortable"
+    @click="showControlCenter = !showControlCenter"
+  >
     <v-icon size="24">{{ mdiMenuDown }} </v-icon>
   </v-btn>
 </template>

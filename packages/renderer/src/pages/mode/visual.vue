@@ -55,9 +55,8 @@
           <span class="text-h5 line-clamp-1">{{ track?.name }}</span>
         </div>
         <span class="text-body-1 ml-1">by {{ track?.['ar'] && track?.['ar'][0]['name'] }}</span>
-
         <v-btn
-          color="primary mt-4"
+          color="primary"
           :style="{
             borderRadius: '16px',
             height: '64px',

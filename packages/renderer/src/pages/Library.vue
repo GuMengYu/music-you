@@ -83,22 +83,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { mdiPlus, mdiPlay } from '@mdi/js'
+import { mdiPlay, mdiPlus } from '@mdi/js'
 import { groupBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { usePlayer } from '@/player/player'
-import { usePlayQueueStore } from '@/store/playQueue'
+
 import { cloudDiskMusicList } from '@/api/cloud'
 import { createPlaylist } from '@/api/playlist'
 import { favAlbums, favArtists, favMVs } from '@/api/user'
+import TrackList from '@/components/track/TrackList.vue'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
+import { usePlayer } from '@/player/player'
+import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
-import TrackList from "@/components/track/TrackList.vue";
 
 const { t } = useI18n()
 

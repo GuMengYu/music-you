@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :rail="rail" class="drag-area">
+  <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area">
     <div class="pl-2">
       <drawer-toggle />
     </div>
@@ -11,10 +11,13 @@
           class="drawer-item rounded-pill"
           :to="item.to"
           active-class="text-primary"
+          :style="{ minHeight: '56px' }"
         >
-          <v-list-item-avatar left>
-            <v-icon size="small" :icon="item.icon" color="primary"></v-icon>
-          </v-list-item-avatar>
+          <template #prepend>
+            <div class="d-flex justify-center align-center" :style="{ width: '40px', height: '40px' }">
+              <v-icon size="small" :icon="item.icon" color="primary"></v-icon>
+            </div>
+          </template>
           <v-list-item-title class="font-weight-bold">
             {{ $t(item.title) }}
           </v-list-item-title>

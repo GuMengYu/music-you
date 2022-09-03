@@ -266,9 +266,9 @@ function toAlbum(id: number) {
   .list-header {
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
+    grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
     &.album-header {
-      grid-template-columns: [index] 40px [first] 4fr [last] minmax(140px, 1fr);
+      grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 1fr);
     }
   }
 }

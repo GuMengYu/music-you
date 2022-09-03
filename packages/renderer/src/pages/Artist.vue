@@ -84,7 +84,9 @@ async function play() {
   playLoading.value = true
   playQueue.updatePlayQueue(state.artist.id, 'artist', state.artist.name, state.hotSongs)
   player.next()
-  playLoading.value = false
+  setTimeout(() => {
+    playLoading.value = false
+  }, 1000)
 }
 async function follow() {
   const { id } = state.artist
@@ -131,10 +133,11 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                 >( {{ state.artist['transNames']?.join('、') }} )</span
               >
             </span>
-            <v-btn color="primary" size="small" :loadin="playLoading" @click="play">
-              <v-icon>{{ mdiPlay }}</v-icon>
-              {{ $t('common.play') }}
-            </v-btn>
+            <v-square-btn size="large" :loading="playLoading" color="primary" variant="flat" rounded="lg" @click="play">
+              <v-icon size="small">
+                {{ mdiPlay }}
+              </v-icon>
+            </v-square-btn>
           </div>
           <div class="d-flex align-start" @click="more.showMoreDesc = true">
             <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>

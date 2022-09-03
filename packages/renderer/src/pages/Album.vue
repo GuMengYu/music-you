@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiAccountMusic, mdiAlbum, mdiImage, mdiInformation, mdiMap } from '@mdi/js'
+import { mdiAccountMusic, mdiAlbum, mdiImage, mdiInformation, mdiMap, mdiPlay } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -29,6 +29,7 @@ const props = defineProps<{
 const loading = ref(false)
 const subscribed = ref(false)
 const showMoreDesc = ref(false)
+const playLoading = ref(false)
 
 interface RootState {
   album: Album
@@ -61,8 +62,13 @@ async function fetch(id: number) {
   loading.value = false
 }
 async function play() {
+  playLoading.value = true
+
   playQueue.updatePlayQueue(state.album.id, 'album', state.album.name, state.album.tracks)
   player.next()
+  setTimeout(() => {
+    playLoading.value = false
+  }, 1000)
 }
 
 function goto() {
@@ -107,7 +113,7 @@ function saveCover() {
             </v-btn>
           </template>
         </Cover>
-        <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+        <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-1">
           <div class="d-flex justify-space-between align-center">
             <span>
               <v-icon size="small">{{ mdiAlbum }}</v-icon>
@@ -125,9 +131,11 @@ function saveCover() {
               <v-icon size="small">{{ mdiAlbum }}</v-icon>
               <span class="text-h5 mx-2 line-clamp-1"> {{ state.album.name }} </span>
             </span>
-            <v-btn size="small" color="primary" variant="flat" rounded class="px-5" @click="play">
-              {{ $t('common.play') }}
-            </v-btn>
+            <v-square-btn size="large" color="primary" variant="flat" rounded="lg" :loading="playLoading" @click="play">
+              <v-icon size="small">
+                {{ mdiPlay }}
+              </v-icon>
+            </v-square-btn>
           </div>
           <div class="d-flex align-center">
             <v-icon size="small">{{ mdiAccountMusic }}</v-icon>

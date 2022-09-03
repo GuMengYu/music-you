@@ -169,7 +169,7 @@ async function toggleLike() {
       @contextmenu.prevent="openMenu"
     >
       <div
-        class="px-2 rounded-lg"
+        class="px-1 rounded-lg"
         :title="available.enable ? '' : available.text"
         :class="{ [className]: true, unavailable: !available.enable }"
       >
@@ -247,9 +247,9 @@ async function toggleLike() {
   grid-gap: 5px;
   align-items: center;
   height: 56px;
-  grid-template-columns: [index] 40px [first] 4fr [last] minmax(140px, 1fr);
+  grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 1fr);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
+    grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);

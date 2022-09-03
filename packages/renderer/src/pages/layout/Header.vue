@@ -8,7 +8,7 @@
       <!-- <v-divider vertical class="ma-3 mr-5" /> -->
       <search-input class="no-drag-area" />
     </div>
-    <div v-if="mdAndUp" class="append d-flex no-drag-area ml-2 align-center">
+    <div v-if="mdAndUp" class="d-flex no-drag-area ml-2 mr-4 align-center">
       <control-center-toggle />
     </div>
   </v-app-bar>

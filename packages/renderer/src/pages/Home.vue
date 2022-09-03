@@ -35,7 +35,7 @@ const display = useDisplay()
 const { smAndUp, mdAndUp, smAndDown } = display
 const theme = useTheme()
 watchEffect(() => {
-  theme.name.value = themeName.value
+  theme.global.name.value = themeName.value
 })
 </script>
 <style lang="scss">
@@ -76,7 +76,7 @@ $transition-time: 350ms;
   transition: padding $transition-time $cubic-bezier;
 }
 .v-player-header {
-  transition-property: margin, width;
+  transition-property: left, width;
   transition-duration: $transition-time;
   transition-timing-function: $cubic-bezier;
 }
