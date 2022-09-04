@@ -2,11 +2,13 @@
   "message": {
     "hello": "你好 世界",
     "pic_limit": "选择图片大小不能超过2M",
+    "music_limit": "上传歌曲大小不能超过80M",
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
     "add_list_success": "已添加到歌单",
     "remove_list_success": "已从歌单移除",
-    "something_wrong": "出错了",
+    "remove_cloud_success": "已从云盘移除",
+    "something_wrong": "出错了, 可能操作过于频繁",
     "reset_app": "重置应用",
     "visualization": "音乐可视化",
     "disclaimer": "免责声明",
@@ -121,6 +123,7 @@
     "play": "播放",
     "play_all": "播放全部",
     "pause": "暂停",
+    "delete": "删除",
     "open_search": "打开搜索",
     "sign_in": "登录",
     "sign_out": "登出",
@@ -190,7 +193,8 @@
     "search_hot": "热门结果",
     "unknown": "未知",
     "upload": "上传",
-    "upload_music": "上传音乐"
+    "upload_music": "上传音乐",
+    "delete_cloud": "从云盘中删除"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

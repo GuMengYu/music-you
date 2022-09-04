@@ -2,11 +2,13 @@
   "message": {
     "hello": "hello world",
     "pic_limit": "Select image size cannot exceed 2M",
+    "music_limit": "Uploaded song size cannot exceed 80M",
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
     "add_list_success": "Added to playlist",
     "remove_list_success": "Removed from playlist",
-    "something_wrong": "Oops something wrong",
+    "remove_cloud_success": "Removed from cloud disk",
+    "something_wrong": "Oops something wrong, May be the operation is too frequent",
     "reset_app": "Reset App",
     "visualization": "Music Visualization",
     "delete_list": "delete | deleted",
@@ -121,6 +123,7 @@
     "play_all": "Play All",
     "pause": "Pause",
     "reload": "Reload",
+    "delete": "Delete",
     "open_search": "Open Search",
     "sign_in": "Sign In",
     "sign_out": "Sign Out",
@@ -190,7 +193,8 @@
     "search_hot": "Top Results",
     "unknown": "Unknown",
     "upload": "Upload",
-    "upload_music": "Upload Music"
+    "upload_music": "Upload Music",
+    "delete_cloud": "Delete from cloud disk"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

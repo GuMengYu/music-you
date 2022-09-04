@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import {
-  mdiAccountMusic,
-  mdiAlbum,
-  mdiClockOutline,
-  mdiCloseCircleOutline,
-  mdiDownload,
-  mdiHeart,
-  mdiHeartRemove,
-  mdiPlaylistMusicOutline,
-  mdiPlaylistPlay,
-} from '@mdi/js'
+import { mdiClockOutline } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -18,7 +8,7 @@ import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
 import { getSongDownloadUrl } from '@/api/song'
-import useDonwload from '@/hooks/useDownload'
+import useDownload from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -129,7 +119,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
           const { data } = await getSongDownloadUrl({ id: track.id })
           const artistName = track.ar?.map((i) => i.name)?.join(',')
           const fileName = `${artistName} - ${track.name}.${data.type}`
-          useDonwload(data.url, fileName)
+          useDownload(data.url, fileName)
         } catch (e) {
           toast.error(t('message.something_wrong'))
         }
