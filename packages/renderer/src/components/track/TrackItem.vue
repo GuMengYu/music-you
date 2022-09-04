@@ -209,9 +209,14 @@ async function toggleLike() {
           </div>
         </div>
         <div v-if="album" class="track-second">
-          <router-link :to="`/album/${trackAlbum.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
+          <router-link
+            v-if="trackAlbum.id"
+            :to="`/album/${trackAlbum.id}`"
+            class="text-subtitle-2 text-onSurface line-clamp-2"
+          >
             {{ trackAlbum.name }}
           </router-link>
+          <span v-else>{{ '未知' }}</span>
         </div>
         <div class="track-third">
           <v-btn

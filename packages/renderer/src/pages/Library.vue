@@ -42,17 +42,7 @@
         </card-row>
       </v-window-item>
       <v-window-item :value="TYPES.CLOUD">
-        <Col :title="$t('common.cloud_music')" class="mb-4">
-          <template #more>
-            <v-btn rounded="lg" variant="tonal" color="primary" @click="handlePlayCloud">
-              <span class="d-flex align-center">
-                <v-icon>{{ mdiPlay }}</v-icon>
-                {{ $t('common.play') }}
-              </span>
-            </v-btn>
-          </template>
-          <TrackList type="list" :tracks="data.clouds"> </TrackList>
-        </Col>
+        <Cloud />
       </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
@@ -83,29 +73,27 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { mdiPlay, mdiPlus } from '@mdi/js'
+import { mdiPlus } from '@mdi/js'
 import { groupBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { cloudDiskMusicList } from '@/api/cloud'
 import { createPlaylist } from '@/api/playlist'
 import { favAlbums, favArtists, favMVs } from '@/api/user'
-import TrackList from '@/components/track/TrackList.vue'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { usePlayer } from '@/player/player'
-import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Playlist, Track } from '@/types'
+import type { Album, Artist, MV } from '@/types'
+
+import Cloud from './cloud/index.vue'
 
 const { t } = useI18n()
 
 const route = useRoute()
 const player = usePlayer()
-const playerQueue = usePlayQueueStore()
 const userStore = useUserStore()
 const toast = useToast()
 const { playlists, uid } = storeToRefs(userStore)
@@ -137,12 +125,10 @@ const data: {
   albums: Album[]
   artists: Artist[]
   mvs: MV[]
-  clouds: Track[]
 } = reactive({
   albums: [],
   artists: [],
   mvs: [],
-  clouds: [],
 })
 const loading = ref(false)
 fetch()
@@ -156,16 +142,14 @@ async function fetch() {
   current.value = TYPES.PLAYLIST
   loading.value = true
   try {
-    const [{ data: albums }, { data: artists }, { data: mvs }, { data: clouds }] = await Promise.all([
+    const [{ data: albums }, { data: artists }, { data: mvs }] = await Promise.all([
       favAlbums(),
       favArtists(),
       favMVs(),
-      cloudDiskMusicList(),
     ])
     data.albums = albums
     data.artists = artists
     data.mvs = mvs
-    data.clouds = clouds.map((song) => song.simpleSong)
   } catch (e) {
     toast.error('something wrong')
   } finally {
@@ -201,10 +185,5 @@ async function createNewPlaylist() {
   } catch (e) {
     toast.error(t('message.something_wrong'))
   }
-}
-
-function handlePlayCloud() {
-  playerQueue.updatePlayQueue(0, 'cloud', '我的云盘', data.clouds)
-  player.next()
 }
 </script>
