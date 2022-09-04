@@ -106,6 +106,10 @@
       "reset": "重置应用数据(包括缓存，用户登录信息)",
       "manage_account": "管理您的网易云账号(web)",
       "exit": "点击窗口关闭按钮的行为..."
+    },
+    "daily": {
+      "title": "每日歌曲推荐",
+      "sub": "根据你的音乐口味生成，每天6:00更新"
     }
   },
   "common": {
@@ -115,6 +119,7 @@
     "backward": "后退",
     "reload": "刷新",
     "play": "播放",
+    "play_all": "播放全部",
     "pause": "暂停",
     "open_search": "打开搜索",
     "sign_in": "登录",
@@ -182,7 +187,10 @@
     "remove_from_playlist": "从此歌单删除",
     "remove_from_fav": "从\"喜欢的音乐\"移除",
     "add_to_fav": "添加到\"喜欢的音乐\"",
-    "search_hot": "热门结果"
+    "search_hot": "热门结果",
+    "unknown": "未知",
+    "upload": "上传",
+    "upload_music": "上传音乐"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

@@ -3,7 +3,7 @@
     <v-card
       class="cover-container"
       :rounded="rounded"
-      flat
+      :flat="true"
       color="surfaceVariant"
       :class="{ 'on-hover': isHovering }"
       :elevation="isHovering ? 1 : 0"
@@ -16,7 +16,7 @@
     >
       <v-img
         :class="`rounded-${rounded} ${noInfo ? 'cover-image' : 'cover-image-with-info'}`"
-        cover
+        :cover="true"
         :src="coverBgUrl"
         :aspect-ratio="1"
         :lazy-src="placeholderUrl"
@@ -24,7 +24,7 @@
         <div class="d-flex flex-fill fill-height align-end pa-2">
           <transition name="slide-fade-y">
             <div v-if="(isHovering || inActive) && showHover" class="d-flex flex-fill justify-space-between">
-              <v-btn icon color="primary" :loading="loading" @click.prevent="toggle">
+              <v-btn :icon="true" color="primary" :loading="loading" @click.prevent="toggle">
                 <v-icon color="onPrimary">{{ coverPlaying ? mdiPause : mdiPlay }} </v-icon>
               </v-btn>
               <slot name="action" />

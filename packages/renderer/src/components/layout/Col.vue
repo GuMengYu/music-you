@@ -4,7 +4,7 @@
       <div v-if="props.subtitle" class="text-caption text-grey-lighten-1">
         {{ props.subtitle }}
       </div>
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between align-center">
         <div class="onSurface--text" :class="props.hClass || 'text-h6'">
           {{ props.title }}
         </div>

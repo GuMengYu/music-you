@@ -106,8 +106,11 @@
       "reset": "Reset app data (including cache, user login info)",
       "manage_account": "Manage Account (web)",
       "exit": "Behavior of closing the app..."
+    },
+    "daily": {
+      "title": "每日歌曲推荐",
+      "sub": "根据你的音乐口味生成，每天6:00更新"
     }
-
   },
   "common": {
     "cancel": "Cancel",
@@ -115,6 +118,7 @@
     "forward": "Forward",
     "backward": "Backward",
     "play": "Play",
+    "play_all": "Play All",
     "pause": "Pause",
     "reload": "Reload",
     "open_search": "Open Search",
@@ -183,7 +187,10 @@
     "remove_from_playlist": "Remove from this playlist",
     "remove_from_fav": "Remove from \"favorite\"",
     "add_to_fav": "Add to \"favorite\"",
-    "search_hot": "Top Results"
+    "search_hot": "Top Results",
+    "unknown": "Unknown",
+    "upload": "Upload",
+    "upload_music": "Upload Music"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

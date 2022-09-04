@@ -6,7 +6,6 @@ export function useMainSize() {
   const layout = useLayout()
   const width = computed(() => {
     const containerPadding = 16 * 2
-    console.log(display, layout)
     return display.width.value - parseInt(layout.mainStyles.value?.['--v-layout-left'] as string) - containerPadding
   })
   const height = computed(() => {
