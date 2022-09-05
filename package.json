@@ -89,7 +89,7 @@
     "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vue3-slider": "git+https://github.com/GuMengYu/vue3-slider.git",
     "vuetify": "3.0.0-beta.10",
-    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
+    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git#v0.0.1",
     "wavesurfer.js": "^6.2.0",
     "webfontloader": "^1.0.0"
   },

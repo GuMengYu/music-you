@@ -75,6 +75,7 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
     y,
     items: genMenu(liked, track),
     offsetFooter: 64,
+    customClass: 'bg-surfaceVariant',
   }
   contextMenu(option)
 }
