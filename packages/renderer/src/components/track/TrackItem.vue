@@ -160,6 +160,7 @@ async function toggleLike() {
     <v-list-item
       v-bind="_props"
       ref="itemRef"
+      v-ripple="false"
       rounded="lg"
       class="pa-0"
       active-color="primary"
