@@ -1,11 +1,11 @@
 <template>
   <section class="d-flex justify-center">
-    <v-container style="max-width: 960px" class="d-flex flex-column gap-4 flex-fill">
-      <h6 class="text-h5 mb-4">{{ t('common.setting') }}</h6>
+    <div style="max-width: 960px" class="d-flex flex-column gap-4 flex-fill">
+      <h6 class="text-h5">{{ t('common.setting') }}</h6>
       <app-settings-theme />
       <app-settings-other />
       <app-settings-tips />
-    </v-container>
+    </div>
   </section>
 </template>
 

@@ -96,13 +96,13 @@
     "songs": "Songs",
     "albums": "Albums",
     "playlists": "Playlists",
-    "p_playlists": "Privacy playlis",
+    "p_playlists": "Privacy playlist",
     "tracks": "Tracks",
     "artists": "Artists",
     "mvs": "MV",
     "disk": "Disk Music",
     "setting": {
-      "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on",
+      "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on) - Changes will be ready when the app is restarted",
       "quality": "Streaming quality",
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",
@@ -110,8 +110,8 @@
       "exit": "Behavior of closing the app..."
     },
     "daily": {
-      "title": "每日歌曲推荐",
-      "sub": "根据你的音乐口味生成，每天6:00更新"
+      "title": "Daily song recommendation",
+      "sub": "Generated according to your music taste, updated every day at 6:00"
     }
   },
   "common": {

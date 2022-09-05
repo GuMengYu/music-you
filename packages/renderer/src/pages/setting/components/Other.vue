@@ -2,7 +2,7 @@
   <div>
     <app-title path="common.language" />
     <v-list-item class="pa-0">
-      <v-list-item-title class="text-caption"> {{ $t('main.setting.language') }} </v-list-item-title>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.language') }} </v-list-item-title>
       <template #append>
         <AppSelect v-model="lang" :items="localeOptions" />
       </template>
@@ -11,7 +11,7 @@
   <div>
     <app-title path="common.quality" />
     <v-list-item class="pa-0">
-      <v-list-item-title class="text-caption"> {{ $t('main.setting.quality') }} </v-list-item-title>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.quality') }} </v-list-item-title>
       <template #append>
         <AppSelect v-model="quality" :items="qualityOptions" />
       </template>
@@ -20,7 +20,7 @@
   <div>
     <app-title path="message.visualization" />
     <v-list-item class="pa-0">
-      <v-list-item-title class="text-caption"> {{ $t('main.setting.visualization') }}</v-list-item-title>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.visualization') }}</v-list-item-title>
       <template #append>
         <v-switch v-model="visualization" color="primary" hide-details density="compact" inset></v-switch>
       </template>
@@ -38,7 +38,7 @@
   <div>
     <app-title path="message.reset_app" />
     <v-list-item class="pa-0">
-      <v-list-item-title class="text-caption"> {{ $t('main.setting.reset') }}</v-list-item-title>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.reset') }}</v-list-item-title>
       <template #append>
         <v-dialog v-model="showAlert" persistent>
           <template #activator="{ props }">
