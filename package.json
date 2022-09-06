@@ -1,6 +1,6 @@
 {
   "name": "vplayer-next",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": true,
   "main": "dist/main/index.cjs",
   "author": "gumengyu",
