@@ -28,7 +28,13 @@ function handleToggleMaximize() {
 // coding here
 </script>
 <template>
-  <v-system-bar :window="isShowWindowControl" class="drag-area px-0" color="surface" @dblclick="handleToggleMaximize">
+  <v-system-bar
+    :height="6"
+    :window="isShowWindowControl"
+    class="drag-area px-0"
+    color="surface"
+    @dblclick="handleToggleMaximize"
+  >
     <span v-if="isShowWindowControl" class="ml-4 line-clamp-1 w-75 text-left">
       {{ title }}
     </span>

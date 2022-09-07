@@ -91,7 +91,6 @@ export class Player {
     this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
     if (this.track?.id) {
-      console.log('restore track from storage', this.track)
       this.updatePlayerTrack(this.track.id, false, false)
     }
     if (is.electron() && is.windows()) {
