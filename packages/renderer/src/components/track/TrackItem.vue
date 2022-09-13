@@ -225,12 +225,10 @@ async function toggleLike() {
             :loading="likeLoading"
             icon
             variant="text"
-            :color="liked ? 'rgb(255, 76, 76)' : ''"
+            :color="liked ? 'primary' : ''"
             @click.prevent="toggleLike"
           >
-            <v-icon size="x-small" :color="liked ? 'rgb(255, 76, 76)' : ''">{{
-              liked ? mdiHeart : mdiHeartOutline
-            }}</v-icon>
+            <v-icon size="x-small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
           </v-btn>
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
