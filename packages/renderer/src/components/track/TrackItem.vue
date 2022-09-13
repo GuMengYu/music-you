@@ -129,7 +129,6 @@ function togglePlay() {
 }
 function openMenu(e: MouseEvent) {
   // active current item
-  itemRef!.value!.$el.click()
   // display context menu
   emit('openctxmenu', {
     x: e.x,
@@ -137,6 +136,7 @@ function openMenu(e: MouseEvent) {
     track: props.track as Track,
     liked: liked.value,
   })
+  itemRef!.value!.$el.click()
 }
 async function toggleLike() {
   likeLoading.value = true
@@ -203,8 +203,8 @@ async function toggleLike() {
               {{ track.name }}</v-list-item-title
             >
             <v-list-item-subtitle class="d-flex align-center">
-              <span v-if="symbol.vip" class="track-quality"> vip </span>
-              <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span>
+              <!-- <span v-if="symbol.vip" class="track-quality"> vip </span>
+              <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span> -->
               <artists-link :artists="artists" class="line-clamp-1 text-caption" />
             </v-list-item-subtitle>
           </div>

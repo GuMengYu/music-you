@@ -15,23 +15,26 @@
               :src="albumPicUrl"
               cover
             >
-              <v-btn v-show="isHovering" size="large" icon @click.stop="showPlayingPage">
+              <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
                 <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
               </v-btn>
             </v-img>
           </v-hover>
 
           <div class="mx-2 d-flex align-start flex-column">
-            <div class="d-flex align-center line-clamp-1">
-              <span class="text-subtitle-2"> {{ track?.name }} </span>
-
+            <div class="d-flex align-center line-clamp-1 text-subtitle-2">
+              <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-decoration-none text-onSurface"
+                >{{ track?.name }}
+              </Router-Link>
+              <span v-else> {{ track?.name }} </span>
+              <!--
               <span v-if="track.meta?.type" class="text-caption font-weight-bold text-secondary">
                 · {{ track.meta.type }}
               </span>
 
               <span v-if="track.meta?.br" class="text-caption font-weight-bold text-secondary">
                 · {{ `${Math.ceil((track.meta.br ?? 0) / 1000)}` }}kbps
-              </span>
+              </span> -->
             </div>
 
             <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
