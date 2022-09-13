@@ -123,7 +123,6 @@ const qrTips = computed(() => {
 })
 
 watch(showLogin, (show) => {
-  console.log('showLogin', show)
   show && genCode()
 })
 
