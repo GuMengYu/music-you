@@ -285,12 +285,6 @@ async function toggleLike() {
   }
   .track-second {
     width: fit-content;
-    a {
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
   .track-third {
     display: flex;

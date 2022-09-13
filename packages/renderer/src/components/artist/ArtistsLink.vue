@@ -23,13 +23,3 @@ const props = defineProps({
   },
 })
 </script>
-<style lang="scss" scoped>
-.artist-link {
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-</style>

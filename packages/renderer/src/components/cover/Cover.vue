@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
-      class="cover-container"
+      class="cover-container text-decoration-none"
       :rounded="rounded"
       :flat="true"
       color="surfaceVariant"
@@ -33,7 +33,7 @@
         </div>
       </v-img>
       <v-card-title v-if="!noInfo" :class="`line-clamp-${titleLine}`" style="white-space: initial">
-        <router-link :to="`/playlist/${data.id}`" class="text-subtitle-2 text-onSurfaceVariant text-decoration-none">
+        <router-link :to="`/playlist/${data.id}`" class="text-subtitle-2 text-onSurfaceVariant">
           {{ data.name }}
         </router-link>
       </v-card-title>

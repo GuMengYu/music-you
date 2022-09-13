@@ -23,7 +23,7 @@
 
           <div class="mx-2 d-flex align-start flex-column">
             <div class="d-flex align-center line-clamp-1 text-subtitle-2">
-              <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-decoration-none text-onSurface"
+              <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
                 >{{ track?.name }}
               </Router-Link>
               <span v-else> {{ track?.name }} </span>

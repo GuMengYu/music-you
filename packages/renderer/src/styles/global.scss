@@ -32,3 +32,10 @@ html,
 .text-overline {
   font-family: 'Google Sans', sans-serif !important;
 }
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
