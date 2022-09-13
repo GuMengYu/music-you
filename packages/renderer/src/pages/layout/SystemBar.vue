@@ -25,11 +25,14 @@ function handleToggleMaximize() {
     ipcRenderer.invoke(WindowState.MAXIMIZED)
   }
 }
+const height = computed(() => {
+  return is.macOS() ? 6 : void 0
+})
 // coding here
 </script>
 <template>
   <v-system-bar
-    :height="6"
+    :height="height"
     :window="isShowWindowControl"
     class="drag-area px-0"
     color="surface"
