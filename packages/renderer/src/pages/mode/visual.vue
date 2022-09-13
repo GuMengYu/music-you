@@ -7,7 +7,7 @@
         </v-icon>
       </v-btn>
     </div>
-    <div class="frame-content gap-4 text-onSurfaceVariant">
+    <div class="frame-content gap-6 text-onSurfaceVariant">
       <kinesis-container class="kinesis-container">
         <kinesis-element class="circle one-position" :strength="-20" type="depth">
           <div
@@ -49,28 +49,42 @@
           ></div>
         </kinesis-element>
       </kinesis-container>
-      <div class="d-flex flex-column w-50">
+      <div class="d-flex flex-column w-50 gap-2">
         <div class="d-flex align-center gap-1">
           <v-img max-width="30" min-width="30" :src="netEaseLogo"></v-img>
           <span class="text-h5 line-clamp-1">{{ track?.name }}</span>
+          <span class="text-body-1 ml-1 line-clamp-1">by {{ track?.['ar'] && track?.['ar'][0]['name'] }}</span>
         </div>
-        <span class="text-body-1 ml-1">by {{ track?.['ar'] && track?.['ar'][0]['name'] }}</span>
-        <v-btn
-          color="primary"
-          :style="{
-            borderRadius: '16px',
-            height: '64px',
-            width: '64px',
-          }"
-          @click="togglePlay"
-        >
-          <v-icon size="x-large">
-            {{ playing ? mdiPause : mdiPlay }}
-          </v-icon>
-        </v-btn>
-        <lyric class="text-body-1 mt-4 ml-1" />
+        <lyric class="text-body-1 text-xl-h5 ml-1" />
         <div ref="canvasContainer" class="wave-container" @click="toggleAnimBar">
           <canvas ref="canvasRef"></canvas>
+        </div>
+        <div class="d-flex align-center justify-space-between">
+          <v-btn
+            color="primary"
+            :style="{
+              borderRadius: '16px',
+              height: '64px',
+              width: '64px',
+            }"
+            @click="togglePlay"
+          >
+            <v-icon size="x-large">
+              {{ playing ? mdiPause : mdiPlay }}
+            </v-icon>
+          </v-btn>
+          <div>
+            <v-btn size="large" icon variant="text" @click="prev">
+              <v-icon size="x-large">
+                {{ mdiChevronLeft }}
+              </v-icon>
+            </v-btn>
+            <v-btn size="large" icon variant="text" class="ml-4" @click="next">
+              <v-icon size="x-large">
+                {{ mdiChevronRight }}
+              </v-icon>
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiClose, mdiPause, mdiPlay } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiPause, mdiPlay } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { KinesisContainer, KinesisElement } from 'vue-kinesis'
 import { useTheme } from 'vuetify'
@@ -97,7 +111,7 @@ const player = usePlayer()
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
 
-const { track, playing } = storeToRefs(playerStore)
+const { track, playing, isCurrentFm } = storeToRefs(playerStore)
 
 const theme = useTheme()
 const analyser = ref<AnalyserNode | null>(null)
@@ -249,6 +263,16 @@ function togglePlay() {
   player.togglePlay()
 }
 
+function prev() {
+  player.prev()
+}
+function next() {
+  if (isCurrentFm.value) {
+    player.nextFm()
+  } else {
+    player.next()
+  }
+}
 // 页面不可见时，应该会停止调用requestAnimationFrame
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Page_Visibility_API
 // function handleVisibilityChange() {
@@ -332,6 +356,9 @@ onUnmounted(() => {
     width: 100%;
     height: 200px;
     z-index: 1;
+    canvas {
+      image-rendering: pixelated;
+    }
   }
 }
 </style>
