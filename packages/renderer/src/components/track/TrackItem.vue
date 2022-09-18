@@ -199,7 +199,7 @@ async function toggleLike() {
             :aspect-ratio="1"
           />
           <div class="track-info">
-            <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary font-weight-bold' : ''">
+            <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary' : ''">
               {{ track.name }}</v-list-item-title
             >
             <v-list-item-subtitle class="d-flex align-center">
