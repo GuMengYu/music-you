@@ -3,7 +3,7 @@
     ref="searchInput"
     :model-value="keywords"
     color="primary"
-    density="comfortable"
+    density="compact"
     :placeholder="$t('common.search_type_2')"
     :prepend-inner-icon="mdiMagnify"
     bg-color="surfaceVariant"
@@ -55,14 +55,14 @@ function handleSearch() {
 </script>
 <style lang="scss" scoped>
 .search-input {
-  max-width: 390px;
+  max-width: 320px;
   :deep(.v-field--variant-solo) {
     box-shadow: none;
-    border-radius: 48px;
-    padding-inline-end: 6px;
+    border-radius: 40px;
+    padding-inline-end: 2px;
 
     .v-field__input {
-      padding-top: 3px;
+      padding-top: 0px;
       font-size: 0.875rem;
       font-weight: 500;
     }

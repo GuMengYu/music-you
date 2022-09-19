@@ -1,7 +1,7 @@
 <template>
   <v-app class="v-player">
     <AppCC />
-    <app-system-bar v-if="is.electron()" class="v-player-header" />
+    <!-- <app-system-bar v-if="is.electron()" class="v-player-header" /> -->
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
 

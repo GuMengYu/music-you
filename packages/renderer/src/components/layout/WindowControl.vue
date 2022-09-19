@@ -1,29 +1,30 @@
 <template>
   <div class="window-actions no-drag-area">
-    <v-btn size="small" variant="text" class="action-item" @click="handleMinimize">
+    <v-divider class="ml-3 my-3" vertical></v-divider>
+    <v-btn icon size="small" class="action-item" @click="handleMinimize">
       <v-icon>
         {{ mdiWindowMinimize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" variant="text" class="action-item" @click="handleToggleMaximize">
+    <v-btn size="small" icon class="action-item" @click="handleToggleMaximize">
       <v-icon>
         {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" variant="text" class="action-item action-close" @click="handleClose">
+    <v-btn size="small" icon class="action-item action-close" @click="handleClose">
       <v-icon>
         {{ mdiWindowClose }}
       </v-icon>
     </v-btn>
-    <v-dialog v-model="showAlert" persistent>
-      <v-card class="pt-4 pb-2" rounded="xl" color="surface" width="90vw" max-width="350">
+    <v-dialog v-model="showAlert" persistent class="close-modal">
+      <v-card class="pt-4" rounded="xl" color="surface" width="90vw" max-width="350">
         <div class="d-flex justify-center">
           <v-icon color="secondary">
             {{ mdiExitToApp }}
           </v-icon>
         </div>
         <v-card-title class="text-center">{{ $t('message.exit_tip') }}</v-card-title>
-        <v-card-title>
+        <div class="px-4">
           <v-radio-group :model-value="exitMode" hide-details>
             <v-radio
               color="primary"
@@ -38,10 +39,16 @@
               @click="exitMode = ExitMode.exit"
             ></v-radio>
           </v-radio-group>
-          <v-checkbox v-model="reminder" color="primary" hide-details :label="$t('message.reminder')"></v-checkbox>
-        </v-card-title>
-
+        </div>
         <v-card-actions>
+          <v-checkbox
+            v-model="reminder"
+            class="ml-2 reminder"
+            density="compact"
+            color="primary"
+            hide-details
+            :label="$t('message.reminder')"
+          ></v-checkbox>
           <v-spacer></v-spacer>
           <v-btn color="primary" variant="text" @click="showAlert = false"> {{ $t('common.cancel') }} </v-btn>
           <v-btn color="primary" variant="text" @click="confirmExit"> {{ $t('common.confirm') }} </v-btn>
@@ -112,16 +119,19 @@ async function confirmExit() {
 .window-actions {
   display: flex;
   align-items: center;
-  > .action-item {
-    &:hover {
-      background: rgb(var(--v-theme-surfaceVariant));
-    }
-  }
   .action-close {
     transition: all 0.25s;
     &:hover {
-      color: #fff;
-      background: rgb(232, 17, 35);
+      color: rgb(var(--v-theme-onError));
+      background: rgb(var(--v-theme-error));
+    }
+  }
+}
+.close-modal {
+  .reminder {
+    font-size: 12px;
+    .v-label {
+      font-size: 12px;
     }
   }
 }

@@ -219,7 +219,7 @@ function saveCover() {
                 {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
               </v-btn>
             </template>
-            <v-card class="pt-4 pb-2" rounded="xl" color="surface" width="90vw" max-width="350">
+            <v-card class="pt-4" rounded="xl" color="surface" width="90vw" max-width="350">
               <div class="d-flex justify-center">
                 <v-icon color="secondary">
                   {{ mdiDeleteAlert }}
