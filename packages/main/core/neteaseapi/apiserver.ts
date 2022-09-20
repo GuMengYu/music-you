@@ -1,3 +1,5 @@
+// import { resolve } from 'path'
+// const outerModule = resolve(__dirname, '../../../NeteaseCloudMusicApi')
 const neteaseApi = require('NeteaseCloudMusicApi')
 export const useNetEaseApiServer = (
   options = {

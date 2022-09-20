@@ -111,16 +111,6 @@ function handleCloseUploadModal() {
   uploadMusic.uploadedPercent = 0
   uploadMusic.uploadedSize = 0
 }
-
-// 在视图中移除歌曲
-function handleRemoveTrack(trackId: number) {
-  const list = [...clouds.value]
-  const index = clouds.value.findIndex((i) => i.id === trackId)
-  if (index > -1) {
-    list.splice(index, 1)
-    clouds.value = list
-  }
-}
 </script>
 
 <template>
@@ -142,7 +132,7 @@ function handleRemoveTrack(trackId: number) {
         <input v-show="false" ref="upload" type="file" accept="audio/mpeg,audio/flac" @change="handleChange" />
       </div>
     </template>
-    <cloud-list :tracks="clouds" @remove-track="handleRemoveTrack" />
+    <cloud-list :tracks="clouds" @update-list="(list) => (clouds = [...list])" />
     <v-dialog v-model="uploadMusic.visible" persistent class="upload-file-wrapper">
       <v-card outlined color="surface" class="pt-4" rounded="lg" width="90vw" max-width="350">
         <div class="d-flex justify-center">
