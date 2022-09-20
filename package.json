@@ -28,18 +28,19 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "^4.4.7",
     "electron-store": "^8.1.0",
-    "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.6",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock"
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock",
+    "polka": "^0.5.2",
+    "sirv": "^2.0.2"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.1.2",
     "@mdi/js": "^6.5.95",
-    "@types/express": "^4.17.13",
     "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
     "@types/md5": "^2.3.2",
     "@types/overlayscrollbars": "^1.12.1",
+    "@types/polka": "^0.5.4",
     "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
