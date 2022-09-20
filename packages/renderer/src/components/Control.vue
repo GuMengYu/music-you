@@ -101,17 +101,7 @@ function toggleShuffle() {
       <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
     </v-btn>
 
-    <v-btn
-      icon
-      class="play-fab mx-2"
-      :style="{
-        animation: playing ? 'pulseWarn 1.5s infinite' : '',
-      }"
-      color="primary"
-      :loading="loadingTrack"
-      variant="flat"
-      @click="togglePlay"
-    >
+    <v-btn icon class="play-fab mx-2" color="primary" :loading="loadingTrack" variant="flat" @click="togglePlay">
       <lottie-icon
         v-show="!loadingTrack"
         class="lottie-icon"
