@@ -55,16 +55,6 @@ async function fetch(id: number, flush = false) {
   state.playlist = playlist
 }
 
-// 在视图中移除歌曲
-function handleRemoveTrack(trackId: number) {
-  const list = [...state.playlist.tracks]
-  const index = state.playlist.tracks.findIndex((i) => i.id === trackId)
-  if (index > -1) {
-    list.splice(index, 1)
-    state.playlist.tracks = list
-  }
-}
-
 useAjaxReloadHook('playlist', () => {
   fetch(+props.id, true)
 })
@@ -80,7 +70,7 @@ useAjaxReloadHook('playlist', () => {
         :own-id="createdBySelf ? state.playlist.id : null"
         virtual-scroll-optimization
         :header="smAndUp"
-        @remove-track="handleRemoveTrack"
+        @update-list="(list) => (state.playlist.tracks = [...list])"
       />
       <Col :title="$t('main.playlist.simi')">
         <CardRow>

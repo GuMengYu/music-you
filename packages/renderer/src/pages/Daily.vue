@@ -5,7 +5,7 @@
         <v-icon> {{ mdiPlay }}</v-icon>
       </v-square-btn>
     </template>
-    <track-list :tracks="daily" header type="list"> </track-list>
+    <track-list :tracks="daily" header type="daily" @update-list="(list) => (daily = [...list])"> </track-list>
   </Col>
 </template>
 

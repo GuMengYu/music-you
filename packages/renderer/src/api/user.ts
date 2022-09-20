@@ -89,6 +89,16 @@ export const recommendPlaylist = () =>
   }>('/recommend/resource', { params: { timestamp: now() } })
 
 /**
+ * 日推-不喜欢
+ */
+export const dailyRecommendDislike = (id: number) =>
+  request<{
+    code: number
+    data: Track
+    message: string
+  }>('/recommend/dislike', { params: { timestamp: now(), id } })
+
+/**
  * 用户日推歌曲
  * @returns
  */
@@ -98,7 +108,7 @@ export const getDailyRecommend = () =>
       dailySongs: Track[]
       recommendReasons: []
     }
-  }>('/recommend/songs')
+  }>('/recommend/songs', { params: { timestamp: now() } })
 
 /**
  * 获取喜欢列表

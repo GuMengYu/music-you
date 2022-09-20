@@ -27,7 +27,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  (event: 'removeTrack', payload: number): void
+  (event: 'updateList', payload: Track[]): void
 }>()
 
 const eventBus = useEventBus<number>('addToQueue')
@@ -121,7 +121,12 @@ async function deleteCloudMusic(id: Track['id']) {
   try {
     const { code, message } = await deleteCloudDiskMusic(id)
     if (code === 200) {
-      emits('removeTrack', id)
+      const list = [...props.tracks]
+      const index = list.findIndex((i) => i.id === id)
+      if (index > -1) {
+        list.splice(index, 1)
+        emits('updateList', list)
+      }
       toast.success(t('message.remove_list_success'))
     } else {
       toast.error(message)
