@@ -202,10 +202,10 @@ player.pipLyric!.onEnter = function () {
 }
 
 async function showPlayingPage() {
-  if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {
-    const ipcRenderer = useIpcRenderer()
-    await ipcRenderer.invoke('adjustWidth')
-  }
+  // if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {
+  //   const ipcRenderer = useIpcRenderer()
+  //   await ipcRenderer.invoke('adjustWidth')
+  // }
   appStore.showLyric = true
 }
 const volumeDebouncedFn = useDebounceFn(
