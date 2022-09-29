@@ -8,8 +8,8 @@ import { WindowState } from '../../renderer/src/util/enum'
 import log from './util/log'
 
 export const WindowDefaultSize = {
-  height: 820,
-  width: 1280,
+  height: 710,
+  width: 1200,
   minWidth: 393,
   minHeight: 600,
 }
