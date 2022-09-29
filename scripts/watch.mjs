@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
-import { createServer, build } from 'vite'
 import electron from 'electron'
+import { build, createServer } from 'vite'
 
 const query = new URLSearchParams(import.meta.url.split('?')[1])
 const debug = query.has('debug')
@@ -46,12 +46,14 @@ function watchPreload(server) {
   return build({
     configFile: 'packages/preload/vite.config.ts',
     mode: 'development',
-    plugins: [{
-      name: 'electron-preload-watcher',
-      writeBundle() {
-        server.ws.send({ type: 'full-reload' })
+    plugins: [
+      {
+        name: 'electron-preload-watcher',
+        writeBundle() {
+          server.ws.send({ type: 'full-reload' })
+        },
       },
-    }],
+    ],
     build: {
       watch: {},
     },
@@ -59,7 +61,7 @@ function watchPreload(server) {
 }
 
 // bootstrap
-const server = await createServer({ configFile: 'packages/renderer/vite.config.ts', mode: 'development-electron' })
+const server = await createServer({ configFile: 'packages/renderer/vite.config.ts', mode: 'devclient' })
 
 await server.listen()
 await watchPreload(server)

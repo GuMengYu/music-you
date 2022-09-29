@@ -13,8 +13,6 @@ import resolve from 'vite-plugin-resolve'
 import { dependencies, devDependencies, name, version } from '../../package.json'
 const path = require('path')
 
-const env = loadEnv('', path.resolve(__dirname, '../../'))
-
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: new Date().toISOString(),
@@ -28,7 +26,8 @@ enum BUILDMODE {
 }
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const buildElectron = mode == BUILDMODE.ELECTRON_DEV || mode == BUILDMODE.ELECTRON_PROD
+  const env = loadEnv(mode, path.resolve(__dirname, '../../'))
+  const buildElectron = !!env.VITE_BUILD_CLIENT
   const plugins: any = [
     vue({
       reactivityTransform: true,
