@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import {
-  mdiAccountMusic,
-  mdiAlbum,
-  mdiClockOutline,
-  mdiCloseCircleOutline,
-  mdiDownload,
-  mdiHeart,
-  mdiHeartRemove,
-  mdiPlaylistMusicOutline,
-  mdiPlaylistPlay,
-} from '@mdi/js'
+import { mdiClockOutline } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -18,7 +8,8 @@ import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
 import { getSongDownloadUrl } from '@/api/song'
-import useDonwload from '@/hooks/useDownload'
+import { dailyRecommendDislike } from '@/api/user'
+import useDownload from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -34,7 +25,7 @@ const router = useRouter()
 
 const props = defineProps<{
   tracks: Track[]
-  type: 'album' | 'list' | 'artist' | 'fav'
+  type: 'album' | 'list' | 'artist' | 'fav' | 'daily'
   ownId?: number | null // 是否是自己的歌单id
   header?: boolean
   offsetIndex?: number
@@ -43,7 +34,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  (event: 'removeTrack', payload: number): void
+  (event: 'updateList', payload: Track[]): void
 }>()
 
 const eventBus = useEventBus<number>('addToQueue')
@@ -85,6 +76,7 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
     y,
     items: genMenu(liked, track),
     offsetFooter: 64,
+    customClass: 'bg-surfaceVariant',
   }
   contextMenu(option)
 }
@@ -98,7 +90,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     },
     {
       label: t('common.to_artist'),
-      ...(track.ar?.length > 1
+      ...(track.ar && track.ar.length > 1
         ? {
             children: track.ar?.map((artist) => {
               return {
@@ -129,7 +121,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
           const { data } = await getSongDownloadUrl({ id: track.id })
           const artistName = track.ar?.map((i) => i.name)?.join(',')
           const fileName = `${artistName} - ${track.name}.${data.type}`
-          useDonwload(data.url, fileName)
+          useDownload(data.url, fileName)
         } catch (e) {
           toast.error(t('message.something_wrong'))
         }
@@ -174,6 +166,14 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       },
     })
   }
+  if (props.type === 'daily') {
+    items.push({
+      label: t('common.not_interested'),
+      onClick: (i) => {
+        notInterested(track.id)
+      },
+    })
+  }
   return items
 }
 async function toggleLike(liked: boolean, trackId: number) {
@@ -197,7 +197,7 @@ async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, tr
     const { code, message } = await opPlaylist(op, playlistId, trackId)
     if (code === 200) {
       if (op === 'del') {
-        emits('removeTrack', trackId)
+        updateList('remove', trackId)
         toast.success(t('message.remove_list_success'))
       } else {
         toast.success(t('message.add_list_success'))
@@ -207,6 +207,36 @@ async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, tr
     }
   } catch (e) {
     toast.error(t('message.something_wrong'))
+  }
+}
+async function notInterested(trackId: number) {
+  try {
+    const { code, data, message } = await dailyRecommendDislike(trackId)
+    if (code === 200) {
+      updateList('replace', trackId, data)
+    } else {
+      toast.error(message!)
+    }
+  } catch (e) {
+    const { code, message } = (e as any).data
+    if (code === 432) {
+      toast.info(message)
+      updateList('remove', trackId)
+    } else {
+      toast.error(t('message.something_wrong'))
+    }
+  }
+}
+function updateList(type: 'replace' | 'remove', trackId: number, track?: Track) {
+  const list = [...props.tracks]
+  const index = list.findIndex((i) => i.id === trackId)
+  if (index > -1) {
+    if (type === 'replace' && track) {
+      list.splice(index, 1, track)
+    } else {
+      list.splice(index, 1)
+    }
+    emits('updateList', list)
   }
 }
 function toArtist(id: number) {
@@ -221,8 +251,8 @@ function toAlbum(id: number) {
     <div v-if="header">
       <div class="px-2 text-caption" :class="[className]">
         <span class="d-flex justify-center">#</span>
-        <span>{{ $t('common.title') }}</span>
-        <span v-if="showAlbum">{{ $t('main.albums') }}</span>
+        <span>{{ t('common.title') }}</span>
+        <span v-if="showAlbum">{{ t('main.albums') }}</span>
         <span class="d-flex justify-center align-center"
           ><v-icon size="small"> {{ mdiClockOutline }}</v-icon></span
         >
@@ -266,9 +296,9 @@ function toAlbum(id: number) {
   .list-header {
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
+    grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
     &.album-header {
-      grid-template-columns: [index] 40px [first] 4fr [last] minmax(140px, 1fr);
+      grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 1fr);
     }
   }
 }

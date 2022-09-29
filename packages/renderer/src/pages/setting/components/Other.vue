@@ -2,51 +2,51 @@
   <div>
     <app-title path="common.language" />
     <v-list-item class="pa-0">
-      <v-list-item-header class="text-caption"> {{ $t('main.setting.language') }} </v-list-item-header>
-      <v-list-item-media>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.language') }} </v-list-item-title>
+      <template #append>
         <AppSelect v-model="lang" :items="localeOptions" />
-      </v-list-item-media>
+      </template>
     </v-list-item>
   </div>
   <div>
     <app-title path="common.quality" />
     <v-list-item class="pa-0">
-      <v-list-item-header class="text-caption"> {{ $t('main.setting.quality') }} </v-list-item-header>
-      <v-list-item-media>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.quality') }} </v-list-item-title>
+      <template #append>
         <AppSelect v-model="quality" :items="qualityOptions" />
-      </v-list-item-media>
+      </template>
     </v-list-item>
   </div>
   <div>
     <app-title path="message.visualization" />
     <v-list-item class="pa-0">
-      <v-list-item-header class="text-caption"> {{ $t('main.setting.visualization') }}</v-list-item-header>
-      <v-list-item-media style="min-width: 48px">
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.visualization') }}</v-list-item-title>
+      <template #append>
         <v-switch v-model="visualization" color="primary" hide-details density="compact" inset></v-switch>
-      </v-list-item-media>
+      </template>
     </v-list-item>
   </div>
   <div>
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
-      <v-list-item-header class="text-caption"> {{ $t('main.setting.exit') }} </v-list-item-header>
-      <v-list-item-media>
+      <v-list-item-title class="text-caption"> {{ $t('main.setting.exit') }} </v-list-item-title>
+      <template #append>
         <AppSelect v-model="exitMode" :items="exitModeOptions" />
-      </v-list-item-media>
+      </template>
     </v-list-item>
   </div>
   <div>
     <app-title path="message.reset_app" />
     <v-list-item class="pa-0">
-      <v-list-item-header class="text-caption"> {{ $t('main.setting.reset') }}</v-list-item-header>
-      <v-list-item-media>
+      <v-list-item-title class="text-caption mr-4"> {{ $t('main.setting.reset') }}</v-list-item-title>
+      <template #append>
         <v-dialog v-model="showAlert" persistent>
           <template #activator="{ props }">
             <v-btn color="primary" size="small" v-bind="props" variant="outlined" rounded>
               {{ $t('message.reset_app') }}
             </v-btn>
           </template>
-          <v-card class="pt-4 pb-2" rounded="xl" color="surface" width="90vw" max-width="350">
+          <v-card class="pt-4" rounded="xl" color="surface" width="90vw" max-width="350">
             <div class="d-flex justify-center">
               <v-icon color="secondary">
                 {{ mdiRestore }}
@@ -63,7 +63,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-list-item-media>
+      </template>
     </v-list-item>
   </div>
 </template>

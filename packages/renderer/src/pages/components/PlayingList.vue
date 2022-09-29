@@ -5,13 +5,13 @@
         v-slot="{ item: track, index }"
         class="scroller"
         :style="{
-          height: `340px`,
+          height: `450px`,
         }"
         :items="nextList"
         :item-size="64"
         key-field="id"
       >
-        <TrackI :track="track" :index="index + 1" />
+        <TrackI :track="track" :index="index + 1" @play="play" />
       </RecycleScroller>
     </div>
     <template v-if="noMore">
@@ -27,12 +27,19 @@
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
+// import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
+// import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
+import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import type { Track } from '@/types'
 
+// import type { Track } from '@/types'
 import TrackI from './Track.vue'
+
+const { themeName } = useCurrentTheme()
+
+// const contextMenu = useContextMenu()
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const player = usePlayer()
@@ -47,19 +54,31 @@ const nextList = computed(() => {
 const noMore = computed(() => {
   return !(nextList.value.length + priorityQueue.value.length)
 })
-function clearPriority() {
-  playQueueStore.updatePriorityQueue([])
-  // todo clear
-}
+
 function play(trackId: number) {
   player.updatePlayerTrack(trackId)
 }
-const to = computed(() => {
-  return {
-    album: `/album/${queue.value.id}`,
-    playlist: `/playlist/${queue.value.id}`,
-    artist: `/artist/${queue.value.id}`,
-    daily: `/daily`,
-  }[queue.value.type!]
-})
+
+// todo context menu
+// function openMenu(payload: { x: number; y: number; track: Track; liked: boolean }) {
+//   const { x, y, liked, track } = payload
+//   const option = {
+//     theme: themeName.value,
+//     x,
+//     y,
+//     items: genMenu(liked, track),
+//     offsetFooter: 64,
+//   }
+//   contextMenu(option)
+// }
+// function genMenu(liked: boolean, track: Track): MenuItem[] {
+//   const items: MenuItem[] = [
+//     {
+//       label: t('common.add_to_queue'),
+//       onClick: (i) => {
+//       },
+//     },
+//   ]
+//   return items
+// }
 </script>

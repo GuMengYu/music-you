@@ -16,7 +16,7 @@ const breakpointsDefine = {
   xxs: 320,
   xs: 772,
   sm: 972,
-  md: 1200,
+  md: 1100,
   lg: 1504,
   xl: 1709,
   xll: 1912,

@@ -11,7 +11,7 @@
 /* override some vuetify style */
 
 .rounded-lg {
-  border-radius: 12px !important;
+  border-radius: 14px !important;
 }
 
 // override vuetify font family set
@@ -31,4 +31,11 @@ html,
 .text-button,
 .text-overline {
   font-family: 'Google Sans', sans-serif !important;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }

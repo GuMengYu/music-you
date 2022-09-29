@@ -2,11 +2,13 @@
   "message": {
     "hello": "你好 世界",
     "pic_limit": "选择图片大小不能超过2M",
+    "music_limit": "上传歌曲大小不能超过80M",
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
     "add_list_success": "已添加到歌单",
     "remove_list_success": "已从歌单移除",
-    "something_wrong": "出错了",
+    "remove_cloud_success": "已从云盘移除",
+    "something_wrong": "出错了, 可能操作过于频繁",
     "reset_app": "重置应用",
     "visualization": "音乐可视化",
     "disclaimer": "免责声明",
@@ -100,12 +102,16 @@
     "mvs": "MV",
     "disk": "云盘",
     "setting": {
-      "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）",
+      "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）- 改动将在重启应用时就绪",
       "quality": "流媒体质量",
       "language": "选择语言-改变将会立即生效",
       "reset": "重置应用数据(包括缓存，用户登录信息)",
       "manage_account": "管理您的网易云账号(web)",
       "exit": "点击窗口关闭按钮的行为..."
+    },
+    "daily": {
+      "title": "每日歌曲推荐",
+      "sub": "根据你的音乐口味生成，每天6:00更新"
     }
   },
   "common": {
@@ -115,7 +121,9 @@
     "backward": "后退",
     "reload": "刷新",
     "play": "播放",
+    "play_all": "播放全部",
     "pause": "暂停",
+    "delete": "删除",
     "open_search": "打开搜索",
     "sign_in": "登录",
     "sign_out": "登出",
@@ -182,7 +190,12 @@
     "remove_from_playlist": "从此歌单删除",
     "remove_from_fav": "从\"喜欢的音乐\"移除",
     "add_to_fav": "添加到\"喜欢的音乐\"",
-    "search_hot": "热门结果"
+    "not_interested": "不感兴趣",
+    "search_hot": "热门结果",
+    "unknown": "未知",
+    "upload": "上传",
+    "upload_music": "上传音乐",
+    "delete_cloud": "从云盘中删除"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

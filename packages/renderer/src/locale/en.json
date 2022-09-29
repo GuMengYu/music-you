@@ -2,11 +2,13 @@
   "message": {
     "hello": "hello world",
     "pic_limit": "Select image size cannot exceed 2M",
+    "music_limit": "Uploaded song size cannot exceed 80M",
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
     "add_list_success": "Added to playlist",
     "remove_list_success": "Removed from playlist",
-    "something_wrong": "Oops something wrong",
+    "remove_cloud_success": "Removed from cloud disk",
+    "something_wrong": "Oops something wrong, May be the operation is too frequent",
     "reset_app": "Reset App",
     "visualization": "Music Visualization",
     "delete_list": "delete | deleted",
@@ -94,20 +96,23 @@
     "songs": "Songs",
     "albums": "Albums",
     "playlists": "Playlists",
-    "p_playlists": "Privacy playlis",
+    "p_playlists": "Privacy playlist",
     "tracks": "Tracks",
     "artists": "Artists",
     "mvs": "MV",
     "disk": "Disk Music",
     "setting": {
-      "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on",
+      "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on) - Changes will be ready when the app is restarted",
       "quality": "Streaming quality",
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",
       "manage_account": "Manage Account (web)",
       "exit": "Behavior of closing the app..."
+    },
+    "daily": {
+      "title": "Daily song recommendation",
+      "sub": "Generated according to your music taste, updated every day at 6:00"
     }
-
   },
   "common": {
     "cancel": "Cancel",
@@ -115,8 +120,10 @@
     "forward": "Forward",
     "backward": "Backward",
     "play": "Play",
+    "play_all": "Play All",
     "pause": "Pause",
     "reload": "Reload",
+    "delete": "Delete",
     "open_search": "Open Search",
     "sign_in": "Sign In",
     "sign_out": "Sign Out",
@@ -182,8 +189,13 @@
     "add_to_playlist": "Add to playlist",
     "remove_from_playlist": "Remove from this playlist",
     "remove_from_fav": "Remove from \"favorite\"",
+    "not_interested": "not interested",
     "add_to_fav": "Add to \"favorite\"",
-    "search_hot": "Top Results"
+    "search_hot": "Top Results",
+    "unknown": "Unknown",
+    "upload": "Upload",
+    "upload_music": "Upload Music",
+    "delete_cloud": "Delete from cloud disk"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

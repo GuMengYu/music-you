@@ -1,14 +1,14 @@
 <template>
-  <v-app-bar class="app_header drag-area" flat>
+  <v-app-bar class="app_header drag-area" flat height="56">
     <div v-if="mdAndUp" class="d-flex align-center">
       <b-f-btn />
       <reload-btn />
     </div>
-    <div class="topbar-content-wrapper d-flex justify-end">
+    <div class="topbar-content-wrapper d-flex" :class="mdAndUp ? 'justify-end' : 'justify-center'">
       <!-- <v-divider vertical class="ma-3 mr-5" /> -->
       <search-input class="no-drag-area" />
     </div>
-    <div v-if="mdAndUp" class="append d-flex no-drag-area ml-2 align-center">
+    <div v-if="mdAndUp" class="d-flex no-drag-area mx-2 align-center">
       <control-center-toggle />
       <window-control v-if="isShowWindowControl" />
     </div>

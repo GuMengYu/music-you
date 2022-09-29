@@ -2,20 +2,6 @@
   <transition name="slide-fade-y">
     <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
       <TrackSlider class="track-slider" tooltip />
-      <!-- <Slider
-        class="track-slider"
-        :model-value="currentTime"
-        :min="0"
-        :max="trackDt / 1000"
-        :color="currentTheme.colors.primary"
-        track-color="rgba(66,66,66,0.28)"
-        tooltip
-        :format-tooltip="(v: number) => formatDuring(v * 1000)"
-        :height="2"
-        :handle-scale="5"
-        @drag-start="dragStart"
-        @drag-end="dragEnd"
-      ></Slider> -->
       <div class="playing-control">
         <div class="playing-bar__left">
           <v-hover v-slot="{ isHovering, props }">
@@ -29,33 +15,36 @@
               :src="albumPicUrl"
               cover
             >
-              <v-btn v-show="isHovering" size="large" icon @click.stop="showPlayingPage">
+              <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
                 <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
               </v-btn>
             </v-img>
           </v-hover>
 
           <div class="mx-2 d-flex align-start flex-column">
-            <div class="d-flex align-center line-clamp-1">
-              <span class="text-subtitle-2"> {{ track?.name }} </span>
-
+            <div class="d-flex align-center line-clamp-1 text-subtitle-2">
+              <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
+                >{{ track?.name }}
+              </Router-Link>
+              <span v-else> {{ track?.name }} </span>
+              <!--
               <span v-if="track.meta?.type" class="text-caption font-weight-bold text-secondary">
                 · {{ track.meta.type }}
               </span>
 
               <span v-if="track.meta?.br" class="text-caption font-weight-bold text-secondary">
                 · {{ `${Math.ceil((track.meta.br ?? 0) / 1000)}` }}kbps
-              </span>
+              </span> -->
             </div>
 
-            <artists-link :artists="track?.ar" class="text-caption" />
+            <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
           </div>
           <like-toggle :id="track?.id" />
           <v-spacer />
         </div>
         <Control />
         <div class="playing-bar__right">
-          <v-btn icon size="small" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
+          <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
             <v-icon ref="playlistBtn" size="x-small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
@@ -63,8 +52,8 @@
               {{ showPipLyric ? $t('common.hide_pip') : $t('common.show_pip') }}
             </v-tooltip>
           </v-btn>
-          <div class="volume-bar d-flex align-center mx-2">
-            <v-btn icon size="small" @click="toggleMute">
+          <div class="volume-bar d-flex align-center mr-2">
+            <v-btn icon @click="toggleMute">
               <v-icon size="small">
                 {{ volumeIcon }}
               </v-icon>
@@ -82,7 +71,7 @@
               @change="volumeDebouncedFn"
             />
           </div>
-          <v-btn icon size="small" :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
+          <v-btn icon :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
             <v-icon ref="playlistBtn" size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
@@ -213,10 +202,10 @@ player.pipLyric!.onEnter = function () {
 }
 
 async function showPlayingPage() {
-  if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {
-    const ipcRenderer = useIpcRenderer()
-    await ipcRenderer.invoke('adjustWidth')
-  }
+  // if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {
+  //   const ipcRenderer = useIpcRenderer()
+  //   await ipcRenderer.invoke('adjustWidth')
+  // }
   appStore.showLyric = true
 }
 const volumeDebouncedFn = useDebounceFn(

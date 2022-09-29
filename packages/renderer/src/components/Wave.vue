@@ -4,7 +4,7 @@ const props = defineProps<{
   playing?: boolean
 }>()
 // coding here
-const delay = ['-100ms', '-500ms', '-1200ms', '-1000ms', '-700ms']
+const delay = ['-100ms', '-500ms', '-1100ms', '-900ms', '-700ms']
 </script>
 <template>
   <div class="d-flex wave">
@@ -30,7 +30,7 @@ const delay = ['-100ms', '-500ms', '-1200ms', '-1000ms', '-700ms']
   }
   .animation {
     transform-origin: bottom;
-    animation: wave 1.2s ease-in-out infinite;
+    animation: wave 0.8s ease-in-out infinite;
   }
 }
 @keyframes wave {

@@ -1,5 +1,6 @@
 import { app, BrowserWindow, shell } from 'electron'
 import is from 'electron-is'
+import Store from 'electron-store'
 import { EventEmitter } from 'events'
 import { join } from 'path'
 
@@ -7,20 +8,29 @@ import { WindowState } from '../../renderer/src/util/enum'
 import log from './util/log'
 
 export const WindowDefaultSize = {
-  height: 760,
-  width: 1280,
+  height: 710,
+  width: 1200,
   minWidth: 393,
   minHeight: 600,
 }
 export default class WindowManager extends EventEmitter {
   window: BrowserWindow | null
   willQuit: boolean
+  size: {
+    height: number
+    width: number
+  }
+  store: Store
   constructor() {
     super()
+    this.store = new Store()
 
     this.window = null
 
     this.willQuit = false
+    this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
+
+    this.initWindowSize()
   }
   async openWindow() {
     if (this.window) {
@@ -31,8 +41,8 @@ export default class WindowManager extends EventEmitter {
 
     try {
       this.window = new BrowserWindow({
-        width: WindowDefaultSize.width,
-        height: WindowDefaultSize.height,
+        width: this.size.width,
+        height: this.size.height,
         minWidth: WindowDefaultSize.minWidth,
         minHeight: WindowDefaultSize.minHeight,
         titleBarStyle: 'hiddenInset',
@@ -91,6 +101,13 @@ export default class WindowManager extends EventEmitter {
       log.info('window restore')
       this.window?.webContents.send('windowState', WindowState.NORMAL)
     })
+    this.window?.on('resized', () => {
+      log.info('window resize')
+      if (this.window) {
+        const [width, height] = this.window?.getSize() ?? []
+        this.store.set('windowSize', JSON.stringify({ width, height }))
+      }
+    })
 
     // Test active push message to Renderer-process
     this.window?.webContents.on('did-finish-load', () => {
@@ -102,6 +119,19 @@ export default class WindowManager extends EventEmitter {
       if (url.startsWith('https:')) shell.openExternal(url)
       return { action: 'deny' }
     })
+  }
+  initWindowSize() {
+    const size = this.store.get('windowSize')
+    if (!size) {
+      this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
+      this.store.set('windowSize', JSON.stringify(this.size))
+    } else {
+      try {
+        this.size = JSON.parse(this.store.get('windowSize') as string)
+      } catch (e) {
+        this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
+      }
+    }
   }
   async loadURL() {
     if (app.isPackaged) {

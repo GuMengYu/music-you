@@ -2,7 +2,7 @@
   <v-card :image="albumPicUrl" class="md-container">
     <v-row no-gutters class="md-content">
       <v-col cols="6" class="pa-4 d-flex align-center justify-center">
-        <v-btn icon variant="plain" position="absolute" location="top start" @click="close">
+        <v-btn icon variant="plain" position="absolute" :location="is.macOS() ? 'top end' : 'top start'" @click="close">
           <v-icon>
             {{ icon.mdiClose }}
           </v-icon>
@@ -21,7 +21,6 @@
             v-bind="hoverProps"
             class="frame-cover-img rounded-xl"
             :src="albumPicUrl"
-            :lazy-src="placeholderUrl"
             :aspect-ratio="1"
             :gradient="`90deg, rgb(0 0 0 / 50%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 50%) 100%`"
           >
@@ -77,17 +76,17 @@ export default defineComponent({
       return track.value?.al?.picUrl
     })
     async function close() {
-      if (is.electron()) {
-        const ipcRenderer = useIpcRenderer()
-        await ipcRenderer.invoke('restoreSize')
-      }
+      // if (is.electron()) {
+      //   const ipcRenderer = useIpcRenderer()
+      //   await ipcRenderer.invoke('restoreSize')
+      // }
       appStore.showLyric = false
     }
-    watchEffect(() => {
-      if (albumPicUrl.value) {
-        initColor(albumPicUrl.value)
-      }
-    })
+    // watchEffect(() => {
+    //   if (albumPicUrl.value) {
+    //     initColor(albumPicUrl.value)
+    //   }
+    // })
     async function initColor(url: string) {
       if (!albumPicUrl.value) {
         return
@@ -110,6 +109,7 @@ export default defineComponent({
       placeholderUrl,
       textColor,
       bgColor,
+      is,
     }
   },
   data: () => ({

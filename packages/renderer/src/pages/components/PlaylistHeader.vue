@@ -19,6 +19,7 @@ import { useDisplay } from 'vuetify'
 
 import { sub } from '@/api/music'
 import { deletePlayList, updatePlaylist } from '@/api/playlist'
+import VSquareBtn from '@/components/button/VSquareBtn.vue'
 import useDonwload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
@@ -43,6 +44,8 @@ const userStore = useUserStore()
 const props = defineProps<{
   playlist: Playlist
 }>()
+
+const playLoading = ref(false)
 
 const editForm = reactive({
   title: '',
@@ -71,8 +74,12 @@ watchEffect(() => {
 })
 async function play() {
   if (props.playlist) {
+    playLoading.value = true
     playQueueStore.updatePlayQueue(props.playlist.id, 'playlist', props.playlist.name, props.playlist.tracks)
     player.next()
+    setTimeout(() => {
+      playLoading.value = false
+    }, 1000)
   }
 }
 
@@ -147,7 +154,7 @@ function saveCover() {
         </v-btn>
       </template>
     </Cover>
-    <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-2">
+    <v-card v-if="smAndUp" color="surfaceVariant" flat rounded="lg" class="d-flex flex-column pa-4 flex-fill gap-1">
       <div class="d-flex justify-space-between align-center">
         <span class="d-flex align-center">
           <v-icon size="small">{{ playlist.privacy ? mdiLockOutline : mdiPlaylistMusicOutline }}</v-icon>
@@ -169,9 +176,11 @@ function saveCover() {
             {{ playlist.name }}
           </span>
         </span>
-        <v-btn size="small" color="primary" variant="flat" rounded class="px-5" @click="play">
-          {{ $t('common.play') }}
-        </v-btn>
+        <v-square-btn size="large" color="primary" variant="flat" rounded="lg" :loading="playLoading" @click="play">
+          <v-icon size="small">
+            {{ mdiPlay }}
+          </v-icon>
+        </v-square-btn>
       </div>
       <div class="d-flex align-center">
         <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
@@ -210,7 +219,7 @@ function saveCover() {
                 {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
               </v-btn>
             </template>
-            <v-card class="pt-4 pb-2" rounded="xl" color="surface" width="90vw" max-width="350">
+            <v-card class="pt-4" rounded="xl" color="surface" width="90vw" max-width="350">
               <div class="d-flex justify-center">
                 <v-icon color="secondary">
                   {{ mdiDeleteAlert }}

@@ -129,7 +129,6 @@ function togglePlay() {
 }
 function openMenu(e: MouseEvent) {
   // active current item
-  itemRef!.value!.$el.click()
   // display context menu
   emit('openctxmenu', {
     x: e.x,
@@ -137,6 +136,7 @@ function openMenu(e: MouseEvent) {
     track: props.track as Track,
     liked: liked.value,
   })
+  itemRef!.value!.$el.click()
 }
 async function toggleLike() {
   likeLoading.value = true
@@ -160,6 +160,7 @@ async function toggleLike() {
     <v-list-item
       v-bind="_props"
       ref="itemRef"
+      v-ripple="false"
       rounded="lg"
       class="pa-0"
       active-color="primary"
@@ -169,7 +170,7 @@ async function toggleLike() {
       @contextmenu.prevent="openMenu"
     >
       <div
-        class="px-2 rounded-lg"
+        class="px-1 rounded-lg"
         :title="available.enable ? '' : available.text"
         :class="{ [className]: true, unavailable: !available.enable }"
       >
@@ -198,37 +199,42 @@ async function toggleLike() {
             :aspect-ratio="1"
           />
           <div class="track-info">
-            <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary font-weight-bold' : ''">
+            <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary' : ''">
               {{ track.name }}</v-list-item-title
             >
             <v-list-item-subtitle class="d-flex align-center">
-              <span v-if="symbol.vip" class="track-quality"> vip </span>
-              <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span>
+              <!-- <span v-if="symbol.vip" class="track-quality"> vip </span>
+              <span v-if="symbol.q" class="track-quality"> {{ symbol.q }} </span> -->
               <artists-link :artists="artists" class="line-clamp-1 text-caption" />
             </v-list-item-subtitle>
           </div>
         </div>
         <div v-if="album" class="track-second">
-          <router-link :to="`/album/${trackAlbum.id}`" class="text-subtitle-2 text-onSurface line-clamp-2">
+          <router-link
+            v-if="trackAlbum.id"
+            :to="`/album/${trackAlbum.id}`"
+            class="text-subtitle-2 text-onSurface line-clamp-2"
+          >
             {{ trackAlbum.name }}
           </router-link>
+          <span v-else>{{ '未知' }}</span>
         </div>
         <div class="track-third">
           <v-btn
             v-visible="liked || isHovering"
             :loading="likeLoading"
-            size="small"
             icon
             variant="text"
+            :color="liked ? 'primary' : ''"
             @click.prevent="toggleLike"
           >
-            <v-icon size="small" :color="liked ? 'pink' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
+            <v-icon size="x-small" :color="liked ? 'primary' : ''">{{ liked ? mdiHeart : mdiHeartOutline }}</v-icon>
           </v-btn>
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
           </div>
-          <v-btn v-visible="isHovering" icon color="primary" variant="text" size="small" @click.prevent="openMenu">
-            <v-icon size="small">
+          <v-btn v-visible="isHovering" icon color="primary" variant="text" @click.prevent="openMenu">
+            <v-icon size="x-small">
               {{ mdiDotsHorizontal }}
             </v-icon>
           </v-btn>
@@ -245,9 +251,9 @@ async function toggleLike() {
   grid-gap: 5px;
   align-items: center;
   height: 56px;
-  grid-template-columns: [index] 40px [first] 4fr [last] minmax(140px, 1fr);
+  grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 1fr);
   &.album-item {
-    grid-template-columns: [index] 40px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
+    grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 1fr);
   }
   &:hover {
     background-color: rgba(var(--v-theme-surfaceVariant), 0.5);
@@ -279,12 +285,6 @@ async function toggleLike() {
   }
   .track-second {
     width: fit-content;
-    a {
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
   .track-third {
     display: flex;

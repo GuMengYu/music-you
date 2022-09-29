@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 
 import { useAppStore } from '@/store/app'

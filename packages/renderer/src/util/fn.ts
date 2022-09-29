@@ -149,7 +149,7 @@ export function getImageDataUrl(url: string) {
  * @param {*} k 标准大小 （1024 ｜ 1000）
  * @returns
  */
-export function bytesToSize(_bytes: string | number, k = 1024) {
+export function bytesToSize(_bytes: string | number = 0, k = 1024) {
   const bytes = +_bytes
   if (bytes === 0) return '0 B'
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],

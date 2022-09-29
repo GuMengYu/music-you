@@ -14,6 +14,8 @@
 
 vue3 + ts 重构 2.0 版本
 
+[桌面客户端下载](https://github.com/GuMengYu/v-player/releases)
+
 🎨 已有功能
 
 - 单纯的播放器，不能网抑云
@@ -22,7 +24,7 @@ vue3 + ts 重构 2.0 版本
 - 日推，私人 fm, mv 播放
 - 适配黑暗模式
 - 歌词
-- 桌面客户端
+- 桌面客户端 ([下载](https://github.com/GuMengYu/v-player/releases))
 
 🏗 Work In Progress
 
@@ -98,6 +100,8 @@ npm run electron:build
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804692-3a3a0902-6e3c-4a37-a596-f59494d88020.png">
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804702-ea40c49c-aa4a-46fe-8e28-eadfc0519eb6.png">
 </picture>
+
+https://user-images.githubusercontent.com/22021419/186813168-48a2d0ae-0388-4b70-9844-a540305a1096.mov
 
 ## License
 

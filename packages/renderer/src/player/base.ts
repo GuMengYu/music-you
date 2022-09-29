@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { useIpcRenderer } from '@vueuse/electron'
 import { Howl, Howler } from 'howler'
 import type { Store } from 'pinia'
 import type { I18n } from 'vue-i18n'
@@ -64,6 +64,8 @@ export class Player {
   private locale: string
   pipLyric: null | PipLyric
   html5: boolean
+  taskbarProgress?: boolean
+  ipcRenderer?: any
   constructor() {
     this.store = usePlayerStore()
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
@@ -89,8 +91,11 @@ export class Player {
     this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
     if (this.track?.id) {
-      console.log('restore track from storage', this.track)
       this.updatePlayerTrack(this.track.id, false, false)
+    }
+    if (is.electron() && is.windows()) {
+      this.taskbarProgress = true
+      this.ipcRenderer = useIpcRenderer()
     }
   }
   private initStoreEvent() {
@@ -313,10 +318,10 @@ export class Player {
     this.currentTime = current
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
-    if (is.electron() && is.windows() && this.track?.dt) {
+    if (this.taskbarProgress && this.track?.dt) {
       const p = current / (this.track.dt / 1000)
       const progress = p >= 1 ? 1 : p
-      ipcRenderer.invoke('setProgress', progress)
+      this.ipcRenderer.invoke('setProgress', progress)
     }
   }
   setSeek(val: number) {

@@ -10,7 +10,7 @@
     :style="{
       position: 'fixed',
       right: '16px',
-      bottom: '86px',
+      bottom: '78px',
       borderRadius: '16px',
       height: '64px',
       zIndex: 1,

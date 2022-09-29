@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { mdiSkipNext, mdiSkipPrevious } from '@mdi/js'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 
 import { usePlayer } from '@/player/player'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { playToPause as playToPauseAnimationData } from '@/util/animationData.json'
+
+import VSquareBtn from './button/VSquareBtn.vue'
 const mdiRepeatOff =
   'M7 22 3 18 7 14 8.4 15.45 6.85 17H17V13H19V19H6.85L8.4 20.55ZM5 11V5H17.15L15.6 3.45L17 2L21 6L17 10L15.6 8.55L17.15 7H7V11Z'
 const mdiRepeatOnce =
@@ -92,42 +93,40 @@ function toggleShuffle() {
 }
 </script>
 <template>
-  <div class="d-flex justify-center align-center control-buttons gap-2">
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="toggleShuffle">
+  <div class="d-flex justify-center align-center control-buttons">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="toggleShuffle">
       <v-icon size="x-small" :color="shuffle ? 'primary' : ''">
         {{ shuffle ? mdiShuffle : mdiShuffleDisabled }}
       </v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="prev">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="prev">
       <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
     </v-btn>
-
-    <v-btn
-      icon
-      class="play-fab"
-      :style="{
-        animation: playing ? 'pulseWarn 1.5s infinite' : '',
-      }"
-      color="primary"
+    <v-square-btn
+      color="primaryContainer"
       :loading="loadingTrack"
       variant="flat"
+      rounded="lg"
+      size="large"
+      class="mx-2"
+      elevation="1"
       @click="togglePlay"
     >
       <lottie-icon
         v-show="!loadingTrack"
         class="lottie-icon"
-        style="position: relative; top: 1px"
+        style="position: relative; top: 2px"
         :options="playOptions"
         :width="30"
         :height="30"
         @anim-created="handleAnimation"
       ></lottie-icon>
-    </v-btn>
+    </v-square-btn>
 
-    <v-btn icon variant="text" size="small" @click="next">
+    <v-btn icon variant="text" @click="next">
       <v-icon size="small">{{ mdiSkipNext }}</v-icon>
     </v-btn>
-    <v-btn icon :disabled="isCurrentFm" variant="text" size="small" @click="switchMode">
+    <v-btn icon :disabled="isCurrentFm" variant="text" @click="switchMode">
       <v-icon size="x-small" :color="repeatOn && !isCurrentFm ? 'primary' : ''">
         {{ orderIconState }}
       </v-icon>

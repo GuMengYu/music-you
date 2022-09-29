@@ -109,7 +109,7 @@ function scrollTo(forward: boolean) {
       top: calc(50% - 32px);
     }
     .next-items-btn {
-      right: 0;
+      right: 2px;
       transform: translateX(50%);
     }
     .previous-items-btn {

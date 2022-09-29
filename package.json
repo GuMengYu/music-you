@@ -1,6 +1,6 @@
 {
   "name": "vplayer-next",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "private": true,
   "main": "dist/main/index.cjs",
   "author": "gumengyu",
@@ -24,21 +24,23 @@
   },
   "dependencies": {
     "@unblockneteasemusic/server": "^0.27.0-rc.6",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#unlock",
     "dotenv": "^16.0.1",
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "^4.4.7",
-    "express": "^4.17.3",
-    "http-proxy-middleware": "^2.0.6"
+    "electron-store": "^8.1.0",
+    "http-proxy-middleware": "^2.0.6",
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
+    "polka": "^0.5.2",
+    "sirv": "^2.0.2"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.1.2",
     "@mdi/js": "^6.5.95",
-    "@types/express": "^4.17.13",
     "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
     "@types/md5": "^2.3.2",
     "@types/overlayscrollbars": "^1.12.1",
+    "@types/polka": "^0.5.4",
     "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
@@ -88,8 +90,8 @@
     "vue-tsc": "^0.34.11",
     "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vue3-slider": "git+https://github.com/GuMengYu/vue3-slider.git",
-    "vuetify": "3.0.0-beta.5",
-    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git",
+    "vuetify": "3.0.0-beta.10",
+    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git#v0.0.1",
     "wavesurfer.js": "^6.2.0",
     "webfontloader": "^1.0.0"
   },

@@ -1,7 +1,7 @@
 <template>
   <v-app class="v-player">
     <AppCC />
-    <app-system-bar class="v-player-header" />
+    <!-- <app-system-bar v-if="is.electron()" class="v-player-header" /> -->
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
 
@@ -18,6 +18,7 @@
 import { useDisplay, useTheme } from 'vuetify'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
+import is from '@/util/is'
 
 import AppBottomNav from './layout/BottomNav.vue'
 import AppCC from './layout/CC.vue'
@@ -34,7 +35,7 @@ const display = useDisplay()
 const { smAndUp, mdAndUp, smAndDown } = display
 const theme = useTheme()
 watchEffect(() => {
-  theme.name.value = themeName.value
+  theme.global.name.value = themeName.value
 })
 </script>
 <style lang="scss">
@@ -75,7 +76,7 @@ $transition-time: 350ms;
   transition: padding $transition-time $cubic-bezier;
 }
 .v-player-header {
-  transition-property: margin, width;
+  transition-property: left, width;
   transition-duration: $transition-time;
   transition-timing-function: $cubic-bezier;
 }

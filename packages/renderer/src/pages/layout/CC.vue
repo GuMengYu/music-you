@@ -8,7 +8,7 @@
     floating
     class="bg-surface"
   >
-    <v-toolbar density="compact" class="pr-4" color="surface">
+    <v-toolbar density="compact" color="surface">
       <v-toolbar-title class="text-caption font-weight-bold text-onSurfaceVariant">{{
         $t('common.shortcut')
       }}</v-toolbar-title>
@@ -32,12 +32,12 @@
           <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
-      <!-- <v-row dense class="mt-1">
+      <v-row dense class="mt-1">
         <v-col class="d-flex">
           <switch-card v-if="isDev" title="Playground" :icon="mdiTestTube" @click="to('playground')" />
         </v-col>
         <v-col></v-col>
-      </v-row> -->
+      </v-row>
       <v-divider class="my-2" />
       <MediaCard />
       <v-divider class="my-2" />
@@ -48,7 +48,6 @@
 
 <script lang="ts">
 import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
-import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 
 // Composables
@@ -71,7 +70,7 @@ export default defineComponent({
         setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
       },
     })
-    const isDev = import.meta.env.DEV
+    const isDev = import.meta.env.DEV ?? false
     // for dev
     function to(name: 'setting' | 'playground') {
       router.push(`/${name}`)
