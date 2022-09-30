@@ -38,6 +38,7 @@ export interface PlayerInstance {
   prev: () => void
   togglePlay: () => void
   setSeek: (seek: number) => void
+  setoutputDevice: () => void
 }
 export interface PipLyric {
   enter: () => void
@@ -176,6 +177,7 @@ export class Player {
       await sleep(500)
       this.next()
     }
+    this.setoutputDevice()
   }
   private initSound(src: string) {
     Howler.autoUnlock = false
@@ -334,6 +336,12 @@ export class Player {
   }
   restoreProgress() {
     this.setProgressInterval()
+  }
+  setoutputDevice() {
+    const soundNode = this.howler?._sounds.length && this.howler?._sounds[0]._node
+    if (this.settingStore.outputdevice && soundNode) {
+      soundNode.setSinkId(this.settingStore.outputdevice)
+    }
   }
   private setProgressInterval(this: Player) {
     this.progressInterval = setTimeout(() => {

@@ -104,6 +104,7 @@
     "setting": {
       "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）- 改动将在重启应用时就绪",
       "quality": "流媒体质量",
+      "device": "音频输出设备",
       "language": "选择语言-改变将会立即生效",
       "reset": "重置应用数据(包括缓存，用户登录信息)",
       "manage_account": "管理您的网易云账号(web)",
@@ -149,7 +150,7 @@
     "auto": "跟随系统",
     "other": "其他",
     "mixed": "混合",
-    "quality": "音频质量",
+    "quality": "音频",
     "exitmode": "关闭主面板",
     "usageSize": "缓存占用空间",
     "dynamicBg": "歌词动态背景",

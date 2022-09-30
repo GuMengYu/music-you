@@ -104,6 +104,7 @@
     "setting": {
       "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on) - Changes will be ready when the app is restarted",
       "quality": "Streaming quality",
+      "device": "Audio output device",
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",
       "manage_account": "Manage Account (web)",
@@ -148,7 +149,7 @@
     "dark_theme": "Dark Theme",
     "auto": "auto",
     "mixed": "mixed",
-    "quality": "Audio quality",
+    "quality": "Audio",
     "exitmode": "Close the main panel",
     "usageSize": "cache",
     "dynamicBg": "Dynamic Background",

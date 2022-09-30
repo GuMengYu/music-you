@@ -30,7 +30,7 @@ const selected = computed({
     return [props.modelValue]
   },
   set(value) {
-    emit('update:modelValue', value[0])
+    value.length && emit('update:modelValue', value[0])
   },
 })
 

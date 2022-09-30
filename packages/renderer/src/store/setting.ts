@@ -35,6 +35,7 @@ export interface SettingState {
   playingMode: PLAYING_MODE
   rail: boolean
   quality: number
+  outputdevice: string | undefined
   cacheLimit: number
   volume: number
   account: Record<string, string>
@@ -43,19 +44,24 @@ export interface SettingState {
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
-    return useLocalStorage<SettingState>('setting', {
-      locale: 'zhCN',
-      appearance: APPEARANCE.SYSTEM,
-      wallpaperColor: WallpaperColor.GreenRockyMountains,
-      playingMode: PLAYING_MODE.MD,
-      customTheme: [],
-      rail: true,
-      quality: 320000,
-      cacheLimit: 500,
-      volume: 0.8,
-      account: {},
-      visualization: false,
-      exitMode: ExitMode.prompt,
-    })
+    return useLocalStorage<SettingState>(
+      'setting',
+      {
+        locale: 'zhCN',
+        appearance: APPEARANCE.SYSTEM,
+        wallpaperColor: WallpaperColor.GreenRockyMountains,
+        playingMode: PLAYING_MODE.MD,
+        customTheme: [],
+        rail: true,
+        quality: 320000,
+        outputdevice: undefined,
+        cacheLimit: 500,
+        volume: 0.8,
+        account: {},
+        visualization: false,
+        exitMode: ExitMode.prompt,
+      },
+      { mergeDefaults: true }
+    )
   },
 })
