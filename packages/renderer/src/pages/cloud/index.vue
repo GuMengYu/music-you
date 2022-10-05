@@ -134,7 +134,7 @@ function handleCloseUploadModal() {
     </template>
     <cloud-list :tracks="clouds" @update-list="(list) => (clouds = [...list])" />
     <v-dialog v-model="uploadMusic.visible" persistent class="upload-file-wrapper">
-      <v-card outlined color="surface" class="pt-4" rounded="lg" width="90vw" max-width="350">
+      <v-card outlined color="surface" class="pt-4 align-self-center" rounded="lg" width="90vw" max-width="350">
         <div class="d-flex justify-center">
           <v-icon color="secondary">
             {{ mdiCloudUpload }}

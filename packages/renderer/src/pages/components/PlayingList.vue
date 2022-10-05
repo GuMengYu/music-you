@@ -5,7 +5,7 @@
         v-slot="{ item: track, index }"
         class="scroller"
         :style="{
-          height: `450px`,
+          height: `290px`,
         }"
         :items="nextList"
         :item-size="64"

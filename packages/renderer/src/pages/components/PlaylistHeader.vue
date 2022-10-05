@@ -219,7 +219,7 @@ function saveCover() {
                 {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
               </v-btn>
             </template>
-            <v-card class="pt-4" rounded="xl" color="surface" width="90vw" max-width="350">
+            <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
               <div class="d-flex justify-center">
                 <v-icon color="secondary">
                   {{ mdiDeleteAlert }}
@@ -250,7 +250,7 @@ function saveCover() {
       </span>
     </div>
     <v-dialog v-model="showEdit" :scrollable="true">
-      <v-card width="90vw" max-width="450" min-height="300" rounded="xl" class="py-2">
+      <v-card width="90vw" max-width="450" min-height="300" rounded="xl" class="py-2 align-self-center">
         <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
         <v-card-text>
           <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
@@ -264,7 +264,7 @@ function saveCover() {
       </v-card>
     </v-dialog>
     <v-dialog v-model="showMoreDesc" :scrollable="true">
-      <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="py-4">
+      <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="py-4 align-self-center">
         <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
         <v-card-text>
           {{ playlist['description'] }}

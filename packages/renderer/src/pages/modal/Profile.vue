@@ -57,9 +57,9 @@ const signOut = () => {
 </script>
 <template>
   <v-dialog v-model="show">
-    <v-card flat color="surface" width="90vw" max-width="420" rounded="xl">
+    <v-card flat color="surface" width="50vw" max-width="450" rounded="xl" class="align-self-center">
       <div class="px-2 pt-2">
-        <v-btn icon @click="show = false">
+        <v-btn icon variant="plain" @click="show = false">
           <v-icon> {{ mdiClose }}</v-icon>
         </v-btn>
       </div>

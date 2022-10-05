@@ -19,7 +19,7 @@ const itemHeight = 56
     :style="{
       display: 'grid',
       gridGap: '5px',
-      gridTemplateColumns: '[index] 48px [first] 3fr [second] minmax(140px, 1fr)',
+      gridTemplateColumns: '[index] 48px [first] 3fr [second] minmax(140px, 160px)',
     }"
   >
     <span class="d-flex justify-center">#</span>

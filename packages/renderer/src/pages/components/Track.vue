@@ -199,7 +199,6 @@ function openMenu(e: MouseEvent) {
   }
   .track-third {
     display: flex;
-    gap: 16px;
     align-items: center;
     justify-content: center;
   }

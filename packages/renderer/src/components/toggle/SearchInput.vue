@@ -58,17 +58,17 @@ function handleSearch() {
   max-width: 320px;
   :deep(.v-field--variant-solo) {
     box-shadow: none;
-    border-radius: 40px;
-    padding-inline-end: 2px;
+    // border-radius: 40px;
+    // padding-inline-end: 2px;
 
     .v-field__input {
-      padding-top: 0px;
+      // padding-top: 0px;
       font-size: 0.875rem;
       font-weight: 500;
     }
 
     .v-field__append-inner {
-      padding-top: 0px;
+      // padding-top: 0px;
       align-items: center;
     }
   }

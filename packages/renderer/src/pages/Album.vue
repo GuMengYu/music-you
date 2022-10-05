@@ -181,7 +181,7 @@ function saveCover() {
         </CardRow>
       </Col>
       <v-dialog v-model="showMoreDesc" scrollable>
-        <v-card rounded="xl" color="surfaceVariant" class="py-4" width="90vw" max-width="450">
+        <v-card rounded="xl" color="surfaceVariant" class="py-4 align-self-center" width="90vw" max-width="450">
           <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
           <v-card-text>
             {{ state.album['description'] }}
