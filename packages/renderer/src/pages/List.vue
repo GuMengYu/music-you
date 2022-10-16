@@ -45,7 +45,7 @@ async function fetch(id: number, flush = false) {
   // ”我喜欢的音乐“ 歌单能够返回完整的tracks, 所以不用重新请求完整列表
   await nextTick()
   if (!isMyFavPlayList.value && state.playlist.trackIds?.length) {
-    const { songs } = await getPlaylistTrackAll(id)
+    const { songs } = await getPlaylistTrackAll(playlist)
     state.playlist.tracks = songs
   }
   if (playlist.id) {

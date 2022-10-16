@@ -31,14 +31,14 @@ export const getPlaylistDetail = (id: number, realTime = false) => {
  * @param offset 默认值为0
  * @returns Playlist
  */
-export const getPlaylistTrackAll = (id: number, limit?: number, offset = 0) => {
+export const getPlaylistTrackAll = (playlist: Playlist, limit?: number, offset = 0) => {
   const params: {
     id: number
     limit?: number
     offset?: number
     timestamp?: number
-  } = { id, offset }
-  limit && (params.limit = limit)
+  } = { id: playlist.id, offset }
+  params.limit = limit ?? playlist.trackIds.length >= 1000 ? 1000 : playlist.trackIds.length
   return request<{
     songs: Track[]
     privileges: []

@@ -101,7 +101,7 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: nu
   let res: { id: number; tracks: Track[]; name?: string }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
-    const { songs } = await getPlaylistTrackAll(id)
+    const { songs } = await getPlaylistTrackAll(playlist)
     res = {
       id: playlist.id,
       name: playlist.name,
