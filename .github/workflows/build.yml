@@ -43,11 +43,11 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: v-player-macos
-          path: release/*/vplayer-next-mac*.dmg
+          path: release/*/vplayer-mac*.dmg
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v3
         with:
           name: v-player-windows
-          path: release/*/vplayer-next*.exe
+          path: release/*/vplayer*.exe
           if-no-files-found: ignore
