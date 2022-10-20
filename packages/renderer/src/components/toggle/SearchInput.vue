@@ -55,7 +55,7 @@ function handleSearch() {
 </script>
 <style lang="scss" scoped>
 .search-input {
-  max-width: 320px;
+  max-width: 256px;
   :deep(.v-field--variant-solo) {
     box-shadow: none;
     // border-radius: 40px;
