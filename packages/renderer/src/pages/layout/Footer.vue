@@ -40,6 +40,9 @@
             <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
           </div>
           <like-toggle :id="track?.id" />
+          <v-btn density="comfortable" icon variant="text" @click="openContextMenu">
+            <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
+          </v-btn>
           <v-spacer />
         </div>
         <Control />
@@ -49,7 +52,7 @@
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
             <v-tooltip activator="parent" location="top">
-              {{ showPipLyric ? $t('common.hide_pip') : $t('common.show_pip') }}
+              {{ showPipLyric ? t('common.hide_pip') : t('common.show_pip') }}
             </v-tooltip>
           </v-btn>
           <div class="volume-bar d-flex align-center mr-2">
@@ -84,6 +87,7 @@
 <script setup lang="ts">
 import {
   mdiArrowExpand,
+  mdiDotsHorizontal,
   mdiPictureInPictureTopRight,
   mdiPlaylistMusic,
   mdiVolumeHigh,
@@ -94,31 +98,58 @@ import {
 import { useEventBus } from '@vueuse/core'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import Slider from 'vue3-slider'
 import { useTheme } from 'vuetify'
+import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
+import { opPlaylist } from '@/api/music'
 import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
+import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useSettingStore } from '@/store/setting'
+import { useUserStore } from '@/store/user'
 import { PLAYING_MODE } from '@/util/enum'
 import { sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
+import { specialType } from '@/util/metadata'
 // utitlity
 const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
 const settingStore = useSettingStore()
+const userStore = useUserStore()
 const router = useRouter()
 const player = usePlayer()
 const theme = useTheme()
+const toast = useToast()
+const { t } = useI18n()
+
+const contextMenu = useContextMenu()
+
+const { themeName } = useCurrentTheme()
+
 const currentTheme = computed(() => {
   return theme.current.value
+})
+
+const playlists = computed(() => {
+  return userStore.createdPlaylists
+    .map((i) => {
+      return {
+        id: i.id,
+        name: i.name,
+        specialType: i.specialType,
+      }
+    })
+    .filter((playlist) => playlist.specialType !== specialType.fav.type)
 })
 
 // store state
@@ -215,6 +246,42 @@ const volumeDebouncedFn = useDebounceFn(
   200,
   { maxWait: 1000 }
 )
+
+function openContextMenu(event: MouseEvent) {
+  const { x, y } = event
+  const option = {
+    theme: themeName.value,
+    x,
+    y,
+    items: [
+      ...playlists.value.map((list) => {
+        return {
+          label: list.name,
+          onClick: () => {
+            track.value?.id && trackToPlayList(list.id, track.value.id)
+          },
+        }
+      }),
+    ],
+    offsetFooter: 48,
+    customClass: 'bg-surfaceVariant',
+  }
+  contextMenu(option)
+}
+
+async function trackToPlayList(playlistId: number, trackId: number) {
+  // add to playlist
+  try {
+    const { code, message } = await opPlaylist('add', playlistId, trackId)
+    if (code === 200) {
+      toast.success(t('message.add_list_success'))
+    } else {
+      toast.error(message!)
+    }
+  } catch (e) {
+    toast.error(t('message.something_wrong'))
+  }
+}
 </script>
 
 <style lang="scss" scoped>
