@@ -131,7 +131,15 @@ function saveCover() {
               <v-icon size="small">{{ mdiAlbum }}</v-icon>
               <span class="text-h5 mx-2 line-clamp-1"> {{ state.album.name }} </span>
             </span>
-            <v-square-btn size="large" color="primary" variant="flat" rounded="lg" :loading="playLoading" @click="play">
+            <v-square-btn
+              size="large"
+              color="primaryContainer"
+              variant="flat"
+              elevation="1"
+              rounded="lg"
+              :loading="playLoading"
+              @click="play"
+            >
               <v-icon size="small">
                 {{ mdiPlay }}
               </v-icon>

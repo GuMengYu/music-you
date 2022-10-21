@@ -10,7 +10,6 @@ import {
   mdiPlay,
   mdiPlaylistEdit,
   mdiPlaylistMusicOutline,
-  mdiShuffle,
 } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { useI18n } from 'vue-i18n'
@@ -159,14 +158,14 @@ function saveCover() {
         <span class="d-flex align-center">
           <v-icon size="small">{{ playlist.privacy ? mdiLockOutline : mdiPlaylistMusicOutline }}</v-icon>
           <span class="text-caption ml-2 text-primary">{{
-            $t(`main.${playlist.privacy ? 'p_playlists' : 'playlists'}`)
+            t(`main.${playlist.privacy ? 'p_playlists' : 'playlists'}`)
           }}</span>
         </span>
         <span class="text-caption">
-          <span> {{ $t('common.track_size', [playlist.trackCount]) }} </span> ·
+          <span> {{ t('common.track_size', [playlist.trackCount]) }} </span> ·
           <span class="text-primary">{{ formatDate(playlist.createTime, 'YYYY') }}</span> ·
-          <span>{{ $t('common.duration_total', [formatDuring(tracksDt)]) }}</span> ·
-          <span class="text-primary">{{ $t('common.play_count', [formatNumber(playlist.playCount)]) }}</span>
+          <span>{{ t('common.duration_total', [formatDuring(tracksDt)]) }}</span> ·
+          <span class="text-primary">{{ t('common.play_count', [formatNumber(playlist.playCount)]) }}</span>
         </span>
       </div>
       <div class="d-flex justify-space-between align-center">
@@ -176,7 +175,15 @@ function saveCover() {
             {{ playlist.name }}
           </span>
         </span>
-        <v-square-btn size="large" color="primary" variant="flat" rounded="lg" :loading="playLoading" @click="play">
+        <v-square-btn
+          size="large"
+          color="primaryContainer"
+          variant="flat"
+          elevation="1"
+          rounded="lg"
+          :loading="playLoading"
+          @click="play"
+        >
           <v-icon size="small">
             {{ mdiPlay }}
           </v-icon>
@@ -216,7 +223,7 @@ function saveCover() {
                 class="mr-2"
                 :disabled="isDelete"
               >
-                {{ $tc('message.delete_list', isDelete ? 2 : 1) }}
+                {{ t('message.delete_list', isDelete ? 2 : 1) }}
               </v-btn>
             </template>
             <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
@@ -225,20 +232,20 @@ function saveCover() {
                   {{ mdiDeleteAlert }}
                 </v-icon>
               </div>
-              <v-card-title class="text-center">{{ $tc('message.delete_list', 1) }}</v-card-title>
-              <v-card-subtitle class="text-center">{{ $t('message.delete_list_alert') }}</v-card-subtitle>
+              <v-card-title class="text-center">{{ t('message.delete_list', 1) }}</v-card-title>
+              <v-card-subtitle class="text-center">{{ t('message.delete_list_alert') }}</v-card-subtitle>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" variant="plain" @click="showDeleteAlert = false">
-                  {{ $t('common.disagree') }}
+                  {{ t('common.disagree') }}
                 </v-btn>
-                <v-btn color="primary" variant="plain" @click="del"> {{ $t('common.agree') }} </v-btn>
+                <v-btn color="primary" variant="plain" @click="del"> {{ t('common.agree') }} </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
         </template>
         <v-btn v-else-if="!isMyFavPlayList" size="small" variant="outlined" color="primary" @click="subscribe">
-          {{ $tc('common.collect', subscribed ? 2 : 1) }}
+          {{ t('common.collect', subscribed ? 2 : 1) }}
         </v-btn>
       </div>
     </v-card>
@@ -251,21 +258,21 @@ function saveCover() {
     </div>
     <v-dialog v-model="showEdit" :scrollable="true">
       <v-card width="90vw" max-width="450" min-height="300" rounded="xl" class="py-2 align-self-center">
-        <v-card-title> {{ $t('main.playlist.edit') }} </v-card-title>
+        <v-card-title> {{ t('main.playlist.edit') }} </v-card-title>
         <v-card-text>
-          <v-text-field v-model="editForm.title" variant="outlined" :label="$t('main.playlist.name')"> </v-text-field>
-          <v-textarea v-model="editForm.description" hide-details variant="outlined" :label="$t('main.playlist.desc')">
+          <v-text-field v-model="editForm.title" variant="outlined" :label="t('main.playlist.name')"> </v-text-field>
+          <v-textarea v-model="editForm.description" hide-details variant="outlined" :label="t('main.playlist.desc')">
           </v-textarea>
         </v-card-text>
         <v-card-actions class="justify-end">
-          <v-btn color="primary" variant="plain" plain @click="cancel"> {{ $t('common.cancel') }} </v-btn>
-          <v-btn color="primary" variant="plain" plain @click="edit"> {{ $t('common.confirm') }} </v-btn>
+          <v-btn color="primary" variant="plain" plain @click="cancel"> {{ t('common.cancel') }} </v-btn>
+          <v-btn color="primary" variant="plain" plain @click="edit"> {{ t('common.confirm') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="showMoreDesc" :scrollable="true">
       <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="py-4 align-self-center">
-        <v-card-title>{{ $t('main.playlist.desc') }}</v-card-title>
+        <v-card-title>{{ t('main.playlist.desc') }}</v-card-title>
         <v-card-text>
           {{ playlist['description'] }}
         </v-card-text>
@@ -273,6 +280,3 @@ function saveCover() {
     </v-dialog>
   </div>
 </template>
-<style scoped>
-/* scoped css */
-</style>

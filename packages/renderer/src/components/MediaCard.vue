@@ -16,7 +16,7 @@
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
-          <v-square-btn variant="flat" color="primary" class="rounded-lg" @click="togglePlay">
+          <v-square-btn color="primaryContainer" variant="flat" elevation="1" class="rounded-lg" @click="togglePlay">
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-square-btn>
         </div>

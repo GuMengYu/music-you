@@ -1,7 +1,15 @@
 <template>
   <Col :title="$t('main.daily.title')" :subtitle="$t('main.daily.sub')">
     <template #more>
-      <v-square-btn variant="flat" size="large" rounded="lg" :loading="loading" color="primary" @click="play">
+      <v-square-btn
+        color="primaryContainer"
+        variant="flat"
+        elevation="1"
+        size="large"
+        rounded="lg"
+        :loading="loading"
+        @click="play"
+      >
         <v-icon> {{ mdiPlay }}</v-icon>
       </v-square-btn>
     </template>

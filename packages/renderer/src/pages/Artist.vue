@@ -133,7 +133,15 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                 >( {{ state.artist['transNames']?.join('、') }} )</span
               >
             </span>
-            <v-square-btn size="large" :loading="playLoading" color="primary" variant="flat" rounded="lg" @click="play">
+            <v-square-btn
+              size="large"
+              :loading="playLoading"
+              color="primaryContainer"
+              variant="flat"
+              elevation="1"
+              rounded="lg"
+              @click="play"
+            >
               <v-icon size="small">
                 {{ mdiPlay }}
               </v-icon>
