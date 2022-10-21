@@ -48,13 +48,18 @@
         <Control />
         <div class="playing-bar__right">
           <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
-            <v-icon ref="playlistBtn" size="x-small">
+            <v-icon size="x-small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
             <v-tooltip activator="parent" location="top">
               {{ showPipLyric ? t('common.hide_pip') : t('common.show_pip') }}
             </v-tooltip>
           </v-btn>
+          <!-- <v-btn icon @click="toggleMinimal">
+            <v-icon size="x-small">
+              {{ mdiDockWindow }}
+            </v-icon>
+          </v-btn> -->
           <div class="volume-bar d-flex align-center mr-2">
             <v-btn icon @click="toggleMute">
               <v-icon size="small">
@@ -87,6 +92,7 @@
 <script setup lang="ts">
 import {
   mdiArrowExpand,
+  mdiDockWindow,
   mdiDotsHorizontal,
   mdiPictureInPictureTopRight,
   mdiPlaylistMusic,
@@ -231,6 +237,13 @@ player.pipLyric!.onEnter = function () {
   console.log('on enter')
   showPipLyric.value = true
 }
+
+// async function toggleMinimal() {
+//   if (is.electron()) {
+//     const ipcRenderer = useIpcRenderer()
+//     await ipcRenderer.invoke('minimalWindow')
+//   }
+// }
 
 async function showPlayingPage() {
   // if (is.electron() && settingStore.playingMode === PLAYING_MODE.MD && !settingStore.visualization) {

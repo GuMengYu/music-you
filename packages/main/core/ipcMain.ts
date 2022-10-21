@@ -1,11 +1,15 @@
-import type { BrowserWindow } from 'electron'
 import { app, ipcMain, shell } from 'electron'
 
 import { WindowState } from '../../renderer/src/util/enum'
 import { downloadFile } from './util/download'
 import log from './util/log'
+import type WindowManager from './windowManager'
 import { WindowDefaultSize } from './windowManager'
-export const registerIpcMain = (window: BrowserWindow) => {
+export const registerIpcMain = (windowManager: WindowManager) => {
+  const window = windowManager.getWindow('index')
+  // ipcMain.handle('minimalWindow', () => {
+  //   windowManager.openWindow('minimal')
+  // })
   ipcMain.handle('zoom-window', () => {
     if (window.isMaximized()) {
       window.unmaximize()

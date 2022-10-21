@@ -26,10 +26,11 @@ function bootstrap() {
   } else {
     app.on('second-instance', () => {
       // 当运行第二个实例时,将会聚焦到前一个实例的窗口
-      if (wm.window) {
-        wm.window.show()
-        if (wm.window.isMinimized()) wm.window.restore()
-        wm.window.focus()
+      const window = wm.getWindow('index')
+      if (window) {
+        window.show()
+        if (window.isMinimized()) window.restore()
+        window.focus()
       }
     })
   }
@@ -49,8 +50,8 @@ function handleAppEvent() {
   app.on('activate', () => {
     // On macOS, it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) wm.openWindow()
-    else wm.window?.show()
+    if (BrowserWindow.getAllWindows().length === 0) wm.openWindow('index')
+    else wm.getWindow('index')?.show()
   })
 
   // This method will be called when Electron has finished
@@ -76,14 +77,14 @@ function handleAppEvent() {
     useNetEaseApiServer()
     if (is.production()) {
       // web静态资源express托管
-      appStaticServer = useStaticServer()
+      useStaticServer()
     }
     wm = new WindowManager()
-    const window = await wm.openWindow()
+    const window = await wm.openWindow('index')
     if (window) {
       createElectronMenu(window)
       is.windows() && createTray(window)
-      registerIpcMain(window)
+      registerIpcMain(wm)
     }
   })
   app.on('quit', () => {
@@ -104,4 +105,4 @@ function preCheck() {
   // Set application name for Windows 10+ notifications
   if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 }
-export const getWin = () => wm.window
+export const getWin = () => wm.getWindow('index')
