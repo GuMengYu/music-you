@@ -32,7 +32,7 @@
       </template>
     </v-list-item>
   </div>
-  <div>
+  <div v-if="is.linux() && is.macOS()">
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
       <v-list-item-title class="text-caption"> {{ t('main.setting.exit') }} </v-list-item-title>
@@ -83,6 +83,7 @@ import AppSelect from '@/components/menu/Select.vue'
 import AppTitle from '@/components/Title.vue'
 import { usePlayer } from '@/player/player'
 import { ExitMode, useSettingStore } from '@/store/setting'
+import is from '@/util/is'
 const settingStore = useSettingStore()
 const { locale: lang, quality, visualization, exitMode, outputdevice } = storeToRefs(settingStore)
 

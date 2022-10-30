@@ -51,6 +51,7 @@ export const useUserStore = defineStore({
             timestamp: new Date().getTime(),
             uid: this.uid,
           }),
+          this.refreshAccount(),
         ])
         this.likes = likesRes.ids
         this.playlists = playlistRes.playlist
