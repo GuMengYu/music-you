@@ -42,6 +42,7 @@
           <like-toggle :id="track?.id" />
           <v-btn density="comfortable" icon variant="text" @click="openContextMenu">
             <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
+            <v-tooltip activator="parent" location="top" open-delay="100"> 添加到歌单 </v-tooltip>
           </v-btn>
           <v-spacer />
         </div>
@@ -51,7 +52,7 @@
             <v-icon size="x-small">
               {{ mdiPictureInPictureTopRight }}
             </v-icon>
-            <v-tooltip activator="parent" location="top">
+            <v-tooltip activator="parent" location="top" open-delay="100">
               {{ showPipLyric ? t('common.hide_pip') : t('common.show_pip') }}
             </v-tooltip>
           </v-btn>

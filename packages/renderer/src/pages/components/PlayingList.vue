@@ -5,7 +5,7 @@
         v-slot="{ item: track, index }"
         class="scroller"
         :style="{
-          height: `290px`,
+          height: `${listHeight}px`,
         }"
         :items="nextList"
         :item-size="64"
@@ -26,27 +26,27 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
 
 // import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 // import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
-import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
-import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 
 // import type { Track } from '@/types'
 import TrackI from './Track.vue'
 
-const { themeName } = useCurrentTheme()
-
 // const contextMenu = useContextMenu()
-const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const player = usePlayer()
-const { track: current } = storeToRefs(playerStore)
 const { t } = useI18n()
 const { queue, priorityQueue } = storeToRefs(playQueueStore)
+const display = useDisplay()
 
+const listHeight = computed(() => {
+  // nav header 48px + header border 1px + padding 32px + divider 34px + media card 130px + action button 64px + footer 64px
+  return display.height.value - 373
+})
 const nextList = computed(() => {
   return queue.value.tracks
 })
