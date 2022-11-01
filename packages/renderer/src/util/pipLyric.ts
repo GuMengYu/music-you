@@ -1146,10 +1146,12 @@ export function PipLyric() {
       })
     var f = {}
     ;(t.onEnter = function () {
-      o.contains('active') || o.add('active'), f.enter && f.enter(), a('enter')
+      o.contains('active') || o.add('active'), f.enter && f.enter()
+      //  a('enter')
     }),
       (t.onLeave = function () {
-        o.contains('active') && o.remove('active'), f.leave && f.leave(), a('leave')
+        o.contains('active') && o.remove('active'), f.leave && f.leave()
+        //  a('leave')
       }),
       (t.onPlay = function () {
         return h()
