@@ -16,7 +16,7 @@
         <AppSelect v-model="quality" :items="qualityOptions" />
       </template>
     </v-list-item>
-    <v-list-item class="pa-0">
+    <v-list-item v-if="outputDevices.length" class="pa-0">
       <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.device') }} </v-list-item-title>
       <template #append>
         <AppSelect v-model="outputdevice" :items="outputDeviceOptions" />
@@ -81,6 +81,7 @@ import { useI18n } from 'vue-i18n'
 
 import AppSelect from '@/components/menu/Select.vue'
 import AppTitle from '@/components/Title.vue'
+import useMediaDevices from '@/hooks/useMediaDevices'
 import { usePlayer } from '@/player/player'
 import { ExitMode, useSettingStore } from '@/store/setting'
 import is from '@/util/is'
@@ -89,6 +90,8 @@ const { locale: lang, quality, visualization, exitMode, outputdevice } = storeTo
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const player = usePlayer()
+
+const { outputDevices } = useMediaDevices()
 const localeOptions = computed(() => {
   return [
     {
@@ -153,7 +156,6 @@ const qualityOptions = computed(() => {
   ]
 })
 
-const outputDevices = ref<MediaDeviceInfo[]>([])
 const outputDeviceOptions = computed(() => {
   if (outputDevices.value.length) {
     return outputDevices.value.map((device) => {
@@ -181,30 +183,17 @@ watch(lang, () => {
 watch(outputdevice, () => {
   player.setoutputDevice()
 })
+
+watch(outputDevices, (val) => {
+  // set default
+  if (!outputdevice.value && val.length) {
+    outputdevice.value = val[0].deviceId
+  }
+})
 const showAlert = ref(false)
 function resetApp() {
   showAlert.value = false
   window.localStorage.clear()
   window.location.reload()
-}
-// on created get device list
-getoutputDevices()
-// get media output device list
-async function getoutputDevices() {
-  const result = await navigator.mediaDevices.enumerateDevices()
-  // 过滤输出设备, 同一物理设备的groupId相同
-  const uniqed = uniqBy(
-    result.filter((d) => d.kind === 'audiooutput'),
-    'groupId'
-  )
-  outputDevices.value = uniqed.filter((device) => device.kind === 'audiooutput')
-  // set default
-  if (!outputdevice.value) {
-    outputdevice.value = outputDevices.value[0].deviceId
-  }
-}
-// handle device change
-navigator.mediaDevices.ondevicechange = (e) => {
-  getoutputDevices()
 }
 </script>

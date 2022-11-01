@@ -339,7 +339,7 @@ export class Player {
   }
   setoutputDevice() {
     const soundNode = this.howler?._sounds.length && this.howler?._sounds[0]._node
-    if (this.settingStore.outputdevice && soundNode) {
+    if (this.settingStore.outputdevice && soundNode?.setSinkId) {
       soundNode.setSinkId(this.settingStore.outputdevice)
     }
   }
