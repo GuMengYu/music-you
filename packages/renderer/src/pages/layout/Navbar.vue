@@ -40,13 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAlbum, mdiHome, mdiMagnify, mdiRhombusSplit } from '@mdi/js'
+import { mdiAlbum, mdiBookMusic, mdiCompass } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import is from '@/util/is'
-
 const { rail } = storeToRefs(useSettingStore())
 const { logged } = storeToRefs(useUserStore())
 
@@ -60,13 +59,13 @@ const nav = computed(() => {
     //   to: '/search',
     // },
     {
-      icon: mdiHome,
+      icon: mdiAlbum,
       val: 'discover',
       title: 'main.nav.discover',
       to: '/discover',
     },
     {
-      icon: mdiAlbum,
+      icon: mdiCompass,
       val: 'explore',
       title: 'main.nav.explore',
       to: '/explore',
@@ -74,7 +73,7 @@ const nav = computed(() => {
   ]
   if (logged.value) {
     list.push({
-      icon: mdiRhombusSplit,
+      icon: mdiBookMusic,
       val: 'stars',
       title: 'main.nav.stars',
       to: '/library',

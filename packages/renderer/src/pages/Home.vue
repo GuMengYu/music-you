@@ -56,6 +56,12 @@ $transition-time: 350ms;
     .list-content {
       flex: initial;
       transition: flex $transition-time $cubic-bezier;
+      .v-list-item {
+        text-align: center;
+        &:hover .v-icon {
+          animation: bounce 1s;
+        }
+      }
     }
     // justify-content not the transition property, so use block 'flex' property 'auto' to make it work
     .list-dummy {
