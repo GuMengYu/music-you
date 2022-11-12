@@ -16,7 +16,7 @@
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
-          <v-square-btn color="primaryContainer" variant="flat" elevation="1" class="rounded-lg" @click="togglePlay">
+          <v-square-btn color="primaryContainer" variant="flat" elevation="1" class="rounded-lg" @click="toggle">
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-square-btn>
         </div>
@@ -37,39 +37,20 @@
 
 <script setup lang="ts">
 import { mdiMusicCircle, mdiPause, mdiPlay, mdiSkipNext, mdiSkipPrevious } from '@mdi/js'
-import { storeToRefs } from 'pinia'
 
-import { usePlayer } from '@/player/player'
-import { usePlayerStore } from '@/store/player'
+import usePlayerControl from '@/hooks/usePlayerControl'
 import { useSettingStore } from '@/store/setting'
 import { sizeOfImage } from '@/util/fn'
 
-import VSquareBtn from './button/VSquareBtn.vue'
-import LikeToggle from './toggle/likeToggle.vue'
-const player = usePlayer()
 const settingStore = useSettingStore()
 
-const playerStore = usePlayerStore()
-const { track, playing, isCurrentFm } = storeToRefs(playerStore)
+const { toggle, prev, next, playing, track } = usePlayerControl()
+
 const theme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'
 })
 
-const togglePlay = () => {
-  playing.value = !playing.value
-}
 const coverImage = computed(() => {
   return sizeOfImage(track.value?.al?.picUrl ?? '', 512)
 })
-
-const next = () => {
-  if (isCurrentFm.value) {
-    player.nextFm()
-  } else {
-    player.next()
-  }
-}
-const prev = () => {
-  player.prev()
-}
 </script>

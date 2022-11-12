@@ -67,7 +67,7 @@
               height: '64px',
               width: '64px',
             }"
-            @click="togglePlay"
+            @click="toggle"
           >
             <v-icon size="x-large">
               {{ playing ? mdiPause : mdiPlay }}
@@ -93,25 +93,23 @@
 
 <script lang="ts" setup>
 import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiPause, mdiPlay } from '@mdi/js'
-import { storeToRefs } from 'pinia'
 import { KinesisContainer, KinesisElement } from 'vue-kinesis'
 import { useTheme } from 'vuetify'
 
 import netEaseLogo from '@/assets/netease-outline.svg'
 import placeholderUrl from '@/assets/placeholder.png'
+import usePlayerControl from '@/hooks/usePlayerControl'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
-import { usePlayerStore } from '@/store/player'
 import { drawRoundedRect } from '@/util/canvas'
 import { sizeOfImage } from '@/util/fn'
 
 import Lyric from './components/lyric.vue'
 
 const player = usePlayer()
-const playerStore = usePlayerStore()
 const appStore = useAppStore()
 
-const { track, playing, isCurrentFm } = storeToRefs(playerStore)
+const { toggle, prev, next, track, playing, isCurrentFm } = usePlayerControl()
 
 const theme = useTheme()
 const analyser = ref<AnalyserNode | null>(null)
@@ -259,20 +257,6 @@ async function close() {
   appStore.showLyric = false
 }
 
-function togglePlay() {
-  player.togglePlay()
-}
-
-function prev() {
-  player.prev()
-}
-function next() {
-  if (isCurrentFm.value) {
-    player.nextFm()
-  } else {
-    player.next()
-  }
-}
 // 页面不可见时，应该会停止调用requestAnimationFrame
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Page_Visibility_API
 // function handleVisibilityChange() {

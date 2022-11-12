@@ -34,6 +34,7 @@ export interface SettingState {
   customTheme: VuetifyTheme[]
   playingMode: PLAYING_MODE
   rail: boolean
+  miniplayer: boolean
   quality: number
   outputdevice: string | undefined
   cacheLimit: number
@@ -50,9 +51,10 @@ export const useSettingStore = defineStore('setting', {
         locale: 'zhCN',
         appearance: APPEARANCE.SYSTEM,
         wallpaperColor: WallpaperColor.GreenRockyMountains,
-        playingMode: PLAYING_MODE.MD,
+        playingMode: PLAYING_MODE.SIMPLE,
         customTheme: [],
         rail: true,
+        miniplayer: false,
         quality: 320000,
         outputdevice: undefined,
         cacheLimit: 500,

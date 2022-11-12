@@ -32,12 +32,17 @@
           <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
-      <!-- <v-row dense class="mt-1">
+      <v-row dense class="mt-1">
         <v-col class="d-flex">
-          <switch-card v-if="isDev" title="Playground" :icon="mdiTestTube" @click="to('playground')" />
+          <switch-card
+            v-model="miniplayer"
+            title="迷你控制栏"
+            :subtitle="$tc('common.open', miniplayer ? 1 : 2)"
+            :icon="mdiCircleHalfFull"
+          />
         </v-col>
         <v-col></v-col>
-      </v-row> -->
+      </v-row>
       <v-divider class="my-2" />
       <MediaCard />
       <v-divider class="my-2" />
@@ -48,6 +53,7 @@
 
 <script lang="ts">
 import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
+import { storeToRefs } from 'pinia'
 import { useTheme } from 'vuetify'
 
 // Composables
@@ -62,6 +68,7 @@ export default defineComponent({
     const setting = useSettingStore()
     const theme = useTheme()
     const router = useRouter()
+    const { miniplayer } = storeToRefs(setting)
     const darkMode = computed<boolean>({
       get() {
         return theme.current.value.dark
@@ -77,6 +84,7 @@ export default defineComponent({
     }
     return {
       darkMode,
+      miniplayer,
       app,
       mdiCircleHalfFull,
       mdiTestTube,

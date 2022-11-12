@@ -41,7 +41,7 @@
             ></lottie-icon>
           </v-btn>
           <v-btn icon size="small" :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click.stop="toQueue">
-            <v-icon ref="playlistBtn" size="small">
+            <v-icon size="small">
               {{ mdiPlaylistMusic }}
             </v-icon>
           </v-btn>
@@ -89,18 +89,6 @@ const sliderVolume = computed({
   },
 })
 sliderVolume.value = volume.value
-
-// 播放并开启飞越小动画
-const playlistBtn = ref<HTMLButtonElement>()
-const { playAnimation } = useEmojiAnimation(playlistBtn)
-const eventBus = useEventBus<number>('addToQueue')
-eventBus.on((id, setQueue) => {
-  player.updatePlayerTrack(id)
-  playAnimation('🎉')
-  if (setQueue) {
-    playQueueStore.setQueue(id)
-  }
-})
 
 // 跳转播放列表
 

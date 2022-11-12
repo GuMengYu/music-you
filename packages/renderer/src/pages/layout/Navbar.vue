@@ -1,7 +1,7 @@
 <template>
-  <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area">
+  <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area" :style="navStyle">
     <div class="px-3 pt-1" :class="{ 'mt-5': isMac }">
-      <drawer-toggle />
+      <drawer-toggle v-if="!miniplayer" />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
@@ -22,19 +22,10 @@
             {{ $t(item.title) }}
           </v-list-item-title>
         </v-list-item>
-        <!-- <v-divider v-show="!rail" class="mx-3" />
-      <v-list-subheader v-show="!rail" class="font-weight-bold">
-        {{ $t('main.nav.library') }}
-      </v-list-subheader>
-      <v-list-item v-for="item in state.defaultNav2" :key="item.val" class="drawer-item" :to="item.to">
-        <v-list-item-avatar left>
-          <v-icon :icon="item.icon"></v-icon>
-        </v-list-item-avatar>
-        <v-list-item-title v-text="item.title"></v-list-item-title>
-      </v-list-item>
-      <v-divider v-show="!rail" class="mx-3" /> -->
       </v-list>
-      <div class="list-dummy"></div>
+      <transition name="slide-fade-y">
+        <mini-playerbar v-if="miniplayer && !rail" class="mt-auto" />
+      </transition>
     </div>
   </v-navigation-drawer>
 </template>
@@ -46,7 +37,9 @@ import { storeToRefs } from 'pinia'
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import is from '@/util/is'
-const { rail } = storeToRefs(useSettingStore())
+
+import MiniPlayerbar from './MiniPlayerbar.vue'
+const { rail, miniplayer } = storeToRefs(useSettingStore())
 const { logged } = storeToRefs(useUserStore())
 
 const isMac = is.macOS()
@@ -80,5 +73,8 @@ const nav = computed(() => {
     })
   }
   return list
+})
+const navStyle = computed(() => {
+  return miniplayer.value ? { borderRight: '1px solid rgba(var(--v-border-color), var(--v-border-opacity))' } : {}
 })
 </script>

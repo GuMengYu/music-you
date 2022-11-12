@@ -27,7 +27,7 @@
             <div class="d-flex flex-fill fill-height align-end justify-center pa-4">
               <transition name="slide-fade-y">
                 <div v-if="isHovering" class="d-flex flex-fil justify-center">
-                  <Control />
+                  <Control simple />
                 </div>
               </transition>
             </div>
