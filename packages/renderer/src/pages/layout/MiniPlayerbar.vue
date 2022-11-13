@@ -1,5 +1,9 @@
 <template>
-  <div v-if="track?.id" class="d-flex flex-column px-2 bg-surfaceVariant pt-4 px-3 rounded">
+  <div
+    v-if="track?.id"
+    class="d-flex flex-column px-2 pt-4 px-3"
+    :style="{ backgroundColor: 'rgba(var(--v-theme-surfaceVariant), 0.45)' }"
+  >
     <div class="d-flex align-center">
       <v-hover v-slot="{ isHovering, props }">
         <v-img
@@ -33,6 +37,31 @@
     <track-slider />
     <Control :simple="true" />
     <div class="d-flex justify-space-between align-center control-buttons my-1">
+      <v-menu location="top" open-on-hover :close-on-content-click="false">
+        <template #activator="{ props }">
+          <v-btn v-bind="props" density="comfortable" icon variant="plain" @click="toggleMute">
+            <v-icon size="x-small">
+              {{ volumeIcon }}
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-card class="d-flex justify-center py-1" elevation="1">
+          <Slider
+            v-model="sliderVolume"
+            class="playing-volume"
+            :max="1"
+            :min="0"
+            :step="0.05"
+            :height="3"
+            width="120px"
+            :handle-scale="4"
+            orientation="vertical"
+            track-color="rgba(66,66,66,0.28)"
+            @change="volumeDebouncedFn"
+          />
+        </v-card>
+      </v-menu>
+
       <v-btn density="comfortable" icon :disabled="isCurrentFm" variant="plain" @click="toggleShuffle">
         <v-icon size="x-small">
           {{ shuffleIcon }}
@@ -68,6 +97,7 @@
 import { mdiArrowExpand, mdiDotsHorizontal, mdiPictureInPictureTopRight, mdiPlaylistMusic } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import Slider from 'vue3-slider'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
@@ -99,6 +129,7 @@ const {
   isCurrentFm,
   shuffleIcon,
   modeIcon,
+  volumeIcon,
   isQueue,
   toggleMode,
   togglePlayingQueue,
@@ -130,7 +161,24 @@ const sliderVolume = computed({
   },
 })
 sliderVolume.value = volume.value
-
+const volumeDebouncedFn = useDebounceFn(
+  (val: Event | number) => {
+    volume.value = val as number
+  },
+  200,
+  { maxWait: 1000 }
+)
+// 音量调整
+function toggleMute() {
+  if (volume.value === 0) {
+    sliderVolume.value = cacheVolume.value
+    volume.value = cacheVolume.value
+  } else {
+    cacheVolume.value = volume.value
+    volume.value = 0
+    sliderVolume.value = 0
+  }
+}
 async function showPlayingPage() {
   appStore.showLyric = true
 }

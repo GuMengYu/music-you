@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area" :style="navStyle">
     <div class="px-3 pt-1" :class="{ 'mt-5': isMac }">
-      <drawer-toggle v-if="!miniplayer" />
+      <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
