@@ -247,11 +247,11 @@ export class Player {
   }
   play() {
     if (this.howler?.playing()) return
-    this.playing = true
+    this.store.playing = true
     this.howler?.play()
     this.howler?.once('play', () => {
+      this.playing = true
       this.howler?.fade(0, this.volume, 400)
-      this.store.playing = true
       this.pipLyric?.play()
     })
   }
@@ -305,11 +305,6 @@ export class Player {
     }
   }
   private nextTrackId() {
-    // if (this.isCurrentFm) {
-    //   return this.store.nextFmTrackId
-    // } else {
-    //   return this.store.nextTrackId
-    // }
     return this.store.popNextTrackId()
   }
   private prevTrackId() {
