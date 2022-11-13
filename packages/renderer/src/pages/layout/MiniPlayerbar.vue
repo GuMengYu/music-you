@@ -10,13 +10,13 @@
           v-bind="props"
           class="rounded"
           :aspect-ratio="1"
-          :min-width="60"
-          :max-width="60"
-          :max-height="60"
+          :min-width="56"
+          :max-width="56"
+          :max-height="56"
           :src="albumPicUrl"
           cover
         >
-          <v-btn v-show="isHovering" size="60" icon variant="plain" @click.stop="showPlayingPage">
+          <v-btn v-show="isHovering" size="56" icon variant="plain" @click.stop="showPlayingPage">
             <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
           </v-btn>
         </v-img>
@@ -37,31 +37,7 @@
     <track-slider />
     <Control :simple="true" />
     <div class="d-flex justify-space-between align-center control-buttons my-1">
-      <v-menu location="top" open-on-hover :close-on-content-click="false">
-        <template #activator="{ props }">
-          <v-btn v-bind="props" density="comfortable" icon variant="plain" @click="toggleMute">
-            <v-icon size="x-small">
-              {{ volumeIcon }}
-            </v-icon>
-          </v-btn>
-        </template>
-        <v-card class="d-flex justify-center py-1" elevation="1">
-          <Slider
-            v-model="sliderVolume"
-            class="playing-volume"
-            :max="1"
-            :min="0"
-            :step="0.05"
-            :height="3"
-            width="120px"
-            :handle-scale="4"
-            orientation="vertical"
-            track-color="rgba(66,66,66,0.28)"
-            @change="volumeDebouncedFn"
-          />
-        </v-card>
-      </v-menu>
-
+      <VolumeSlider orientation="vertical" />
       <v-btn density="comfortable" icon :disabled="isCurrentFm" variant="plain" @click="toggleShuffle">
         <v-icon size="x-small">
           {{ shuffleIcon }}
@@ -76,11 +52,12 @@
         <v-icon size="x-small">{{ mdiPictureInPictureTopRight }}</v-icon>
       </v-btn>
       <v-btn
+        ref="playlistBtn"
         density="comfortable"
+        variant="plain"
         icon
         :color="isQueue ? 'primary' : ''"
         :disabled="isCurrentFm"
-        variant="plain"
         @click="togglePlayingQueue"
       >
         <v-icon size="small">
@@ -97,11 +74,11 @@
 import { mdiArrowExpand, mdiDotsHorizontal, mdiPictureInPictureTopRight, mdiPlaylistMusic } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
-import Slider from 'vue3-slider'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
 import TrackSlider from '@/components/TrackSlider.vue'
+import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import usePlayerControl from '@/hooks/usePlayerControl'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
@@ -109,14 +86,13 @@ import { useAppStore } from '@/store/app'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import { sizeOfImage } from '@/util/fn'
-import { specialType } from '@/util/metadata'
 
 // utitlity
-const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
 const userStore = useUserStore()
-const player = usePlayer()
 const toast = useToast()
+const player = usePlayer()
+const playQueueStore = usePlayQueueStore()
 const { t } = useI18n()
 
 const contextMenu = useContextMenu()
@@ -125,11 +101,9 @@ const { themeName } = useCurrentTheme()
 
 const {
   track,
-  volume,
   isCurrentFm,
   shuffleIcon,
   modeIcon,
-  volumeIcon,
   isQueue,
   toggleMode,
   togglePlayingQueue,
@@ -138,47 +112,29 @@ const {
   showPipLyric,
 } = usePlayerControl()
 const playlists = computed(() => {
-  return userStore.createdPlaylists
-    .map((i) => {
-      return {
-        id: i.id,
-        name: i.name,
-        specialType: i.specialType,
-      }
-    })
-    .filter((playlist) => playlist.specialType !== specialType.fav.type)
+  return userStore.createdPlaylists.map((i) => {
+    return {
+      id: i.id,
+      name: i.name,
+      specialType: i.specialType,
+    }
+  })
+  // .filter((playlist) => playlist.specialType !== specialType.fav.type)
 })
 
+// 播放并开启飞越小动画
+const playlistBtn = ref<HTMLButtonElement>()
+const { playAnimation } = useEmojiAnimation(playlistBtn)
+const eventBus = useEventBus<number>('addToQueue')
+eventBus.on((id, setQueue) => {
+  player.updatePlayerTrack(id)
+  playAnimation('🪗')
+  if (setQueue) {
+    playQueueStore.setQueue(id)
+  }
+})
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
-const cacheVolume = ref(0.8)
-const sliderVolume = computed({
-  get() {
-    return volume.value
-  },
-  set(val) {
-    volume.value = val
-  },
-})
-sliderVolume.value = volume.value
-const volumeDebouncedFn = useDebounceFn(
-  (val: Event | number) => {
-    volume.value = val as number
-  },
-  200,
-  { maxWait: 1000 }
-)
-// 音量调整
-function toggleMute() {
-  if (volume.value === 0) {
-    sliderVolume.value = cacheVolume.value
-    volume.value = cacheVolume.value
-  } else {
-    cacheVolume.value = volume.value
-    volume.value = 0
-    sliderVolume.value = 0
-  }
-}
 async function showPlayingPage() {
   appStore.showLyric = true
 }

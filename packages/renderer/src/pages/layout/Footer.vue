@@ -60,25 +60,7 @@
               {{ mdiDockWindow }}
             </v-icon>
           </v-btn> -->
-        <div class="volume-bar d-flex align-center mr-2">
-          <v-btn icon @click="toggleMute">
-            <v-icon size="small">
-              {{ volumeIcon }}
-            </v-icon>
-          </v-btn>
-          <Slider
-            v-model="sliderVolume"
-            class="playing-volume"
-            :max="1"
-            :min="0"
-            :step="0.01"
-            :height="3"
-            :handle-scale="3"
-            :color="currentTheme.colors.primary"
-            track-color="rgba(66,66,66,0.28)"
-            @change="volumeDebouncedFn"
-          />
-        </div>
+        <VolumeSlider orientation="horizontal" />
         <v-btn icon :color="isQueue ? 'primary' : ''" :disabled="isCurrentFm" @click="toQueue">
           <v-icon ref="playlistBtn" size="small">
             {{ mdiPlaylistMusic }}
@@ -89,24 +71,12 @@
   </v-app-bar>
 </template>
 <script setup lang="ts">
-import {
-  mdiArrowExpand,
-  mdiDockWindow,
-  mdiDotsHorizontal,
-  mdiPictureInPictureTopRight,
-  mdiPlaylistMusic,
-  mdiVolumeHigh,
-  mdiVolumeLow,
-  mdiVolumeMedium,
-  mdiVolumeMute,
-} from '@mdi/js'
+import { mdiArrowExpand, mdiDotsHorizontal, mdiPictureInPictureTopRight, mdiPlaylistMusic } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import Slider from 'vue3-slider'
-import { useTheme } from 'vuetify'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
@@ -118,7 +88,6 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import { sizeOfImage } from '@/util/fn'
 import { specialType } from '@/util/metadata'
@@ -129,17 +98,12 @@ const appStore = useAppStore()
 const userStore = useUserStore()
 const router = useRouter()
 const player = usePlayer()
-const theme = useTheme()
 const toast = useToast()
 const { t } = useI18n()
 
 const contextMenu = useContextMenu()
 
 const { themeName } = useCurrentTheme()
-
-const currentTheme = computed(() => {
-  return theme.current.value
-})
 
 const playlists = computed(() => {
   return userStore.createdPlaylists
@@ -156,30 +120,6 @@ const playlists = computed(() => {
 // store state
 const { track, volume, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
-
-const cacheVolume = ref(0.8)
-const sliderVolume = computed({
-  get() {
-    return volume.value
-  },
-  set(val) {
-    volume.value = val
-  },
-})
-sliderVolume.value = volume.value
-
-// 音量icon状态
-const volumeIcon = computed(() => {
-  if (volume.value === 0) {
-    return mdiVolumeMute
-  } else if (volume.value > 0 && volume.value <= 0.3) {
-    return mdiVolumeLow
-  } else if (volume.value > 0.3 && volume.value <= 0.6) {
-    return mdiVolumeMedium
-  } else {
-    return mdiVolumeHigh
-  }
-})
 
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()
@@ -201,18 +141,6 @@ function toQueue() {
     router.back()
   } else {
     router.push('/queue')
-  }
-}
-
-// 音量调整
-function toggleMute() {
-  if (volume.value === 0) {
-    sliderVolume.value = cacheVolume.value
-    volume.value = cacheVolume.value
-  } else {
-    cacheVolume.value = volume.value
-    volume.value = 0
-    sliderVolume.value = 0
   }
 }
 
@@ -247,13 +175,6 @@ async function showPlayingPage() {
   // }
   appStore.showLyric = true
 }
-const volumeDebouncedFn = useDebounceFn(
-  (val: Event | number) => {
-    volume.value = val as number
-  },
-  200,
-  { maxWait: 1000 }
-)
 
 function openContextMenu(event: MouseEvent) {
   const { x, y } = event
