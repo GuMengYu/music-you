@@ -4,7 +4,7 @@
       <v-img :aspect-ratio="1" contain :src="profile.avatarUrl" :lazy-src="placeholderUrl" />
     </v-avatar>
   </v-btn>
-  <v-btn v-else icon flat @click="showLogin = !showLogin">
+  <v-btn v-else size="36" icon flat @click="showLogin = !showLogin">
     <v-icon>
       {{ mdiAccountCircle }}
     </v-icon>
