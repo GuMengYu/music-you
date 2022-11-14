@@ -15,15 +15,6 @@ const theme = useTheme()
 
 const { volume, volumeIcon } = usePlayerControl()
 const cacheVolume = ref(0.8)
-const sliderVolume = computed({
-  get() {
-    return volume.value
-  },
-  set(val) {
-    volume.value = val
-  },
-})
-sliderVolume.value = volume.value
 const volumeDebouncedFn = useDebounceFn(
   (val: Event | number) => {
     volume.value = val as number
@@ -34,12 +25,13 @@ const volumeDebouncedFn = useDebounceFn(
 // 音量调整
 function toggleMute() {
   if (volume.value === 0) {
-    sliderVolume.value = cacheVolume.value
+    // sliderVolume.value = cacheVolume.value
     volume.value = cacheVolume.value
   } else {
     cacheVolume.value = volume.value
     volume.value = 0
-    sliderVolume.value = 0
+    // sliderVolume.value = 0.0
+    // sliderVolume.value = 0
   }
 }
 </script>
@@ -54,7 +46,7 @@ function toggleMute() {
     </template>
     <v-card class="d-flex justify-center pb-2" elevation="1">
       <Slider
-        v-model="sliderVolume"
+        v-model="volume"
         :max="1"
         :min="0"
         :step="0.05"
@@ -75,10 +67,10 @@ function toggleMute() {
       </v-icon>
     </v-btn>
     <Slider
-      v-model="sliderVolume"
+      :model-value="volume"
       :max="1"
       :min="0"
-      :step="0.01"
+      :step="0.05"
       :height="3"
       :handle-scale="3"
       :color="theme.current.value.colors.primary"
