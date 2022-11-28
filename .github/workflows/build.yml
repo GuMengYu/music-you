@@ -42,12 +42,12 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: v-player-macos
-          path: release/*/vplayer-mac*.dmg
+          name: music-you-macos
+          path: release/*/music-you-mac-*-universal.dmg
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v3
         with:
-          name: v-player-windows
-          path: release/*/vplayer*.exe
+          name: music-you-windows
+          path: release/*/*Setup*.exe
           if-no-files-found: ignore

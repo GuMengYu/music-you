@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "com.vplayer.app",
+  "appId": "com.musicyou.app",
   "copyright": 'Copyright © gumengyu 2022', //版权信息
   "asar": true,
   "directories": {
@@ -23,6 +23,7 @@
     "category": "public.app-category.music"
   },
   "win": {
+    "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
       {
         "target": "nsis",
@@ -33,7 +34,7 @@
         "arch": ["x64"]
       }
     ],
-    "publisherName": 'VPlayer',
+    "publisherName": 'MusicYou',
   },
   "linux": {
     "target": [

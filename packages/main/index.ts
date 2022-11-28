@@ -19,7 +19,7 @@ preCheck()
 bootstrap()
 
 function bootstrap() {
-  log.info('vplayer next main process bootstrap')
+  log.info('music you main process bootstrap')
   const gotTheLock = app.requestSingleInstanceLock()
   if (!gotTheLock) {
     return app.quit()

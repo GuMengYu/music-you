@@ -8,7 +8,7 @@ let tray = null
 export const createTray = (win: BrowserWindow) => {
   const icon = nativeImage.createFromPath(join(__dirname, '../renderer', is.macOS() ? 'icon/icon.png' : 'icon.ico'))
   tray = new Tray(icon)
-  tray.setToolTip('vplayer')
+  tray.setToolTip('music-you')
   const menu = Menu.buildFromTemplate([
     {
       label: '播放/暂停',
