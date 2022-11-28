@@ -7,6 +7,7 @@ import type { Scheme, Theme } from '@material/material-color-utilities'
 import { argbFromHex, hexFromArgb, themeFromImage, themeFromSourceColor } from '@material/material-color-utilities'
 import type { App } from 'vue'
 // Vuetify
+import type { ThemeDefinition as BaseThemeDefinition } from 'vuetify'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/lib/components/index'
 import * as directives from 'vuetify/lib/directives/index'
@@ -16,6 +17,9 @@ import { useSettingStore } from '@/store/setting'
 
 import themes from './theme'
 
+export interface ThemeDefinition extends BaseThemeDefinition {
+  name: string
+}
 export const useVuetify = (app: App) => {
   const settingStore = useSettingStore()
   const { customTheme } = settingStore
@@ -46,7 +50,10 @@ export const useVuetify = (app: App) => {
   return vuetify
 }
 
-export async function generateVuetifyTheme(colorOrImage: string | HTMLImageElement, name: string) {
+export async function generateVuetifyTheme(
+  colorOrImage: string | HTMLImageElement,
+  name: string
+): Promise<ThemeDefinition[]> {
   let theme: Theme
   if (typeof colorOrImage === 'string') {
     theme = await themeFromSourceColor(argbFromHex(colorOrImage))

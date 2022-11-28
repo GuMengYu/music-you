@@ -1,6 +1,7 @@
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
+import type { ThemeDefinition } from '@/plugins/vuetify'
 import { PLAYING_MODE } from '@/util/enum'
 
 export enum APPEARANCE {
@@ -22,16 +23,11 @@ export enum WallpaperColor {
   BlueMountains = 'BlueMountains',
   Customize = 'Customize',
 }
-export interface VuetifyTheme {
-  name: string
-  dark: boolean
-  colors: Record<string, string>
-}
 export interface SettingState {
   locale: string
   appearance: APPEARANCE
   wallpaperColor: WallpaperColor
-  customTheme: VuetifyTheme[]
+  customTheme: ThemeDefinition[]
   playingMode: PLAYING_MODE
   rail: boolean
   miniplayer: boolean

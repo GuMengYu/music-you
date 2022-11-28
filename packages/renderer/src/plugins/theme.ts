@@ -1,10 +1,6 @@
-export interface VuetifyTheme {
-  name: string
-  dark: boolean
-  colors: Record<string, string>
-}
+import type { ThemeDefinition } from './vuetify'
 
-const defaultTheme: Record<string, VuetifyTheme> = {
+const defaultTheme: Record<string, ThemeDefinition> = {
   RedSandDunesLight: {
     name: 'RedSandDunesLight',
     dark: false,

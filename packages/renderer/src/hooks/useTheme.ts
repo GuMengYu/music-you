@@ -1,5 +1,9 @@
 import { usePreferredDark } from '@vueuse/core'
 import { computed } from 'vue'
+import { useTheme } from 'vuetify'
+
+import type { ThemeDefinition } from '@/plugins/vuetify'
+import { arrayToObject } from '@/util/fn'
 
 import { useSettingStore } from '../store/setting'
 export function useCurrentTheme() {
@@ -19,5 +23,21 @@ export function useCurrentTheme() {
   })
   return {
     themeName,
+  }
+}
+
+export function useDynamicChangeTheme() {
+  const vuetifyTheme = useTheme()
+
+  const applyTheme = (themes: ThemeDefinition[]) => {
+    const theme = arrayToObject(themes, 'name')
+
+    vuetifyTheme.themes.value = {
+      ...vuetifyTheme.themes.value,
+      ...theme,
+    }
+  }
+  return {
+    applyTheme,
   }
 }

@@ -206,3 +206,11 @@ export const formatNumber = (number: number, fractionDigits = 2) => {
     return number
   }
 }
+
+export const arrayToObject = (arr: Record<string, any>[], keyName: string) => {
+  const o: Record<string, any> = {}
+  arr.forEach((i) => {
+    o[i[keyName]] = i
+  })
+  return o
+}

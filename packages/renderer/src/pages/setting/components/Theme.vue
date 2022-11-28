@@ -32,16 +32,17 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
+import { useDynamicChangeTheme } from '@/hooks/useTheme'
 import { generateVuetifyTheme } from '@/plugins/vuetify'
 import type { APPEARANCE } from '@/store/setting'
 import { useSettingStore, WallpaperColor } from '@/store/setting'
 
 import AppSettingsGroup from './Group.vue'
-
 const { t } = useI18n()
 const setting = useSettingStore()
 const { customTheme, wallpaperColor } = storeToRefs(setting)
 const toast = useToast()
+const { applyTheme } = useDynamicChangeTheme()
 const upload = ref<HTMLInputElement>()
 const appearanceItems = computed(() => [
   {
@@ -132,10 +133,12 @@ async function handleChange(e: Event) {
       const objectURL = URL.createObjectURL(files[0])
       const image = new Image()
       image.src = objectURL
-      const themes = await generateVuetifyTheme(image, 'Customize')
-      customTheme.value = themes
+      const newThemes = await generateVuetifyTheme(image, 'Customize')
+      applyTheme(newThemes)
+      // store customize theme in localstorage
+      customTheme.value = newThemes
       color.value = WallpaperColor.Customize
-      location.reload()
+      // location.reload()
     } catch (e) {
       console.log(e)
     }
