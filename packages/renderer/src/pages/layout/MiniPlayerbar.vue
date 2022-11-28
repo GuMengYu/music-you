@@ -2,7 +2,10 @@
   <div
     v-if="track?.id"
     class="d-flex flex-column px-2 pt-4 px-3"
-    :style="{ backgroundColor: 'rgba(var(--v-theme-surfaceVariant), 0.45)' }"
+    :style="{
+      backgroundColor: 'rgba(var(--v-theme-surface), 1)',
+      borderTop: '1px solid rgba(var(--v-border-color), var(--v-border-opacity))',
+    }"
   >
     <div class="d-flex align-center">
       <v-hover v-slot="{ isHovering, props }">
