@@ -23,7 +23,6 @@
     "category": "public.app-category.music"
   },
   "win": {
-    "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
       {
         "target": "nsis",
