@@ -63,10 +63,10 @@ function handleAnimation(animation: any) {
       <v-icon size="small">{{ mdiSkipPrevious }}</v-icon>
     </v-btn>
     <v-square-btn
-      color="primaryContainer"
       :loading="loadingTrack"
+      :rounded="playing ? 'lg' : 'pill'"
       variant="flat"
-      rounded="lg"
+      color="primaryContainer"
       size="large"
       class="mx-2"
       elevation="1"
