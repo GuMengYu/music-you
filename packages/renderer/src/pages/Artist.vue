@@ -32,6 +32,7 @@ const more = ref({
   showMoreSong: false,
   showMoreAlbum: false,
   showMoreEps: false,
+  showMoreCollection: false,
   showMoreMVs: false,
   showMoreDesc: false,
 })
@@ -50,12 +51,9 @@ const state: RootState = reactive({
   simiArtists: [],
 })
 
-const albums = computed(() => {
-  return state.hotAlbums.filter((a) => a.type === '专辑')
-})
-const epAndSingle = computed(() => {
-  return state.hotAlbums.filter((a) => ['EP/Single', 'EP', 'Single'].includes(a.type))
-})
+const albums = computed(() => state.hotAlbums.filter((a) => a.type === '专辑'))
+const epAndSingle = computed(() => state.hotAlbums.filter((a) => ['EP/Single', 'EP', 'Single'].includes(a.type)))
+const collection = computed(() => state.hotAlbums.filter((a) => a.type === '合集'))
 
 watchEffect(() => {
   fetch(+props.id)
@@ -183,7 +181,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           </v-btn>
         </template>
       </Col>
-      <Col :title="$t('main.artist.albums')">
+      <Col v-if="albums.length" :title="$t('main.artist.albums')">
         <card-row>
           <cover
             v-for="item in more.showMoreAlbum ? albums : albums.slice(0, 7)"
@@ -198,7 +196,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           </v-btn>
         </template>
       </Col>
-      <Col :title="$t('main.artist.epAndSingle')">
+      <Col v-if="epAndSingle.length" :title="$t('main.artist.epAndSingle')">
         <card-row>
           <cover
             v-for="item in more.showMoreEps ? epAndSingle : epAndSingle.slice(0, 7)"
@@ -215,6 +213,26 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
             @click="more.showMoreEps = !more.showMoreEps"
           >
             {{ $t(`common.${more.showMoreEps ? 'collapse' : 'expand'}`) }}
+          </v-btn>
+        </template>
+      </Col>
+      <Col v-if="collection.length" :title="$t('main.artist.collection')">
+        <card-row>
+          <cover
+            v-for="item in more.showMoreCollection ? collection : collection.slice(0, 7)"
+            :key="item.id"
+            :data="item"
+            :extra="`${formatDate(item.publishTime)} · ${item.type} · ${item['subType']}`"
+          />
+        </card-row>
+        <template #action>
+          <v-btn
+            v-if="collection.length > 7"
+            variant="text"
+            size="small"
+            @click="more.showMoreCollection = !more.showMoreCollection"
+          >
+            {{ $t(`common.${more.showMoreCollection ? 'collapse' : 'expand'}`) }}
           </v-btn>
         </template>
       </Col>
