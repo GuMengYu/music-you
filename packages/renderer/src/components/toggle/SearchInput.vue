@@ -1,33 +1,28 @@
 <template>
   <v-text-field
     ref="searchInput"
+    v-click-outside="handleClickOutside"
     :model-value="keywords"
-    color="primary"
     density="compact"
     :placeholder="$t('common.search_type_2')"
     :prepend-inner-icon="mdiMagnify"
-    bg-color="surfaceVariant"
     :hide-details="true"
     variant="solo"
     :clearable="true"
-    :single-line="true"
     class="search-input"
     @keydown.enter="handleSearch"
     @update:model-value="handleChange"
   >
-    <template v-if="smAndUp" #append>
-      <account />
-    </template>
-    <template v-else #append-inner>
-      <account />
-    </template>
   </v-text-field>
 </template>
 <script setup lang="ts">
 import { mdiMagnify } from '@mdi/js'
+import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import type { VTextField } from 'vuetify/components'
+
+import { useAppStore } from '@/store/app'
 
 const router = useRouter()
 const route = useRoute()
@@ -35,6 +30,7 @@ const keywords = ref('')
 const display = useDisplay()
 const { smAndUp } = display
 const searchInput = ref<InstanceType<typeof VTextField>>()
+const { showSearch } = storeToRefs(useAppStore())
 
 const showInput = computed(() => {
   return route.path.includes('/search')
@@ -52,13 +48,18 @@ function handleChange(text: string) {
 function handleSearch() {
   router.push(`/search/${keywords.value}`)
 }
+function handleClickOutside() {
+  if (showSearch.value) {
+    showSearch.value = false
+  }
+}
 </script>
 <style lang="scss" scoped>
 .search-input {
   max-width: 256px;
   :deep(.v-field--variant-solo) {
-    box-shadow: none;
-    // border-radius: 40px;
+    // box-shadow: none;
+    border-radius: 8px;
     // padding-inline-end: 2px;
 
     .v-field__input {

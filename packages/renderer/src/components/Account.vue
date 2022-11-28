@@ -1,10 +1,10 @@
 <template>
-  <v-btn v-if="logged" flat icon size="36" class="account-avatar" @click="showProfile = !showProfile">
-    <v-avatar size="36">
+  <v-btn v-if="logged" icon class="account-avatar" @click="showProfile = !showProfile">
+    <v-avatar size="32">
       <v-img :aspect-ratio="1" contain :src="profile.avatarUrl" :lazy-src="placeholderUrl" />
     </v-avatar>
   </v-btn>
-  <v-btn v-else size="36" icon flat @click="showLogin = !showLogin">
+  <v-btn v-else icon flat @click="showLogin = !showLogin">
     <v-icon>
       {{ mdiAccountCircle }}
     </v-icon>
