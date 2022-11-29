@@ -57,6 +57,8 @@
       "desc": "Description"
     },
     "playlist": {
+      "inner": "Songs",
+      "about": "About this playlist",
       "simi": "Similar Playlist",
       "desc": "Description",
       "to163": "View in NetEase Cloud Music (web)",
@@ -66,6 +68,8 @@
       "edit": "Edit Playlist"
     },
     "album": {
+      "inner": "Songs",
+      "about": "About this album",
       "simi": "Other Hot Album",
       "desc": "Description",
       "to163": "View in NetEase Cloud Music (web)"

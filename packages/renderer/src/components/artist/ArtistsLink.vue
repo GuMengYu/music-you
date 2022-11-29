@@ -4,7 +4,8 @@
       v-for="(artist, idx) in props.artists"
       :key="artist.id ?? artist.userId"
       :to="`/artist/${artist.id ?? artist.userId}`"
-      class="text-onSurfaceVariant"
+      v-bind="$attrs"
+      :style="{ color: 'rgb(var(--v-theme-onSurfaceVariant))' }"
     >
       {{ artist.name ?? artist.userName ?? t('common.unknown') }}
       {{ idx !== props.artists.length - 1 ? ', ' : '' }}

@@ -7,11 +7,7 @@
       color="surfaceVariant"
       :class="{ 'on-hover': isHovering }"
       :elevation="isHovering ? 1 : 0"
-      v-bind="hoverProps"
-      :min-width="$attrs['min-width']"
-      :max-width="$attrs['max-width']"
-      :max-height="$attrs['max-height']"
-      :min-height="$attrs['min-height']"
+      v-bind="{ ...hoverProps, ...$attrs }"
       :to="to"
     >
       <v-img
