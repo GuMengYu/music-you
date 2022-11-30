@@ -4,8 +4,7 @@
       v-for="(artist, idx) in props.artists"
       :key="artist.id ?? artist.userId"
       :to="`/artist/${artist.id ?? artist.userId}`"
-      v-bind="$attrs"
-      :style="{ color: 'rgb(var(--v-theme-onSurfaceVariant))' }"
+      :class="{ [`text-${color}`]: true }"
     >
       {{ artist.name ?? artist.userName ?? t('common.unknown') }}
       {{ idx !== props.artists.length - 1 ? ', ' : '' }}
@@ -21,6 +20,10 @@ const props = defineProps({
   artists: {
     type: Array,
     default: () => [],
+  },
+  color: {
+    type: String,
+    default: 'onSurfaceVariant',
   },
 })
 </script>

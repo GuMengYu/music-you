@@ -27,7 +27,7 @@ export const favAlbums = () =>
   request<{
     code: number
     data: Album[]
-  }>('/album/sublist', { params: { timestamp: now() } })
+  }>('/album/sublist', { params: { timestamp: now(), limit: 50 } })
 
 /**
  * 获取收藏的MV
@@ -36,7 +36,7 @@ export const favAlbums = () =>
 export const favMVs = () =>
   request<{
     data: MV[]
-  }>('/mv/sublist', { params: { timestamp: now() } })
+  }>('/mv/sublist', { params: { timestamp: now(), limit: 50 } })
 /**
  * 获取收藏的歌手
  * @returns {*}
@@ -44,7 +44,7 @@ export const favMVs = () =>
 export const favArtists = () =>
   request<{
     data: Artist[]
-  }>('/artist/sublist', { params: { timestamp: now() } })
+  }>('/artist/sublist', { params: { timestamp: now(), limit: 50 } })
 
 /**
  * 获取最近播放

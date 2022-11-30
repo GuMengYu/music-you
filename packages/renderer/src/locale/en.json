@@ -47,6 +47,7 @@
     "recommend_artist": "Recommend Artist",
     "playing_queue": "Up Next",
     "artist": {
+      "about": "About this artist",
       "latest": "New Album",
       "hot": "Popular Song",
       "albums": "Album",

@@ -47,6 +47,7 @@
     "recommend_artist": "推荐歌手",
     "playing_queue": "接下来播放",
     "artist": {
+      "about": "关于此歌手",
       "latest": "新专辑",
       "hot": "热门歌曲",
       "albums": "专辑",

@@ -24,8 +24,7 @@ const props = defineProps<{
       class="mb-4"
     >
       <rect x="0" y="0" rx="12" ry="12" :width="width - 225 - 16" height="225" />
-      <circle v-if="artist" :x="width - 225" y="0" cx="112.5" cy="112.5" r="112.5" />
-      <rect v-else :x="width - 225" y="0" rx="12" ry="12" width="225" height="225" />
+      <rect :x="width - 225" y="0" rx="12" ry="12" width="225" height="225" />
     </content-loader>
     <list-skeleton />
   </div>

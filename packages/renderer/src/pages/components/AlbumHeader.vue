@@ -96,7 +96,7 @@ function saveCover() {
             <v-avatar v-if="album.artist?.img1v1Url" size="20" class="mr-1">
               <v-img :src="sizeOfImage(album.artist?.img1v1Url, 128)" />
             </v-avatar>
-            <artists-link v-if="album.artist" class="text-primary" :artists="[album.artist]" />
+            <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
           </div>
           <span class="text-caption text-disabled">
             {{ formatDate(album.publishTime, 'LL') }}

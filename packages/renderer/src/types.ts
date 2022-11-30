@@ -65,6 +65,7 @@ export interface Artist {
   }
   transNames: string[]
   followed: boolean
+  alias: string[]
 }
 
 export interface Album {

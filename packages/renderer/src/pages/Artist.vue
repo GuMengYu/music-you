@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { mdiAccountMusic, mdiInformation, mdiPlay } from '@mdi/js'
-import { useEventBus } from '@vueuse/core'
+import { mdiAccountMusic, mdiArrowRight, mdiBookmarkPlusOutline, mdiBookmarkRemoveOutline, mdiClose } from '@mdi/js'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -68,7 +67,7 @@ async function fetch(id: number) {
       getArtistMv(id),
       getSimiArtist(id),
     ])
-    state.artist = artist?.data['artist']
+    state.artist = { ...artist?.data['artist'], ...hotSong['artist'] }
     state.hotSongs = hotSong['hotSongs'].slice(0, 20)
     state.hotAlbums = album['hotAlbums']
     state.mvs = mv['mvs']
@@ -104,66 +103,77 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6">
-      <div class="d-flex gap-4" :class="smAndUp ? '' : 'flex-column align-center'">
-        <artists-cover :artist="state.artist" :no-info="true" :min-width="225" class="mr-4" />
-        <v-card
-          v-if="smAndUp"
-          color="surfaceVariant"
-          :flat="true"
-          rounded="lg"
-          class="d-flex flex-column pa-4 flex-fill"
-        >
-          <div class="d-flex justify-space-between mb-2 align-center">
-            <span>
-              <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
-              <span class="text-caption ml-2">{{ $t('main.artists') }}</span>
-            </span>
-            <span class="text-caption">
-              <span> {{ state.artist['albumSize'] }} {{ $t('main.albums') }} </span> ·
-              <span> {{ state.artist['musicSize'] }} {{ $t('main.tracks') }} </span>
-            </span>
+      <div>
+        <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
+          <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
+            <span class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium" :style="{ maxWidth: '550px' }">{{
+              state.artist.name
+            }}</span>
+            <div class="d-flex flex-column">
+              <span class="d-flex align-center text-body-1 font-weight-medium">
+                {{ state.artist.transNames.join('·') }}
+                {{ state.artist.alias?.length ? `(${state.artist.alias.join('/')})` : '' }}
+              </span>
+              <span class="text-caption text-disabled">
+                {{ [...(state.artist.identifyTag ?? []), ...(state.artist.identities ?? [])].join('·') }}
+              </span>
+            </div>
+            <div class="d-flex py-2">
+              <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
+                <span class="text-body-1 font-weight-medium">
+                  <v-icon size="small">{{ mdiAccountMusic }} </v-icon>
+                </span>
+                <span class="text-disabled text-caption">歌手</span>
+              </div>
+              <v-divider class="my-2" vertical />
+              <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                <span class="text-body-1 font-weight-medium">{{ state.artist.musicSize }}</span>
+                <span class="text-disabled text-caption"> 歌曲 </span>
+              </div>
+              <v-divider class="my-2" vertical />
+
+              <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                <span class="text-body-1 font-weight-medium">{{ state.artist.albumSize }}</span>
+                <span class="text-disabled text-caption">专辑</span>
+              </div>
+              <v-divider class="my-2" vertical />
+              <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+                <span class="text-body-1 font-weight-medium">{{ state.artist.mvSize }}</span>
+                <span class="text-disabled text-caption">MV</span>
+              </div>
+            </div>
+            <div class="d-flex align-center">
+              <v-btn class="mr-4" color="primary" :loading="playLoading" @click="play">
+                {{ t('common.play_all') }}
+              </v-btn>
+              <v-btn icon variant="text" color="primary" @click="follow">
+                <v-icon>
+                  {{ followed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
+                </v-icon>
+              </v-btn>
+            </div>
           </div>
-          <div class="d-flex justify-space-between mb-2 align-center">
-            <span class="d-flex align-center">
-              <v-icon size="small">{{ mdiAccountMusic }}</v-icon>
-              <span class="text-h5 ml-2"> {{ state.artist.name }} </span>
-              <span v-if="state.artist['transNames']?.length" class="text-subtitle-2 ml-2"
-                >( {{ state.artist['transNames']?.join('、') }} )</span
-              >
-            </span>
-            <v-square-btn
-              size="large"
-              :loading="playLoading"
-              color="primaryContainer"
-              variant="flat"
-              elevation="1"
-              rounded="lg"
-              @click="play"
-            >
-              <v-icon size="small">
-                {{ mdiPlay }}
-              </v-icon>
-            </v-square-btn>
-          </div>
-          <div class="d-flex align-start" @click="more.showMoreDesc = true">
-            <v-icon size="small" class="flex-shrink-0">{{ mdiInformation }}</v-icon>
-            <p class="text-caption line-clamp-3 ml-2">
-              {{ state.artist['briefDesc'] }}
-            </p>
-          </div>
-          <div class="d-flex justify-end" :style="{ marginTop: 'auto' }">
-            <v-btn
-              size="small"
-              variant="outlined"
-              class="ml-6"
-              :color="followed ? 'primary' : ''"
-              rounded
-              @click="follow"
-            >
-              {{ $tc('common.follow', followed ? 2 : 1) }}
+          <artists-cover
+            :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
+            :max-width="225"
+            :min-width="225"
+            :max-height="225"
+            :min-height="225"
+            :artist="state.artist"
+            :no-info="true"
+          />
+        </div>
+        <div v-if="state.artist.briefDesc" class="d-flex flex-column">
+          <div class="d-flex align-center">
+            <span class="font-weight-medium mr-2">{{ t('main.artist.about') }}</span>
+            <v-btn icon variant="text" @click="more.showMoreDesc = true">
+              <v-icon>{{ mdiArrowRight }}</v-icon>
             </v-btn>
           </div>
-        </v-card>
+          <p class="text-caption line-clamp-3">
+            {{ state.artist.briefDesc }}
+          </p>
+        </div>
       </div>
       <Col :title="$t('main.artist.hot')">
         <track-list
@@ -252,8 +262,15 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
         </card-row>
       </Col>
       <v-dialog v-model="more.showMoreDesc" :scrollable="true">
-        <v-card color="surfaceVariant" rounded="xl" class="py-4 align-self-center" width="90vw" max-width="450">
-          <v-card-title> {{ $t('main.artist.desc') }}</v-card-title>
+        <v-card color="surfaceVariant" rounded="xl" class="pb-4 align-self-center" width="90vw" max-width="450">
+          <v-card-title>
+            <div class="d-flex justify-space-between align-center">
+              {{ t('main.artist.desc') }}
+              <v-btn icon variant="text" @click="more.showMoreDesc = false">
+                <v-icon>{{ mdiClose }}</v-icon>
+              </v-btn>
+            </div>
+          </v-card-title>
           <v-card-text>
             {{ state.artist['briefDesc'] }}
           </v-card-text>
