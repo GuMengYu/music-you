@@ -41,33 +41,47 @@
     <Control :simple="true" />
     <div class="d-flex justify-space-between align-center control-buttons my-1">
       <VolumeSlider orientation="vertical" />
-      <v-btn density="comfortable" icon :disabled="isCurrentFm" variant="plain" @click="toggleShuffle">
+      <v-btn
+        :color="shuffle ? 'primary' : ''"
+        density="comfortable"
+        icon
+        :disabled="isCurrentFm"
+        variant="text"
+        @click="toggleShuffle"
+      >
         <v-icon size="x-small">
           {{ shuffleIcon }}
         </v-icon>
       </v-btn>
-      <v-btn icon :disabled="isCurrentFm" variant="plain" @click="toggleMode">
+      <v-btn
+        density="comfortable"
+        icon
+        :disabled="isCurrentFm"
+        variant="text"
+        :color="repeatOn ? 'primary' : ''"
+        @click="toggleMode"
+      >
         <v-icon size="x-small">
           {{ modeIcon }}
         </v-icon>
       </v-btn>
-      <v-btn density="comfortable" icon variant="plain" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
+      <v-btn density="comfortable" icon variant="text" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
         <v-icon size="x-small">{{ mdiPictureInPictureTopRight }}</v-icon>
       </v-btn>
       <v-btn
         ref="playlistBtn"
         density="comfortable"
-        variant="plain"
+        variant="text"
         icon
         :color="isQueue ? 'primary' : ''"
         :disabled="isCurrentFm"
         @click="togglePlayingQueue"
       >
-        <v-icon size="small">
+        <v-icon size="x-small">
           {{ mdiPlaylistMusic }}
         </v-icon>
       </v-btn>
-      <v-btn density="comfortable" icon variant="plain" @click="openContextMenu">
+      <v-btn density="comfortable" icon variant="text" @click="openContextMenu">
         <v-icon size="x-small">{{ mdiDotsHorizontal }}</v-icon>
       </v-btn>
     </div>
@@ -108,6 +122,8 @@ const {
   shuffleIcon,
   modeIcon,
   isQueue,
+  shuffle,
+  repeatOn,
   toggleMode,
   togglePlayingQueue,
   toggleShuffle,

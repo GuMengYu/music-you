@@ -26,6 +26,9 @@ export default () => {
       }[playMode.value as string] ?? mdiRepeat
     )
   })
+  const repeatOn = computed(() => {
+    return [PLAY_MODE.REPEAT, PLAY_MODE.REPEAT_ONCE].includes(playMode.value)
+  })
   // 音量icon状态
   const volumeIcon = computed(() => {
     if (volume.value === 0) {
@@ -113,6 +116,7 @@ export default () => {
     isCurrentFm,
     loadingTrack,
     playMode,
+    repeatOn,
     modeIcon,
     shuffle,
     shuffleIcon,

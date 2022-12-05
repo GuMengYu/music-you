@@ -38,7 +38,7 @@ function toggleMute() {
 <template>
   <v-menu v-if="orientation === 'vertical'" location="top" :close-on-content-click="false" :open-on-hover="true">
     <template #activator="{ props }">
-      <v-btn v-bind="props" density="comfortable" icon variant="plain" @click="toggleMute">
+      <v-btn v-bind="props" density="comfortable" icon variant="text" @click="toggleMute">
         <v-icon size="x-small">
           {{ volumeIcon }}
         </v-icon>
