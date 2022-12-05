@@ -106,9 +106,11 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
       <div>
         <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
           <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
-            <span class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium" :style="{ maxWidth: '550px' }">{{
-              state.artist.name
-            }}</span>
+            <span
+              class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
+              :style="{ lineHeight: '64px', paddingRight: '30px' }"
+              >{{ state.artist.name }}</span
+            >
             <div class="d-flex flex-column">
               <span class="d-flex align-center text-body-1 font-weight-medium">
                 {{ state.artist.transNames.join('·') }}

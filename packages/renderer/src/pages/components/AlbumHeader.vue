@@ -88,9 +88,11 @@ function saveCover() {
   <div class="d-flex flex-column gap-8" :class="smAndUp ? 'mx-5' : ''">
     <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
       <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
-        <span class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium" :style="{ maxWidth: '550px' }">{{
-          album.name
-        }}</span>
+        <span
+          class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
+          :style="{ lineHeight: '64px', paddingRight: '30px' }"
+          >{{ album.name }}</span
+        >
         <div class="d-flex flex-column">
           <div class="d-flex align-center text-body-1 font-weight-medium">
             <v-avatar v-if="album.artist?.img1v1Url" size="20" class="mr-1">
