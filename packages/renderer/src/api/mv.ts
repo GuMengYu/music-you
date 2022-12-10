@@ -78,3 +78,21 @@ export const simiMv = (mvid: number) => {
     },
   })
 }
+
+/**
+ * 获取MV评论
+ * @param id
+ * @param limit
+ * @param offset
+ * @returns
+ */
+export const getMVComment = (id: number, limit = 20, offset = 0) => {
+  return request<{
+    code: number
+    total: number
+    comments: []
+    hotComments: []
+    more: boolean
+    hotMore: boolean
+  }>('/comment/mv', { params: { id, limit, offset } })
+}

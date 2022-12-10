@@ -158,3 +158,20 @@ export const getPlayListDynamic = (id: number) =>
       id,
     },
   })
+/**
+ * 获取歌单评论
+ * @param id
+ * @param limit
+ * @param offset
+ * @returns
+ */
+export const getPlayListComment = (id: number, limit = 20, offset = 0) => {
+  return request<{
+    code: number
+    total: number
+    comments: []
+    hotComments: []
+    more: boolean
+    hotMore: boolean
+  }>('/comment/playlist', { params: { id, limit, offset } })
+}

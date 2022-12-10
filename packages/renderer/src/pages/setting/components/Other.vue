@@ -32,6 +32,15 @@
       </template>
     </v-list-item>
   </div>
+  <div>
+    <app-title path="message.comment" />
+    <v-list-item class="pa-0">
+      <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.comment') }}</v-list-item-title>
+      <template #append>
+        <v-switch v-model="comment" color="primary" hide-details density="compact" inset></v-switch>
+      </template>
+    </v-list-item>
+  </div>
   <div v-if="is.linux() && is.macOS()">
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
@@ -85,7 +94,7 @@ import { usePlayer } from '@/player/player'
 import { ExitMode, QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import is from '@/util/is'
 const settingStore = useSettingStore()
-const { locale: lang, quality_level, visualization, exitMode, outputdevice } = storeToRefs(settingStore)
+const { locale: lang, quality_level, visualization, comment, exitMode, outputdevice } = storeToRefs(settingStore)
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const player = usePlayer()

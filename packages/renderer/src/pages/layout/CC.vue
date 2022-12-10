@@ -41,7 +41,9 @@
             :icon="mdiCircleHalfFull"
           />
         </v-col>
-        <v-col></v-col>
+        <v-col class="d-flex">
+          <switch-card title="playground" :icon="mdiCog" @click="to('playground')" />
+        </v-col>
       </v-row>
       <v-divider class="my-2" />
       <MediaCard />

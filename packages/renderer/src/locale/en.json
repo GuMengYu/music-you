@@ -12,6 +12,7 @@
     "something_wrong": "Oops something wrong, May be the operation is too frequent",
     "reset_app": "Reset App",
     "visualization": "Music Visualization",
+    "comment": "Comment",
     "delete_list": "delete | deleted",
     "disclaimer": "disclaimer",
     "phone_email": "Mobile or email",
@@ -115,7 +116,8 @@
       "language": "Select language - changes will take effect immediately",
       "reset": "Reset app data (including cache, user login info)",
       "manage_account": "Manage Account (web)",
-      "exit": "Behavior of closing the app..."
+      "exit": "Behavior of closing the app...",
+      "comment": "View partial reviews of playlists, albums, and songs"
     },
     "daily": {
       "title": "Daily song recommendation",
@@ -204,7 +206,10 @@
     "unknown": "Unknown",
     "upload": "Upload",
     "upload_music": "Upload Music",
-    "delete_cloud": "Delete from cloud disk"
+    "delete_cloud": "Delete from cloud disk",
+    "comment": "Comment",
+    "new_comment": "New Comment",
+    "hot_comment": "Hot Comment"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",
