@@ -45,3 +45,21 @@ export const getAlbumDynamic = (id: number) =>
       id,
     },
   })
+
+/**
+ * 获取专辑评论
+ * @param id
+ * @param limit
+ * @param offset
+ * @returns
+ */
+export const getAlbumComment = (id: number, limit = 20, offset = 0) => {
+  return request<{
+    code: number
+    total: number
+    comments: []
+    hotComments: []
+    more: boolean
+    hotMore: boolean
+  }>('/comment/album', { params: { id, limit, offset } })
+}

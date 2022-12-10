@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Comment from '@/pages/components/Comment.vue'
 import { usePlayer } from '@/player/player'
 const wave = ref()
 const player = usePlayer()
@@ -6,6 +7,6 @@ const player = usePlayer()
 
 <template>
   <v-container>
-    <div ref="wave"></div>
+    <Comment :id="2829883282" type="playlist" />
   </v-container>
 </template>

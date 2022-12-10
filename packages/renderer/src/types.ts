@@ -117,16 +117,13 @@ export interface Playlist {
   officialPlaylistType?: string
 }
 
+interface Profile extends User {
+  userName: string
+  userType: number
+  signature: string
+}
 export interface Account {
-  profile: {
-    userName: string
-    userId: number
-    userType: number
-    vipType: number
-    nickname: string
-    signature: string
-    avatarUrl: string
-  }
+  profile: Profile
   account?: {
     vipType: string
     id: number
@@ -138,4 +135,20 @@ export interface Account {
 export interface Tracks {
   id?: string
   list: Track[]
+}
+
+export interface Comment {
+  commentId: string
+  content: string
+  richContent: string
+  user: User
+  time: number
+  timeStr: string
+}
+
+export interface User {
+  avatarUrl: string
+  nickname: string
+  userId: string
+  vipType: number
 }

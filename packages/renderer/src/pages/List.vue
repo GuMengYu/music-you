@@ -1,14 +1,19 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
 
 import { getPlaylistDetail, getPlaylistTrackAll, getRelatedPlayList } from '@/api/playlist'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
+import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { specialType } from '@/util/metadata'
 
+import Comment from './components/Comment.vue'
 import PlaylistHeader from './components/PlaylistHeader.vue'
 const userStore = useUserStore()
+const settingStore = useSettingStore()
+const { comment: showComment } = storeToRefs(settingStore)
 const props = defineProps<{
   id: number | string
 }>()
@@ -52,7 +57,6 @@ async function fetch(id: number, flush = false) {
     const { playlists } = await getRelatedPlayList(playlist.id)
     state.relatedPlaylists = playlists
   }
-  state.playlist = playlist
 }
 
 useAjaxReloadHook('playlist', () => {
@@ -72,6 +76,7 @@ useAjaxReloadHook('playlist', () => {
         :header="smAndUp"
         @update-list="(list) => (state.playlist.tracks = [...list])"
       />
+      <Comment v-if="showComment" :id="state.playlist.id" type="playlist" class="mx-5" />
       <Col :title="$t('main.playlist.simi')">
         <CardRow>
           <cover v-for="playlist in state.relatedPlaylists" :key="playlist.id" :data="playlist" type="playlist" />

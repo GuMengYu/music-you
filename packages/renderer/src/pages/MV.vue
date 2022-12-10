@@ -28,6 +28,7 @@
             {{ video?.briefDesc }}
           </span>
         </v-card>
+        <Comment v-if="showComment" :id="video?.id" type="mv" class="mx-3" />
       </div>
     </v-col>
     <v-col cols="3">
@@ -41,12 +42,17 @@
 <script lang="ts" setup>
 import 'plyr/dist/plyr.css'
 
+import { storeToRefs } from 'pinia'
 import Plyr from 'plyr'
 
 import { getMvUrl, mvDetail, simiMv } from '@/api/mv'
+import { useSettingStore } from '@/store/setting'
 import type { MV } from '@/types'
 import { formatNumber, sizeOfImage } from '@/util/fn'
 
+import Comment from './components/Comment.vue'
+const settingStore = useSettingStore()
+const { comment: showComment } = storeToRefs(settingStore)
 const props = defineProps<{
   id: string
 }>()

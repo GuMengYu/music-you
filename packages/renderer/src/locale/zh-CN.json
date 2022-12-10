@@ -12,6 +12,7 @@
     "something_wrong": "出错了, 可能操作过于频繁",
     "reset_app": "重置应用",
     "visualization": "音乐可视化",
+    "comment": "评论",
     "disclaimer": "免责声明",
     "logout": "退出登录",
     "login": "使用手机号或者邮箱来登录, 也可切换二维码用网易云App扫码登录",
@@ -115,7 +116,8 @@
       "language": "选择语言-改变将会立即生效",
       "reset": "重置应用数据(包括缓存，用户登录信息)",
       "manage_account": "管理您的网易云账号(web)",
-      "exit": "点击窗口关闭按钮的行为..."
+      "exit": "点击窗口关闭按钮的行为...",
+      "comment": "查看歌单、专辑、歌曲的部份评论(精选和最新评论)"
     },
     "daily": {
       "title": "每日歌曲推荐",
@@ -203,7 +205,10 @@
     "unknown": "未知",
     "upload": "上传",
     "upload_music": "上传音乐",
-    "delete_cloud": "从云盘中删除"
+    "delete_cloud": "从云盘中删除",
+    "comment": "评论",
+    "new_comment": "最新评论",
+    "hot_comment": "精选评论"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

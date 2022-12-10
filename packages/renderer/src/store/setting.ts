@@ -45,6 +45,7 @@ export interface SettingState {
   account: Record<string, string>
   visualization: boolean
   exitMode: ExitMode
+  comment: boolean
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
@@ -66,6 +67,7 @@ export const useSettingStore = defineStore('setting', {
         account: {},
         visualization: false,
         exitMode: ExitMode.prompt,
+        comment: false,
       },
       { mergeDefaults: true }
     )

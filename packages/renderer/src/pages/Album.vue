@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
@@ -9,14 +10,18 @@ import { getArtistAlbum } from '@/api/artist'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'
+import { useSettingStore } from '@/store/setting'
 import type { Album } from '@/types'
 
 import AlbumHeader from './components/AlbumHeader.vue'
+import Comment from './components/Comment.vue'
 const { t } = useI18n()
 const toast = useToast()
 const player = usePlayer()
 const playQueue = usePlayQueueStore()
 const { smAndUp } = useDisplay()
+const settingStore = useSettingStore()
+const { comment: showComment } = storeToRefs(settingStore)
 const props = defineProps<{
   id: number | string
 }>()
@@ -76,6 +81,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
         <span class="text-caption"> {{ t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
         <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>
       </div>
+      <Comment v-if="showComment" :id="state.album.id" type="album" class="mx-5" />
       <v-divider />
       <Col :title="$t('main.album.simi')">
         <CardRow>

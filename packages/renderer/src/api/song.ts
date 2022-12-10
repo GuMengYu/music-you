@@ -78,3 +78,21 @@ export const getLyric = (id: number) =>
     lyricUser: LyricUser
     transUser: LyricUser
   }>(`/lyric?id=${id}`)
+
+/**
+ * 获取歌曲评论
+ * @param id
+ * @param limit
+ * @param offset
+ * @returns
+ */
+export const getMusicComment = (id: number, limit = 20, offset = 0) => {
+  return request<{
+    code: number
+    total: number
+    comments: []
+    hotComments: []
+    more: boolean
+    hotMore: boolean
+  }>('/comment/music', { params: { id, limit, offset } })
+}
