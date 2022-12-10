@@ -1,3 +1,4 @@
+import type { QUALITY_LEVEL } from '@/store/setting'
 import type { Track } from '@/types'
 import { request } from '@/util/fetch'
 /**
@@ -14,7 +15,7 @@ export const getSongData = (ids: number[] = []) =>
  * @param params
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongUrl = (params: { id: number; br: number }) =>
+export const getSongUrl = (params: { id: number; level: QUALITY_LEVEL }) =>
   request<{
     data: {
       freeTrialInfo: boolean
@@ -23,7 +24,7 @@ export const getSongUrl = (params: { id: number; br: number }) =>
       type: string
       encodeType: string
     }[]
-  }>('/song/url', {
+  }>('/song/url/v1', {
     params,
   })
 

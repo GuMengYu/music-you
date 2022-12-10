@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { pinia } from '@/plugins/pinia'
 
 import type { Track } from '../types'
-export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud'
+export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud' | 'intelligence'
 
 export interface PlayQueueState {
   queue: {
@@ -68,7 +68,7 @@ export const usePlayQueueStore = defineStore({
     /**
      * 更新播放列表
      * @param id 队列id
-     * @param type 队列类型-专辑/歌单/歌手热门
+     * @param type 队列类型-专辑/歌单/歌手热门/智能列表
      * @param name 队列名
      * @param data 队列数据
      */

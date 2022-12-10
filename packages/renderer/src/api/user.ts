@@ -1,5 +1,6 @@
 import { now } from 'lodash-es'
 
+import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
 
@@ -118,3 +119,26 @@ export const getLikeList = () =>
     ids: number[]
     code: number
   }>(`/likelist?timestamp=${now()}`)
+
+export const getHeartBeatList = async (id: number) => {
+  const userStore = useUserStore()
+  const pid = userStore.favorites.id
+  const res = await request<{
+    code: number
+    data: Array<{
+      id: number
+      songInfo: Track
+      recommended: boolean
+    }>
+  }>('/playmode/intelligence/list', {
+    params: {
+      id,
+      pid,
+    },
+  })
+  if (res.code === 200) {
+    return res.data.map((i) => i.songInfo)
+  } else {
+    return []
+  }
+}

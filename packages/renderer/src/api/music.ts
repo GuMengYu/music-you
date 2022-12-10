@@ -1,6 +1,6 @@
 import { isArray, now } from 'lodash-es'
 
-import { useSettingStore } from '@/store/setting'
+import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import { request } from '@/util/fetch'
@@ -25,10 +25,15 @@ export const getTrackDetail = async (id: number) => {
   return { track, trackMeta, lyric }
 }
 
+/**
+ * 获取歌单播放链接
+ * @param id
+ * @returns
+ */
 export const getMusicUrl = async (id: Track['id']) => {
   const userStore = useUserStore()
   const settingStore = useSettingStore()
-  const br = settingStore.quality
+  const level = settingStore.quality_level ?? QUALITY_LEVEL.HIGHER
   const meta: Track['meta'] = {
     url: null,
     br: null,
@@ -38,7 +43,7 @@ export const getMusicUrl = async (id: Track['id']) => {
   if (userStore.logged) {
     const {
       data: [song],
-    } = await getSongUrl({ id, br })
+    } = await getSongUrl({ id, level })
     if (song?.freeTrialInfo || !song.url) {
       try {
         const { data } = await getSongUrlFromUnlockMusic(id) // 尝试解锁灰色或者试听歌曲

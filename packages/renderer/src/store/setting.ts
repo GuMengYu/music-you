@@ -9,7 +9,13 @@ export enum APPEARANCE {
   DARK = 'dark',
   SYSTEM = 'system',
 }
-
+export enum QUALITY_LEVEL {
+  STANDARD = 'standard',
+  HIGHER = 'higher',
+  EXHIGH = 'exhigh',
+  LOSSLESS = 'lossless',
+  HIRES = 'hires',
+}
 export enum ExitMode {
   minimize,
   exit,
@@ -31,7 +37,8 @@ export interface SettingState {
   playingMode: PLAYING_MODE
   rail: boolean
   miniplayer: boolean
-  quality: number
+  quality: number // deprecated quality弃用 quality_level替代
+  quality_level: QUALITY_LEVEL
   outputdevice: string | undefined
   cacheLimit: number
   volume: number
@@ -52,6 +59,7 @@ export const useSettingStore = defineStore('setting', {
         rail: true,
         miniplayer: false,
         quality: 320000,
+        quality_level: QUALITY_LEVEL.HIGHER,
         outputdevice: undefined,
         cacheLimit: 500,
         volume: 0.8,

@@ -2,7 +2,7 @@
   <v-menu>
     <template #activator="{ props }">
       <slot name="activator" v-bind="{ props }">
-        <v-btn size="small" variant="tonal" color="primary" v-bind="props" class="text-lowercase font-weight-bold">
+        <v-btn variant="tonal" color="primary" v-bind="props" class="text-lowercase font-weight-bold">
           {{ text }}
           <v-icon right class="ml-0" size="14">{{ mdiChevronDown }}</v-icon>
         </v-btn>
@@ -15,11 +15,12 @@
 </template>
 <script setup lang="ts">
 import { mdiChevronDown } from '@mdi/js'
+import type { PropType } from 'vue'
 
-const props = defineProps({
+const _props = defineProps({
   modelValue: [String, Number],
   items: {
-    type: Array,
+    type: Array as PropType<any[]>,
     default: () => [],
   },
 })
@@ -27,7 +28,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const selected = computed({
   get() {
-    return [props.modelValue]
+    return [_props.modelValue]
   },
   set(value) {
     value.length && emit('update:modelValue', value[0])
@@ -35,12 +36,12 @@ const selected = computed({
 })
 
 const text = computed(() => {
-  const o = props.items.find((o) => o.value === props.modelValue)
+  const o = _props.items.find((o) => o.value === _props.modelValue)
   return o ? o.title : ''
 })
 
 const items = computed(() => {
-  return props.items.map((o) => {
+  return _props.items.map((o) => {
     return {
       ...o,
       rounded: true,

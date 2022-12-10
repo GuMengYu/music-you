@@ -13,7 +13,7 @@
     <v-list-item class="pa-0">
       <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.quality') }} </v-list-item-title>
       <template #append>
-        <AppSelect v-model="quality" :items="qualityOptions" />
+        <AppSelect v-model="quality_level" :items="qualityOptions" />
       </template>
     </v-list-item>
     <v-list-item v-if="outputDevices.length" class="pa-0">
@@ -75,7 +75,6 @@
 </template>
 <script setup lang="ts">
 import { mdiRestore } from '@mdi/js'
-import { uniqBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
@@ -83,10 +82,10 @@ import AppSelect from '@/components/menu/Select.vue'
 import AppTitle from '@/components/Title.vue'
 import useMediaDevices from '@/hooks/useMediaDevices'
 import { usePlayer } from '@/player/player'
-import { ExitMode, useSettingStore } from '@/store/setting'
+import { ExitMode, QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import is from '@/util/is'
 const settingStore = useSettingStore()
-const { locale: lang, quality, visualization, exitMode, outputdevice } = storeToRefs(settingStore)
+const { locale: lang, quality_level, visualization, exitMode, outputdevice } = storeToRefs(settingStore)
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const player = usePlayer()
@@ -134,23 +133,28 @@ const exitModeOptions = computed(() => {
 const qualityOptions = computed(() => {
   return [
     {
-      title: '低 (128Kbps)',
-      value: 128000,
+      title: '标准',
+      value: QUALITY_LEVEL.STANDARD,
       activeClass: 'text-primary',
     },
     {
-      title: '标准 (198Kbps)',
-      value: 192000,
+      title: '较高',
+      value: QUALITY_LEVEL.HIGHER,
       activeClass: 'text-primary',
     },
     {
-      title: '较高 (320Kbps)',
-      value: 320000,
+      title: '极高(vip)',
+      value: QUALITY_LEVEL.EXHIGH,
       activeClass: 'text-primary',
     },
     {
-      title: '无损-需VIP',
-      value: 999000,
+      title: '无损(vip)',
+      value: QUALITY_LEVEL.LOSSLESS,
+      activeClass: 'text-primary',
+    },
+    {
+      title: 'Hi-Res(vip)',
+      value: QUALITY_LEVEL.HIRES,
       activeClass: 'text-primary',
     },
   ]

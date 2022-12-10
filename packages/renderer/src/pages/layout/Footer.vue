@@ -47,6 +47,12 @@
       </div>
       <Control />
       <div class="playing-bar__right">
+        <v-btn v-if="showHeartBeat" icon :loading="heartbeatLoading" @click="generateHeartBeatList">
+          <v-icon size="x-small">
+            {{ mdiHeartPulse }}
+          </v-icon>
+          <v-tooltip activator="parent" location="top" open-delay="100"> 心动模式 </v-tooltip>
+        </v-btn>
         <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
           <v-icon size="x-small">
             {{ mdiPictureInPictureTopRight }}
@@ -71,7 +77,13 @@
   </v-app-bar>
 </template>
 <script setup lang="ts">
-import { mdiArrowExpand, mdiDotsHorizontal, mdiPictureInPictureTopRight, mdiPlaylistMusic } from '@mdi/js'
+import {
+  mdiArrowExpand,
+  mdiDotsHorizontal,
+  mdiHeartPulse,
+  mdiPictureInPictureTopRight,
+  mdiPlaylistMusic,
+} from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
@@ -80,6 +92,7 @@ import { useToast } from 'vue-toastification'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
+import { getHeartBeatList } from '@/api/user'
 import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
@@ -105,6 +118,8 @@ const contextMenu = useContextMenu()
 
 const { themeName } = useCurrentTheme()
 
+const heartbeatLoading = ref(false)
+
 const playlists = computed(() => {
   return userStore.createdPlaylists
     .map((i) => {
@@ -118,9 +133,12 @@ const playlists = computed(() => {
 })
 
 // store state
-const { track, volume, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
+const { track, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 
+const showHeartBeat = computed(() => {
+  return userStore.logged && track.value && userStore.likes.includes(track.value.id)
+})
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()
 const { playAnimation } = useEmojiAnimation(playlistBtn)
@@ -209,6 +227,25 @@ async function trackToPlayList(playlistId: number, trackId: number) {
     }
   } catch (e) {
     toast.error(t('message.something_wrong'))
+  }
+}
+async function generateHeartBeatList() {
+  heartbeatLoading.value = true
+  try {
+    if (track.value?.id) {
+      const id = track.value?.id
+      const list = await getHeartBeatList(id)
+      if (list.length) {
+        playQueueStore.updatePlayQueue(0, 'intelligence', '心动智能列表', list)
+        toast.success(t('message.heartbeat_success'))
+      } else {
+        toast.warning(t('common.no_more'))
+      }
+    }
+  } catch (e) {
+    toast.error(t('message.something_wrong'))
+  } finally {
+    heartbeatLoading.value = false
   }
 }
 </script>

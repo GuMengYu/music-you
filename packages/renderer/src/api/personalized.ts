@@ -15,14 +15,14 @@ export const personalized = (limit?: number) => {
   }>('/personalized', { params: { limit } })
 }
 
-export const personalizedPlaylist = async () => {
+export const personalizedPlaylist = async (limit = 7) => {
   const userStore = useUserStore()
   let result: Playlist[]
   if (userStore.logged) {
     const { recommend } = await recommendPlaylist()
     result = recommend.slice(1) // 第一个是私人定制雷达歌单，去除
   } else {
-    const { result: list } = await personalized(7)
+    const { result: list } = await personalized(limit)
     result = list
   }
   return result
