@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Comment from '@/pages/components/Comment.vue'
+import Comment from '@/components/comment/Comment.vue'
 import { usePlayer } from '@/player/player'
 const wave = ref()
 const player = usePlayer()

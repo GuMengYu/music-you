@@ -2,7 +2,7 @@
   <v-card class="frame">
     <div class="frame-header d-flex justify-space-between drag-area pa-2">
       <span class="ml-4 mt-4 frame-header-title text-lg-h2 text-md-h3 text-xl-h1 text-sm-h4 text-onSurfaceVariant">
-        {{ formatDuring(track!.dt) }} /
+        {{ formatDuring(track.dt) }} /
         {{ formatDuring(currentTime * 1000) }}
       </span>
       <div class="frame-header-action d-flex no-drag-area flex-column">
@@ -27,23 +27,24 @@
       />
     </div>
     <div class="frame-footer text-onSurfaceVariant mb-6 mx-6 d-flex flex-column gap-4">
-      <span class="text-h4">{{ track!['al'] && track!['al']['name'] }}</span>
-      <span class="text-h4">by - {{ track!['ar'] && track!['ar'][0]['name'] }}</span>
+      <span class="text-h4">{{ track['al'] && track['al']['name'] }}</span>
+      <span class="text-h4">by - {{ track['ar'] && track['ar'][0]['name'] }}</span>
       <div class="d-flex justify-space-between align-center">
         <span class="text-h2 line-clamp-1" style="max-width: 60vw">
-          {{ track!.name }}
+          {{ track.name }}
         </span>
         <div>
           <v-btn icon variant="text" @click="prev">
-            <v-icon size="56">
+            <v-icon>
               {{ icon.mdiChevronLeft }}
             </v-icon>
           </v-btn>
           <v-btn icon variant="text" class="ml-4" @click="next">
-            <v-icon size="56">
+            <v-icon>
               {{ icon.mdiChevronRight }}
             </v-icon>
           </v-btn>
+          <music-comment-toggle :id="track.id" />
         </div>
       </div>
     </div>
@@ -57,7 +58,6 @@ import {
   mdiChevronLeft,
   mdiChevronRight,
   mdiClose,
-  mdiCommentQuoteOutline,
   mdiDotsHorizontal,
   mdiHeart,
   mdiPauseCircle,
@@ -73,7 +73,6 @@ import Lyric from '@/pages/mode/components/lyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
-import type { Artist, Track } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 export default defineComponent({
@@ -82,7 +81,6 @@ export default defineComponent({
     const playerStore = usePlayerStore()
     const appStore = useAppStore()
     const player = usePlayer()
-
     const { currentTime, track } = storeToRefs(playerStore)
 
     const albumPicUrl = computed(() => {
@@ -122,7 +120,6 @@ export default defineComponent({
       mdiRepeat,
       mdiPauseCircle,
       mdiPodcast,
-      mdiCommentQuoteOutline,
       mdiArrowExpand,
       mdiArrowCollapse,
       mdiClose,

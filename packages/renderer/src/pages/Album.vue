@@ -13,8 +13,8 @@ import { usePlayQueueStore } from '@/store/playQueue'
 import { useSettingStore } from '@/store/setting'
 import type { Album } from '@/types'
 
+import Comment from '../components/comment/Comment.vue'
 import AlbumHeader from './components/AlbumHeader.vue'
-import Comment from './components/Comment.vue'
 const { t } = useI18n()
 const toast = useToast()
 const player = usePlayer()

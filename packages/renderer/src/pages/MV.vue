@@ -50,7 +50,7 @@ import { useSettingStore } from '@/store/setting'
 import type { MV } from '@/types'
 import { formatNumber, sizeOfImage } from '@/util/fn'
 
-import Comment from './components/Comment.vue'
+import Comment from '../components/comment/Comment.vue'
 const settingStore = useSettingStore()
 const { comment: showComment } = storeToRefs(settingStore)
 const props = defineProps<{
