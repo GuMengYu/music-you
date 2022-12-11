@@ -53,7 +53,7 @@ export const getAlbumDynamic = (id: number) =>
  * @param offset
  * @returns
  */
-export const getAlbumComment = (id: number, limit = 20, offset = 0) => {
+export const getAlbumComment = (id: number, limit = 15, offset = 0) => {
   return request<{
     code: number
     total: number

@@ -9,7 +9,7 @@ import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { specialType } from '@/util/metadata'
 
-import Comment from './components/Comment.vue'
+import Comment from '../components/comment/Comment.vue'
 import PlaylistHeader from './components/PlaylistHeader.vue'
 const userStore = useUserStore()
 const settingStore = useSettingStore()

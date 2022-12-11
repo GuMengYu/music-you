@@ -74,16 +74,17 @@
             </v-icon>
           </v-btn>
           <div>
-            <v-btn size="large" icon variant="text" @click="prev">
-              <v-icon size="x-large">
+            <v-btn icon variant="text" @click="prev">
+              <v-icon>
                 {{ mdiChevronLeft }}
               </v-icon>
             </v-btn>
-            <v-btn size="large" icon variant="text" class="ml-4" @click="next">
-              <v-icon size="x-large">
+            <v-btn icon variant="text" class="ml-4" @click="next">
+              <v-icon>
                 {{ mdiChevronRight }}
               </v-icon>
             </v-btn>
+            <music-comment-toggle :id="track.id" />
           </div>
         </div>
       </div>
@@ -121,7 +122,7 @@ const animationFrameId = ref()
 let showAnimBar = ref(true)
 const canvasContainer = ref<HTMLDivElement>()
 const canvasRef = ref<HTMLCanvasElement>()
-
+const commentModal = ref<boolean>(false)
 const canvasState = reactive<{
   ctx: CanvasRenderingContext2D | null
   height: number
@@ -213,12 +214,14 @@ function initCanvas() {
   }
 }
 function setSize() {
-  const canvas = canvasRef.value
-  const { width, height } = canvasContainer.value!.getBoundingClientRect()
-  canvas!.height = height
-  canvas!.width = width
-  canvasState.width = width
-  canvasState.height = height
+  if (canvasContainer.value) {
+    const canvas = canvasRef.value
+    const { width, height } = canvasContainer.value.getBoundingClientRect()
+    canvas!.height = height
+    canvas!.width = width
+    canvasState.width = width
+    canvasState.height = height
+  }
 }
 
 function draw() {

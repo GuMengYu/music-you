@@ -37,5 +37,6 @@ function formatDate(datetime: string | number, format = 'LL') {
     <div class="mt-2 text-body-2">
       {{ comment.content }}
     </div>
+    <slot />
   </div>
 </template>

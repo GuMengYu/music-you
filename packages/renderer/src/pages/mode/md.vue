@@ -9,9 +9,9 @@
         </v-btn>
         <div class="md-left d-flex flex-column align-center">
           <span class="text-h2 line-clamp-1 mb-2" style="word-break: break-all">
-            {{ track!.name }}
+            {{ track.name }}
           </span>
-          <span class="text-h5">{{ track!['ar'] && track!['ar'][0]['name'] }}</span>
+          <span class="text-h5">{{ track['ar'] && track['ar'][0]['name'] }}</span>
           <lyric class="text-h5 mt-4" />
         </div>
       </v-col>
@@ -28,6 +28,7 @@
               <transition name="slide-fade-y">
                 <div v-if="isHovering" class="d-flex flex-fil justify-center">
                   <Control simple />
+                  <music-comment-toggle :id="track.id" />
                 </div>
               </transition>
             </div>
@@ -46,7 +47,6 @@ import {
   mdiChevronLeft,
   mdiChevronRight,
   mdiClose,
-  mdiCommentQuoteOutline,
   mdiDotsHorizontal,
   mdiHeart,
   mdiPauseCircle,
@@ -54,7 +54,6 @@ import {
   mdiRepeat,
   mdiShuffle,
 } from '@mdi/js'
-import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
@@ -122,7 +121,6 @@ export default defineComponent({
       mdiRepeat,
       mdiPauseCircle,
       mdiPodcast,
-      mdiCommentQuoteOutline,
       mdiArrowExpand,
       mdiArrowCollapse,
       mdiClose,

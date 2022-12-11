@@ -86,7 +86,7 @@ export const simiMv = (mvid: number) => {
  * @param offset
  * @returns
  */
-export const getMVComment = (id: number, limit = 20, offset = 0) => {
+export const getMVComment = (id: number, limit = 15, offset = 0) => {
   return request<{
     code: number
     total: number

@@ -208,7 +208,8 @@
     "delete_cloud": "从云盘中删除",
     "comment": "评论",
     "new_comment": "最新评论",
-    "hot_comment": "精选评论"
+    "hot_comment": "精选评论",
+    "more_comment": "查看更多评论"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

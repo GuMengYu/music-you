@@ -209,7 +209,8 @@
     "delete_cloud": "Delete from cloud disk",
     "comment": "Comment",
     "new_comment": "New Comment",
-    "hot_comment": "Hot Comment"
+    "hot_comment": "Hot Comment",
+    "more_comment": "Display More Comment"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

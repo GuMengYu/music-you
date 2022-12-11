@@ -86,7 +86,7 @@ export const getLyric = (id: number) =>
  * @param offset
  * @returns
  */
-export const getMusicComment = (id: number, limit = 20, offset = 0) => {
+export const getMusicComment = (id: number, limit = 15, offset = 0) => {
   return request<{
     code: number
     total: number
