@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
 
     steps:
       - name: Check out Git repository
@@ -50,4 +50,10 @@ jobs:
         with:
           name: music-you-windows
           path: release/*/*Setup*.exe
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: music-you-linux
+          path: release/*/*tar.xz
           if-no-files-found: ignore

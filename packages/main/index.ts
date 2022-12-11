@@ -83,7 +83,9 @@ function handleAppEvent() {
     const window = await wm.openWindow('index')
     if (window) {
       createElectronMenu(window)
-      is.windows() && createTray(window)
+      if (!is.macOS()) {
+        createTray(window)
+      }
       registerIpcMain(wm)
     }
   })
@@ -103,6 +105,6 @@ function preCheck() {
   if (release().startsWith('6.1')) app.disableHardwareAcceleration()
 
   // Set application name for Windows 10+ notifications
-  if (process.platform === 'win32') app.setAppUserModelId(app.getName())
+  if (process.platform === 'win32' || process.platform === 'linux') app.setAppUserModelId(app.getName())
 }
 export const getWin = () => wm.getWindow('index')
