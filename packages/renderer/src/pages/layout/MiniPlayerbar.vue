@@ -41,6 +41,7 @@
     <Control :simple="true" />
     <div class="d-flex justify-space-between align-center control-buttons my-1">
       <VolumeSlider orientation="vertical" />
+      <like-toggle :id="track.id" />
       <v-btn
         :color="shuffle ? 'primary' : ''"
         density="comfortable"
@@ -65,9 +66,9 @@
           {{ modeIcon }}
         </v-icon>
       </v-btn>
-      <v-btn density="comfortable" icon variant="text" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
-        <v-icon size="x-small">{{ mdiPictureInPictureTopRight }}</v-icon>
-      </v-btn>
+      <!--      <v-btn density="comfortable" icon variant="text" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">-->
+      <!--        <v-icon size="x-small">{{ mdiPictureInPictureTopRight }}</v-icon>-->
+      <!--      </v-btn>-->
       <v-btn
         ref="playlistBtn"
         density="comfortable"
@@ -88,12 +89,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { mdiArrowExpand, mdiDotsHorizontal, mdiPictureInPictureTopRight, mdiPlaylistMusic } from '@mdi/js'
+import { mdiArrowExpand, mdiDotsHorizontal, mdiPlaylistMusic } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
+import { getHeartBeatList } from '@/api/user'
 import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import usePlayerControl from '@/hooks/usePlayerControl'
@@ -153,28 +156,53 @@ eventBus.on((id, setQueue) => {
   }
 })
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
-
+const showHeartBeat = computed(() => {
+  return userStore.logged && track.value && userStore.likes.includes(track.value.id)
+})
 async function showPlayingPage() {
   appStore.showLyric = true
 }
 
 function openContextMenu(event: MouseEvent) {
   const { x, y } = event
+  const buildMenu = () => {
+    const items: MenuItem[] = [
+      {
+        label: '添加到歌单',
+        children: [
+          ...playlists.value.map((list) => {
+            return {
+              label: list.name,
+              onClick: () => {
+                track.value?.id && trackToPlayList(list.id, track.value.id)
+              },
+            }
+          }),
+        ],
+      },
+      {
+        label: '小窗歌词',
+        onClick: () => {
+          togglePipLyric()
+        },
+      },
+    ]
+    if (showHeartBeat.value) {
+      items.push({
+        label: '心动模式',
+        onClick: () => {
+          generateHeartBeatList()
+        },
+      })
+    }
+    return items
+  }
   const option = {
     theme: themeName.value,
     x,
     y,
-    items: [
-      ...playlists.value.map((list) => {
-        return {
-          label: list.name,
-          onClick: () => {
-            track.value?.id && trackToPlayList(list.id, track.value.id)
-          },
-        }
-      }),
-    ],
-    offsetFooter: 48,
+    items: buildMenu(),
+    offsetFooter: 32,
     customClass: 'bg-surfaceVariant',
   }
   contextMenu(option)
@@ -188,6 +216,22 @@ async function trackToPlayList(playlistId: number, trackId: number) {
       toast.success(t('message.add_list_success'))
     } else {
       toast.error(message!)
+    }
+  } catch (e) {
+    toast.error(t('message.something_wrong'))
+  }
+}
+async function generateHeartBeatList() {
+  try {
+    if (track.value?.id) {
+      const id = track.value?.id
+      const list = await getHeartBeatList(id)
+      if (list.length) {
+        playQueueStore.updatePlayQueue(0, 'intelligence', '心动智能列表', list)
+        toast.success(t('message.heartbeat_success'))
+      } else {
+        toast.warning(t('common.no_more'))
+      }
     }
   } catch (e) {
     toast.error(t('message.something_wrong'))
