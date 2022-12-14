@@ -30,40 +30,6 @@ export const usePlayQueueStore = defineStore({
       priorityQueue: [],
     }) as unknown as PlayQueueState
   },
-  getters: {
-    // index: (state) => {
-    //   const { playingList, track } = state
-    //   if (!playingList.list.length) return -1
-    //   return playingList.list.findIndex((item) => item.id === track?.id)
-    // },
-    // prevTrackId: (state) => {
-    //   const { playingList, track } = state
-    //   if (!playingList.list.length) return -1
-    //   const index = playingList.list.findIndex((item) => item.id === track?.id)
-    //   return playingList.list[index - 1]?.id
-    // },
-    // nextFmTrackId(state) {
-    //   return state.fmList[0]?.id
-    // },
-    // nextTrackId(state): null | number {
-    //   const currentId = state.track?.id
-    //   if (!currentId) return null
-    //   const index = this.index
-    //   let id: number | null = null
-    //   const len = state.playingList?.list?.length
-    //   const { playMode, playingList } = state
-    //   if (playMode === PLAY_MODE.REPEAT_ONCE) {
-    //     id = currentId
-    //     // 顺序播放（非最后一曲），或 循环播放，否则下一曲都是当前歌曲
-    //   } else if (playMode === PLAY_MODE.NORMAL || len - 1 !== index) {
-    //     id = playingList?.list?.[index + 1 === len ? 0 : index + 1]?.id
-    //   } else if (playMode === PLAY_MODE.DISABLE && len - 1 === index) {
-    //     // 顺序播放最后一首后不在继续播放
-    //     id = null
-    //   }
-    //   return id
-    // },
-  },
   actions: {
     /**
      * 更新播放列表
@@ -74,6 +40,9 @@ export const usePlayQueueStore = defineStore({
      */
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
       const trackIds = data.map((track) => track.id)
+      data.forEach((i) => {
+        i.source = mixinTrackSource({ type, id })
+      })
       this.queue = {
         id,
         type,
@@ -151,4 +120,11 @@ export const usePlayQueueStore = defineStore({
 
 export function usePlayQueueStoreWithOut() {
   return usePlayQueueStore(pinia)
+}
+
+function mixinTrackSource(source: any) {
+  return {
+    fid: source.type,
+    fdata: source.id,
+  }
 }

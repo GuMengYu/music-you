@@ -9,3 +9,12 @@ export enum PLAYING_MODE {
   SIMPLE = 'simple',
   MD = 'md',
 }
+
+export enum TRACK_SOURCE {
+  ARTIST,
+  ALBUM,
+  PLAYLIST,
+  DAILY,
+  CLOUD,
+  INTELLIGENCE,
+}

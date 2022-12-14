@@ -1,11 +1,10 @@
 import { useIpcRenderer } from '@vueuse/electron'
 import { Howl, Howler } from 'howler'
 import type { Store } from 'pinia'
-import type { I18n } from 'vue-i18n'
 import { createI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
-import { getTrackDetail } from '@/api/music'
+import { end, getTrackDetail, start } from '@/api/music'
 import type { PlayerState } from '@/store/player'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import type { SettingState } from '@/store/setting'
@@ -61,7 +60,7 @@ export class Player {
   private isCurrentFm: boolean
   private readonly store: Store<'player', PlayerState>
   private readonly settingStore: Store<'setting', SettingState>
-  private i18n: I18n<unknown, unknown, unknown, boolean>
+  private i18n: any
   private locale: string
   pipLyric: null | PipLyric
   html5: boolean
@@ -155,6 +154,7 @@ export class Player {
       }
       this.track = track
       Howler.unload()
+      this.howler?.unload()
       this.howler = null
       this.howler = this.initSound(trackMeta.url)
       this.initMediaSession(track)
@@ -165,6 +165,7 @@ export class Player {
       }
       if (autoplay) {
         this.play()
+        await start({ id: this.track.id })
         // this.setScrobble(trackInfo, this.howler.seek(), false)
       }
       // if (from === 'online' && cacheLimit) {
@@ -333,9 +334,15 @@ export class Player {
     this.setProgressInterval()
   }
   setoutputDevice() {
-    const soundNode = this.howler?._sounds.length && this.howler?._sounds[0]._node
-    if (this.settingStore.outputdevice && soundNode?.setSinkId) {
-      soundNode.setSinkId(this.settingStore.outputdevice)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (this.howler?._sounds.length) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const soundNode = this.howler._sounds[0]._node
+      if (this.settingStore.outputdevice && soundNode?.setSinkId) {
+        soundNode.setSinkId(this.settingStore.outputdevice)
+      }
     }
   }
   private setProgressInterval(this: Player) {
@@ -352,25 +359,31 @@ export class Player {
     } else {
       this.next()
     }
-    // todo update 听歌记录
-    // this.setScrobble(this.track, 0, true)
+    if (this.track) {
+      this.endPlay(this.track, 0, true)
+    }
   }
   // 接口无效 暂时不用
-  // private setScrobble(this: Player, track: Track, time: number, played = false) {
-  //   const { id, dt } = track
-  //   const sourceid = this.playingList.id
-  //   if (played) {
-  //     time = +dt / 1000
-  //   }
-  //   if (time) {
-  //     console.log('歌曲打卡', this.track?.name, Math.ceil(time), played)
-  //     scrobble({
-  //       id,
-  //       sourceid,
-  //       time: Math.ceil(time),
-  //     })
-  //   }
-  // }
+  private async endPlay(track: Track, time: number, played = false) {
+    const { id, dt = 0 } = track
+
+    const sourceId: number = this.store.getSourceId()
+    if (played) {
+      time = +dt / 1000
+    }
+    if (time) {
+      console.log('歌曲打卡', this.track?.name, Math.ceil(time), played)
+      try {
+        await end({
+          id,
+          sourceId: sourceId || '',
+          time: Math.ceil(time),
+        })
+      } catch (e) {
+        console.log('打卡失败', e)
+      }
+    }
+  }
   private initMediaSession(track: Track) {
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {

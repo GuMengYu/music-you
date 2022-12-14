@@ -33,6 +33,10 @@ export interface Track {
       lyric: string
     }
   }
+  source?: {
+    fid: number | string
+    fdata: number | string
+  }
 }
 export interface MV {
   artist?: Artist

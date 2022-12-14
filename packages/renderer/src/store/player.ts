@@ -26,6 +26,7 @@ export interface PlayerState {
   fmTrack: null | Track
   fmList: Track[]
   popNextTrackId: () => number
+  getSourceId: () => number
   popPrevTrackId: () => number
   setQueue: (trackId: number) => void
   updatePersonalFmList: () => Track
@@ -62,6 +63,12 @@ export const usePlayerStore = defineStore({
     return { ...toRefs(data) }
   },
   actions: {
+    getSourceId() {
+      const playQueue = usePlayQueueStore()
+      return playQueue.queue.type && ['album', 'playlist', 'artist'].includes(playQueue.queue.type)
+        ? playQueue.queue.id
+        : null
+    },
     popNextTrackId() {
       const playQueue = usePlayQueueStore()
       if (this.playMode === PLAY_MODE.NORMAL) {

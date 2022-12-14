@@ -162,6 +162,14 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
     params,
   })
 }
+export const start = (params: { id: number; content?: string }) => {
+  return request('/startplay', {
+    params: {
+      content: params.content ?? '',
+      id: params.id,
+    },
+  })
+}
 
 /**
  * 听歌打卡
@@ -173,10 +181,13 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const scrobble = (params: { id: Track['id']; sourceid: number | string }) => {
-  return request('/scrobble', {
+export const end = (params: { id: number; sourceId: number | string; time: number; content?: string }) => {
+  return request('/endplay', {
     params: {
-      ...params,
+      content: params.content,
+      id: params.id,
+      sourceId: params.sourceId,
+      time: params.time,
       timestamp: now(),
     },
   })
