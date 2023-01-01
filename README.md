@@ -100,6 +100,10 @@ npm run electron:build
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804692-3a3a0902-6e3c-4a37-a596-f59494d88020.png">
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804702-ea40c49c-aa4a-46fe-8e28-eadfc0519eb6.png">
 </picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/210173832-b286c985-f3c8-4067-9e4e-07cb1704c160.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/210173826-43e0f6e1-ada3-416d-9efc-1c00950aea9d.png">
+</picture>
 
 https://user-images.githubusercontent.com/22021419/186813168-48a2d0ae-0388-4b70-9844-a540305a1096.mov
 
