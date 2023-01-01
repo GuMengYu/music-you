@@ -15,8 +15,7 @@
       </RecycleScroller>
     </div>
     <template v-if="noMore">
-      <v-divider />
-      <p class="d-flex justify-center font-weight-bold">
+      <p class="d-flex justify-center font-weight-bold text-caption">
         {{ t('common.empty_playing_list') }}
       </p>
     </template>
@@ -44,8 +43,8 @@ const { queue, priorityQueue } = storeToRefs(playQueueStore)
 const display = useDisplay()
 
 const listHeight = computed(() => {
-  // nav header 48px + header border 1px + padding 32px + divider 34px + media card 130px + action button 64px + footer 64px
-  return display.height.value - 373
+  // nav header 48px + header border 1px + padding 32px + divider 32px + media card 130px + action button 132px + footer 64px
+  return display.height.value - 439
 })
 const nextList = computed(() => {
   return queue.value.tracks

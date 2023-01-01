@@ -8,6 +8,7 @@ export enum WindowState {
 export enum PLAYING_MODE {
   SIMPLE = 'simple',
   MD = 'md',
+  WALLHAVEN = 'wallhaven',
 }
 
 export enum TRACK_SOURCE {

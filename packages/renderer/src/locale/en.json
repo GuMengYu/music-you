@@ -12,6 +12,7 @@
     "something_wrong": "Oops something wrong, May be the operation is too frequent",
     "reset_app": "Reset App",
     "visualization": "Music Visualization",
+    "playing_page_mode": "Playing Mode",
     "comment": "Comment",
     "delete_list": "delete | deleted",
     "disclaimer": "disclaimer",
@@ -110,6 +111,7 @@
     "mvs": "MV",
     "disk": "Disk Music",
     "setting": {
+      "playing_page_mode": "Player interface style",
       "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on) - Changes will be ready when the app is restarted",
       "quality": "Preferred streaming quality",
       "device": "Audio output device",

@@ -12,6 +12,7 @@
     "something_wrong": "出错了, 可能操作过于频繁",
     "reset_app": "重置应用",
     "visualization": "音乐可视化",
+    "playing_page_mode": "正在播放",
     "comment": "评论",
     "disclaimer": "免责声明",
     "logout": "退出登录",
@@ -110,6 +111,7 @@
     "mvs": "MV",
     "disk": "云盘",
     "setting": {
+      "playing_page_mode": "播放界面风格",
       "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）- 改动将在重启应用时就绪",
       "quality": "首选流媒体质量",
       "device": "音频输出设备",

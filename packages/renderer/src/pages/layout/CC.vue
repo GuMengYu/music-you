@@ -32,7 +32,7 @@
           <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
-      <v-row dense class="mt-1">
+      <v-row dense>
         <v-col class="d-flex">
           <switch-card
             v-model="miniplayer"
@@ -45,10 +45,8 @@
           <switch-card v-if="isDev" title="playground" :icon="mdiCog" @click="to('playground')" />
         </v-col>
       </v-row>
-      <v-divider class="my-2" />
-      <MediaCard />
-      <v-divider class="my-2" />
-      <PlayingList />
+      <MediaCard class="mt-4" />
+      <PlayingList class="mt-4" />
     </v-container>
   </v-navigation-drawer>
 </template>

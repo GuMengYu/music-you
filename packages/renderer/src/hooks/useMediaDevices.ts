@@ -6,7 +6,7 @@ export default function useMediaDevices() {
     const result = await navigator.mediaDevices.enumerateDevices()
     // 过滤输出设备, 同一物理设备的groupId相同
     const uniqed = uniqBy(
-      result.filter((d) => d.kind === 'audiooutput'),
+      result.filter((d) => d.kind === 'audiooutput' && d.deviceId),
       'groupId'
     )
     outputDevices.value = uniqed.filter((device) => device.kind === 'audiooutput')

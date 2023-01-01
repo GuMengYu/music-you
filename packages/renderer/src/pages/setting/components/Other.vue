@@ -9,6 +9,15 @@
     </v-list-item>
   </div>
   <div>
+    <app-title path="message.playing_page_mode" />
+    <v-list-item class="pa-0">
+      <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.playing_page_mode') }} </v-list-item-title>
+      <template #append>
+        <AppSelect v-model="playingMode" :items="playingModeOptions" />
+      </template>
+    </v-list-item>
+  </div>
+  <div>
     <app-title path="common.quality" />
     <v-list-item class="pa-0">
       <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.quality') }} </v-list-item-title>
@@ -92,9 +101,18 @@ import AppTitle from '@/components/Title.vue'
 import useMediaDevices from '@/hooks/useMediaDevices'
 import { usePlayer } from '@/player/player'
 import { ExitMode, QUALITY_LEVEL, useSettingStore } from '@/store/setting'
+import { PLAYING_MODE } from '@/util/enum'
 import is from '@/util/is'
 const settingStore = useSettingStore()
-const { locale: lang, quality_level, visualization, comment, exitMode, outputdevice } = storeToRefs(settingStore)
+const {
+  locale: lang,
+  quality_level,
+  visualization,
+  comment,
+  exitMode,
+  outputdevice,
+  playingMode,
+} = storeToRefs(settingStore)
 
 const { t, locale } = useI18n({ useScope: 'global' })
 const player = usePlayer()
@@ -116,7 +134,28 @@ const localeOptions = computed(() => {
     },
   ]
 })
-
+const playingModeOptions = computed(() => {
+  return [
+    {
+      title: 'md',
+      value: PLAYING_MODE.MD,
+      activeClass: 'text-primary',
+      rounded: true,
+    },
+    {
+      title: 'simple',
+      value: PLAYING_MODE.SIMPLE,
+      activeClass: 'text-primary',
+      rounded: true,
+    },
+    // {
+    //   title: 'wallhaven',
+    //   value: PLAYING_MODE.WALLHAVEN,
+    //   activeClass: 'text-primary',
+    //   rounded: true,
+    // },
+  ]
+})
 const exitModeOptions = computed(() => {
   return [
     {

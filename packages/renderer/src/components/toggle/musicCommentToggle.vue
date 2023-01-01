@@ -1,5 +1,5 @@
 <template>
-  <v-btn v-if="showComment" icon variant="text" class="ml-4" @click="show = true">
+  <v-btn v-if="showComment" icon variant="text" @click="show = true">
     <v-icon>
       {{ mdiCommentOutline }}
     </v-icon>

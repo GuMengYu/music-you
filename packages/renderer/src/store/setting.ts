@@ -55,7 +55,7 @@ export const useSettingStore = defineStore('setting', {
         locale: 'zhCN',
         appearance: APPEARANCE.SYSTEM,
         wallpaperColor: WallpaperColor.GreenRockyMountains,
-        playingMode: PLAYING_MODE.MD,
+        playingMode: PLAYING_MODE.SIMPLE,
         customTheme: [],
         rail: true,
         miniplayer: false,
