@@ -3,7 +3,7 @@
     <v-img
       class="background"
       cover
-      :src="currentBackground?.path"
+      :src="currentWallpaper?.path"
       :class="{
         loaded: !loading,
         loading: loading,
@@ -55,51 +55,55 @@
           <span class="d-flex justify-center" style="width: 65px">{{ formatDuring(track.dt) }}</span>
         </div>
 
-        <v-responsive class="d-flex" min-width="20vh" max-width="20vh">
-          <div class="d-flex justify-center">
-            <music-comment-toggle :id="track.id" />
-            <v-btn icon variant="text" @click="loadPrev">
-              <v-icon>
-                {{ mdiChevronLeft }}
-              </v-icon>
-            </v-btn>
-            <v-btn icon variant="text" @click="loadNext">
-              <v-icon>
-                {{ mdiChevronRight }}
-              </v-icon>
-            </v-btn>
-          </div>
-        </v-responsive>
+        <div class="d-flex">
+          <music-comment-toggle :id="track.id" />
+          <v-btn icon variant="text" @click="wallpaperGallery = true">
+            <v-icon>
+              {{ mdiImageMultipleOutline }}
+            </v-icon>
+          </v-btn>
+          <v-btn icon variant="text" @click="loadPrev">
+            <v-icon>
+              {{ mdiChevronLeft }}
+            </v-icon>
+          </v-btn>
+          <v-btn icon variant="text" @click="loadNext">
+            <v-icon>
+              {{ mdiChevronRight }}
+            </v-icon>
+          </v-btn>
+        </div>
       </div>
     </div>
+    <wall-haven-modal v-model:show="wallpaperGallery" />
   </v-card>
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronLeft, mdiChevronRight, mdiClose } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiImageMultipleOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
-import { wallpapers } from '@/api/other'
 import placeholderUrl from '@/assets/placeholder.png'
+import WallHavenModal from '@/pages/modal/Wallhaven.vue'
 import Lyric from '@/pages/mode/components/lyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
-import type { Wallpaper } from '@/types'
+import { useWallHavenStore } from '@/store/wallhaven'
 import { formatDuring, sizeOfImage, sleep } from '@/util/fn'
 import is from '@/util/is'
 
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
 const settingStore = useSettingStore()
+const wallHavenStore = useWallHavenStore()
 const player = usePlayer()
-const backgrounds = ref<Wallpaper[]>([])
-const currentBackground = ref<Wallpaper | undefined>()
-const currentIndex = ref(-1)
 
 const loading = ref(false)
+const wallpaperGallery = ref(false)
 const { currentTime, track } = storeToRefs(playerStore)
+const { wallpapers, currentWallpaper, currentIndex } = storeToRefs(wallHavenStore)
 
 const albumPicUrl = computed(() => {
   return track.value?.al && sizeOfImage(track.value.al.picUrl)
@@ -107,49 +111,32 @@ const albumPicUrl = computed(() => {
 const currentTheme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'
 })
+
 async function close() {
   appStore.showLyric = false
 }
-function prev() {
-  currentBackground.value = backgrounds.value[2]
-}
-function next() {
-  player.next()
-}
-onMounted(() => {
-  loadBackgrounds()
-})
-async function loadBackgrounds() {
-  const walls = await wallpapers()
-  if (walls.length) {
-    backgrounds.value = walls
-    currentIndex.value = 0
-    currentBackground.value = backgrounds.value[currentIndex.value]
-  }
-}
+
 async function loadPrev() {
   loading.value = true
   await nextTick()
   await sleep(350)
-  currentBackground.value = void 0
+  currentWallpaper.value = void 0
   if (currentIndex.value === 0) {
-    currentIndex.value = backgrounds.value.length - 1
+    currentIndex.value = wallpapers.value.length - 1
   } else {
     currentIndex.value--
   }
-  currentBackground.value = backgrounds.value[currentIndex.value]
 }
 async function loadNext() {
   loading.value = true
   await nextTick()
   await sleep(350)
-  currentBackground.value = void 0
-  if (currentIndex.value === backgrounds.value.length - 1) {
+  currentWallpaper.value = void 0
+  if (currentIndex.value === wallpapers.value.length - 1) {
     currentIndex.value = 0
   } else {
     currentIndex.value++
   }
-  currentBackground.value = backgrounds.value[currentIndex.value]
 }
 
 async function onLoad() {

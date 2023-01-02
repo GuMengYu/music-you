@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/app'
 import { useSettingStore } from '@/store/setting'
 import { PLAYING_MODE } from '@/util/enum'
 
-import { md, mobile, simple, visual, wallhaven } from './exports'
+import { md, mobile, simple, visual } from './exports'
 
 const appStore = useAppStore()
 const settingStore = useSettingStore()
@@ -19,7 +19,6 @@ const currentComponent = computed(() => {
   const component = {
     [PLAYING_MODE.SIMPLE]: simple,
     [PLAYING_MODE.MD]: md,
-    [PLAYING_MODE.WALLHAVEN]: wallhaven,
   }[settingStore.playingMode]
   if (smAndDown.value) {
     return mobile

@@ -9,7 +9,16 @@ export interface Meta {
   query: any
   seed: any
 }
-export const wallpapers = () => {
+export const wallpapers = (
+  params = {
+    categories: 110,
+    purity: 110,
+    sorting: 'toplist',
+    order: 'desc',
+    topRange: '1w',
+    page: 1,
+  }
+) => {
   return request<{
     code: number
     data: {
@@ -17,13 +26,6 @@ export const wallpapers = () => {
       meta: Meta
     }
   }>('/wallhaven/search', {
-    params: {
-      categories: 110,
-      purity: 110,
-      sorting: 'toplist',
-      order: 'desc',
-      atleast: '1920x1080',
-      topRange: '1w',
-    },
-  }).then(({ data }) => data.data)
+    params,
+  }).then(({ data }) => data)
 }

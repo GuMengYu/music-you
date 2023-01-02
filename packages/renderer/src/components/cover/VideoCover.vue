@@ -99,7 +99,7 @@ export default defineComponent({
         background: transparent;
       }
       .cover-btn:hover {
-        background: var(--v-primary-base);
+        background: var(--v-theme-primary);
         transform: scale(1.1);
         transition: 0.3s all ease-in-out;
       }

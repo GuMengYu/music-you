@@ -143,7 +143,7 @@ const playingModeOptions = computed(() => {
       rounded: true,
     },
     {
-      title: 'simple',
+      title: 'wallhaven',
       value: PLAYING_MODE.SIMPLE,
       activeClass: 'text-primary',
       rounded: true,
