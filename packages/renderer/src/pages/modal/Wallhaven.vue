@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :model-value="show" persistent scrollable class="wall-haven-modal">
+  <v-dialog :model-value="show" max-width="80vw" persistent scrollable class="wall-haven-modal">
     <v-card :loading="loading">
       <v-layout>
         <v-navigation-drawer
