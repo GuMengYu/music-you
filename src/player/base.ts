@@ -10,7 +10,7 @@ import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
-import { sleep } from '@/util/fn'
+import { sleep, toHttps } from '@/util/fn'
 import is from '@/util/is'
 import { PipLyric } from '@/util/pipLyric'
 const toast = useToast()
@@ -156,7 +156,7 @@ export class Player {
       Howler.unload()
       this.howler?.unload()
       this.howler = null
-      this.howler = this.initSound(trackMeta.url)
+      this.howler = this.initSound(toHttps(trackMeta.url))
       this.initMediaSession(track)
       if (resetProgress) {
         this.setSeek(0)
