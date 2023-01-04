@@ -7,9 +7,9 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // import vuetify from 'vite-plugin-vuetify'
-
 import { dependencies, devDependencies, name, version } from './package.json'
 const path = require('path')
 
@@ -88,6 +88,35 @@ export default defineConfig(({ command, mode }) => {
       ]),
       renderer({
         nodeIntegration: true,
+      })
+    )
+  } else {
+    plugins.push(
+      VitePWA({
+        includeAssets: ['favicon.ico'],
+        manifest: {
+          name: 'Music You',
+          short_name: 'Music You',
+          theme_color: '#fdfcf4',
+          icons: [
+            {
+              src: 'icon/icon@192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icon/icon@512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
+        registerType: 'autoUpdate',
+        devOptions: {
+          enabled: isDevelopment,
+          type: 'module',
+          navigateFallback: 'index.html',
+        },
       })
     )
   }

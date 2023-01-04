@@ -20,7 +20,9 @@
     "lint:prettier": "prettier --write \"src/**/*.{js,tsx,css,scss,vue,md,json,html}\"",
     "lint:ts": "tsc --noEmit --skipLibCheck",
     "lint:lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev:https": "vite build && npm run serve",
+    "serve": "serve dist"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
@@ -62,6 +64,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^8.7.0",
     "howler": "^2.2.3",
+    "https-localhost": "^4.7.1",
     "husky": "^7.0.0",
     "lint-staged": "^12.4.1",
     "lodash-es": "^4.17.21",
@@ -79,6 +82,7 @@
     "vite": "^4.0.3",
     "vite-plugin-electron": "^0.11.1",
     "vite-plugin-electron-renderer": "^0.11.3",
+    "vite-plugin-pwa": "^0.14.1",
     "vite-plugin-resolve": "^2.3.0",
     "vite-plugin-vuetify": "^1.0.1",
     "vue": "^3.2.41",
