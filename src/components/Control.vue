@@ -39,14 +39,20 @@ const playOptions = {
   autoplay: false,
 }
 
+onMounted(() => {
+  starPlayAnimate(playing.value)
+})
 watch(playing, (val) => {
-  if (val) {
+  starPlayAnimate(val)
+})
+
+function starPlayAnimate(playing: boolean) {
+  if (playing) {
     playAnim.value?.playSegments([0, 30], true)
   } else {
     playAnim.value?.playSegments([30, 60], true)
   }
-})
-
+}
 function handleAnimation(animation: any) {
   playAnim.value = animation
   playAnim.value.setSpeed(2)
