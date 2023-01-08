@@ -19,16 +19,17 @@
         </v-icon>
       </v-btn>
     </div>
-    <div class="frame-content d-flex flex-grow-1 justify-center align-center text-center px-8">
-      <lyric class="text-h4 text-xl-h3" style="font-family: 'Google Sans', serif !important" />
+    <div class="frame-content d-flex flex-grow-1 justify-center align-center text-center">
+      <scroll-lyric />
+      <!--      <lyric class="text-h4 text-xl-h3" style="font-family: 'Google Sans', serif !important" />-->
     </div>
-    <div class="frame-footer d-flex flex-column px-4 px-xl-8 gap-4">
+    <div class="frame-footer d-flex flex-column px-4 px-xl-8 gap-4 mt-auto">
       <div class="d-flex gap-4">
         <v-img
-          max-height="20vh"
-          min-height="20vh"
-          max-width="20vh"
-          min-width="20vh"
+          max-height="22vh"
+          min-height="22vh"
+          max-width="22vh"
+          min-width="22vh"
           class="frame-cover-img rounded-lg"
           :src="albumPicUrl"
           :lazy-src="placeholderUrl"
@@ -46,7 +47,7 @@
         </div>
       </div>
       <div class="d-flex justify-space-between align-center mb-4">
-        <v-responsive min-width="20vh" max-width="20vh">
+        <v-responsive min-width="22vh" max-width="22vh">
           <control simple />
         </v-responsive>
         <div class="d-flex flex-grow-1 px-4">
@@ -86,6 +87,7 @@ import { storeToRefs } from 'pinia'
 import placeholderUrl from '@/assets/placeholder.png'
 import WallHavenModal from '@/pages/modal/Wallhaven.vue'
 import Lyric from '@/pages/mode/components/lyric.vue'
+import ScrollLyric from '@/pages/mode/components/ScrollLyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
@@ -163,6 +165,8 @@ function onError() {
   }
   &-content {
     z-index: 2;
+    max-height: calc(78vh - 128px);
+    padding: 5vh 0;
   }
   &-footer {
     z-index: 2;

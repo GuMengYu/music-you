@@ -50,6 +50,15 @@
       </template>
     </v-list-item>
   </div>
+  <div>
+    <app-title path="message.lyric" />
+    <v-list-item class="pa-0">
+      <v-list-item-title class="text-caption mr-4"> {{ t('main.setting.trans') }}</v-list-item-title>
+      <template #append>
+        <v-switch v-model="lyricTrans" color="primary" hide-details density="compact" inset></v-switch>
+      </template>
+    </v-list-item>
+  </div>
   <div v-if="is.linux() && is.macOS()">
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
@@ -112,6 +121,7 @@ const {
   exitMode,
   outputdevice,
   playingMode,
+  lyricTrans,
 } = storeToRefs(settingStore)
 
 const { t, locale } = useI18n({ useScope: 'global' })

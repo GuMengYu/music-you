@@ -190,6 +190,7 @@ export class Player {
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {
+        this.pauseProgress()
         this.setProgressInterval()
       },
       onplayerror: () => {
@@ -313,6 +314,7 @@ export class Player {
   }
   updateCurrentTime(this: Player, val?: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
+    console.log('current', current)
     this.currentTime = current
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)

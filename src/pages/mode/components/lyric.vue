@@ -1,30 +1,14 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
+import type { Lyric } from '@/hooks/useTrackLyric'
+import useTrackLyric from '@/hooks/useTrackLyric'
 import { usePlayerStore } from '@/store/player'
-import { formatLyric, sleep } from '@/util/fn'
+import { sleep } from '@/util/fn'
 const playerStore = usePlayerStore()
 const { currentTime, track } = storeToRefs(playerStore)
-interface Lyric {
-  sentence: string
-  time: number
-}
-const lyrics = computed<Lyric[]>(() => {
-  const { tlyric, lrc } = track.value?.lyric ?? {}
-  let lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
-  let _tlyric = tlyric?.lyric ? formatLyric(tlyric.lyric) : []
-  if (_tlyric.length) {
-    return lyric.map((i) => {
-      return {
-        sentence: `${i.sentence}`,
-        time: i.time,
-      }
-    })
-  } else {
-    return lyric
-  }
-})
 
+const { lyrics } = useTrackLyric()
 const currentLyric = computed(() => {
   if (lyrics.value.length) {
     const past = lyrics.value.filter((i) => i.time < currentTime.value)
@@ -48,7 +32,7 @@ async function switchText(lyric: Lyric) {
   if (lyric.sentence) {
     animate.value = true
     currentText.value = lyric.sentence
-    await sleep(400)
+    await sleep(350)
     animate.value = false
   }
 }

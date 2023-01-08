@@ -14,6 +14,7 @@
     "visualization": "Music Visualization",
     "playing_page_mode": "Playing Mode",
     "comment": "Comment",
+    "lyric": "Lyric",
     "delete_list": "delete | deleted",
     "disclaimer": "disclaimer",
     "phone_email": "Mobile or email",
@@ -119,7 +120,8 @@
       "reset": "Reset app data (including cache, user login info)",
       "manage_account": "Manage Account (web)",
       "exit": "Behavior of closing the app...",
-      "comment": "View partial reviews of playlists, albums, and songs"
+      "comment": "View partial reviews of playlists, albums, and songs",
+      "trans": "Show lyrics translation"
     },
     "daily": {
       "title": "Daily song recommendation",
