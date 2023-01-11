@@ -6,7 +6,7 @@ import { join } from 'path'
 
 let tray = null
 export const createTray = (win: BrowserWindow) => {
-  const icon = nativeImage.createFromPath(join(__dirname, '../renderer', is.macOS() ? 'icon/icon.png' : 'icon.ico'))
+  const icon = nativeImage.createFromPath(join(__dirname, '../../dist', is.macOS() ? 'icon/icon.png' : 'icon.ico'))
   tray = new Tray(icon)
   tray.setToolTip('music-you')
   const menu = Menu.buildFromTemplate([
