@@ -11,7 +11,7 @@ import {
   mdiImage,
   mdiPlaylistMusicOutline,
 } from '@mdi/js'
-import { useIpcRenderer } from '@vueuse/electron'
+// import { useIpcRenderer } from '@vueuse/electron'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { useDisplay } from 'vuetify'
@@ -127,12 +127,12 @@ reset()
 
 function goto() {
   const url = `https://music.163.com/#/playlist?id=${props.playlist.id}`
-  if (is.electron()) {
-    const ipcRenderer = useIpcRenderer()
-    ipcRenderer.invoke('open-url', url)
-  } else {
-    window.open(url, '_blank')
-  }
+  // if (is.electron()) {
+  //   const ipcRenderer = useIpcRenderer()
+  //   ipcRenderer.invoke('open-url', url)
+  // } else {
+  // }
+  window.open(url, '_blank')
 }
 
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {

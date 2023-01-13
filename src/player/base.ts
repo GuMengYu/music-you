@@ -1,4 +1,4 @@
-import { useIpcRenderer } from '@vueuse/electron'
+// import { useIpcRenderer } from '@vueuse/electron'
 import { Howl, Howler } from 'howler'
 import type { Store } from 'pinia'
 import { createI18n } from 'vue-i18n'
@@ -93,10 +93,10 @@ export class Player {
     if (this.track?.id) {
       this.updatePlayerTrack(this.track.id, false, false)
     }
-    if (is.electron() && is.windows()) {
-      this.taskbarProgress = true
-      this.ipcRenderer = useIpcRenderer()
-    }
+    // if (is.electron() && is.windows()) {
+    //   this.taskbarProgress = true
+    //   this.ipcRenderer = useIpcRenderer()
+    // }
   }
   private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
@@ -317,11 +317,11 @@ export class Player {
     this.currentTime = current
     this.store.currentTime = current
     this.pipLyric?.updateTime(current)
-    if (this.taskbarProgress && this.track?.dt) {
-      const p = current / (this.track.dt / 1000)
-      const progress = p >= 1 ? 1 : p
-      this.ipcRenderer.invoke('setProgress', progress)
-    }
+    // if (this.taskbarProgress && this.track?.dt) {
+    //   const p = current / (this.track.dt / 1000)
+    //   const progress = p >= 1 ? 1 : p
+    //   this.ipcRenderer.invoke('setProgress', progress)
+    // }
   }
   setSeek(val: number) {
     this.howler?.seek(val)

@@ -13,6 +13,8 @@ export interface AppState {
   showLyric: boolean
   showSearch: boolean
   windowState: WindowState
+  isDesktop: boolean
+  platformType: 'Linux' | 'Darwin' | 'Windows_NT'
 }
 export const useAppStore = defineStore('app', {
   state: () => {
@@ -24,6 +26,8 @@ export const useAppStore = defineStore('app', {
       showLyric: false,
       showSearch: false,
       windowState: WindowState.NORMAL,
+      isDesktop: false,
+      platformType: 'Darwin',
     })
     return {
       ...toRefs(state),

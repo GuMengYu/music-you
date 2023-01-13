@@ -18,8 +18,8 @@ import { storeToRefs } from 'pinia'
 import { useDisplay, useTheme } from 'vuetify'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
+import { useAppStore } from '@/store/app'
 import { useSettingStore } from '@/store/setting'
-import is from '@/util/is'
 
 import AppBottomNav from './layout/BottomNav.vue'
 import AppCC from './layout/CC.vue'
@@ -32,14 +32,13 @@ import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'
 const { themeName } = useCurrentTheme()
 const { miniplayer } = storeToRefs(useSettingStore())
+const { isDesktop } = storeToRefs(useAppStore())
+
 const display = useDisplay()
 const { mdAndUp, smAndDown } = display
 const theme = useTheme()
 watchEffect(() => {
   theme.global.name.value = themeName.value
-})
-const isDesktop = computed(() => {
-  return is.electron()
 })
 </script>
 <style lang="scss">
@@ -83,5 +82,6 @@ $transition-time: 350ms;
 }
 .is-desktop {
   user-select: none;
+  -webkit-user-select: none;
 }
 </style>

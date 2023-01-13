@@ -66,7 +66,9 @@ import {
   mdiMinus as mdiWindowMinimize,
   mdiWindowRestore,
 } from '@mdi/js'
-import { useIpcRenderer } from '@vueuse/electron'
+import { exit } from '@tauri-apps/api/process'
+import { invoke } from '@tauri-apps/api/tauri'
+import { appWindow } from '@tauri-apps/api/window'
 import { storeToRefs } from 'pinia'
 
 import { useAppStore } from '@/store/app'
@@ -75,32 +77,33 @@ import { WindowState } from '@/util/enum'
 
 const settingStore = useSettingStore()
 const appStore = useAppStore()
-const ipcRenderer = useIpcRenderer()
-const { windowState } = storeToRefs(appStore)
+const { windowState, platformType, isDesktop } = storeToRefs(appStore)
 const showAlert = ref(false)
 const exitMode = ref(ExitMode.minimize)
 const reminder = ref(false)
 
 function handleMinimize() {
-  ipcRenderer.invoke(WindowState.MINIMIZED)
+  appWindow.minimize()
+  // invoke(WindowState.MINIMIZED)
 }
 function handleToggleMaximize() {
-  if (windowState.value === WindowState.MAXIMIZED) {
-    ipcRenderer.invoke(WindowState.NORMAL)
-  } else {
-    ipcRenderer.invoke(WindowState.MAXIMIZED)
-  }
+  appWindow.toggleMaximize()
+  // if (windowState.value === WindowState.MAXIMIZED) {
+  //   invoke(WindowState.NORMAL)
+  // } else {
+  //   invoke(WindowState.MAXIMIZED)
+  // }
 }
 function handleClose() {
   if (settingStore.exitMode === ExitMode.prompt) {
     showAlert.value = true
   } else if (settingStore.exitMode === ExitMode.minimize) {
-    ipcRenderer.invoke(WindowState.MINIMIZEDTRAY)
+    appWindow.hide()
   } else if (settingStore.exitMode === ExitMode.exit) {
-    ipcRenderer.invoke(WindowState.CLOSED)
+    appWindow.close()
   }
 }
-async function confirmExit() {
+function confirmExit() {
   if (reminder.value) {
     settingStore.exitMode = exitMode.value
   } else {
@@ -108,9 +111,9 @@ async function confirmExit() {
   }
   showAlert.value = false
   if (exitMode.value === ExitMode.minimize) {
-    ipcRenderer.invoke(WindowState.MINIMIZEDTRAY)
+    appWindow.hide()
   } else if (exitMode.value === ExitMode.exit) {
-    ipcRenderer.invoke(WindowState.CLOSED)
+    appWindow.close()
   }
 }
 </script>

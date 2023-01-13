@@ -1,12 +1,13 @@
 import type { Options } from './yofetch'
 import yofetch from './yofetch'
 const service = yofetch.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.DEV ? '/api' : 'http://localhost:12139',
   credentials: 'include',
 })
 
 // direct return response data
 export const request = <T>(url: string | Options, config?: Options) => {
+  console.log('request', url)
   return service.request<T>(url, config, 'get').then((response) => {
     const { data, ok } = response
     const { code, status, body } = data as any

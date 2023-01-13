@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiClose, mdiCog, mdiGithub, mdiLogout } from '@mdi/js'
-import { useIpcRenderer } from '@vueuse/electron'
+// import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
@@ -34,12 +34,12 @@ const isVip = computed(() => {
   return account.value?.profile.vipType === 11
 })
 const goto = (url: string) => {
-  if (is.electron()) {
-    const ipcRenderer = useIpcRenderer()
-    ipcRenderer.invoke('open-url', url)
-  } else {
-    window.open(url, '_blank')
-  }
+  // if (is.electron()) {
+  //   const ipcRenderer = useIpcRenderer()
+  //   ipcRenderer.invoke('open-url', url)
+  // } else {
+  // }
+  window.open(url, '_blank')
 }
 
 function dispatch(type: string) {

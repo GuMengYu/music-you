@@ -5,11 +5,12 @@
 
 /* Let's get this party started */
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
 }
 
 /* override some vuetify style */
 
+// todo: fix style override failed
 .rounded-lg {
   border-radius: 14px !important;
 }

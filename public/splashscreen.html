@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style id="app-loading-style">
+    @keyframes square-spin {
+        25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
+        50% { transform: perspective(100px) rotateX(180deg) rotateY(180deg); }
+        75% { transform: perspective(100px) rotateX(0) rotateY(180deg); }
+        100% { transform: perspective(100px) rotateX(0) rotateY(0); }
+    }
+    @keyframes metronome {
+        0% {
+            animation-timing-function: cubic-bezier(0.7806,0.0715,0.8998,0.731);
+            transform: translate(-10%) rotate(-20deg)
+        }
+
+        17.5% {
+            animation-timing-function: cubic-bezier(0.484,0.3308,0.6853,0.6667);
+            transform: translate(-6.18%) rotate(-12.36deg)
+        }
+
+        27.6% {
+            animation-timing-function: cubic-bezier(0.0676,0.1836,0.0518,0.9433);
+            transform: translate(2.48%) rotate(4.96deg)
+        }
+
+        50.1% {
+            animation-timing-function: cubic-bezier(0.7773,0.0708,0.9008,0.735);
+            transform: translate(10%) rotate(20deg)
+        }
+
+        67.6% {
+            animation-timing-function: cubic-bezier(0.4888,0.331,0.6153,0.6674);
+            transform: translate(6.16%) rotate(12.32deg)
+        }
+
+        80% {
+            animation-timing-function: cubic-bezier(0.0801,0.2206,0.1357,0.9363);
+            transform: translate(-4.57%) rotate(-9.14deg)
+        }
+
+        100% {
+            transform: translate(-10%) rotate(-20deg)
+        }
+    }
+    .loaders-css__square-spin > div {
+        animation-fill-mode: both;
+        width: 50px;
+        height: 50px;
+        border-radius: 4px;
+        animation: metronome 1s infinite linear;
+        background: linear-gradient(45deg, #bfc9c1 0%, #bfc9c1 15%, transparent 15%, transparent 18%, #bfc9c1 10%);
+    }
+    .app-loading-wrap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #404943;
+        z-index: 9999;
+    }
+</style>
+<body>
+    <div class="app-loading-wrap">
+        <div class="loaders-css__square-spin">
+            <div></div>
+        </div>
+    </div>
+</body>
+
+</html>

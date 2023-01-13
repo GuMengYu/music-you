@@ -24,7 +24,7 @@
         </v-list-item>
       </v-list>
       <transition name="slide-fade-y">
-        <mini-playerbar v-if="miniplayer && !rail" class="mt-auto" />
+        <mini-player-bar v-if="miniplayer && !rail" class="mt-auto" />
       </transition>
     </div>
   </v-navigation-drawer>
@@ -34,15 +34,17 @@
 import { mdiAlbum, mdiBookMusic, mdiCompass } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
+import { useAppStore } from '@/store/app'
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
-import is from '@/util/is'
 
-import MiniPlayerbar from './MiniPlayerbar.vue'
+import MiniPlayerBar from './MiniPlayerbar.vue'
 const { rail, miniplayer } = storeToRefs(useSettingStore())
 const { logged } = storeToRefs(useUserStore())
+const { platformType } = storeToRefs(useAppStore())
 
-const isMac = is.macOS()
+const isMac = computed(() => platformType.value === 'Darwin')
+
 const nav = computed(() => {
   const list = [
     // {

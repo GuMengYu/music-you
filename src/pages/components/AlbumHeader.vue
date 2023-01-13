@@ -10,7 +10,7 @@ import {
   mdiFilterVariant,
   mdiImage,
 } from '@mdi/js'
-import { useIpcRenderer } from '@vueuse/electron'
+// import { useIpcRenderer } from '@vueuse/electron'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
@@ -57,12 +57,12 @@ async function play() {
 
 function goto() {
   const url = `https://music.163.com/#/album?id=${props.album.id}`
-  if (is.electron()) {
-    const ipcRenderer = useIpcRenderer()
-    ipcRenderer.invoke('open-url', url)
-  } else {
-    window.open(url, '_blank')
-  }
+  // if (is.electron()) {
+  //   const ipcRenderer = useIpcRenderer()
+  //   ipcRenderer.invoke('open-url', url)
+  // } else {
+  // }
+  window.open(url, '_blank')
 }
 
 async function subscribe() {

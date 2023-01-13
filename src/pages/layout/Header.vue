@@ -25,11 +25,10 @@ import { useDisplay } from 'vuetify'
 import SearchInput from '@/components/toggle/SearchInput.vue'
 import useInForeground from '@/hooks/useInForeground'
 import { useAppStore } from '@/store/app'
-import is from '@/util/is'
 const { mdAndUp } = useDisplay()
-const { showSearch } = storeToRefs(useAppStore())
+const { showSearch, platformType } = storeToRefs(useAppStore())
 const isShowWindowControl = computed(() => {
-  return (is.windows() || is.linux()) && mdAndUp.value
+  return ['Linux', 'Windows_NT'].includes(platformType.value) && mdAndUp.value
 })
 const { isActive: inSearchPage } = useInForeground('search')
 
