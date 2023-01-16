@@ -13,7 +13,7 @@ export const createElectronMenu = (window: BrowserWindow) => {
               { type: 'separator' },
               {
                 role: 'preferences',
-                label: '偏好设置',
+                label: 'Preferences',
                 accelerator: (() => (isMac ? 'CmdOrCtrl+,' : 'Ctrl+,'))(),
                 click: () => {
                   window.webContents.send('open-settings')
@@ -55,6 +55,7 @@ export const createElectronMenu = (window: BrowserWindow) => {
       submenu: [
         {
           label: '播放|暂停',
+          accelerator: 'Space',
           click: () => {
             window.webContents.send('playOrPause')
           },

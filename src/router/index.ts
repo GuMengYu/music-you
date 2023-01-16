@@ -174,4 +174,5 @@ export function useRouter(app: App) {
   //   console.log(failed)
   // })
   app.use(router)
+  return router
 }

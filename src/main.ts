@@ -28,17 +28,17 @@ import './util/pipLyric'
 
 import is from '@/util/is'
 const app = createApp(App)
+const router = useRouter(app)
 
 app.use(VueVirtualScroller)
 usePinia(app)
 useVuetify(app)
-useRouter(app)
 useI18n(app)
 usePlayer(app)
 useToast(app)
 useDirectives(app)
 useDayjs(app)
-useElectron()
+useElectron(router)
 useContextMenu(app)
 app
   .mount('#app')

@@ -7,15 +7,17 @@ import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 
 const toast = useToast()
+import type { Router } from 'vue-router'
+
 import is from '@/util/is'
 
-export function useElectron() {
+export function useElectron(router: Router) {
   if (is.electron()) {
-    registerIpcRenderer()
+    registerIpcRenderer(router)
   }
 }
 
-function registerIpcRenderer() {
+function registerIpcRenderer(router: Router) {
   const playerStore = usePlayerStore()
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
@@ -24,9 +26,11 @@ function registerIpcRenderer() {
     toast.success(`下载成功 ${name}`)
   })
 
-  // ipcRenderer.on('open-settings', () => {
-  // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
-  // })
+  ipcRenderer.on('open-settings', () => {
+    console.log(router)
+    router.push({ name: 'setting' })
+    // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
+  })
   // ipcRenderer.on('search', () => {
   //   appStore.$state.showSearch = !appStore.$state.showSearch
   // })
