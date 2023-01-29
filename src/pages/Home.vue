@@ -1,5 +1,5 @@
 <template>
-  <v-app class="v-player">
+  <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
     <AppCC />
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
@@ -19,6 +19,7 @@ import { useDisplay, useTheme } from 'vuetify'
 
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { useSettingStore } from '@/store/setting'
+import is from '@/util/is'
 
 import AppBottomNav from './layout/BottomNav.vue'
 import AppCC from './layout/CC.vue'
@@ -36,6 +37,9 @@ const { mdAndUp, smAndDown } = display
 const theme = useTheme()
 watchEffect(() => {
   theme.global.name.value = themeName.value
+})
+const isDesktop = computed(() => {
+  return is.electron()
 })
 </script>
 <style lang="scss">
@@ -76,5 +80,8 @@ $transition-time: 350ms;
   transition-property: left, width;
   transition-duration: $transition-time;
   transition-timing-function: $cubic-bezier;
+}
+.is-desktop {
+  user-select: none;
 }
 </style>
