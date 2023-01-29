@@ -20,15 +20,15 @@
         <v-text-field
           v-model="state.phone"
           variant="outlined"
-          density="compact"
+          density="comfortable"
           :label="$t('message.phone_email')"
-          :prepend-inner-icon="mdiPacMan"
+          :prepend-inner-icon="mdiAccount"
         >
         </v-text-field>
         <v-text-field
           v-model="state.password"
           variant="outlined"
-          density="compact"
+          density="comfortable"
           :prepend-inner-icon="mdiLock"
           type="password"
           :label="$t('message.password')"
@@ -53,7 +53,7 @@
         </v-card>
         <span class="text-caption my-2" :class="qrTips[1]">{{ qrTips[0] }}</span>
       </div>
-      <v-divider class="mx-6" />
+      <v-divider class="mx-6 mb-2" />
       <div class="d-flex justify-space-between mx-3 align-center">
         <v-btn class="align-self-start" color="primary" variant="text" @click="toggleType">
           {{ state.loginType === LOGIN_TYPE.ACCOUNT ? $t('message.login_by_code') : $t('message.login_by_account') }}
@@ -65,7 +65,6 @@
           <v-btn
             v-show="state.loginType === LOGIN_TYPE.ACCOUNT"
             variant="text"
-            rounded
             color="primary"
             :loading="state.loading"
             class="login-button"
@@ -79,7 +78,7 @@
   </v-dialog>
 </template>
 <script setup lang="ts">
-import { mdiLock, mdiLogin, mdiPacMan, mdiReload } from '@mdi/js'
+import { mdiAccount, mdiLock, mdiLogin, mdiReload } from '@mdi/js'
 import md5 from 'md5'
 import { storeToRefs } from 'pinia'
 import { computed, reactive, watch } from 'vue'
