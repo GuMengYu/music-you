@@ -5,26 +5,23 @@
 
 mod cmds;
 mod utils;
+mod core;
 
-use tauri::{api, api::process::{Command}, Manager, Wry};
+use tauri::{api, api::process::{Command}, Manager, Wry, SystemTray};
+use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 
 use tauri_utils::config::{Config, WindowConfig};
+
+use crate::utils::{ resolve };
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 
 fn main() -> std::io::Result<()> {
-    println!("app start");
     let mut builder = tauri::Builder::default()
-        .setup(|_app| {
-            tauri::async_runtime::spawn(async move {
-                Command::new_sidecar("app")
-                .expect("failed to setup `app` sidecar")
-                .spawn()
-                .expect("Failed to spawn packaged node");
-            });
-            Ok(())
-        })
+        .system_tray(SystemTray::new())
+        .setup(|_app| Ok(resolve::resolve_setup(_app)))
+        .on_system_tray_event(core::tray::Tray::on_system_tray_event)
         .invoke_handler(tauri::generate_handler![
             cmds::close_splashscreen,
             cmds::minimized,

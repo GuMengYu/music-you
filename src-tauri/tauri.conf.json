@@ -93,6 +93,10 @@
         "label": "splashscreen",
         "alwaysOnTop": true
       }
-    ]
+    ],
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    }
   }
 }
