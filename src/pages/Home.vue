@@ -1,5 +1,6 @@
 <template>
   <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
+    <div v-if="isDesktop" data-tauri-drag-region class="desktop-drag-area"></div>
     <AppCC />
     <app-nav v-if="mdAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
@@ -83,5 +84,19 @@ $transition-time: 350ms;
 .is-desktop {
   user-select: none;
   -webkit-user-select: none;
+}
+.desktop-drag-area {
+  position: fixed;
+  top: 0;
+  left: 72px;
+  background: transparent;
+  height: 20px;
+  cursor: grab;
+  width: calc(100vw - 72px);
+  z-index: 99999;
+  user-select: none;
+  &:active {
+    cursor: grabbing;
+  }
 }
 </style>

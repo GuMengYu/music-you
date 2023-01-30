@@ -6,8 +6,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import vuetify from 'vite-plugin-vuetify'
 
-// import vuetify from 'vite-plugin-vuetify'
 import { dependencies, devDependencies, name, version } from './package.json'
 const path = require('path')
 
@@ -18,7 +18,7 @@ const __APP_INFO__ = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, './'))
+  // const env = loadEnv(mode, path.resolve(__dirname, './'))
 
   const isDevelopment = command === 'serve'
 
@@ -26,10 +26,11 @@ export default defineConfig(({ command, mode }) => {
     vue({
       reactivityTransform: true,
     }),
-    // vuetify({
-    //   styles: 'expose',
-    //   autoImport: false,
-    // }),
+    vuetify({
+      styles: {
+        configFile: './src/styles/settings.scss',
+      },
+    }),
     vueJsx(),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({

@@ -20,16 +20,17 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
+    "axios": "^1.2.6",
     "dotenv": "^16.0.1",
     "http-proxy-middleware": "^2.0.6",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "polka": "^0.5.2",
     "sirv": "^2.0.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.2",
     "@material/material-color-utilities": "^0.2.0",
     "@mdi/js": "^6.5.95",
+    "@tauri-apps/cli": "^1.2.2",
     "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
     "@types/md5": "^2.3.2",
@@ -70,7 +71,7 @@
     "vite": "^4.0.3",
     "vite-plugin-pwa": "^0.14.1",
     "vite-plugin-resolve": "^2.3.0",
-    "vite-plugin-vuetify": "^1.0.1",
+    "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.2.41",
     "vue-content-loader": "^2.0.1",
     "vue-i18n": "^9.1.9",
@@ -80,7 +81,7 @@
     "vue-tsc": "^1.0.8",
     "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vue3-slider": "git+https://github.com/GuMengYu/vue3-slider.git",
-    "vuetify": "^3.0.6",
+    "vuetify": "^3.1.2",
     "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git#v0.0.1",
     "webfontloader": "^1.0.0"
   },

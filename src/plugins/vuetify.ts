@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 // Styles
 
-import 'vuetify/lib/styles/main.sass'
+// import 'vuetify/lib/styles/main.sass'
+import 'vuetify/styles'
 
 import type { Scheme, Theme } from '@material/material-color-utilities'
 import { argbFromHex, hexFromArgb, themeFromImage, themeFromSourceColor } from '@material/material-color-utilities'
