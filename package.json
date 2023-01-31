@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "axios": "^1.2.6",
     "dotenv": "^16.0.1",
     "http-proxy-middleware": "^2.0.6",
