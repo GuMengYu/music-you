@@ -7383,7 +7383,7 @@ packages:
     dev: true
 
   github.com/GuMengYu/vue3-slider/f77999e06017665ad257416c006a34b197ec209f_vue@3.2.45:
-    resolution: {commit: f77999e06017665ad257416c006a34b197ec209f, repo: git+ssh://git@github.com/GuMengYu/vue3-slider.git, type: git}
+    resolution: { tarball: https://codeload.github.com/GuMengYu/vue3-slider/tar.gz/f77999e06017665ad257416c006a34b197ec209f }
     id: github.com/GuMengYu/vue3-slider/f77999e06017665ad257416c006a34b197ec209f
     name: vue3-slider
     version: 1.8.0
