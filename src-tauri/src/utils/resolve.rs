@@ -34,7 +34,6 @@ pub fn create_window(app_handle: &AppHandle) {
         tauri::WindowUrl::App("index.html".into()),
     )
         .resizable(true)
-        .hidden_title(true)
         .title_bar_style(TitleBarStyle::Overlay)
         .title("Music You Tauri")
         .center()
@@ -82,6 +81,7 @@ pub fn create_window(app_handle: &AppHandle) {
     crate::log_err!(builder
         .decorations(true)
         .transparent(false)
+        .hidden_title(true)
         .inner_size(1200.0, 700.0)
         .build());
 
