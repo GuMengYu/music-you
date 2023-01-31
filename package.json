@@ -16,7 +16,10 @@
     "prepare": "husky install",
     "dev:https": "vite build && npm run serve",
     "serve": "serve dist",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "client:build:mac_arm": "npm run tauri build --target aarch64-apple-darwin",
+    "client:build:mac_x86": "npm run tauri build --target x86_64-apple-darwin",
+    "client:build:mac_universal": "npm run tauri build --target universal-apple-darwin"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",

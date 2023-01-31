@@ -73,17 +73,6 @@
     },
     "windows": [
       {
-        "label": "main",
-        "fullscreen": false,
-        "height": 700,
-        "resizable": true,
-        "title": "music-you-tauri",
-        "width": 1200,
-        "hiddenTitle": true,
-        "titleBarStyle": "Overlay",
-        "visible": false
-      },
-      {
         "width": 1200,
         "height": 700,
         "fullscreen": false,
@@ -91,7 +80,8 @@
         "hiddenTitle": true,
         "url": "splashscreen.html",
         "label": "splashscreen",
-        "alwaysOnTop": true
+        "alwaysOnTop": true,
+        "center": true
       }
     ],
     "systemTray": {

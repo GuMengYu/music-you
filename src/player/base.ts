@@ -11,7 +11,6 @@ import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
 import { sleep, toHttps } from '@/util/fn'
-import is from '@/util/is'
 import { PipLyric } from '@/util/pipLyric'
 const toast = useToast()
 

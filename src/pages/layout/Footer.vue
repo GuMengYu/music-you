@@ -53,7 +53,7 @@
           </v-icon>
           <v-tooltip activator="parent" location="top" open-delay="100"> 心动模式 </v-tooltip>
         </v-btn>
-        <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
+        <v-btn v-if="enablePipLyric" icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
           <v-icon size="x-small">
             {{ mdiPictureInPictureTopRight }}
           </v-icon>
@@ -120,6 +120,9 @@ const { themeName } = useCurrentTheme()
 
 const heartbeatLoading = ref(false)
 
+const enablePipLyric = computed(() => {
+  return appStore.platformType === 'Windows_NT'
+})
 const playlists = computed(() => {
   return userStore.createdPlaylists
     .map((i) => {
