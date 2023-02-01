@@ -34,7 +34,6 @@ pub fn create_window(app_handle: &AppHandle) {
         tauri::WindowUrl::App("index.html".into()),
     )
         .resizable(true)
-        .title_bar_style(TitleBarStyle::Overlay)
         .title("Music You Tauri")
         .center()
         .fullscreen(false)
@@ -75,13 +74,18 @@ pub fn create_window(app_handle: &AppHandle) {
     }
 
     #[cfg(target_os = "macos")]
-    crate::log_err!(builder.decorations(true).inner_size(1200.0, 700.0).build());
+    crate::log_err!(builder
+        .hidden_title(true)
+        .title_bar_style(TitleBarStyle::Overlay)
+        .decorations(true)
+        .inner_size(1200.0, 700.0)
+        .build()
+    );
 
     #[cfg(target_os = "linux")]
     crate::log_err!(builder
         .decorations(true)
         .transparent(false)
-        .hidden_title(true)
         .inner_size(1200.0, 700.0)
         .build());
 
