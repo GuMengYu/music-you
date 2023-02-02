@@ -213,7 +213,8 @@
     "comment": "评论",
     "new_comment": "最新评论",
     "hot_comment": "精选评论",
-    "more_comment": "查看更多评论"
+    "more_comment": "查看更多评论",
+    "recent": "最近播放"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

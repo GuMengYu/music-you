@@ -73,6 +73,7 @@ const to = computed(() => {
     artist: `/artist/${queue.value.id}`,
     daily: `/daily`,
     cloud: '/library/cloud',
+    recent: '/recent',
     intelligence: '',
   }[queue.value.type!]
 })

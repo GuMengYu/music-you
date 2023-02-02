@@ -26,12 +26,13 @@
     </span>
     <span class="line-clamp-1 text-caption">
       <artists-link :artists="artists" />
-      {{ $t('main.play_count', [count]) }}
+      {{ count && $t('main.play_count', [count]) }}
     </span>
   </div>
 </template>
 <script lang="ts">
 import { mdiPlay } from '@mdi/js'
+import { isArray } from 'lodash-es'
 import { defineComponent } from 'vue'
 
 import placeholderUrl from '@/assets/placeholder.png'
@@ -63,14 +64,25 @@ export default defineComponent({
       return this.data.copywriter
     },
     artists() {
-      return this.data.artistId
-        ? [
-            {
-              userId: this.data.artistId,
-              userName: this.data.artistName,
-            },
-          ]
-        : this.data.creator
+      if (this.data.artistId) {
+        return [
+          {
+            userId: this.data.artistId,
+            userName: this.data.artistName,
+          },
+        ]
+      }
+      if (this.data.artists && this.data.artists.length) {
+        return this.data.artists
+      }
+      if (this.data.creator) {
+        if (isArray(this.data.creator)) {
+          return this.data.creator
+        } else {
+          return [this.data.creator]
+        }
+      }
+      return []
     },
     coverBgUrl() {
       return sizeOfImage(this.data.picUrl ?? this.data.cover ?? this.data.coverUrl ?? this.data.imgurl16v9)

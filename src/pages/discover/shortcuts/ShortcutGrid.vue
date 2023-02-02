@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiCalendarToday, mdiDiceMultiple, mdiHeart, mdiRadar } from '@mdi/js'
+import { mdiCalendarToday, mdiDiceMultiple, mdiHeart, mdiRadar, mdiRecord } from '@mdi/js'
 import dayjs from 'dayjs'
 import { filter, random } from 'lodash-es'
 import { storeToRefs } from 'pinia'
@@ -45,10 +45,17 @@ const state = ref({
     picUrl:
       'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
   },
+  recent: {
+    title: '',
+    subTitle: '',
+    picUrl:
+      'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
+  },
 })
 onMounted(async () => {
   state.value.daily.title = t('main.discover.daily')
   state.value.daily.subTitle = dayjs().format('MM-DD')
+  state.value.recent.title = t('common.recent')
   // 私人雷达歌单
   const { playlist: radarPlaylist } = await getPlaylistDetail(specialType.radar.id)
   state.value.radar.id = radarPlaylist.id
@@ -77,5 +84,6 @@ onMounted(async () => {
       :flag="{ color: 'outline', icon: mdiDiceMultiple }"
     />
     <ShortcutFM />
+    <Shortcut :data="state.recent" type="recent" :flag="{ color: 'secondary', icon: mdiRecord }" />
   </div>
 </template>
