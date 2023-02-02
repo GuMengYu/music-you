@@ -3,9 +3,8 @@ import { shuffle } from 'lodash-es'
 import { defineStore } from 'pinia'
 
 import { pinia } from '@/plugins/pinia'
-
-import type { Track } from '../types'
-export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud' | 'intelligence'
+import type { Track } from '@/types'
+export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud' | 'intelligence' | 'recent'
 
 export interface PlayQueueState {
   queue: {

@@ -14,7 +14,7 @@ const currentRouteName = computed(() => route.name)
 const eventBus = useEventBus<string>('reload')
 
 // 声明具有局部刷新钩子的模块
-const reloadHookModules = ['playlist', 'library', 'discover', 'explore']
+const reloadHookModules = ['playlist', 'library', 'discover', 'explore', 'recent']
 function reload() {
   const name = currentRouteName.value as string
   if (name && reloadHookModules.includes(name)) {

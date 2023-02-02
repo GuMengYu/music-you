@@ -25,7 +25,6 @@ export default defineConfig(({ command, mode }) => {
   const isDevelopment = command === 'serve'
   const isProduction = command === 'build'
   const isElectron = mode === 'electron'
-
   const plugins: any = [
     vue({
       reactivityTransform: true,
@@ -91,7 +90,7 @@ export default defineConfig(({ command, mode }) => {
         nodeIntegration: true,
       })
     )
-  } else {
+  } else if (isProduction) {
     plugins.push(
       VitePWA({
         includeAssets: ['favicon.ico'],

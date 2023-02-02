@@ -20,6 +20,7 @@ import NewAlbum from '@/pages/new-releases/albums.vue'
 import NewVideo from '@/pages/new-releases/videos.vue'
 import Playground from '@/pages/Playground.vue'
 import Queue from '@/pages/Queue.vue'
+import Recent from '@/pages/Recent.vue'
 import Search from '@/pages/search/index.vue'
 import Setting from '@/pages/setting/Setting.vue'
 const musicRoutes: RouteRecordRaw[] = [
@@ -139,6 +140,13 @@ const musicRoutes: RouteRecordRaw[] = [
     path: '/playground',
     name: 'playground',
     component: Playground,
+  },
+  {
+    path: 'recent/:tab?',
+    name: 'recent',
+    component: Recent,
+    props: true,
+    meta: { keepAlive: true, needLogin: true },
   },
 ]
 
