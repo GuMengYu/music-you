@@ -1,4 +1,8 @@
 use tauri::{App, AppHandle, Manager, api::process::{Command}, Wry};
+
+#[cfg(target_os = "macos")]
+use tauri_utils::TitleBarStyle;
+
 use crate::{core::*};
 
 pub fn resolve_setup(app: &mut App<Wry>) {
