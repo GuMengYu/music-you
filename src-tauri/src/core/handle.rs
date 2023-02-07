@@ -36,17 +36,14 @@ impl Handle {
             log_err!(window.emit("music-you://tray_control", cmd));
         }
     }
-
     #[allow(unused)]
     pub fn notice_message<S: Into<String>, M: Into<String>>(status: S, msg: M) {
-        println!("notice message1");
 
         if let Some(window) = Self::global().get_window() {
-            println!("notice message2");
             log_err!(window.emit("music-you://notice-message", (status.into(), msg.into())));
         }
     }
-
+    #[allow(unused)]
     pub fn update_systray() -> Result<()> {
         let app_handle = Self::global().app_handle.lock();
         if app_handle.is_none() {
@@ -57,6 +54,7 @@ impl Handle {
     }
 
     /// update the system tray state
+     #[allow(unused)]
     pub fn update_systray_part() -> Result<()> {
         let app_handle = Self::global().app_handle.lock();
         if app_handle.is_none() {

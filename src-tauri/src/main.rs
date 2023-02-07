@@ -7,10 +7,8 @@ mod commands;
 mod utils;
 mod core;
 
-use tauri::{api, api::process::{Command}, Manager, Wry, SystemTray, Menu};
-use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem, MenuItem};
-
-use tauri_utils::config::{Config, WindowConfig};
+use tauri::{api, SystemTray, Menu};
+use tauri::{CustomMenuItem, MenuItem};
 
 use crate::utils::{ resolve };
 
@@ -23,18 +21,19 @@ fn main() -> std::io::Result<()> {
         .add_native_item(MenuItem::Copy)
         .add_item(CustomMenuItem::new("quit".to_string(), "Quit"))
         .add_native_item(MenuItem::Copy);
-    let mut builder = tauri::Builder::default()
+    let builder = tauri::Builder::default()
         .menu(menu)
         .system_tray(SystemTray::new())
         .setup(|_app| Ok(resolve::resolve_setup(_app)))
         .on_system_tray_event(core::tray::Tray::on_system_tray_event)
         .invoke_handler(tauri::generate_handler![
             commands::close_splashscreen,
+            commands::app_quit,
             commands::minimized,
             commands::open_web_url,
         ]);
 
-    let app = builder
+    let _app = builder
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
         .run(|app_handle, e| match e {

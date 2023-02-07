@@ -66,7 +66,7 @@ import {
   mdiMinus as mdiWindowMinimize,
   mdiWindowRestore,
 } from '@mdi/js'
-import { exit } from '@tauri-apps/api/process'
+import { exit, relaunch } from '@tauri-apps/api/process'
 import { invoke } from '@tauri-apps/api/tauri'
 import { appWindow } from '@tauri-apps/api/window'
 import { storeToRefs } from 'pinia'
@@ -94,16 +94,16 @@ function handleToggleMaximize() {
   //   invoke(WindowState.MAXIMIZED)
   // }
 }
-function handleClose() {
+async function handleClose() {
   if (settingStore.exitMode === ExitMode.prompt) {
     showAlert.value = true
   } else if (settingStore.exitMode === ExitMode.minimize) {
     appWindow.hide()
   } else if (settingStore.exitMode === ExitMode.exit) {
-    appWindow.close()
+    invoke('app_quit')
   }
 }
-function confirmExit() {
+async function confirmExit() {
   if (reminder.value) {
     settingStore.exitMode = exitMode.value
   } else {
@@ -113,7 +113,7 @@ function confirmExit() {
   if (exitMode.value === ExitMode.minimize) {
     appWindow.hide()
   } else if (exitMode.value === ExitMode.exit) {
-    appWindow.close()
+    invoke('app_quit')
   }
 }
 </script>

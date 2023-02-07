@@ -1,10 +1,9 @@
 type CmdResult<T = ()> = Result<T, String>;
 
 use tauri::Manager;
-use crate::{
-    utils::{help},
-};
-use crate::{ret_err, wrap_err};
+use tauri::{api};
+use crate::{wrap_err};
+
 
 #[tauri::command]
 pub async fn close_splashscreen(window: tauri::Window) {
@@ -12,6 +11,12 @@ pub async fn close_splashscreen(window: tauri::Window) {
         splashscreen.close().unwrap();
     }
     window.get_window("main").unwrap().show().unwrap();
+}
+
+#[tauri::command]
+pub async fn app_quit() {
+    api::process::kill_children();    
+    std::process::exit(0);
 }
 
 #[tauri::command]

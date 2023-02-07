@@ -1,8 +1,7 @@
-use crate::{commands, utils::resolve, core::handle};
+use crate::{utils::resolve, core::handle};
 use anyhow::Result;
 
-use tauri::{api, AppHandle, CustomMenuItem, Manager, Runtime, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, SystemTraySubmenu};
-use crate::core::handle::Handle;
+use tauri::{api, AppHandle, CustomMenuItem, Manager, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, SystemTraySubmenu};
 
 pub struct Tray {}
 

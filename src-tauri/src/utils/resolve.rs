@@ -1,5 +1,4 @@
 use tauri::{App, AppHandle, Manager, api::process::{Command}, Wry};
-use tauri_utils::TitleBarStyle;
 use crate::{core::*};
 
 pub fn resolve_setup(app: &mut App<Wry>) {

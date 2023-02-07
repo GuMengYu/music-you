@@ -76,6 +76,7 @@
         "width": 1200,
         "height": 700,
         "fullscreen": false,
+        "decorations": false,
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
         "url": "splashscreen.html",
