@@ -39,11 +39,12 @@ impl Tray {
         app_handle
             .tray_handle()
             .set_menu(Tray::tray_menu(app_handle))?;
-        Tray::update_part(app_handle)?;
+        // Tray::update_part(app_handle)?;
         Ok(())
     }
 
     // 更新托盘菜单
+    #[allow(unused)]
     pub fn update_part(app_handle: &AppHandle) -> Result<()> {
         let tray = app_handle.tray_handle();
 

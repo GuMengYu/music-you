@@ -6,8 +6,8 @@ use tauri_utils::TitleBarStyle;
 use crate::{core::*};
 
 pub fn resolve_setup(app: &mut App<Wry>) {
-    #[cfg(target_os = "macos")]
-    app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+    // #[cfg(target_os = "macos")]
+    // app.set_activation_policy(tauri::ActivationPolicy::Accessory);
 
     handle::Handle::global().init(app.app_handle());
 
