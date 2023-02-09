@@ -28,7 +28,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import placeHolderUrl from '@/assets/placeholder.png'
-import { sizeOfImage } from '@/util/fn'
+import { sizeOfImage, toHttps } from '@/util/fn'
 const router = useRouter()
 const props = defineProps({
   artist: {
@@ -45,7 +45,7 @@ const to = computed(() => {
   return `/artist/${props.artist?.id}`
 })
 const coverUrl = computed(() => {
-  return sizeOfImage(props.artist.picUrl ?? props.artist.cover, 512)
+  return sizeOfImage(toHttps(props.artist.picUrl ?? props.artist.cover), 512)
 })
 function go() {
   router.push(to.value)

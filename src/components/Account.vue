@@ -1,7 +1,7 @@
 <template>
   <v-btn v-if="logged" icon class="account-avatar" @click="showProfile = !showProfile">
     <v-avatar size="32">
-      <v-img :aspect-ratio="1" contain :src="profile.avatarUrl" :lazy-src="placeholderUrl" />
+      <v-img :aspect-ratio="1" contain :src="avatarUrl" :lazy-src="placeholderUrl" />
     </v-avatar>
   </v-btn>
   <v-btn v-else icon flat @click="showLogin = !showLogin">
@@ -20,6 +20,7 @@ import placeholderUrl from '@/assets/placeholder.png'
 import UserProfile from '@/pages/modal/Profile.vue'
 import { useAppStore } from '@/store/app'
 import { useUserStore } from '@/store/user'
+import { toHttps } from '@/util/fn'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -29,6 +30,8 @@ const { logged, account } = storeToRefs(userStore)
 const profile = computed(() => {
   return account.value?.profile ?? {}
 })
+
+const avatarUrl = computed(() => toHttps(profile.value.avatarUrl))
 
 const showProfile = ref<boolean>(false)
 </script>

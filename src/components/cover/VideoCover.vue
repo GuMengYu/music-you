@@ -36,7 +36,7 @@ import { isArray } from 'lodash-es'
 import { defineComponent } from 'vue'
 
 import placeholderUrl from '@/assets/placeholder.png'
-import { formatNumber, sizeOfImage } from '@/util/fn'
+import { formatNumber, sizeOfImage, toHttps } from '@/util/fn'
 export default defineComponent({
   name: 'VideoCover',
   props: {
@@ -85,7 +85,7 @@ export default defineComponent({
       return []
     },
     coverBgUrl() {
-      return sizeOfImage(this.data.picUrl ?? this.data.cover ?? this.data.coverUrl ?? this.data.imgurl16v9)
+      return sizeOfImage(toHttps(this.data.picUrl ?? this.data.cover ?? this.data.coverUrl ?? this.data.imgurl16v9))
     },
     count() {
       return formatNumber(this.data.playCount ?? this.data.playTime)

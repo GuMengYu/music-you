@@ -66,7 +66,7 @@ import { fmToTrash } from '@/api/user'
 import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
-import { sizeOfImage } from '@/util/fn'
+import { sizeOfImage, toHttps } from '@/util/fn'
 const player = usePlayer()
 const playerStore = usePlayerStore()
 const toast = useToast()
@@ -76,9 +76,9 @@ const { fmTrack } = storeToRefs(playerStore)
 
 const coverImgUrl = computed(() => {
   if (fmTrack.value?.album?.picUrl) {
-    return sizeOfImage(fmTrack.value?.album?.picUrl, 256)
+    return sizeOfImage(toHttps(fmTrack.value?.album?.picUrl), 256)
   } else if (fmTrack.value?.al?.picUrl) {
-    return sizeOfImage(fmTrack.value?.al?.picUrl, 256)
+    return sizeOfImage(toHttps(fmTrack.value?.al?.picUrl), 256)
   } else {
     return placeholderUrl
   }

@@ -51,7 +51,7 @@ import placeholderUrl from '@/assets/placeholder.png'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { sizeOfImage } from '@/util/fn'
+import { sizeOfImage, toHttps } from '@/util/fn'
 const player = usePlayer()
 const playStore = usePlayerStore()
 const playQueue = usePlayQueueStore()
@@ -95,7 +95,7 @@ const props = defineProps({
 })
 
 const coverBgUrl = computed(() => {
-  return sizeOfImage(props.data.picUrl ?? props.data.coverImgUrl)
+  return sizeOfImage(toHttps(props.data.picUrl ?? props.data.coverImgUrl))
 })
 const subTitle = computed(() => {
   return props.extra ?? props.data.copywriter
