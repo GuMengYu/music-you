@@ -27,6 +27,7 @@
     "dotenv": "^16.0.1",
     "http-proxy-middleware": "^2.0.6",
     "polka": "^0.5.2",
+    "seamless-scroll-polyfill": "^2.3.0",
     "sirv": "^2.0.2"
   },
   "devDependencies": {
