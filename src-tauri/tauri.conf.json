@@ -30,6 +30,10 @@
       "window": {
         "all": true,
         "create": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["$DOWNLOAD/*","$AUDIO/*"]
       }
     },
     "bundle": {
