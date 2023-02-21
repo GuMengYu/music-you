@@ -62,8 +62,8 @@ function isActive(index: number) {
 }
 </script>
 <template>
-  <div class="frame-content-lyric">
-    <ul ref="lyricContainer" class="frame-lyrics my-4 text-xl-h5 text-h6">
+  <div class="scroll-lyric">
+    <ul ref="lyricContainer" class="lyrics my-4 text-xl-h5 text-h6">
       <li>&nbsp;</li>
       <li
         v-for="(item, index) in lyrics"
@@ -82,11 +82,12 @@ function isActive(index: number) {
 </template>
 
 <style scoped lang="scss">
-.frame-content-lyric {
+.scroll-lyric {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
   position: relative;
-  .frame-lyrics {
+  .lyrics {
     height: calc(100% - 40px);
     position: relative;
     z-index: 1;
