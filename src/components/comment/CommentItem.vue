@@ -4,10 +4,13 @@ import dayjs from 'dayjs'
 
 import placeHolderUrl from '@/assets/placeholder.png'
 import type { Comment } from '@/types'
+import { toHttps } from '@/util/fn'
 // coding here
 const props = defineProps<{
   comment: Comment
 }>()
+
+const avatarUrl = computed(() => toHttps(props.comment.user.avatarUrl))
 function formatDate(datetime: string | number, format = 'LL') {
   return dayjs(datetime).format(format)
 }
@@ -18,7 +21,7 @@ function formatDate(datetime: string | number, format = 'LL') {
       <div class="d-flex justify-space-between">
         <div class="d-flex gap-3 align-center">
           <v-avatar size="32">
-            <v-img :aspect-ratio="1" contain :lazy-src="placeHolderUrl" :src="comment.user.avatarUrl" />
+            <v-img :aspect-ratio="1" contain :lazy-src="placeHolderUrl" :src="avatarUrl" />
           </v-avatar>
 
           <span class="text-body-2">{{ comment.user.nickname }}</span>
