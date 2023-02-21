@@ -89,21 +89,22 @@ function saveCover() {
       <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
         <span
           class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-          :style="{ lineHeight: '64px', paddingRight: '30px' }"
+          :style="{ lineHeight: '64px' }"
+          :class="{
+            'pr-6': smAndUp,
+            'text-center': !smAndUp,
+          }"
           >{{ album.name }}</span
         >
         <div class="d-flex flex-column">
           <div class="d-flex align-center text-body-1 font-weight-medium">
-            <v-avatar v-if="album.artist?.img1v1Url" size="20" class="mr-1">
-              <v-img :src="sizeOfImage(album.artist?.img1v1Url, 128)" />
-            </v-avatar>
             <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
           </div>
           <span class="text-caption text-disabled">
             {{ formatDate(album.publishTime, 'LL') }}
           </span>
         </div>
-        <div class="d-flex py-2">
+        <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
           <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
             <span class="text-body-1 font-weight-medium">{{ album.size }}</span>
             <span class="text-disabled text-caption"> 首 </span>
@@ -121,13 +122,15 @@ function saveCover() {
             <span class="text-body-1 font-weight-medium">{{ formatDuring(albumDt) }}</span>
             <span class="text-disabled text-caption">时长</span>
           </div>
-          <v-divider class="my-2" vertical />
-          <div v-if="album.company" class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">
-              <v-icon size="small">{{ mdiCopyright }} </v-icon>
-            </span>
-            <span class="text-disabled text-caption">{{ album.company }}</span>
-          </div>
+          <template v-if="album.company">
+            <v-divider class="my-2" vertical />
+            <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+              <span class="text-body-1 font-weight-medium">
+                <v-icon size="small">{{ mdiCopyright }} </v-icon>
+              </span>
+              <span class="text-disabled text-caption">{{ album.company }}</span>
+            </div>
+          </template>
         </div>
         <div class="d-flex align-center">
           <v-btn class="mr-4" color="primary" :loading="playLoading" @click="play"> {{ t('common.play_all') }} </v-btn>
@@ -146,7 +149,8 @@ function saveCover() {
       <Cover
         :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
         :data="album"
-        :no-info="true"
+        no-info
+        shadow
         type="album"
         :max-width="225"
         :min-width="225"

@@ -28,6 +28,7 @@
           </transition>
         </div>
       </v-img>
+      <div v-if="shadow && noInfo" class="cover-shadow" :style="`background-image: url('${coverBgUrl}')`" />
       <v-card-title v-if="!noInfo" :class="`line-clamp-${titleLine}`" style="white-space: initial">
         <router-link :to="`/playlist/${data.id}`" class="text-subtitle-2 text-onSurfaceVariant">
           {{ data.name }}
@@ -92,6 +93,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  shadow: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const coverBgUrl = computed(() => {
@@ -139,9 +144,24 @@ async function toggle() {
 </script>
 <style scoped lang="scss">
 .cover-container {
+  overflow: visible;
   .cover-image-with-info {
     border-bottom-left-radius: initial !important;
     border-bottom-right-radius: initial !important;
+  }
+  .cover-image {
+    z-index: 1;
+  }
+  .cover-shadow {
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    top: 10%;
+    border-radius: 20px;
+    filter: blur(30px);
+    transform: scale(0.9);
+    background-size: cover;
   }
 }
 </style>

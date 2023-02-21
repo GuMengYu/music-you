@@ -149,7 +149,11 @@ function saveCover() {
       <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
         <span
           class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-          :style="{ lineHeight: '64px', paddingRight: '30px' }"
+          :style="{ lineHeight: '64px' }"
+          :class="{
+            'pr-6': smAndUp,
+            'text-center': !smAndUp,
+          }"
           >{{ playlist.name }}</span
         >
         <div class="d-flex flex-column">
@@ -160,7 +164,7 @@ function saveCover() {
             {{ formatDate(playlist.createTime, 'LL') }}
           </span>
         </div>
-        <div class="d-flex py-2">
+        <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
           <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
             <span class="text-body-1 font-weight-medium">{{ playlist.trackCount }}</span>
             <span class="text-disabled text-caption"> 首 </span>
@@ -228,7 +232,8 @@ function saveCover() {
       <Cover
         :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
         :data="playlist"
-        :no-info="true"
+        no-info
+        shadow
         type="playlist"
         :max-width="225"
         :min-width="225"
