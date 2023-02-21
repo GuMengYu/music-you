@@ -45,8 +45,7 @@ const displayAll = ref(false)
       <span v-if="!currentLyric" class="current">
         {{ $t('common.no_lyric') }}
       </span>
-      <span v-else ref="text" class="current" :class="{ animate }" @click="displayAll = true">
-        {{ currentText }}
+      <span v-else ref="text" class="current" :class="{ animate }" @click="displayAll = true" v-html="currentText">
       </span>
     </div>
 
