@@ -59,7 +59,7 @@
       </template>
     </v-list-item>
   </div>
-  <div v-if="is.linux() && is.macOS()">
+  <div v-if="['Darwin', 'Linux'].includes(appStore.platformType)">
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
       <v-list-item-title class="text-caption"> {{ t('main.setting.exit') }} </v-list-item-title>
@@ -109,10 +109,11 @@ import AppSelect from '@/components/menu/Select.vue'
 import AppTitle from '@/components/Title.vue'
 import useMediaDevices from '@/hooks/useMediaDevices'
 import { usePlayer } from '@/player/player'
+import { useAppStore } from '@/store/app'
 import { ExitMode, QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import { PLAYING_MODE } from '@/util/enum'
-import is from '@/util/is'
 const settingStore = useSettingStore()
+const appStore = useAppStore()
 const {
   locale: lang,
   quality_level,

@@ -24,7 +24,6 @@ import { usePlayQueueStore } from '@/store/playQueue'
 import type { Album } from '@/types'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import { mdiNetEase } from '@/util/icons'
-import is from '@/util/is'
 
 const { t } = useI18n()
 const toast = useToast()

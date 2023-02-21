@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router'
 
 import { useUserStore } from '@/store/user'
 import type { Account } from '@/types'
-import is from '@/util/is'
 const userStore = useUserStore()
 const router = useRouter()
 const { account } = storeToRefs(userStore)

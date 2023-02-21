@@ -26,7 +26,6 @@ import { useUserStore } from '@/store/user'
 import type { Playlist } from '@/types'
 import { formatDuring, formatNumber } from '@/util/fn'
 import { mdiNetEase } from '@/util/icons'
-import is from '@/util/is'
 import { specialType } from '@/util/metadata'
 const { smAndUp } = useDisplay()
 const { t } = useI18n()

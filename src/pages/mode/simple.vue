@@ -12,7 +12,7 @@
       @error="onError"
     >
     </v-img>
-    <div class="frame-header" :class="is.macOS() ? 'justify-end' : 'justify-start'">
+    <div class="frame-header" :class="appStore.platformType === 'Darwin' ? 'justify-end' : 'justify-start'">
       <v-btn icon variant="plain" @click="close">
         <v-icon>
           {{ mdiClose }}
@@ -86,7 +86,6 @@ import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import WallHavenModal from '@/pages/modal/Wallhaven.vue'
-import Lyric from '@/pages/mode/components/lyric.vue'
 import ScrollLyric from '@/pages/mode/components/ScrollLyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
@@ -94,7 +93,6 @@ import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
 import { useWallHavenStore } from '@/store/wallhaven'
 import { formatDuring, sizeOfImage, sleep } from '@/util/fn'
-import is from '@/util/is'
 
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
@@ -122,7 +120,6 @@ async function loadPrev() {
   loading.value = true
   await nextTick()
   await sleep(350)
-  currentWallpaper.value = void 0
   if (currentIndex.value === 0) {
     currentIndex.value = wallpapers.value.length - 1
   } else {
@@ -133,7 +130,6 @@ async function loadNext() {
   loading.value = true
   await nextTick()
   await sleep(350)
-  currentWallpaper.value = void 0
   if (currentIndex.value === wallpapers.value.length - 1) {
     currentIndex.value = 0
   } else {

@@ -2,7 +2,7 @@
   <v-card :image="albumPicUrl" class="md-container">
     <v-row no-gutters class="md-content">
       <v-col cols="6" class="pa-4 d-flex align-center justify-center">
-        <v-btn icon variant="plain" position="absolute" :location="is.macOS() ? 'top end' : 'top start'" @click="close">
+        <v-btn icon variant="plain" position="absolute" :location="isMac ? 'top end' : 'top start'" @click="close">
           <v-icon>
             {{ icon.mdiClose }}
           </v-icon>
@@ -61,7 +61,6 @@ import Lyric from '@/pages/mode/components/lyric.vue'
 import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { formatDuring } from '@/util/fn'
-import is from '@/util/is'
 
 export default defineComponent({
   components: { Lyric },
@@ -74,6 +73,7 @@ export default defineComponent({
     const albumPicUrl = computed(() => {
       return track.value?.al?.picUrl
     })
+    const isMac = computed(() => appStore.platformType === 'Darwin')
     async function close() {
       // if (is.electron()) {
       //   const ipcRenderer = useIpcRenderer()
@@ -108,7 +108,7 @@ export default defineComponent({
       placeholderUrl,
       textColor,
       bgColor,
-      is,
+      isMac,
     }
   },
   data: () => ({
