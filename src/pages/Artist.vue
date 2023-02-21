@@ -108,7 +108,11 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
             <span
               class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-              :style="{ lineHeight: '64px', paddingRight: '30px' }"
+              :style="{ lineHeight: '64px' }"
+              :class="{
+                'pr-6': smAndUp,
+                'text-center': !smAndUp,
+              }"
               >{{ state.artist.name }}</span
             >
             <div class="d-flex flex-column">
@@ -120,7 +124,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                 {{ [...(state.artist.identifyTag ?? []), ...(state.artist.identities ?? [])].join('·') }}
               </span>
             </div>
-            <div class="d-flex py-2">
+            <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
               <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
                 <span class="text-body-1 font-weight-medium">
                   <v-icon size="small">{{ mdiAccountMusic }} </v-icon>
