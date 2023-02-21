@@ -19,7 +19,7 @@
         </v-icon>
       </v-btn>
     </div>
-    <div class="frame-content d-flex flex-grow-1 justify-center align-center text-center">
+    <div class="frame-content d-flex flex-grow-1 justify-center align-center text-center py-2">
       <scroll-lyric />
       <!--      <lyric class="text-h4 text-xl-h3" style="font-family: 'Google Sans', serif !important" />-->
     </div>
@@ -166,7 +166,6 @@ function onError() {
   &-content {
     z-index: 2;
     max-height: calc(78vh - 128px);
-    padding: 5vh 0;
   }
   &-footer {
     z-index: 2;
