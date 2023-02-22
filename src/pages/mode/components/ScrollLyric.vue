@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { findIndex } from 'lodash-es'
 import { storeToRefs } from 'pinia'
+import { scrollIntoView } from 'seamless-scroll-polyfill'
 
 import useTrackLyric from '@/hooks/useTrackLyric'
 import { usePlayerStore } from '@/store/player'
@@ -51,7 +52,8 @@ async function calculate() {
     const container = lyricContainer.value
     const activeEl = container?.querySelector('.frame-lyrics .active')
     if (activeEl) {
-      activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      scrollIntoView(activeEl, { block: 'center', behavior: 'smooth' })
+      // activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' })
     }
   }
 }
@@ -61,19 +63,17 @@ function isActive(index: number) {
 </script>
 <template>
   <div class="frame-content-lyric">
-    <ul ref="lyricContainer" class="frame-lyrics my-4 text-xl-h6 text-body-2">
+    <ul ref="lyricContainer" class="frame-lyrics my-4 text-xl-h5 text-h6">
       <li>&nbsp;</li>
       <li
         v-for="(item, index) in lyrics"
         :key="index"
         :aria-time="item.time"
-        class="mb-2"
+        class="mb-3 px-6"
         :class="{
           active: isActive(index),
-          'font-weight-bold': isActive(index),
-          'text-xl-h5 text-body-1': isActive(index),
         }"
-        :style="{ color: index === state.activeIdx ? 'rgb(var(--v-theme-primary))' : '' }"
+        :style="{ color: isActive(index) ? 'rgb(var(--v-theme-primary))' : '' }"
         v-html="item.sentence"
       ></li>
       <li>&nbsp;</li>
@@ -98,7 +98,10 @@ function isActive(index: number) {
       font-family: 'Google Sans', serif !important;
       text-align: center;
       list-style: none;
-      transition: font-size 0.35s ease-out;
+      transition: transform 0.35s cubic-bezier(0.55, -0.01, 0, 1.03);
+      &.active {
+        transform: scale(1.2);
+      }
     }
   }
 }

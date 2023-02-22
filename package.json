@@ -75,6 +75,7 @@
     "plyr": "^3.7.2",
     "prettier": "^2.6.2",
     "sass": "^1.38.0",
+    "seamless-scroll-polyfill": "^2.3.0",
     "stackblur-canvas": "^2.5.0",
     "typescript": "^4.6.3",
     "unplugin-auto-import": "^0.7.1",
