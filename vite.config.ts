@@ -8,8 +8,8 @@ import { defineConfig, loadEnv } from 'vite'
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import { VitePWA } from 'vite-plugin-pwa'
+import vuetify from 'vite-plugin-vuetify'
 
-// import vuetify from 'vite-plugin-vuetify'
 import { dependencies, devDependencies, name, version } from './package.json'
 const path = require('path')
 
@@ -30,10 +30,11 @@ export default defineConfig(({ command, mode }) => {
     vue({
       reactivityTransform: true,
     }),
-    // vuetify({
-    //   styles: 'expose',
-    //   autoImport: false,
-    // }),
+    vuetify({
+      styles: {
+        configFile: './src/styles/settings.scss',
+      },
+    }),
     vueJsx(),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({

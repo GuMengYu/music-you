@@ -1,0 +1,4 @@
+// settings.scss
+@use 'vuetify/settings' with (
+  $border-radius-root: 6px
+);
