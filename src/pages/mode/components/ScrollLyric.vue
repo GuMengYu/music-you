@@ -50,7 +50,7 @@ async function calculate() {
   await nextTick()
   if (activeIdx >= 0 && prevActiveIdx !== activeIdx) {
     const container = lyricContainer.value
-    const activeEl = container?.querySelector('.frame-lyrics .active')
+    const activeEl = container?.querySelector('.lyrics .active')
     if (activeEl) {
       scrollIntoView(activeEl, { block: 'center', behavior: 'smooth' })
       // activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' })
