@@ -1,13 +1,13 @@
 <template>
   <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
     <AppCC />
-    <app-nav v-if="mdAndUp" class="v-player-nav" />
+    <app-nav v-if="smAndUp" class="v-player-nav" />
     <app-header class="v-player-header" />
 
     <app-content class="v-player-content" />
-    <app-playbar v-if="mdAndUp && !miniplayer" />
-    <app-mobile-playbar v-if="smAndDown" />
-    <app-bottom-nav v-if="smAndDown" />
+    <app-playbar v-if="smAndUp && !miniplayer" />
+    <app-mobile-playbar v-if="xs" />
+    <app-bottom-nav v-if="xs" />
     <app-login />
     <app-playing-page />
   </v-app>
@@ -33,7 +33,7 @@ import AppPlayingPage from './mode/index.vue'
 const { themeName } = useCurrentTheme()
 const { miniplayer } = storeToRefs(useSettingStore())
 const display = useDisplay()
-const { mdAndUp, smAndDown } = display
+const { xs, smAndUp } = display
 const theme = useTheme()
 watchEffect(() => {
   theme.global.name.value = themeName.value

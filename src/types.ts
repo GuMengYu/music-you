@@ -24,6 +24,7 @@ export interface Track {
     br: null | number
     type: string
     encodeType: string
+    sourceFromUnlockMusic?: boolean
   }
   lyric?: {
     tlyric: {

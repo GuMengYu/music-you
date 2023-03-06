@@ -48,6 +48,7 @@ export const getMusicUrl = async (id: Track['id']) => {
       try {
         const { data } = await getSongUrlFromUnlockMusic(id) // 尝试解锁灰色或者试听歌曲
         meta.url = data.url ?? ''
+        meta.sourceFromUnlockMusic = true
       } catch (e) {
         console.log(e)
         meta.url = null

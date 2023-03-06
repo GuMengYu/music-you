@@ -11,7 +11,7 @@ import { md, mobile, simple, visual } from './exports'
 const appStore = useAppStore()
 const settingStore = useSettingStore()
 const { showLyric } = storeToRefs(appStore)
-const { smAndDown } = useDisplay()
+const { xs } = useDisplay()
 
 const fullscreen = ref(false)
 
@@ -20,7 +20,7 @@ const currentComponent = computed(() => {
     [PLAYING_MODE.SIMPLE]: simple,
     [PLAYING_MODE.MD]: md,
   }[settingStore.playingMode]
-  if (smAndDown.value) {
+  if (xs.value) {
     return mobile
   } else if (settingStore.visualization) {
     return visual

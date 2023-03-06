@@ -156,7 +156,8 @@ export class Player {
       Howler.unload()
       this.howler?.unload()
       this.howler = null
-      this.howler = this.initSound(toHttps(trackMeta.url))
+      const url = trackMeta.sourceFromUnlockMusic ? trackMeta.url : toHttps(trackMeta.url)
+      this.howler = this.initSound(url)
       this.initMediaSession(track)
       if (resetProgress) {
         this.setSeek(0)

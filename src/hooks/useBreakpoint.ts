@@ -14,8 +14,8 @@ export enum DisplayBreakpoint {
 
 const breakpointsDefine = {
   xxs: 320,
-  xs: 772,
-  sm: 972,
+  xs: 600,
+  sm: 900,
   md: 1100,
   lg: 1504,
   xl: 1709,
