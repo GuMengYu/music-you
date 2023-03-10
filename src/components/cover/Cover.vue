@@ -49,6 +49,7 @@ import { storeToRefs } from 'pinia'
 
 import { getTrackList } from '@/api/music'
 import placeholderUrl from '@/assets/placeholder.png'
+import useInForeground from '@/hooks/useInForeground'
 import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
@@ -98,6 +99,7 @@ const props = defineProps({
     default: false,
   },
 })
+const { isActive: isInDetail } = useInForeground(['playlist', 'album'])
 
 const coverBgUrl = computed(() => {
   return sizeOfImage(toHttps(props.data.picUrl ?? props.data.coverImgUrl))
@@ -114,7 +116,7 @@ const to = computed(() => {
   }[props.type]
 })
 const inActive = computed(() => {
-  return props.data.id === playQueue.queue.id
+  return props.data.id === playQueue.queue.id && !isInDetail.value
 })
 const coverPlaying = computed(() => {
   return playing.value && inActive.value
