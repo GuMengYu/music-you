@@ -1,6 +1,6 @@
 <template>
   <v-btn v-if="showComment" icon variant="text" @click="show = true">
-    <v-icon>
+    <v-icon size="small">
       {{ mdiCommentOutline }}
     </v-icon>
   </v-btn>

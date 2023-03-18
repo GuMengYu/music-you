@@ -56,13 +56,14 @@
           <span class="d-flex justify-center" style="width: 65px">{{ formatDuring(track.dt) }}</span>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex align-center">
           <music-comment-toggle :id="track.id" />
           <v-btn icon variant="text" @click="wallpaperGallery = true">
-            <v-icon>
+            <v-icon size="small">
               {{ mdiImageMultipleOutline }}
             </v-icon>
           </v-btn>
+          <like-toggle :id="track.id" />
           <v-btn icon variant="text" @click="loadPrev">
             <v-icon>
               {{ mdiChevronLeft }}
@@ -81,12 +82,11 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiImageMultipleOutline } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiDotsVertical, mdiImageMultipleOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
 import WallHavenModal from '@/pages/modal/Wallhaven.vue'
-import Lyric from '@/pages/mode/components/lyric.vue'
 import ScrollLyric from '@/pages/mode/components/ScrollLyric.vue'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'

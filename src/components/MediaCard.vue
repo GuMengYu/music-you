@@ -28,7 +28,7 @@
           <v-btn density="comfortable" icon variant="text" size="small" color="white" @click="next">
             <v-icon size="small">{{ mdiSkipNext }}</v-icon>
           </v-btn>
-          <like-toggle :id="track.id" />
+          <like-toggle :id="track.id" size="small" />
         </div>
       </div>
     </v-img>

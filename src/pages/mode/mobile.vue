@@ -42,7 +42,7 @@
             {{ state.showLyr ? mdiTextBox : mdiTextBoxOutline }}
           </v-icon>
         </v-btn>
-        <like-toggle :id="track?.id" />
+        <like-toggle :id="track?.id" size="small" />
         <v-btn icon size="small" variant="text" @click="toQueue">
           <v-icon size="small">
             {{ mdiPlaylistMusic }}

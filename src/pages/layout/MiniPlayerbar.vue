@@ -41,7 +41,7 @@
     <Control :simple="true" />
     <div class="d-flex justify-space-between align-center control-buttons my-1">
       <VolumeSlider orientation="vertical" />
-      <like-toggle :id="track.id" />
+      <like-toggle :id="track.id" size="small" />
       <v-btn
         :color="shuffle ? 'primary' : ''"
         density="comfortable"

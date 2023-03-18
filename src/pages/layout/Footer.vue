@@ -1,27 +1,27 @@
 <template>
-  <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1">
+  <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1" :height="74">
     <TrackSlider class="track-slider" tooltip />
     <div class="playing-control">
       <div class="playing-bar__left">
         <v-hover v-slot="{ isHovering, props }">
           <v-img
             v-bind="props"
-            class="rounded"
+            class="rounded-lg"
             :aspect-ratio="1"
-            :min-width="48"
-            :max-width="48"
-            :max-height="48"
+            :min-width="58"
+            :max-width="58"
+            :max-height="58"
             :src="albumPicUrl"
             cover
           >
-            <v-btn v-show="isHovering" icon @click.stop="showPlayingPage">
+            <v-btn v-show="isHovering" width="58" height="58" icon @click.stop="showPlayingPage">
               <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
             </v-btn>
           </v-img>
         </v-hover>
 
-        <div class="mx-2 d-flex align-start flex-column">
-          <div class="d-flex align-center line-clamp-1 text-subtitle-2">
+        <div class="ml-2 mr-4 d-flex align-start flex-column">
+          <div class="d-flex align-center line-clamp-1 text-h6">
             <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
               >{{ track?.name }}
             </Router-Link>
@@ -39,7 +39,7 @@
           <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
         </div>
         <like-toggle :id="track?.id" />
-        <v-btn density="comfortable" icon variant="text" @click="openContextMenu">
+        <v-btn icon variant="text" @click="openContextMenu">
           <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
           <v-tooltip activator="parent" location="top" open-delay="100"> 添加到歌单 </v-tooltip>
         </v-btn>
