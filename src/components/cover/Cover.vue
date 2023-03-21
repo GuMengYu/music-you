@@ -34,11 +34,9 @@
           {{ data.name }}
         </router-link>
       </v-card-title>
-      <v-card-subtitle v-if="!noInfo && subTitle" class="text-subtitle-2 pb-4">
-        <span v-if="subTitle" class="line-clamp-1">
-          {{ subTitle }}
-        </span>
-      </v-card-subtitle>
+      <span v-if="!noInfo && subTitle" class="line-clamp-1 text-subtitle-2 text-onSurfaceVariant mb-4 px-4">
+        {{ subTitle }}
+      </span>
       <slot />
     </v-card>
   </v-hover>
