@@ -1,4 +1,5 @@
 // settings.scss
 @use 'vuetify/settings' with (
-  $border-radius-root: 6px
+  $border-radius-root: 6px,
+  $body-font-family: '"Google Sans", sans-serif'
 );

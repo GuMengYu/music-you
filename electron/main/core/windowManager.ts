@@ -18,6 +18,7 @@ export const WindowDefaultSize = {
 
 const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   titleBarStyle: 'hiddenInset',
+  trafficLightPosition: { x: 10, y: 10 },
   // show: false,
   frame: !(is.windows() || is.linux()),
   width: 1200,

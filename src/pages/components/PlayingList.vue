@@ -43,8 +43,8 @@ const { queue, priorityQueue } = storeToRefs(playQueueStore)
 const display = useDisplay()
 
 const listHeight = computed(() => {
-  // nav header 48px + header border 1px + padding 32px + divider 32px + media card 130px + action button 132px + footer 64px
-  return display.height.value - 439
+  // nav header 48px + header border 1px + padding 32px + divider 32px + media card 130px + action button 132px + footer 74px
+  return display.height.value - 448
 })
 const nextList = computed(() => {
   return queue.value.tracks

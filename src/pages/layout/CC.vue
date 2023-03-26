@@ -6,19 +6,19 @@
     temporary
     width="300"
     floating
-    class="bg-surface"
+    class="bg-surface rounded-ts-lg"
   >
-    <v-toolbar density="compact" color="surface">
+    <v-toolbar density="compact" color="surface rounded-ts-lg">
       <v-toolbar-title class="text-caption font-weight-bold text-onSurfaceVariant">{{
         $t('common.shortcut')
       }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon size="small" @click="app.showControlCenter = false">
+      <v-btn icon size="small" class="mr-1" @click="app.showControlCenter = false">
         <v-icon size="small"> {{ mdiClose }} </v-icon>
       </v-btn>
     </v-toolbar>
     <v-divider />
-    <v-container>
+    <div class="pa-3">
       <v-row dense>
         <v-col class="d-flex">
           <switch-card
@@ -47,7 +47,7 @@
       </v-row>
       <MediaCard class="mt-4" />
       <PlayingList class="mt-4" />
-    </v-container>
+    </div>
   </v-navigation-drawer>
 </template>
 

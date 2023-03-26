@@ -4,8 +4,8 @@
       ref="lottieIcon"
       class="lottie-icon onSurface--text"
       :options="state.modeOptions"
-      :width="20"
-      :height="20"
+      :width="17"
+      :height="17"
       @anim-created="handleAnimation"
       @anim-updated="handleAnimationUpdated"
     />

@@ -5,33 +5,33 @@
 
 /* Let's get this party started */
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 0;
 }
 
 /* override some vuetify style */
 
-.rounded-lg {
-  border-radius: 14px !important;
-}
+//.rounded-lg {
+//  border-radius: 14px !important;
+//}
 
 // override vuetify font family set
-
-html,
-.text-h1,
-.text-h2,
-.text-h3,
-.text-h4,
-.text-h5,
-.text-h6,
-.text-caption,
-.text-subtitle-1,
-.text-subtitle-2,
-.text-body-1,
-.text-body-2,
-.text-button,
-.text-overline {
-  font-family: 'Google Sans', sans-serif !important;
-}
+//
+//html,
+//.text-h1,
+//.text-h2,
+//.text-h3,
+//.text-h4,
+//.text-h5,
+//.text-h6,
+//.text-caption,
+//.text-subtitle-1,
+//.text-subtitle-2,
+//.text-body-1,
+//.text-body-2,
+//.text-button,
+//.text-overline {
+//  font-family: 'Google Sans', sans-serif !important;
+//}
 
 a {
   text-decoration: none;

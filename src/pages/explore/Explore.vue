@@ -42,7 +42,10 @@ export interface Tag {
   color: string
   name: string
 }
-const boardId = [60198, 11641012, 180106, 19723756, 2884035, 5059661515]
+const boardId = [
+  60198 /*美国Billboard排行榜*/, 180106 /*UK排行榜周榜*/, 19723756 /*飙升榜*/, 2884035 /*原创榜*/,
+  5059661515 /*云音乐民谣榜*/, 7775163417 /*赏音榜*/,
+]
 const state = reactive({
   newRelease: [] as Album[],
   tags: [] as Tag[],

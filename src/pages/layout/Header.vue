@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="app_header drag-area" flat height="56">
+  <v-app-bar class="app_header drag-area" flat height="52">
     <div v-show="smAndUp && !searchInputVisible" class="d-flex align-center">
       <b-f-btn />
       <reload-btn />
@@ -12,6 +12,7 @@
     </div>
     <div v-if="smAndUp" class="d-flex no-drag-area mx-1 align-center">
       <search-toggle v-show="!searchInputVisible" />
+      <theme-toggle />
       <control-center-toggle />
       <account />
       <window-control v-if="isShowWindowControl" />

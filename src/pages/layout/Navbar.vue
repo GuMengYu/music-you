@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area" :style="navStyle">
-    <div class="px-3 pt-1" :class="{ 'mt-5': isMac }">
+    <div class="px-3 pt-1" :class="{ 'mt-6': isMac }">
       <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">

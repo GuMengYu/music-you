@@ -1,12 +1,9 @@
 <template>
-  <section class="py-4">
-    <h6 class="text-h5 mb-4">{{ $t('main.leader_board') }}</h6>
-    <v-row>
-      <v-col v-for="toplist in list" :key="toplist.id" cols="2">
-        <Cover :data="toplist" class="item" type="playlist" />
-      </v-col>
-    </v-row>
-  </section>
+  <Col :title="$t('main.leader_board')">
+    <card-row>
+      <cover v-for="topList in list" :key="topList.id" :data="topList" class="item" type="playlist" />
+    </card-row>
+  </Col>
 </template>
 <script lang="ts">
 import { getTopList } from '@/api/top'
