@@ -18,6 +18,7 @@
       :style="{ position: 'relative', left: '-1px' }"
       @anim-created="handleAnimation"
     ></lottie-icon>
+    <v-tooltip activator="parent" location="top"> {{ liked ? '取消喜欢' : '加入喜欢的歌曲' }} </v-tooltip>
   </v-btn>
 </template>
 <script setup lang="ts">
@@ -400,7 +401,7 @@ const heart = {
 const userStore = useUserStore()
 const props = defineProps<{
   id?: number
-  size: 'small' | 'default'
+  size?: 'small' | 'default'
 }>()
 
 interface RootState {

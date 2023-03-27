@@ -27,10 +27,10 @@
         </kinesis-element>
         <kinesis-element :strength="20" type="depth" class="cover-container">
           <v-img
-            max-height="35vh"
-            min-height="35vh"
-            max-width="35vh"
-            min-width="35vh"
+            max-height="22vh"
+            min-height="22vh"
+            max-width="22vh"
+            min-width="22vh"
             class="smooth rounded-lg"
             :src="albumPicUrl"
             :lazy-src="placeholderUrl"
@@ -60,30 +60,10 @@
           <canvas ref="canvasRef"></canvas>
         </div>
         <div class="d-flex align-center justify-space-between">
-          <v-btn
-            color="primary"
-            :style="{
-              borderRadius: '16px',
-              height: '64px',
-              width: '64px',
-            }"
-            @click="toggle"
-          >
-            <v-icon size="x-large">
-              {{ playing ? mdiPause : mdiPlay }}
-            </v-icon>
-          </v-btn>
+          <Control simple />
           <div>
-            <v-btn icon variant="text" @click="prev">
-              <v-icon>
-                {{ mdiChevronLeft }}
-              </v-icon>
-            </v-btn>
-            <v-btn icon variant="text" class="ml-4" @click="next">
-              <v-icon>
-                {{ mdiChevronRight }}
-              </v-icon>
-            </v-btn>
+            <like-toggle :id="track.id" />
+            <download-track-btn :track="track" />
             <music-comment-toggle :id="track.id" />
           </div>
         </div>
@@ -93,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiPause, mdiPlay } from '@mdi/js'
+import { mdiClose } from '@mdi/js'
 import { KinesisContainer, KinesisElement } from 'vue-kinesis'
 import { useTheme } from 'vuetify'
 
@@ -110,7 +90,7 @@ import Lyric from './components/lyric.vue'
 const player = usePlayer()
 const appStore = useAppStore()
 
-const { toggle, prev, next, track, playing, isCurrentFm } = usePlayerControl()
+const { toggle, track, playing } = usePlayerControl()
 
 const theme = useTheme()
 const analyser = ref<AnalyserNode | null>(null)
@@ -311,26 +291,26 @@ onUnmounted(() => {
         }
       }
       .one-position {
-        top: 20%;
-        left: 20px;
+        top: 30%;
+        left: 40px;
         .smooth {
           background-color: rgba(var(--v-theme-primary));
-          width: 170px;
-          height: 170px;
+          width: 150px;
+          height: 150px;
         }
       }
       .second-position {
-        top: 18%;
+        top: 25%;
         left: 15px;
         .smooth {
           background-color: rgba(var(--v-theme-secondary));
-          width: 90px;
-          height: 90px;
+          width: 80px;
+          height: 80px;
         }
       }
       .third-position {
-        bottom: 25%;
-        right: 8%;
+        bottom: 30%;
+        right: 10%;
         .smooth {
           border: 4px solid rgba(var(--v-theme-tertiary), 0.8);
           width: 80px;

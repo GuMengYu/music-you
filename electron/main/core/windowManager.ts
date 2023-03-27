@@ -11,7 +11,7 @@ import pages from './config/page'
 import log from './util/log'
 export const WindowDefaultSize = {
   height: 720,
-  width: 1200,
+  width: 1210,
   minWidth: 393,
   minHeight: 600,
 }
@@ -21,7 +21,7 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   trafficLightPosition: { x: 10, y: 10 },
   // show: false,
   frame: !(is.windows() || is.linux()),
-  width: 1200,
+  width: 1210,
   height: 720,
   vibrancy: 'ultra-dark',
   // visualEffectState: 'active',

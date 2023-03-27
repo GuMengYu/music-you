@@ -8,13 +8,13 @@
             v-bind="props"
             class="rounded-lg"
             :aspect-ratio="1"
-            :min-width="58"
-            :max-width="58"
-            :max-height="58"
+            :min-width="56"
+            :max-width="56"
+            :max-height="56"
             :src="albumPicUrl"
             cover
           >
-            <v-btn v-show="isHovering" width="58" height="58" icon @click.stop="showPlayingPage">
+            <v-btn v-show="isHovering" width="56" height="56" icon @click.stop="showPlayingPage">
               <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
             </v-btn>
           </v-img>

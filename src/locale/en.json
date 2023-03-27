@@ -121,7 +121,11 @@
       "manage_account": "Manage Account (web)",
       "exit": "Behavior of closing the app...",
       "comment": "View partial reviews of playlists, albums, and songs",
-      "trans": "Show lyrics translation"
+      "trans": "Show lyrics translation",
+      "standard": "standard",
+      "higher": "higher",
+      "extremely": "extremely high(vip)",
+      "lossless": "lossless(vip)"
     },
     "daily": {
       "title": "Daily song recommendation",
@@ -214,7 +218,8 @@
     "comment": "Comment",
     "new_comment": "New Comment",
     "hot_comment": "Hot Comment",
-    "more_comment": "Display More Comment"
+    "more_comment": "Display More Comment",
+    "recent": "Recent"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

@@ -121,7 +121,11 @@
       "manage_account": "管理您的网易云账号(web)",
       "exit": "点击窗口关闭按钮的行为...",
       "comment": "查看歌单、专辑、歌曲的部份评论(精选和最新评论)",
-      "trans": "显示歌词翻译"
+      "trans": "显示歌词翻译",
+      "standard": "标准",
+      "higher": "较高",
+      "extremely": "极高(vip)",
+      "lossless": "无损(vip)"
     },
     "daily": {
       "title": "每日歌曲推荐",

@@ -3,6 +3,7 @@
     <v-icon size="small">
       {{ mdiCommentOutline }}
     </v-icon>
+    <v-tooltip activator="parent" location="top"> 显示评论 </v-tooltip>
   </v-btn>
   <MusicComment v-if="showComment" :id="id" v-model:show="show" />
 </template>

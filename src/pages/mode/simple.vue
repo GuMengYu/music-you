@@ -41,9 +41,9 @@
         >
           <span>{{ track['al']?.['name'] }}</span>
           <span>by - {{ track['ar']?.[0]?.['name'] }}</span>
-          <span class="text-h4 text-xl-h3 font-weight-regular" style="font-family: 'Google Sans', serif !important">{{
-            track?.name
-          }}</span>
+          <span class="text-h4 text-xl-h3 font-weight-regular" style="font-family: 'Google Sans', serif !important"
+            >{{ track?.name }} <download-track-btn :track="track" />
+          </span>
         </div>
       </div>
       <div class="d-flex justify-space-between align-center mb-4">
@@ -57,13 +57,15 @@
         </div>
 
         <div class="d-flex align-center">
+          <like-toggle :id="track.id" />
           <music-comment-toggle :id="track.id" />
           <v-btn icon variant="text" @click="wallpaperGallery = true">
             <v-icon size="small">
               {{ mdiImageMultipleOutline }}
             </v-icon>
+            <v-tooltip activator="parent" location="top"> 当前背景设置 </v-tooltip>
           </v-btn>
-          <like-toggle :id="track.id" />
+          <download-btn v-if="currentWallpaper" :url="currentWallpaper?.path" tooltip="保存背景" />
           <v-btn icon variant="text" @click="loadPrev">
             <v-icon>
               {{ mdiChevronLeft }}

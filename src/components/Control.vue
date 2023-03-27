@@ -70,17 +70,20 @@ function handleAnimation(animation: any) {
     </v-btn>
     <v-square-btn
       :loading="loadingTrack"
-      :rounded="playing ? 'lg' : 'pill'"
       variant="flat"
       color="primaryContainer"
-      size="large"
       class="mx-2"
       elevation="1"
+      :style="{
+        height: '50px',
+        width: '50px',
+        borderRadius: playing ? '14px' : '50px',
+      }"
       @click="toggle"
     >
       <lottie-icon
         v-show="!loadingTrack"
-        class="lottie-icon"
+        class="lottie-icon text-onPrimaryContainer"
         style="position: relative; top: 2px"
         :options="playOptions"
         :width="30"

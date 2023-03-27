@@ -191,22 +191,22 @@ const exitModeOptions = computed(() => {
 const qualityOptions = computed(() => {
   return [
     {
-      title: '标准',
+      title: t('main.setting.standard'),
       value: QUALITY_LEVEL.STANDARD,
       activeClass: 'text-primary',
     },
     {
-      title: '较高',
+      title: t('main.setting.higher'),
       value: QUALITY_LEVEL.HIGHER,
       activeClass: 'text-primary',
     },
     {
-      title: '极高(vip)',
+      title: t('main.setting.extremely'),
       value: QUALITY_LEVEL.EXHIGH,
       activeClass: 'text-primary',
     },
     {
-      title: '无损(vip)',
+      title: t('main.setting.lossless'),
       value: QUALITY_LEVEL.LOSSLESS,
       activeClass: 'text-primary',
     },

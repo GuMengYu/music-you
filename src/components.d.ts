@@ -19,6 +19,8 @@ declare module '@vue/runtime-core' {
     ControlCenterToggle: typeof import('./components/toggle/ControlCenterToggle.vue')['default']
     Cover: typeof import('./components/cover/Cover.vue')['default']
     DiscoverLoader: typeof import('./components/skeleton/DiscoverLoader.vue')['default']
+    DownloadBtn: typeof import('./components/button/DownloadBtn.vue')['default']
+    DownloadTrackBtn: typeof import('./components/button/DownloadTrackBtn.vue')['default']
     DrawerToggle: typeof import('./components/toggle/DrawerToggle.vue')['default']
     ExploreLoader: typeof import('./components/skeleton/ExploreLoader.vue')['default']
     Heading: typeof import('./components/Heading.vue')['default']

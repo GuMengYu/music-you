@@ -6,7 +6,7 @@
     bottom
     right
     class="align-self-end text-capitalize mt-2"
-    color="primary"
+    color="primaryContainer"
     :style="{
       position: 'fixed',
       right: '16px',
