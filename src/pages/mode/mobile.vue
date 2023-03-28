@@ -17,8 +17,8 @@
       <div class="frame-content-info">
         <transition name="slide-up" mode="out-in">
           <scroll-lyric v-if="enableLyric" :enable-lyric="enableLyric" />
-          <v-card v-else class="rounded-lg" min-height="200" width="100%">
-            <v-img class="cover-img rounded-lg" :src="albumPicUrl" />
+          <v-card v-else class="rounded-md" min-height="200" width="100%">
+            <v-img class="cover-img rounded-md" :src="albumPicUrl" />
           </v-card>
         </transition>
         <div class="control_process d-flex align-center my-4">

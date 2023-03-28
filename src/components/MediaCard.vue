@@ -1,10 +1,10 @@
 <template>
-  <v-card v-if="track" rounded="lg" height="130" :theme="theme">
+  <v-card v-if="track" rounded="md" height="130" :theme="theme">
     <v-img
       :src="coverImage"
       cover
       :aspect-ratio="16 / 9"
-      class="rounded-lg"
+      class="rounded-md"
       gradient="90deg, rgb(0 0 0 / 76%) 0%, rgb(0 0 0 / 0%) 50%, rgb(0 0 0 / 76%) 100%"
     >
       <div class="d-flex flex-column justify-space-between fill-height pt-2">
@@ -16,7 +16,7 @@
             <span>{{ track?.name }}</span>
             <span>{{ track?.ar?.[0]?.name }}</span>
           </div>
-          <v-square-btn color="primaryContainer" variant="flat" elevation="1" class="rounded-lg" @click="toggle">
+          <v-square-btn color="primaryContainer" variant="flat" elevation="1" class="rounded-md" @click="toggle">
             <v-icon size="small">{{ playing ? mdiPause : mdiPlay }}</v-icon>
           </v-square-btn>
         </div>

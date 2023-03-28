@@ -65,7 +65,7 @@ const props = defineProps({
   },
   rounded: {
     type: [String, Boolean],
-    default: 'lg',
+    default: 'md',
   },
   type: {
     type: String,

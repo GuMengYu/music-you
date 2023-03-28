@@ -2,7 +2,7 @@
   <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
       v-bind="hoverProps"
-      rounded="lg"
+      rounded="md"
       color="surfaceVariant"
       class="d-flex quick-card align-center"
       flat

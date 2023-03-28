@@ -1,14 +1,14 @@
 <template>
   <Col :title="t('common.recent')">
     <v-btn-toggle v-model="current" color="primary" variant="text">
-      <v-btn v-for="tab in tabs" :key="tab.key" rounded="lg" :value="tab.key" class="mx-1 px-6">
+      <v-btn v-for="tab in tabs" :key="tab.key" rounded="md" :value="tab.key" class="mx-1 px-6">
         {{ tab.name }}
       </v-btn>
     </v-btn-toggle>
     <v-window :model-value="current" class="mt-4">
       <v-window-item :value="TYPES.TRACK">
         <div class="d-flex w-100 justify-end">
-          <v-btn rounded="lg" variant="tonal" color="tertiary" @click="playAll">
+          <v-btn rounded="pill" variant="outlined" color="tertiary" @click="playAll">
             <span class="d-flex align-center gap-1">
               <v-icon>{{ mdiPlay }}</v-icon>
               {{ t('common.play_all') }}

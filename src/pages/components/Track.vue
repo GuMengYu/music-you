@@ -115,7 +115,7 @@ function openMenu(e: MouseEvent) {
 <template>
   <v-list-item
     ref="itemRef"
-    rounded="lg"
+    rounded="md"
     class="pa-0"
     active-color="primary"
     :value="track.id"
@@ -124,7 +124,7 @@ function openMenu(e: MouseEvent) {
     @contextmenu.prevent="openMenu"
   >
     <div
-      class="rounded-lg track-item"
+      class="rounded-md track-item"
       :title="available.enable ? '' : available.text"
       :class="{ unavailable: !available.enable }"
     >
@@ -133,7 +133,7 @@ function openMenu(e: MouseEvent) {
           :src="albumCover"
           max-height="56"
           max-width="56"
-          class="rounded-lg ml-1"
+          class="rounded-md ml-1"
           :lazy-src="placeholderUrl"
           :aspect-ratio="1"
         />

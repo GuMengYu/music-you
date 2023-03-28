@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn-toggle v-model="current" color="primary" variant="text">
-      <v-btn v-for="tab in tabs" :key="tab.key" rounded="lg" :value="tab.key" class="mx-1 px-6">
+      <v-btn v-for="tab in tabs" :key="tab.key" rounded="md" :value="tab.key" class="mx-1 px-6">
         {{ tab.name }}
       </v-btn>
     </v-btn-toggle>
@@ -9,7 +9,7 @@
       <v-window-item :value="TYPES.PLAYLIST">
         <Col :title="$t('common.created_playlist')" class="mb-4">
           <template #more>
-            <v-btn rounded="lg" variant="tonal" color="primary" @click="handleCreatePlaylist">
+            <v-btn rounded="pill" variant="outlined" color="primary" @click="handleCreatePlaylist">
               <span class="d-flex align-center">
                 <v-icon>{{ mdiPlus }}</v-icon>
                 {{ $t('main.playlist.new') }}

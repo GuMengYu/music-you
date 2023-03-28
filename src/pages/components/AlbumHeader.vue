@@ -186,7 +186,7 @@ function saveCover() {
       </div>
     </div>
     <v-dialog v-model="showMoreDesc" :scrollable="true">
-      <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="lg" class="pb-4 align-self-center">
+      <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="pb-4 align-self-center">
         <v-card-title>
           <div class="d-flex justify-space-between align-center">
             {{ t('main.album.desc') }}

@@ -86,15 +86,16 @@ function playMusic(trackId: number) {
     <v-row>
       <v-col v-if="state.bestMatch.length" cols="6" xl="4">
         <Col :title="$t('common.search_hot')">
-          <v-card class="pa-4" color="surfaceVariant" rounded="lg" height="auto">
-            <div class="d-flex gap-4">
-              <div v-for="o in state.bestMatch" :key="o.type" :style="{ width: '135px' }">
+          <v-card class="pa-4" color="surfaceVariant" rounded="md" height="auto">
+            <div class="d-flex gap-4 overflow-x-auto">
+              <div v-for="o in state.bestMatch" :key="o.type" class="flex-shrink-0" :style="{ width: '135px' }">
                 <Cover
                   :data="o.object"
                   :type="o.type"
                   max-height="135"
-                  :rounded="o.type === 'artist' ? 'pill' : 'lg'"
+                  :rounded="o.type === 'artist' ? 'pill' : 'md'"
                   :show-hover="o.type !== 'artist'"
+                  no-info
                 ></Cover>
                 <div class="text-subtitle-2 d-flex flex-column align-center mt-4 gap-1">
                   <span class="font-weight-bold line-clamp-1">

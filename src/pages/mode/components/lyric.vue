@@ -53,7 +53,7 @@ const displayAll = ref(false)
       <v-card
         color="surfaceVariant"
         width="45vw"
-        class="text-onSurfaceVariant rounded-lg pa-4 overflow-y-auto align-self-center"
+        class="text-onSurfaceVariant rounded-xl pa-4 overflow-y-auto align-self-center"
       >
         <ul class="lyrics-list text-xl-h6 text-lg-subtitle-1">
           <li v-for="(item, index) in lyrics" :key="index" :data-time="item.time" v-html="item.sentence"></li>

@@ -6,7 +6,7 @@
         <v-hover v-slot="{ isHovering, props }">
           <v-img
             v-bind="props"
-            class="rounded-lg"
+            class="rounded-md"
             :aspect-ratio="1"
             :min-width="56"
             :max-width="56"

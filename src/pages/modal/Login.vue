@@ -4,7 +4,7 @@
       outlined
       color="surface"
       class="login-container py-4 align-self-center"
-      rounded="lg"
+      rounded="xl"
       width="90vw"
       max-width="450"
     >

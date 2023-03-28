@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ isHovering, props: hoverProps }">
     <v-card
-      rounded="lg"
+      rounded="md"
       color="surfaceVariant text-decoration-none"
       class="d-flex quick-card align-center"
       flat

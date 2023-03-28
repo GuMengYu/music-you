@@ -2,10 +2,10 @@
   <v-row class="video-container">
     <v-col cols="9">
       <div>
-        <div class="video rounded-lg">
+        <div class="video rounded-md">
           <video ref="videoPlayer" class="plyr" />
         </div>
-        <v-card rounded="lg" color="surfaceVariant" class="pa-4 mt-4" flat>
+        <v-card rounded="md" color="surfaceVariant" class="pa-4 mt-4" flat>
           <span class="text-h5">
             {{ video?.name }}
           </span>

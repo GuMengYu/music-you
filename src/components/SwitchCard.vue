@@ -2,7 +2,7 @@
   <v-card
     :color="selected ? 'primary' : `grey-${dark ? 'darken' : 'lighten'}-3`"
     class="py-3 px-4 cursor-pointer d-flex align-center flex-grow-1"
-    rounded="lg"
+    rounded="md"
     flat
     @click="change"
   >

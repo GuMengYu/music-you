@@ -31,7 +31,7 @@
             min-height="22vh"
             max-width="22vh"
             min-width="22vh"
-            class="smooth rounded-lg"
+            class="smooth rounded-md"
             :src="albumPicUrl"
             :lazy-src="placeholderUrl"
             :aspect-ratio="1"

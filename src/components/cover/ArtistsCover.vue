@@ -4,7 +4,7 @@
       class="d-flex flex-column align-center artists-container pa-4"
       color="surfaceVariant"
       flat
-      rounded="lg"
+      rounded="md"
       :class="{ 'on-hover': isHovering }"
       :elevation="isHovering ? 1 : 0"
       v-bind="{ ...hoverProps, ...$attrs }"

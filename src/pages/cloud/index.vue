@@ -117,13 +117,13 @@ function handleCloseUploadModal() {
   <Col :title="$t('common.cloud_music')" class="mb-4">
     <template #more>
       <div class="d-flex gap-2">
-        <v-btn rounded="lg" variant="tonal" color="tertiary" @click="handlePlayCloud">
+        <v-btn rounded="pill" variant="outlined" color="tertiary" @click="handlePlayCloud">
           <span class="d-flex align-center gap-1">
             <v-icon>{{ mdiPlay }}</v-icon>
             {{ t('common.play_all') }}
           </span>
         </v-btn>
-        <v-btn rounded="lg" variant="tonal" color="primary" @click="handleUploadTrack">
+        <v-btn rounded="pill" variant="outlined" color="primary" @click="handleUploadTrack">
           <span class="d-flex align-center gap-1">
             <v-icon>{{ mdiCloudUpload }}</v-icon>
             {{ t('common.upload_music') }}
@@ -134,7 +134,7 @@ function handleCloseUploadModal() {
     </template>
     <cloud-list :tracks="clouds" @update-list="(list) => (clouds = [...list])" />
     <v-dialog v-model="uploadMusic.visible" persistent class="upload-file-wrapper">
-      <v-card outlined color="surface" class="pt-4 align-self-center" rounded="lg" width="90vw" max-width="350">
+      <v-card outlined color="surface" class="pt-4 align-self-center" rounded="xl" width="90vw" max-width="350">
         <div class="d-flex justify-center">
           <v-icon color="secondary">
             {{ mdiCloudUpload }}

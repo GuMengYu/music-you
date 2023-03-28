@@ -30,7 +30,7 @@
           min-height="22vh"
           max-width="22vh"
           min-width="22vh"
-          class="frame-cover-img rounded-lg"
+          class="frame-cover-img rounded-md"
           :src="albumPicUrl"
           :lazy-src="placeholderUrl"
           :aspect-ratio="1"

@@ -161,7 +161,7 @@ async function toggleLike() {
       v-bind="_props"
       ref="itemRef"
       v-ripple="false"
-      rounded="lg"
+      rounded="md"
       class="pa-0"
       active-color="primary"
       :value="track.id"
@@ -170,7 +170,7 @@ async function toggleLike() {
       @contextmenu.prevent="openMenu"
     >
       <div
-        class="px-1 rounded-lg"
+        class="px-1 rounded-md"
         :title="available.enable ? '' : available.text"
         :class="{ [className]: true, unavailable: !available.enable }"
       >
