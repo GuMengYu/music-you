@@ -23,8 +23,8 @@
         <v-col class="d-flex">
           <switch-card
             v-model="darkMode"
-            :title="$t('common.dark_theme')"
-            :subtitle="$tc('common.open', darkMode ? 1 : 2)"
+            :title="t('common.dark_theme')"
+            :subtitle="t('common.open', darkMode ? 1 : 2)"
             :icon="mdiCircleHalfFull"
           />
         </v-col>
@@ -37,7 +37,7 @@
           <switch-card
             v-model="miniplayer"
             title="迷你控制栏"
-            :subtitle="$tc('common.open', miniplayer ? 1 : 2)"
+            :subtitle="t('common.open', miniplayer ? 1 : 2)"
             :icon="mdiCircleHalfFull"
           />
         </v-col>
@@ -45,54 +45,40 @@
           <switch-card v-if="isDev" title="playground" :icon="mdiCog" @click="to('playground')" />
         </v-col>
       </v-row>
-      <MediaCard class="mt-4" />
+      <!--      <MediaCard class="mt-4" />-->
       <PlayingList class="mt-4" />
     </div>
   </v-navigation-drawer>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
 
-// Composables
 import { useAppStore } from '@/store/app'
 import { APPEARANCE, useSettingStore } from '@/store/setting'
 
 import PlayingList from '../components/PlayingList.vue'
-export default defineComponent({
-  components: { PlayingList },
-  setup() {
-    const app = useAppStore()
-    const setting = useSettingStore()
-    const theme = useTheme()
-    const router = useRouter()
-    const { miniplayer } = storeToRefs(setting)
-    const darkMode = computed<boolean>({
-      get() {
-        return theme.current.value.dark
-      },
-      set(value) {
-        setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
-      },
-    })
-    const isDev = import.meta.env.DEV ?? false
-    // for dev
-    function to(name: 'setting' | 'playground') {
-      router.push(`/${name}`)
-    }
-    return {
-      darkMode,
-      miniplayer,
-      app,
-      mdiCircleHalfFull,
-      mdiTestTube,
-      mdiClose,
-      mdiCog,
-      isDev,
-      to,
-    }
+
+const { t } = useI18n()
+const app = useAppStore()
+const setting = useSettingStore()
+const theme = useTheme()
+const router = useRouter()
+const { miniplayer } = storeToRefs(setting)
+const darkMode = computed<boolean>({
+  get() {
+    return theme.current.value.dark
+  },
+  set(value) {
+    setting.appearance = value ? APPEARANCE.DARK : APPEARANCE.LIGHT
   },
 })
+const isDev = import.meta.env.DEV ?? false
+// for dev
+function to(name: 'setting' | 'playground') {
+  router.push(`/${name}`)
+}
 </script>

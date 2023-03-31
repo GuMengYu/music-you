@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2" :order="-1" :height="74">
+  <v-app-bar v-if="track?.id" location="bottom" fixed class="player-footer px-2 rounded" :order="-1" :height="74">
     <TrackSlider class="track-slider" tooltip />
     <div class="playing-control">
       <div class="playing-bar__left">
