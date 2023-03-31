@@ -33,8 +33,8 @@ vue3 + ts 重构 2.0 版本
 ...and more
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804703-7655ee81-a42c-44d5-947a-b9b91d8e3d05.png">
-  <img alt="home" src="https://user-images.githubusercontent.com/22021419/176804705-c2c8cb3d-2435-4b16-a4ae-1e4f1bf388c2.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052215-5e20b766-1589-4726-8d15-8ca284fbbaed.png">
+  <img alt="home" src="https://user-images.githubusercontent.com/22021419/229052219-ab85b0fb-0e93-4fd8-abb8-0bf39fb5f763.png">
 </picture>
 
 ## 运行
@@ -69,40 +69,29 @@ npm run electron:build
 ## 部分截图
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804689-c8d6e317-a4c2-4673-8508-0f8979fc7327.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804698-85fd9bd0-6c7a-4f03-8b8e-f6bef737e526.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052169-e100d904-29ef-490c-bb63-0f2007006a65.png">
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/229052198-fff0063a-5623-4dd3-b995-a06614184a28.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804674-9b20b7e2-7de9-4349-b638-ecd727425b4a.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/176804699-c1499b10-63f3-4b9f-919d-33fe8b9f8287.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052194-09c49566-f50b-4ba2-ad74-7203c5e8a390.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052213-54f2d1cd-8a20-432c-bf88-5b3558bca03d.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804691-ff4a663e-8906-4192-af76-ba195cd5e4bb.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804694-fa497594-ba2a-45be-8581-dd266214f7e1.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052184-bc145385-f542-40d9-8e1e-86491e3274d0.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052206-86ed7a63-e5e3-426a-b5d7-1c4960a0edb3.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804706-5525c3d8-9ea9-46d3-b9d0-64cbc056a6fe.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804696-1d4674fb-aae5-464f-91cd-835b660b28bb.png">
-</picture>
-
-<hr></hr>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/176804692-3a3a0902-6e3c-4a37-a596-f59494d88020.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/176804702-ea40c49c-aa4a-46fe-8e28-eadfc0519eb6.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/210173832-b286c985-f3c8-4067-9e4e-07cb1704c160.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/210173826-43e0f6e1-ada3-416d-9efc-1c00950aea9d.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052187-90c38e4e-08ea-451a-b472-909be4fbc340.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052210-edf3d006-9769-4db7-8c2a-9a65894c73f5.png">
 </picture>
 
 https://user-images.githubusercontent.com/22021419/186813168-48a2d0ae-0388-4b70-9844-a540305a1096.mov
