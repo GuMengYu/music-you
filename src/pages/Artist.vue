@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { mdiAccountMusic, mdiArrowRight, mdiBookmarkPlusOutline, mdiBookmarkRemoveOutline, mdiClose } from '@mdi/js'
+import {
+  mdiAccountMusic,
+  mdiArrowRight,
+  mdiBookmarkPlusOutline,
+  mdiBookmarkRemoveOutline,
+  mdiClose,
+  mdiPlayOutline,
+} from '@mdi/js'
 import dayjs from 'dayjs'
 import { computed, reactive, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -103,83 +110,88 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6">
-      <div>
-        <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
-          <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
-            <span
-              class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-              :style="{ lineHeight: '64px' }"
-              :class="{
-                'pr-6': smAndUp,
-                'text-center': !smAndUp,
-              }"
-              >{{ state.artist.name }}</span
-            >
-            <div class="d-flex flex-column">
-              <span class="d-flex align-center text-body-1 font-weight-medium">
-                {{ state.artist.transNames.join('·') }}
-                {{ state.artist.alias?.length ? `(${state.artist.alias.join('/')})` : '' }}
+      <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
+        <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
+          <span
+            class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
+            :style="{ lineHeight: '64px' }"
+            :class="{
+              'pr-6': smAndUp,
+              'text-center': !smAndUp,
+            }"
+            >{{ state.artist.name }}</span
+          >
+          <div class="d-flex flex-column">
+            <span class="d-flex align-center text-body-1 font-weight-medium">
+              {{ state.artist.transNames.join('·') }}
+              {{ state.artist.alias?.length ? `(${state.artist.alias.join('/')})` : '' }}
+            </span>
+            <span class="text-caption text-disabled">
+              {{ [...(state.artist.identifyTag ?? []), ...(state.artist.identities ?? [])].join('·') }}
+            </span>
+          </div>
+          <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
+            <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
+              <span class="text-body-1 font-weight-medium">
+                <v-icon size="small">{{ mdiAccountMusic }} </v-icon>
               </span>
-              <span class="text-caption text-disabled">
-                {{ [...(state.artist.identifyTag ?? []), ...(state.artist.identities ?? [])].join('·') }}
-              </span>
+              <span class="text-disabled text-caption">歌手</span>
             </div>
-            <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
-              <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-                <span class="text-body-1 font-weight-medium">
-                  <v-icon size="small">{{ mdiAccountMusic }} </v-icon>
-                </span>
-                <span class="text-disabled text-caption">歌手</span>
-              </div>
-              <v-divider class="my-2" vertical />
-              <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-                <span class="text-body-1 font-weight-medium">{{ state.artist.musicSize }}</span>
-                <span class="text-disabled text-caption"> 歌曲 </span>
-              </div>
-              <v-divider class="my-2" vertical />
+            <v-divider class="my-2" vertical />
+            <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+              <span class="text-body-1 font-weight-medium">{{ state.artist.musicSize }}</span>
+              <span class="text-disabled text-caption"> 歌曲 </span>
+            </div>
+            <v-divider class="my-2" vertical />
 
-              <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-                <span class="text-body-1 font-weight-medium">{{ state.artist.albumSize }}</span>
-                <span class="text-disabled text-caption">专辑</span>
-              </div>
-              <v-divider class="my-2" vertical />
-              <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-                <span class="text-body-1 font-weight-medium">{{ state.artist.mvSize }}</span>
-                <span class="text-disabled text-caption">MV</span>
-              </div>
+            <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+              <span class="text-body-1 font-weight-medium">{{ state.artist.albumSize }}</span>
+              <span class="text-disabled text-caption">专辑</span>
             </div>
-            <div class="d-flex align-center">
-              <v-btn class="mr-4" color="primary" :loading="playLoading" @click="play">
-                {{ t('common.play_all') }}
-              </v-btn>
-              <v-btn icon variant="text" color="primary" @click="follow">
-                <v-icon>
-                  {{ followed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
-                </v-icon>
-              </v-btn>
+            <v-divider class="my-2" vertical />
+            <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+              <span class="text-body-1 font-weight-medium">{{ state.artist.mvSize }}</span>
+              <span class="text-disabled text-caption">MV</span>
             </div>
           </div>
-          <artists-cover
-            :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
-            :max-width="225"
-            :min-width="225"
-            :max-height="225"
-            :min-height="225"
-            :artist="state.artist"
-            :no-info="true"
-          />
-        </div>
-        <div v-if="state.artist.briefDesc" class="d-flex flex-column">
           <div class="d-flex align-center">
-            <span class="font-weight-medium mr-2">{{ t('main.artist.about') }}</span>
-            <v-btn icon variant="text" @click="more.showMoreDesc = true">
-              <v-icon>{{ mdiArrowRight }}</v-icon>
+            <v-btn
+              size="large"
+              class="mr-4 px-10 rounded-pill"
+              variant="tonal"
+              color="primary"
+              :loading="playLoading as boolean"
+              @click="play"
+            >
+              <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
+            </v-btn>
+            <v-btn icon variant="tonal" color="tertiary" @click="follow">
+              <v-icon>
+                {{ followed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
+              </v-icon>
             </v-btn>
           </div>
-          <p class="text-caption line-clamp-3">
-            {{ state.artist.briefDesc }}
-          </p>
         </div>
+        <artists-cover
+          :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
+          :max-width="225"
+          :min-width="225"
+          :max-height="225"
+          :min-height="225"
+          :artist="state.artist"
+          :no-info="true"
+        />
+      </div>
+      <div v-if="state.artist.briefDesc" class="d-flex flex-column">
+        <div class="d-flex align-center">
+          <span class="font-weight-medium mr-2 text-h6">{{ t('main.artist.about') }}</span>
+          <v-btn icon variant="text" @click="more.showMoreDesc = true">
+            <v-icon>{{ mdiArrowRight }}</v-icon>
+          </v-btn>
+        </div>
+        <p class="text-caption line-clamp-3">
+          {{ state.artist.briefDesc }}
+        </p>
       </div>
       <Col :title="$t('main.artist.hot')">
         <track-list

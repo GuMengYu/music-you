@@ -60,11 +60,11 @@ $transition-time: 350ms;
     .list-content {
       flex: initial;
       transition: flex $transition-time $cubic-bezier;
-      .v-list-item {
-        &:hover .v-icon {
-          animation: bounce 1s;
-        }
-      }
+      //.v-list-item {
+      //  &:hover .v-icon {
+      //    animation: bounce 1s;
+      //  }
+      //}
     }
     &.rail-nav {
       .list-content {

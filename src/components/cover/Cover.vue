@@ -34,7 +34,7 @@
           {{ data.name }}
         </router-link>
       </v-card-title>
-      <span v-if="!noInfo && subTitle" class="line-clamp-1 text-subtitle-2 text-onSurfaceVariant mb-4 px-4">
+      <span v-if="!noInfo && subTitle" class="line-clamp-1 text-subtitle-2 text-disabled mb-4 px-4">
         {{ subTitle }}
       </span>
       <slot />
@@ -146,8 +146,8 @@ async function toggle() {
 .cover-container {
   overflow: visible;
   .cover-image-with-info {
-    border-bottom-left-radius: initial !important;
-    border-bottom-right-radius: initial !important;
+    //border-bottom-left-radius: initial !important;
+    //border-bottom-right-radius: initial !important;
   }
   .cover-image {
     z-index: 1;

@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAlbum, mdiBookMusic, mdiCompass } from '@mdi/js'
+import { mdiAlbum, mdiCompass, mdiFaceManProfile } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
@@ -66,7 +66,7 @@ const nav = computed(() => {
   ]
   if (logged.value) {
     list.push({
-      icon: mdiBookMusic,
+      icon: mdiFaceManProfile,
       val: 'stars',
       title: 'main.nav.stars',
       to: '/library',

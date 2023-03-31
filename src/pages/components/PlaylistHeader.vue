@@ -10,6 +10,8 @@ import {
   mdiFilterVariant,
   mdiImage,
   mdiPlaylistMusicOutline,
+  mdiPlayOutline,
+  mdiRename,
 } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { useI18n } from 'vue-i18n'
@@ -145,9 +147,9 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex flex-column gap-8" :class="smAndUp ? 'mx-5' : ''">
+  <div class="d-flex flex-column gap-6" :class="smAndUp ? 'mx-5' : ''">
     <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
-      <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
+      <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
         <span
           class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
           :style="{ lineHeight: '64px' }"
@@ -191,12 +193,32 @@ function saveCover() {
           </div>
         </div>
         <div class="d-flex align-center">
-          <v-btn class="mr-4" color="primary" :loading="playLoading" @click="play"> {{ t('common.play_all') }} </v-btn>
+          <v-btn
+            size="large"
+            class="mr-4 px-10 rounded-pill"
+            variant="tonal"
+            color="primary"
+            :loading="playLoading as boolean"
+            @click="play"
+          >
+            <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
+          </v-btn>
           <template v-if="createdBySelf && !isMyFavPlayList">
-            <v-btn class="mr-4" color="primary" variant="outlined" @click="showEdit = true"> 修改 </v-btn>
+            <v-btn icon class="mr-4" color="secondary" variant="tonal" @click="showEdit = true">
+              <v-icon color="secondary">
+                {{ mdiRename }}
+              </v-icon>
+            </v-btn>
             <v-dialog v-model="showDeleteAlert" persistent>
               <template #activator="{ props: dialogProps }">
-                <v-btn icon color="primary" v-bind="dialogProps" variant="text" :disabled="isDelete">
+                <v-btn
+                  class="mr-4"
+                  icon
+                  color="error"
+                  v-bind="dialogProps"
+                  variant="tonal"
+                  :disabled="isDelete as boolean"
+                >
                   <v-icon>{{ mdiDelete }}</v-icon>
                 </v-btn>
               </template>
@@ -218,12 +240,12 @@ function saveCover() {
               </v-card>
             </v-dialog>
           </template>
-          <v-btn v-else-if="!isMyFavPlayList" icon variant="text" color="primary" @click="subscribe">
+          <v-btn v-else-if="!isMyFavPlayList" class="mr-4" icon variant="tonal" color="secondary" @click="subscribe">
             <v-icon>
               {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
             </v-icon>
           </v-btn>
-          <v-btn icon variant="text" color="primary" @click="goto">
+          <v-btn icon variant="tonal" color="tertiary" @click="goto">
             <v-icon>
               {{ mdiNetEase }}
             </v-icon>
@@ -252,7 +274,7 @@ function saveCover() {
     </div>
     <div v-if="playlist.description" class="d-flex flex-column">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2">{{ t('main.playlist.about') }}</span>
+        <span class="font-weight-medium mr-2 text-h6">{{ t('main.playlist.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
           <v-icon>{{ mdiArrowRight }}</v-icon>
         </v-btn>
@@ -263,7 +285,7 @@ function saveCover() {
     </div>
     <div class="d-flex flex-column">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2">{{ t('main.playlist.inner') }}</span>
+        <span class="font-weight-medium mr-2 text-h6">{{ t('main.playlist.inner') }}</span>
         <v-btn icon variant="text">
           <v-icon>{{ mdiFilterVariant }}</v-icon>
         </v-btn>

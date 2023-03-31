@@ -107,7 +107,7 @@ export interface Playlist {
   picUrl?: string
   createTime: number
   publishTime?: number
-  creator: Record<string, any>
+  creator: User
   description: string
   englishTitle?: string
   playCount: number

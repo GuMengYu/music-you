@@ -9,6 +9,7 @@ import {
   mdiCopyright,
   mdiFilterVariant,
   mdiImage,
+  mdiPlayOutline,
 } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
 import { computed } from 'vue'
@@ -85,9 +86,9 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex flex-column gap-8" :class="smAndUp ? 'mx-5' : ''">
+  <div class="d-flex flex-column gap-6" :class="smAndUp ? 'mx-5' : ''">
     <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
-      <div class="d-flex flex-column gap-4" :class="smAndUp ? 'order-1' : 'order-2'">
+      <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
         <span
           class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
           :style="{ lineHeight: '64px' }"
@@ -134,13 +135,22 @@ function saveCover() {
           </template>
         </div>
         <div class="d-flex align-center">
-          <v-btn class="mr-4" color="primary" :loading="playLoading" @click="play"> {{ t('common.play_all') }} </v-btn>
-          <v-btn icon variant="text" color="primary" @click="subscribe">
+          <v-btn
+            size="large"
+            class="mr-4 px-10 rounded-pill"
+            variant="tonal"
+            color="primary"
+            :loading="playLoading as boolean"
+            @click="play"
+          >
+            <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
+          </v-btn>
+          <v-btn class="mr-4" icon color="secondary" variant="tonal" @click="subscribe">
             <v-icon>
               {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
             </v-icon>
           </v-btn>
-          <v-btn icon variant="text" color="primary" @click="goto">
+          <v-btn icon variant="tonal" color="tertiary" @click="goto">
             <v-icon>
               {{ mdiNetEase }}
             </v-icon>
@@ -168,7 +178,7 @@ function saveCover() {
     </div>
     <div v-if="album.description" class="d-flex flex-column">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2">{{ t('main.album.about') }}</span>
+        <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
           <v-icon>{{ mdiArrowRight }}</v-icon>
         </v-btn>
@@ -179,7 +189,7 @@ function saveCover() {
     </div>
     <div class="d-flex flex-column">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2">{{ t('main.album.inner') }}</span>
+        <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.inner') }}</span>
         <v-btn icon variant="text">
           <v-icon>{{ mdiFilterVariant }}</v-icon>
         </v-btn>
