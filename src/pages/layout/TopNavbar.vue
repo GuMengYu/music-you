@@ -1,0 +1,75 @@
+<template>
+  <div
+    class="d-flex rounded-pill elevation-1"
+    style="height: 46px; background-color: rgba(var(--v-theme-primary), 0.1)"
+  >
+    <div class="d-flex align-center justify-center">
+      <v-btn height="46" variant="text" rounded="pill" class="px-9 text-caption" @click="to('/search')">
+        <v-icon class="mr-1">{{ mdiMagnify }}</v-icon> 搜索
+      </v-btn>
+      <v-btn
+        height="46"
+        rounded="pill"
+        :class="{
+          'text-primary': discoverActive,
+          'v-btn--active': discoverActive,
+        }"
+        class="px-9 text-caption text-decoration-none"
+        @click="to('/discover')"
+      >
+        <v-icon class="mr-1">{{ mdiAlbum }}</v-icon
+        >首页
+      </v-btn>
+      <v-btn
+        height="46"
+        :class="{
+          'text-primary': exploreActive,
+          'v-btn--active': exploreActive,
+        }"
+        rounded="pill"
+        class="px-9 text-caption"
+        @click="to('/explore')"
+      >
+        <v-icon class="mr-1">{{ mdiCompass }}</v-icon
+        >广场
+      </v-btn>
+      <v-btn
+        v-if="logged"
+        height="46"
+        :class="{
+          'text-primary': libraryActive,
+          'v-btn--active': libraryActive,
+        }"
+        rounded="pill"
+        class="px-9 text-caption"
+        @click="to('/library')"
+      >
+        <v-icon class="mr-1">{{ mdiFaceManProfile }}</v-icon
+        >资料库
+      </v-btn>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { mdiAlbum, mdiCompass, mdiFaceManProfile, mdiMagnify } from '@mdi/js'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
+import useInForeground from '@/hooks/useInForeground'
+import { useUserStore } from '@/store/user'
+const { logged } = storeToRefs(useUserStore())
+
+const router = useRouter()
+function handleSearch() {
+  // todo search
+}
+function to(url: string) {
+  router.push(url)
+}
+const { isActive: discoverActive } = useInForeground('discover')
+const { isActive: exploreActive } = useInForeground('explore')
+const { isActive: libraryActive } = useInForeground('library')
+</script>
+
+<style scoped></style>

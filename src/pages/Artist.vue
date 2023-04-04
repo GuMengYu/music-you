@@ -170,6 +170,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                 {{ followed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
               </v-icon>
             </v-btn>
+            <back-btn class="ml-4" variant="tonal" color="secondary" />
           </div>
         </div>
         <artists-cover

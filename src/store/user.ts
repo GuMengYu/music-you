@@ -2,7 +2,7 @@
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
-import { getAccount, logout } from '@/api/account'
+import { getAccount, getVipInfo, logout } from '@/api/account'
 import { sub } from '@/api/music'
 import { getLikeList, getUserPlaylist } from '@/api/user'
 import type { Account, Playlist } from '@/types'
@@ -66,6 +66,10 @@ export const useUserStore = defineStore({
     },
     async refreshAccount() {
       const account = await getAccount()
+      if (account.profile.vipType === 11) {
+        const vipInfo = await getVipInfo()
+        account.vipInfo = vipInfo.data
+      }
       this.account = account
       return account
     },

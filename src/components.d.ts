@@ -5,9 +5,11 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Account: typeof import('./components/Account.vue')['default']
+    Account: typeof import('./components/button/Account.vue')['default']
+    AccountExtendedFab: typeof import('./components/button/AccountExtendedFab.vue')['default']
     ArtistsCover: typeof import('./components/cover/ArtistsCover.vue')['default']
     ArtistsLink: typeof import('./components/artist/ArtistsLink.vue')['default']
+    BackBtn: typeof import('./components/button/BackBtn.vue')['default']
     BFBtn: typeof import('./components/button/BFBtn.vue')['default']
     CardRow: typeof import('./components/layout/CardRow.vue')['default']
     Col: typeof import('./components/layout/Col.vue')['default']

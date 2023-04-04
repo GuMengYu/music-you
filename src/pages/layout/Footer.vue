@@ -43,16 +43,17 @@
           <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
           <v-tooltip activator="parent" location="top" open-delay="100"> 添加到歌单 </v-tooltip>
         </v-btn>
-        <v-spacer />
-      </div>
-      <Control />
-      <div class="playing-bar__right">
         <v-btn v-if="showHeartBeat" icon :loading="heartbeatLoading" @click="generateHeartBeatList">
           <v-icon size="x-small">
             {{ mdiHeartPulse }}
           </v-icon>
           <v-tooltip activator="parent" location="top" open-delay="100"> 心动模式 </v-tooltip>
         </v-btn>
+        <v-spacer />
+      </div>
+      <Control />
+      <div class="playing-bar__right">
+        <control-center-toggle />
         <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
           <v-icon size="x-small">
             {{ mdiPictureInPictureTopRight }}

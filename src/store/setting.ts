@@ -47,6 +47,7 @@ export interface SettingState {
   exitMode: ExitMode
   comment: boolean
   lyricTrans: boolean
+  navLeft: boolean
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
@@ -70,6 +71,7 @@ export const useSettingStore = defineStore('setting', {
         exitMode: ExitMode.prompt,
         comment: false,
         lyricTrans: true,
+        navLeft: false,
       },
       { mergeDefaults: true }
     )

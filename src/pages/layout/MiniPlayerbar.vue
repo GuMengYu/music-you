@@ -1,32 +1,31 @@
 <template>
   <div
     v-if="track?.id"
-    class="d-flex flex-column px-2 pt-4 px-3"
+    class="rounded-t-md d-flex flex-column px-3 pt-3"
     :style="{
-      backgroundColor: 'rgba(var(--v-theme-surface), 1)',
-      borderTop: '1px solid rgba(var(--v-border-color), var(--v-border-opacity))',
+      backgroundColor: 'rgba(var(--v-theme-surfaceVariant), 0.5)',
     }"
   >
     <div class="d-flex align-center">
       <v-hover v-slot="{ isHovering, props }">
         <v-img
           v-bind="props"
-          class="rounded"
+          class="rounded-md"
           :aspect-ratio="1"
-          :min-width="56"
-          :max-width="56"
-          :max-height="56"
+          :min-width="62"
+          :max-width="62"
+          :max-height="62"
           :src="albumPicUrl"
           cover
         >
-          <v-btn v-show="isHovering" size="56" icon variant="plain" @click.stop="showPlayingPage">
+          <v-btn v-show="isHovering" size="62" icon variant="plain" @click.stop="showPlayingPage">
             <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
           </v-btn>
         </v-img>
       </v-hover>
 
       <div class="ml-2 d-flex align-start flex-column">
-        <span class="line-clamp-1 text-subtitle-1 font-weight-bold"> {{ track?.name }} </span>
+        <span class="line-clamp-1 text-subtitle-2 font-weight-bold"> {{ track?.name }} </span>
         <Router-Link
           v-if="track.al"
           :to="`/album/${track.al.id}`"
@@ -39,7 +38,7 @@
     </div>
     <track-slider />
     <Control :simple="true" />
-    <div class="d-flex justify-space-between align-center control-buttons my-1">
+    <div class="d-flex justify-space-between align-center control-buttons mt-1 mb-2">
       <VolumeSlider orientation="vertical" />
       <like-toggle :id="track.id" size="small" />
       <v-btn

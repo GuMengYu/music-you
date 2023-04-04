@@ -1,8 +1,8 @@
 <template>
-  <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
+  <v-app class="v-player drag-area" :class="{ 'is-desktop': isDesktop }">
     <AppCC />
-    <app-nav v-if="smAndUp" class="v-player-nav" />
-    <app-header class="v-player-header" />
+    <app-nav v-if="smAndUp && navLeft" class="v-player-nav" />
+    <app-header v-if="!inDeepPage" class="v-player-header" />
 
     <app-content class="v-player-content" />
     <app-playbar v-if="smAndUp && !miniplayer" />
@@ -17,6 +17,7 @@
 import { storeToRefs } from 'pinia'
 import { useDisplay, useTheme } from 'vuetify'
 
+import useInForeground from '@/hooks/useInForeground'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { useSettingStore } from '@/store/setting'
 import is from '@/util/is'
@@ -31,7 +32,7 @@ import AppContent from './layout/View.vue'
 import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'
 const { themeName } = useCurrentTheme()
-const { miniplayer } = storeToRefs(useSettingStore())
+const { miniplayer, navLeft } = storeToRefs(useSettingStore())
 const display = useDisplay()
 const { xs, smAndUp } = display
 const theme = useTheme()
@@ -41,6 +42,7 @@ watchEffect(() => {
 const isDesktop = computed(() => {
   return is.electron()
 })
+const { isActive: inDeepPage } = useInForeground(['playlist', 'album', 'artist', 'search'])
 </script>
 <style lang="scss">
 $cubic-bezier: cubic-bezier(0.55, -0.01, 0, 1.03);
@@ -83,5 +85,14 @@ $transition-time: 350ms;
 }
 .is-desktop {
   user-select: none;
+}
+.v-player {
+  border-radius: 28px;
+  border: 8px solid rgba(var(--v-theme-primary), 0.2);
+  transform: scale(1);
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  //width: 100vw;
 }
 </style>

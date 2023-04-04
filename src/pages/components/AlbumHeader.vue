@@ -86,7 +86,7 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex flex-column gap-6" :class="smAndUp ? 'mx-5' : ''">
+  <div class="d-flex flex-column gap-6">
     <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
       <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
         <span
@@ -155,6 +155,7 @@ function saveCover() {
               {{ mdiNetEase }}
             </v-icon>
           </v-btn>
+          <back-btn class="ml-4" variant="tonal" color="secondary" />
         </div>
       </div>
       <Cover

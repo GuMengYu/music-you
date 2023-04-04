@@ -1,6 +1,6 @@
 <template>
-  <v-main>
-    <v-container class="pt-4" fluid>
+  <v-main class="overflow-y-auto h-100">
+    <v-container class="pa-4 pb-7" fluid>
       <router-view v-slot="{ Component }">
         <transition v-if="$route.meta['keepAlive']" name="route-animation" mode="out-in">
           <keep-alive>
@@ -22,14 +22,14 @@ import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 
-watchEffect(() => {
-  const osTheme = theme.current.value.dark ? 'os-theme-light' : 'os-theme-dark'
-  const body = document.querySelectorAll('body')
-  OverlayScrollbars(body, {
-    className: osTheme,
-    scrollbars: {
-      autoHide: 'scroll',
-    },
-  })
-})
+// watchEffect(() => {
+//   const osTheme = theme.current.value.dark ? 'os-theme-light' : 'os-theme-dark'
+//   const body = document.querySelectorAll('body')
+//   OverlayScrollbars(body, {
+//     className: osTheme,
+//     scrollbars: {
+//       autoHide: 'scroll',
+//     },
+//   })
+// })
 </script>

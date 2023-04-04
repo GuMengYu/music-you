@@ -5,8 +5,8 @@
         color="primaryContainer"
         variant="flat"
         elevation="1"
-        size="x-large"
-        rounded="lg"
+        size="large"
+        rounded="md"
         :loading="loading"
         @click="play"
       >

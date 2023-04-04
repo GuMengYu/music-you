@@ -17,17 +17,21 @@ export const WindowDefaultSize = {
 }
 
 const defaultBrowserOptions: BrowserWindowConstructorOptions = {
-  titleBarStyle: 'hiddenInset',
-  trafficLightPosition: { x: 10, y: 10 },
+  titleBarStyle: 'customButtonsOnHover',
+  trafficLightPosition: { x: 16, y: 16 },
   // show: false,
   frame: !(is.windows() || is.linux()),
   width: 1210,
   height: 720,
-  vibrancy: 'ultra-dark',
+  // vibrancy: 'ultra-dark',
   // visualEffectState: 'active',
   webPreferences: {
     nodeIntegration: true,
   },
+  transparent: true,
+  backgroundColor: 'rgba(0,0,0,0)',
+  roundedCorners: true,
+  hasShadow: false,
 }
 export default class WindowManager extends EventEmitter {
   windows: Record<Pages, BrowserWindow> | Record<string, never>

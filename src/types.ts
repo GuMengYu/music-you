@@ -134,6 +134,25 @@ export interface Account {
     id: number
     userName: string
   }
+  vipInfo?: {
+    associator: {
+      dynamicIconUrl: string
+      expireTime: number
+      iconUrl: string
+      vipLevel: number
+      vipCode: number
+    }
+    redVipDynamicIconUrl: string
+    redVipDynamicIconUrl2: string
+    redVipLevel: number
+    redVipLevelIcon: string
+    redVipAnnualCount: number
+    redplus?: {
+      expireTime: number
+      vipLevel: number
+      iconUrl: string
+    }
+  }
   token?: string
 }
 

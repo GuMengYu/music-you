@@ -84,7 +84,7 @@ const coverImgUrl = computed(() => {
   }
 })
 const height = computed(() => {
-  return smAndUp.value ? 80 : 64
+  return smAndUp.value ? 70 : 64
 })
 const playing = computed(() => {
   return playerStore.playing && playerStore.isCurrentFm

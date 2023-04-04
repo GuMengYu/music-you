@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area" :style="navStyle">
-    <div class="px-3 pt-1" :class="{ 'mt-6': isMac }">
+  <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area">
+    <div class="px-3 pt-1" :class="{ 'mt-2': isMac }">
       <drawer-toggle />
     </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
@@ -26,6 +26,11 @@
       <transition name="slide-fade-y">
         <mini-playerbar v-if="miniplayer && !rail" class="mt-auto" />
       </transition>
+      <transition name="slide-fade-y">
+        <div v-if="rail" class="mb-2 gap-2 px-2 d-flex justify-center flex-column align-center">
+          <theme-toggle />
+        </div>
+      </transition>
     </div>
   </v-navigation-drawer>
 </template>
@@ -36,11 +41,17 @@ import { storeToRefs } from 'pinia'
 
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
+import type { Account } from '@/types'
 import is from '@/util/is'
 
 import MiniPlayerbar from './MiniPlayerbar.vue'
+
 const { rail, miniplayer } = storeToRefs(useSettingStore())
-const { logged } = storeToRefs(useUserStore())
+const { logged, account } = storeToRefs(useUserStore())
+
+const profile = computed((): Account['profile'] | undefined => {
+  return account.value?.profile
+})
 
 const isMac = is.macOS()
 const nav = computed(() => {

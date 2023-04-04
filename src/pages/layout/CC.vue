@@ -4,9 +4,9 @@
     location="right"
     hide-overlay
     temporary
-    width="300"
+    width="310"
     floating
-    class="bg-surface rounded-ts-lg"
+    class="bg-surface rounded-s-lg"
   >
     <v-toolbar density="compact" color="surface rounded-ts-lg">
       <v-toolbar-title class="text-caption font-weight-bold text-onSurfaceVariant">{{
@@ -19,13 +19,14 @@
     </v-toolbar>
     <v-divider />
     <div class="pa-3">
+      <account-extended-fab class="mb-4" />
       <v-row dense>
         <v-col class="d-flex">
           <switch-card
             v-model="darkMode"
             :title="t('common.dark_theme')"
             :subtitle="t('common.open', darkMode ? 1 : 2)"
-            :icon="mdiCircleHalfFull"
+            :icon="darkMode ? mdiBrightness4 : mdiBrightness6"
           />
         </v-col>
         <v-col class="d-flex">
@@ -36,23 +37,42 @@
         <v-col class="d-flex">
           <switch-card
             v-model="miniplayer"
-            title="迷你控制栏"
-            :subtitle="t('common.open', miniplayer ? 1 : 2)"
-            :icon="mdiCircleHalfFull"
+            title="隐藏底部播放"
+            :subtitle="t('common.hide', miniplayer ? 1 : 2)"
+            :icon="mdiDockBottom"
           />
         </v-col>
         <v-col class="d-flex">
-          <switch-card v-if="isDev" title="playground" :icon="mdiCog" @click="to('playground')" />
+          <switch-card
+            v-model="navLeft"
+            title="侧边导航栏"
+            :subtitle="t('common.open', navLeft ? 1 : 2)"
+            :icon="mdiPageLayoutSidebarLeft"
+          />
         </v-col>
       </v-row>
+      <!--      <v-row v-if="isDev" dense>-->
+      <!--        <v-col class="d-flex">-->
+      <!--          <switch-card title="playground" :icon="mdiCog" @click="to('playground')" />-->
+      <!--        </v-col>-->
+      <!--      </v-row>-->
       <!--      <MediaCard class="mt-4" />-->
-      <PlayingList class="mt-4" />
+      <!--      <PlayingList class="mt-4" />-->
+      <media-card v-if="miniplayer" class="mt-4" />
     </div>
   </v-navigation-drawer>
 </template>
 
 <script lang="ts" setup>
-import { mdiCircleHalfFull, mdiClose, mdiCog, mdiTestTube } from '@mdi/js'
+import {
+  mdiBrightness4,
+  mdiBrightness6,
+  mdiClose,
+  mdiCog,
+  mdiDockBottom,
+  mdiPageLayoutSidebarLeft,
+  mdiTestTube,
+} from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
@@ -67,7 +87,7 @@ const app = useAppStore()
 const setting = useSettingStore()
 const theme = useTheme()
 const router = useRouter()
-const { miniplayer } = storeToRefs(setting)
+const { miniplayer, navLeft } = storeToRefs(setting)
 const darkMode = computed<boolean>({
   get() {
     return theme.current.value.dark

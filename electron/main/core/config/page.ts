@@ -40,7 +40,6 @@ export default {
     height: storeSize.height,
     minWidth: 393,
     minHeight: 600,
-    // transparent: !is.windows(),
     bindCloseToHide: true,
     url: IndexUrl,
   },

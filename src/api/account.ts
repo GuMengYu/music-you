@@ -57,3 +57,10 @@ export const checkQRCodeStatus = (key: string) => {
 export function getAccount() {
   return request<Account>(`/user/account?timestamp=${now()}`)
 }
+
+export function getVipInfo() {
+  return request<{
+    data: Account['vipInfo']
+    code: number
+  }>('/vip/info')
+}

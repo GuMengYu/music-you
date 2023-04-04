@@ -1,6 +1,6 @@
 <template>
   <v-dialog :model-value="show" max-width="80vw" persistent scrollable class="wall-haven-modal">
-    <v-card :loading="loading">
+    <v-card :loading="loading" rounded="xl" class="px-3 py-2">
       <v-layout>
         <v-navigation-drawer
           v-model="showNav"

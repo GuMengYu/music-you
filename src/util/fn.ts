@@ -215,6 +215,6 @@ export const arrayToObject = (arr: Record<string, any>[], keyName: string) => {
   return o
 }
 
-export const toHttps = (url: string) => {
+export const toHttps = (url = '') => {
   return url.replace('http://', 'https://')
 }

@@ -39,3 +39,10 @@ a {
     text-decoration: underline;
   }
 }
+.v-overlay-container {
+  border-radius: 28px !important;
+}
+
+.v-dialog--fullscreen .v-overlay__content {
+  border-radius: 28px !important;
+}

@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon @click="toggleTheme">
+  <v-btn variant="flat" icon @click="toggleTheme">
     <LottieIcon
       ref="lottieIcon"
       class="lottie-icon onSurface--text"

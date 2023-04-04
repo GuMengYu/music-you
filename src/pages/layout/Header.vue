@@ -1,34 +1,34 @@
 <template>
-  <v-app-bar class="app_header drag-area" flat height="52">
-    <div v-show="smAndUp && !searchInputVisible" class="d-flex align-center">
-      <b-f-btn />
-      <reload-btn />
-    </div>
-    <div class="topbar-content-wrapper d-flex ml-2" :class="smAndUp ? 'justify-start' : 'justify-center'">
-      <!-- <v-divider vertical class="ma-3 mr-5" /> -->
-      <transition name="slide-fade-x">
-        <search-input v-if="searchInputVisible" class="no-drag-area" />
+  <v-app-bar class="app_header drag-area" flat>
+    <div class="d-flex flex-grow-1 mr-4 ml-2 align-center" :class="{ 'ml-1': navLeft }">
+      <div class="logo" style="flex: 1">
+        <b-f-btn v-if="navLeft" />
+      </div>
+      <transition name="slide-fade-y">
+        <top-navbar v-if="!navLeft" />
       </transition>
-    </div>
-    <div v-if="smAndUp" class="d-flex no-drag-area mx-1 align-center">
-      <search-toggle v-show="!searchInputVisible" />
-      <theme-toggle />
-      <control-center-toggle />
-      <account />
-      <window-control v-if="isShowWindowControl" />
+      <div v-if="smAndUp" class="d-flex no-drag-area align-center justify-end" style="flex: 1">
+        <account />
+      </div>
     </div>
   </v-app-bar>
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 
 import SearchInput from '@/components/toggle/SearchInput.vue'
 import useInForeground from '@/hooks/useInForeground'
+import TopNavbar from '@/pages/layout/TopNavbar.vue'
 import { useAppStore } from '@/store/app'
+import { useSettingStore } from '@/store/setting'
 import is from '@/util/is'
+const router = useRouter()
 const { smAndUp } = useDisplay()
 const { showSearch } = storeToRefs(useAppStore())
+const { rail, navLeft } = storeToRefs(useSettingStore())
+
 const isShowWindowControl = computed(() => {
   return (is.windows() || is.linux()) && smAndUp.value
 })

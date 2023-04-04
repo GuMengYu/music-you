@@ -125,7 +125,10 @@
       "standard": "standard",
       "higher": "higher",
       "extremely": "extremely high(vip)",
-      "lossless": "lossless(vip)"
+      "lossless": "lossless(vip)",
+      "navLeft": "Left | Top",
+      "normal_user": "Normal User",
+      "vip_level": "Lv.1 | Lv.2 | Lv.3 | Lv.4 | Lv.5 | Lv.6 | Lv.7"
     },
     "daily": {
       "title": "Daily song recommendation",
@@ -189,6 +192,7 @@
     "collect": "collect | collected",
     "isDelete": "delete | deleted",
     "open": "opened | closed",
+    "hide": "hidden | displayed",
     "no_lyric": "No Lyric",
     "shortcut": "Shortcut",
     "queue": "Queue",
@@ -218,7 +222,7 @@
     "comment": "Comment",
     "new_comment": "New Comment",
     "hot_comment": "Hot Comment",
-    "more_comment": "Display More Comment",
+    "more_comment": "More",
     "recent": "Recent"
   },
   "theme": {
