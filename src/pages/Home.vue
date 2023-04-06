@@ -1,5 +1,5 @@
 <template>
-  <v-app class="v-player drag-area" :class="{ 'is-desktop': isDesktop }">
+  <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
     <AppCC />
     <app-nav v-if="smAndUp && navLeft" class="v-player-nav" />
     <app-header v-if="!inDeepPage" class="v-player-header" />

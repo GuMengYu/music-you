@@ -1,17 +1,17 @@
 <template>
   <div class="window-actions no-drag-area">
-    <v-divider class="ml-3 my-3" vertical></v-divider>
-    <v-btn icon size="small" class="action-item" @click="handleMinimize">
+    <v-divider class="ml-2 my-2" vertical></v-divider>
+    <v-btn icon size="x-small" class="action-item" @click="handleMinimize">
       <v-icon>
         {{ mdiWindowMinimize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" icon class="action-item" @click="handleToggleMaximize">
+    <v-btn size="x-small" icon class="action-item" @click="handleToggleMaximize">
       <v-icon>
         {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
       </v-icon>
     </v-btn>
-    <v-btn size="small" icon class="action-item action-close" @click="handleClose">
+    <v-btn size="x-small" icon class="action-item action-close" @click="handleClose">
       <v-icon>
         {{ mdiWindowClose }}
       </v-icon>
@@ -122,8 +122,8 @@ async function confirmExit() {
   .action-close {
     transition: all 0.25s;
     &:hover {
-      color: rgb(var(--v-theme-onError));
-      background: rgb(var(--v-theme-error));
+      color: rgb(var(--v-theme-onTertiary));
+      background: rgb(var(--v-theme-tertiary));
     }
   }
 }

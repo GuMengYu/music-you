@@ -1,14 +1,15 @@
 <template>
   <v-app-bar class="app_header drag-area" flat>
-    <div class="d-flex flex-grow-1 mr-4 ml-2 align-center" :class="{ 'ml-1': navLeft }">
+    <div class="d-flex flex-grow-1 mr-2 ml-2 align-center" :class="{ 'ml-1': navLeft }">
       <div class="logo" style="flex: 1">
         <b-f-btn v-if="navLeft" />
       </div>
       <transition name="slide-fade-y">
         <top-navbar v-if="!navLeft" />
       </transition>
-      <div v-if="smAndUp" class="d-flex no-drag-area align-center justify-end" style="flex: 1">
-        <account />
+      <div v-if="smAndUp" class="d-flex align-center justify-end" style="flex: 1">
+        <account class="no-drag-area" />
+        <window-control v-if="isShowWindowControl" />
       </div>
     </div>
   </v-app-bar>

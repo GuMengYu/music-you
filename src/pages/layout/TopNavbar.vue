@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex rounded-pill elevation-1"
+    class="d-flex rounded-pill elevation-1 no-drag-area"
     style="height: 46px; background-color: rgba(var(--v-theme-primary), 0.1)"
   >
     <div class="d-flex align-center justify-center">

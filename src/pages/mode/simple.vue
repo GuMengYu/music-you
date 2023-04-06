@@ -12,7 +12,7 @@
       @error="onError"
     >
     </v-img>
-    <div class="frame-header" :class="is.macOS() ? 'justify-end' : 'justify-start'">
+    <div class="frame-header mt-2 mx-2 no-drag-area justify-end">
       <v-btn icon variant="plain" @click="close">
         <v-icon>
           {{ mdiClose }}
