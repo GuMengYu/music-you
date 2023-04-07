@@ -190,6 +190,8 @@
     "play_count": "{0} plays",
     "follow": "follow | followed",
     "collect": "collect | collected",
+    "collection": "collect | cancel collect",
+    "following": "follow | unsubscribe",
     "isDelete": "delete | deleted",
     "open": "opened | closed",
     "hide": "hidden | displayed",

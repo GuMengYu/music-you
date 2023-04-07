@@ -24,7 +24,7 @@ function formatDate(datetime: string | number, format = 'LL') {
             <v-img :aspect-ratio="1" contain :lazy-src="placeHolderUrl" :src="avatarUrl" />
           </v-avatar>
 
-          <span class="text-body-2">{{ comment.user.nickname }}</span>
+          <span class="text-body-2 select-text">{{ comment.user.nickname }}</span>
         </div>
         <div>
           <v-btn icon variant="text"
@@ -37,7 +37,7 @@ function formatDate(datetime: string | number, format = 'LL') {
       </div>
     </header>
 
-    <div class="mt-2 text-body-2">
+    <div class="mt-2 text-body-2 select-text">
       {{ comment.content }}
     </div>
     <slot />

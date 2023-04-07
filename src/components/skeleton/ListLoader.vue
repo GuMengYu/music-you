@@ -17,14 +17,13 @@ const props = defineProps<{
 <template>
   <div>
     <content-loader
-      :viewBox="`0 0 ${width ?? 700} ${225}`"
+      :viewBox="`0 0 ${width ?? 700} ${325}`"
       :primary-color="surfaceColor"
       :secondary-color="onSurfaceColor"
       :animate="true"
       class="mb-4"
     >
-      <rect x="0" y="0" rx="12" ry="12" :width="width - 225 - 16" height="225" />
-      <rect :x="width - 225" y="0" rx="12" ry="12" width="225" height="225" />
+      <rect x="0" y="0" rx="12" ry="12" :width="width" height="315" />
     </content-loader>
     <list-skeleton />
   </div>

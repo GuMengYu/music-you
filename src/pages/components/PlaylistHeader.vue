@@ -148,142 +148,161 @@ function saveCover() {
 </script>
 <template>
   <div class="d-flex flex-column gap-6">
-    <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
-      <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
-        <span
-          class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-          :style="{ lineHeight: '64px' }"
-          :class="{
-            'pr-6': smAndUp,
-            'text-center': !smAndUp,
-          }"
-          >{{ playlist.name }}</span
-        >
-        <div class="d-flex flex-column">
-          <span class="text-body-1 font-weight-medium text-primary">
-            {{ playlist.creator?.nickname }}
-          </span>
-          <span class="text-caption text-disabled">
-            {{ formatDate(playlist.createTime, 'LL') }}
-          </span>
-        </div>
-        <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
-          <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">{{ playlist.trackCount }}</span>
-            <span class="text-disabled text-caption"> 首 </span>
-          </div>
-          <v-divider class="my-2" vertical />
-          <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">
-              <v-icon size="small">{{ mdiPlaylistMusicOutline }} </v-icon>
-            </span>
-            <span class="text-disabled text-caption">歌单</span>
-          </div>
-          <v-divider class="my-2" vertical />
-
-          <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">{{ formatDuring(tracksDt) }}</span>
-            <span class="text-disabled text-caption">时长</span>
-          </div>
-          <v-divider class="my-2" vertical />
-
-          <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">{{ formatNumber(playlist.playCount) }}</span>
-            <span class="text-disabled text-caption">次</span>
-          </div>
-        </div>
-        <div class="d-flex align-center">
-          <v-btn
-            size="large"
-            class="mr-4 px-10 rounded-pill"
-            variant="tonal"
-            color="primary"
-            :loading="playLoading as boolean"
-            @click="play"
+    <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <v-img :src="playlist.coverImgUrl" cover :aspect-ratio="28 / 9" class="rounded-md">
+        <div class="d-flex flex-column h-100" :class="smAndUp ? 'order-1' : 'order-2'">
+          <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
+          <div
+            :style="{
+              background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
+            }"
           >
-            <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
-          </v-btn>
-          <template v-if="createdBySelf && !isMyFavPlayList">
-            <v-btn icon class="mr-4" color="secondary" variant="tonal" @click="showEdit = true">
-              <v-icon color="secondary">
-                {{ mdiRename }}
-              </v-icon>
-            </v-btn>
-            <v-dialog v-model="showDeleteAlert" persistent>
-              <template #activator="{ props: dialogProps }">
+            <div class="d-flex flex-column gap-2 mx-6 mb-2">
+              <span
+                class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
+                :class="{
+                  'pr-6': smAndUp,
+                  'text-center': !smAndUp,
+                }"
+                >{{ playlist.name }}</span
+              >
+              <div class="d-flex flex-column">
+                <span class="text-body-1 font-weight-medium text-primary">
+                  {{ playlist.creator?.nickname }}
+                </span>
+                <span class="text-caption text-disabled">
+                  {{ formatDate(playlist.createTime, 'LL') }}
+                </span>
+              </div>
+              <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
+                <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ playlist.trackCount }}</span>
+                  <span class="text-disabled text-caption"> 首 </span>
+                </div>
+                <v-divider class="my-2" vertical />
+                <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">
+                    <v-icon size="small">{{ mdiPlaylistMusicOutline }} </v-icon>
+                  </span>
+                  <span class="text-disabled text-caption">歌单</span>
+                </div>
+                <v-divider class="my-2" vertical />
+
+                <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ formatDuring(tracksDt) }}</span>
+                  <span class="text-disabled text-caption">时长</span>
+                </div>
+                <v-divider class="my-2" vertical />
+
+                <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ formatNumber(playlist.playCount) }}</span>
+                  <span class="text-disabled text-caption">次</span>
+                </div>
+              </div>
+              <div class="d-flex align-center">
                 <v-btn
+                  size="large"
+                  class="mr-4 px-10 rounded-pill"
+                  variant="tonal"
+                  color="primary"
+                  :loading="playLoading as boolean"
+                  @click="play"
+                >
+                  <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
+                </v-btn>
+                <template v-if="createdBySelf && !isMyFavPlayList">
+                  <v-btn icon class="mr-4" color="secondary" variant="tonal" @click="showEdit = true">
+                    <v-icon color="secondary">
+                      {{ mdiRename }}
+                    </v-icon>
+                  </v-btn>
+                  <v-dialog v-model="showDeleteAlert" persistent>
+                    <template #activator="{ props: dialogProps }">
+                      <v-btn
+                        class="mr-4"
+                        icon
+                        color="error"
+                        v-bind="dialogProps"
+                        variant="tonal"
+                        :disabled="isDelete as boolean"
+                      >
+                        <v-icon>{{ mdiDelete }}</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
+                      <div class="d-flex justify-center">
+                        <v-icon color="secondary">
+                          {{ mdiDeleteAlert }}
+                        </v-icon>
+                      </div>
+                      <v-card-title class="text-center">{{ t('message.delete_list', 1) }}</v-card-title>
+                      <v-card-subtitle class="text-center">{{ t('message.delete_list_alert') }}</v-card-subtitle>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" variant="plain" @click="showDeleteAlert = false">
+                          {{ t('common.disagree') }}
+                        </v-btn>
+                        <v-btn color="primary" variant="plain" @click="del"> {{ t('common.agree') }} </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </template>
+                <v-btn
+                  v-else-if="!isMyFavPlayList"
                   class="mr-4"
                   icon
-                  color="error"
-                  v-bind="dialogProps"
                   variant="tonal"
-                  :disabled="isDelete as boolean"
+                  color="secondary"
+                  @click="subscribe"
                 >
-                  <v-icon>{{ mdiDelete }}</v-icon>
-                </v-btn>
-              </template>
-              <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
-                <div class="d-flex justify-center">
-                  <v-icon color="secondary">
-                    {{ mdiDeleteAlert }}
+                  <v-icon>
+                    {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
                   </v-icon>
-                </div>
-                <v-card-title class="text-center">{{ t('message.delete_list', 1) }}</v-card-title>
-                <v-card-subtitle class="text-center">{{ t('message.delete_list_alert') }}</v-card-subtitle>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" variant="plain" @click="showDeleteAlert = false">
-                    {{ t('common.disagree') }}
-                  </v-btn>
-                  <v-btn color="primary" variant="plain" @click="del"> {{ t('common.agree') }} </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </template>
-          <v-btn v-else-if="!isMyFavPlayList" class="mr-4" icon variant="tonal" color="secondary" @click="subscribe">
-            <v-icon>
-              {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
-            </v-icon>
-          </v-btn>
-          <v-btn icon variant="tonal" color="tertiary" @click="goto">
-            <v-icon>
-              {{ mdiNetEase }}
-            </v-icon>
-          </v-btn>
-          <back-btn class="ml-4" variant="tonal" color="tertiary" />
+                  <v-tooltip activator="parent" location="top">
+                    {{ t('common.collection', subscribed ? 2 : 1) }}
+                  </v-tooltip>
+                </v-btn>
+                <v-btn icon variant="tonal" color="tertiary" @click="goto">
+                  <v-icon>
+                    {{ mdiNetEase }}
+                  </v-icon>
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <Cover
-        :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
-        :data="playlist"
-        no-info
-        shadow
-        type="playlist"
-        :max-width="225"
-        :min-width="225"
-        :max-height="225"
-        :min-height="225"
-      >
-        <template #action>
-          <v-btn icon variant="flat" color="primary" @click="saveCover">
-            <v-icon color="onPrimary">{{ mdiImage }} </v-icon>
-            <v-tooltip activator="parent" location="top"> 保存封面 </v-tooltip>
-          </v-btn>
-        </template>
-      </Cover>
+      </v-img>
+      <!--      <Cover-->
+      <!--        :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"-->
+      <!--        :data="playlist"-->
+      <!--        no-info-->
+      <!--        shadow-->
+      <!--        type="playlist"-->
+      <!--        :max-width="225"-->
+      <!--        :min-width="225"-->
+      <!--        :max-height="225"-->
+      <!--        :min-height="225"-->
+      <!--      >-->
+      <!--        <template #action>-->
+      <!--          <v-btn icon variant="flat" color="primary" @click="saveCover">-->
+      <!--            <v-icon color="onPrimary">{{ mdiImage }} </v-icon>-->
+      <!--            <v-tooltip activator="parent" location="top"> 保存封面 </v-tooltip>-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--      </Cover>-->
     </div>
-    <div v-if="playlist.description" class="d-flex flex-column">
+    <div v-if="playlist.description" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.playlist.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
           <v-icon>{{ mdiArrowRight }}</v-icon>
         </v-btn>
       </div>
-      <p class="text-caption line-clamp-5">
+      <p class="text-caption line-clamp-5 select-text">
         {{ playlist.description }}
       </p>
     </div>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.playlist.inner') }}</span>
         <v-btn icon variant="text">

@@ -2,6 +2,7 @@
   <v-row class="video-container">
     <v-col cols="9">
       <div>
+        <back-btn size="small" class="mb-1" variant="tonal" color="primary" />
         <div class="video rounded-md">
           <video ref="videoPlayer" class="plyr" />
         </div>

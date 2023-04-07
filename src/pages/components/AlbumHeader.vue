@@ -87,108 +87,106 @@ function saveCover() {
 </script>
 <template>
   <div class="d-flex flex-column gap-6">
-    <div class="d-flex justify-space-between" :class="smAndUp ? '' : 'flex-column'">
-      <div class="d-flex flex-column gap-2" :class="smAndUp ? 'order-1' : 'order-2'">
-        <span
-          class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2"
-          :style="{ lineHeight: '64px' }"
-          :class="{
-            'pr-6': smAndUp,
-            'text-center': !smAndUp,
-          }"
-          >{{ album.name }}</span
-        >
-        <div class="d-flex flex-column">
-          <div class="d-flex align-center text-body-1 font-weight-medium">
-            <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
-          </div>
-          <span class="text-caption text-disabled">
-            {{ formatDate(album.publishTime, 'LL') }}
-          </span>
-        </div>
-        <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
-          <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">{{ album.size }}</span>
-            <span class="text-disabled text-caption"> 首 </span>
-          </div>
-          <v-divider class="my-2" vertical />
-          <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">
-              <v-icon size="small">{{ mdiAlbum }} </v-icon>
-            </span>
-            <span class="text-disabled text-caption">专辑</span>
-          </div>
-          <v-divider class="my-2" vertical />
-
-          <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-            <span class="text-body-1 font-weight-medium">{{ formatDuring(albumDt) }}</span>
-            <span class="text-disabled text-caption">时长</span>
-          </div>
-          <template v-if="album.company">
-            <v-divider class="my-2" vertical />
-            <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-              <span class="text-body-1 font-weight-medium">
-                <v-icon size="small">{{ mdiCopyright }} </v-icon>
-              </span>
-              <span class="text-disabled text-caption">{{ album.company }}</span>
-            </div>
-          </template>
-        </div>
-        <div class="d-flex align-center">
-          <v-btn
-            size="large"
-            class="mr-4 px-10 rounded-pill"
-            variant="tonal"
-            color="primary"
-            :loading="playLoading as boolean"
-            @click="play"
+    <v-card flat class="d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <v-img :src="album.picUrl" cover :aspect-ratio="28 / 9" class="rounded-md">
+        <div class="d-flex flex-column gap-2 h-100" :class="smAndUp ? 'order-1' : 'order-2'">
+          <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
+          <div
+            :style="{
+              background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
+            }"
           >
-            <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
-          </v-btn>
-          <v-btn class="mr-4" icon color="secondary" variant="tonal" @click="subscribe">
-            <v-icon>
-              {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
-            </v-icon>
-          </v-btn>
-          <v-btn icon variant="tonal" color="tertiary" @click="goto">
-            <v-icon>
-              {{ mdiNetEase }}
-            </v-icon>
-          </v-btn>
-          <back-btn class="ml-4" variant="tonal" color="secondary" />
+            <div class="d-flex flex-column gap-2 mx-6 mb-2">
+              <span
+                class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
+                :class="{
+                  'pr-6': smAndUp,
+                  'text-center': !smAndUp,
+                }"
+                >{{ album.name }}</span
+              >
+              <div class="d-flex flex-column">
+                <div class="d-flex align-center text-body-1 font-weight-medium">
+                  <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
+                </div>
+                <span class="text-caption text-disabled">
+                  {{ formatDate(album.publishTime, 'LL') }}
+                </span>
+              </div>
+              <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
+                <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ album.size }}</span>
+                  <span class="text-disabled text-caption"> 首 </span>
+                </div>
+                <v-divider class="my-2" vertical />
+                <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">
+                    <v-icon size="small">{{ mdiAlbum }} </v-icon>
+                  </span>
+                  <span class="text-disabled text-caption">专辑</span>
+                </div>
+                <v-divider class="my-2" vertical />
+
+                <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ formatDuring(albumDt) }}</span>
+                  <span class="text-disabled text-caption">时长</span>
+                </div>
+                <template v-if="album.company">
+                  <v-divider class="my-2" vertical />
+                  <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+                    <span class="text-body-1 font-weight-medium">
+                      <v-icon size="small">{{ mdiCopyright }} </v-icon>
+                    </span>
+                    <span class="text-disabled text-caption">{{ album.company }}</span>
+                  </div>
+                </template>
+              </div>
+              <div class="d-flex align-center">
+                <v-btn
+                  size="large"
+                  class="mr-4 px-10 rounded-pill"
+                  variant="tonal"
+                  color="primary"
+                  :loading="playLoading as boolean"
+                  @click="play"
+                >
+                  <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
+                </v-btn>
+                <v-btn class="mr-4" icon color="secondary" variant="tonal" @click="subscribe">
+                  <v-icon>
+                    {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
+                  </v-icon>
+                  <v-tooltip activator="parent" location="top">
+                    {{ t('common.collection', subscribed ? 2 : 1) }}
+                  </v-tooltip>
+                </v-btn>
+                <v-btn class="mr-4" icon variant="tonal" color="tertiary" @click="goto">
+                  <v-icon>
+                    {{ mdiNetEase }}
+                  </v-icon>
+                </v-btn>
+                <v-btn icon variant="tonal" color="primary" @click="saveCover">
+                  <v-icon>{{ mdiImage }} </v-icon>
+                  <v-tooltip activator="parent" location="top"> save cover </v-tooltip>
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <Cover
-        :class="smAndUp ? 'order-2' : 'order-1 align-self-center'"
-        :data="album"
-        no-info
-        shadow
-        type="album"
-        :max-width="225"
-        :min-width="225"
-        :max-height="225"
-        :min-height="225"
-      >
-        <template #action>
-          <v-btn icon variant="flat" color="primary" @click="saveCover">
-            <v-icon color="onPrimary">{{ mdiImage }} </v-icon>
-            <v-tooltip activator="parent" location="top"> 保存封面 </v-tooltip>
-          </v-btn>
-        </template>
-      </Cover>
-    </div>
-    <div v-if="album.description" class="d-flex flex-column">
+      </v-img>
+    </v-card>
+    <div v-if="album.description" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
           <v-icon>{{ mdiArrowRight }}</v-icon>
         </v-btn>
       </div>
-      <p class="text-caption line-clamp-5">
+      <p class="text-caption line-clamp-5 select-text">
         {{ album.description }}
       </p>
     </div>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.inner') }}</span>
         <v-btn icon variant="text">

@@ -27,3 +27,7 @@
 .no-drag-area {
   -webkit-app-region: no-drag;
 }
+
+.select-text {
+  user-select: text;
+}

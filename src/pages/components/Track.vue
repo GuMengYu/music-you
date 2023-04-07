@@ -139,7 +139,7 @@ function openMenu(e: MouseEvent) {
         />
       </div>
       <div class="track-first">
-        <div class="track-info text-medium-emphasis">
+        <div class="track-info text-medium-emphasis select-text">
           <v-list-item-title class="line-clamp-1" :class="current ? 'text-primary' : ''">
             {{ track.name }}
           </v-list-item-title>
@@ -148,7 +148,7 @@ function openMenu(e: MouseEvent) {
           </v-list-item-subtitle>
         </div>
       </div>
-      <div class="track-third text-medium-emphasis">
+      <div class="track-third text-medium-emphasis select-text">
         <Wave v-if="current" :playing="playerStore.playing" />
         <span
           v-else
