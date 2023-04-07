@@ -1,26 +1,27 @@
 import type { BrowserWindow } from 'electron'
+import is from 'electron-is'
 
-const { app, Menu } = require('electron')
+import { name } from '../../../package.json'
+import { logPath } from './util/log'
+
+const { app, Menu, shell } = require('electron')
 const isMac = process.platform === 'darwin'
 export const createElectronMenu = (window: BrowserWindow) => {
   const template = [
-    ...(isMac
+    ...(is.macOS()
       ? [
           {
             label: app.name,
             submenu: [
-              { role: 'about' },
-              { type: 'separator' },
+              { role: 'about', label: `关于 ${name}` },
               {
                 role: 'preferences',
-                label: 'Preferences',
+                label: '设置',
                 accelerator: (() => (isMac ? 'CmdOrCtrl+,' : 'Ctrl+,'))(),
                 click: () => {
                   window.webContents.send('open-settings')
                 },
               },
-              { type: 'separator' },
-              { role: 'services' },
               { type: 'separator' },
               { role: 'hide' },
               { role: 'hideothers' },
@@ -32,26 +33,7 @@ export const createElectronMenu = (window: BrowserWindow) => {
         ]
       : []),
     {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        {
-          label: 'Search',
-          accelerator: 'CmdOrCtrl+F',
-          click: () => {
-            // todo open search
-          },
-        },
-      ],
-    },
-    {
-      label: '控制',
+      label: '播放',
       submenu: [
         {
           label: '播放|暂停',
@@ -88,6 +70,20 @@ export const createElectronMenu = (window: BrowserWindow) => {
             window.webContents.send('volumeDown')
           },
         },
+        {
+          label: '静音',
+          accelerator: 'CmdOrCtrl+M',
+          click: () => {
+            window.webContents.send('mute')
+          },
+        },
+        {
+          label: '去搜索',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => {
+            window.webContents.send('search')
+          },
+        },
       ],
     },
     {
@@ -96,18 +92,61 @@ export const createElectronMenu = (window: BrowserWindow) => {
         { role: 'close' },
         { role: 'minimize' },
         { role: 'zoom' },
-        { role: 'reload' },
-        { role: 'forcereload' },
+        { type: 'separator' },
         {
-          label: 'devtools',
-          accelerator: 'F12',
+          label: '后退',
+          accelerator: 'CmdOrCtrl+[',
           click: () => {
-            window.webContents.toggleDevTools()
+            window.webContents.goBack()
           },
         },
+        {
+          label: '前进',
+          accelerator: 'CmdOrCtrl+]',
+          click: () => {
+            window.webContents.goForward()
+          },
+        },
+        { role: 'reload' },
+        { role: 'forcereload' },
         { type: 'separator' },
         { role: 'togglefullscreen' },
         { role: 'close' },
+      ],
+    },
+    {
+      label: '帮助',
+      submenu: [
+        {
+          label: '日志目录',
+          click: async () => {
+            await shell.openPath(logPath)
+          },
+        },
+        {
+          label: '用户数据',
+          click: async () => {
+            const path = app.getPath('userData')
+            await shell.openPath(path)
+          },
+        },
+        ...(is.dev()
+          ? [
+              {
+                label: '开发者工具',
+                accelerator: 'F12',
+                click: () => {
+                  window.webContents.toggleDevTools()
+                },
+              },
+            ]
+          : []),
+        {
+          label: '问题&反馈',
+          click: async () => {
+            await shell.openExternal('https://github.com/GuMengYu/music-you/issues')
+          },
+        },
       ],
     },
   ]

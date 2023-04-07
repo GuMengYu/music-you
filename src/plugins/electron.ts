@@ -25,7 +25,7 @@ function registerIpcRenderer(router: Router) {
   const showDownloadComplete = once((name) => {
     toast.success(`下载成功 ${name}`)
   })
-
+  let cacheVolume = 0.8
   ipcRenderer.on('open-settings', () => {
     console.log(router)
     router.push({ name: 'setting' })
@@ -56,6 +56,17 @@ function registerIpcRenderer(router: Router) {
     if (tem >= 0) {
       playerStore.$state.volume = tem
     }
+  })
+  ipcRenderer.on('mute', () => {
+    if (playerStore.$state.volume === 0) {
+      playerStore.$state.volume = cacheVolume
+    } else {
+      cacheVolume = playerStore.$state.volume
+      playerStore.$state.volume = 0
+    }
+  })
+  ipcRenderer.on('search', () => {
+    router.push({ name: 'search' })
   })
   ipcRenderer.on('fullscreen', (e, fullscreen) => {
     // appStore.$state.showLyricsPage = fullscreen
