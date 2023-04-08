@@ -114,9 +114,9 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
 <template>
   <section>
     <list-loader v-if="loading" artist />
-    <div v-else class="d-flex flex-column gap-6">
+    <div v-else class="d-flex flex-column gap-6 drag-area">
       <v-card flat class="d-flex rounded-lg mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-        <v-img :src="state.artist.picUrl" cover :aspect-ratio="28 / 9" class="rounded-md">
+        <v-img :src="state.artist.picUrl" cover :aspect-ratio="28 / 9">
           <div class="d-flex flex-column justify-start h-100" :class="smAndUp ? 'order-1' : 'order-2'">
             <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
             <div

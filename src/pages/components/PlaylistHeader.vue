@@ -147,9 +147,9 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex flex-column gap-6">
+  <div class="d-flex flex-column gap-6 drag-area">
     <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="playlist.coverImgUrl" cover :aspect-ratio="28 / 9" class="rounded-md">
+      <v-img :src="playlist.coverImgUrl" cover :aspect-ratio="28 / 9">
         <div class="d-flex flex-column h-100" :class="smAndUp ? 'order-1' : 'order-2'">
           <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
           <div
