@@ -21,20 +21,16 @@ vue3 + ts 重构 2.0 版本
 - 单纯的播放器，不能网抑云
 - 支持手机号，手机扫码登录
 - 资料库
-- 日推，私人 fm, mv 播放
-- 适配黑暗模式
+- 日推，私人 fm, 心动模式
+- darkmode
 - 歌词
 - 桌面客户端 ([下载](https://github.com/GuMengYu/v-player/releases))
-
-🏗 Work In Progress
-
-- 下载歌曲/mv/封面
 
 ...and more
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052215-5e20b766-1589-4726-8d15-8ca284fbbaed.png">
-  <img alt="home" src="https://user-images.githubusercontent.com/22021419/229052219-ab85b0fb-0e93-4fd8-abb8-0bf39fb5f763.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582624-4eeb06aa-61d5-4124-8450-f4a435714bd0.png">
+  <img alt="home" src="https://user-images.githubusercontent.com/22021419/230582605-2eebe411-fac5-4a98-8121-872c205dff59.png">
 </picture>
 
 ## 运行
@@ -69,60 +65,32 @@ npm run electron:build
 ## 部分截图
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052169-e100d904-29ef-490c-bb63-0f2007006a65.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/229052198-fff0063a-5623-4dd3-b995-a06614184a28.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582633-f0ba064e-a4b6-4ee8-a538-15e86a298617.png">
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/230582617-265dbb83-2d98-4430-a3d7-3881b03a078d.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052194-09c49566-f50b-4ba2-ad74-7203c5e8a390.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052213-54f2d1cd-8a20-432c-bf88-5b3558bca03d.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582643-2abb7850-850c-433b-8e49-ab9b61623bfd.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230582656-b181dd59-3793-4127-9b9f-f56958613587.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052184-bc145385-f542-40d9-8e1e-86491e3274d0.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052206-86ed7a63-e5e3-426a-b5d7-1c4960a0edb3.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582630-80f7c80a-250c-4324-a74e-c333028f3449.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230582611-faa13763-1eb4-45bd-98db-fb63d5581297.png">
 </picture>
 
-<hr></hr>
-
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/229052187-90c38e4e-08ea-451a-b472-909be4fbc340.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/229052210-edf3d006-9769-4db7-8c2a-9a65894c73f5.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230708070-42ddfb55-66ce-4436-9be4-13ccca3a1fb8.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230708070-42ddfb55-66ce-4436-9be4-13ccca3a1fb8.png">
 </picture>
 
 https://user-images.githubusercontent.com/22021419/186813168-48a2d0ae-0388-4b70-9844-a540305a1096.mov
 
-## License
-
-```
-MIT License
-
-Copyright (c) 2021 hyu
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-```
+## [License](./LICENSE)
 
 ## 声明
 
