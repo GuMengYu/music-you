@@ -111,6 +111,9 @@
     "artists": "艺人",
     "mvs": "MV",
     "disk": "云盘",
+    "ranking": "听歌排行",
+    "week_time": "最近一周",
+    "all_time": "所有时间",
     "setting": {
       "playing_page_mode": "播放界面风格",
       "visualization": "随音乐律动（需完整加载音乐，会有一定的歌曲加载时间，建议音质选项不要太高, 开启后gpu的占用可能偏高）- 改动将在重启应用时就绪",

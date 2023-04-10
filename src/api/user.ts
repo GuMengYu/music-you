@@ -142,3 +142,33 @@ export const getHeartBeatList = async (id: number) => {
     return []
   }
 }
+
+export interface PlayRecord {
+  playCount: number
+  score: number
+  song: Track
+}
+
+/**
+ * 获取听歌排行
+ */
+export const fetchPlayRecord = async () => {
+  const userStore = useUserStore()
+  const fetch = (type = 0) =>
+    request<{
+      code: number
+      weekData?: Array<PlayRecord>
+      allData?: Array<PlayRecord>
+    }>('/user/record', {
+      params: {
+        uid: userStore.uid,
+        timestamp: now(),
+        type,
+      },
+    })
+  const [weekData, allData] = await Promise.all([fetch(1), fetch(0)])
+  return {
+    weekData: weekData.weekData ?? [],
+    allData: allData.allData ?? [],
+  }
+}

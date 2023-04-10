@@ -110,7 +110,10 @@
     "tracks": "Tracks",
     "artists": "Artists",
     "mvs": "MV",
-    "disk": "Disk music",
+    "disk": "Disk Music",
+    "ranking": "Listen Ranking",
+    "week_time": "Last Week",
+    "all_time": "All Time",
     "setting": {
       "playing_page_mode": "Player interface style",
       "visualization": "Rhythm with the music (must be fully loaded, there will be a certain song loading time, it is recommended that the sound quality option is not too high, the gpu occupancy may be high after it is turned on) - Changes will be ready when the app is restarted",

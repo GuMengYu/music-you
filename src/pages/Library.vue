@@ -44,6 +44,9 @@
       <v-window-item :value="TYPES.CLOUD">
         <Cloud />
       </v-window-item>
+      <v-window-item :value="TYPES.RANKING">
+        <ListenRanking />
+      </v-window-item>
     </v-window>
     <v-dialog v-model="createState.show">
       <v-card width="90vw" max-width="450" rounded="xl" class="py-2 align-self-center">
@@ -89,6 +92,7 @@ import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV } from '@/types'
 
 import Cloud from './cloud/index.vue'
+import ListenRanking from './listen-ranking/index.vue'
 
 const { t } = useI18n()
 
@@ -110,6 +114,7 @@ enum TYPES {
   ARTIST = 'artist',
   MV = 'mv',
   CLOUD = 'cloud',
+  RANKING = 'listen-ranking',
 }
 const tabs = computed(() => {
   return [
@@ -118,6 +123,7 @@ const tabs = computed(() => {
     { key: TYPES.ARTIST, name: t('main.artists') },
     { key: TYPES.MV, name: t('main.mvs') },
     { key: TYPES.CLOUD, name: t('main.disk') },
+    { key: TYPES.RANKING, name: t('main.ranking') },
   ]
 })
 const current = ref(TYPES.PLAYLIST)
