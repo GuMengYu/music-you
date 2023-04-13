@@ -437,7 +437,7 @@ export function PipLyric() {
                 (i.appendChild(document.createElement('style')).innerHTML = '\n    .container {\n      font-family: '
                   .concat(
                     fontFamily,
-                    ';\n      font-weight: 700;\n      box-sizing: border-box;\n      color: red;\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n    }\n    .image {\n      object-fit: cover;\n      width: '
+                    ';\n      font-weight: 700;\n      box-sizing: border-box;\n      color: white;\n      width: 100%;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n    }\n    .image {\n      object-fit: cover;\n      width: '
                   )
                   .concat(r, 'px;\n      height: ')
                   .concat(r, 'px;\n      border-radius: ')

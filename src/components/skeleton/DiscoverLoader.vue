@@ -33,11 +33,13 @@ const onSurfaceColor = computed(() => theme.current.value.colors?.surface)
     :secondary-color="onSurfaceColor"
     :animate="true"
   >
+    <rect x="0" y="0" rx="12" ry="12" :width="itemWidth" height="32" />
+
     <rect
       v-for="(i, idx) in countShort"
       :key="i"
       :x="idx * (shortCutWidth + gapShortVal)"
-      y="0"
+      y="44"
       rx="12"
       ry="12"
       :width="shortCutWidth"
@@ -48,23 +50,23 @@ const onSurfaceColor = computed(() => theme.current.value.colors?.surface)
       v-for="(i, idx) in countShort"
       :key="i"
       :x="idx * (shortCutWidth + gapShortVal)"
-      y="96"
+      y="140"
       rx="12"
       ry="12"
       :width="shortCutWidth"
       :height="80"
     >
     </rect>
-    <rect x="0" y="200" rx="12" ry="12" :width="itemWidth - 24" height="32" />
+    <rect x="0" y="244" rx="12" ry="12" :width="itemWidth" height="32" />
     <rect
       v-for="(i, idx) in count"
       :key="i"
       :x="idx * (itemWidth + gapVal)"
-      y="248"
+      y="292"
       rx="12"
       ry="12"
       :width="itemWidth"
-      :height="itemWidth + 48"
+      :height="itemWidth + 86"
     />
   </content-loader>
 </template>

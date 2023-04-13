@@ -1,5 +1,5 @@
 import { useUserStore } from '@/store/user'
-import type { Playlist, Track } from '@/types'
+import type { Playlist, Podcast, Track } from '@/types'
 import { request } from '@/util/fetch'
 import { RADARPLAYLISTS } from '@/util/metadata'
 
@@ -69,4 +69,14 @@ export async function personalizedRadar() {
   })
   const result = await Promise.all(fns)
   return result.map((i) => i.playlist)
+}
+
+/**
+ * 推荐播客
+ */
+export function personalizedPodcast() {
+  return request<{
+    code: number
+    data: Podcast[]
+  }>('/dj/personalize/recommend')
 }

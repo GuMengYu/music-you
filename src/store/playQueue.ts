@@ -1,21 +1,24 @@
 import { useLocalStorage } from '@vueuse/core'
-import { shuffle } from 'lodash-es'
+import { cloneDeep, pick, shuffle } from 'lodash-es'
 import { defineStore } from 'pinia'
 
 import { pinia } from '@/plugins/pinia'
-import type { Track } from '@/types'
-export type listType = 'album' | 'playlist' | 'artist' | 'daily' | 'cloud' | 'intelligence' | 'recent'
+import type { listType, Program, SimpleTrack, Track, TrackFrom } from '@/types'
 
 export interface PlayQueueState {
   queue: {
     id?: number
     type?: listType
     name?: string
-    sequence: number[]
-    states: number[]
+    sequence: SimpleTrack[]
+    states: SimpleTrack[]
     tracks: Track[]
   }
   priorityQueue: Track[]
+}
+
+const simpleTracks = (tracks: Track[]) => {
+  return tracks.map((track) => pick(track, ['id', 'name', 'source']) as any as SimpleTrack)
 }
 export const usePlayQueueStore = defineStore({
   id: 'playQueue',
@@ -33,21 +36,22 @@ export const usePlayQueueStore = defineStore({
     /**
      * 更新播放列表
      * @param id 队列id
-     * @param type 队列类型-专辑/歌单/歌手热门/智能列表
+     * @param type 队列类型-专辑/歌单/歌手热门/智能列表/电台节目单
      * @param name 队列名
      * @param data 队列数据
      */
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
-      const trackIds = data.map((track) => track.id)
       data.forEach((i) => {
-        i.source = mixinTrackSource({ type, id })
+        mixinTrackSource(i, { type, id })
       })
+      // 精简track, 只在store存储必要的信息
+      const tracks = simpleTracks(data)
       this.queue = {
         id,
         type,
         name,
-        sequence: [...trackIds], // deep copy aviod mutation of sequence and states
-        states: [...trackIds],
+        sequence: [...tracks], // deep copy avoid mutation of sequence and states
+        states: [...tracks],
         tracks: data,
       }
     },
@@ -64,11 +68,20 @@ export const usePlayQueueStore = defineStore({
     clearPriorityQueue() {
       this.priorityQueue = []
     },
+    clearQueue() {
+      this.queue = {
+        sequence: [],
+        states: [],
+        tracks: [],
+      }
+    },
     /**
      * 添加歌曲到待播放列表
      * @param track
+     * @param from
      */
-    addToPlayQueue(track: Track) {
+    addToPlayQueue(track: Track | Program, from: TrackFrom) {
+      mixinTrackSource(track, from)
       this.priorityQueue.push(track)
     },
     /**
@@ -91,8 +104,7 @@ export const usePlayQueueStore = defineStore({
      * 随机队列
      */
     shuffle() {
-      const list = this.queue.sequence
-      const shuffled = shuffle(list)
+      const shuffled = shuffle(this.queue.sequence)
       this.queue.sequence = shuffled
       this.queue.states = shuffled.slice(shuffled.length - this.queue.states.length)
     },
@@ -100,16 +112,16 @@ export const usePlayQueueStore = defineStore({
      * 恢复队列
      */
     unShuffle() {
-      const ids = this.queue.tracks.map((i) => i.id)
-      this.queue.sequence = ids
-      this.queue.states = ids.slice(ids.length - this.queue.states.length)
+      const tracks = simpleTracks(this.queue.tracks)
+      this.queue.sequence = tracks
+      this.queue.states = tracks.slice(tracks.length - this.queue.states.length)
     },
     restoreStates() {
       this.queue.states = [...this.queue.sequence]
     },
     // 按照歌曲id 更新队列
     setQueue(id: number) {
-      const foundIndex = this.queue.states.findIndex((_id) => _id === id)
+      const foundIndex = this.queue.states.findIndex((item) => item.id === id)
       if (foundIndex > -1) {
         this.queue.states.splice(0, foundIndex + 1)
       }
@@ -121,9 +133,26 @@ export function usePlayQueueStoreWithOut() {
   return usePlayQueueStore(pinia)
 }
 
-function mixinTrackSource(source: any) {
-  return {
-    fid: source.type,
-    fdata: source.id,
+export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
+  const url = {
+    album: `/album/${from.id}`,
+    playlist: `/playlist/${from.id}`,
+    artist: `/artist/${from.id}`,
+    daily: `/daily`,
+    cloud: '/library/cloud',
+    recent: '/recent',
+    intelligence: '',
+    program: `/podcast/${from.id}`,
+    unknown: '',
+  }[from.type as listType]
+  track.source = {
+    fromUrl: url,
+    fromType: from.type,
+    fid: from.type,
+    fdata: from.id,
+    from,
+  }
+  if (from.type === 'program') {
+    track.program = cloneDeep(track)
   }
 }

@@ -11,7 +11,7 @@
             :min-width="56"
             :max-width="56"
             :max-height="56"
-            :src="albumPicUrl"
+            :src="coverUrl"
             cover
           >
             <v-btn v-show="isHovering" width="56" height="56" icon @click.stop="showPlayingPage">
@@ -22,24 +22,21 @@
 
         <div class="ml-2 mr-4 d-flex align-start flex-column">
           <div class="d-flex align-center line-clamp-1 text-h6">
-            <Router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
+            <router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
               >{{ track?.name }}
-            </Router-Link>
+            </router-Link>
             <span v-else> {{ track?.name }} </span>
-            <!--
-              <span v-if="track.meta?.type" class="text-caption font-weight-bold text-secondary">
-                · {{ track.meta.type }}
-              </span>
-
-              <span v-if="track.meta?.br" class="text-caption font-weight-bold text-secondary">
-                · {{ `${Math.ceil((track.meta.br ?? 0) / 1000)}` }}kbps
-              </span> -->
           </div>
-
-          <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
+          <router-link v-if="isProgram" :to="track.source?.fromUrl" class="text-caption line-clamp-1 text-onSurface">
+            {{ track?.radio.name }}[播客节目]
+          </router-link>
+          <artists-link v-else :artists="track?.ar" class="text-caption line-clamp-1" />
         </div>
-        <like-toggle :id="track?.id" />
-        <v-btn icon variant="text" @click="openContextMenu">
+        <!--电台节目点赞-->
+        <thumb-like-toggle v-if="isProgram" :id="track?.id" :liked="track.liked" :type="RESOURCE_TYPE.PROGRAM" />
+        <!--歌曲收藏-->
+        <like-toggle v-else :id="track?.id" />
+        <v-btn v-if="!isProgram" icon variant="text" @click="openContextMenu">
           <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
           <v-tooltip activator="parent" location="top" open-delay="100"> 添加到歌单 </v-tooltip>
         </v-btn>
@@ -86,7 +83,6 @@ import {
   mdiPlaylistMusic,
 } from '@mdi/js'
 import { useEventBus } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -97,16 +93,17 @@ import { getHeartBeatList } from '@/api/user'
 import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
+import usePlayerControl from '@/hooks/usePlayerControl'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
-import { usePlayerStore } from '@/store/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
+import type { PlayNowEvent, TrackFrom } from '@/types'
+import { RESOURCE_TYPE } from '@/util/enum'
 import { sizeOfImage } from '@/util/fn'
 import { specialType } from '@/util/metadata'
 // utitlity
-const playerStore = usePlayerStore()
 const playQueueStore = usePlayQueueStore()
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -134,18 +131,18 @@ const playlists = computed(() => {
 })
 
 // store state
-const { track, showPipLyric, isCurrentFm } = storeToRefs(playerStore)
-const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
-
+const { track, showPipLyric, isCurrentFm, isProgram } = usePlayerControl()
+const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
 const showHeartBeat = computed(() => {
-  return userStore.logged && track.value && userStore.likes.includes(track.value.id)
+  return userStore.logged && !isProgram && !isCurrentFm && track.value && userStore.likes.includes(track.value.id)
 })
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()
 const { playAnimation } = useEmojiAnimation(playlistBtn)
-const eventBus = useEventBus<number>('addToQueue')
-eventBus.on((id, setQueue) => {
-  player.updatePlayerTrack(id)
+const eventBus = useEventBus<PlayNowEvent>('playNow')
+eventBus.on((payload) => {
+  const { id, from, setQueue } = payload
+  player.updatePlayerTrack(id, true, true, false, from)
   playAnimation('🎉')
   if (setQueue) {
     playQueueStore.setQueue(id)

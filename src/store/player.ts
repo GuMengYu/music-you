@@ -5,7 +5,7 @@ import { reactive, toRefs, watchEffect } from 'vue'
 import { pinia } from '@/plugins/pinia'
 
 import { personalFM } from '../api/user'
-import type { Track } from '../types'
+import type { SimpleTrack, Track } from '../types'
 import { usePlayQueueStore } from './playQueue'
 export enum PLAY_MODE {
   NORMAL = 'normal',
@@ -25,9 +25,9 @@ export interface PlayerState {
   isCurrentFm: boolean
   fmTrack: null | Track
   fmList: Track[]
-  popNextTrackId: () => number
+  popNextTrack: () => SimpleTrack
   getSourceId: () => number
-  popPrevTrackId: () => number
+  popPrevTrack: () => SimpleTrack
   setQueue: (trackId: number) => void
   updatePersonalFmList: () => Track
 }
@@ -69,14 +69,19 @@ export const usePlayerStore = defineStore({
         ? playQueue.queue.id
         : null
     },
-    popNextTrackId() {
+    popNextTrack() {
       const playQueue = usePlayQueueStore()
+      const { queue, priorityQueue } = playQueue
+
+      // 优先播放 priorityQueue 中的歌曲
+      if (priorityQueue.length) {
+        return priorityQueue.shift()
+      }
       if (this.playMode === PLAY_MODE.NORMAL) {
         if (playQueue.queue.states.length) {
           return playQueue.queue.states.shift()
-        } else {
-          return null
         }
+        return null
       } else if (this.playMode === PLAY_MODE.REPEAT) {
         if (!playQueue.queue.states.length) {
           playQueue.restoreStates()
@@ -84,7 +89,7 @@ export const usePlayerStore = defineStore({
         return playQueue.queue.states.shift()
       }
     },
-    popPrevTrackId() {
+    popPrevTrack() {
       const playQueue = usePlayQueueStore()
       const sequence = playQueue.queue.sequence
       // 处于第一首时，不能再往前

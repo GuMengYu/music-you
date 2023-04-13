@@ -8,8 +8,10 @@
         <div class="onSurface--text" :class="props.hClass || 'text-h6'">
           {{ props.title }}
         </div>
-        <v-btn v-if="props.more" variant="plain" size="small" @click="handleMore">
-          {{ $t('common.more') }}
+        <v-btn v-if="props.more" icon size="x-small" variant="tonal" color="tertiary" @click="handleMore">
+          <v-icon>
+            {{ mdiArrowRightCircleOutline }}
+          </v-icon>
         </v-btn>
         <slot name="more" />
       </div>
@@ -19,6 +21,7 @@
   </section>
 </template>
 <script setup lang="ts">
+import { mdiArrowRightCircleOutline } from '@mdi/js'
 import { isFunction } from 'lodash-es'
 import { useRouter } from 'vue-router'
 

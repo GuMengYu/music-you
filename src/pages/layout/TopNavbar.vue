@@ -34,6 +34,19 @@
         >广场
       </v-btn>
       <v-btn
+        height="46"
+        :class="{
+          'text-primary': podcastActive,
+          'v-btn--active': podcastActive,
+        }"
+        rounded="pill"
+        class="px-9 text-caption"
+        @click="to('/podcast-center')"
+      >
+        <v-icon class="mr-1">{{ mdiPodcast }}</v-icon
+        >播客
+      </v-btn>
+      <v-btn
         v-if="logged"
         height="46"
         :class="{
@@ -52,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiAlbum, mdiCompass, mdiFaceManProfile, mdiMagnify } from '@mdi/js'
+import { mdiAlbum, mdiCompass, mdiFaceManProfile, mdiMagnify, mdiPodcast } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
@@ -69,6 +82,7 @@ function to(url: string) {
 }
 const { isActive: discoverActive } = useInForeground('discover')
 const { isActive: exploreActive } = useInForeground('explore')
+const { isActive: podcastActive } = useInForeground('podcast-center')
 const { isActive: libraryActive } = useInForeground('library')
 </script>
 

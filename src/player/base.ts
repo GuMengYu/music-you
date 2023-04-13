@@ -7,9 +7,10 @@ import { useToast } from 'vue-toastification'
 import { end, getTrackDetail, start } from '@/api/music'
 import type { PlayerState } from '@/store/player'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
+import { mixinTrackSource } from '@/store/playQueue'
 import type { SettingState } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
-import type { Track } from '@/types'
+import type { Track, TrackFrom } from '@/types'
 import { sleep, toHttps } from '@/util/fn'
 import is from '@/util/is'
 import { PipLyric } from '@/util/pipLyric'
@@ -30,7 +31,13 @@ const messages = {
   },
 }
 export interface PlayerInstance {
-  updatePlayerTrack: (trackId: Track['id'], autoPlay?: boolean, resetProgress?: boolean, isFm?: boolean) => void
+  updatePlayerTrack: (
+    trackId: Track['id'],
+    autoPlay?: boolean,
+    resetProgress?: boolean,
+    isFm?: boolean,
+    from?: TrackFrom
+  ) => void
   pause: () => void
   play: () => void
   next: () => void
@@ -91,7 +98,7 @@ export class Player {
     this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
     if (this.track?.id) {
-      this.updatePlayerTrack(this.track.id, false, false)
+      this.updatePlayerTrack(this.track.id, false, false, false, this.track.source?.from)
     }
     if (is.electron() && is.windows()) {
       this.taskbarProgress = true
@@ -135,51 +142,64 @@ export class Player {
    * @param trackId 歌曲id
    * @param autoplay 立即播放（true）
    * @param resetProgress 重置进度条（true）
+   * @param isFm
+   * @param from
    * @returns
    */
-  async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true, isFm = false) {
+  async updatePlayerTrack(trackId: number, autoplay = true, resetProgress = true, isFm = false, from?: TrackFrom) {
     if (!trackId) return
     this.store.$state.loadingTrack = true
-    const { track, trackMeta, lyric } = await getTrackDetail(trackId)
-    // restore common mode
-    if (!isFm) {
-      this.store.$state.isCurrentFm = false
-    }
-    if (trackMeta.url) {
-      track.lyric = lyric // 存入歌词
-      track.meta = trackMeta
-      this.store.$state.track = track // 保存到 store
-      if (resetProgress) {
-        this.updateCurrentTime(0)
+    try {
+      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from?.type === 'program')
+      // restore common mode
+      if (!isFm) {
+        this.store.$state.isCurrentFm = false
       }
-      this.track = track
-      Howler.unload()
-      this.howler?.unload()
-      this.howler = null
-      const url = trackMeta.sourceFromUnlockMusic ? trackMeta.url : toHttps(trackMeta.url)
-      this.howler = this.initSound(url)
-      this.initMediaSession(track)
-      if (resetProgress) {
-        this.setSeek(0)
+      console.log(trackMeta)
+      if (trackMeta.url) {
+        if (lyric) {
+          track.lyric = lyric // 存入歌词
+        }
+        // update track source
+        if (from) {
+          mixinTrackSource(track, from)
+        }
+        track.meta = trackMeta
+        this.store.$state.track = track // 保存到 store
+        if (resetProgress) {
+          this.updateCurrentTime(0)
+        }
+        this.track = track
+        Howler.unload()
+        this.howler?.unload()
+        this.howler = null
+        const url = trackMeta.sourceFromUnlockMusic ? trackMeta.url : toHttps(trackMeta.url)
+        this.howler = this.initSound(url)
+        this.initMediaSession(track)
+        if (resetProgress) {
+          this.setSeek(0)
+        } else {
+          this.setSeek(this.currentTime)
+        }
+        if (autoplay) {
+          this.play()
+          await start({ id: this.track.id })
+        }
+        // if (from === 'online' && cacheLimit) {
+        //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求
+        //     await sleep(500);
+        //     playerIDB.cacheTrack(trackInfo, cacheLimit);
+        // }
       } else {
-        this.setSeek(this.currentTime)
+        toast.error(track?.name + this.t('message.can_not_play'))
+        await sleep(500)
+        this.next()
       }
-      if (autoplay) {
-        this.play()
-        await start({ id: this.track.id })
-        // this.setScrobble(trackInfo, this.howler.seek(), false)
-      }
-      // if (from === 'online' && cacheLimit) {
-      //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求
-      //     await sleep(500);
-      //     playerIDB.cacheTrack(trackInfo, cacheLimit);
-      // }
-    } else {
-      toast.error(track?.name + this.t('message.can_not_play'))
-      await sleep(500)
-      this.next()
+      this.setoutputDevice()
+    } catch (e) {
+      // stop loading
+      this.trackLoaded()
     }
-    this.setoutputDevice()
   }
   private initSound(src: string) {
     Howler.autoUnlock = false
@@ -274,9 +294,9 @@ export class Player {
       this.replay()
       return
     }
-    const trackId = this.nextTrackId()
-    if (trackId) {
-      this.updatePlayerTrack(trackId)
+    const track = this.nextTrack()
+    if (track) {
+      this.updatePlayerTrack(track.id, true, true, false, track.source.from)
     } else {
       this.pause()
     }
@@ -287,7 +307,7 @@ export class Player {
     }
     const track = await this.store.updatePersonalFmList()
     if (track?.id) {
-      this.updatePlayerTrack(track.id, true, true, true)
+      await this.updatePlayerTrack(track.id, true, true, true)
     }
   }
   prev() {
@@ -300,18 +320,18 @@ export class Player {
       this.replay()
       return
     }
-    const trackId = this.prevTrackId()
-    if (typeof trackId === 'string' || typeof trackId === 'number') {
-      this.updatePlayerTrack(trackId)
+    const track = this.prevTrack()
+    if (track && track.id) {
+      this.updatePlayerTrack(track.id, true, true, false, track.source.from)
     } else {
       this.pause()
     }
   }
-  private nextTrackId() {
-    return this.store.popNextTrackId()
+  private nextTrack() {
+    return this.store.popNextTrack()
   }
-  private prevTrackId() {
-    return this.store.popPrevTrackId()
+  private prevTrack() {
+    return this.store.popPrevTrack()
   }
   updateCurrentTime(this: Player, val?: number) {
     const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
@@ -365,7 +385,7 @@ export class Player {
       this.endPlay(this.track, 0, true)
     }
   }
-  // 接口无效 暂时不用
+  // 播放完毕打卡
   private async endPlay(track: Track, time: number, played = false) {
     const { id, dt = 0 } = track
 

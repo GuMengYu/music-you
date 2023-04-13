@@ -81,7 +81,7 @@
           {{ mdiPlaylistMusic }}
         </v-icon>
       </v-btn>
-      <v-btn density="comfortable" icon variant="text" @click="openContextMenu">
+      <v-btn v-if="!isProgram" density="comfortable" icon variant="text" @click="openContextMenu">
         <v-icon size="x-small">{{ mdiDotsHorizontal }}</v-icon>
       </v-btn>
     </div>
@@ -104,6 +104,7 @@ import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
+import type { PlayNowEvent } from '@/types'
 import { sizeOfImage } from '@/util/fn'
 
 // utitlity
@@ -121,6 +122,7 @@ const { themeName } = useCurrentTheme()
 const {
   track,
   isCurrentFm,
+  isProgram,
   shuffleIcon,
   modeIcon,
   isQueue,
@@ -130,7 +132,6 @@ const {
   togglePlayingQueue,
   toggleShuffle,
   togglePipLyric,
-  showPipLyric,
 } = usePlayerControl()
 const playlists = computed(() => {
   return userStore.createdPlaylists.map((i) => {
@@ -146,17 +147,18 @@ const playlists = computed(() => {
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()
 const { playAnimation } = useEmojiAnimation(playlistBtn)
-const eventBus = useEventBus<number>('addToQueue')
-eventBus.on((id, setQueue) => {
-  player.updatePlayerTrack(id)
-  playAnimation('🪗')
+const eventBus = useEventBus<PlayNowEvent>('playNow')
+eventBus.on((payload) => {
+  const { id, from, setQueue } = payload
+  player.updatePlayerTrack(id, true, true, false, from)
+  playAnimation('🎉')
   if (setQueue) {
     playQueueStore.setQueue(id)
   }
 })
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
 const showHeartBeat = computed(() => {
-  return userStore.logged && track.value && userStore.likes.includes(track.value.id)
+  return userStore.logged && !isProgram && !isCurrentFm && track.value && userStore.likes.includes(track.value.id)
 })
 async function showPlayingPage() {
   appStore.showLyric = true

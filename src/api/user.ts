@@ -1,7 +1,7 @@
 import { now } from 'lodash-es'
 
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Playlist, Track } from '@/types'
+import type { Album, Artist, MV, Playlist, Podcast, Track } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
@@ -28,7 +28,7 @@ export const favAlbums = () =>
   request<{
     code: number
     data: Album[]
-  }>('/album/sublist', { params: { timestamp: now(), limit: 50 } })
+  }>('/album/sublist', { params: { timestamp: now() } })
 
 /**
  * 获取收藏的MV
@@ -37,7 +37,7 @@ export const favAlbums = () =>
 export const favMVs = () =>
   request<{
     data: MV[]
-  }>('/mv/sublist', { params: { timestamp: now(), limit: 50 } })
+  }>('/mv/sublist', { params: { timestamp: now() } })
 /**
  * 获取收藏的歌手
  * @returns {*}
@@ -45,8 +45,13 @@ export const favMVs = () =>
 export const favArtists = () =>
   request<{
     data: Artist[]
-  }>('/artist/sublist', { params: { timestamp: now(), limit: 50 } })
+  }>('/artist/sublist', { params: { timestamp: now() } })
 
+export const favPodcast = () =>
+  request<{
+    count: number
+    djRadios: Podcast[]
+  }>('/dj/sublist', { params: { timestamp: now() } })
 /**
  * 获取最近播放
  * @param limit

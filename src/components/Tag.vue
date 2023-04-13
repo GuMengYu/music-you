@@ -4,7 +4,7 @@
     class="text-caption d-flex justify-start bg-surfaceVariant"
     :style="`width: 100%; border-left: 6px solid ${color};`"
     variant="text"
-    :to="`/moods_and_genres/${name}`"
+    v-bind="$attrs"
   >
     {{ name }}
   </v-btn>

@@ -49,6 +49,7 @@ import { goto } from '@/util/service'
 const props = defineProps<{
   gridType?: GridType
   singleLine?: boolean
+  forceCount?: number
 }>()
 const cardRow = ref<HTMLElement>()
 const { count, gap } = useResponsiveGrid(props.gridType ?? GridType.A)
@@ -72,7 +73,7 @@ const cardRowStyle = computed(() => {
   if (props.singleLine) {
     style.overflowX = 'auto'
     style.gridAutoFlow = 'column'
-    style.gridAutoColumns = `calc((100% - ${count.value - 1} * ${gap.value}) / ${count.value})`
+    style.gridAutoColumns = `calc((100% - ${count.value - 1} * ${gap.value}) / ${props.forceCount ?? count.value})`
   } else {
     style.gridTemplateColumns = `repeat(${count.value}, 1fr)`
   }

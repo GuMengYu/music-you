@@ -12,7 +12,7 @@ import useDownload from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
-import type { Track } from '@/types'
+import type { PlayNowEvent, Track, TrackFrom } from "@/types";
 import { specialType } from '@/util/metadata'
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
@@ -30,7 +30,7 @@ const emits = defineEmits<{
   (event: 'updateList', payload: Track[]): void
 }>()
 
-const eventBus = useEventBus<number>('addToQueue')
+const eventBus = useEventBus<PlayNowEvent>('playNow')
 const TrackItemHeight = 56
 const needScrollNumber = 80
 
@@ -102,7 +102,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
 }
 
 function addToQueue(track: Track) {
-  playQueueStore.addToPlayQueue(track)
+  playQueueStore.addToPlayQueue(track, { type: 'cloud', id: 0 })
 }
 async function trackToPlayList(op: 'add' = 'add', playlistId: number, trackId: number) {
   // add to playlist
@@ -144,7 +144,13 @@ async function deleteCloudMusic(id: Track['id']) {
       :track="track"
       :index="index + 1"
       :album="true"
-      @play="eventBus.emit(track.id, true)"
+      @play="
+        eventBus.emit({
+          id: track.id,
+          setQueue: true,
+          from: { id: 0, type: 'cloud' },
+        })
+      "
       @openctxmenu="openMenu"
     />
   </v-list>

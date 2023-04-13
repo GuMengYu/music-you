@@ -69,9 +69,10 @@ useAjaxReloadHook('playlist', () => {
     <div v-else class="list d-flex flex-column gap-4">
       <PlaylistHeader :playlist="state.playlist" />
       <track-list
-        :type="smAndUp ? (isMyFavPlayList ? 'fav' : 'list') : 'album'"
+        :id="state.playlist.id"
+        :type="smAndUp ? (isMyFavPlayList ? 'fav' : 'playlist') : 'album'"
         :tracks="state.playlist.tracks"
-        :own-id="createdBySelf ? state.playlist.id : null"
+        :own="createdBySelf"
         virtual-scroll-optimization
         :header="smAndUp"
         @update-list="(list) => (state.playlist.tracks = [...list])"

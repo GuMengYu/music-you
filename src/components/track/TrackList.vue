@@ -13,7 +13,7 @@ import useDownload from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
-import type { Track } from '@/types'
+import type { listType, PlayNowEvent, Track, TrackFrom } from '@/types'
 import { specialType } from '@/util/metadata'
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
@@ -23,10 +23,12 @@ const toast = useToast()
 const { t } = useI18n()
 const router = useRouter()
 
+type TrackListType = 'album' | 'playlist' | 'artist' | 'fav' | 'daily'
 const props = defineProps<{
   tracks: Track[]
-  type: 'album' | 'list' | 'artist' | 'fav' | 'daily'
-  ownId?: number | null // 是否是自己的歌单id
+  type: TrackListType
+  id?: number
+  own?: boolean // 是否是自己的歌单id
   header?: boolean
   offsetIndex?: number
   virtualScrollOptimization?: boolean
@@ -37,7 +39,7 @@ const emits = defineEmits<{
   (event: 'updateList', payload: Track[]): void
 }>()
 
-const eventBus = useEventBus<number>('addToQueue')
+const eventBus = useEventBus<PlayNowEvent>('playNow')
 const TrackItemHeight = 56
 const needScrollNumber = 80
 const listHeight = computed(() => {
@@ -157,12 +159,12 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
       },
     })
   }
-  if (props.ownId && props.type !== 'fav') {
+  if (props.own && props.type !== 'fav') {
     items.push({
       label: t('common.remove_from_playlist'),
       onClick: (i) => {
         // “!”非空断言
-        trackToPlayList('del', props.ownId!, track.id)
+        trackToPlayList('del', props.id!, track.id)
       },
     })
   }
@@ -189,7 +191,7 @@ async function toggleLike(liked: boolean, trackId: number) {
   }
 }
 function addToQueue(track: Track) {
-  playQueueStore.addToPlayQueue(track)
+  playQueueStore.addToPlayQueue(track, <TrackFrom>{ type: props.type, id: props.id ?? 0 })
 }
 async function trackToPlayList(op: 'add' | 'del' = 'add', playlistId: number, trackId: number) {
   // add to playlist
@@ -245,6 +247,17 @@ function toArtist(id: number) {
 function toAlbum(id: number) {
   router.push(`/album/${id}`)
 }
+function handlePlay(id: number) {
+  const payload: PlayNowEvent = {
+    id,
+    setQueue: <boolean>props.setQueue,
+    from: { id: 0, type: 'unknown' },
+  }
+  if (props.id) {
+    payload.from = { id: props.id, type: props.type as listType }
+  }
+  eventBus.emit(payload)
+}
 </script>
 <template>
   <v-list class="track-list">
@@ -274,7 +287,7 @@ function toAlbum(id: number) {
         :track="track"
         :index="index + offsetIndex"
         :album="showAlbum"
-        @play="eventBus.emit(track.id, setQueue)"
+        @play="handlePlay(track.id)"
         @openctxmenu="openMenu"
       />
     </RecycleScroller>
@@ -285,7 +298,7 @@ function toAlbum(id: number) {
         :track="track"
         :index="index + offsetIndex"
         :album="showAlbum"
-        @play="eventBus.emit(track.id, setQueue)"
+        @play="handlePlay(track.id)"
         @openctxmenu="openMenu"
       />
     </template>

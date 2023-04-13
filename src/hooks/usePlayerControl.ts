@@ -44,6 +44,7 @@ export default () => {
   const shuffleIcon = computed(() => {
     return shuffle.value ? mdiShuffle : mdiShuffleDisabled
   })
+  const isProgram = computed(() => track.value?.source?.fromType === 'program')
   const prev = () => {
     player.prev()
   }
@@ -114,6 +115,7 @@ export default () => {
     playing,
     track,
     isCurrentFm,
+    isProgram,
     loadingTrack,
     playMode,
     repeatOn,

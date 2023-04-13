@@ -2,7 +2,14 @@
   <div>
     <discover-loader v-if="state.loading" />
     <section v-else class="discover d-flex flex-column gap-6">
-      <ShortcutGrid />
+      <Col :title="welcome">
+        <ShortcutGrid />
+        <template #more>
+          <v-btn icon size="x-small" variant="tonal" color="tertiary" @click="config = !config">
+            <v-icon> {{ mdiPaletteOutline }} </v-icon>
+          </v-btn>
+        </template>
+      </Col>
       <Col :title="$t('main.for_you')">
         <card-row single-line>
           <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
@@ -22,37 +29,77 @@
           </Cover>
         </card-row>
       </Col>
+      <Col title="播客">
+        <card-row single-line>
+          <podcast-cover v-for="list in state.podcasts" :key="list.id" :data="list" />
+        </card-row>
+      </Col>
     </section>
+    <discover-config v-model="config" />
   </div>
 </template>
 <script setup lang="ts">
-import { personalizedPlaylist, personalizedRadar, personalizedSong } from '@/api/personalized'
+import { mdiPaletteOutline } from '@mdi/js'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+
+import { personalizedPlaylist, personalizedPodcast, personalizedRadar, personalizedSong } from '@/api/personalized'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
-import type { Playlist, Track } from '@/types'
+import DiscoverConfig from '@/pages/modal/DiscoverConfig.vue'
+import { useUserStore } from '@/store/user'
+import type { Playlist, Podcast, Track } from '@/types'
 
 import ShortcutGrid from './shortcuts/ShortcutGrid.vue'
 interface RootState {
   playLists: Playlist[]
   radarPlayLists: Playlist[]
   songs: Track[]
+  podcasts: Podcast[]
   loading: boolean
 }
+const userStore = useUserStore()
+const { logged, account } = storeToRefs(userStore)
+
+const { t } = useI18n()
+const config = ref(false)
 const state = reactive<RootState>({
   radarPlayLists: [],
   playLists: [],
   songs: [],
+  podcasts: [],
   loading: false,
+})
+
+const welcome = computed(() => {
+  const hours = new Date().getHours()
+  let welcome = ''
+  if (hours >= 0 && hours <= 6) {
+    welcome = t('common.dawning')
+  } else if (hours > 6 && hours <= 11) {
+    welcome = t('common.morning')
+  } else if (hours > 11 && hours <= 14) {
+    welcome = t('common.noon')
+  } else if (hours > 14 && hours <= 18) {
+    welcome = t('common.afternoon')
+  } else if (hours > 18 && hours <= 23) {
+    welcome = t('common.evening')
+  } else {
+    welcome = t('common.midnight')
+  }
+  return `${welcome}${logged.value ? `，${account.value?.profile?.nickname}` : ''}`
 })
 
 const fetch = async () => {
   state.loading = true
   try {
-    const [playLists, { result: songs }, radars] = await Promise.all([
+    const [playLists, { result: songs }, radars, { data: podcasts }] = await Promise.all([
       personalizedPlaylist(),
       personalizedSong(7),
       personalizedRadar(),
+      personalizedPodcast(),
     ])
     state.playLists = playLists
+    state.podcasts = podcasts
     state.songs = songs.map((i) => i.song)
     state.radarPlayLists = radars
   } catch (e) {

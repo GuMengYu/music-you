@@ -30,6 +30,7 @@ import { formatDuring, formatNumber } from '@/util/fn'
 import { mdiNetEase } from '@/util/icons'
 import is from '@/util/is'
 import { specialType } from '@/util/metadata'
+import PinBtn from "@/components/button/PinBtn.vue";
 const { smAndUp } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
@@ -150,13 +151,15 @@ function saveCover() {
   <div class="d-flex flex-column gap-6 drag-area">
     <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
       <v-img :src="playlist.coverImgUrl" cover :aspect-ratio="28 / 9">
-        <div class="d-flex flex-column h-100" :class="smAndUp ? 'order-1' : 'order-2'">
+        <div
+          class="d-flex flex-column h-100"
+          :class="smAndUp ? 'order-1' : 'order-2'"
+          :style="{
+            background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
+          }"
+        >
           <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-          <div
-            :style="{
-              background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
-            }"
-          >
+          <div>
             <div class="d-flex flex-column gap-2 mx-6 mb-2">
               <span
                 class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -262,11 +265,12 @@ function saveCover() {
                     {{ t('common.collection', subscribed ? 2 : 1) }}
                   </v-tooltip>
                 </v-btn>
-                <v-btn icon variant="tonal" color="tertiary" @click="goto">
+                <v-btn class="mr-4" icon variant="tonal" color="tertiary" @click="goto">
                   <v-icon>
                     {{ mdiNetEase }}
                   </v-icon>
                 </v-btn>
+                <pin-btn />
               </div>
             </div>
           </div>

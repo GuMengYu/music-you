@@ -79,6 +79,11 @@
       "desc": "Description",
       "to163": "View in NetEase Cloud Music (web)"
     },
+    "podcast": {
+      "about": "About this Podcast",
+      "inner": "Voice",
+      "to163": "View in NetEase Cloud Music (web)"
+    },
     "discover": {
       "common": "common",
       "featured": "Featured",
@@ -111,6 +116,7 @@
     "artists": "Artists",
     "mvs": "MV",
     "disk": "Disk Music",
+    "podcasts": "Podcast",
     "ranking": "Listen Ranking",
     "week_time": "Last Week",
     "all_time": "All Time",
@@ -194,7 +200,8 @@
     "follow": "follow | followed",
     "collect": "collect | collected",
     "collection": "collect | cancel collect",
-    "following": "follow | unsubscribe",
+    "following": "follow | unfollow",
+    "subscribe": "subscribe | unsubscribe",
     "isDelete": "delete | deleted",
     "open": "opened | closed",
     "hide": "hidden | displayed",

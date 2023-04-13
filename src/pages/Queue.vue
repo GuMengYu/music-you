@@ -8,7 +8,9 @@
     <div v-if="priorityQueue.length">
       <div class="d-flex align-center gap-2 justify-space-between mb-1">
         <h2 class="text-subtitle-2">{{ $t('common.queue_next') }}</h2>
-        <v-btn size="small" color="primary" variant="outlined" @click="clearPriority"> 清空队列 </v-btn>
+        <v-btn size="small" color="primary" class="rounded-pill" variant="outlined" @click="clearPriority">
+          清空
+        </v-btn>
       </div>
       <track-item
         v-for="(track, idx) in priorityQueue"
@@ -16,16 +18,17 @@
         :track="track"
         :index="idx + 2"
         album
-        @play="play"
+        @play="play(track)"
       />
     </div>
     <div v-if="nextList.length">
       <div class="d-flex align-center gap-2">
         <h2 class="text-subtitle-2">{{ $t('common.next_from') }}</h2>
         <router-link :to="to" class="text-primary">{{ queue.name }}</router-link>
+        <v-btn size="small" color="primary" class="rounded-pill" variant="outlined" @click="clearQueue"> 清空 </v-btn>
       </div>
       <!-- todo: 需要虚拟列表优化此处渲染 -->
-      <track-list :tracks="nextList" type="list" :offset-index="priorityQueue.length + 2" set-queue> </track-list>
+      <track-list :tracks="nextList" type="playlist" :offset-index="priorityQueue.length + 2" set-queue> </track-list>
     </div>
     <template v-if="noMore">
       <v-divider />
@@ -51,8 +54,8 @@ const { track: current } = storeToRefs(playerStore)
 const { queue, priorityQueue } = storeToRefs(playQueueStore)
 
 const nextList = computed(() => {
-  return queue.value.states.map((id) => {
-    return queue.value.tracks.find((track) => track.id === id) as Track
+  return queue.value.states.map((state) => {
+    return queue.value.tracks.find((track) => track.id === state.id) as Track
   })
 })
 
@@ -63,8 +66,11 @@ function clearPriority() {
   playQueueStore.updatePriorityQueue([])
   // todo clear
 }
-function play(trackId: number) {
-  player.updatePlayerTrack(trackId)
+function clearQueue() {
+  playQueueStore.clearQueue()
+}
+function play(track: Track) {
+  player.updatePlayerTrack(track.id, true, true, false, track.source?.from)
 }
 const to = computed(() => {
   return {
@@ -75,6 +81,8 @@ const to = computed(() => {
     cloud: '/library/cloud',
     recent: '/recent',
     intelligence: '',
+    program: `/podcast/${queue.value.id}`,
+    unknown: '',
   }[queue.value.type!]
 })
 </script>

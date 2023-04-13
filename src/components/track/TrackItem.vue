@@ -55,7 +55,9 @@ const artists = computed(() => {
   const art = ar ?? artists ?? []
   return art.map((i: Artist) => ({ id: i.id, name: i.name }))
 })
-const trackAlbum = computed<Album>(() => props.track.al ?? props.track.album ?? {})
+const trackAlbum = computed<Album>(() => {
+  return props.track.al ?? props.track.album ?? props.track.program.radio ?? {}
+})
 const albumCover = computed(() => sizeOfImage(trackAlbum.value.picUrl ?? trackAlbum.value.coverImgUrl, 128))
 const className = computed(() => {
   return props.album ? 'track-item album-item' : 'track-item'

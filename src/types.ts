@@ -1,3 +1,31 @@
+export type listType =
+  | 'album'
+  | 'playlist'
+  | 'artist'
+  | 'daily'
+  | 'cloud'
+  | 'intelligence'
+  | 'recent'
+  | 'program'
+  | 'unknown'
+
+export interface TrackFrom {
+  id: number
+  type: listType
+}
+export interface TrackSource {
+  fromUrl: string
+  fromType: listType
+  from: TrackFrom
+  fid: listType
+  fdata: number
+}
+export interface SimpleTrack {
+  id: number
+  name: string
+  source: TrackSource
+}
+
 interface Quality {
   br: number // 码率
   fid: number
@@ -37,7 +65,11 @@ export interface Track {
   source?: {
     fid: number | string
     fdata: number | string
+    fromUrl: string
+    fromType: listType
+    from: TrackFrom
   }
+  program?: Program
 }
 export interface MV {
   artist?: Artist
@@ -122,6 +154,84 @@ export interface Playlist {
   officialPlaylistType?: string
 }
 
+export interface Podcast {
+  id: number
+  dj: User
+  name: string
+  picUrl: string
+  desc: string
+  subCount: number
+  programCount: number
+  createTime: number
+  categoryId: number
+  category: string
+  secondCategoryId: number
+  secondCategory: string
+  radioFeeType: number
+  feeScope: number
+  buyed: boolean
+  videos: any
+  finished: boolean
+  underShelf: boolean
+  purchaseCount: number
+  price: number
+  originalPrice: number
+  discountPrice: any
+  lastProgramCreateTime: number
+  lastProgramName: string
+  lastProgramId: number
+  picId: number
+  rcmdText: string
+  hightQuality: boolean
+  whiteList: boolean
+  liveInfo: any
+  playCount: number
+  icon: any
+  privacy: boolean
+  intervenePicUrl: string
+  intervenePicId: number
+  dynamic: boolean
+  shortName: any
+  taskId: number
+  manualTagsDTO: any
+  scoreInfoDTO: any
+  descPicList: any
+  subed: boolean
+  composeVideo: boolean
+  rcmdtext: string
+  lastUpdateProgramName: string
+  alg: string
+  programs: Program[]
+}
+
+interface Voice {
+  name: any
+  id: number
+  size: number
+  extension: string
+  sr: number
+  dfsId: number
+  bitrate: number
+  playTime: number
+  volumeDelta: number
+}
+export interface Program {
+  id: number
+  mainSong: {
+    id: number
+    bMusic: Voice
+    lMusic?: Voice
+    hMusic?: Voice
+  }
+  coverUrl: string
+  name: string
+  duration: number
+  liked: boolean
+  likedCount: number
+  listenerCount: number
+  source: TrackSource
+  program?: Program
+}
 interface Profile extends User {
   userName: string
   userType: number
@@ -171,10 +281,37 @@ export interface Comment {
 }
 
 export interface User {
+  defaultAvatar: boolean
+  province: number
+  authStatus: number
+  followed: boolean
   avatarUrl: string
+  accountStatus: number
+  gender: number
+  city: number
+  birthday: number
+  userId: number
+  userType: number
   nickname: string
-  userId: string
+  signature: string
+  description: string
+  detailDescription: string
+  avatarImgId: number
+  backgroundImgId: number
+  backgroundUrl: string
+  authority: number
+  mutual: boolean
+  expertTags: any
+  experts: any
+  djStatus: number
   vipType: number
+  remarkName: any
+  authenticationTypes: number
+  avatarDetail: any
+  avatarImgIdStr: string
+  backgroundImgIdStr: string
+  anchor: boolean
+  avatarImgId_str: string
 }
 
 export interface Wallpaper {
@@ -202,4 +339,10 @@ export interface Thumbs {
   large: string
   original: string
   small: string
+}
+
+export interface PlayNowEvent {
+  id: number
+  setQueue: boolean
+  from: TrackFrom
 }

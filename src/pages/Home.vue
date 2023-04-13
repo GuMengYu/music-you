@@ -42,7 +42,15 @@ watchEffect(() => {
 const isDesktop = computed(() => {
   return is.electron()
 })
-const { isActive: inDeepPage } = useInForeground(['playlist', 'album', 'artist', 'search', 'video', 'daily'])
+const { isActive: inDeepPage } = useInForeground([
+  'podcast',
+  'playlist',
+  'album',
+  'artist',
+  'search',
+  'video',
+  'daily',
+])
 </script>
 <style lang="scss">
 $cubic-bezier: cubic-bezier(0.55, -0.01, 0, 1.03);

@@ -4,7 +4,7 @@
     <Col v-for="(item, index) in items" :key="item.title" :class="index !== 0 ? 'mt-4' : void 0" :title="item.title">
       <v-row>
         <v-col v-for="tag in item.tags" :key="tag.name" cols="2">
-          <m-tag :name="tag.name" :color="tag.color" />
+          <m-tag :name="tag.name" :color="tag.color" :to="`/moods_and_genres/${tag.name}`" />
         </v-col>
       </v-row>
     </Col>
@@ -15,11 +15,13 @@ import { entries, groupBy, random } from 'lodash-es'
 import { defineComponent } from 'vue'
 
 import { getCatList } from '@/api/playlist'
+import MTag from '@/components/Tag.vue'
 import { getColorTable } from '@/util/metadata'
 
-import type { Tag } from '../explore/Explore.vue'
-import MTag from './Tag.vue'
-
+interface Tag {
+  color: string
+  name: string
+}
 export default defineComponent({
   name: 'MoodsGenres',
   components: {

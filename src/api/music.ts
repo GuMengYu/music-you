@@ -1,8 +1,10 @@
 import { isArray, now } from 'lodash-es'
 
+import { getProgramData } from '@/api/podcast'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
+import type { RESOURCE_TYPE } from '@/util/enum'
 import { request } from '@/util/fetch'
 
 import { getAlbum } from './album'
@@ -13,14 +15,24 @@ import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id: 歌曲id
- * @param br: 码率
+ * @param isProgram
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id: number) => {
-  const {
-    songs: [track],
-  } = await getSongData([id])
-  const lyric = await getLyric(id)
+export const getTrackDetail = async (id: number, isProgram = false) => {
+  let track: Track | null = null
+  let lyric = null
+  if (isProgram) {
+    const { program } = await getProgramData(id)
+    const { id: programVoiceId } = program.mainSong
+    id = programVoiceId
+    track = program as unknown as Track
+  } else {
+    const {
+      songs: [data],
+    } = await getSongData([id])
+    track = data
+    lyric = await getLyric(id)
+  }
   const trackMeta = await getMusicUrl(id)
   return { track, trackMeta, lyric }
 }
@@ -56,8 +68,8 @@ export const getMusicUrl = async (id: Track['id']) => {
     } else {
       meta.url = song.url
       meta.br = song['br']
-      meta.type = song['type'].toUpperCase()
-      meta.encodeType = song['encodeType'].toUpperCase()
+      meta.type = song['type']?.toUpperCase()
+      meta.encodeType = song['encodeType']?.toUpperCase()
     }
   } else {
     meta.url = `https://music.163.com/song/media/outer/url?id=${id}`
@@ -161,6 +173,25 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
     message: string
   }>(url, {
     params,
+  })
+}
+
+/**
+ * 资源点赞( MV,电台,视频)
+ * @param type 0: 歌曲 1: mv 2: 歌单 3: 专辑 4: 电台节目 5: 视频 6: 动态 7: 电台
+ * @param id 资源id
+ * @param t 1 点赞 其他 取消点赞
+ */
+export const resourceLike = (type: RESOURCE_TYPE, id: number, t: 1 | 0) => {
+  return request<{
+    code: number
+  }>('/resource/like', {
+    params: {
+      timestamp: now(),
+      type,
+      id,
+      t,
+    },
   })
 }
 export const start = (params: { id: number; content?: string }) => {

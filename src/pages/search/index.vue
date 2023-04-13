@@ -76,9 +76,6 @@ async function triggerSearch() {
     }
   }
 }
-function playMusic(trackId: number) {
-  player.updatePlayerTrack(trackId)
-}
 </script>
 <template>
   <div class="searching d-flex flex-column">

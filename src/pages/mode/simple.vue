@@ -57,8 +57,11 @@
         </div>
 
         <div class="d-flex align-center">
-          <like-toggle :id="track.id" />
-          <music-comment-toggle :id="track.id" />
+          <template v-if="!isProgram">
+            <like-toggle :id="track.id" />
+            <music-comment-toggle :id="track.id" />
+          </template>
+
           <v-btn icon variant="text" @click="wallpaperGallery = true">
             <v-icon size="small">
               {{ mdiImageMultipleOutline }}
@@ -88,6 +91,7 @@ import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiDotsVertical, mdiImageMul
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
+import usePlayerControl from '@/hooks/usePlayerControl'
 import WallHavenModal from '@/pages/modal/Wallhaven.vue'
 import ScrollLyric from '@/pages/mode/components/ScrollLyric.vue'
 import { usePlayer } from '@/player/player'
@@ -96,7 +100,6 @@ import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
 import { useWallHavenStore } from '@/store/wallhaven'
 import { formatDuring, sizeOfImage, sleep } from '@/util/fn'
-import is from '@/util/is'
 
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
@@ -106,7 +109,8 @@ const player = usePlayer()
 
 const loading = ref(false)
 const wallpaperGallery = ref(false)
-const { currentTime, track } = storeToRefs(playerStore)
+const { currentTime } = storeToRefs(playerStore)
+const { track, isProgram } = usePlayerControl()
 const { wallpapers, currentWallpaper, currentIndex } = storeToRefs(wallHavenStore)
 
 const albumPicUrl = computed(() => {

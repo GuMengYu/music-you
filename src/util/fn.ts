@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { inRange } from 'lodash-es'
 
 /**
@@ -189,6 +190,10 @@ export function formatDuring(t = 0, i18n = false) {
   } else {
     return `${h > 0 ? `${h < 10 ? `0${h}` : h}:` : ''}${m < 10 ? `0${m}` : m}:${s < 10 ? `0${s}` : s}`
   }
+}
+
+export function formatDate(datetime: string | number, format = 'YYYY.MM.DD') {
+  return dayjs(datetime).format(format)
 }
 
 /**

@@ -8,7 +8,13 @@
     </Col>
     <Col :title="$t('main.moods_genres')" subtitle="playlist" more="/moods_and_genres/">
       <card-row>
-        <m-tag v-for="tag in state.tags" :key="tag.name" :name="tag.name" :color="tag.color" />
+        <m-tag
+          v-for="tag in state.tags"
+          :key="tag.name"
+          :name="tag.name"
+          :color="tag.color"
+          :to="`/moods_and_genres/${tag.name}`"
+        />
       </card-row>
     </Col>
     <Col :title="$t('main.new_releases_mv')" subtitle="videos" more="/new_releases/videos/">
@@ -31,14 +37,13 @@ import { newAlbums } from '@/api/album'
 import { getNewMv } from '@/api/mv'
 import { getCatList } from '@/api/playlist'
 import { getTopList, topMvs } from '@/api/top'
+import MTag from '@/components/Tag.vue'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import type { Album, MV, Playlist } from '@/types'
 import { getColorTable } from '@/util/metadata'
 
-import MTag from '../moods-genres/Tag.vue'
-
-export interface Tag {
+interface Tag {
   color: string
   name: string
 }

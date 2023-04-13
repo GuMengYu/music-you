@@ -36,6 +36,11 @@
           <artists-cover v-for="artist in data.artists" :key="artist.id" :artist="artist" />
         </card-row>
       </v-window-item>
+      <v-window-item :value="TYPES.PODCAST">
+        <card-row>
+          <podcast-cover v-for="podcast in data.podcasts" :key="podcast.id" :data="podcast" />
+        </card-row>
+      </v-window-item>
       <v-window-item :value="TYPES.MV">
         <card-row :grid-type="GridType.B">
           <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
@@ -84,12 +89,12 @@ import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { createPlaylist } from '@/api/playlist'
-import { favAlbums, favArtists, favMVs } from '@/api/user'
+import { favAlbums, favArtists, favPodcast, favMVs } from '@/api/user'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { usePlayer } from '@/player/player'
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV } from '@/types'
+import type { Album, Artist, Podcast, MV } from '@/types'
 
 import Cloud from './cloud/index.vue'
 import ListenRanking from './listen-ranking/index.vue'
@@ -115,12 +120,14 @@ enum TYPES {
   MV = 'mv',
   CLOUD = 'cloud',
   RANKING = 'listen-ranking',
+  PODCAST = 'podcast',
 }
 const tabs = computed(() => {
   return [
     { key: TYPES.PLAYLIST, name: t('main.playlists') },
     { key: TYPES.ALBUM, name: t('main.albums') },
     { key: TYPES.ARTIST, name: t('main.artists') },
+    { key: TYPES.PODCAST, name: t('main.podcasts') },
     { key: TYPES.MV, name: t('main.mvs') },
     { key: TYPES.CLOUD, name: t('main.disk') },
     { key: TYPES.RANKING, name: t('main.ranking') },
@@ -131,10 +138,12 @@ const data: {
   albums: Album[]
   artists: Artist[]
   mvs: MV[]
+  podcasts: Podcast[]
 } = reactive({
   albums: [],
   artists: [],
   mvs: [],
+  podcasts: [],
 })
 const loading = ref(false)
 fetch()
@@ -148,14 +157,16 @@ async function fetch() {
   current.value = TYPES.PLAYLIST
   loading.value = true
   try {
-    const [{ data: albums }, { data: artists }, { data: mvs }] = await Promise.all([
+    const [{ data: albums }, { data: artists }, { data: mvs }, { djRadios: podcasts }] = await Promise.all([
       favAlbums(),
       favArtists(),
       favMVs(),
+      favPodcast(),
     ])
     data.albums = albums
     data.artists = artists
     data.mvs = mvs
+    data.podcasts = podcasts
   } catch (e) {
     toast.error('something wrong')
   } finally {

@@ -76,7 +76,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
     <list-loader v-if="loading" />
     <div v-else class="list d-flex flex-column gap-4">
       <album-header :album="state.album" />
-      <track-list type="album" :tracks="state.album.tracks" :header="smAndUp"></track-list>
+      <track-list :id="state.album.id" type="album" :tracks="state.album.tracks" :header="smAndUp"></track-list>
       <div class="d-flex flex-column">
         <span class="text-caption"> {{ t('common.released', [formatDate(state.album.publishTime, 'LL')]) }} </span>
         <span v-if="state.album.company" class="text-caption"> © {{ state.album.company }} </span>

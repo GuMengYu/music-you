@@ -76,7 +76,7 @@ function handleClose() {
     <v-toolbar color="surface" class="rounded-t-lg px-4" height="80">
       <div class="d-flex justify-space-between align-center w-100 ml-4">
         <span class="text-h6">{{ t('common.comment') }}</span>
-        <v-btn icon variant="text" @click="handleClose"
+        <v-btn class="no-drag-area" icon variant="text" @click="handleClose"
           ><v-icon>{{ mdiClose }}</v-icon></v-btn
         >
       </div>

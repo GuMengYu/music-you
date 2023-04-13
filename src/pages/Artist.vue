@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import {
   mdiAccountMusic,
+  mdiArrowDownCircleOutline,
   mdiArrowRight,
+  mdiArrowRightCircleOutline,
+  mdiArrowUpCircleOutline,
   mdiBookmarkPlusOutline,
   mdiBookmarkRemoveOutline,
   mdiClose,
@@ -115,15 +118,17 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6 drag-area">
-      <v-card flat class="d-flex rounded-lg mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <v-card flat class="d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
         <v-img :src="state.artist.picUrl" cover :aspect-ratio="28 / 9">
-          <div class="d-flex flex-column justify-start h-100" :class="smAndUp ? 'order-1' : 'order-2'">
+          <div
+            class="d-flex flex-column justify-start h-100"
+            :class="smAndUp ? 'order-1' : 'order-2'"
+            :style="{
+              background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
+            }"
+          >
             <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-            <div
-              :style="{
-                background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
-              }"
-            >
+            <div>
               <div class="d-flex flex-column gap-2 mx-6 mb-2">
                 <span
                   class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -205,17 +210,22 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
         </div>
         <Col :title="$t('main.artist.hot')">
           <track-list
+            :id="state.artist.id"
             :tracks="more.showMoreSong ? state.hotSongs : state.hotSongs.slice(0, 5)"
             type="artist"
           ></track-list>
-          <template #action>
+          <template #more>
             <v-btn
               v-if="state.hotSongs.length > 5"
-              variant="text"
-              size="small"
+              icon
+              size="x-small"
+              variant="tonal"
+              color="tertiary"
               @click="more.showMoreSong = !more.showMoreSong"
             >
-              {{ $t(`common.${more.showMoreSong ? 'collapse' : 'expand'}`) }}
+              <v-icon>
+                {{ more.showMoreSong ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+              </v-icon>
             </v-btn>
           </template>
         </Col>
@@ -228,14 +238,18 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               :extra="`${formatDate(item.publishTime)} · ${item['subType']}`"
             />
           </card-row>
-          <template #action>
+          <template #more>
             <v-btn
               v-if="albums.length > 7"
-              variant="text"
-              size="small"
+              icon
+              size="x-small"
+              variant="tonal"
+              color="tertiary"
               @click="more.showMoreAlbum = !more.showMoreAlbum"
             >
-              {{ $t(`common.${more.showMoreAlbum ? 'collapse' : 'expand'}`) }}
+              <v-icon>
+                {{ more.showMoreAlbum ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+              </v-icon>
             </v-btn>
           </template>
         </Col>
@@ -268,14 +282,18 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               :extra="`${formatDate(item.publishTime)} · ${item.type} · ${item['subType']}`"
             />
           </card-row>
-          <template #action>
+          <template #more>
             <v-btn
               v-if="collection.length > 7"
-              variant="text"
-              size="small"
+              icon
+              size="x-small"
+              variant="tonal"
+              color="tertiary"
               @click="more.showMoreCollection = !more.showMoreCollection"
             >
-              {{ $t(`common.${more.showMoreCollection ? 'collapse' : 'expand'}`) }}
+              <v-icon>
+                {{ more.showMoreCollection ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+              </v-icon>
             </v-btn>
           </template>
         </Col>
@@ -283,14 +301,18 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
           <card-row>
             <video-cover v-for="mv in more.showMoreMVs ? state.mvs : state.mvs.slice(0, 6)" :key="mv.id" :data="mv" />
           </card-row>
-          <template #action>
+          <template #more>
             <v-btn
               v-if="state.mvs.length > 6"
-              variant="text"
-              size="small"
+              icon
+              size="x-small"
+              variant="tonal"
+              color="tertiary"
               @click="more.showMoreMVs = !more.showMoreMVs"
             >
-              {{ $t(`common.${more.showMoreMVs ? 'collapse' : 'expand'}`) }}
+              <v-icon>
+                {{ more.showMoreMVs ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+              </v-icon>
             </v-btn>
           </template>
         </Col>

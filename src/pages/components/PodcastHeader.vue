@@ -1,63 +1,63 @@
 <script lang="ts" setup>
 // coding here
-import {
-  mdiAlbum,
-  mdiArrowRight,
-  mdiBookmarkPlusOutline,
-  mdiBookmarkRemoveOutline,
-  mdiClose,
-  mdiCopyright,
-  mdiFilterVariant,
-  mdiImage,
-  mdiPlayOutline,
-} from '@mdi/js'
+import { mdiArrowRight, mdiClose, mdiPlayOutline, mdiPodcast, mdiStar, mdiStarOutline } from '@mdi/js'
 import { useIpcRenderer } from '@vueuse/electron'
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 import { useDisplay } from 'vuetify'
 
-import { sub } from '@/api/music'
+import { subPodcast } from '@/api/podcast'
 import useDownload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'
-import type { Album } from '@/types'
-import { formatDuring, sizeOfImage } from '@/util/fn'
+import { useUserStore } from '@/store/user'
+import type { Podcast } from '@/types'
+import { formatNumber } from '@/util/fn'
 import { mdiNetEase } from '@/util/icons'
 import is from '@/util/is'
-
+const { smAndUp } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
+const playQueueStore = usePlayQueueStore()
 const player = usePlayer()
-const playQueue = usePlayQueueStore()
-const { smAndUp } = useDisplay()
-
-const loading = ref(false)
 const subscribed = ref(false)
 const showMoreDesc = ref(false)
-const playLoading = ref(false)
+const userStore = useUserStore()
 
 const props = defineProps<{
-  album: Album
+  podcast: Podcast
 }>()
 
-const albumDt = computed(() => {
-  return props.album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
+const playLoading = ref(false)
+
+watchEffect(() => {
+  subscribed.value = props.podcast.subed
 })
-
 async function play() {
-  playLoading.value = true
+  if (props.podcast) {
+    playLoading.value = true
+    playQueueStore.updatePlayQueue(props.podcast.id, 'program', props.podcast.name, props.podcast.programs)
+    player.next()
+    setTimeout(() => {
+      playLoading.value = false
+    }, 1000)
+  }
+}
 
-  playQueue.updatePlayQueue(props.album.id, 'album', props.album.name, props.album.tracks)
-  player.next()
-  setTimeout(() => {
-    playLoading.value = false
-  }, 1000)
+async function subscribe() {
+  const { id } = props.podcast
+  const { code, message } = await subPodcast(id, subscribed.value ? 0 : 1)
+  if (code === 200) {
+    subscribed.value = !subscribed.value
+    toast.success(t('message.sub_msg', subscribed.value ? 1 : 2))
+  } else {
+    toast.error(message)
+  }
 }
 
 function goto() {
-  const url = `https://music.163.com/#/album?id=${props.album.id}`
+  const url = `https://music.163.com/#/djradio?id=${props.podcast.id}`
   if (is.electron()) {
     const ipcRenderer = useIpcRenderer()
     ipcRenderer.invoke('open-url', url)
@@ -66,31 +66,16 @@ function goto() {
   }
 }
 
-async function subscribe() {
-  const { id } = props.album
-  const { code, message } = await sub('album', id, subscribed.value ? 0 : 1)
-  if (code === 200) {
-    subscribed.value = !subscribed.value
-    toast.success(t('message.sub_msg', subscribed.value ? 1 : 2))
-  } else {
-    toast.error(message)
-  }
-}
 function formatDate(date: number | string, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
-}
-
-function saveCover() {
-  const url = props.album.picUrl
-  useDownload(url)
 }
 </script>
 <template>
   <div class="d-flex flex-column gap-6 drag-area">
-    <v-card flat class="d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="album.picUrl" cover :aspect-ratio="28 / 9">
+    <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <v-img :src="podcast.picUrl" cover :aspect-ratio="28 / 9">
         <div
-          class="d-flex flex-column gap-2 h-100"
+          class="d-flex flex-column h-100"
           :class="smAndUp ? 'order-1' : 'order-2'"
           :style="{
             background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
@@ -105,43 +90,34 @@ function saveCover() {
                   'pr-6': smAndUp,
                   'text-center': !smAndUp,
                 }"
-                >{{ album.name }}</span
+                >{{ podcast.name }}</span
               >
               <div class="d-flex flex-column">
-                <div class="d-flex align-center text-body-1 font-weight-medium">
-                  <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
-                </div>
+                <span class="text-body-1 font-weight-medium text-primary">
+                  {{ podcast.dj?.nickname }}
+                </span>
                 <span class="text-caption text-disabled">
-                  {{ formatDate(album.publishTime, 'LL') }}
+                  {{ formatDate(podcast.lastProgramCreateTime, 'LL') }}
                 </span>
               </div>
               <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
                 <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ album.size }}</span>
-                  <span class="text-disabled text-caption"> 首 </span>
+                  <span class="text-body-1 font-weight-medium">{{ podcast.programCount }}</span>
+                  <span class="text-disabled text-caption"> 节目 </span>
                 </div>
                 <v-divider class="my-2" vertical />
                 <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
                   <span class="text-body-1 font-weight-medium">
-                    <v-icon size="small">{{ mdiAlbum }} </v-icon>
+                    <v-icon size="small">{{ mdiPodcast }} </v-icon>
                   </span>
-                  <span class="text-disabled text-caption">专辑</span>
+                  <span class="text-disabled text-caption">电台播客</span>
                 </div>
                 <v-divider class="my-2" vertical />
 
-                <div class="d-flex flex-column align-center px-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ formatDuring(albumDt) }}</span>
-                  <span class="text-disabled text-caption">时长</span>
+                <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
+                  <span class="text-body-1 font-weight-medium">{{ formatNumber(podcast.subCount) }}</span>
+                  <span class="text-disabled text-caption">订阅</span>
                 </div>
-                <template v-if="album.company">
-                  <v-divider class="my-2" vertical />
-                  <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-                    <span class="text-body-1 font-weight-medium">
-                      <v-icon size="small">{{ mdiCopyright }} </v-icon>
-                    </span>
-                    <span class="text-disabled text-caption">{{ album.company }}</span>
-                  </div>
-                </template>
               </div>
               <div class="d-flex align-center">
                 <v-btn
@@ -154,60 +130,55 @@ function saveCover() {
                 >
                   <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
                 </v-btn>
-                <v-btn class="mr-4" icon color="secondary" variant="tonal" @click="subscribe">
+                <v-btn class="mr-4" icon variant="tonal" color="secondary" @click="subscribe">
                   <v-icon>
-                    {{ subscribed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
+                    {{ subscribed ? mdiStar : mdiStarOutline }}
                   </v-icon>
                   <v-tooltip activator="parent" location="top">
-                    {{ t('common.collection', subscribed ? 2 : 1) }}
+                    {{ t('common.subscribe', subscribed ? 2 : 1) }}
                   </v-tooltip>
                 </v-btn>
-                <v-btn class="mr-4" icon variant="tonal" color="tertiary" @click="goto">
+                <v-btn icon variant="tonal" color="tertiary" @click="goto">
                   <v-icon>
                     {{ mdiNetEase }}
                   </v-icon>
-                </v-btn>
-                <v-btn icon variant="tonal" color="primary" @click="saveCover">
-                  <v-icon>{{ mdiImage }} </v-icon>
-                  <v-tooltip activator="parent" location="top"> save cover </v-tooltip>
                 </v-btn>
               </div>
             </div>
           </div>
         </div>
       </v-img>
-    </v-card>
-    <div v-if="album.description" class="d-flex flex-column mx-2">
+    </div>
+    <div v-if="podcast['desc']" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.about') }}</span>
+        <span class="font-weight-medium mr-2 text-h6">{{ t('main.podcast.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
           <v-icon>{{ mdiArrowRight }}</v-icon>
         </v-btn>
       </div>
       <p class="text-caption line-clamp-5 select-text">
-        {{ album.description }}
+        {{ podcast['desc'] }}
       </p>
     </div>
     <div class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
-        <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.inner') }}</span>
-        <v-btn icon variant="text">
-          <v-icon>{{ mdiFilterVariant }}</v-icon>
-        </v-btn>
+        <span class="font-weight-medium mr-2 text-h6"
+          >{{ t('main.podcast.inner') }} <span class="text-caption">({{ podcast.programCount }})</span></span
+        >
       </div>
     </div>
     <v-dialog v-model="showMoreDesc" :scrollable="true">
       <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="pb-4 align-self-center">
         <v-card-title>
           <div class="d-flex justify-space-between align-center">
-            {{ t('main.album.desc') }}
+            {{ t('main.podcast.desc') }}
             <v-btn icon variant="text" @click="showMoreDesc = false"
               ><v-icon>{{ mdiClose }}</v-icon></v-btn
             >
           </div>
         </v-card-title>
         <v-card-text>
-          {{ album['description'] }}
+          {{ podcast['desc'] }}
         </v-card-text>
       </v-card>
     </v-dialog>

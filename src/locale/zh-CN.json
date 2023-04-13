@@ -90,6 +90,12 @@
       "recommend_songs": "推荐新音乐",
       "random": "随机已收藏歌单"
     },
+    "podcast": {
+      "desc": "播客简介",
+      "about": "关于此播客",
+      "inner": "声音",
+      "to163": "在网易云音乐中查看(web)"
+    },
     "featured": "精选",
     "for_you": "专属定制",
     "radar": "雷达歌单",
@@ -111,6 +117,7 @@
     "artists": "艺人",
     "mvs": "MV",
     "disk": "云盘",
+    "podcasts": "播客",
     "ranking": "听歌排行",
     "week_time": "最近一周",
     "all_time": "所有时间",
@@ -195,6 +202,7 @@
     "collect": "收藏 | 已收藏",
     "collection": "收藏 | 取消收藏",
     "following": "关注 | 取消关注",
+    "subscribe": "订阅 | 取消订阅",
     "isDelete": "删除歌单 | 已删除",
     "open": "已开启 | 已关闭",
     "hide": "已隐藏 | 已打开",
