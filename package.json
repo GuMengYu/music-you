@@ -32,11 +32,13 @@
     "http-proxy-middleware": "^2.0.6",
     "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "polka": "^0.5.2",
-    "sirv": "^2.0.2"
+    "sirv": "^2.0.2",
+    "sortablejs": "^1.15.0"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.2.0",
     "@mdi/js": "^7.2.96",
+    "@types/sortablejs": "^1.15.1",
     "@types/howler": "^2.2.7",
     "@types/lodash-es": "^4.17.6",
     "@types/md5": "^2.3.2",
@@ -53,7 +55,7 @@
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "dayjs": "^1.11.1",
-    "electron": "^22.0.0",
+    "electron": "^24.1.1",
     "electron-builder": "^23.0.3",
     "electron-dl": "^3.3.1",
     "electron-is": "^3.0.0",

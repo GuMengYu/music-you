@@ -72,7 +72,10 @@ export function catHots(cateId: number, limit = 30, offset = 0) {
  * @param t
  */
 export function subPodcast(rid: number, t = 1) {
-  return request('/dj/sub', {
+  return request<{
+    code: number
+    message: string
+  }>('/dj/sub', {
     params: {
       rid,
       t,

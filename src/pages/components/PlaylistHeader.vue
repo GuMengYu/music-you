@@ -20,6 +20,7 @@ import { useDisplay } from 'vuetify'
 
 import { sub } from '@/api/music'
 import { deletePlayList, updatePlaylist } from '@/api/playlist'
+import PinBtn from '@/components/button/PinBtn.vue'
 import useDownload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
@@ -30,7 +31,6 @@ import { formatDuring, formatNumber } from '@/util/fn'
 import { mdiNetEase } from '@/util/icons'
 import is from '@/util/is'
 import { specialType } from '@/util/metadata'
-import PinBtn from "@/components/button/PinBtn.vue";
 const { smAndUp } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
@@ -150,7 +150,7 @@ function saveCover() {
 <template>
   <div class="d-flex flex-column gap-6 drag-area">
     <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="playlist.coverImgUrl" cover :aspect-ratio="28 / 9">
+      <v-img :src="playlist['coverImgUrl']" cover :aspect-ratio="28 / 9">
         <div
           class="d-flex flex-column h-100"
           :class="smAndUp ? 'order-1' : 'order-2'"
@@ -159,7 +159,7 @@ function saveCover() {
           }"
         >
           <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-          <div>
+          <div class="no-drag-area">
             <div class="d-flex flex-column gap-2 mx-6 mb-2">
               <span
                 class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -171,15 +171,15 @@ function saveCover() {
               >
               <div class="d-flex flex-column">
                 <span class="text-body-1 font-weight-medium text-primary">
-                  {{ playlist.creator?.nickname }}
+                  {{ playlist['creator']?.nickname }}
                 </span>
                 <span class="text-caption text-disabled">
-                  {{ formatDate(playlist.createTime, 'LL') }}
+                  {{ formatDate(playlist['createTime'], 'LL') }}
                 </span>
               </div>
               <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
                 <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ playlist.trackCount }}</span>
+                  <span class="text-body-1 font-weight-medium">{{ playlist['trackCount'] }}</span>
                   <span class="text-disabled text-caption"> 首 </span>
                 </div>
                 <v-divider class="my-2" vertical />
@@ -198,7 +198,7 @@ function saveCover() {
                 <v-divider class="my-2" vertical />
 
                 <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ formatNumber(playlist.playCount) }}</span>
+                  <span class="text-body-1 font-weight-medium">{{ formatNumber(playlist['playCount']) }}</span>
                   <span class="text-disabled text-caption">次</span>
                 </div>
               </div>
@@ -270,7 +270,7 @@ function saveCover() {
                     {{ mdiNetEase }}
                   </v-icon>
                 </v-btn>
-                <pin-btn />
+                <pin-btn :data="playlist" type="playlist" />
               </div>
             </div>
           </div>
@@ -295,7 +295,7 @@ function saveCover() {
       <!--        </template>-->
       <!--      </Cover>-->
     </div>
-    <div v-if="playlist.description" class="d-flex flex-column mx-2">
+    <div v-if="playlist['description']" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.playlist.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
@@ -303,7 +303,7 @@ function saveCover() {
         </v-btn>
       </div>
       <p class="text-caption line-clamp-5 select-text">
-        {{ playlist.description }}
+        {{ playlist['description'] }}
       </p>
     </div>
     <div class="d-flex flex-column mx-2">

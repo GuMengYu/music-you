@@ -13,10 +13,11 @@ const props = defineProps<{
 }>()
 async function download() {
   try {
+    const id = props.track.source?.fromType === 'program' ? props.track.mainSong.id : props.track.id
     // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
-    const { data } = await getSongDownloadUrl({ id: props.track.id })
+    const { data } = await getSongDownloadUrl({ id })
     const artistName = props.track.ar?.map((i) => i.name)?.join(',')
-    const fileName = `${artistName} - ${props.track.name}.${data.type}`
+    const fileName = `${artistName ? `${artistName} - ` : ''}${props.track.name}.${data.type}`
     useDownload(data.url, fileName)
   } catch (e) {
     toast.error(t('message.something_wrong'))

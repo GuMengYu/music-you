@@ -80,7 +80,7 @@ const props = defineProps<{
     subTitle?: string
     picUrl: string
   }
-  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent'
+  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent' | 'program'
   flag: {
     color: string
     label?: string
@@ -104,13 +104,13 @@ const to = computed(() => {
     playlist: `/playlist/${props.data.id}`,
     artist: `/artist/${props.data.id}`,
     daily: `/daily`,
-    wallhaven: '/wallhaven',
     recent: '/recent',
+    program: `/podcast/${props.data.id}`,
   }[props.type]
 })
 
 const canPlay = computed(() => {
-  return ['daily', 'album', 'playlist', 'artist', 'recent'].includes(props.type)
+  return ['daily', 'album', 'playlist', 'artist', 'recent', 'program'].includes(props.type)
 })
 async function play() {
   try {
@@ -128,7 +128,7 @@ async function play() {
     } else if (props.type === 'recent') {
       const { data } = await recent()
       info = {
-        list: data.list.map((i) => i.data),
+        list: data.list.map((i) => i['data']),
       }
       playQueueStore.updatePlayQueue(0, 'recent', t('common.recent'), info.list)
     } else {

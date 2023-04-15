@@ -18,6 +18,7 @@ import { useDisplay } from 'vuetify'
 
 import { getArtist, getArtistAlbum, getArtistDetail, getArtistMv, getSimiArtist } from '@/api/artist'
 import { sub } from '@/api/music'
+import PinBtn from '@/components/button/PinBtn.vue'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useSettingStore } from '@/store/setting'
@@ -128,7 +129,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
             }"
           >
             <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-            <div>
+            <div class="no-drag-area">
               <div class="d-flex flex-column gap-2 mx-6 mb-2">
                 <span
                   class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -144,7 +145,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                     {{ state.artist.alias?.length ? `(${state.artist.alias.join('/')})` : '' }}
                   </span>
                   <span class="text-caption text-disabled">
-                    {{ [...(state.artist.identifyTag ?? []), ...(state.artist.identities ?? [])].join('·') }}
+                    {{ [...(state.artist['identifyTag'] ?? []), ...(state.artist['identities'] ?? [])].join('·') }}
                   </span>
                 </div>
                 <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
@@ -182,7 +183,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                   >
                     <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
                   </v-btn>
-                  <v-btn icon variant="tonal" color="tertiary" @click="follow">
+                  <v-btn class="mr-4" icon variant="tonal" color="tertiary" @click="follow">
                     <v-icon>
                       {{ followed ? mdiBookmarkRemoveOutline : mdiBookmarkPlusOutline }}
                     </v-icon>
@@ -190,6 +191,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
                       {{ t('common.following', followed ? 2 : 1) }}
                     </v-tooltip>
                   </v-btn>
+                  <pin-btn :data="state.artist" type="artist" />
                 </div>
               </div>
             </div>
@@ -224,7 +226,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               @click="more.showMoreSong = !more.showMoreSong"
             >
               <v-icon>
-                {{ more.showMoreSong ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+                {{ more['showMoreSong'] ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
               </v-icon>
             </v-btn>
           </template>
@@ -248,7 +250,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               @click="more.showMoreAlbum = !more.showMoreAlbum"
             >
               <v-icon>
-                {{ more.showMoreAlbum ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+                {{ more['showMoreAlbum'] ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
               </v-icon>
             </v-btn>
           </template>
@@ -269,7 +271,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               size="small"
               @click="more.showMoreEps = !more.showMoreEps"
             >
-              {{ $t(`common.${more.showMoreEps ? 'collapse' : 'expand'}`) }}
+              {{ $t(`common.${more['showMoreEps'] ? 'collapse' : 'expand'}`) }}
             </v-btn>
           </template>
         </Col>
@@ -292,7 +294,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               @click="more.showMoreCollection = !more.showMoreCollection"
             >
               <v-icon>
-                {{ more.showMoreCollection ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+                {{ more['showMoreCollection'] ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
               </v-icon>
             </v-btn>
           </template>
@@ -311,7 +313,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
               @click="more.showMoreMVs = !more.showMoreMVs"
             >
               <v-icon>
-                {{ more.showMoreMVs ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
+                {{ more['showMoreMVs'] ? mdiArrowUpCircleOutline : mdiArrowDownCircleOutline }}
               </v-icon>
             </v-btn>
           </template>

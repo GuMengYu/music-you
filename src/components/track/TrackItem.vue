@@ -79,6 +79,7 @@ const symbol = computed(() => {
   return _symbol
 })
 const isVip = computed(() => account.value?.profile.vipType === 11)
+const isProgram = computed(() => props.track.source?.fromType === 'program')
 const available = computed(() => {
   if (props.track.fee === 1) {
     if (logged.value && isVip.value) {
@@ -169,7 +170,7 @@ async function toggleLike() {
       :value="track.id"
       @click="() => {}"
       @dblclick="play"
-      @contextmenu.prevent="openMenu"
+      @contextmenu.prevent="!isProgram && openMenu"
     >
       <div
         class="px-1 rounded-md"
@@ -213,7 +214,14 @@ async function toggleLike() {
         </div>
         <div v-if="album" class="track-second">
           <router-link
-            v-if="trackAlbum.id"
+            v-if="isProgram && track.source?.fromUrl"
+            :to="track.source?.fromUrl!"
+            class="text-subtitle-2 text-onSurface line-clamp-2"
+          >
+            {{ trackAlbum.name }}
+          </router-link>
+          <router-link
+            v-else-if="trackAlbum.id"
             :to="`/album/${trackAlbum.id}`"
             class="text-subtitle-2 text-onSurface line-clamp-2"
           >
@@ -223,6 +231,7 @@ async function toggleLike() {
         </div>
         <div class="track-third">
           <v-btn
+            v-if="!isProgram"
             v-visible="liked || isHovering"
             :loading="likeLoading"
             icon
@@ -235,7 +244,7 @@ async function toggleLike() {
           <div class="track-duration">
             {{ formatDuring(track.dt || track.duration || 0) }}
           </div>
-          <v-btn v-visible="isHovering" icon color="primary" variant="text" @click.prevent="openMenu">
+          <v-btn v-if="!isProgram" v-visible="isHovering" icon color="primary" variant="text" @click.prevent="openMenu">
             <v-icon size="x-small">
               {{ mdiDotsHorizontal }}
             </v-icon>

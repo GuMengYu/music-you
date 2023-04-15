@@ -88,7 +88,8 @@
       "radar": "私人雷达",
       "fm": "私人FM",
       "recommend_songs": "推荐新音乐",
-      "random": "随机已收藏歌单"
+      "random": "随机已收藏歌单",
+      "pin": "钉住的卡片"
     },
     "podcast": {
       "desc": "播客简介",

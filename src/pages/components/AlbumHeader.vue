@@ -18,6 +18,7 @@ import { useToast } from 'vue-toastification'
 import { useDisplay } from 'vuetify'
 
 import { sub } from '@/api/music'
+import PinBtn from '@/components/button/PinBtn.vue'
 import useDownload from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
@@ -88,7 +89,7 @@ function saveCover() {
 <template>
   <div class="d-flex flex-column gap-6 drag-area">
     <v-card flat class="d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="album.picUrl" cover :aspect-ratio="28 / 9">
+      <v-img :src="album['picUrl']" cover :aspect-ratio="28 / 9">
         <div
           class="d-flex flex-column gap-2 h-100"
           :class="smAndUp ? 'order-1' : 'order-2'"
@@ -97,7 +98,7 @@ function saveCover() {
           }"
         >
           <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-          <div>
+          <div class="no-drag-area">
             <div class="d-flex flex-column gap-2 mx-6 mb-2">
               <span
                 class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -109,15 +110,15 @@ function saveCover() {
               >
               <div class="d-flex flex-column">
                 <div class="d-flex align-center text-body-1 font-weight-medium">
-                  <artists-link v-if="album.artist" color="primary" :artists="[album.artist]" />
+                  <artists-link v-if="album['artist']" color="primary" :artists="[album['artist']]" />
                 </div>
                 <span class="text-caption text-disabled">
-                  {{ formatDate(album.publishTime, 'LL') }}
+                  {{ formatDate(album['publishTime'], 'LL') }}
                 </span>
               </div>
               <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
                 <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ album.size }}</span>
+                  <span class="text-body-1 font-weight-medium">{{ album['size'] }}</span>
                   <span class="text-disabled text-caption"> 首 </span>
                 </div>
                 <v-divider class="my-2" vertical />
@@ -133,13 +134,13 @@ function saveCover() {
                   <span class="text-body-1 font-weight-medium">{{ formatDuring(albumDt) }}</span>
                   <span class="text-disabled text-caption">时长</span>
                 </div>
-                <template v-if="album.company">
+                <template v-if="album['company']">
                   <v-divider class="my-2" vertical />
                   <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
                     <span class="text-body-1 font-weight-medium">
                       <v-icon size="small">{{ mdiCopyright }} </v-icon>
                     </span>
-                    <span class="text-disabled text-caption">{{ album.company }}</span>
+                    <span class="text-disabled text-caption">{{ album['company'] }}</span>
                   </div>
                 </template>
               </div>
@@ -167,17 +168,18 @@ function saveCover() {
                     {{ mdiNetEase }}
                   </v-icon>
                 </v-btn>
-                <v-btn icon variant="tonal" color="primary" @click="saveCover">
+                <v-btn class="mr-4" icon variant="tonal" color="primary" @click="saveCover">
                   <v-icon>{{ mdiImage }} </v-icon>
                   <v-tooltip activator="parent" location="top"> save cover </v-tooltip>
                 </v-btn>
+                <pin-btn :data="album" type="album" />
               </div>
             </div>
           </div>
         </div>
       </v-img>
     </v-card>
-    <div v-if="album.description" class="d-flex flex-column mx-2">
+    <div v-if="album['description']" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.about') }}</span>
         <v-btn icon variant="text" @click="showMoreDesc = true">
@@ -185,7 +187,7 @@ function saveCover() {
         </v-btn>
       </div>
       <p class="text-caption line-clamp-5 select-text">
-        {{ album.description }}
+        {{ album['description'] }}
       </p>
     </div>
     <div class="d-flex flex-column mx-2">

@@ -11,7 +11,7 @@
             }"
           >
             <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-            <div>
+            <div class="no-drag-area">
               <div class="d-flex flex-column gap-2 mx-6 mb-2">
                 <span
                   class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text text-seconday"

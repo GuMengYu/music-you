@@ -25,7 +25,9 @@
       <div class="d-flex align-center gap-2">
         <h2 class="text-subtitle-2">{{ $t('common.next_from') }}</h2>
         <router-link :to="to" class="text-primary">{{ queue.name }}</router-link>
-        <v-btn size="small" color="primary" class="rounded-pill" variant="outlined" @click="clearQueue"> 清空 </v-btn>
+        <v-btn size="small" color="primary" class="rounded-pill ml-auto" variant="outlined" @click="clearQueue">
+          清空
+        </v-btn>
       </div>
       <!-- todo: 需要虚拟列表优化此处渲染 -->
       <track-list :tracks="nextList" type="playlist" :offset-index="priorityQueue.length + 2" set-queue> </track-list>

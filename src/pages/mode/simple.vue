@@ -31,7 +31,7 @@
           max-width="22vh"
           min-width="22vh"
           class="frame-cover-img rounded-md"
-          :src="albumPicUrl"
+          :src="coverUrl"
           :lazy-src="placeholderUrl"
           :aspect-ratio="1"
         />
@@ -39,8 +39,11 @@
           class="d-flex flex-column text-h5 text-xl-h4 justify-space-evenly"
           style="font-family: 'Google Sans', serif !important"
         >
-          <span>{{ track['al']?.['name'] }}</span>
-          <span>by - {{ track['ar']?.[0]?.['name'] }}</span>
+          <template v-if="track['al']">
+            <span>{{ track['al']?.['name'] }}</span>
+            <span>by - {{ track['ar']?.[0]?.['name'] }}</span>
+          </template>
+
           <span class="text-h4 text-xl-h3 font-weight-regular" style="font-family: 'Google Sans', serif !important"
             >{{ track?.name }} <download-track-btn :track="track" />
           </span>
@@ -113,9 +116,8 @@ const { currentTime } = storeToRefs(playerStore)
 const { track, isProgram } = usePlayerControl()
 const { wallpapers, currentWallpaper, currentIndex } = storeToRefs(wallHavenStore)
 
-const albumPicUrl = computed(() => {
-  return track.value?.al && sizeOfImage(track.value.al.picUrl)
-})
+const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
+
 const currentTheme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'
 })

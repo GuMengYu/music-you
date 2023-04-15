@@ -7,7 +7,7 @@ import { useToast } from 'vue-toastification'
 import { useDisplay } from 'vuetify'
 
 import { subPodcast } from '@/api/podcast'
-import useDownload from '@/hooks/useDownload'
+import PinBtn from '@/components/button/PinBtn.vue'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'
@@ -73,7 +73,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 <template>
   <div class="d-flex flex-column gap-6 drag-area">
     <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="podcast.picUrl" cover :aspect-ratio="28 / 9">
+      <v-img :src="podcast['picUrl']" cover :aspect-ratio="28 / 9">
         <div
           class="d-flex flex-column h-100"
           :class="smAndUp ? 'order-1' : 'order-2'"
@@ -82,7 +82,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           }"
         >
           <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
-          <div>
+          <div class="no-drag-area">
             <div class="d-flex flex-column gap-2 mx-6 mb-2">
               <span
                 class="text-h4 text-lg-h3 text-xl-h3 text-xxl-h2 font-weight-medium line-clamp-2 select-text"
@@ -94,15 +94,15 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
               >
               <div class="d-flex flex-column">
                 <span class="text-body-1 font-weight-medium text-primary">
-                  {{ podcast.dj?.nickname }}
+                  {{ podcast['dj']?.nickname }}
                 </span>
                 <span class="text-caption text-disabled">
-                  {{ formatDate(podcast.lastProgramCreateTime, 'LL') }}
+                  {{ formatDate(podcast['lastProgramCreateTime'], 'LL') }}
                 </span>
               </div>
               <div class="d-flex py-2" :class="{ 'justify-center': !smAndUp }">
                 <div class="d-flex flex-column align-center pr-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ podcast.programCount }}</span>
+                  <span class="text-body-1 font-weight-medium">{{ podcast['programCount'] }}</span>
                   <span class="text-disabled text-caption"> 节目 </span>
                 </div>
                 <v-divider class="my-2" vertical />
@@ -115,7 +115,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
                 <v-divider class="my-2" vertical />
 
                 <div class="d-flex flex-column align-center pl-4" :style="{ minWidth: '96px' }">
-                  <span class="text-body-1 font-weight-medium">{{ formatNumber(podcast.subCount) }}</span>
+                  <span class="text-body-1 font-weight-medium">{{ formatNumber(podcast['subCount']) }}</span>
                   <span class="text-disabled text-caption">订阅</span>
                 </div>
               </div>
@@ -138,11 +138,12 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
                     {{ t('common.subscribe', subscribed ? 2 : 1) }}
                   </v-tooltip>
                 </v-btn>
-                <v-btn icon variant="tonal" color="tertiary" @click="goto">
+                <v-btn class="mr-4" icon variant="tonal" color="tertiary" @click="goto">
                   <v-icon>
                     {{ mdiNetEase }}
                   </v-icon>
                 </v-btn>
+                <pin-btn :data="podcast" type="program" />
               </div>
             </div>
           </div>
@@ -163,7 +164,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
     <div class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6"
-          >{{ t('main.podcast.inner') }} <span class="text-caption">({{ podcast.programCount }})</span></span
+          >{{ t('main.podcast.inner') }} <span class="text-caption">({{ podcast['programCount'] }})</span></span
         >
       </div>
     </div>

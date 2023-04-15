@@ -1,6 +1,6 @@
 import { isArray, now } from 'lodash-es'
 
-import { getProgramData } from '@/api/podcast'
+import { getProgramData, podcastPrograms } from '@/api/podcast'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
@@ -115,7 +115,7 @@ export const multiMatchSearch = (keywords = '') => {
  * @param id
  * @returns
  */
-export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: number) => {
+export const getTrackList = async (type: 'album' | 'playlist' | 'artist' | 'program', id: number) => {
   let res: { id: number; tracks: Track[]; name?: string }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
@@ -132,11 +132,17 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist', id: nu
       name: album.name,
       tracks: songs,
     }
-  } else {
+  } else if (type === 'artist') {
     const { artist, hotSongs } = await getArtist(id)
     res = {
       id: artist.id,
       tracks: hotSongs,
+    }
+  } else {
+    const { programs } = await podcastPrograms(id)
+    res = {
+      id,
+      tracks: programs,
     }
   }
   return res

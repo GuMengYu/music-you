@@ -10,27 +10,21 @@
           </v-btn>
         </template>
       </Col>
-      <Col :title="$t('main.for_you')">
-        <card-row single-line>
+      <Col v-for="i in cols" :key="i.key" :title="i.title">
+        <card-row v-if="i.key === COLUMNS.CUSTOM" single-line>
           <cover v-for="list in state.playLists" :key="list.id" :data="list" type="playlist" />
         </card-row>
-      </Col>
-      <Col :title="$t('main.radar')">
-        <card-row single-line>
+        <card-row v-if="i.key === COLUMNS.RADAR" single-line>
           <cover v-for="list in state.radarPlayLists" :key="list.id" :data="list" type="playlist" :title-line="2" />
         </card-row>
-      </Col>
-      <Col :title="$t('main.discover.recommend_songs')">
-        <card-row single-line>
+        <card-row v-if="i.key === COLUMNS.NEW_MUSIC" single-line>
           <Cover v-for="song in state.songs" :key="song.id" :data="song.album">
             <v-card-subtitle class="px-4 pb-2">
               <artists-link :artists="song.artists" />
             </v-card-subtitle>
           </Cover>
         </card-row>
-      </Col>
-      <Col title="播客">
-        <card-row single-line>
+        <card-row v-if="i.key === COLUMNS.PODCAST" single-line>
           <podcast-cover v-for="list in state.podcasts" :key="list.id" :data="list" />
         </card-row>
       </Col>
@@ -45,7 +39,9 @@ import { useI18n } from 'vue-i18n'
 
 import { personalizedPlaylist, personalizedPodcast, personalizedRadar, personalizedSong } from '@/api/personalized'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
+import { useDefinedItems } from '@/pages/discover/useDiscover'
 import DiscoverConfig from '@/pages/modal/DiscoverConfig.vue'
+import { COLUMNS, useHomeConfigStore } from '@/store/homeConfig'
 import { useUserStore } from '@/store/user'
 import type { Playlist, Podcast, Track } from '@/types'
 
@@ -58,8 +54,10 @@ interface RootState {
   loading: boolean
 }
 const userStore = useUserStore()
+const homeConfigStore = useHomeConfigStore()
 const { logged, account } = storeToRefs(userStore)
-
+const { columnAndSort } = storeToRefs(homeConfigStore)
+const { columns } = useDefinedItems()
 const { t } = useI18n()
 const config = ref(false)
 const state = reactive<RootState>({
@@ -88,7 +86,11 @@ const welcome = computed(() => {
   }
   return `${welcome}${logged.value ? `，${account.value?.profile?.nickname}` : ''}`
 })
-
+const cols = computed(() => {
+  return columnAndSort.value.map((i) => {
+    return columns.value[i]
+  })
+})
 const fetch = async () => {
   state.loading = true
   try {

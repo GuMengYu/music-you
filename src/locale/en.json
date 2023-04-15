@@ -93,7 +93,8 @@
       "radar": "Radar Music",
       "fm": "FM",
       "recommend_songs": "Recommend songs",
-      "random": "Random playlist"
+      "random": "Random playlist",
+      "pin": "Pined Card"
     },
     "featured": "Featured",
     "for_you": "Recommend for you",
