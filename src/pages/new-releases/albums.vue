@@ -12,7 +12,7 @@ import { reactive } from 'vue'
 
 import { newAlbums } from '@/api/album'
 import type { Album } from '@/types'
-
+useScrollToTop()
 const state: {
   loading: boolean
   albums: Album[]

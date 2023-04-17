@@ -4,7 +4,7 @@
     <app-nav v-if="smAndUp && navLeft" class="v-player-nav" />
     <app-header v-if="!inDeepPage" class="v-player-header" />
 
-    <app-content class="v-player-content" />
+    <app-content id="v-player-content" class="v-player-content" />
     <app-playbar v-if="smAndUp && !miniplayer" />
     <app-mobile-playbar v-if="xs" />
     <app-bottom-nav v-if="xs" />
@@ -42,15 +42,7 @@ watchEffect(() => {
 const isDesktop = computed(() => {
   return is.electron()
 })
-const { isActive: inDeepPage } = useInForeground([
-  'podcast',
-  'playlist',
-  'album',
-  'artist',
-  'search',
-  'video',
-  'daily',
-])
+const { isActive: inDeepPage } = useInForeground(['podcast', 'playlist', 'album', 'artist', 'search', 'video', 'daily'])
 </script>
 <style lang="scss">
 $cubic-bezier: cubic-bezier(0.55, -0.01, 0, 1.03);

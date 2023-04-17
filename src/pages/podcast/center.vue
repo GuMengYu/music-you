@@ -32,7 +32,7 @@ import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import PodcastRecommend from '@/pages/podcast/podcastRecommend.vue'
 import type { Podcast } from '@/types'
 import { getColorTable } from '@/util/metadata'
-
+useScrollToTop()
 const { t } = useI18n()
 const colors = Object.values(getColorTable() ?? {}) ?? []
 

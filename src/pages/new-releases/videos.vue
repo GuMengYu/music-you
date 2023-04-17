@@ -16,6 +16,9 @@ import { GridType } from '@/hooks/useResponsiveGrid'
 import type { MV } from '@/types'
 export default defineComponent({
   name: 'NewReleasesVideos',
+  setup() {
+    useScrollToTop()
+  },
   data: () => ({
     loading: false,
     videos: [] as MV[],

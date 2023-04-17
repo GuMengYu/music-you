@@ -17,6 +17,7 @@ const { comment: showComment } = storeToRefs(settingStore)
 const props = defineProps<{
   id: number | string
 }>()
+useScrollToTop(0, () => props.id)
 const { smAndUp } = useDisplay()
 const loading = ref(false)
 

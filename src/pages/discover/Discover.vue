@@ -53,6 +53,8 @@ interface RootState {
   podcasts: Podcast[]
   loading: boolean
 }
+useScrollToTop()
+
 const userStore = useUserStore()
 const homeConfigStore = useHomeConfigStore()
 const { logged, account } = storeToRefs(userStore)

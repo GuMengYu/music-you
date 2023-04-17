@@ -155,7 +155,6 @@ export class Player {
       if (!isFm) {
         this.store.$state.isCurrentFm = false
       }
-      console.log(trackMeta)
       if (trackMeta.url) {
         if (lyric) {
           track.lyric = lyric // 存入歌词

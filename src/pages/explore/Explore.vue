@@ -42,7 +42,7 @@ import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import type { Album, MV, Playlist } from '@/types'
 import { getColorTable } from '@/util/metadata'
-
+useScrollToTop()
 interface Tag {
   color: string
   name: string

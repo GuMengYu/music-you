@@ -15,6 +15,7 @@ const props = defineProps<{
 }>()
 const { smAndUp } = useDisplay()
 const loading = ref(false)
+useScrollToTop(0, () => props.id)
 
 interface RootState {
   podcast: Podcast

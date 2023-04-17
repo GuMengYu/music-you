@@ -12,6 +12,7 @@
         </transition>
       </router-view>
     </v-container>
+    <back-to-top />
   </v-main>
 </template>
 <script setup lang="ts">

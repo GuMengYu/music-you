@@ -1,8 +1,13 @@
 <template>
-  <section class="drag-area">
+  <section>
     <div class="d-flex flex-column gap-6">
-      <div class="d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-        <v-img :src="coverUrl" cover :aspect-ratio="28 / 9">
+      <div class="drag-area d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+        <v-img
+          :src="coverUrl"
+          cover
+          :aspect-ratio="28 / 9"
+          :gradient="`90deg, rgba(var(--v-theme-surface), 0.7) 0%, rgb(0 0 0 / 0%) 20%, rgb(0 0 0 / 0%) 80%, rgba(var(--v-theme-surface), 0.7) 100%`"
+        >
           <div
             class="d-flex flex-column h-100"
             :class="smAndUp ? 'order-1' : 'order-2'"
@@ -10,7 +15,7 @@
               background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
             }"
           >
-            <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
+            <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="primary" />
             <div class="no-drag-area">
               <div class="d-flex flex-column gap-2 mx-6 mb-2">
                 <span
@@ -62,6 +67,7 @@ import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
 
+useScrollToTop()
 const { smAndUp } = useDisplay()
 const { t } = useI18n()
 const player = usePlayer()

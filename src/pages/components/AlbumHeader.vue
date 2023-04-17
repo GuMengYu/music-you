@@ -87,9 +87,14 @@ function saveCover() {
 }
 </script>
 <template>
-  <div class="d-flex flex-column gap-6 drag-area">
-    <v-card flat class="d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
-      <v-img :src="album['picUrl']" cover :aspect-ratio="28 / 9">
+  <div class="d-flex flex-column gap-6">
+    <div class="drag-area d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <v-img
+        :src="album['picUrl']"
+        cover
+        :aspect-ratio="28 / 9"
+        :gradient="`90deg, rgba(var(--v-theme-surface), 0.7) 0%, rgb(0 0 0 / 0%) 20%, rgb(0 0 0 / 0%) 80%, rgba(var(--v-theme-surface), 0.7) 100%`"
+      >
         <div
           class="d-flex flex-column gap-2 h-100"
           :class="smAndUp ? 'order-1' : 'order-2'"
@@ -97,7 +102,7 @@ function saveCover() {
             background: 'linear-gradient(360deg, rgba(var(--v-theme-surface), 1) 0%,rgba(0,0,0,0) 100%)',
           }"
         >
-          <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="secondary" />
+          <back-btn class="align-self-start mb-auto mx-4 mt-4" variant="tonal" color="primary" />
           <div class="no-drag-area">
             <div class="d-flex flex-column gap-2 mx-6 mb-2">
               <span
@@ -178,7 +183,7 @@ function saveCover() {
           </div>
         </div>
       </v-img>
-    </v-card>
+    </div>
     <div v-if="album['description']" class="d-flex flex-column mx-2">
       <div class="d-flex align-center">
         <span class="font-weight-medium mr-2 text-h6">{{ t('main.album.about') }}</span>

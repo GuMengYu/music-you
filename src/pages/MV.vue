@@ -61,7 +61,7 @@ const videoPlayer = ref<HTMLElement>()
 const playerInstance = ref<Plyr>()
 const video = ref<MV>()
 const simis = ref<MV[]>([])
-
+useScrollToTop(0, () => props.id)
 onMounted(() => {
   initPlayer()
   fetch()

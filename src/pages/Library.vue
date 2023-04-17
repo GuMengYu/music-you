@@ -89,12 +89,12 @@ import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { createPlaylist } from '@/api/playlist'
-import { favAlbums, favArtists, favPodcast, favMVs } from '@/api/user'
+import { favAlbums, favArtists, favMVs, favPodcast } from '@/api/user'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { usePlayer } from '@/player/player'
 import { useUserStore } from '@/store/user'
-import type { Album, Artist, Podcast, MV } from '@/types'
+import type { Album, Artist, MV, Podcast } from '@/types'
 
 import Cloud from './cloud/index.vue'
 import ListenRanking from './listen-ranking/index.vue'
@@ -105,6 +105,7 @@ const route = useRoute()
 const player = usePlayer()
 const userStore = useUserStore()
 const toast = useToast()
+useScrollToTop()
 const { playlists, uid } = storeToRefs(userStore)
 
 const filteredPlaylist = computed(() => {

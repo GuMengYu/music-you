@@ -30,6 +30,7 @@ const loading = ref(false)
 const subscribed = ref(false)
 const showMoreDesc = ref(false)
 const playLoading = ref(false)
+useScrollToTop(0, () => props.id)
 
 interface RootState {
   album: Album
