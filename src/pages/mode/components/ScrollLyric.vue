@@ -39,7 +39,7 @@ function startInterval() {
   }
 }
 async function calculate() {
-  const current = currentTime.value
+  const current = currentTime.value - 0.5
   const prevActiveIdx = state.activeIdx
   const activeIdx = findIndex(lyrics.value, (o, idx) => {
     const next = lyrics.value[idx + 1]
@@ -63,13 +63,13 @@ function isActive(index: number) {
 </script>
 <template>
   <div class="scroll-lyric">
-    <ul ref="lyricContainer" class="lyrics my-4 text-xl-h5 text-h6">
+    <ul ref="lyricContainer" class="lyrics text-xl-h5 text-h6">
       <li>&nbsp;</li>
       <li
         v-for="(item, index) in lyrics"
         :key="index"
         :aria-time="item.time"
-        class="mb-3 px-6"
+        class="mb-4 px-8"
         :class="{
           active: isActive(index),
         }"
@@ -88,7 +88,6 @@ function isActive(index: number) {
   overflow-y: auto;
   position: relative;
   .lyrics {
-    height: calc(100% - 40px);
     position: relative;
     z-index: 1;
     padding-left: 0;
@@ -99,9 +98,9 @@ function isActive(index: number) {
       font-family: 'Google Sans', serif !important;
       text-align: center;
       list-style: none;
-      transition: transform 0.35s cubic-bezier(0.55, -0.01, 0, 1.03);
+      transition: transform 0.75s cubic-bezier(0.55, -0.01, 0, 1.03);
       &.active {
-        transform: scale(1.2);
+        transform: scale(1.3);
       }
     }
   }

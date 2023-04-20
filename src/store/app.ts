@@ -12,6 +12,7 @@ export interface AppState {
   showPlaying: boolean
   showLyric: boolean
   showSearch: boolean
+  showHaven: boolean
   windowState: WindowState
 }
 export const useAppStore = defineStore('app', {
@@ -23,6 +24,7 @@ export const useAppStore = defineStore('app', {
       showCommandPalette: false,
       showLyric: false,
       showSearch: false,
+      showHaven: false,
       windowState: WindowState.NORMAL,
     })
     return {

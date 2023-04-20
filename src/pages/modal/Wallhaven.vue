@@ -1,124 +1,181 @@
 <template>
-  <v-dialog :model-value="show" max-width="80vw" persistent scrollable class="wall-haven-modal">
-    <v-card :loading="loading" rounded="xl" class="px-3 py-2">
-      <v-layout>
-        <v-navigation-drawer
-          v-model="showNav"
-          location="right"
-          hide-overlay
-          temporary
-          width="350"
-          floating
-          class="bg-surface"
-        >
-          <v-toolbar dense color="surface">
-            <v-toolbar-title class="text-onSurfaceVariant text-body-2">筛选壁纸</v-toolbar-title>
-            <v-spacer />
-            <v-btn icon size="small" @click="showNav = false">
-              <v-icon size="small"> {{ mdiClose }} </v-icon>
-            </v-btn>
-          </v-toolbar>
-          <v-container class="pa-0">
-            <v-list-item>
-              <v-list-item-title class="text-caption"> 排序 </v-list-item-title>
-              <template #append>
-                <Select v-model="sorting" size="small" :items="sortingOptions" />
-              </template>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="text-caption"> 升降序 </v-list-item-title>
-              <template #append>
-                <Select v-model="order" size="small" :items="orderOptions" />
-              </template>
-            </v-list-item>
-            <v-list-item v-if="sorting === SORTING.TOPLIST">
-              <v-list-item-title class="text-caption"> 时间范围 </v-list-item-title>
-              <template #append>
-                <Select v-model="topRange" size="small" :items="topRangeOptions" />
-              </template>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="text-caption"> 分类 </v-list-item-title>
-              <v-list-item-subtitle>
-                <v-chip-group v-model="categories" multiple variant="outlined" color="primary" class="justify-end">
-                  <v-chip v-for="cat in categoriesOptions" :key="cat.value" size="small" label :value="cat.value">
-                    {{ cat.title }}
-                  </v-chip>
-                </v-chip-group>
-              </v-list-item-subtitle>
-            </v-list-item>
+  <v-dialog
+    v-model="showHaven"
+    fullscreen
+    transition="dialog-bottom-transition"
+    :scrim="false"
+    class="wall-haven-modal"
+  >
+    <v-card :loading="loading as boolean">
+      <v-toolbar density="compact" color="surface">
+        <v-spacer />
+        <v-btn class="mr-1" variant="plain" icon @click="handleClose">
+          <v-icon> {{ mdiClose }} </v-icon>
+        </v-btn>
+      </v-toolbar>
+      <div class="d-flex px-4 pb-4 gap-4">
+        <div class="d-flex flex-grow-1 overflow-y-auto" :style="`max-height: ${height - 66}px`">
+          <card-row :grid-type="GridType.B">
+            <v-card
+              v-for="(wallpaper, idx) in wallpapers"
+              :key="wallpaper.id"
+              class="wallpaper-thumb"
+              :class="{
+                selected: idx === currentIndex,
+              }"
+              @click="currentIndex = idx"
+            >
+              <v-img cover :src="wallpaper.thumbs.large" :aspect-ratio="16 / 9"></v-img>
+            </v-card>
+          </card-row>
+        </div>
+        <div :style="`width: 300px; max-height: ${height - 66}px`" class="py-1 overflow-y-auto">
+          <div class="mb-2">
+            <v-list class="bg-surfaceVariant rounded-md">
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 排序 </v-list-item-title>
+                <template #append>
+                  <Select v-model="sorting" size="small" :items="sortingOptions" />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 升降序 </v-list-item-title>
+                <template #append>
+                  <Select v-model="order" size="small" :items="orderOptions" />
+                </template>
+              </v-list-item>
+              <v-list-item v-if="sorting === SORTING.TOPLIST">
+                <v-list-item-title class="text-caption"> 时间范围 </v-list-item-title>
+                <template #append>
+                  <Select v-model="topRange" size="small" :items="topRangeOptions" />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 分类 </v-list-item-title>
+                <template #append>
+                  <v-chip-group v-model="categories" multiple variant="outlined" color="primary" class="justify-end">
+                    <v-chip v-for="cat in categoriesOptions" :key="cat.value" size="small" label :value="cat.value">
+                      {{ cat.title }}
+                    </v-chip>
+                  </v-chip-group>
+                </template>
+              </v-list-item>
 
-            <v-list-item>
-              <v-list-item-title class="text-caption"> 限制级 </v-list-item-title>
-              <v-list-item-subtitle>
-                <v-chip-group v-model="purity" multiple variant="outlined" color="primary" class="justify-end">
-                  <v-chip v-for="cat in purityOptions" :key="cat.value" size="small" label :value="cat.value">
-                    {{ cat.title }}
-                  </v-chip>
-                </v-chip-group>
-              </v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="text-caption"> apikey </v-list-item-title>
-              <v-list-item-subtitle>
-                <v-text-field v-model="apiKey" hide-details density="compact" />
-              </v-list-item-subtitle>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title class="text-caption"> 页码 </v-list-item-title>
-              <v-pagination
-                :model-value="page"
-                density="compact"
-                class="my-4"
-                :length="meta.last_page"
-                @update:modelValue="handlePageChange"
-              ></v-pagination>
-            </v-list-item>
-          </v-container>
-        </v-navigation-drawer>
-        <v-main>
-          <div color="surface">
-            <div class="d-flex justify-end align-center w-100">
-              <v-btn icon size="small" variant="text" @click="showNav = true"
-                ><v-icon>{{ mdiFilterCog }}</v-icon></v-btn
-              >
-              <v-btn icon size="small" variant="text" @click="handleClose"
-                ><v-icon>{{ mdiClose }}</v-icon></v-btn
-              >
-            </div>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 限制级 </v-list-item-title>
+                <template #append>
+                  <v-chip-group v-model="purity" multiple variant="outlined" color="primary" class="justify-end">
+                    <v-chip v-for="cat in purityOptions" :key="cat.value" size="small" label :value="cat.value">
+                      {{ cat.title }}
+                    </v-chip>
+                  </v-chip-group>
+                </template>
+              </v-list-item>
+            </v-list>
           </div>
-          <v-responsive class="d-flex px-4 overflow-y-auto" height="calc(100% - 40px)">
-            <card-row>
-              <v-card
-                v-for="(wallpaper, idx) in wallpapers"
-                :key="wallpaper.id"
-                class="wallpaper-thumb"
-                :class="{
-                  selected: idx === currentIndex,
-                }"
-                @click="currentIndex = idx"
-              >
-                <v-img cover :src="wallpaper.thumbs.large" :aspect-ratio="16 / 9"></v-img>
-              </v-card>
-            </card-row>
-          </v-responsive>
-        </v-main>
-      </v-layout>
+          <div class="mb-2">
+            <span class="text-subtitle-2 ml-2">播放背景</span>
+            <v-list class="bg-surfaceVariant rounded-md">
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 背景模糊度 </v-list-item-title>
+                <template #append>
+                  <v-slider
+                    v-model="blur"
+                    thumb-size="16"
+                    track-size="2"
+                    track-fill-color="primary"
+                    hide-details
+                    style="width: 160px"
+                    :max="100"
+                    :min="0"
+                    :step="1"
+                  />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 背景亮度 </v-list-item-title>
+                <template #append>
+                  <v-slider
+                    v-model="brightness"
+                    track-fill-color="primary"
+                    track-size="2"
+                    thumb-size="16"
+                    hide-details
+                    style="width: 160px"
+                    :max="100"
+                    :min="0"
+                    :step="1"
+                  />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 用歌曲封面 </v-list-item-title>
+                <template #append>
+                  <v-switch v-model="useTrackCover" color="primary" hide-details density="compact" inset></v-switch>
+                </template>
+              </v-list-item>
+            </v-list>
+          </div>
+          <div>
+            <span class="text-subtitle-2 ml-2">其他</span>
+            <v-list class="bg-surfaceVariant rounded-md">
+              <v-list-item>
+                <v-list-item-title class="text-caption"> apikey </v-list-item-title>
+                <template #append>
+                  <v-text-field
+                    v-model="apiKey"
+                    style="width: 146px"
+                    hide-details
+                    density="compact"
+                    variant="outlined"
+                  />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 页码 </v-list-item-title>
+                <v-pagination
+                  :model-value="page"
+                  density="compact"
+                  class="my-4"
+                  :length="meta.last_page"
+                  @update:model-value="handlePageChange as number"
+                ></v-pagination>
+              </v-list-item>
+            </v-list>
+          </div>
+        </div>
+      </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { mdiClose, mdiFilterCog } from '@mdi/js'
+import { mdiClose } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 
 import { useFetchWallpapers } from '@/hooks/useFetchWallpapers'
+import { GridType } from '@/hooks/useResponsiveGrid'
+import { useAppStore } from '@/store/app'
 import { CATGORY, ORDER, PURITY, SORTING, TOPRANGE, useWallHavenStore } from '@/store/wallhaven'
 
+const { showHaven } = storeToRefs(useAppStore())
 const wallHavenStore = useWallHavenStore()
-const { wallpapers, currentIndex, apiKey, sorting, order, categories, purity, topRange, page } =
-  storeToRefs(wallHavenStore)
+const { height } = useMainSize()
+const {
+  wallpapers,
+  currentIndex,
+  apiKey,
+  sorting,
+  order,
+  categories,
+  purity,
+  topRange,
+  page,
+  brightness,
+  blur,
+  useTrackCover,
+} = storeToRefs(wallHavenStore)
 const { t } = useI18n()
 const { meta, loading } = useFetchWallpapers()
 const props = defineProps({
@@ -127,7 +184,6 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:show'])
 
 const showNav = ref(false)
 
@@ -261,7 +317,7 @@ const purityOptions = computed(() => {
 })
 
 function handleClose() {
-  emit('update:show', false)
+  showHaven.value = false
 }
 function prev() {
   if (page.value <= 0) {
@@ -277,6 +333,7 @@ function next() {
 }
 function handlePageChange(_page: number) {
   page.value = _page
+  return true
 }
 </script>
 
@@ -285,8 +342,11 @@ function handlePageChange(_page: number) {
   :deep(.card-grid) {
     flex: 1;
   }
+  .wallpaper-thumb {
+    border: 2px solid transparent;
+  }
   .wallpaper-thumb.selected {
-    border: 2px solid rgb(var(--v-theme-primary));
+    border-color: rgb(var(--v-theme-primary));
   }
 }
 </style>

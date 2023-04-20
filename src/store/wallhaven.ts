@@ -46,6 +46,9 @@ export interface WallHavenState {
   topRange: TOPRANGE
   page: number
   apiKey: string | null
+  brightness: number
+  blur: number
+  useTrackCover: boolean
 }
 
 export const useWallHavenStore = defineStore('wallhaven', {
@@ -62,6 +65,9 @@ export const useWallHavenStore = defineStore('wallhaven', {
         topRange: TOPRANGE.LAST_WEEK,
         apiKey: null,
         page: 1,
+        brightness: 60,
+        blur: 0,
+        useTrackCover: false,
       },
       {
         mergeDefaults: true,
