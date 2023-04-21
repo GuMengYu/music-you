@@ -16,7 +16,7 @@
         >
         </v-img>
         <div class="frame-header pt-2 px-2 justify-end drag-area">
-          <v-btn class="no-drag-area" icon variant="plain" @click="close">
+          <v-btn class="no-drag-area" icon variant="text" @click="close">
             <v-icon>
               {{ mdiClose }}
             </v-icon>

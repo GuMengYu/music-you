@@ -146,14 +146,14 @@ const localeOptions = computed(() => {
 })
 const playingModeOptions = computed(() => {
   return [
-    // {
-    //   title: 'md',
-    //   value: PLAYING_MODE.MD,
-    //   activeClass: 'text-primary',
-    //   rounded: true,
-    // },
     {
-      title: 'wallhaven',
+      title: 'Ambilight',
+      value: PLAYING_MODE.MD,
+      activeClass: 'text-primary',
+      rounded: true,
+    },
+    {
+      title: 'WallHaven',
       value: PLAYING_MODE.SIMPLE,
       activeClass: 'text-primary',
       rounded: true,
