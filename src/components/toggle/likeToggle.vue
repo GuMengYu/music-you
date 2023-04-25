@@ -18,15 +18,18 @@
       :style="{ position: 'relative', left: '-1px' }"
       @anim-created="handleAnimation"
     ></lottie-icon>
-    <v-tooltip activator="parent" location="top"> {{ liked ? '取消喜欢' : '加入喜欢的歌曲' }} </v-tooltip>
+    <v-tooltip activator="parent" location="top"> {{ t('common.fav', liked ? 0 : 1) }} </v-tooltip>
   </v-btn>
 </template>
 <script setup lang="ts">
 import { mdiHeart, mdiHeartOutline } from '@mdi/js'
 import type { AnimationItem } from 'lottie-web'
+import { useI18n } from 'vue-i18n'
 
 import { useUserStore } from '@/store/user'
 import { sleep } from '@/util/fn'
+const { t } = useI18n()
+
 const heart = {
   v: '4.6.6',
   fr: 30,

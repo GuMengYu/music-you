@@ -38,19 +38,18 @@
         <like-toggle v-else :id="track?.id" />
         <v-btn v-if="!isProgram" icon variant="text" @click="openContextMenu">
           <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
-          <v-tooltip activator="parent" location="top" open-delay="100"> 添加到歌单 </v-tooltip>
-        </v-btn>
-        <v-btn v-if="showHeartBeat" icon :loading="heartbeatLoading" @click="generateHeartBeatList">
-          <v-icon size="x-small">
-            {{ mdiHeartPulse }}
-          </v-icon>
-          <v-tooltip activator="parent" location="top" open-delay="100"> 心动模式 </v-tooltip>
+          <v-tooltip activator="parent" location="top" open-delay="100"> {{ t('common.add_playlist') }} </v-tooltip>
         </v-btn>
         <v-spacer />
       </div>
       <Control />
       <div class="playing-bar__right">
-        <control-center-toggle />
+        <v-btn v-if="showHeartBeat" icon :loading="heartbeatLoading" @click="generateHeartBeatList">
+          <v-icon size="x-small">
+            {{ mdiHeartPulse }}
+          </v-icon>
+          <v-tooltip activator="parent" location="top" open-delay="100"> {{ t('common.heart_beat') }} </v-tooltip>
+        </v-btn>
         <v-btn icon :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">
           <v-icon size="x-small">
             {{ mdiPictureInPictureTopRight }}
@@ -134,7 +133,13 @@ const playlists = computed(() => {
 const { track, showPipLyric, isCurrentFm, isProgram } = usePlayerControl()
 const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
 const showHeartBeat = computed(() => {
-  return userStore.logged && !isProgram && !isCurrentFm && track.value && userStore.likes.includes(track.value.id)
+  return (
+    userStore.logged &&
+    !isProgram.value &&
+    !isCurrentFm.value &&
+    track.value &&
+    userStore.likes.includes(track.value.id)
+  )
 })
 // 播放并开启飞越小动画
 const playlistBtn = ref<HTMLButtonElement>()

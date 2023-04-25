@@ -31,14 +31,16 @@
     "exit_prompt": "询问",
     "exit_min": "最小化到系统托盘",
     "exit_direct": "直接退出",
-    "reminder": "不再提醒"
+    "reminder": "不再提醒",
+    "vip_expire": "会员服务将于{0}过期"
   },
   "main": {
     "nav": {
       "search": "搜索",
       "discover": "主页",
-      "explore": "浏览",
+      "explore": "广场",
       "fm": "私人FM",
+      "podcast": "播客",
       "daily": "日推",
       "stars": "音乐库",
       "radio": "我的电台",
@@ -89,7 +91,9 @@
       "fm": "私人FM",
       "recommend_songs": "推荐新音乐",
       "random": "随机已收藏歌单",
-      "pin": "钉住的卡片"
+      "pin": "钉住的卡片",
+      "discover_config": "调整首页布局",
+      "discover_config_tip": "按住拖动可重新调节顺序"
     },
     "podcast": {
       "desc": "播客简介",
@@ -202,6 +206,7 @@
     "follow": "关注 | 已关注",
     "collect": "收藏 | 已收藏",
     "collection": "收藏 | 取消收藏",
+    "fav": "喜欢 | 取消喜欢",
     "following": "关注 | 取消关注",
     "subscribe": "订阅 | 取消订阅",
     "isDelete": "删除歌单 | 已删除",
@@ -237,7 +242,10 @@
     "new_comment": "最新评论",
     "hot_comment": "精选评论",
     "more_comment": "查看更多评论",
-    "recent": "最近播放"
+    "recent": "最近播放",
+    "recover_default": "恢复默认设置",
+    "add_playlist": "添加到歌单",
+    "heart_beat": "心动模式"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

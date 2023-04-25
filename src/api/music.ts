@@ -10,7 +10,7 @@ import { request } from '@/util/fetch'
 import { getAlbum } from './album'
 import { getArtist } from './artist'
 import { getPlaylistDetail, getPlaylistTrackAll } from './playlist'
-import { getLyric, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
+import { getLyric, getLyricNew, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
@@ -31,7 +31,7 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
       songs: [data],
     } = await getSongData([id])
     track = data
-    lyric = await getLyric(id)
+    lyric = await getLyricNew(id)
   }
   const trackMeta = await getMusicUrl(id)
   return { track, trackMeta, lyric }

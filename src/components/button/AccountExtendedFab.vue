@@ -18,7 +18,7 @@
       </div>
 
       <span v-if="vipInfo" class="text-caption line-clamp-2">
-        黑胶VIP将于{{ formatDate(vipInfo.associator.expireTime) }}到期
+        {{ t('message.vip_expire', [formatDate(vipInfo.associator.expireTime)]) }}
       </span>
     </div>
   </v-card>

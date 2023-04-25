@@ -31,7 +31,8 @@
     "exit_min": "Minimize to system tray",
     "exit_direct": "Exit directly",
     "exit_prompt": "Ask",
-    "reminder": "No more reminders"
+    "reminder": "No more reminders",
+    "vip_expire": "Vip services will expire in {0}"
   },
   "main": {
     "nav": {
@@ -39,6 +40,7 @@
       "discover": "Home",
       "explore": "Explore",
       "fm": "Private FM",
+      "podcast": "Podcast",
       "daily": "Daily Recommend",
       "stars": "Library",
       "radio": "My Radio",
@@ -94,7 +96,9 @@
       "fm": "FM",
       "recommend_songs": "Recommend songs",
       "random": "Random playlist",
-      "pin": "Pined Card"
+      "pin": "Pined Card",
+      "discover_config": "Adjust layout",
+      "discover_config_tip": "Hold and drag to reorder"
     },
     "featured": "Featured",
     "for_you": "Recommend for you",
@@ -201,6 +205,7 @@
     "follow": "follow | followed",
     "collect": "collect | collected",
     "collection": "collect | cancel collect",
+    "fav": "like | dislike",
     "following": "follow | unfollow",
     "subscribe": "subscribe | unsubscribe",
     "isDelete": "delete | deleted",
@@ -236,7 +241,10 @@
     "new_comment": "New Comment",
     "hot_comment": "Hot Comment",
     "more_comment": "More",
-    "recent": "Recent"
+    "recent": "Recent",
+    "recover_default": "Restore default settings",
+    "add_playlist": "Add to playlist",
+    "heart_beat": "Smart list"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

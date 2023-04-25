@@ -80,6 +80,20 @@ export const getLyric = (id: number) =>
   }>(`/lyric?id=${id}`)
 
 /**
+ * 获取歌词，逐字歌词
+ * @param id
+ */
+export const getLyricNew = (id: number) =>
+  request<{
+    briefDesc: string
+    lrc: Lyric
+    klyric: Lyric
+    tlyric: Lyric
+    lyricUser: LyricUser
+    transUser: LyricUser
+  }>(`/lyric/new?id=${id}`)
+
+/**
  * 获取歌曲评论
  * @param id
  * @param limit

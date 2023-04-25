@@ -5,7 +5,7 @@
   >
     <div class="d-flex align-center justify-center">
       <v-btn height="46" variant="text" rounded="pill" class="px-9 text-caption" @click="to('/search')">
-        <v-icon class="mr-1">{{ mdiMagnify }}</v-icon> 搜索
+        <v-icon class="mr-1">{{ mdiMagnify }}</v-icon> {{ t('main.nav.search') }}
       </v-btn>
       <v-btn
         height="46"
@@ -18,7 +18,7 @@
         @click="to('/discover')"
       >
         <v-icon class="mr-1">{{ mdiAlbum }}</v-icon
-        >首页
+        >{{ t('main.nav.discover') }}
       </v-btn>
       <v-btn
         height="46"
@@ -31,7 +31,7 @@
         @click="to('/explore')"
       >
         <v-icon class="mr-1">{{ mdiCompass }}</v-icon
-        >广场
+        >{{ t('main.nav.explore') }}
       </v-btn>
       <v-btn
         height="46"
@@ -44,7 +44,7 @@
         @click="to('/podcast-center')"
       >
         <v-icon class="mr-1">{{ mdiPodcast }}</v-icon
-        >播客
+        >{{ t('main.nav.podcast') }}
       </v-btn>
       <v-btn
         v-if="logged"
@@ -58,7 +58,7 @@
         @click="to('/library')"
       >
         <v-icon class="mr-1">{{ mdiFaceManProfile }}</v-icon
-        >资料库
+        >{{ t('main.nav.library') }}
       </v-btn>
     </div>
   </div>
@@ -67,10 +67,12 @@
 <script lang="ts" setup>
 import { mdiAlbum, mdiCompass, mdiFaceManProfile, mdiMagnify, mdiPodcast } from '@mdi/js'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import useInForeground from '@/hooks/useInForeground'
 import { useUserStore } from '@/store/user'
+const { t } = useI18n()
 const { logged } = storeToRefs(useUserStore())
 
 const router = useRouter()

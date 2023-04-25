@@ -13,7 +13,7 @@ export function useDefinedItems() {
         key: COLUMNS.CUSTOM,
       },
       [COLUMNS.PODCAST]: {
-        title: '播客',
+        title: t('main.podcasts'),
         key: COLUMNS.PODCAST,
       },
       [COLUMNS.RADAR]: {
@@ -30,33 +30,33 @@ export function useDefinedItems() {
   const cards = computed(() => {
     return {
       [SHORTCUTS.FAV]: {
-        text: t('main.discover.you_liked'),
-        value: SHORTCUTS.FAV,
+        title: t('main.discover.you_liked'),
+        key: SHORTCUTS.FAV,
         icon: mdiHeart,
       },
       [SHORTCUTS.DAILY]: {
-        text: t('main.discover.daily'),
-        value: SHORTCUTS.DAILY,
+        title: t('main.discover.daily'),
+        key: SHORTCUTS.DAILY,
         icon: mdiCalendarToday,
       },
       [SHORTCUTS.RADAR]: {
-        text: t('main.discover.radar'),
-        value: SHORTCUTS.RADAR,
+        title: t('main.discover.radar'),
+        key: SHORTCUTS.RADAR,
         icon: mdiRadar,
       },
       [SHORTCUTS.FM]: {
-        text: t('main.discover.fm'),
-        value: SHORTCUTS.FM,
+        title: t('main.discover.fm'),
+        key: SHORTCUTS.FM,
         icon: mdiRadio,
       },
       [SHORTCUTS.RECENT]: {
-        text: t('common.recent'),
-        value: SHORTCUTS.RECENT,
+        title: t('common.recent'),
+        key: SHORTCUTS.RECENT,
         icon: mdiHistory,
       },
       [SHORTCUTS.PIN]: {
-        text: t('main.discover.pin'),
-        value: SHORTCUTS.PIN,
+        title: t('main.discover.pin'),
+        key: SHORTCUTS.PIN,
         icon: mdiPlaylistMusic,
       },
     }

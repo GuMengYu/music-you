@@ -169,7 +169,7 @@ function openContextMenu(event: MouseEvent) {
   const buildMenu = () => {
     const items: MenuItem[] = [
       {
-        label: '添加到歌单',
+        label: t('common.add_playlist'),
         children: [
           ...playlists.value.map((list) => {
             return {
@@ -182,7 +182,7 @@ function openContextMenu(event: MouseEvent) {
         ],
       },
       {
-        label: '小窗歌词',
+        label: t('common.show_pip'),
         onClick: () => {
           togglePipLyric()
         },

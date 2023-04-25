@@ -81,39 +81,64 @@ const customIcon = computed(() => {
       }[pinPlaylist.value.type]
     : mdiSquareRounded
 })
+
+const shortcutComponents = computed(() => {
+  const components: any[] = []
+
+  shortcuts.value.map((shortcut) => {
+    if (shortcut === SHORTCUTS.FAV) {
+      components.push({
+        component: Shortcut,
+        data: myFav.value,
+        type: 'playlist',
+        flag: { color: 'primary', icon: mdiHeart },
+      })
+    } else if (shortcut === SHORTCUTS.FM) {
+      components.push({
+        component: ShortcutFM,
+      })
+    } else if (shortcut === SHORTCUTS.DAILY) {
+      components.push({
+        component: Shortcut,
+        data: state.value.daily,
+        type: 'daily',
+        flag: { color: 'secondary', icon: mdiCalendarToday },
+      })
+    } else if (shortcut === SHORTCUTS.RADAR) {
+      components.push({
+        component: Shortcut,
+        data: state.value.radar,
+        type: 'playlist',
+        flag: { color: 'tertiary', icon: mdiRadar },
+      })
+    } else if (shortcut === SHORTCUTS.RECENT) {
+      components.push({
+        component: Shortcut,
+        data: state.value.recent,
+        type: 'recent',
+        flag: { color: 'secondary', icon: mdiRecord },
+      })
+    } else if (shortcut === SHORTCUTS.PIN && pinPlaylist.value) {
+      components.push({
+        component: Shortcut,
+        data: pinPlaylist.value,
+        type: pinPlaylist.value.type,
+        flag: { color: 'outline', icon: customIcon.value },
+      })
+    }
+  })
+  return components
+})
 </script>
 <template>
   <div :style="{ gridTemplateColumns: `repeat(${count}, 1fr)`, columnGap: gap, display: 'grid', rowGap: gap }">
-    <Shortcut
-      v-if="logged && shortcuts.includes(SHORTCUTS.FAV)"
-      :data="myFav"
-      type="playlist"
-      :flag="{ color: 'primary', icon: mdiHeart }"
-    />
-    <Shortcut
-      v-if="shortcuts.includes(SHORTCUTS.DAILY)"
-      :data="state.daily"
-      type="daily"
-      :flag="{ color: 'secondary', icon: mdiCalendarToday }"
-    />
-    <Shortcut
-      v-if="shortcuts.includes(SHORTCUTS.RADAR)"
-      :data="state.radar"
-      type="playlist"
-      :flag="{ color: 'tertiary', icon: mdiRadar }"
-    />
-    <ShortcutFM v-if="shortcuts.includes(SHORTCUTS.FM)" />
-    <Shortcut
-      v-if="shortcuts.includes(SHORTCUTS.RECENT)"
-      :data="state.recent"
-      type="recent"
-      :flag="{ color: 'secondary', icon: mdiRecord }"
-    />
-    <Shortcut
-      v-if="pinPlaylist && shortcuts.includes(SHORTCUTS.PIN)"
-      :data="pinPlaylist"
-      :type="pinPlaylist.type"
-      :flag="{ color: 'outline', icon: customIcon }"
+    <component
+      :is="component.component"
+      v-for="component in shortcutComponents"
+      :key="component.type"
+      :data="component.data"
+      :type="component.type"
+      :flag="component.flag"
     />
   </div>
 </template>

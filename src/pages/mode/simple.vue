@@ -116,7 +116,7 @@ const { currentTime } = storeToRefs(playerStore)
 const { track, isProgram } = usePlayerControl()
 const { wallpapers, currentWallpaper, currentIndex, brightness, blur, useTrackCover } = storeToRefs(wallHavenStore)
 
-const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
+const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 1024))
 
 const currentTheme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'
