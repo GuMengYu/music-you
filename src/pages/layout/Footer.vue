@@ -21,11 +21,11 @@
         </v-hover>
 
         <div class="ml-2 mr-4 d-flex align-start flex-column">
-          <div class="d-flex align-center line-clamp-1 text-h6">
-            <router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface"
+          <div class="d-flex align-center text-h6">
+            <router-Link v-if="track.al" :to="`/album/${track.al.id}`" class="text-onSurface line-clamp-1"
               >{{ track?.name }}
             </router-Link>
-            <span v-else> {{ track?.name }} </span>
+            <span v-else class="line-clamp-1"> {{ track?.name }} </span>
           </div>
           <router-link v-if="isProgram" :to="track.source?.fromUrl" class="text-caption line-clamp-1 text-onSurface">
             {{ track?.radio.name }}[播客节目]
