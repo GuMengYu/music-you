@@ -164,7 +164,7 @@ export function bytesToSize(_bytes: string | number = 0, k = 1024) {
  * @param url
  * @param size
  */
-export function sizeOfImage(url: string, size = 512) {
+export function sizeOfImage(url?: string, size = 512) {
   return url ? `${url}?param=${size}y${size}` : ''
 }
 

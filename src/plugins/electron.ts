@@ -22,9 +22,9 @@ function registerIpcRenderer(router: Router) {
   const appStore = useAppStore()
   const ipcRenderer = useIpcRenderer()
   const player = usePlayerOutsideComponent()
-  const showDownloadComplete = once((name) => {
-    toast.success(`下载成功 ${name}`)
-  })
+  // const showDownloadComplete = once((name) => {
+  //   toast.success(`下载成功 ${name}`)
+  // })
   let cacheVolume = 0.8
   ipcRenderer.on('open-settings', () => {
     console.log(router)
@@ -71,16 +71,16 @@ function registerIpcRenderer(router: Router) {
   ipcRenderer.on('fullscreen', (e, fullscreen) => {
     // appStore.$state.showLyricsPage = fullscreen
   })
-  ipcRenderer.on('startDownload', (e, data) => {
-    console.log('startDownload', e, data)
-    // window?.app?.$toast(`开始下载 ${data.name}`, {
-    //   color: 'info',
-    // })
-  })
-  ipcRenderer.on('downloadProgress', (e, data) => {
-    const { percent } = data
-    // playerStore.commit('app/downloadprogress', percent)
-  })
+  // ipcRenderer.on('startDownload', (e, data) => {
+  //   // console.log('startDownload', e, data)
+  //   // window?.app?.$toast(`开始下载 ${data.name}`, {
+  //   //   color: 'info',
+  //   // })
+  // })
+  // ipcRenderer.on('downloadProgress', (e, data) => {
+  //   const { percent } = data
+  //   // playerStore.commit('app/downloadprogress', percent)
+  // })
   ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
     const { path } = file
     toast.success(`${fileName} 已下载到:${path}`)

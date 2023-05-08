@@ -1,7 +1,7 @@
 import { app, ipcMain, shell } from 'electron'
 
 import { WindowState } from '../../../src/util/enum'
-import { downloadFile } from './util/download'
+import { downloadFile, downloadTrack } from './util/download'
 import log from './util/log'
 import type WindowManager from './windowManager'
 import { WindowDefaultSize } from './windowManager'
@@ -19,6 +19,9 @@ export const registerIpcMain = (windowManager: WindowManager) => {
   })
   ipcMain.handle('downloadFile', (_e, data) => {
     downloadFile(data)
+  })
+  ipcMain.handle('downloadTrack', (_e, data) => {
+    downloadTrack(data)
   })
   ipcMain.handle(WindowState.MINIMIZED, () => {
     window.minimize()

@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import { getSongDownloadUrl } from '@/api/song'
-import useDownload from '@/hooks/useDownload'
+import { useDownload, useDownloadMusic } from '@/hooks/useDownload'
 import type { Track } from '@/types'
 const toast = useToast()
 const { t } = useI18n()
@@ -14,11 +14,14 @@ const props = defineProps<{
 async function download() {
   try {
     const id = props.track.source?.fromType === 'program' ? props.track.mainSong.id : props.track.id
-    // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
     const { data } = await getSongDownloadUrl({ id })
     const artistName = props.track.ar?.map((i) => i.name)?.join(',')
     const fileName = `${artistName ? `${artistName} - ` : ''}${props.track.name}.${data.type}`
-    useDownload(data.url, fileName)
+    if (props.track.source?.fromType === 'program') {
+      await useDownload(data.url, fileName)
+    } else {
+      await useDownloadMusic(props.track)
+    }
   } catch (e) {
     toast.error(t('message.something_wrong'))
   }

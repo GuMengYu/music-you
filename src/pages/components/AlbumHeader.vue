@@ -19,7 +19,7 @@ import { useDisplay } from 'vuetify'
 
 import { sub } from '@/api/music'
 import PinBtn from '@/components/button/PinBtn.vue'
-import useDownload from '@/hooks/useDownload'
+import { useDownload } from '@/hooks/useDownload'
 import { usePlayer } from '@/player/player'
 import dayjs from '@/plugins/dayjs'
 import { usePlayQueueStore } from '@/store/playQueue'

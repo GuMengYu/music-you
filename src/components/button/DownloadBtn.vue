@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { mdiDownload } from '@mdi/js'
 
-import useDownload from '@/hooks/useDownload'
+import { useDownload } from '@/hooks/useDownload'
 const props = defineProps<{
   url: string
   fileName?: string

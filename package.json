@@ -32,6 +32,7 @@
     "electron-store": "^8.1.0",
     "http-proxy-middleware": "^2.0.6",
     "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
+    "node-id3": "^0.2.6",
     "pixi.js": "^7.2.4",
     "polka": "^0.5.2",
     "simplex-noise": "^4.0.1",

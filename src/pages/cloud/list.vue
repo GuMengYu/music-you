@@ -7,12 +7,11 @@ import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { deleteCloudDiskMusic } from '@/api/cloud'
 import { opPlaylist } from '@/api/music'
-import { getSongDownloadUrl } from '@/api/song'
-import useDownload from '@/hooks/useDownload'
+import { useDownloadMusic } from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
-import type { PlayNowEvent, Track, TrackFrom } from "@/types";
+import type { PlayNowEvent, Track, TrackFrom } from '@/types'
 import { specialType } from '@/util/metadata'
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
@@ -69,15 +68,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     {
       label: '下载到本地',
       onClick: async (i) => {
-        try {
-          // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
-          const { data } = await getSongDownloadUrl({ id: track.id })
-          const artistName = track.ar?.map((i) => i.name)?.join(',')
-          const fileName = `${artistName} - ${track.name}.${data.type}`
-          useDownload(data.url, fileName)
-        } catch (e) {
-          toast.error(t('message.something_wrong'))
-        }
+        await useDownloadMusic(track)
       },
     },
     {

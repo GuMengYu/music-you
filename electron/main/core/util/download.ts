@@ -1,9 +1,16 @@
 import { app } from 'electron'
+import type { File } from 'electron-dl'
 import { download } from 'electron-dl'
+import { unlink } from 'node:fs'
+import NodeID3 from 'node-id3'
+import { join } from 'path'
 
+import type { Tags } from '../../../../shared/types'
 import { getWin } from '../../index'
+import { isMP3File } from './fn'
 import log from './log'
-export const downloadFile = (data: { fileName?: string; url: string }) => {
+
+export const downloadFile = (data: { fileName?: string; url: string; completed?: (file: File) => void }) => {
   const win = getWin()
   const downloadLocation = app.getPath('downloads')
   const fileName = data.fileName || data.url.split('/').pop()
@@ -24,9 +31,62 @@ export const downloadFile = (data: { fileName?: string; url: string }) => {
       onCompleted(file) {
         win.webContents.send('downloadCompleted', file, fileName)
         log.info('download file completed', file)
+        if (data.completed) {
+          data.completed(file)
+        }
       },
     })
   } else {
     log.warn('not found window')
   }
+}
+
+export const downloadTrack = async (data: { fileName?: string; url: string; tags: Tags }) => {
+  const { fileName, url, tags } = data
+  const { cover } = tags
+  tags.APIC = await getSongArtworkPath(cover)
+  downloadFile({
+    fileName,
+    url,
+    completed: (file) => {
+      const { path } = file
+      if (isMP3File(path)) {
+        updateId3Tags(tags, path)
+      }
+    },
+  })
+}
+
+async function getSongArtworkPath(url) {
+  const win = getWin()
+  const tempDirectory = join(app.getPath('userData'), 'temp')
+  if (win) {
+    const downloadItem = await download(win, url, {
+      directory: tempDirectory,
+      showBadge: false,
+    })
+    const coverPath = downloadItem.getSavePath()
+    log.info('download artwork temp file', coverPath)
+    return coverPath
+  }
+}
+
+/**
+ * update mp3 file metadata
+ * @param tags
+ * @param path
+ */
+async function updateId3Tags(tags: Tags, path: string) {
+  NodeID3.write(tags, path)
+  // remove temp artwork file
+  unlink(tags.APIC, () => {
+    log.info('remove artwork temp file', tags.APIC)
+  })
+}
+
+/**
+ * update flac lossless file metadata
+ */
+async function updateVorbis(tags: Tags, path: string) {
+  // todo
 }

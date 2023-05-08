@@ -131,6 +131,9 @@ function togglePlay() {
   }
 }
 function openMenu(e: MouseEvent) {
+  if (isProgram.value) {
+    return
+  }
   // active current item
   // display context menu
   emit('openctxmenu', {
@@ -170,7 +173,7 @@ async function toggleLike() {
       :value="track.id"
       @click="() => {}"
       @dblclick="play"
-      @contextmenu.prevent="!isProgram && openMenu"
+      @contextmenu.prevent="openMenu"
     >
       <div
         class="px-1 rounded-md"

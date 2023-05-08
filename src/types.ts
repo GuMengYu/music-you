@@ -42,6 +42,8 @@ export interface Track {
   artists?: Artist[]
   al?: Album
   album?: Album
+  no?: number | string
+  publishTime?: number
   h?: Quality
   l?: Quality
   m?: Quality

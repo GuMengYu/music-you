@@ -6,7 +6,7 @@ import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { getSongDownloadUrl } from '@/api/song'
-import useDownload from '@/hooks/useDownload'
+import { useDownload } from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
@@ -76,7 +76,6 @@ function genMenu(program: Program): MenuItem[] {
       label: '下载',
       onClick: async (i) => {
         try {
-          // todo 获取到的链接直接下载是丢失了歌曲的元数据的, 看有无办法恢复
           const { data } = await getSongDownloadUrl({ id: program.mainSong.id })
           const fileName = `${program.name}.${data.type}`
           useDownload(data.url, fileName)
