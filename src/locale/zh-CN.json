@@ -245,7 +245,8 @@
     "recent": "最近播放",
     "recover_default": "恢复默认设置",
     "add_playlist": "添加到歌单",
-    "heart_beat": "心动模式"
+    "heart_beat": "心动模式",
+    "relaunch": "重启应用"
   },
   "theme": {
     "RedSandDunes": "红沙滩",

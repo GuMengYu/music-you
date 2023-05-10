@@ -244,7 +244,8 @@
     "recent": "Recent",
     "recover_default": "Restore default settings",
     "add_playlist": "Add to playlist",
-    "heart_beat": "Smart list"
+    "heart_beat": "Smart list",
+    "relaunch": "Relaunch Application"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

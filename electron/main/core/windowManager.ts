@@ -1,7 +1,7 @@
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { app, BrowserWindow, shell } from 'electron'
 import is from 'electron-is'
-import Store from 'electron-store'
+import type Store from 'electron-store'
 import { EventEmitter } from 'events'
 import { join } from 'path'
 
@@ -9,6 +9,8 @@ import { WindowState } from '../../../src/util/enum'
 import type { Pages } from './config/page'
 import pages from './config/page'
 import log from './util/log'
+import type { StoreType } from './util/store'
+import store from './util/store'
 export const WindowDefaultSize = {
   height: 720,
   width: 1210,
@@ -40,10 +42,10 @@ export default class WindowManager extends EventEmitter {
     height: number
     width: number
   }
-  store: Store
+  store: Store<StoreType>
   constructor() {
     super()
-    this.store = new Store()
+    this.store = store
 
     this.windows = {}
 
@@ -127,11 +129,9 @@ export default class WindowManager extends EventEmitter {
         window?.webContents.send('windowState', WindowState.NORMAL)
       })
       window?.on('resized', () => {
-        log.info('window resize')
-        if (window) {
-          const [width, height] = window.getSize() ?? []
-          this.store.set('windowSize', JSON.stringify({ width, height }))
-        }
+        log.info('[main]: window resize')
+        const [width, height] = window.getSize() ?? []
+        this.store.set('windowSize', { width, height })
       })
 
       // Test active push message to Renderer-process
@@ -150,10 +150,10 @@ export default class WindowManager extends EventEmitter {
     const size = this.store.get('windowSize')
     if (!size) {
       this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
-      this.store.set('windowSize', JSON.stringify(this.size))
+      this.store.set('windowSize', this.size)
     } else {
       try {
-        this.size = JSON.parse(this.store.get('windowSize') as string)
+        this.size = this.store.get('windowSize')
       } catch (e) {
         this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
       }

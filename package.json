@@ -30,6 +30,7 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-log": "^4.4.7",
     "electron-store": "^8.1.0",
+    "http-proxy-agent": "^6.0.1",
     "http-proxy-middleware": "^2.0.6",
     "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "node-id3": "^0.2.6",
@@ -37,7 +38,8 @@
     "polka": "^0.5.2",
     "simplex-noise": "^4.0.1",
     "sirv": "^2.0.2",
-    "sortablejs": "^1.15.0"
+    "sortablejs": "^1.15.0",
+    "ytdl-core": "^4.11.4"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.2.0",

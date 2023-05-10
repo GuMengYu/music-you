@@ -78,7 +78,7 @@ export class Player {
     this.settingStore = useSettingStore() as Store<'setting', SettingState>
     this.howler = null
     this.pipLyric = null
-    this.html5 = !this.settingStore.visualization
+    this.html5 = true
 
     const { track, playing, volume = 0.8, currentTime, isCurrentFm } = this.store
     this.track = track
@@ -206,7 +206,7 @@ export class Player {
     const sound = new Howl({
       volume: this.volume,
       src,
-      html5: this.html5,
+      html5: this.track?.meta?.sourceFromUnlockMusic || !this.settingStore.visualization, // web audio 用 xhr 方式拉取音频，解锁音乐可能会存在跨域，强制 html5 加载
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {

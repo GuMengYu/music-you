@@ -48,6 +48,20 @@ export interface SettingState {
   comment: boolean
   lyricTrans: boolean
   navLeft: boolean
+  unlock: {
+    unblockNetEaseMusic: {
+      open: boolean
+      source: string
+    }
+    youtube: {
+      open: boolean
+      proxy: {
+        host: string
+        port: number
+        protocol?: string
+      }
+    }
+  }
 }
 export const useSettingStore = defineStore('setting', {
   state: () => {
@@ -72,6 +86,20 @@ export const useSettingStore = defineStore('setting', {
         comment: false,
         lyricTrans: true,
         navLeft: false,
+        unlock: {
+          unblockNetEaseMusic: {
+            open: false,
+            source: '',
+          },
+          youtube: {
+            open: false,
+            proxy: {
+              host: '127.0.0.1',
+              port: 7890,
+              protocol: 'http',
+            },
+          },
+        },
       },
       { mergeDefaults: true }
     )

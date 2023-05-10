@@ -33,6 +33,9 @@ export async function useDownloadMusic(track: Track) {
     const artistName = track.ar?.map((i) => i.name)?.join(',')
     const fileName = `${artistName} - ${track.name}.${data.type}`
     const year = track.publishTime ? new Date(track.publishTime).getFullYear().toString() : ''
+    if (!data.url) {
+      return
+    }
     if (is.electron()) {
       const tags: Tags = {
         title: track.name,

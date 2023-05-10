@@ -1,6 +1,7 @@
 import { app } from 'electron'
 import is from 'electron-is'
-import Store from 'electron-store'
+
+import store from '../util/store'
 export interface PageOption {
   width: number
   height: number
@@ -23,12 +24,10 @@ let storeSize: {
 }
 initWindowSize()
 function initWindowSize() {
-  const store = new Store()
-
   const size = store.get('windowSize')
   if (size) {
     try {
-      storeSize = JSON.parse(store.get('windowSize') as string)
+      storeSize = store.get('windowSize')
     } catch (e) {
       console.log(e)
     }

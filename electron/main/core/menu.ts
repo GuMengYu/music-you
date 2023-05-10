@@ -2,7 +2,6 @@ import type { BrowserWindow } from 'electron'
 import is from 'electron-is'
 
 import { name } from '../../../package.json'
-import { logPath } from './util/log'
 
 const { app, Menu, shell } = require('electron')
 const isMac = process.platform === 'darwin'
@@ -120,27 +119,37 @@ export const createElectronMenu = (window: BrowserWindow) => {
         {
           label: '日志目录',
           click: async () => {
-            await shell.openPath(logPath)
+            const path = app.getPath('logs')
+            await shell.openPath(path)
           },
         },
         {
           label: '用户数据',
           click: async () => {
             const path = app.getPath('userData')
+            console.log(path)
+
             await shell.openPath(path)
           },
         },
-        ...(is.dev()
-          ? [
-              {
-                label: '开发者工具',
-                accelerator: 'F12',
-                click: () => {
-                  window.webContents.toggleDevTools()
-                },
-              },
-            ]
-          : []),
+        // ...(is.dev()
+        //   ? [
+        //       {
+        //         label: '开发者工具',
+        //         accelerator: 'F12',
+        //         click: () => {
+        //           window.webContents.toggleDevTools()
+        //         },
+        //       },
+        //     ]
+        //   : []),
+        {
+          label: '开发者工具',
+          accelerator: 'F12',
+          click: () => {
+            window.webContents.toggleDevTools()
+          },
+        },
         {
           label: '问题&反馈',
           click: async () => {

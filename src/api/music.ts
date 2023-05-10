@@ -33,7 +33,7 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
     track = data
     lyric = await getLyricNew(id)
   }
-  const trackMeta = await getMusicUrl(id)
+  const trackMeta = await getMusicUrl(track)
   return { track, trackMeta, lyric }
 }
 
@@ -42,7 +42,7 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
  * @param id
  * @returns
  */
-export const getMusicUrl = async (id: Track['id']) => {
+export const getMusicUrl = async (track: Track) => {
   const userStore = useUserStore()
   const settingStore = useSettingStore()
   const level = settingStore.quality_level ?? QUALITY_LEVEL.HIGHER
@@ -55,11 +55,11 @@ export const getMusicUrl = async (id: Track['id']) => {
   if (userStore.logged) {
     const {
       data: [song],
-    } = await getSongUrl({ id, level })
+    } = await getSongUrl({ id: track.id, level })
     if (song?.freeTrialInfo || !song.url) {
       try {
-        const { data } = await getSongUrlFromUnlockMusic(id) // 尝试解锁灰色或者试听歌曲
-        meta.url = data.url ?? ''
+        const result = await getSongUrlFromUnlockMusic(track) // 尝试解锁灰色或者试听歌曲
+        meta.url = result.url ?? ''
         meta.sourceFromUnlockMusic = true
       } catch (e) {
         console.log(e)
@@ -72,7 +72,7 @@ export const getMusicUrl = async (id: Track['id']) => {
       meta.encodeType = song['encodeType']?.toUpperCase()
     }
   } else {
-    meta.url = `https://music.163.com/song/media/outer/url?id=${id}`
+    meta.url = `https://music.163.com/song/media/outer/url?id=${track.id}`
   }
   return meta
 }

@@ -19,7 +19,7 @@ preCheck()
 bootstrap()
 
 function bootstrap() {
-  log.info('music you main process bootstrap')
+  log.info('[main] bootstrap')
   const gotTheLock = app.requestSingleInstanceLock()
   if (!gotTheLock) {
     return app.quit()

@@ -1,6 +1,10 @@
+import { ipcRenderer } from 'electron'
+
 import type { QUALITY_LEVEL } from '@/store/setting'
+import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
 import { request } from '@/util/fetch'
+
 /**
  * 获取歌曲详情
  * @param ids[]
@@ -47,14 +51,37 @@ export const getSongDownloadUrl = (params: { id: number; br?: number }) => {
 
 /**
  * 解锁灰色不可播放歌曲
- * @param id
+ * @param track
  */
-export const getSongUrlFromUnlockMusic = (id: number) =>
-  request<{
-    data: {
-      url: string
+export const getSongUrlFromUnlockMusic = async (track: Track) => {
+  const settingStore = useSettingStore()
+  if (settingStore.unlock.unblockNetEaseMusic.open) {
+    try {
+      const { data, code } = await request<{
+        data: {
+          url: string
+        }
+        code: number
+      }>('/unlockmusic', { params: { id: track.id, source: settingStore.unlock.unblockNetEaseMusic.source } })
+      if (code === 200) {
+        return data
+      }
+    } catch (e) {
+      console.log(e)
     }
-  }>('/unlockmusic', { params: { id } })
+  }
+
+  if (settingStore.unlock.youtube.open) {
+    try {
+      return await ipcRenderer.invoke('getTrackFromYoutube', track.ar?.[0].name, track.name)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  return {
+    url: null,
+  }
+}
 
 interface LyricUser {
   nickname: string

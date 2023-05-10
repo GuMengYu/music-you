@@ -3,9 +3,22 @@ import { app, ipcMain, shell } from 'electron'
 import { WindowState } from '../../../src/util/enum'
 import { downloadFile, downloadTrack } from './util/download'
 import log from './util/log'
+import store from './util/store'
+import YoutubeFinder from './util/youtube'
 import type WindowManager from './windowManager'
 import { WindowDefaultSize } from './windowManager'
 export const registerIpcMain = (windowManager: WindowManager) => {
+  const { open, proxy } = store.get('youtube')
+  if (open) {
+    log.info('[main] init youtubeFinder', proxy)
+    const youtubeFinder = new YoutubeFinder({
+      proxy,
+    })
+    ipcMain.handle('getTrackFromYoutube', async (e, artist, name) => {
+      return youtubeFinder.matchTrack(artist, name)
+    })
+  }
+
   const window = windowManager.getWindow('index')
   // ipcMain.handle('minimalWindow', () => {
   //   windowManager.openWindow('minimal')
@@ -84,5 +97,19 @@ export const registerIpcMain = (windowManager: WindowManager) => {
   })
   ipcMain.handle('setProgress', (e, progress) => {
     window.setProgressBar(progress)
+  })
+  ipcMain.handle('updateYoutubeConfig', (e, payload) => {
+    try {
+      log.info('[main]: updateYoutubeConfig', payload)
+      const data = JSON.parse(payload)
+      store.set('youtube', data)
+    } catch (e) {
+      log.error('[main]: updateYoutubeConfig error', e)
+    }
+  })
+  ipcMain.handle('relaunch', () => {
+    log.info('[main]: app relaunch')
+    app.relaunch()
+    app.quit()
   })
 }

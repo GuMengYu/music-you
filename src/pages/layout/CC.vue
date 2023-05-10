@@ -24,19 +24,21 @@
         <v-col class="d-flex">
           <switch-card
             v-model="darkMode"
+            rounded="lg"
             :title="t('common.dark_theme')"
             :subtitle="t('common.open', darkMode ? 1 : 2)"
             :icon="darkMode ? mdiBrightness4 : mdiBrightness6"
           />
         </v-col>
         <v-col class="d-flex">
-          <switch-card :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
+          <switch-card rounded="lg" :title="$t('common.setting')" :icon="mdiCog" @click="to('setting')" />
         </v-col>
       </v-row>
       <v-row dense>
         <v-col class="d-flex">
           <switch-card
             v-model="miniplayer"
+            rounded="lg"
             title="隐藏底部播放"
             :subtitle="t('common.hide', miniplayer ? 1 : 2)"
             :icon="mdiDockBottom"
@@ -45,17 +47,18 @@
         <v-col class="d-flex">
           <switch-card
             v-model="navLeft"
+            rounded="lg"
             title="侧边导航栏"
             :subtitle="t('common.open', navLeft ? 1 : 2)"
             :icon="mdiPageLayoutSidebarLeft"
           />
         </v-col>
       </v-row>
-      <!--      <v-row v-if="isDev" dense>-->
-      <!--        <v-col class="d-flex">-->
-      <!--          <switch-card title="playground" :icon="mdiCog" @click="to('playground')" />-->
-      <!--        </v-col>-->
-      <!--      </v-row>-->
+      <v-row dense>
+        <v-col class="d-flex" cols="6">
+          <switch-card rounded="lg" :title="t('common.relaunch')" :icon="mdiCog" @click="appRelaunch" />
+        </v-col>
+      </v-row>
       <!--      <MediaCard class="mt-4" />-->
       <!--      <PlayingList class="mt-4" />-->
       <media-card v-if="miniplayer" class="mt-4" />
@@ -73,6 +76,7 @@ import {
   mdiPageLayoutSidebarLeft,
   mdiTestTube,
 } from '@mdi/js'
+import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
@@ -88,6 +92,7 @@ const setting = useSettingStore()
 const theme = useTheme()
 const router = useRouter()
 const { miniplayer, navLeft } = storeToRefs(setting)
+const ipcRenderer = useIpcRenderer()
 const darkMode = computed<boolean>({
   get() {
     return theme.current.value.dark
@@ -100,5 +105,8 @@ const isDev = import.meta.env.DEV ?? false
 // for dev
 function to(name: 'setting' | 'playground') {
   router.push(`/${name}`)
+}
+function appRelaunch() {
+  ipcRenderer.invoke('relaunch')
 }
 </script>

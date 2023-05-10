@@ -7,6 +7,5 @@ export const useNetEaseApiServer = async (
     host: '127.0.0.1',
   }
 ) => {
-  const app = await netEaseApi.serveNcmApi(options)
-  return app
+  return await netEaseApi.serveNcmApi(options)
 }
