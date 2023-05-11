@@ -1,14 +1,13 @@
 import { app } from 'electron'
 import type { File } from 'electron-dl'
 import { download } from 'electron-dl'
-import { spawn } from 'node:child_process'
 import { unlink } from 'node:fs'
 import NodeID3 from 'node-id3'
 import { join } from 'path'
 
 import type { Tags } from '../../../../shared/types'
 import { getWin } from '../../index'
-import { isFlacFile, isMP3File } from './fn'
+import { isFlacFile, isMP3File, isMutagenInstalled, isPythonInstalled, runPythonScript } from './fn'
 import log from './log'
 
 export const downloadFile = (data: { fileName?: string; url: string; completed?: (file: File) => void }) => {
@@ -82,9 +81,13 @@ async function getSongArtworkPath(url) {
  */
 async function updateId3Tags(tags: Tags, path: string) {
   NodeID3.write(tags, path)
+  removeTempArtworkPicture(tags.APIC)
+}
+
+function removeTempArtworkPicture(path) {
   // remove temp artwork file
-  unlink(tags.APIC, () => {
-    log.info('remove artwork temp file', tags.APIC)
+  unlink(path, () => {
+    log.info('remove artwork temp file', path)
   })
 }
 
@@ -93,29 +96,33 @@ async function updateId3Tags(tags: Tags, path: string) {
  */
 async function updateVorbis(tags: Tags, path: string) {
   // todo
-  // const py = join(__dirname, '../../dist', 'flac.py')
-  // const output = await runPythonScript(py, [path])
-}
-
-function runPythonScript(scriptPath, args) {
-  return new Promise((resolve, reject) => {
-    const python = spawn('python', [scriptPath, ...args])
-
-    let output = ''
-
-    python.stdout.on('data', (data) => {
-      output += data.toString()
-    })
-    python.stderr.on('data', (data) => {
-      console.error(data.toString())
-    })
-    python.on('close', (code) => {
-      if (code === 0) {
-        resolve(output)
-      } else {
-        reject(new Error(`Python script exited with code ${code}`))
+  const py = join(__dirname, '../../dist', 'edit_flac_metadata.py')
+  const pythonInstalled = await isPythonInstalled()
+  if (pythonInstalled) {
+    const mutagenInstalled = await isMutagenInstalled()
+    if (mutagenInstalled) {
+      log.info('[main] update flac metadata output')
+      try {
+        const output = await runPythonScript(py, [
+          path,
+          '--image',
+          tags.APIC,
+          '--title',
+          tags.title,
+          '--album',
+          tags.album,
+          '--artist',
+          tags.artist,
+        ])
+        log.info('[main] update flac metadata output', output)
+        removeTempArtworkPicture(tags.APIC)
+      } catch (e) {
+        log.error('[main]: update flac metadata error', e)
       }
-    })
-    python.on('error', reject)
-  })
+    } else {
+      log.info('[main] update flac metadata mutagen no installed')
+    }
+  } else {
+    log.info('[main] update flac metadata python no installed')
+  }
 }

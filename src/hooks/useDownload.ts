@@ -34,6 +34,7 @@ export async function useDownloadMusic(track: Track) {
     const fileName = `${artistName} - ${track.name}.${data.type}`
     const year = track.publishTime ? new Date(track.publishTime).getFullYear().toString() : ''
     if (!data.url) {
+      toast.warning('未获取到歌曲下载链接')
       return
     }
     if (is.electron()) {
