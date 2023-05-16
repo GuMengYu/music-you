@@ -59,7 +59,7 @@
       </template>
     </v-list-item>
   </div>
-  <div v-if="is.linux() && is.macOS()">
+  <div v-if="is.windows()">
     <app-title path="common.exitmode" />
     <v-list-item class="pa-0">
       <v-list-item-title class="text-caption"> {{ t('main.setting.exit') }} </v-list-item-title>

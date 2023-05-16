@@ -84,8 +84,6 @@ import { useTheme } from 'vuetify'
 import { useAppStore } from '@/store/app'
 import { APPEARANCE, useSettingStore } from '@/store/setting'
 
-import PlayingList from '../components/PlayingList.vue'
-
 const { t } = useI18n()
 const app = useAppStore()
 const setting = useSettingStore()
