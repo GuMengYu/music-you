@@ -49,6 +49,14 @@ export interface WallHavenState {
   brightness: number
   blur: number
   useTrackCover: boolean
+  proxy: {
+    open: boolean
+    proxy: {
+      host: string
+      port: number
+      protocol: string
+    }
+  }
 }
 
 export const useWallHavenStore = defineStore('wallhaven', {
@@ -68,6 +76,14 @@ export const useWallHavenStore = defineStore('wallhaven', {
         brightness: 60,
         blur: 0,
         useTrackCover: false,
+        proxy: {
+          open: false,
+          proxy: {
+            host: '127.0.0.1',
+            port: 7890,
+            protocol: 'http',
+          },
+        },
       },
       {
         mergeDefaults: true,

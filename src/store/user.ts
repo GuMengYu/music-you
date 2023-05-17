@@ -1,10 +1,12 @@
 // Utilities
 import { useLocalStorage } from '@vueuse/core'
 import { defineStore } from 'pinia'
+import { useToast } from 'vue-toastification'
 
 import { getAccount, getVipInfo, logout } from '@/api/account'
 import { sub } from '@/api/music'
 import { getLikeList, getUserPlaylist } from '@/api/user'
+import { useAppStore } from '@/store/app'
 import type { Account, Playlist } from '@/types'
 import { specialType } from '@/util/metadata'
 
@@ -45,13 +47,13 @@ export const useUserStore = defineStore({
   actions: {
     async fetch() {
       if (this.logged) {
-        const [likesRes, playlistRes] = await Promise.all([
+        const [, likesRes, playlistRes] = await Promise.all([
+          this.refreshAccount(),
           getLikeList(),
           getUserPlaylist({
             timestamp: new Date().getTime(),
             uid: this.uid,
           }),
-          this.refreshAccount(),
         ])
         this.likes = likesRes.ids
         this.playlists = playlistRes.playlist
@@ -66,12 +68,19 @@ export const useUserStore = defineStore({
     },
     async refreshAccount() {
       const account = await getAccount()
-      if (account.profile.vipType === 11) {
-        const vipInfo = await getVipInfo()
-        account.vipInfo = vipInfo.data
+      if (account.account && account.profile) {
+        if (account.profile.vipType === 11) {
+          const vipInfo = await getVipInfo()
+          account.vipInfo = vipInfo.data
+        }
+        this.account = account
+        return account
+      } else {
+        const appStore = useAppStore()
+        const toast = useToast()
+        toast.warning('Your session has expired. Please log in again.')
+        appStore.showLogin = true
       }
-      this.account = account
-      return account
     },
     async signOut() {
       await logout()

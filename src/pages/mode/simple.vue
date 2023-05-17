@@ -24,10 +24,9 @@
         </div>
         <div class="frame-content d-flex justify-center align-center text-center py-4">
           <scroll-lyric />
-          <!--      <lyric class="text-h4 text-xl-h3" style="font-family: 'Google Sans', serif !important" />-->
         </div>
-        <div class="frame-footer d-flex flex-column pl-4 pr-2 pl-xl-8 pr-xl-4 gap-4 mt-auto">
-          <div class="d-flex gap-4">
+        <div class="frame-footer d-flex flex-column px-2 px-xl-4 gap-4 mt-auto">
+          <div class="d-flex gap-4 mx-2">
             <v-img
               max-height="22vh"
               min-height="22vh"
@@ -40,11 +39,11 @@
             />
             <div class="d-flex flex-column text-h5 text-xl-h4 justify-space-evenly">
               <template v-if="track['al']">
-                <span>{{ track['al']?.['name'] }} - {{ track['ar']?.[0]?.['name'] }}</span>
+                <span><album-link :album="track['al']" /> - <artists-link :artists="track['ar']" /></span>
               </template>
 
               <span class="text-h4 text-xl-h3 font-weight-regular"
-                >{{ track?.name }} <download-track-btn :track="track" />
+                >{{ track?.name }} <download-track-btn :track="track as Track" />
               </span>
             </div>
           </div>
@@ -90,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiDotsVertical, mdiImageMultipleOutline } from '@mdi/js'
+import { mdiChevronLeft, mdiChevronRight, mdiClose, mdiImageMultipleOutline } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import placeholderUrl from '@/assets/placeholder.png'
@@ -102,6 +101,7 @@ import { useAppStore } from '@/store/app'
 import { usePlayerStore } from '@/store/player'
 import { useSettingStore } from '@/store/setting'
 import { useWallHavenStore } from '@/store/wallhaven'
+import { Track } from '@/types'
 import { formatDuring, sizeOfImage, sleep } from '@/util/fn'
 
 const playerStore = usePlayerStore()
@@ -116,7 +116,7 @@ const { currentTime } = storeToRefs(playerStore)
 const { track, isProgram } = usePlayerControl()
 const { wallpapers, currentWallpaper, currentIndex, brightness, blur, useTrackCover } = storeToRefs(wallHavenStore)
 
-const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 1024))
+const coverUrl = computed(() => sizeOfImage(track.value?.coverUrl ?? track.value?.al?.picUrl ?? '', 1024))
 
 const currentTheme = computed(() => {
   return settingStore.wallpaperColor + 'Dark'

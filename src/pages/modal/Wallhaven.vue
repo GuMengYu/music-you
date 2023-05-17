@@ -116,6 +116,53 @@
               </v-list-item>
             </v-list>
           </div>
+          <div class="mb-2">
+            <span class="text-subtitle-2 ml-2"> proxy </span>
+            <v-list class="bg-surfaceVariant rounded-md">
+              <v-list-item>
+                <v-list-item-title class="text-caption"> 代理 </v-list-item-title>
+                <template #append>
+                  <v-switch v-model="proxy.open" color="primary" hide-details density="compact" inset></v-switch>
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> host </v-list-item-title>
+                <template #append>
+                  <v-text-field
+                    v-model="proxy.proxy.host"
+                    style="width: 186px"
+                    hide-details
+                    density="compact"
+                    variant="outlined"
+                  />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> port </v-list-item-title>
+                <template #append>
+                  <v-text-field
+                    v-model="proxy.proxy.port"
+                    style="width: 186px"
+                    hide-details
+                    density="compact"
+                    variant="outlined"
+                  />
+                </template>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title class="text-caption"> protocol </v-list-item-title>
+                <template #append>
+                  <v-text-field
+                    v-model="proxy.proxy.protocol"
+                    style="width: 186px"
+                    hide-details
+                    density="compact"
+                    variant="outlined"
+                  />
+                </template>
+              </v-list-item>
+            </v-list>
+          </div>
           <div>
             <span class="text-subtitle-2 ml-2">其他</span>
             <v-list class="bg-surfaceVariant rounded-md">
@@ -124,7 +171,7 @@
                 <template #append>
                   <v-text-field
                     v-model="apiKey"
-                    style="width: 146px"
+                    style="width: 186px"
                     hide-details
                     density="compact"
                     variant="outlined"
@@ -175,6 +222,7 @@ const {
   brightness,
   blur,
   useTrackCover,
+  proxy,
 } = storeToRefs(wallHavenStore)
 const { t } = useI18n()
 const { meta, loading } = useFetchWallpapers()

@@ -23,7 +23,7 @@ export function useFetchWallpapers() {
   const wallpaperStore = useWallHavenStore()
   const reset = ref(false)
 
-  const { categories, purity, sorting, order, topRange, wallpapers, page } = storeToRefs(wallpaperStore)
+  const { categories, purity, sorting, order, topRange, wallpapers, page, proxy } = storeToRefs(wallpaperStore)
 
   const cats = computed(() => {
     return `${categories.value.includes(CATGORY.GENERAL) ? 1 : 0}${categories.value.includes(CATGORY.ANIME) ? 1 : 0}${
@@ -48,6 +48,10 @@ export function useFetchWallpapers() {
     }
     if (wallpaperStore.apiKey) {
       params.apikey = wallpaperStore.apiKey
+    }
+    if (proxy.value.open) {
+      const { protocol, port, host } = proxy.value.proxy
+      params.proxy = `${protocol}://${host}:${port}`
     }
     loading.value = true
     try {

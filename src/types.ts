@@ -44,6 +44,7 @@ export interface Track {
   album?: Album
   no?: number | string
   publishTime?: number
+  coverUrl?: string
   h?: Quality
   l?: Quality
   m?: Quality

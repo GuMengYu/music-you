@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Account: typeof import('./components/button/Account.vue')['default']
     AccountExtendedFab: typeof import('./components/button/AccountExtendedFab.vue')['default']
+    AlbumLink: typeof import('./components/artist/AlbumLink.vue')['default']
     ArtistsCover: typeof import('./components/cover/ArtistsCover.vue')['default']
     ArtistsLink: typeof import('./components/artist/ArtistsLink.vue')['default']
     BackBtn: typeof import('./components/button/BackBtn.vue')['default']
