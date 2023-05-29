@@ -36,7 +36,6 @@ declare module '@vue/runtime-core' {
     List: typeof import('./components/list/List.vue')['default']
     ListLoader: typeof import('./components/skeleton/ListLoader.vue')['default']
     ListSkeleton: typeof import('./components/skeleton/ListSkeleton.vue')['default']
-    Loader: typeof import('./components/skeleton/Loader.vue')['default']
     LottieIcon: typeof import('./components/LottieIcon.vue')['default']
     MediaCard: typeof import('./components/MediaCard.vue')['default']
     Menu: typeof import('./components/menu/Menu.vue')['default']
