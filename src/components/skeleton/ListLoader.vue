@@ -21,7 +21,7 @@ const props = defineProps<{
       :primary-color="surfaceColor"
       :secondary-color="onSurfaceColor"
       :animate="true"
-      class="mb-4 mx-n4 mt-n4"
+      class="mb-4 mx-n4 mt-n5"
     >
       <rect x="0" y="0" rx="0" ry="12" :width="width" height="380" />
       <rect x="16" y="404" rx="12" ry="12" :width="200 - 16" height="32" />

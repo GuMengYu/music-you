@@ -1,83 +1,86 @@
 <template>
   <div>
-    <v-btn-toggle v-model="current" color="primary" variant="text">
-      <v-btn v-for="tab in tabs" :key="tab.key" rounded="md" :value="tab.key" class="mx-1 px-6">
-        {{ tab.name }}
-      </v-btn>
-    </v-btn-toggle>
-    <v-window :model-value="current" class="mt-4">
-      <v-window-item :value="TYPES.PLAYLIST">
-        <Col :title="$t('common.created_playlist')" class="mb-4">
-          <template #more>
-            <v-btn rounded="pill" variant="outlined" color="primary" @click="handleCreatePlaylist">
-              <span class="d-flex align-center">
-                <v-icon>{{ mdiPlus }}</v-icon>
-                {{ $t('main.playlist.new') }}
-              </span>
-            </v-btn>
-          </template>
+    <library-loader v-if="loading" />
+    <div v-else>
+      <v-btn-toggle v-model="current" color="primary" variant="text">
+        <v-btn v-for="tab in tabs" :key="tab.key" rounded="md" :value="tab.key" class="mx-1 px-6">
+          {{ tab.name }}
+        </v-btn>
+      </v-btn-toggle>
+      <v-window :model-value="current" class="mt-4">
+        <v-window-item :value="TYPES.PLAYLIST">
+          <Col :title="$t('common.created_playlist')" class="mb-4">
+            <template #more>
+              <v-btn rounded="pill" variant="outlined" color="primary" @click="handleCreatePlaylist">
+                <span class="d-flex align-center">
+                  <v-icon>{{ mdiPlus }}</v-icon>
+                  {{ $t('main.playlist.new') }}
+                </span>
+              </v-btn>
+            </template>
+            <card-row>
+              <cover v-for="item in filteredPlaylist.create" :key="item.id" :data="item" type="playlist" />
+            </card-row>
+          </Col>
+          <Col :title="$t('common.sub_playlist')">
+            <card-row>
+              <cover v-for="item in filteredPlaylist.sub" :key="item.id" :data="item" type="playlist" />
+            </card-row>
+          </Col>
+        </v-window-item>
+        <v-window-item :value="TYPES.ALBUM">
           <card-row>
-            <cover v-for="item in filteredPlaylist.create" :key="item.id" :data="item" type="playlist" />
+            <cover v-for="album in data.albums" :key="album.id" :data="album" />
           </card-row>
-        </Col>
-        <Col :title="$t('common.sub_playlist')">
+        </v-window-item>
+        <v-window-item :value="TYPES.ARTIST">
           <card-row>
-            <cover v-for="item in filteredPlaylist.sub" :key="item.id" :data="item" type="playlist" />
+            <artists-cover v-for="artist in data.artists" :key="artist.id" :artist="artist" />
           </card-row>
-        </Col>
-      </v-window-item>
-      <v-window-item :value="TYPES.ALBUM">
-        <card-row>
-          <cover v-for="album in data.albums" :key="album.id" :data="album" />
-        </card-row>
-      </v-window-item>
-      <v-window-item :value="TYPES.ARTIST">
-        <card-row>
-          <artists-cover v-for="artist in data.artists" :key="artist.id" :artist="artist" />
-        </card-row>
-      </v-window-item>
-      <v-window-item :value="TYPES.PODCAST">
-        <card-row>
-          <podcast-cover v-for="podcast in data.podcasts" :key="podcast.id" :data="podcast" />
-        </card-row>
-      </v-window-item>
-      <v-window-item :value="TYPES.MV">
-        <card-row :grid-type="GridType.B">
-          <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
-        </card-row>
-      </v-window-item>
-      <v-window-item :value="TYPES.CLOUD">
-        <Cloud />
-      </v-window-item>
-      <v-window-item :value="TYPES.RANKING">
-        <ListenRanking />
-      </v-window-item>
-    </v-window>
-    <v-dialog v-model="createState.show">
-      <v-card width="90vw" max-width="450" rounded="xl" class="py-2 align-self-center">
-        <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="createState.playlistName"
-            :label="$t('main.playlist.name')"
-            maxlength="45"
-            variant="outlined"
-            density="compact"
-            hide-details
-          ></v-text-field>
-          <v-checkbox
-            v-model="createState.playlistPrivate"
-            :label="$t('main.playlist.privacy')"
-            hide-details
-          ></v-checkbox>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn variant="plain" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>
-          <v-btn variant="plain" color="primary" @click="createNewPlaylist"> {{ $t('common.confirm') }} </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+        </v-window-item>
+        <v-window-item :value="TYPES.PODCAST">
+          <card-row>
+            <podcast-cover v-for="podcast in data.podcasts" :key="podcast.id" :data="podcast" />
+          </card-row>
+        </v-window-item>
+        <v-window-item :value="TYPES.MV">
+          <card-row :grid-type="GridType.B">
+            <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
+          </card-row>
+        </v-window-item>
+        <v-window-item :value="TYPES.CLOUD">
+          <Cloud />
+        </v-window-item>
+        <v-window-item :value="TYPES.RANKING">
+          <ListenRanking />
+        </v-window-item>
+      </v-window>
+      <v-dialog v-model="createState.show">
+        <v-card width="90vw" max-width="450" rounded="xl" class="py-2 align-self-center">
+          <v-card-title>{{ $t('main.playlist.new') }}</v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="createState.playlistName"
+              :label="$t('main.playlist.name')"
+              maxlength="45"
+              variant="outlined"
+              density="compact"
+              hide-details
+            ></v-text-field>
+            <v-checkbox
+              v-model="createState.playlistPrivate"
+              :label="$t('main.playlist.privacy')"
+              hide-details
+            ></v-checkbox>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn variant="plain" @click="createState.show = false"> {{ $t('common.cancel') }} </v-btn>
+            <v-btn variant="plain" color="primary" @click="createNewPlaylist"> {{ $t('common.confirm') }} </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -90,6 +93,7 @@ import { useToast } from 'vue-toastification'
 
 import { createPlaylist } from '@/api/playlist'
 import { favAlbums, favArtists, favMVs, favPodcast } from '@/api/user'
+import LibraryLoader from '@/components/skeleton/LibraryLoader.vue'
 import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import { usePlayer } from '@/player/player'

@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="d-flex flex-column gap-6">
-      <div class="drag-area d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <div class="drag-area d-flex justify-space-between mx-n4 mt-n5" :class="smAndUp ? '' : 'flex-column'">
         <v-img
           :src="coverUrl"
           cover
@@ -40,7 +40,7 @@
                     class="mr-4 px-10 rounded-pill"
                     variant="tonal"
                     color="primary"
-                    :loading="loading"
+                    :loading="loading as Boolean"
                     @click="play"
                   >
                     <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
@@ -52,17 +52,17 @@
         </v-img>
       </div>
     </div>
-    <track-list :tracks="daily" header type="daily" @update-list="(list) => (daily = [...list])"> </track-list>
+    <track-list :tracks="daily as Track[]" header type="daily" @update-list="(list) => (daily = [...list])" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import { mdiPlay, mdiPlayOutline } from '@mdi/js'
-import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 
 import { getDailyRecommend } from '@/api/user'
+import useAjaxReloadHook from '@/hooks/useAjaxReload'
 import { usePlayer } from '@/player/player'
 import { usePlayQueueStore } from '@/store/playQueue'
 import type { Track } from '@/types'
@@ -75,9 +75,16 @@ const playQueueStore = usePlayQueueStore()
 const loading = ref(false)
 const daily = ref<Track[]>([])
 const coverUrl = computed(() => daily.value[0]?.al?.picUrl ?? daily.value[0]?.album?.picUrl)
-getDailyRecommend().then(({ data }) => {
-  daily.value = data?.dailySongs ?? []
+
+fetch()
+useAjaxReloadHook('daily', () => {
+  fetch()
 })
+function fetch() {
+  getDailyRecommend().then(({ data }) => {
+    daily.value = data?.dailySongs ?? []
+  })
+}
 async function play() {
   loading.value = true
   playQueueStore.updatePlayQueue(0, 'daily', '日推', daily.value)

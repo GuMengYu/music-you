@@ -120,7 +120,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
   <section>
     <list-loader v-if="loading" artist />
     <div v-else class="d-flex flex-column gap-6">
-      <div class="drag-area d-flex mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+      <div class="drag-area d-flex mx-n4 mt-n5" :class="smAndUp ? '' : 'flex-column'">
         <v-img
           :src="state.artist.picUrl"
           cover

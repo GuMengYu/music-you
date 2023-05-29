@@ -69,7 +69,7 @@ const { t } = useI18n()
 const { smAndUp } = useDisplay()
 
 const height = computed(() => {
-  return smAndUp.value ? 80 : 64
+  return smAndUp.value ? 76 : 64
 })
 const player = usePlayer()
 const playQueueStore = usePlayQueueStore()

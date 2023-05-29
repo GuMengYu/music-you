@@ -3,6 +3,9 @@
     <div class="px-3 pt-1 mt-1" :class="{ 'mt-2': isMac }">
       <drawer-toggle />
     </div>
+    <div v-if="rail" class="d-flex justify-center mt-2">
+      <aggregate-extend-btn variant="extendFab" />
+    </div>
     <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
         <v-list-item
@@ -37,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAlbum, mdiCompass, mdiFaceManProfile, mdiMagnify, mdiPodcast } from '@mdi/js'
+import { mdiEarth, mdiGamepad, mdiHome, mdiMagnify, mdiPodcast } from '@mdi/js'
 import { storeToRefs } from 'pinia'
 
 import AppAccount from '@/components/button/Account.vue'
+import AggregateExtendBtn from '@/components/button/AggregateExtendBtn.vue'
 import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { Account } from '@/types'
@@ -65,13 +69,13 @@ const nav = computed(() => {
       to: '/search',
     },
     {
-      icon: mdiAlbum,
+      icon: mdiHome,
       val: 'discover',
       title: 'main.nav.discover',
       to: '/discover',
     },
     {
-      icon: mdiCompass,
+      icon: mdiEarth,
       val: 'explore',
       title: 'main.nav.explore',
       to: '/explore',
@@ -85,7 +89,7 @@ const nav = computed(() => {
   ]
   if (logged.value) {
     list.push({
-      icon: mdiFaceManProfile,
+      icon: mdiGamepad,
       val: 'stars',
       title: 'main.nav.stars',
       to: '/library',

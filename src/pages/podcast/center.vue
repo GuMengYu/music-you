@@ -69,5 +69,5 @@ const fetch = async () => {
   }
 }
 fetch()
-useAjaxReloadHook('podcast', fetch)
+useAjaxReloadHook('podcast-center', fetch)
 </script>

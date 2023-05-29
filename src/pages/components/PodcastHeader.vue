@@ -72,7 +72,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
 </script>
 <template>
   <div class="d-flex flex-column gap-6">
-    <div class="drag-area d-flex justify-space-between mx-n4 mt-n4" :class="smAndUp ? '' : 'flex-column'">
+    <div class="drag-area d-flex justify-space-between mx-n4 mt-n5" :class="smAndUp ? '' : 'flex-column'">
       <v-img
         :src="podcast['picUrl']"
         cover

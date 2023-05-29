@@ -7,9 +7,9 @@
           variant="flat"
           class="mt-auto pointer-events-initial"
           color="primaryContainer"
-          size="large"
+          size="x-large"
           elevation="8"
-          rounded="md"
+          rounded="lg"
           @click="onClick"
         >
           <v-icon>

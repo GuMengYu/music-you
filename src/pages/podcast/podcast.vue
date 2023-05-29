@@ -41,10 +41,6 @@ async function fetch(id: number, flush = false) {
     state.podcast.programs = programs
   }
 }
-
-useAjaxReloadHook('podcast', () => {
-  fetch(+props.id, true)
-})
 </script>
 <template>
   <section>
