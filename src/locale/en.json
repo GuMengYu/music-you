@@ -140,7 +140,7 @@
       "higher": "higher",
       "extremely": "extremely high(vip)",
       "lossless": "lossless(vip)",
-      "navLeft": "Left | Top",
+      "navPosition": "Left | Top",
       "normal_user": "Normal User",
       "vip_level": "Lv.1 | Lv.2 | Lv.3 | Lv.4 | Lv.5 | Lv.6 | Lv.7"
     },

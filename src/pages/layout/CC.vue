@@ -46,11 +46,11 @@
         </v-col>
         <v-col class="d-flex">
           <switch-card
-            v-model="navLeft"
             rounded="lg"
-            title="侧边导航栏"
-            :subtitle="t('common.open', navLeft ? 1 : 2)"
+            title="导航栏位置"
+            :subtitle="t('main.setting.navPosition', navPosition === NavPosition.top ? 2 : 1)"
             :icon="mdiPageLayoutSidebarLeft"
+            @click="togglePosition"
           />
         </v-col>
       </v-row>
@@ -82,14 +82,14 @@ import { useI18n } from 'vue-i18n'
 import { useTheme } from 'vuetify'
 
 import { useAppStore } from '@/store/app'
-import { APPEARANCE, useSettingStore } from '@/store/setting'
+import { APPEARANCE, NavPosition, useSettingStore } from '@/store/setting'
 
 const { t } = useI18n()
 const app = useAppStore()
 const setting = useSettingStore()
 const theme = useTheme()
 const router = useRouter()
-const { miniPlayer, navLeft } = storeToRefs(setting)
+const { miniPlayer, navPosition } = storeToRefs(setting)
 const ipcRenderer = useIpcRenderer()
 const darkMode = computed<boolean>({
   get() {
@@ -106,5 +106,12 @@ function to(name: 'setting' | 'playground') {
 }
 function appRelaunch() {
   ipcRenderer.invoke('relaunch')
+}
+function togglePosition() {
+  if (navPosition.value === NavPosition.left) {
+    navPosition.value = NavPosition.top
+  } else {
+    navPosition.value = NavPosition.left
+  }
 }
 </script>
