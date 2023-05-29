@@ -1,6 +1,7 @@
 <template>
   <section>
-    <div class="d-flex flex-column gap-6">
+    <list-loader v-if="fetchLoading" />
+    <div v-else class="d-flex flex-column gap-6">
       <div class="drag-area d-flex justify-space-between mx-n4 mt-n5" :class="smAndUp ? '' : 'flex-column'">
         <v-img
           :src="coverUrl"
@@ -45,6 +46,11 @@
                   >
                     <v-icon size="large">{{ mdiPlayOutline }}</v-icon>
                   </v-btn>
+                  <v-btn icon variant="tonal" color="secondary" @click="fetch">
+                    <v-icon size="small">
+                      {{ mdiReload }}
+                    </v-icon>
+                  </v-btn>
                 </div>
               </div>
             </div>
@@ -57,7 +63,7 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiPlay, mdiPlayOutline } from '@mdi/js'
+import { mdiPlay, mdiPlayOutline, mdiReload } from '@mdi/js'
 import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 
@@ -73,6 +79,7 @@ const { t } = useI18n()
 const player = usePlayer()
 const playQueueStore = usePlayQueueStore()
 const loading = ref(false)
+const fetchLoading = ref(false)
 const daily = ref<Track[]>([])
 const coverUrl = computed(() => daily.value[0]?.al?.picUrl ?? daily.value[0]?.album?.picUrl)
 
@@ -81,8 +88,10 @@ useAjaxReloadHook('daily', () => {
   fetch()
 })
 function fetch() {
+  fetchLoading.value = true
   getDailyRecommend().then(({ data }) => {
     daily.value = data?.dailySongs ?? []
+    fetchLoading.value = false
   })
 }
 async function play() {
