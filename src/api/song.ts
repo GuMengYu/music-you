@@ -1,4 +1,4 @@
-import { useIpcRenderer } from '@vueuse/electron'
+import { ipcRenderer } from 'electron'
 
 import type { QUALITY_LEVEL } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
@@ -72,7 +72,6 @@ export const getSongUrlFromUnlockMusic = async (track: Track) => {
   }
 
   if (settingStore.unlock.youtube.open) {
-    const ipcRenderer = useIpcRenderer()
     try {
       return await ipcRenderer.invoke('getTrackFromYoutube', track.ar?.[0].name, track.name)
     } catch (e) {

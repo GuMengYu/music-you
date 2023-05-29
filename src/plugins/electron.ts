@@ -1,5 +1,4 @@
-import { useIpcRenderer } from '@vueuse/electron'
-import { once } from 'lodash-es'
+import { ipcRenderer } from 'electron'
 import { useToast } from 'vue-toastification'
 
 import { usePlayerOutsideComponent } from '@/player/player'
@@ -20,7 +19,6 @@ export function useElectron(router: Router) {
 function registerIpcRenderer(router: Router) {
   const playerStore = usePlayerStore()
   const appStore = useAppStore()
-  const ipcRenderer = useIpcRenderer()
   const player = usePlayerOutsideComponent()
   // const showDownloadComplete = once((name) => {
   //   toast.success(`下载成功 ${name}`)
