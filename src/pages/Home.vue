@@ -5,7 +5,7 @@
     <app-header v-if="!inDeepPage && !navLeft" class="v-player-header" />
 
     <app-content id="v-player-content" class="v-player-content" />
-    <app-playbar v-if="smAndUp && !miniplayer" />
+    <app-playbar v-if="smAndUp && !miniPlayer" />
     <app-mobile-playbar v-if="xs" />
     <app-bottom-nav v-if="xs" />
     <app-login />
@@ -32,7 +32,7 @@ import AppContent from './layout/View.vue'
 import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'
 const { themeName } = useCurrentTheme()
-const { miniplayer, navLeft } = storeToRefs(useSettingStore())
+const { miniPlayer, navLeft } = storeToRefs(useSettingStore())
 const display = useDisplay()
 const { xs, smAndUp } = display
 const theme = useTheme()

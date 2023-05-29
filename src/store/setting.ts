@@ -36,7 +36,7 @@ export interface SettingState {
   customTheme: ThemeDefinition[]
   playingMode: PLAYING_MODE
   rail: boolean
-  miniplayer: boolean
+  miniPlayer: boolean
   quality: number // deprecated quality弃用 quality_level替代
   quality_level: QUALITY_LEVEL
   outputdevice: string | undefined
@@ -74,7 +74,7 @@ export const useSettingStore = defineStore('setting', {
         playingMode: PLAYING_MODE.SIMPLE,
         customTheme: [],
         rail: true,
-        miniplayer: false,
+        miniPlayer: false,
         quality: 320000,
         quality_level: QUALITY_LEVEL.HIGHER,
         outputdevice: undefined,
