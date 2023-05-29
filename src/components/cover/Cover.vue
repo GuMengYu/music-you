@@ -14,6 +14,7 @@
         :class="`rounded-${rounded} ${noInfo ? 'cover-image' : 'cover-image-with-info'}`"
         :cover="true"
         :src="coverBgUrl"
+        style="aspect-ratio: 1"
         :aspect-ratio="1"
         :lazy-src="placeholderUrl"
       >

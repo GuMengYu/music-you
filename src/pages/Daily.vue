@@ -6,6 +6,7 @@
         <v-img
           :src="coverUrl"
           cover
+          max-height="360"
           :aspect-ratio="28 / 9"
           :gradient="`90deg, rgba(var(--v-theme-surface), 1) 0%, rgb(0 0 0 / 0%) 50%, rgba(var(--v-theme-surface), 0.7) 100%`"
         >

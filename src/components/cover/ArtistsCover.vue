@@ -15,6 +15,7 @@
         :src="coverUrl"
         class="artist-image rounded-circle"
         :aspect-ratio="1"
+        style="aspect-ratio: 1"
         :lazy-src="placeHolderUrl"
         @click="go"
       />

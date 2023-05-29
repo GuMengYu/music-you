@@ -25,11 +25,11 @@
               }"
               @click="currentIndex = idx"
             >
-              <v-img cover :src="wallpaper.thumbs.large" :aspect-ratio="16 / 9"></v-img>
+              <v-img cover :src="wallpaper.thumbs.large" style="aspect-ratio: 16/9" :aspect-ratio="16 / 9"></v-img>
             </v-card>
           </card-row>
         </div>
-        <div :style="`width: 300px; max-height: ${height - 66}px`" class="py-1 overflow-y-auto">
+        <div :style="`min-width: 300px; max-height: ${height - 66}px`" class="py-1 overflow-y-auto">
           <div class="mb-2">
             <v-list class="bg-surfaceVariant rounded-md">
               <v-list-item>

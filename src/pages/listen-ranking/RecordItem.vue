@@ -103,7 +103,7 @@ function togglePlay() {
 </script>
 <template>
   <v-hover v-slot="{ isHovering, props: _props }">
-    <v-list-item v-bind="_props" rounded="md" class="pa-0" active-color="primary" @click="() => {}" @dblclick="play">
+    <v-list-item v-bind="_props" rounded="md" class="pa-0" color="primary" @click="() => {}" @dblclick="play">
       <div
         class="rounded-md track-item"
         :title="available.enable ? '' : available.text"

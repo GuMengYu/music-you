@@ -113,7 +113,7 @@ function openMenu(e: MouseEvent) {
       v-ripple="false"
       rounded="md"
       class="pa-0"
-      active-color="primary"
+      color="primary"
       @click="() => {}"
       @dblclick="play"
       @contextmenu.prevent="openMenu"

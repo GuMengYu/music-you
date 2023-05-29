@@ -2,7 +2,14 @@
   <div class="cover-container">
     <v-hover v-slot="{ isHovering, props }">
       <v-card rounded="md" class="d-flex align-end justify-end cover-card" flat :to="`/video/${id}`" v-bind="props">
-        <v-img :aspect-ratio="16 / 9" :src="coverBgUrl" class="cover-img align-end" :lazy-src="placeholderUrl" cover>
+        <v-img
+          style="aspect-ratio: 16/9"
+          :aspect-ratio="16 / 9"
+          :src="coverBgUrl"
+          class="cover-img align-end"
+          :lazy-src="placeholderUrl"
+          cover
+        >
           <div class="d-flex flex-fill fill-height align-end pa-2">
             <transition name="slide-fade-y">
               <v-btn

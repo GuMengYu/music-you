@@ -10,7 +10,15 @@
       v-bind="{ ...hoverProps, ...$attrs }"
       :to="to"
     >
-      <v-img class="rounded-md" :cover="true" :src="coverBgUrl" :aspect-ratio="1" :lazy-src="placeholderUrl"> </v-img>
+      <v-img
+        class="rounded-md"
+        :cover="true"
+        :src="coverBgUrl"
+        :aspect-ratio="1"
+        style="aspect-ratio: 1"
+        :lazy-src="placeholderUrl"
+      >
+      </v-img>
       <div v-if="shadow" class="cover-shadow" :style="`background-image: url('${coverBgUrl}')`" />
       <v-card-title :class="`line-clamp-${titleLine}`" style="white-space: initial">
         <router-link :to="to" class="text-subtitle-2 text-onSurfaceVariant">

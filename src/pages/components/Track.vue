@@ -117,7 +117,7 @@ function openMenu(e: MouseEvent) {
     ref="itemRef"
     rounded="md"
     class="pa-0"
-    active-color="primary"
+    color="primary"
     :value="track.id"
     @click="() => {}"
     @dblclick="play"

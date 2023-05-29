@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="track" rounded="md" height="130" :theme="theme">
+  <v-card v-if="track" rounded="md" height="150" :theme="theme">
     <v-img
       :src="coverImage"
       cover
