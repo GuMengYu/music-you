@@ -2,7 +2,7 @@
   <v-app-bar class="app_header drag-area" flat>
     <div class="d-flex flex-grow-1 mr-2 ml-2 align-center" :class="{ 'ml-1': navLeft }">
       <div class="logo" style="flex: 1">
-        <b-f-btn v-if="navLeft" />
+        <!--        <b-f-btn v-if="navLeft" />-->
       </div>
       <transition name="slide-fade-y">
         <top-navbar v-if="!navLeft" />

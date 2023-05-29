@@ -2,7 +2,7 @@
   <v-app class="v-player" :class="{ 'is-desktop': isDesktop }">
     <AppCC />
     <app-nav v-if="smAndUp && navLeft" class="v-player-nav" />
-    <app-header v-if="!inDeepPage" class="v-player-header" />
+    <app-header v-if="!inDeepPage && !navLeft" class="v-player-header" />
 
     <app-content id="v-player-content" class="v-player-content" />
     <app-playbar v-if="smAndUp && !miniplayer" />

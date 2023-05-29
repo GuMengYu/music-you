@@ -6,7 +6,7 @@
           :src="coverUrl"
           cover
           :aspect-ratio="28 / 9"
-          :gradient="`90deg, rgba(var(--v-theme-surface), 0.7) 0%, rgb(0 0 0 / 0%) 20%, rgb(0 0 0 / 0%) 80%, rgba(var(--v-theme-surface), 0.7) 100%`"
+          :gradient="`90deg, rgba(var(--v-theme-surface), 1) 0%, rgb(0 0 0 / 0%) 50%, rgba(var(--v-theme-surface), 0.7) 100%`"
         >
           <div
             class="d-flex flex-column h-100"
