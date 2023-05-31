@@ -42,8 +42,6 @@ npm install
 or
 pnpm install
 
-// pnpm 由于pnpm 默认并不会将所有依赖平铺展开到node_modules下，所以build后的包可能会报错，某些依赖找不到，建议加上 --shamefully-hoist 参数 `pnpm i --shamefully-hoist ` 来安装
-
 ```
 
 ### 启动服务
@@ -63,6 +61,11 @@ npm run electron:build
 ```
 
 ## 部分截图
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/242454954-adf07b24-9839-4d31-803d-327b0fab6829.png">
+  <img alt="home" src="https://user-images.githubusercontent.com/22021419/242454817-8b088583-d27c-413a-9a97-a588640a3d83.png">
+</picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582633-f0ba064e-a4b6-4ee8-a538-15e86a298617.png">
