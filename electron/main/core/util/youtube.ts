@@ -3,6 +3,7 @@ import type { AxiosProxyConfig } from 'axios'
 import { HttpProxyAgent } from 'http-proxy-agent'
 import ytdl from 'ytdl-core'
 
+import log from './log'
 import { _extractData, _getSearchData, _parseData } from './youtube_scraper'
 const axios = require('axios')
 
@@ -56,9 +57,10 @@ class YoutubeFinder {
     channel: string
   }> {
     const match = async () => {
-      console.time('[youtube] search')
+      const startTime = new Date().getTime()
       const videos = await this.search(`${artist} ${name} audio`)
-      console.timeEnd('[youtube] search')
+      const elapsedTime = new Date().getTime() - startTime
+      log.info('[youtube]: search', elapsedTime)
       let video: {
         duration: number
         id: string
@@ -70,13 +72,14 @@ class YoutubeFinder {
       }
       if (!video) return null
 
-      console.time('[youtube ytdl] getInfo')
+      const getInfoStartTime = new Date().getTime()
       const proxy = 'http://127.0.0.1:7890'
       const agent = new HttpProxyAgent(proxy)
       const info = await ytdl.getInfo(video.id, {
         requestOptions: { agent },
       })
-      console.timeEnd('[youtube ytdl] getInfo')
+      const getInfoElapsedTime = new Date().getTime() - getInfoStartTime
+      log.info('[youtube ytdl]: getInfo', getInfoElapsedTime)
       if (!info) return null
       let url = ''
       let bitRate = 0
@@ -94,7 +97,7 @@ class YoutubeFinder {
         duration: info.videoDetails.lengthSeconds,
         channel: info.videoDetails.ownerChannelName,
       }
-      console.log(`[youtube] matched `, data)
+      log.info(`[youtube] matched `, data)
       return data
     }
 
@@ -105,7 +108,7 @@ class YoutubeFinder {
           if (result) resolve(result)
         })
       } catch (e) {
-        console.error(`[youtube] matchTrack error`, e)
+        log.error(`[youtube] matchTrack error`, e)
         reject(e)
       }
     })
