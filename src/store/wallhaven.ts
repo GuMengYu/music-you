@@ -111,6 +111,11 @@ export const useWallHavenStore = defineStore('wallhaven', {
         sorting: this.sorting,
         order: this.order,
         page: this.page,
+        proxy: this.proxy,
+      }
+      if (this.proxy.open) {
+        const { protocol, port, host } = this.proxy.proxy
+        params.proxy = `${protocol}://${host}:${port}`
       }
       if (this.sorting === SORTING.TOPLIST) {
         params.topRange = this.topRange

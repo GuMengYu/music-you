@@ -73,6 +73,11 @@ export interface Track {
     from: TrackFrom
   }
   program?: Program
+  radio?: {
+    name: string
+    id: number
+  }
+  liked?: boolean
 }
 export interface MV {
   artist?: Artist

@@ -185,7 +185,7 @@
                   density="compact"
                   class="my-4"
                   :length="meta.last_page"
-                  @update:model-value="handlePageChange as number"
+                  @update:model-value="handlePageChange"
                 ></v-pagination>
               </v-list-item>
             </v-list>

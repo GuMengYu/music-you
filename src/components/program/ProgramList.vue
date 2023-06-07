@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
@@ -9,17 +8,13 @@ import { getSongDownloadUrl } from '@/api/song'
 import { useDownload } from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayQueueStore } from '@/store/playQueue'
-import { useUserStore } from '@/store/user'
-import type { PlayNowEvent, Program, Track, TrackFrom } from '@/types'
-import { listType } from '@/types'
-import { specialType } from '@/util/metadata'
-const userStore = useUserStore()
+import type { PlayNowEvent, Program } from '@/types'
+
 const playQueueStore = usePlayQueueStore()
 const { themeName } = useCurrentTheme()
 const contextMenu = useContextMenu()
 const toast = useToast()
 const { t } = useI18n()
-const router = useRouter()
 
 const props = defineProps<{
   id: number
@@ -36,17 +31,6 @@ const needScrollNumber = 80
 const listHeight = computed(() => {
   const realHeight = props.programs.length * TrackItemHeight
   return props.programs.length > needScrollNumber ? needScrollNumber * TrackItemHeight : realHeight
-})
-const playlists = computed(() => {
-  return userStore.createdPlaylists
-    .map((i) => {
-      return {
-        id: i.id,
-        name: i.name,
-        specialType: i.specialType,
-      }
-    })
-    .filter((playlist) => playlist.specialType !== specialType.fav.type)
 })
 
 const offsetIndex = computed(() => {

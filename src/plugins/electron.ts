@@ -82,7 +82,7 @@ function registerIpcRenderer(router: Router) {
   ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
     const { path } = file
     toast.success(`${fileName} 已下载到:${path}`, {
-      timeout: 1000,
+      timeout: 2500,
     })
 
     // playerStore.commit('app/downloadprogress', 0)

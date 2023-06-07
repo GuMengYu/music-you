@@ -27,8 +27,12 @@
             </router-Link>
             <span v-else class="line-clamp-1"> {{ track?.name }} </span>
           </div>
-          <router-link v-if="isProgram" :to="track.source?.fromUrl" class="text-caption line-clamp-1 text-onSurface">
-            {{ track?.radio.name }}[播客节目]
+          <router-link
+            v-if="isProgram && track.source"
+            :to="track.source?.fromUrl"
+            class="text-caption line-clamp-1 text-onSurface"
+          >
+            {{ track?.radio?.name }}[播客节目]
           </router-link>
           <artists-link v-else :artists="track?.ar" class="text-caption line-clamp-1" />
         </div>
@@ -87,18 +91,18 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
-import { opPlaylist } from '@/api/music'
 import { getHeartBeatList } from '@/api/user'
 import TrackSlider from '@/components/TrackSlider.vue'
 import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import useInForeground from '@/hooks/useInForeground'
 import usePlayerControl from '@/hooks/usePlayerControl'
 import { useCurrentTheme } from '@/hooks/useTheme'
+import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { usePlayer } from '@/player/player'
 import { useAppStore } from '@/store/app'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
-import type { PlayNowEvent, TrackFrom } from '@/types'
+import type { PlayNowEvent } from '@/types'
 import { RESOURCE_TYPE } from '@/util/enum'
 import { sizeOfImage } from '@/util/fn'
 import { specialType } from '@/util/metadata'
@@ -117,21 +121,9 @@ const { themeName } = useCurrentTheme()
 
 const heartbeatLoading = ref(false)
 
-const playlists = computed(() => {
-  return userStore.createdPlaylists
-    .map((i) => {
-      return {
-        id: i.id,
-        name: i.name,
-        specialType: i.specialType,
-      }
-    })
-    .filter((playlist) => playlist.specialType !== specialType.fav.type)
-})
-
 // store state
 const { track, showPipLyric, isCurrentFm, isProgram } = usePlayerControl()
-const coverUrl = computed(() => sizeOfImage(track.value.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
+const coverUrl = computed(() => sizeOfImage(track.value?.coverUrl ?? track.value?.al?.picUrl ?? '', 128))
 const showHeartBeat = computed(() => {
   return (
     userStore.logged &&
@@ -198,40 +190,21 @@ async function showPlayingPage() {
 }
 
 function openContextMenu(event: MouseEvent) {
-  const { x, y } = event
-  const option = {
-    theme: themeName.value,
-    x,
-    y,
-    items: [
-      ...playlists.value.map((list) => {
-        return {
-          label: list.name,
-          onClick: () => {
-            track.value?.id && trackToPlayList(list.id, track.value.id)
-          },
-        }
-      }),
-    ],
-    offsetFooter: 48,
-    customClass: 'bg-surfaceVariant',
+  if (track.value) {
+    const { toPlaylistMenuItems } = useTrackOperation(track.value)
+    const { x, y } = event
+    const option = {
+      theme: themeName.value,
+      x,
+      y,
+      items: toPlaylistMenuItems.value,
+      offsetFooter: 48,
+      customClass: 'bg-surfaceVariant',
+    }
+    contextMenu(option)
   }
-  contextMenu(option)
 }
 
-async function trackToPlayList(playlistId: number, trackId: number) {
-  // add to playlist
-  try {
-    const { code, message } = await opPlaylist('add', playlistId, trackId)
-    if (code === 200) {
-      toast.success(t('message.add_list_success'))
-    } else {
-      toast.error(message!)
-    }
-  } catch (e) {
-    toast.error(t('message.something_wrong'))
-  }
-}
 async function generateHeartBeatList() {
   heartbeatLoading.value = true
   try {

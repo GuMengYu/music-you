@@ -10,10 +10,10 @@ import { opPlaylist } from '@/api/music'
 import { dailyRecommendDislike } from '@/api/user'
 import { useDownloadMusic } from '@/hooks/useDownload'
 import { useCurrentTheme } from '@/hooks/useTheme'
+import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { usePlayQueueStore } from '@/store/playQueue'
 import { useUserStore } from '@/store/user'
 import type { listType, PlayNowEvent, Track, TrackFrom } from '@/types'
-import { specialType } from '@/util/metadata'
 const userStore = useUserStore()
 const playQueueStore = usePlayQueueStore()
 const { themeName } = useCurrentTheme()
@@ -45,17 +45,6 @@ const listHeight = computed(() => {
   const realHeight = props.tracks.length * TrackItemHeight
   return props.tracks.length > needScrollNumber ? needScrollNumber * TrackItemHeight : realHeight
 })
-const playlists = computed(() => {
-  return userStore.createdPlaylists
-    .map((i) => {
-      return {
-        id: i.id,
-        name: i.name,
-        specialType: i.specialType,
-      }
-    })
-    .filter((playlist) => playlist.specialType !== specialType.fav.type)
-})
 const className = computed(() => {
   if (props.type !== 'album') {
     return 'list-header'
@@ -82,6 +71,7 @@ function openMenu(payload: { x: number; y: number; track: Track; liked: boolean 
   contextMenu(option)
 }
 function genMenu(liked: boolean, track: Track): MenuItem[] {
+  const { toPlaylistMenuItems } = useTrackOperation(track)
   const items: MenuItem[] = [
     {
       label: t('common.add_to_queue'),
@@ -125,14 +115,7 @@ function genMenu(liked: boolean, track: Track): MenuItem[] {
     },
     {
       label: t('common.add_to_playlist'),
-      children: playlists.value.map((list) => {
-        return {
-          label: list.name,
-          onClick: (i) => {
-            trackToPlayList('add', list.id, track.id)
-          },
-        }
-      }),
+      children: toPlaylistMenuItems.value,
     },
   ]
   if (liked) {
