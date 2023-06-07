@@ -23,7 +23,7 @@ function resetApp() {
               {{ t('message.reset_app') }}
             </v-btn>
           </template>
-          <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
+          <v-card class="pa-3 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
             <div class="d-flex justify-center">
               <v-icon color="secondary">
                 {{ mdiRestore }}
@@ -33,10 +33,11 @@ function resetApp() {
             <span class="px-6 text-center text-caption">{{ t('message.reset_msg') }}</span>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" variant="text" @click="showAlert = false">
+
+              <v-btn color="primary" variant="text" rounded="pill" @click="resetApp"> {{ t('common.agree') }} </v-btn>
+              <v-btn color="primary" variant="flat" rounded="pill" @click="showAlert = false">
                 {{ t('common.disagree') }}
               </v-btn>
-              <v-btn color="primary" variant="text" @click="resetApp"> {{ t('common.agree') }} </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

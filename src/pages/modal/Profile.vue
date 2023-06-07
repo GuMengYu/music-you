@@ -72,7 +72,7 @@ function formatDate(datetime: string | number, format = 'YYYY.MM.DD') {
 <template>
   <v-dialog v-model="show">
     <v-card flat color="surface" width="50vw" max-width="420" rounded="xl" class="align-self-center">
-      <div class="px-2 pt-2">
+      <div class="px-2 pt-2 no-drag-area">
         <v-btn icon variant="plain" @click="show = false">
           <v-icon> {{ mdiClose }}</v-icon>
         </v-btn>

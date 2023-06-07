@@ -28,7 +28,6 @@ const props = defineProps<{
 
 const loading = ref(false)
 const subscribed = ref(false)
-const showMoreDesc = ref(false)
 const playLoading = ref(false)
 useScrollToTop(0, () => props.id)
 
@@ -89,14 +88,6 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
           <cover v-for="album in state.relatedAlbum" :key="album.id" :data="album"></cover>
         </CardRow>
       </Col>
-      <v-dialog v-model="showMoreDesc" scrollable>
-        <v-card rounded="xl" color="surfaceVariant" class="py-4 align-self-center" width="90vw" max-width="450">
-          <v-card-title>{{ $t('main.album.desc') }}</v-card-title>
-          <v-card-text>
-            {{ state.album['description'] }}
-          </v-card-text>
-        </v-card>
-      </v-dialog>
     </div>
   </section>
 </template>

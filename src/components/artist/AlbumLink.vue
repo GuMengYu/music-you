@@ -14,6 +14,6 @@ import type { Album } from '@/types'
 const { t } = useI18n()
 const props = defineProps<{
   album: Album
-  color: string
+  color?: string
 }>()
 </script>

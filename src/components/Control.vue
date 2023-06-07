@@ -59,7 +59,7 @@ function handleAnimation(animation: any) {
 }
 </script>
 <template>
-  <div class="d-flex justify-center align-center control-buttons">
+  <div class="d-flex justify-center align-center control-buttons no-drag-area">
     <v-btn v-if="!simple" icon :disabled="isCurrentFm" variant="text" @click="toggleShuffle">
       <v-icon size="x-small" :color="shuffle ? 'primary' : ''">
         {{ shuffleIcon }}

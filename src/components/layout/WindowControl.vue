@@ -18,7 +18,7 @@
     </v-btn>
     <v-dialog v-model="showAlert" persistent class="close-modal">
       <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
-        <div class="d-flex justify-center">
+        <div class="d-flex justify-center no-drag-area">
           <v-icon color="secondary">
             {{ mdiExitToApp }}
           </v-icon>

@@ -335,7 +335,7 @@ function formatDate(datetime: string | number, format = 'YYYY-MM-DD') {
       <v-dialog v-model="more.showMoreDesc" :scrollable="true">
         <v-card color="surfaceVariant" rounded="xl" class="pb-4 align-self-center" width="90vw" max-width="450">
           <v-card-title>
-            <div class="d-flex justify-space-between align-center">
+            <div class="d-flex justify-space-between align-center no-drag-area">
               {{ t('main.artist.desc') }}
               <v-btn icon variant="text" @click="more.showMoreDesc = false">
                 <v-icon>{{ mdiClose }}</v-icon>

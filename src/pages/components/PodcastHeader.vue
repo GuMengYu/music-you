@@ -177,7 +177,7 @@ function formatDate(date: number | string, format = 'YYYY-MM-DD') {
     <v-dialog v-model="showMoreDesc" :scrollable="true">
       <v-card color="surfaceVariant" width="90vw" max-width="450" rounded="xl" class="pb-4 align-self-center">
         <v-card-title>
-          <div class="d-flex justify-space-between align-center">
+          <div class="d-flex justify-space-between align-center no-drag-area">
             {{ t('main.podcast.desc') }}
             <v-btn icon variant="text" @click="showMoreDesc = false"
               ><v-icon>{{ mdiClose }}</v-icon></v-btn

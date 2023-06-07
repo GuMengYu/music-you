@@ -71,7 +71,7 @@ function handleClose() {
 <template>
   <v-dialog :model-value="show" max-width="720" persistent>
     <v-toolbar color="surface" class="rounded-t-lg px-4" height="80">
-      <div class="d-flex justify-space-between align-center w-100 ml-4">
+      <div class="d-flex justify-space-between align-center w-100 ml-4 no-drag-area">
         <span class="text-h6">{{ t('common.comment') }}</span>
         <v-btn icon variant="text" @click="handleClose"
           ><v-icon>{{ mdiClose }}</v-icon></v-btn

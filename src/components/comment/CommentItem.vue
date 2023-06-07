@@ -27,9 +27,9 @@ function formatDate(datetime: string | number, format = 'LL') {
           <span class="text-body-2 select-text">{{ comment.user.nickname }}</span>
         </div>
         <div>
-          <v-btn icon variant="text"
+          <!-- <v-btn icon variant="text"
             ><v-icon> {{ mdiDotsVertical }}</v-icon></v-btn
-          >
+          > -->
         </div>
       </div>
       <div class="mt-2 text-caption">
