@@ -16,31 +16,89 @@ export const sleep = (time = 1000) => {
 /**
  * 格式化网易云歌词
  * @param lyric
+ * sample
+ * 
+{"t":0,"c":[{"tx":"作词: "},{"tx":"Will Jennings"}]}
+{"t":1000,"c":[{"tx":"作曲: "},{"tx":"James Horner","li":"http://p1.music.126.net/rlzkomHJqfBIQC-eAvbQlA==/697090372014144.jpg","or":"orpheus://nm/artist/home?id=35353&type=artist"}]}
+{"t":2000,"c":[{"tx":"编曲: "},{"tx":"James Horner","li":"http://p1.music.126.net/rlzkomHJqfBIQC-eAvbQlA==/697090372014144.jpg","or":"orpheus://nm/artist/home?id=35353&type=artist"}]}
+{"t":3000,"c":[{"tx":"制作人: "},{"tx":"Will Jennings"}]}
+[00:19.729]Every night in my dreams
+[00:24.290]I see you
+[00:26.709]I feel you
+[00:29.419]That is how I know you go on
+[00:41.379]Far across the distance
+[00:43.156]And spaces between us.
+[00:48.766]You have come to show you go on
+[00:58.495]Near far,
+[01:02.726]wherever you are
+[01:07.289]I believe that the heart does go on
+[01:18.170]Once more,
+[01:22.188]you open the door,
+[01:27.789]And you're here in my heart.
+[01:32.060]And my heart will go on and on
+[01:41.700]Love can touch us one time.
+[01:49.722]And last for a lifetime
+[01:57.587]And never let go till we're gone,
+[02:06.906]Love was when I loved you
+[02:11.390]One true time I hold to.
+[02:16.789]In my life we'll always go on.
+[02:26.990]Near far,
+[02:30.990]wherever you are
+[02:34.729]I believe that the heart does go on
+[02:45.527]Once more,
+[02:49.759]you open the door,
+[02:54.270]And you're here in my heart,
+[02:59.299]And my heart will go on and on
+[03:09.700]You're here,
+[03:25.390]You're here,
+[03:30.090]there's nothing I fear.
+[03:32.979]And I know that my heart will go on
+[03:44.990]we'll stay forever this way.
+[03:52.990]You are safe in my heart,
+[03:57.589]and my heart will go on and on
+
  */
+
 export const formatLyric = (lyric = '') => {
   return lyric
     .split('\n')
     .filter((i) => !!i)
     ?.map((i) => {
+      let time = 0
+      let sentence = i.match(/](.*)/)?.[1] ?? i
       const reg = new RegExp(/\[\d*:\d*((\.|:)\d*)*\]/, 'g')
       const timeStr = i.match(reg)?.[0] ?? ''
-      let time = 0
-      let sentence = i.match(/](.*)/)?.[1]
-      // [by: ***]
-      // [00:27.54]The many miles we walked
-      // [00:56.33]
-      // [00:59.54] That's the way it is
-      // [00:12]
+      interface Info {
+        t: number
+        c: Array<{
+          tx: string
+          li: string
+          or: string
+        }>
+      }
+      let info: Info
+
       if (timeStr) {
+        const reg = new RegExp(/\[\d*:\d*((\.|:)\d*)*\]/, 'g')
+        const timeStr = i.match(reg)?.[0] ?? ''
+        time = 0
+        // [by: ***]
+        // [00:27.54]The many miles we walked
+        // [00:56.33]
+        // [00:59.54] That's the way it is
+        // [00:12]
         const min = Number(timeStr.match(/\[(\d*)/i)?.[1])
         const sec = Number(timeStr.match(/:(\d*)/i)?.[1])
         const mill = timeStr.match(/\.(\d*)]/i)?.[1]
         const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2)
         time = min * 60 + sec + millToSec
         sentence = sentence || '...'
-      } else {
-        sentence = sentence || i
+      } else if ((info = toJson(i) as Info)) {
+        time = -1
+        const { c } = info
+        sentence = `${c[0].tx}${c[1].tx}`
       }
+
       return {
         time,
         sentence,
@@ -222,4 +280,13 @@ export const arrayToObject = (arr: Record<string, any>[], keyName: string) => {
 
 export const toHttps = (url = '') => {
   return url.replace('http://', 'https://')
+}
+
+export const toJson = (str: string): boolean | Record<any, any> | Array<any> => {
+  try {
+    const res = JSON.parse(str)
+    return res
+  } catch (error) {
+    return false
+  }
 }
