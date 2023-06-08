@@ -24,8 +24,8 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
   if (isProgram) {
     const { program } = await getProgramData(id)
     const { id: programVoiceId } = program.mainSong
-    id = programVoiceId
     track = program as unknown as Track
+    track.id = programVoiceId
   } else {
     const {
       songs: [data],
