@@ -16,9 +16,6 @@
   </v-main>
 </template>
 <script setup lang="ts">
-import 'overlayscrollbars/css/OverlayScrollbars.css'
-
-import OverlayScrollbars from 'overlayscrollbars'
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()

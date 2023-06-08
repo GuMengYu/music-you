@@ -32,19 +32,61 @@ const props = defineProps<{
   offsetIndex?: number
   virtualScrollOptimization?: boolean
   setQueue?: boolean
+  buffer?: number
 }>()
 
+const topSentinel = ref<HTMLDivElement>()
+const bottomSentinel = ref<HTMLDivElement>()
+
+const needScorllLength = ref(props.tracks.length > 20 ? 20 : props.tracks.length)
+const itemHeight = 56
+const renderedItems = ref<Track[]>([])
+const totalItemLength = computed(() => props.tracks.length)
+const realHeight = computed(() => props.tracks.length * itemHeight)
+const renderedHeight = computed(() => renderedItems.value.length * itemHeight)
+
+const sentinelHeight = computed(() => {
+  return Math.min(itemHeight * (needScorllLength.value - 2), itemHeight * totalItemLength.value)
+})
+const topSentinelStyle = computed(() => {
+  return { height: `${sentinelHeight.value}px` }
+})
+const bottomSentinelStyle = computed(() => {
+  return { height: `calc(100% - ${renderedHeight.value}px + ${sentinelHeight.value}px)` }
+})
+const { stop } = useIntersectionObserver(
+  [topSentinel, bottomSentinel],
+  (e) => {
+    e.forEach((e) => {
+      e.isIntersecting && loadMore()
+    })
+  },
+  { threshold: [0] }
+)
+onMounted(async () => {
+  const initItems = props.tracks.slice(0, needScorllLength.value)
+  renderedItems.value.splice(0, 0, ...initItems)
+})
+
+onUnmounted(() => {
+  stop()
+})
+
+function loadMore() {
+  const renderedItemsLength = renderedItems.value.length
+  if (renderedItemsLength >= props.tracks.length) {
+    return
+  } else {
+    const more = props.tracks.slice(renderedItemsLength, renderedItemsLength + (props.buffer ?? 8))
+    renderedItems.value.splice(renderedItemsLength, 0, ...more)
+  }
+}
 const emits = defineEmits<{
   (event: 'updateList', payload: Track[]): void
 }>()
 
 const eventBus = useEventBus<PlayNowEvent>('playNow')
-const TrackItemHeight = 56
-const needScrollNumber = 80
-const listHeight = computed(() => {
-  const realHeight = props.tracks.length * TrackItemHeight
-  return props.tracks.length > needScrollNumber ? needScrollNumber * TrackItemHeight : realHeight
-})
+
 const className = computed(() => {
   if (props.type !== 'album') {
     return 'list-header'
@@ -234,7 +276,7 @@ function handlePlay(id: number) {
 }
 </script>
 <template>
-  <v-list class="track-list">
+  <div>
     <div v-if="header">
       <div class="px-2 text-caption" :class="[className]">
         <span class="d-flex justify-center">#</span>
@@ -246,47 +288,50 @@ function handlePlay(id: number) {
       </div>
       <v-divider class="mx-4 my-2" />
     </div>
-    <RecycleScroller
-      v-if="virtualScrollOptimization"
-      v-slot="{ item: track, index }"
-      class="scroller"
-      :style="{
-        height: `${listHeight}px`,
-      }"
-      :items="tracks"
-      :item-size="TrackItemHeight"
-      key-field="id"
-    >
-      <track-item
-        :track="track"
-        :index="index + offsetIndex"
-        :album="showAlbum"
-        @play="handlePlay(track.id)"
-        @openctxmenu="openMenu"
-      />
-    </RecycleScroller>
-    <template v-else>
-      <track-item
-        v-for="(track, index) in tracks"
-        :key="track.id"
-        :track="track"
-        :index="index + offsetIndex"
-        :album="showAlbum"
-        @play="handlePlay(track.id)"
-        @openctxmenu="openMenu"
-      />
-    </template>
-  </v-list>
+    <div class="container" :style="{ height: `${realHeight}px` }">
+      <div ref="topSentinel" class="top_sentinel" :style="topSentinelStyle"></div>
+      <v-list class="track-list py-0">
+        <track-item
+          v-for="(track, index) in renderedItems"
+          :key="track.id"
+          :track="track"
+          :index="index + offsetIndex"
+          :album="showAlbum"
+          @play="handlePlay(track.id)"
+          @openctxmenu="openMenu"
+        />
+      </v-list>
+      <div ref="bottomSentinel" :style="bottomSentinelStyle" class="bottom_sentinel">
+        <div class="presstential" :style="{ height: `${sentinelHeight}px` }"></div>
+        <div class="tracks_placeholder" :style="{ height: `calc(100% - ${sentinelHeight}px)` }"></div>
+      </div>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
-.track-list {
-  .list-header {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 160px);
-    &.album-header {
-      grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 160px);
-    }
+.list-header {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: [index] 48px [first] 3fr [second] 2fr [last] minmax(140px, 160px);
+  &.album-header {
+    grid-template-columns: [index] 48px [first] 4fr [last] minmax(140px, 160px);
   }
+}
+.container {
+  position: relative;
+}
+.top_sentinel {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bottom_sentinel {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  pointer-events: none;
+  overflow: hidden;
 }
 </style>
