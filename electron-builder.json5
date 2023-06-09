@@ -39,14 +39,12 @@
   "linux": {
     "target": [
       "AppImage",
-      "snap",
       "deb",
       "rpm",
-      "freebsd",
-      "pacman",
-      "tar.xz",
+      "tar.gz",
+      "snap"
     ],
-    "category": "Audio"
+    "category": "Audio;Music"
   },
   "nsis": {
     "oneClick": false,
