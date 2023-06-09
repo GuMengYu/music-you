@@ -3,7 +3,7 @@
   "version": "2.0.12",
   "private": true,
   "main": "dist-electron/main/index.js",
-  "author": "gumengyu",
+  "author": "gumengyu<1415515984yuri@gmail.com>",
   "description": "A NetEaseCloudMusic third-party music player (base on vue@3 and vuetify)",
   "scripts": {
     "preview": "vite preview",
