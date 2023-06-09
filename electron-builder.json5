@@ -2,13 +2,14 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "com.vplayer.app",
+  "appId": "com.musicyou.app",
   "copyright": 'Copyright © gumengyu 2022', //版权信息
   "asar": true,
   "directories": {
     "output": "release/${version}"
   },
   "files": [
+    "dist-electron",
     "dist"
   ],
   "mac": {
@@ -16,7 +17,7 @@
     "target": [
       {
         "target":"dmg",
-        "arch": ["x64", "arm64"]
+        "arch": ["x64", "arm64", "universal"]
       }
     ],
     "darkModeSupport": true,
@@ -33,19 +34,17 @@
         "arch": ["x64"]
       }
     ],
-    "publisherName": 'VPlayer',
+    "publisherName": 'MusicYou',
   },
   "linux": {
     "target": [
       "AppImage",
-      "snap",
       "deb",
       "rpm",
-      "freebsd",
-      "pacman",
-      "tar.xz",
+      "tar.gz",
+      "snap"
     ],
-    "category": "Audio"
+    "category": "Audio;Music"
   },
   "nsis": {
     "oneClick": false,

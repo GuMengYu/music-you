@@ -1,0 +1,16 @@
+// settings.scss
+$border-radius-root: 4px;
+@use 'vuetify/settings' with (
+  $body-font-family: '"Google Sans", sans-serif',
+  $rounded: (
+    0: 0,
+    'xs': $border-radius-root,
+    'sm': $border-radius-root * 2,
+    'md': $border-radius-root * 3,
+    'lg': $border-radius-root * 4,
+    'xl': $border-radius-root * 7,
+    'pill': 9999px,
+    'circle': 50%,
+    'shaped': $border-radius-root * 6 0,
+  )
+);
