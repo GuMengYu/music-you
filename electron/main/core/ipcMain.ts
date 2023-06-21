@@ -95,6 +95,27 @@ export const registerIpcMain = (windowManager: WindowManager) => {
       window.setSize(WindowDefaultSize.width, WindowDefaultSize.height, true)
     }
   })
+  ipcMain.handle('setSize', (e, payload) => {
+    const { width, height } = payload
+    if (width && height) {
+      window.setSize(width, height, true)
+    }
+  })
+  ipcMain.handle('minimal', (e, open) => {
+    log.info('[main] minimal player')
+    if (open) {
+      store.set('minimal', true)
+      window.setSize(256, 144, true)
+    } else {
+      store.set('minimal', false)
+      try {
+        const { height, width } = store.get('windowSize')
+        window.setSize(width, height, true)
+      } catch (e) {
+        log.error('[main] close minimal error')
+      }
+    }
+  })
   ipcMain.handle('setProgress', (e, progress) => {
     window.setProgressBar(progress)
   })

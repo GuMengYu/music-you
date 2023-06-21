@@ -13,6 +13,7 @@ import Leaderboard from '@/pages/explore/Leaderboard.vue'
 import Home from '@/pages/Home.vue'
 import Library from '@/pages/Library.vue'
 import List from '@/pages/List.vue'
+import Minimal from '@/pages/minimal/Minimal.vue'
 import MoodsGenresDetail from '@/pages/moods-genres/detail.vue'
 import MoodsGenres from '@/pages/moods-genres/MoodsGenres.vue'
 import MV from '@/pages/MV.vue'
@@ -26,7 +27,6 @@ import Queue from '@/pages/Queue.vue'
 import Recent from '@/pages/Recent.vue'
 import Search from '@/pages/search/index.vue'
 import Setting from '@/pages/setting/Setting.vue'
-
 const musicRoutes: RouteRecordRaw[] = [
   {
     path: 'discover/',
@@ -185,6 +185,11 @@ export function useRouter(app: App) {
         component: Home,
         children: musicRoutes,
         redirect: { path: '/discover' },
+      },
+      {
+        path: '/minimal',
+        name: 'Minimal',
+        component: Minimal,
       },
       {
         path: '/:pathMatch(.*)*',

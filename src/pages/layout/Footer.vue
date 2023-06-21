@@ -62,6 +62,7 @@
             {{ showPipLyric ? t('common.hide_pip') : t('common.show_pip') }}
           </v-tooltip>
         </v-btn>
+        <MinimalBtn />
         <!-- <v-btn icon @click="toggleMinimal">
             <v-icon size="x-small">
               {{ mdiDockWindow }}
