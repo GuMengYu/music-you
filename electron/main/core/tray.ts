@@ -1,15 +1,24 @@
 /* global __static */
 import type { BrowserWindow } from 'electron'
-import { app, Menu, nativeImage, Tray } from 'electron'
+import { app, Menu, nativeImage, nativeTheme, Tray } from 'electron'
 import is from 'electron-is'
-import { join } from 'path'
+import os from 'os'
+import path, { join } from 'path'
 
 let tray = null
+const distPath = join(__dirname, '../../dist')
 export const createTray = (win: BrowserWindow) => {
-  const icon = nativeImage.createFromPath(join(__dirname, '../../dist', is.macOS() ? 'icon/icon.png' : 'icon.ico'))
+  const icon = nativeImage.createFromPath(getTrayIcon())
   tray = new Tray(icon)
-  tray.setToolTip('music-you')
+  tray.setToolTip('Music-You')
   const menu = Menu.buildFromTemplate([
+    {
+      label: '显示 MusicYou',
+      click: () => {
+        win.show()
+        win.focus()
+      },
+    },
     {
       label: '播放/暂停',
       click: () => {
@@ -28,12 +37,6 @@ export const createTray = (win: BrowserWindow) => {
         win.webContents.send('next')
       },
     },
-    // {
-    //   label: '设置',
-    //   click: () => {
-    //     win.webContents.send('open-settings')
-    //   },
-    // },
     {
       label: '退出',
       click: () => {
@@ -46,7 +49,19 @@ export const createTray = (win: BrowserWindow) => {
 }
 
 function handleEvents(tray: Tray, win: BrowserWindow) {
-  tray.on('click', () => {
-    win.show()
-  })
+  if (os.platform() === 'win32') {
+    tray.on('click', () => {
+      win.show()
+    })
+  }
+}
+
+function getTrayIcon(): string {
+  if (os.platform() === 'darwin') {
+    return path.join(distPath, 'icon/trayTemplate.png')
+  }
+  if (nativeTheme.shouldUseDarkColors) {
+    return path.join(distPath, os.platform() === 'win32' ? 'icon/tray_white.ico' : 'icon/tray_white.png')
+  }
+  return path.join(distPath, os.platform() === 'win32' ? 'icon/tray_black.ico' : 'icon/tray_black.png')
 }

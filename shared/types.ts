@@ -8,3 +8,11 @@ export interface Tags {
   cover?: string
   year?: string
 }
+
+export enum WindowState {
+  NORMAL = 'normal',
+  MAXIMIZED = 'maximized',
+  MINIMIZED = 'minimized',
+  CLOSED = 'closed',
+  MINIMIZEDTRAY = 'minimizedTray',
+}

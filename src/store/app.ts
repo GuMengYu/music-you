@@ -1,9 +1,9 @@
+import { WindowState } from '@shared/types'
 import { defineStore } from 'pinia'
 import { reactive, toRefs } from 'vue'
 
 import { useUserStore } from '@/store/user'
 import { useWallHavenStore } from '@/store/wallhaven'
-import { WindowState } from '@/util/enum'
 
 export interface AppState {
   showControlCenter: boolean

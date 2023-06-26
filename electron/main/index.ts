@@ -86,7 +86,7 @@ function handleAppEvent() {
     const window = await wm.openWindow('index')
     if (window) {
       createElectronMenu(window)
-      is.windows() && createTray(window)
+      createTray(window)
       registerIpcMain(wm)
     }
   })

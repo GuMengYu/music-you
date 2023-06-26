@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import { WindowState } from '@shared/types'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
 
 import WindowControl from '@/components/layout/WindowControl.vue'
 import { useAppStore } from '@/store/app'
-import { WindowState } from '@/util/enum'
 import is from '@/util/is'
 
 const appStore = useAppStore()

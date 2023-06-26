@@ -65,12 +65,12 @@ import {
   mdiMinus as mdiWindowMinimize,
   mdiWindowRestore,
 } from '@mdi/js'
+import { WindowState } from '@shared/types'
 import { useIpcRenderer } from '@vueuse/electron'
 import { storeToRefs } from 'pinia'
 
 import { useAppStore } from '@/store/app'
 import { ExitMode, useSettingStore } from '@/store/setting'
-import { WindowState } from '@/util/enum'
 
 const settingStore = useSettingStore()
 const appStore = useAppStore()

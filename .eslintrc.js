@@ -28,7 +28,7 @@ module.exports = {
     'import/no-unresolved': [
       2,
       {
-        ignore: ['^@/', '^@@/'],
+        ignore: ['^@/', '^@@/', '^@shared/'],
       },
     ],
     'vue/no-unused-vars': 1,

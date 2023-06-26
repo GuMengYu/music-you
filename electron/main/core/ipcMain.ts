@@ -1,6 +1,6 @@
 import { app, ipcMain, shell } from 'electron'
 
-import { WindowState } from '../../../src/util/enum'
+import { WindowState } from '../../../shared/types'
 import { downloadFile, downloadTrack } from './util/download'
 import log from './util/log'
 import store from './util/store'
