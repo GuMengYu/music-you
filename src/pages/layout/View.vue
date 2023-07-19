@@ -15,19 +15,3 @@
     <back-to-top />
   </v-main>
 </template>
-<script setup lang="ts">
-import { useTheme } from 'vuetify'
-
-const theme = useTheme()
-
-// watchEffect(() => {
-//   const osTheme = theme.current.value.dark ? 'os-theme-light' : 'os-theme-dark'
-//   const body = document.querySelectorAll('body')
-//   OverlayScrollbars(body, {
-//     className: osTheme,
-//     scrollbars: {
-//       autoHide: 'scroll',
-//     },
-//   })
-// })
-</script>

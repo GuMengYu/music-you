@@ -9,6 +9,7 @@
       </transition>
       <div v-if="smAndUp" class="d-flex align-center justify-end" style="flex: 1">
         <account class="no-drag-area" />
+        <v-divider class="ml-2 my-4" vertical></v-divider>
         <window-control v-if="isShowWindowControl" />
       </div>
     </div>

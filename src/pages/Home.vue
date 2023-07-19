@@ -10,6 +10,9 @@
     <app-bottom-nav v-if="xs" />
     <app-login />
     <app-playing-page />
+    <div v-if="isShowWindowControl" class="window-control">
+      <window-control />
+    </div>
   </v-app>
 </template>
 
@@ -31,6 +34,7 @@ import AppNav from './layout/Navbar.vue'
 import AppContent from './layout/View.vue'
 import AppLogin from './modal/Login.vue'
 import AppPlayingPage from './mode/index.vue'
+
 const { themeName } = useCurrentTheme()
 const { miniPlayer, navPosition } = storeToRefs(useSettingStore())
 const display = useDisplay()
@@ -38,6 +42,9 @@ const { xs, smAndUp } = display
 const theme = useTheme()
 watchEffect(() => {
   theme.global.name.value = themeName.value
+})
+const isShowWindowControl = computed(() => {
+  return (is.windows() || is.linux()) && smAndUp.value && navPosition.value === NavPosition.left
 })
 const isDesktop = computed(() => {
   return is.electron()
@@ -94,5 +101,10 @@ $transition-time: 350ms;
   overflow-y: hidden;
   overflow-x: hidden;
   //width: 100vw;
+}
+.window-control {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 </style>

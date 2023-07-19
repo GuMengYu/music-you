@@ -1,6 +1,5 @@
 <template>
   <div class="window-actions no-drag-area">
-    <v-divider class="ml-2 my-2" vertical></v-divider>
     <v-btn icon size="x-small" class="action-item" @click="handleMinimize">
       <v-icon>
         {{ mdiWindowMinimize }}
