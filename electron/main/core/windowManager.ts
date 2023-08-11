@@ -130,7 +130,6 @@ export default class WindowManager extends EventEmitter {
       })
       window?.on('resized', () => {
         const minimal = store.get('minimal')
-        console.log(minimal)
         const [width, height] = window.getSize() ?? []
 
         log.info(`[main]: window resize height: ${height} width: ${width}`)
@@ -139,6 +138,9 @@ export default class WindowManager extends EventEmitter {
           log.info(`[main]: store window size`)
           this.store.set('windowSize', { width, height })
         }
+      })
+      window?.on('moved', (e) => {
+        log.info(`[main]: window moved`)
       })
 
       // Test active push message to Renderer-process

@@ -105,11 +105,16 @@ export const registerIpcMain = (windowManager: WindowManager) => {
     log.info('[main] minimal player')
     if (open) {
       store.set('minimal', true)
+      store.set('windowPosition', window.getPosition())
       window.setSize(256, 144, true)
     } else {
       store.set('minimal', false)
       try {
         const { height, width } = store.get('windowSize')
+        const position = store.get('windowPosition')
+        if (position) {
+          window.setPosition(position[0], position[1])
+        }
         window.setSize(width, height, true)
       } catch (e) {
         log.error('[main] close minimal error')

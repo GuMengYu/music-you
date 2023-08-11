@@ -17,6 +17,7 @@ export interface StoreType {
       protocol?: string
     }
   }
+  windowPosition: any
 }
 
 const store = new Store<StoreType>({
@@ -25,6 +26,7 @@ const store = new Store<StoreType>({
       height: 720,
       width: 1210,
     },
+    windowPosition: null,
     youtube: {
       open: false,
       proxy: {
