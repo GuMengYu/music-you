@@ -1,6 +1,6 @@
 {
   "name": "music-you",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "private": true,
   "main": "dist-electron/main/index.js",
   "author": "gumengyu<1415515984yuri@gmail.com>",
