@@ -10,9 +10,7 @@
     <app-bottom-nav v-if="xs" />
     <app-login />
     <app-playing-page />
-    <div v-if="isShowWindowControl" class="window-control">
-      <window-control />
-    </div>
+    <window-control v-if="isShowWindowControl" />
   </v-app>
 </template>
 
@@ -101,10 +99,5 @@ $transition-time: 350ms;
   overflow-y: hidden;
   overflow-x: hidden;
   //width: 100vw;
-}
-.window-control {
-  position: absolute;
-  top: 0px;
-  right: 0px;
 }
 </style>

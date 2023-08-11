@@ -1,20 +1,9 @@
 <template>
-  <div class="window-actions no-drag-area">
-    <v-btn icon size="x-small" class="action-item" @click="handleMinimize">
-      <v-icon>
-        {{ mdiWindowMinimize }}
-      </v-icon>
-    </v-btn>
-    <v-btn size="x-small" icon class="action-item" @click="handleToggleMaximize">
-      <v-icon>
-        {{ windowState === WindowState.MAXIMIZED ? mdiWindowRestore : mdiWindowMaximize }}
-      </v-icon>
-    </v-btn>
-    <v-btn size="x-small" icon class="action-item action-close" @click="handleClose">
-      <v-icon>
-        {{ mdiWindowClose }}
-      </v-icon>
-    </v-btn>
+  <div class="traffic-lights no-drag-area">
+    <button id="close" class="traffic-light traffic-light-close" @click="handleClose"></button>
+    <button id="minimize" class="traffic-light traffic-light-minimize" @click="handleMinimize"></button>
+    <button id="maximize" class="traffic-light traffic-light-maximize" @click="handleToggleMaximize"></button>
+
     <v-dialog v-model="showAlert" persistent class="close-modal">
       <v-card class="pt-4 align-self-center" rounded="xl" color="surface" width="90vw" max-width="350">
         <div class="d-flex justify-center no-drag-area">
@@ -115,22 +104,155 @@ async function confirmExit() {
 </script>
 
 <style lang="scss">
-.window-actions {
-  display: flex;
-  align-items: center;
-  .action-close {
-    transition: all 0.25s;
-    &:hover {
-      color: rgb(var(--v-theme-onTertiary));
-      background: rgb(var(--v-theme-tertiary));
-    }
-  }
-}
 .close-modal {
   .reminder {
     font-size: 12px;
     .v-label {
       font-size: 12px;
+    }
+  }
+}
+
+$close-red: #ff6159;
+$close-red-active: #bf4942;
+$close-red-icon: #4d0000;
+$close-red-icon-active: #190000;
+
+$minimize-yellow: #ffbd2e;
+$minimize-yellow-active: #bf8e22;
+$minimize-yellow-icon: #995700;
+$minimize-yellow-icon-active: #592800;
+
+$maximize-green: #28c941;
+$maximize-green-active: #1d9730;
+$maximize-green-icon: #006500;
+$maximize-green-icon-active: #003200;
+
+$disabled-gray: #ddd;
+
+.traffic-lights {
+  position: absolute;
+  top: 10px;
+  left: 9px;
+  padding: 0;
+  z-index: 9999;
+  line-height: 0;
+  .focus &,
+  &:hover,
+  &:active {
+    > .traffic-light-close {
+      background-color: $close-red;
+
+      &:active:hover {
+        background-color: $close-red-active;
+      }
+    }
+    > .traffic-light-minimize {
+      background-color: $minimize-yellow;
+
+      &:active:hover {
+        background-color: $minimize-yellow-active;
+      }
+    }
+    > .traffic-light-maximize {
+      background-color: $maximize-green;
+
+      &:active:hover {
+        background-color: $maximize-green-active;
+      }
+    }
+  }
+
+  > .traffic-light {
+    &:before,
+    &:after {
+      visibility: hidden;
+    }
+  }
+
+  &:hover,
+  &:active {
+    > .traffic-light {
+      &:before,
+      &:after {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.traffic-light {
+  border-radius: 100%;
+  padding: 0;
+  height: 12px;
+  width: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-right: 8px;
+  background-color: $disabled-gray;
+  position: relative;
+  outline: none;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    border-radius: 1px;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  &-close {
+    &:before,
+    &:after {
+      background-color: $close-red-icon;
+      width: 8px;
+      height: 1px;
+    }
+    &:before {
+      transform: rotate(45deg); // translate(-0.5px, -0.5px);
+    }
+    &:after {
+      transform: rotate(-45deg); // translate(0.5px, -0.5px);
+    }
+    &:active:hover:before,
+    &:active:hover:after {
+      background-color: $close-red-icon-active;
+    }
+  }
+
+  &-minimize {
+    &:before {
+      background-color: $minimize-yellow-icon;
+      width: 8px;
+      height: 1px;
+      //transform: translateY(-0.5px);
+    }
+    &:active:hover:before {
+      background-color: $minimize-yellow-icon-active;
+    }
+  }
+
+  &-maximize {
+    &:before {
+      background-color: $maximize-green-icon;
+      width: 6px;
+      height: 6px;
+    }
+    &:after {
+      background-color: $maximize-green;
+      width: 10px;
+      height: 2px;
+      transform: rotate(45deg);
+    }
+    &:active:hover:before {
+      background-color: $maximize-green-icon-active;
+    }
+    &:active:hover:after {
+      background-color: $maximize-green-active;
     }
   }
 }
