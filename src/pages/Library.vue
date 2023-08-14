@@ -32,21 +32,46 @@
           <card-row>
             <cover v-for="album in data.albums" :key="album.id" :data="album" />
           </card-row>
+          <div class="d-flex justify-center mt-4">
+            <v-btn v-if="pagination.album.more" rounded variant="outlined" color="primary" @click="loadData('album')"
+              >load more</v-btn
+            >
+          </div>
         </v-window-item>
         <v-window-item :value="TYPES.ARTIST">
           <card-row>
             <artists-cover v-for="artist in data.artists" :key="artist.id" :artist="artist" />
           </card-row>
+          <div class="d-flex justify-center mt-4">
+            <v-btn v-if="pagination.artist.more" rounded variant="outlined" color="primary" @click="loadData('artist')"
+              >load more</v-btn
+            >
+          </div>
         </v-window-item>
         <v-window-item :value="TYPES.PODCAST">
           <card-row>
             <podcast-cover v-for="podcast in data.podcasts" :key="podcast.id" :data="podcast" />
           </card-row>
+          <div class="d-flex justify-center mt-4">
+            <v-btn
+              v-if="pagination.podcast.more"
+              rounded
+              variant="outlined"
+              color="primary"
+              @click="loadData('podcast')"
+              >load more</v-btn
+            >
+          </div>
         </v-window-item>
         <v-window-item :value="TYPES.MV">
           <card-row :grid-type="GridType.B">
             <video-cover v-for="mv in data.mvs" :key="mv.id" :data="mv" />
           </card-row>
+          <div class="d-flex justify-center mt-4">
+            <v-btn v-if="pagination.mv.more" rounded variant="outlined" color="primary" @click="loadData('mv')"
+              >load more</v-btn
+            >
+          </div>
         </v-window-item>
         <v-window-item :value="TYPES.CLOUD">
           <Cloud />
@@ -150,6 +175,28 @@ const data: {
   mvs: [],
   podcasts: [],
 })
+const pagination = reactive({
+  album: {
+    list: [],
+    more: false,
+    start: 0,
+  },
+  artist: {
+    list: [],
+    more: false,
+    start: 0,
+  },
+  mv: {
+    list: [],
+    more: false,
+    start: 0,
+  },
+  podcast: {
+    list: [],
+    more: false,
+    start: 0,
+  },
+})
 const loading = ref(false)
 fetch()
 useAjaxReloadHook('library', () => {
@@ -160,22 +207,80 @@ useAjaxReloadHook('library', () => {
 })
 async function fetch() {
   current.value = TYPES.PLAYLIST
-  loading.value = true
-  try {
-    const [{ data: albums }, { data: artists }, { data: mvs }, { djRadios: podcasts }] = await Promise.all([
-      favAlbums(),
-      favArtists(),
-      favMVs(),
-      favPodcast(),
-    ])
-    data.albums = albums
-    data.artists = artists
-    data.mvs = mvs
-    data.podcasts = podcasts
-  } catch (e) {
-    toast.error('something wrong')
-  } finally {
-    loading.value = false
+  loadData('album')
+  loadData('artist')
+  loadData('mv')
+  loadData('podcast')
+
+  // loading.value = true
+  // try {
+  //   const [{ data: albums }, { data: artists }, { data: mvs }, { djRadios: podcasts }] = await Promise.all([
+  //     favAlbums(),
+  //     favArtists(),
+  //     favMVs(),
+  //     favPodcast(),
+  //   ])
+  //   data.albums = albums
+  //   data.artists = artists
+  //   data.mvs = mvs
+  //   data.podcasts = podcasts
+  // } catch (e) {
+  //   toast.error('something wrong')
+  // } finally {
+  //   loading.value = false
+  // }
+}
+async function loadData(type: 'album' | 'mv' | 'podcast' | 'artist') {
+  const start = pagination[type].start
+  const fn = {
+    artist: favArtists,
+    album: favAlbums,
+    podcast: favPodcast,
+    mv: favMVs,
+  }[type]
+  const moreData = (await fn(start)) as any
+  switch (type) {
+    case 'album': {
+      if (moreData.data?.length) {
+        data.albums.push(...moreData.data)
+        if (moreData.hasMore) {
+          pagination.album.start = data.albums.length
+        }
+      }
+
+      pagination.album.more = moreData.hasMore
+      break
+    }
+    case 'artist': {
+      if (moreData.data?.length) {
+        data.artists.push(...moreData.data)
+        if (moreData.hasMore) {
+          pagination.artist.start = data.artists.length
+        }
+      }
+      pagination.artist.more = moreData.hasMore
+      break
+    }
+    case 'podcast': {
+      if (moreData.djRadios?.length) {
+        data.podcasts.push(...moreData.djRadios)
+        if (moreData.hasMore) {
+          pagination.podcast.start = data.podcasts.length
+        }
+      }
+      pagination.podcast.more = moreData.hasMore
+      break
+    }
+    case 'mv': {
+      if (moreData.data?.length) {
+        data.mvs.push(...moreData.data)
+        if (moreData.hasMore) {
+          pagination.mv.start = data.mvs.length
+        }
+      }
+      pagination.mv.more = moreData.hasMore
+      break
+    }
   }
 }
 onActivated(() => {

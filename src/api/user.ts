@@ -7,7 +7,6 @@ import { request } from '@/util/fetch'
 /**
  * 获取用户收藏歌单
  * @param params
- * @returns
  */
 export const getUserPlaylist = (params = {}) => {
   return request<{
@@ -22,41 +21,44 @@ export const getUserPlaylist = (params = {}) => {
 
 /**
  * 获取收藏的专辑
- * @returns
  */
-export const favAlbums = () =>
+export const favAlbums = (offset = 0) =>
   request<{
     code: number
     data: Album[]
-  }>('/album/sublist', { params: { timestamp: now() } })
+    count: number
+    hasMore: boolean
+  }>('/album/sublist', { params: { timestamp: now(), offset, limit: 20 } })
 
 /**
  * 获取收藏的MV
- * @returns {*}
  */
-export const favMVs = () =>
-  request<{
-    data: MV[]
-  }>('/mv/sublist', { params: { timestamp: now() } })
-/**
- * 获取收藏的歌手
- * @returns {*}
- */
-export const favArtists = () =>
-  request<{
-    data: Artist[]
-  }>('/artist/sublist', { params: { timestamp: now() } })
-
-export const favPodcast = () =>
+export const favMVs = (offset = 0) =>
   request<{
     count: number
+    hasMore: boolean
+    data: MV[]
+  }>('/mv/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+/**
+ * 获取收藏的歌手
+ */
+export const favArtists = (offset = 0) =>
+  request<{
+    count: number
+    hasMore: boolean
+    data: Artist[]
+  }>('/artist/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+
+export const favPodcast = (offset = 0) =>
+  request<{
+    count: number
+    hasMore: boolean
     djRadios: Podcast[]
-  }>('/dj/sublist', { params: { timestamp: now() } })
+  }>('/dj/sublist', { params: { timestamp: now(), offset, limit: 20 } })
 /**
  * 获取最近播放
  * @param limit
  * @param type
- * @returns
  */
 export const recent = (limit = 50, type = 'song') => {
   return request<{
