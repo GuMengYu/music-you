@@ -24,10 +24,8 @@ function registerIpcRenderer(router: Router) {
   //   toast.success(`下载成功 ${name}`)
   // })
   let cacheVolume = 0.8
-  ipcRenderer.on('open-settings', () => {
-    console.log(router)
-    router.push({ name: 'setting' })
-    // appStore.$state.showControlCenter = !appStore.$state.showControlCenter
+  ipcRenderer.on('open-route', (_, routeName) => {
+    router.push({ name: routeName })
   })
   // ipcRenderer.on('search', () => {
   //   appStore.$state.showSearch = !appStore.$state.showSearch
