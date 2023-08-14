@@ -245,7 +245,10 @@
     "recover_default": "Restore default settings",
     "add_playlist": "Add to playlist",
     "heart_beat": "Smart list",
-    "relaunch": "Relaunch Application"
+    "relaunch": "Relaunch Application",
+    "gen_from_color": "Generated from color",
+    "gen_from_image": "Generated from image",
+    "gen_color_value": "Color value (hex)"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

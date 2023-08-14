@@ -23,10 +23,65 @@
     </v-icon>
   </v-btn>
   <input v-show="false" ref="upload" type="file" accept="image/png,image/jpeg,image/webp" @change="handleChange" />
+  <v-dialog v-model="customPalette">
+    <v-card color="surfaceVariant" rounded="xl" class="py-4 pb-6 px-6 align-self-center">
+      <div class="d-flex justify-center">
+        <v-icon color="secondary" size="x-large">
+          {{ mdiPalette }}
+        </v-icon>
+      </div>
+      <div class="mt-3 d-flex flex-row gap-4 justify-center">
+        <v-card
+          variant="flat"
+          height="128"
+          width="128"
+          rounded="lg"
+          class="d-flex justify-center align-center bg-onSurfaceVariant"
+          @click="handleColor"
+        >
+          <v-icon size="x-large">{{ mdiSelectColor }}</v-icon>
+          <v-tooltip activator="parent" location="bottom" open-delay="100">
+            {{ t('common.gen_from_color') }}
+          </v-tooltip>
+        </v-card>
+        <v-card
+          variant="flat"
+          height="128"
+          width="128"
+          rounded="lg"
+          class="d-flex justify-center align-center bg-onSurfaceVariant"
+          @click="handleImage"
+        >
+          <v-icon size="x-large">{{ mdiImagePlus }}</v-icon>
+          <v-tooltip activator="parent" location="bottom" open-delay="100">
+            {{ t('common.gen_from_image') }}
+          </v-tooltip>
+        </v-card>
+      </div>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="colorPalette">
+    <v-card color="surfaceVariant" rounded="xl" class="py-4 pb-6 px-6 align-self-center" min-width="300">
+      <v-card-title>{{ t('common.gen_color_value') }}</v-card-title>
+      <div class="mt-3 d-flex flex-column gap-4 justify-center">
+        <v-text-field v-model="colorValue" variant="filled" hide-details></v-text-field>
+        <v-btn rounded="pill" variant="flat" color="primary" @click="handleColorChange">{{
+          t('common.confirm')
+        }}</v-btn>
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts" setup>
-import { mdiDesktopTowerMonitor, mdiPalette, mdiPlus, mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
+import {
+  mdiDesktopTowerMonitor,
+  mdiImagePlus,
+  mdiPalette,
+  mdiSelectColor,
+  mdiWeatherNight,
+  mdiWhiteBalanceSunny,
+} from '@mdi/js'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -44,6 +99,9 @@ const { customTheme, wallpaperColor } = storeToRefs(setting)
 const toast = useToast()
 const { applyTheme } = useDynamicChangeTheme()
 const upload = ref<HTMLInputElement>()
+const customPalette = ref(false)
+const colorPalette = ref(false)
+const colorValue = ref('')
 const appearanceItems = computed(() => [
   {
     text: 'common.light',
@@ -120,7 +178,16 @@ const color = computed({
   },
 })
 function handleCustomPalette() {
+  customPalette.value = true
+}
+function handleColor() {
+  customPalette.value = false
+
+  colorPalette.value = true
+}
+function handleImage() {
   upload.value?.click()
+  customPalette.value = false
 }
 async function handleChange(e: Event) {
   const { files = [] } = e.target as HTMLInputElement
@@ -133,15 +200,27 @@ async function handleChange(e: Event) {
       const objectURL = URL.createObjectURL(files[0])
       const image = new Image()
       image.src = objectURL
-      const newThemes = await generateVuetifyTheme(image, 'Customize')
-      applyTheme(newThemes)
-      // store customize theme in localstorage
-      customTheme.value = newThemes
-      color.value = WallpaperColor.Customize
-      // location.reload()
+      applyCustomTheme(image)
     } catch (e) {
       console.log(e)
     }
+  }
+}
+async function handleColorChange() {
+  if (colorValue.value) {
+    applyCustomTheme(colorValue.value)
+  }
+  colorPalette.value = false
+}
+async function applyCustomTheme(value: string | HTMLImageElement) {
+  try {
+    const newThemes = await generateVuetifyTheme(value, 'Customize')
+    applyTheme(newThemes)
+    // store customize theme in localstorage
+    customTheme.value = newThemes
+    color.value = WallpaperColor.Customize
+  } catch (e) {
+    console.log(e)
   }
 }
 </script>

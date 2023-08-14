@@ -246,7 +246,10 @@
     "recover_default": "恢复默认设置",
     "add_playlist": "添加到歌单",
     "heart_beat": "心动模式",
-    "relaunch": "重启应用"
+    "relaunch": "重启应用",
+    "gen_from_color": "从颜色生成",
+    "gen_from_image": "从图片生成",
+    "gen_color_value": "颜色值（hex）"
   },
   "theme": {
     "RedSandDunes": "红沙滩",
