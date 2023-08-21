@@ -107,8 +107,10 @@ export const registerIpcMain = (windowManager: WindowManager) => {
       store.set('minimal', true)
       store.set('windowPosition', window.getPosition())
       window.setSize(256, 144, true)
+      window.setAlwaysOnTop(true)
     } else {
       store.set('minimal', false)
+      window.setAlwaysOnTop(false)
       try {
         const { height, width } = store.get('windowSize')
         const position = store.get('windowPosition')
