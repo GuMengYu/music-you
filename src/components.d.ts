@@ -43,6 +43,8 @@ declare module '@vue/runtime-core' {
     MusicComment: typeof import('./components/comment/MusicComment.vue')['default']
     MusicCommentToggle: typeof import('./components/toggle/musicCommentToggle.vue')['default']
     PinBtn: typeof import('./components/button/PinBtn.vue')['default']
+    PlayToggle: typeof import('./components/toggle/PlayToggle.vue')['default']
+    PlayTogglePlain: typeof import('./components/toggle/PlayTogglePlain.vue')['default']
     PodcastCover: typeof import('./components/cover/PodcastCover.vue')['default']
     ProgramItem: typeof import('./components/program/ProgramItem.vue')['default']
     ProgramList: typeof import('./components/program/ProgramList.vue')['default']

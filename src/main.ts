@@ -1,3 +1,4 @@
+import { GesturePlugin } from '@vueuse/gesture'
 import { createApp } from 'vue'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -31,6 +32,7 @@ const app = createApp(App)
 const router = useRouter(app)
 
 app.use(VueVirtualScroller)
+app.use(GesturePlugin)
 usePinia(app)
 useVuetify(app)
 useI18n(app)

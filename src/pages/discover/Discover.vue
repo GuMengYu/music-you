@@ -2,7 +2,7 @@
   <div>
     <discover-loader v-if="state.loading" />
     <section v-else class="discover d-flex flex-column gap-6">
-      <Col :title="welcome">
+      <Col :title="welcome" h-class="font-weight-bold text-h6">
         <ShortcutGrid />
         <template #more>
           <v-btn icon size="x-small" variant="tonal" color="tertiary" @click="config = !config">

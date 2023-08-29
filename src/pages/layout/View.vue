@@ -15,3 +15,21 @@
     <back-to-top />
   </v-main>
 </template>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+
+import { NavPosition, useSettingStore } from '@/store/setting'
+
+const { navPosition, miniPlayer } = storeToRefs(useSettingStore())
+
+// const marginTopClass = computed(() => (navPosition.value === NavPosition.top ? 'mt-0' : 'mt-4'))
+// const containerStyle = computed(() => {
+//   let height = navPosition.value === NavPosition.top ? 168 : 120
+//   if (miniPlayer.value) {
+//     height -= 74 // 减去播放栏高度
+//   }
+//   return {
+//     height: `calc(100vh - ${height}px)`,
+//   }
+// })
+</script>

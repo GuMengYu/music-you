@@ -17,7 +17,7 @@ export const sleep = (time = 1000) => {
  * 格式化网易云歌词
  * @param lyric
  * sample
- * 
+ *
 {"t":0,"c":[{"tx":"作词: "},{"tx":"Will Jennings"}]}
 {"t":1000,"c":[{"tx":"作曲: "},{"tx":"James Horner","li":"http://p1.music.126.net/rlzkomHJqfBIQC-eAvbQlA==/697090372014144.jpg","or":"orpheus://nm/artist/home?id=35353&type=artist"}]}
 {"t":2000,"c":[{"tx":"编曲: "},{"tx":"James Horner","li":"http://p1.music.126.net/rlzkomHJqfBIQC-eAvbQlA==/697090372014144.jpg","or":"orpheus://nm/artist/home?id=35353&type=artist"}]}
@@ -288,5 +288,21 @@ export const toJson = (str: string): boolean | Record<any, any> | Array<any> => 
     return res
   } catch (error) {
     return false
+  }
+}
+
+export function hexToRgb(hex: string, format = false) {
+  // 去掉可能存在的 # 符号
+  hex = hex.replace('#', '')
+
+  // 按照红色、绿色、蓝色的顺序提取颜色分量
+  const red = parseInt(hex.substring(0, 2), 16)
+  const green = parseInt(hex.substring(2, 4), 16)
+  const blue = parseInt(hex.substring(4, 6), 16)
+
+  if (format) {
+    return `rgb(${red}, ${green}, ${blue})`
+  } else {
+    return `${red}, ${green}, ${blue}`
   }
 }

@@ -11,6 +11,9 @@
     <app-login />
     <app-playing-page />
     <window-control v-if="isShowWindowControl" />
+    <transition name="slide-fade-y">
+      <mini-player-bar v-if="miniPlayer" />
+    </transition>
   </v-app>
 </template>
 
@@ -20,6 +23,7 @@ import { useDisplay, useTheme } from 'vuetify'
 
 import useInForeground from '@/hooks/useInForeground'
 import { useCurrentTheme } from '@/hooks/useTheme'
+import MiniPlayerBar from '@/pages/layout/MiniPlayerBar.vue'
 import { NavPosition, useSettingStore } from '@/store/setting'
 import is from '@/util/is'
 

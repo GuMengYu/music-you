@@ -1,17 +1,17 @@
 <template>
   <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area">
-    <div class="px-3 pt-1 mt-1" :class="{ 'mt-2': isMac }">
+    <div class="px-3 pt-1 mt-2" :class="{ 'mt-3': isMac }">
       <drawer-toggle />
     </div>
-    <div v-if="rail" class="d-flex justify-center mt-2">
+    <div v-if="rail" class="d-flex justify-center">
       <aggregate-extend-btn variant="extendFab" />
     </div>
-    <div class="content-warp flex-fill no-drag-area" :class="{ 'rail-nav': rail }">
+    <div class="content-warp flex-fill" :class="{ 'rail-nav': rail }">
       <v-list class="list-content d-flex flex-column justify-center" rounded :nav="true">
         <v-list-item
           v-for="item in nav"
           :key="item.val"
-          class="drawer-item rounded-pill"
+          class="drawer-item rounded-pill no-drag-area"
           :to="item.to"
           active-class="text-primary"
           :style="{ minHeight: '56px' }"
@@ -27,11 +27,8 @@
         </v-list-item>
       </v-list>
       <transition name="slide-fade-y">
-        <mini-player-bar v-if="miniPlayer && !rail" class="mt-auto" />
-      </transition>
-      <transition name="slide-fade-y">
-        <div v-if="rail" class="mb-2 gap-2 px-2 d-flex justify-center flex-column align-center">
-          <app-account variant="tonal" class="no-drag-area" />
+        <div v-if="rail" class="pb-2 gap-2 no-drag-area px-2 d-flex justify-center flex-column align-center">
+          <app-account variant="tonal" />
           <theme-toggle />
         </div>
       </transition>

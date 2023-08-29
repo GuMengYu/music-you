@@ -1,162 +1,182 @@
 <template>
-  <div
+  <v-card
     v-if="track?.id"
-    class="rounded-t-md d-flex flex-column px-3 pt-3"
+    ref="playerCard"
+    rounded="lg"
+    :theme="theme"
+    elevation="24"
+    class="d-flex flex-column"
     :style="{
-      backgroundColor: 'rgba(var(--v-theme-surfaceVariant), 0.5)',
+      position: 'absolute',
+      // right: '16px',
+      // bottom: '32px',
     }"
+    height="140"
+    width="140"
   >
-    <div class="d-flex align-center">
-      <v-hover v-slot="{ isHovering, props }">
-        <v-img
-          v-bind="props"
-          class="rounded-md"
-          :aspect-ratio="1"
-          :min-width="62"
-          :max-width="62"
-          :max-height="62"
-          :src="albumPicUrl"
-          cover
-        >
-          <v-btn v-show="isHovering" size="62" icon variant="plain" @click.stop="showPlayingPage">
-            <v-icon color="primary">{{ mdiArrowExpand }}</v-icon>
+    <v-img :src="coverImage" :cover="true" class="rounded-lg" :gradient="`90deg, ${maskColor} 0%, ${maskColor} 100%`">
+      <div class="d-flex flex-column justify-space-between fill-height pa-1">
+        <div class="d-flex justify-space-between">
+          <like-toggle :id="track.id" size="small" :color="colorPalette?.primaryContainer" />
+          <!--          <v-btn density="comfortable" icon variant="text" size="small" @click="showPlayingPage">-->
+          <!--            <v-icon size="small">{{ mdiArrowExpand }}</v-icon>-->
+          <!--          </v-btn>-->
+          <v-btn v-if="!isProgram" density="comfortable" icon size="small" variant="text" @click="openContextMenu">
+            <v-icon size="small">{{ mdiDotsHorizontal }}</v-icon>
           </v-btn>
-        </v-img>
-      </v-hover>
+        </div>
+        <div class="d-flex justify-center flex-column align-center">
+          <play-toggle-plain />
+        </div>
 
-      <div class="ml-2 d-flex align-start flex-column">
-        <span class="line-clamp-1 text-subtitle-2 font-weight-bold"> {{ track?.name }} </span>
-        <Router-Link
-          v-if="track.al"
-          :to="`/album/${track.al.id}`"
-          class="line-clamp-1 text-caption font-weight-bold text-onSurface"
-          >{{ track?.al.name }}
-        </Router-Link>
-        <artists-link :artists="track?.ar" class="text-caption line-clamp-1" />
+        <div class="d-flex justify-space-between align-center control-buttons">
+          <v-btn density="comfortable" icon variant="text" size="small" @click="prev">
+            <v-icon size="small">{{ mdiSkipPreviousOutline }}</v-icon>
+          </v-btn>
+          <track-slider />
+
+          <v-btn density="comfortable" icon variant="text" size="small" @click="next">
+            <v-icon size="small">{{ mdiSkipNextOutline }}</v-icon>
+          </v-btn>
+        </div>
       </div>
-      <!-- <like-toggle :id="track?.id" /> -->
-    </div>
-    <track-slider />
-    <Control :simple="true" />
-    <div class="d-flex justify-space-between align-center control-buttons mt-1 mb-2">
-      <VolumeSlider orientation="vertical" />
-      <like-toggle :id="track.id" size="small" />
-      <v-btn
-        :color="shuffle ? 'primary' : ''"
-        density="comfortable"
-        icon
-        :disabled="isCurrentFm"
-        variant="text"
-        @click="toggleShuffle"
-      >
-        <v-icon size="x-small">
-          {{ shuffleIcon }}
-        </v-icon>
-      </v-btn>
-      <v-btn
-        density="comfortable"
-        icon
-        :disabled="isCurrentFm"
-        variant="text"
-        :color="repeatOn ? 'primary' : ''"
-        @click="toggleMode"
-      >
-        <v-icon size="x-small">
-          {{ modeIcon }}
-        </v-icon>
-      </v-btn>
-      <!--      <v-btn density="comfortable" icon variant="text" :color="showPipLyric ? 'primary' : ''" @click="togglePipLyric">-->
-      <!--        <v-icon size="x-small">{{ mdiPictureInPictureTopRight }}</v-icon>-->
-      <!--      </v-btn>-->
-      <v-btn
-        ref="playlistBtn"
-        density="comfortable"
-        variant="text"
-        icon
-        :color="isQueue ? 'primary' : ''"
-        :disabled="isCurrentFm"
-        @click="togglePlayingQueue"
-      >
-        <v-icon size="x-small">
-          {{ mdiPlaylistMusic }}
-        </v-icon>
-      </v-btn>
-      <v-btn v-if="!isProgram" density="comfortable" icon variant="text" @click="openContextMenu">
-        <v-icon size="x-small">{{ mdiDotsHorizontal }}</v-icon>
-      </v-btn>
-    </div>
-  </div>
+    </v-img>
+  </v-card>
 </template>
 <script setup lang="ts">
-import { mdiArrowExpand, mdiDotsHorizontal, mdiPlaylistMusic } from '@mdi/js'
+import { mdiDotsHorizontal, mdiSkipNextOutline, mdiSkipPreviousOutline } from '@mdi/js'
+import type { EventTypes, Handler, State } from '@vueuse/gesture'
+import { GestureState, useDrag } from '@vueuse/gesture'
+import { useMotionProperties, useSpring } from '@vueuse/motion'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
+import type { VCard } from 'vuetify/components'
 import type { MenuItem } from 'vuetify-ctx-menu/lib/ContextMenuDefine'
 import { useContextMenu } from 'vuetify-ctx-menu/lib/main'
 
 import { opPlaylist } from '@/api/music'
 import { getHeartBeatList } from '@/api/user'
+import PlayTogglePlain from '@/components/toggle/PlayTogglePlain.vue'
 import TrackSlider from '@/components/TrackSlider.vue'
-import { useEmojiAnimation } from '@/hooks/useEmojiAnimation'
 import usePlayerControl from '@/hooks/usePlayerControl'
 import { useCurrentTheme } from '@/hooks/useTheme'
 import { usePlayer } from '@/player/player'
+import { generateVuetifyTheme } from '@/plugins/vuetify'
 import { useAppStore } from '@/store/app'
 import { usePlayQueueStore } from '@/store/playQueue'
+import { useSettingStore } from '@/store/setting'
 import { useUserStore } from '@/store/user'
 import type { PlayNowEvent } from '@/types'
-import { sizeOfImage } from '@/util/fn'
-
-// utitlity
+import { hexToRgb, sizeOfImage } from '@/util/fn'
+import { specialType } from '@/util/metadata'
 const appStore = useAppStore()
 const userStore = useUserStore()
 const toast = useToast()
 const player = usePlayer()
 const playQueueStore = usePlayQueueStore()
+const settingStore = useSettingStore()
 const { t } = useI18n()
+const router = useRouter()
 
 const contextMenu = useContextMenu()
 
 const { themeName } = useCurrentTheme()
 
-const {
-  track,
-  isCurrentFm,
-  isProgram,
-  shuffleIcon,
-  modeIcon,
-  isQueue,
-  shuffle,
-  repeatOn,
-  toggleMode,
-  togglePlayingQueue,
-  toggleShuffle,
-  togglePipLyric,
-} = usePlayerControl()
-const playlists = computed(() => {
-  return userStore.createdPlaylists.map((i) => {
-    return {
-      id: i.id,
-      name: i.name,
-      specialType: i.specialType,
-    }
-  })
-  // .filter((playlist) => playlist.specialType !== specialType.fav.type)
+const colorPalette = ref()
+const playerCard = ref<InstanceType<typeof VCard>>()
+const playerCardDom = computed(() => playerCard.value?.$el)
+const { track, isCurrentFm, isProgram, prev, next, togglePlayingQueue, togglePipLyric } = usePlayerControl()
+
+const theme = computed(() => {
+  return settingStore.wallpaperColor + 'Dark'
 })
 
-// 播放并开启飞越小动画
-const playlistBtn = ref<HTMLButtonElement>()
-const { playAnimation } = useEmojiAnimation(playlistBtn)
+const coverImage = computed(() => {
+  return sizeOfImage(track.value?.al?.picUrl ?? '', 1024)
+})
+const playlists = computed(() => {
+  return userStore.createdPlaylists
+    .map((i) => {
+      return {
+        id: i.id,
+        name: i.name,
+        specialType: i.specialType,
+      }
+    })
+    .filter((playlist) => playlist.specialType !== specialType.fav.type)
+})
+const artists = computed(() => {
+  return track.value?.ar ?? []
+})
+
 const eventBus = useEventBus<PlayNowEvent>('playNow')
 eventBus.on((payload) => {
   const { id, from, setQueue } = payload
   player.updatePlayerTrack(id, true, true, false, from)
-  playAnimation('🎉')
   if (setQueue) {
     playQueueStore.setQueue(id)
   }
 })
 const albumPicUrl = computed(() => sizeOfImage(track.value?.al?.picUrl ?? '', 128))
+
+watchEffect(async () => {
+  if (albumPicUrl.value) {
+    await initColorPalette()
+  }
+})
+
+const { innerWidth, innerHeight } = window
+const position = ref([innerWidth - 172, innerHeight - 172])
+
+const { motionProperties } = useMotionProperties(playerCardDom, {
+  cursor: 'grab',
+  x: position.value[0],
+  y: position.value[1],
+})
+
+const { set } = useSpring(motionProperties as any)
+const dragHandler: Handler<'drag'> = (state) => {
+  const {
+    movement: [moveX, moveY],
+    dragging,
+  } = state
+
+  const [_x, _y] = position.value
+  const [x, y] = [moveX + _x, moveY + _y]
+  if (!dragging) {
+    position.value = [x, y]
+    set({ x: position.value[0], y: position.value[1], cursor: 'grab' })
+    return
+  }
+
+  set({
+    cursor: 'grabbing',
+    x,
+    y,
+  })
+}
+useDrag(dragHandler, {
+  domTarget: playerCardDom,
+})
+
+async function initColorPalette() {
+  if (albumPicUrl.value) {
+    const image = new Image()
+    image.crossOrigin = 'anonymous'
+    image.src = albumPicUrl.value
+    const palette = await generateVuetifyTheme(image, 'Palette')
+    colorPalette.value = palette[0].colors // light theme
+  }
+}
+const maskColor = computed(() => {
+  if (colorPalette.value) {
+    const { primary } = colorPalette.value
+    return `rgba(${hexToRgb(primary)}, 0.8)`
+  } else {
+    return 'rgba(0 0 0, 0)'
+  }
+})
+
 const showHeartBeat = computed(() => {
   return userStore.logged && !isProgram && !isCurrentFm && track.value && userStore.likes.includes(track.value.id)
 })
@@ -168,6 +188,12 @@ function openContextMenu(event: MouseEvent) {
   const { x, y } = event
   const buildMenu = () => {
     const items: MenuItem[] = [
+      {
+        label: '展开播放',
+        onClick: () => {
+          showPlayingPage()
+        },
+      },
       {
         label: t('common.add_playlist'),
         children: [
@@ -185,6 +211,52 @@ function openContextMenu(event: MouseEvent) {
         label: t('common.show_pip'),
         onClick: () => {
           togglePipLyric()
+        },
+      },
+      {
+        divided: true,
+      },
+      {
+        label: t('common.queue'),
+        onClick: () => {
+          togglePlayingQueue()
+        },
+      },
+
+      {
+        label: '去歌手页',
+        onClick: () => {
+          togglePlayingQueue()
+        },
+        children: artists.value.map((artist) => {
+          return {
+            label: artist.name,
+            onClick: () => {
+              const id = artist.id
+              if (id) {
+                router.push({
+                  name: 'artist',
+                  params: {
+                    id,
+                  },
+                })
+              }
+            },
+          }
+        }),
+      },
+      {
+        label: '去专辑页',
+        onClick: () => {
+          const albumId = track.value?.al?.id
+          if (albumId) {
+            router.push({
+              name: 'album',
+              params: {
+                id: albumId,
+              },
+            })
+          }
         },
       },
     ]
