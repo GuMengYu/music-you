@@ -9,8 +9,14 @@ import type { App } from 'vue'
 // Vuetify
 import type { ThemeDefinition as BaseThemeDefinition } from 'vuetify'
 import { createVuetify } from 'vuetify'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import * as components from 'vuetify/lib/components/index'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import * as directives from 'vuetify/lib/directives/index'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { aliases, mdi } from 'vuetify/lib/iconsets/mdi-svg'
 
 import { useSettingStore } from '@/store/setting'
