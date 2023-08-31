@@ -1,9 +1,8 @@
 import type { BrowserWindow } from 'electron'
+import { app, Menu, shell } from 'electron'
 import is from 'electron-is'
 
 import { name } from '../../../package.json'
-
-const { app, Menu, shell } = require('electron')
 const isMac = process.platform === 'darwin'
 export const createElectronMenu = (window: BrowserWindow) => {
   const template: any = [
@@ -178,5 +177,5 @@ export const createElectronMenu = (window: BrowserWindow) => {
       ],
     },
   ]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  Menu.setApplicationMenu(Menu.buildFromTemplate(<any>template))
 }

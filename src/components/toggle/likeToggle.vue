@@ -3,10 +3,11 @@
     :density="size === 'small' ? 'comfortable' : 'default'"
     variant="text"
     icon
-    :color="liked ? 'primary' : ''"
+    :color="liked ? color ?? 'primary' : ''"
+    :size="size"
     @click="likeSong"
   >
-    <v-icon v-show="!state.showAnim" :size="size === 'small' ? 'x-small' : 'small'" :color="liked ? 'primary' : ''">{{
+    <v-icon v-show="!state.showAnim" :size="size" :color="liked ? color ?? 'primary' : ''">{{
       liked ? mdiHeart : mdiHeartOutline
     }}</v-icon>
     <lottie-icon
@@ -405,6 +406,7 @@ const userStore = useUserStore()
 const props = defineProps<{
   id?: number
   size?: 'small' | 'default'
+  color?: string
 }>()
 
 interface RootState {
