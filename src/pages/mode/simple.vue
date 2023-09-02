@@ -23,7 +23,7 @@
           </v-btn>
         </div>
         <div class="frame-content d-flex justify-center align-center text-center py-4">
-          <scroll-lyric />
+          <scroll-lyric v-if="displayLyric" />
         </div>
         <div class="frame-footer d-flex flex-column px-2 px-xl-4 gap-4 mt-auto">
           <div class="d-flex gap-4 mx-2">
@@ -63,6 +63,14 @@
                 <music-comment-toggle :id="track['id']" />
               </template>
 
+              <v-btn icon variant="text" @click="toggleLyricDisplay">
+                <v-icon>
+                  {{ displayLyric ? mdiLyricsOutline : mdiLyrics }}
+                </v-icon>
+                <v-tooltip activator="parent" location="top">
+                  {{ displayLyric ? '关闭歌词显示' : '开启歌词显示' }}
+                </v-tooltip>
+              </v-btn>
               <v-btn icon variant="text" @click="showHaven = !showHaven">
                 <v-icon size="small">
                   {{ mdiImageMultipleOutline }}
@@ -105,6 +113,7 @@ import { useSettingStore } from '@/store/setting'
 import { useWallHavenStore } from '@/store/wallhaven'
 import { Track } from '@/types'
 import { formatDuring, sizeOfImage, sleep } from '@/util/fn'
+import { mdiLyrics, mdiLyricsOutline } from '@/util/icons'
 
 const playerStore = usePlayerStore()
 const appStore = useAppStore()
@@ -129,6 +138,7 @@ const backgroundFilter = computed(() => {
     filter: `brightness(${brightness.value}%) blur(${blur.value}px)`,
   }
 })
+const displayLyric = ref(true)
 
 async function close() {
   showLyric.value = false
@@ -155,6 +165,10 @@ async function loadNext() {
   } else {
     currentIndex.value++
   }
+}
+
+function toggleLyricDisplay() {
+  displayLyric.value = !displayLyric.value
 }
 
 async function onLoad() {
