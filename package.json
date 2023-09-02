@@ -106,7 +106,7 @@
     "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vue3-slider": "git+https://github.com/GuMengYu/vue3-slider.git",
     "vuetify": "^3.1.2",
-    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git#v0.0.2",
+    "vuetify-ctx-menu": "git+https://github.com/GuMengYu/vue3-context-menu.git#main",
     "webfontloader": "^1.0.0"
   },
   "config": {
