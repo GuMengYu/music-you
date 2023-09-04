@@ -5,7 +5,7 @@
     rounded="lg"
     :theme="theme"
     elevation="24"
-    class="d-flex flex-column"
+    class="d-flex flex-column no-drag-area"
     :style="{
       position: 'absolute',
       // right: '16px',

@@ -42,7 +42,7 @@ export const getSimiArtist = (id: number) =>
  * @param limit
  * @returns
  */
-export const getArtistAlbum = (id: number, limit = 200) =>
+export const getArtistAlbum = (id: number, limit = 100) =>
   request<{
     artist: Artist
     hotAlbums: Album[]
