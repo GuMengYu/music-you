@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer :rail="rail" rail-width="72" class="drag-area">
-    <div class="px-3 pt-1 mt-2" :class="{ 'mt-3': isMac }">
+    <div class="px-3 mt-6" :class="{ 'mt-3': isClient, 'mb-1': rail }">
       <drawer-toggle />
     </div>
     <div v-if="rail" class="d-flex justify-center">
@@ -56,7 +56,7 @@ const profile = computed((): Account['profile'] | undefined => {
   return account.value?.profile
 })
 
-const isMac = is.macOS()
+const isClient = is.electron()
 const nav = computed(() => {
   const list = [
     {

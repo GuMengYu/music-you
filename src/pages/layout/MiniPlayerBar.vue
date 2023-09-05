@@ -8,6 +8,7 @@
     class="d-flex flex-column no-drag-area"
     :style="{
       position: 'absolute',
+      zIndex: 9999,
       // right: '16px',
       // bottom: '32px',
     }"
@@ -45,8 +46,8 @@
 </template>
 <script setup lang="ts">
 import { mdiDotsHorizontal, mdiSkipNextOutline, mdiSkipPreviousOutline } from '@mdi/js'
-import type { EventTypes, Handler, State } from '@vueuse/gesture'
-import { GestureState, useDrag } from '@vueuse/gesture'
+import type { Handler } from '@vueuse/gesture'
+import { useDrag } from '@vueuse/gesture'
 import { useMotionProperties, useSpring } from '@vueuse/motion'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'

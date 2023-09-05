@@ -1,6 +1,6 @@
 <template>
-  <v-main class="overflow-y-auto h-100">
-    <v-container class="pa-4 pt-5 pb-7 drag-area" fluid>
+  <v-main class="overflow-y-auto" style="height: calc(100vh - 16px)">
+    <v-container class="px-4 py-0 drag-area" fluid>
       <router-view v-slot="{ Component }">
         <transition v-if="$route.meta['keepAlive']" name="route-animation" mode="out-in">
           <keep-alive>

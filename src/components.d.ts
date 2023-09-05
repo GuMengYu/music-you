@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     MediaCard: typeof import('./components/MediaCard.vue')['default']
     Menu: typeof import('./components/menu/Menu.vue')['default']
     MinimalBtn: typeof import('./components/button/MinimalBtn.vue')['default']
+    MoreTrackActionBtn: typeof import('./components/button/MoreTrackActionBtn.vue')['default']
     MusicComment: typeof import('./components/comment/MusicComment.vue')['default']
     MusicCommentToggle: typeof import('./components/toggle/musicCommentToggle.vue')['default']
     PinBtn: typeof import('./components/button/PinBtn.vue')['default']

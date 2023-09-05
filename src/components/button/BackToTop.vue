@@ -39,7 +39,7 @@ onUnmounted(() => {
 const btnStyle = computed(() => {
   return {
     right: 0,
-    bottom: `${miniPlayer.value ? 16 : 88}px`,
+    bottom: `${miniPlayer.value ? 0 : 72}px`,
   }
 })
 function onScroll() {
