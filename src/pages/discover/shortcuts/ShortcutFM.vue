@@ -74,6 +74,11 @@ const { smAndUp } = useDisplay()
 
 const { fmTrack } = storeToRefs(playerStore)
 
+const props = defineProps<{
+  data?: any
+  type?: any
+  flag?: any
+}>()
 const coverImgUrl = computed(() => {
   if (fmTrack.value?.album?.picUrl) {
     return sizeOfImage(toHttps(fmTrack.value?.album?.picUrl), 256)
