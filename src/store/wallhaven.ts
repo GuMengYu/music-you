@@ -74,8 +74,8 @@ export const useWallHavenStore = defineStore('wallhaven', {
         apiKey: null,
         page: 1,
         brightness: 60,
-        blur: 0,
-        useTrackCover: false,
+        blur: 50,
+        useTrackCover: true,
         proxy: {
           open: false,
           proxy: {
