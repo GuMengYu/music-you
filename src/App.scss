@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+}
+.drag-area {
+  -webkit-app-region: drag;
+}
+.no-drag-area {
+  -webkit-app-region: no-drag;
+}
+
+.select-text {
+  user-select: text;
+}
