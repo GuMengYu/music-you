@@ -1,7 +1,7 @@
 {
-    "recommendations": [
-        "lokalise.i18n-ally",
-        "vue.volar",
-        "Vue.vscode-typescript-vue-plugin"
-    ]
+  // See http://go.microsoft.com/fwlink/?LinkId=827846
+  // for the documentation about the extensions.json format
+  "recommendations": [
+    "mrmlnc.vscode-json5"
+  ]
 }

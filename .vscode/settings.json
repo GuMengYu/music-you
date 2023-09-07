@@ -1,8 +1,13 @@
 {
-    "i18n-ally.localesPaths": [
-        "src/locale"
-    ],
-    "i18n-ally.keystyle": "nested",
-    "i18n-ally.displayLanguage": "zh-CN",
-    "svg.preview.background": "editor",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsc.autoDetect": "off",
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/*electron-builder.json5",
+        "/*electron-builder.json"
+      ],
+      "url": "https://json.schemastore.org/electron-builder"
+    }
+  ]
 }

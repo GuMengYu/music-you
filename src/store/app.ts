@@ -1,0 +1,50 @@
+import { create } from 'zustand'
+
+interface AppState {
+  rail: boolean
+  showLogin: boolean
+  showProfile: boolean
+  showQuick: boolean
+  showNowPlaying: boolean
+  showNowPlayingBar: boolean
+  showNowPlayingList: boolean
+}
+interface AppStateAction {
+  toggleRail: () => void
+  toggleLogin: (val?: boolean) => void
+  toggleProfile: (val?: boolean) => void
+  toggleQuick: (val?: boolean) => void
+  toggleNowPlaying: (val?: boolean) => void
+  toggleNowPlayingBar: (val?: boolean) => void
+  toggleNowPlayingList: (val?: boolean) => void
+}
+export const useAppStore = create<AppState & AppStateAction>((set) => {
+  return {
+    rail: false,
+    showLogin: false,
+    showProfile:  false,
+    showQuick: false,
+    showNowPlaying: false,
+    showNowPlayingBar: false,
+    showNowPlayingList: false,
+    toggleRail: () => set(state => ({ rail: !state.rail })),
+    toggleLogin: val => set((state) => {
+      return { showLogin: val !== undefined ? val : !state.showLogin }
+    }),
+    toggleProfile: val => set((state) => {
+      return { showProfile: val !== undefined ? val : !state.showProfile }
+    }),
+    toggleQuick: val => set((state) => {
+      return { showQuick: val !== undefined ? val : !state.showQuick }
+    }),
+    toggleNowPlaying: val => set((state) => {
+      return { showNowPlaying: val !== undefined ? val : !state.showNowPlaying }
+    }),
+    toggleNowPlayingBar: val => set((state) => {
+      return { showNowPlayingBar: val !== undefined ? val : !state.showNowPlayingBar }
+    }),
+    toggleNowPlayingList: val => set((state) => {
+      return { showNowPlayingList: val !== undefined ? val : !state.showNowPlayingList }
+    }),
+  }
+})

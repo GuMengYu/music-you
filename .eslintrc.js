@@ -1,67 +1,66 @@
 module.exports = {
   env: {
-    node: true,
+    browser: true,
+    es2021: true,
   },
-  globals: {
-    defineProps: 'readonly',
-    defineEmits: 'readonly',
-    defineExpose: 'readonly',
-    withDefaults: 'readonly',
-  },
-  root: true,
-  parser: 'vue-eslint-parser',
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    ecmaVersion: 2020,
-    sourceType: 'module',
-    ecmaFeatures: {
-      tsx: true,
+  extends: [
+    '@antfu',
+  ],
+  settings: {
+    react: {
+      version: 'detect',
     },
   },
-  rules: {
-    'vue/multi-word-component-names': 0,
-    'vue/no-v-html': 0,
-    'simple-import-sort/imports': 1,
-    'simple-import-sort/exports': 1,
-    'sort-imports': 0,
-    'import/order': 0,
-    'import/no-unresolved': [
-      2,
-      {
-        ignore: ['^@/', '^@@/', '^@shared/'],
-      },
-    ],
-    'vue/no-unused-vars': 1,
-    '@typescript-eslint/explicit-module-boundary-types': 0,
-    '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', disallowTypeAnnotations: false }],
-    '@typescript-eslint/no-non-null-assertion': 0,
-    '@typescript-eslint/no-explicit-any': 0,
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-    '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
-  },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
-  extends: [
-    'eslint:recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'plugin:prettier/recommended',
-  ],
-  ignorePatterns: ['dist', 'public', '!.eslintrc.js', '!.prettierrc.js'],
   overrides: [
     {
-      files: ['*.vue'],
-      parser: 'vue-eslint-parser',
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
+      env: {
+        node: true,
       },
-      rules: {
-        'no-unused-vars': 'off',
-        'no-undef': 'off',
-        '@typescript-eslint/no-unused-vars': 'off',
+      files: [
+        '.eslintrc.{js,cjs}',
+      ],
+      parserOptions: {
+        sourceType: 'script',
       },
     },
   ],
+  // 'parser': '@typescript-eslint/parser',
+  // 'parserOptions': {
+  //     'ecmaVersion': 'latest',
+  //     'sourceType': 'module'
+  // },
+  // 'plugins': [
+  //     '@typescript-eslint',
+  //     'react'
+  // ],
+  rules: {
+    // 'indent': [
+    //   'warn',
+    //   2,
+    // ],
+    // 'linebreak-style': [
+    //   'error',
+    //   'unix',
+    // ],
+    // 'quotes': [
+    //   'error',
+    //   'single',
+    // ],
+    // 'semi': [
+    //   'error',
+    //   'always',
+    // ],
+    'n/prefer-global/process': 0,
+    'no-console': 0,
+    'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-unused-vars': 0,
+    'jsdoc/require-returns-description': 0,
+    'unused-imports/no-unused-vars': 0,
+    'jsdoc/check-param-names': 0,
+  },
+  ignorePatterns: ['pipLyric.ts', '.vscode'],
+  // ignorePatterns: ['dist','dist-electron', 'release', 'public', '!.eslintrc.js', '!.prettierrc.js'],
 }
+
