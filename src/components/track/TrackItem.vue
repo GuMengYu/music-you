@@ -7,6 +7,7 @@ import type { VListItem } from 'vuetify/components'
 
 import equaliser from '@/assets/equaliser-animated-green.gif'
 import placeholderUrl from '@/assets/placeholder.png'
+import { usePlayer } from '@/player/player'
 import { usePlayerStore } from '@/store/player'
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, Track } from '@/types'
@@ -16,6 +17,7 @@ const toast = useToast()
 const { t } = useI18n()
 const userStore = useUserStore()
 const playerStore = usePlayerStore()
+const player = usePlayer()
 
 const { logged, account } = storeToRefs(userStore)
 const props = defineProps({
@@ -125,7 +127,7 @@ function play() {
 }
 function togglePlay() {
   if (current.value) {
-    playerStore.playing = !playerStore.playing
+    player.togglePlay()
   } else {
     play()
   }

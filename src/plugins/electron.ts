@@ -37,7 +37,8 @@ function registerIpcRenderer(router: Router) {
     player.prev()
   })
   ipcRenderer.on('playOrPause', () => {
-    playerStore.$state.playing = !playerStore.$state.playing
+    player.togglePlay()
+    // playerStore.$state.playing = !playerStore.$state.playing
   })
   ipcRenderer.on('volumeUp', () => {
     const volume = playerStore.$state.volume

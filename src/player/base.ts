@@ -106,15 +106,15 @@ export class Player {
   private initStoreEvent() {
     this.store.$subscribe((mutation, state) => {
       const { type } = mutation
-      const { playing, volume, isCurrentFm } = state
+      const { volume, isCurrentFm } = state
       if (type === 'direct') {
-        if (this.playing !== playing) {
-          if (playing) {
-            this.play()
-          } else {
-            this.pause()
-          }
-        }
+        // if (this.playing !== playing) {
+        //   if (playing) {
+        //     this.play()
+        //   } else {
+        //     this.pause()
+        //   }
+        // }
         if (this.volume !== volume) {
           this.volume = volume
           this.howler?.volume(volume)
@@ -258,7 +258,7 @@ export class Player {
   }
   pause() {
     this.store.playing = false
-    this.howler?.fade(this.volume, 0, 500)
+    this.howler?.fade(this.volume, 0, 200)
     this.howler?.once('fade', () => {
       this.howler?.pause()
       this.playing = false
@@ -271,7 +271,7 @@ export class Player {
     this.howler?.play()
     this.howler?.once('play', () => {
       this.playing = true
-      this.howler?.fade(0, this.volume, 400)
+      this.howler?.fade(0, this.volume, 200)
       this.pipLyric?.play()
     })
   }
