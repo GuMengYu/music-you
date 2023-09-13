@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
 }
@@ -10,4 +14,26 @@ body {
 
 .select-text {
   user-select: text;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  @apply hidden;
+}
+
+// 限制文本行数
+@for $i from 1 through 8 {
+  .line-clamp-#{$i} {
+    -webkit-line-clamp: #{$i};
+    line-clamp: #{$i};
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+  }
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }

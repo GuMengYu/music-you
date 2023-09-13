@@ -56,6 +56,7 @@ export const registerIpcMain = (windowManager: WindowManager) => {
     window.close()
   })
   ipcMain.handle('open-url', (e, url) => {
+    console.log('open url')
     try {
       shell.openExternal(url)
     } catch (e) {

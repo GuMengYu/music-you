@@ -1,9 +1,12 @@
 import { Box, Button, Link, Typography, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-export default function Migration() {
+import { forwardRef } from "react";
+const Migration = forwardRef((props, ref) => {
   const theme = useTheme();
   return (
     <Box
+      {...props}
+      ref={ref}
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"center"}
@@ -28,4 +31,6 @@ export default function Migration() {
       </Link>
     </Box>
   );
-}
+});
+
+export default Migration;

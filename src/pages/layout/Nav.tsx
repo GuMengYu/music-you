@@ -20,7 +20,7 @@ import PodcastsIcon from "@mui/icons-material/Podcasts";
 import FaceIcon from "@mui/icons-material/Face";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
-import MapIcon from "@mui/icons-material/Map";
+import MapIcon from "@mui/icons-material/Public";
 import RampRightIcon from "@mui/icons-material/RampRight";
 
 // components
@@ -30,10 +30,14 @@ import DarkModeToggle from "@/components/toggle/DarkModeToggle";
 
 // hooks
 import { useAppStore } from "@/store/app";
+import Account from "@/components/button/Account";
 
 const drawerWidth = 256;
+const drawerHeight =   'calc(100% - 74px)'
+
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
+  height: drawerHeight,
   transition: theme.transitions.create("width", {
     easing: "cubic-bezier(0.55, -0.01, 0, 1.03)",
     duration: theme.transitions.duration.complex,
@@ -50,6 +54,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   }),
   overflowX: "hidden",
   width: theme.spacing(9),
+  height: drawerHeight,
   borderRight: "none",
   background: theme.palette.surface.main,
 });
@@ -58,6 +63,7 @@ const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
+  height: drawerHeight,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
@@ -73,7 +79,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const { rail: open } = useAppStore();
+  const { rail: open, toggleLogin } = useAppStore();
   const { pathname } = useLocation();
   const list = [
     {
@@ -88,12 +94,12 @@ export default function MiniDrawer() {
       title: "主页",
       to: "/home",
     },
-    // {
-    //   icon: <MapIcon sx={{ height: 20, width: 20 }} />,
-    //   val: "explore",
-    //   title: "浏览",
-    //   to: "/explore",
-    // },
+    {
+      icon: <MapIcon sx={{ height: 20, width: 20 }} />,
+      val: "explore",
+      title: "浏览",
+      to: "/explore",
+    },
     // {
     //   icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
     //   val: "podcast",
@@ -189,6 +195,7 @@ export default function MiniDrawer() {
           ""
         ) : (
           <Box
+            className="no-drag-area"
             sx={{
               pb: 2,
               px: 2,
@@ -196,11 +203,10 @@ export default function MiniDrawer() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              gap: 0.5,
             }}
           >
-            <IconButton color="primary">
-              <FaceIcon />
-            </IconButton>
+            <Account />
             <DarkModeToggle />
           </Box>
         )}
