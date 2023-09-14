@@ -4,24 +4,9 @@ import { mdiSkipNext, mdiSkipPrevious } from '@mdi/js'
 import PlayToggle from '@/components/toggle/PlayToggle.vue'
 import usePlayerControl from '@/hooks/usePlayerControl'
 import { PLAY_MODE } from '@/store/player'
-import { playToPause as playToPauseAnimationData } from '@/util/animationData.json'
 
-import VSquareBtn from './button/VSquareBtn.vue'
-
-const {
-  toggle,
-  prev,
-  next,
-  toggleShuffle,
-  toggleMode,
-  playing,
-  loadingTrack,
-  playMode,
-  shuffle,
-  isCurrentFm,
-  modeIcon,
-  shuffleIcon,
-} = usePlayerControl()
+const { prev, next, toggleShuffle, toggleMode, playMode, shuffle, isCurrentFm, modeIcon, shuffleIcon } =
+  usePlayerControl()
 
 defineProps({
   simple: {

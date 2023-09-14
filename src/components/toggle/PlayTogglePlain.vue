@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import usePlayerControl from '@/hooks/usePlayerControl'
-import { playToPause as playToPauseAnimationData } from '@/util/animationData.json'
+import playToPauseAnimationData from '@/util/lottie-assets/playpause.json'
 
 const { toggle, playing, loadingTrack } = usePlayerControl()
 
@@ -35,7 +35,7 @@ function handleAnimation(animation: any) {
     <lottie-icon
       v-show="!loadingTrack"
       class="lottie-icon"
-      style="position: relative; top: 2px; left: 2px"
+      style="position: relative; left: -1.5px"
       :options="playOptions"
       :width="56"
       :height="56"

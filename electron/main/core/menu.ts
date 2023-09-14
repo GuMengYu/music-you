@@ -168,6 +168,16 @@ export const createElectronMenu = (window: BrowserWindow) => {
             window.webContents.toggleDevTools()
           },
         },
+        ...(is.dev()
+          ? [
+              {
+                label: '演练场',
+                click: () => {
+                  window.webContents.send('open-route', 'playground')
+                },
+              },
+            ]
+          : []),
         {
           label: '问题&反馈',
           click: async () => {

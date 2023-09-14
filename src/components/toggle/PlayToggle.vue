@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import usePlayerControl from '@/hooks/usePlayerControl'
-import { playToPause as playToPauseAnimationData } from '@/util/animationData.json'
+import playToPauseAnimationData from '@/util/lottie-assets/playpause.json'
 
 import VSquareBtn from '../button/VSquareBtn.vue'
 
@@ -40,6 +40,7 @@ function handleAnimation(animation: any) {
     class="mx-2"
     elevation="1"
     :style="{
+      transition: 'background-color, border-radius 350ms cubic-bezier(0.4, 0, 0.2, 1)',
       height: '50px',
       width: '50px',
       borderRadius: playing ? '14px' : '50px',
@@ -49,9 +50,9 @@ function handleAnimation(animation: any) {
     <lottie-icon
       v-show="!loadingTrack"
       class="lottie-icon text-onPrimaryContainer"
-      style="position: relative; top: 2px"
+      style="position: relative; left: -1.5px"
       :options="playOptions"
-      :width="30"
+      :width="36"
       :height="30"
       @anim-created="handleAnimation"
     ></lottie-icon>

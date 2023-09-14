@@ -1,12 +1,16 @@
 <script lang="ts" setup>
-import Comment from '@/components/comment/Comment.vue'
-import { usePlayer } from '@/player/player'
-const wave = ref()
-const player = usePlayer()
+import { mdiHeart, mdiHeartOutline } from '@mdi/js'
 </script>
 
 <template>
   <v-container>
-    <Comment :id="2829883282" type="playlist" />
+    <div :style="{ height: '200px', width: '200px' }">
+      <LikeToggle :id="0" size="small" />
+      <v-btn density="comfortable" variant="text" icon size="small"
+        ><v-icon size="small">{{ mdiHeart }}</v-icon></v-btn
+      >
+      <LikeToggle :id="0" />
+      <v-icon>{{ mdiHeartOutline }}</v-icon>
+    </div>
   </v-container>
 </template>
