@@ -1,17 +1,19 @@
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import type { AnimationItem } from "lottie-web";
 import Lottie from "lottie-web";
 
-export default function LottieIcon({
+function LottieIcon({
   option,
   width,
   height,
   animUpdated,
   animCreated,
+  style,
 }: {
   option: Record<any, any>;
   width?: number;
   height?: number;
+  style?: React.CSSProperties;
   animUpdated?: (ani: AnimationItem) => void;
   animCreated?: (ani: AnimationItem) => void;
 }) {
@@ -47,8 +49,10 @@ export default function LottieIcon({
   }
   return (
     <div
+      className="lottie-icon"
       ref={iconRef}
       style={{
+        ...style,
         height: height ? `${height}px` : "100%",
         width: width ? `${width}px` : "100%",
         overflow: "hidden",
@@ -57,3 +61,5 @@ export default function LottieIcon({
     ></div>
   );
 }
+
+export default memo(LottieIcon)

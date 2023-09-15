@@ -96,16 +96,9 @@ export class Player {
   }
   private initStoreEvent() {
 
-    usePlayerStore.subscribe((state) => [state.playing, state.volume, state.isCurrentFm], (state, prev) => {
-      const [playing, volume, isCurrentFm] = state
-      const [prevPlaying, prevVolume, prevIsCurrentFm] = prev
-      if (prevPlaying !== playing) {
-        if (playing) {
-          this.play()
-        } else {
-          this.pause()
-        }
-      }
+    usePlayerStore.subscribe((state) => [state.volume, state.isCurrentFm], (state, prev) => {
+      const [volume, isCurrentFm] = state
+      const [prevVolume, prevIsCurrentFm] = prev
       if (prevVolume !== volume) {
         this.volume = <number>volume
         this.howler?.volume(<number>volume)
@@ -250,10 +243,10 @@ export class Player {
   }
   pause() {
     usePlayerStore.setState({playing: false})
-    this.howler?.fade(this.volume, 0, 500)
+    this.howler?.fade(this.volume, 0, 200)
+    this.playing = false
     this.howler?.once('fade', () => {
       this.howler?.pause()
-      this.playing = false
       this.pipLyric?.pause()
     })
   }
@@ -263,12 +256,11 @@ export class Player {
     this.howler?.play()
     this.howler?.once('play', () => {
       this.playing = true
-      this.howler?.fade(0, this.volume, 400)
+      this.howler?.fade(0, this.volume, 200)
       this.pipLyric?.play()
     })
   }
   togglePlay() {
-    console.log('toggle play', this.howler?.playing())
     if (this.howler?.playing()) {
       this.pause()
     } else {

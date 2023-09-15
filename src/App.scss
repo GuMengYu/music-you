@@ -37,3 +37,16 @@ a {
     text-decoration: underline;
   }
 }
+
+.lottie-icon path,
+[role="button"]:active .lottie-icon path,
+[role="button"]:focus .lottie-icon path,
+[role="button"]:hover .lottie-icon path,
+a:active .lottie-icon path,
+a:focus .lottie-icon path,
+a:hover .lottie-icon path,
+button:active .lottie-icon path,
+button:focus .lottie-icon path,
+button:hover .lottie-icon path {
+  fill: currentColor;
+}

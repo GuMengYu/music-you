@@ -5,6 +5,8 @@ import { useAppStore } from './app'
 import { useSnackbar } from 'notistack'
 import { Account, Playlist } from '@/types'
 import { getLikeList, getUserPlaylist } from '@/api/user'
+import { sub } from '@/api/music'
+import { specialType } from '@/util/metadata'
 
 type userState = {
   account: null | Account
@@ -14,6 +16,8 @@ type userState = {
 interface userAction {
   refreshAccount: () => void;
   fetchAccount: () => void;
+  favSong: (id: number, liked: boolean) => Promise<boolean>
+  getFavs: () => Playlist
 }
 export const useUserStore = create(persist<userState & userAction>((set, get) => {
   return {
@@ -57,6 +61,30 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
           playlists: playlistRes.playlist
         })
       }
+    },
+    async favSong(id: number, like: boolean) {
+      let likes = get().likes
+      try {
+        const { code } = await sub('track', id, like ? 1 : 0)
+        if (code === 200) {
+          if (like) {
+            likes.push(id)
+          } else {
+            likes = likes.filter((i) => i !== id)
+          }
+          set({
+            likes: likes
+          })
+          return true
+        } else {
+          return false
+        }
+      } catch (e) {
+        return false
+      }
+    },
+    getFavs() {
+      return (get().playlists.find((playlist) => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
     }
   }
 }, {

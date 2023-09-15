@@ -3,7 +3,11 @@ import { Box, Card, IconButton, Typography, useTheme } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { PlayArrow as PlayIcon } from "@mui/icons-material";
-
+import { Track } from "@/types";
+import { getDailyRecommend, recent } from "@/api/user";
+import { playQueueStore } from "@/store/playQueue";
+import { getTrackList } from "@/api/music";
+import { usePlayerControl } from "@/hooks/usePlayer";
 export default function ShortCut({
   data,
   decoration,
@@ -18,7 +22,45 @@ export default function ShortCut({
   type: "album" | "playlist" | "artist" | "daily" | "recent" | "program";
 }) {
   const [isHovering, setIsHovering] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { updatePlayQueue } = playQueueStore();
+  const { playNext } = usePlayerControl();
   const theme = useTheme();
+  async function handlePlay() {
+    try {
+      setLoading(true);
+      let info: {
+        id?: number;
+        list: Track[];
+      };
+      if (type === "daily") {
+        const { data } = await getDailyRecommend();
+        info = {
+          list: data["dailySongs"],
+        };
+        updatePlayQueue(0, "daily", "日推", info.list);
+      } else if (type === "recent") {
+        const { data } = await recent();
+        info = {
+          list: data.list.map((i) => i["data"]),
+        };
+        updatePlayQueue(0, "recent", "最近播放", info.list);
+      } else {
+        const _data = await getTrackList(type, data.id as number);
+        info = {
+          id: _data.id,
+          list: _data.tracks,
+        };
+        updatePlayQueue(info.id!, type, data.name!, info.list);
+      }
+      playNext();
+    } catch (e) {
+      console.debug(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+  function handleJump() {}
   return (
     <Card
       elevation={isHovering ? 1 : 0}
@@ -31,6 +73,7 @@ export default function ShortCut({
       className="cursor-pointer flex items-center"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onClick={handleJump}
     >
       <Box
         sx={{
@@ -93,12 +136,13 @@ export default function ShortCut({
               }}
             >
               <IconButton
+                onClick={handlePlay}
                 sx={{
                   bgcolor: theme.palette.primary.main,
                   color: theme.palette.onPrimary.main,
                   "&:hover": {
-                    bgcolor: theme.palette.primaryContainer.main,
-                    color: theme.palette.onPrimaryContainer.main,
+                    bgcolor: theme.palette.primary.main,
+                    opacity: 0.9
                   },
                 }}
               >

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./App.scss";
 import { Box, createTheme, ThemeProvider } from "@mui/material";
 import type { ThemeOptions } from "@mui/material";
@@ -14,7 +14,7 @@ import QuickPanel from "./pages/layout/QuickPanel";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import NowPlayingBar from "@/components/nowPlaying/NowPlayingBar";
-
+import bootstrap from "./store/bootstrap";
 const client = new QueryClient({
   defaultOptions: {
     queries: {
@@ -34,7 +34,10 @@ function App() {
   const theme = useMemo(() => {
     return createTheme(getDesignTokens(darkMode));
   }, [darkMode]);
-  console.log('app----')
+  useEffect(() => {
+    console.log('app bootstrap')
+    bootstrap()
+  }, [])
   return (
     <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>

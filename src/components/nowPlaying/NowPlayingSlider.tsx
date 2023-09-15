@@ -23,6 +23,7 @@ export default function NowPlayingSlider(props: SliderProps) {
 
   return <Slider
     {...props}
+    value={currentTime}
     size="small"
     max={trackDt / 1000}
     min={0}
