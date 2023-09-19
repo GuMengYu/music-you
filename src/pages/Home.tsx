@@ -1,7 +1,7 @@
 import Migration from "@/components/migration";
-import { PlayerContext } from "@/contexts/player";
-import { useAppStore } from "@/store/app";
-import { Box, Button } from "@mui/material";
+import {PlayerContext} from "@/contexts/player";
+import {useAppStore} from "@/store/app";
+import {Box, Button} from "@mui/material";
 import {
   useContext,
   useRef,
@@ -10,17 +10,17 @@ import {
   useState,
   useMemo,
 } from "react";
-import { GridType, useResponsiveGrid } from "@/hooks/useResponsiveGrid";
-import { useElementScrollSize } from "@/hooks/useElementScrollSize";
+import {GridType, useResponsiveGrid} from "@/hooks/useResponsiveGrid";
+import {useElementScrollSize} from "@/hooks/useElementScrollSize";
 import GridRow from "@/components/GridRow";
-import { Cover } from "@/components/cover/Cover";
+import {Cover} from "@/components/cover/Cover";
 import {
   QueryKeys,
   personalizedPlaylist,
   personalizedRadar,
 } from "@/api/personalized";
-import { Playlist } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import {Playlist} from "@/types";
+import {useQuery} from "@tanstack/react-query";
 import Col from "@/components/Col";
 import ShortCut from "./home/shortcut";
 import {
@@ -28,15 +28,16 @@ import {
   Favorite,
   Radar as RadarIcon,
 } from "@mui/icons-material";
-import { useTheme } from "@mui/material";
+import {useTheme} from "@mui/material";
 import dayjs from "dayjs";
-import { specialType } from "@/util/metadata";
-import { getPlaylistDetail } from "@/api/playlist";
-import { useUserStore } from "@/store/user";
+import {specialType} from "@/util/metadata";
+import {getPlaylistDetail} from "@/api/playlist";
+import {useUserStore} from "@/store/user";
+import PageTransition from "@/components/PageTransition";
 
 const ShortCuts = () => {
   const theme = useTheme();
-  const { playlists } = useUserStore();
+  const {playlists} = useUserStore();
 
   const fav = useMemo(() => {
     const favoritelist = playlists.find(
@@ -52,7 +53,7 @@ const ShortCuts = () => {
         type: "playlist",
         decoration: {
           color: theme.palette.primary.main,
-          icon: <Favorite fontSize="small" color={"onPrimary" as "primary"} />,
+          icon: <Favorite fontSize="small" color={"onPrimary" as "primary"}/>,
         },
       };
     }
@@ -66,14 +67,14 @@ const ShortCuts = () => {
     decoration: {
       color: theme.palette.secondary.main,
       icon: (
-        <CalendarToday fontSize="small" color={"onSecondary" as "primary"} />
+        <CalendarToday fontSize="small" color={"onSecondary" as "primary"}/>
       ),
     },
   });
 
   useEffect(() => {
     // 私人雷达歌单
-    getPlaylistDetail(specialType.radar.id).then(({ playlist }) => {
+    getPlaylistDetail(specialType.radar.id).then(({playlist}) => {
       setRadar((state) => {
         return {
           ...state,
@@ -101,7 +102,7 @@ const ShortCuts = () => {
         decoration: {
           color: theme.palette.tertiary.main,
           icon: (
-            <RadarIcon fontSize="small" color={"onTertiary" as "primary"} />
+            <RadarIcon fontSize="small" color={"onTertiary" as "primary"}/>
           ),
         },
       },
@@ -126,11 +127,12 @@ const ShortCuts = () => {
     </GridRow>
   );
 };
+
 function Home() {
-  const { data: playlist } = useQuery([QueryKeys.personalizedPlaylist], () => {
+  const {data: playlist} = useQuery([QueryKeys.personalizedPlaylist], () => {
     return personalizedPlaylist();
   });
-  const { data: radarPlaylist } = useQuery(
+  const {data: radarPlaylist} = useQuery(
     [QueryKeys.personalizedRadar],
     () => {
       return personalizedRadar();
@@ -138,25 +140,28 @@ function Home() {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <Col title="晚上好">
-        <ShortCuts />
-      </Col>
-      <Col title="今日推荐">
-        <GridRow singleLine rowType={GridType.A}>
-          {playlist?.map((data) => (
-            <Cover type="playlist" key={data.id} data={data} />
-          ))}
-        </GridRow>
-      </Col>
-      <Col title="雷达歌单">
-        <GridRow singleLine rowType={GridType.A}>
-          {radarPlaylist?.map((data) => (
-            <Cover type="playlist" key={data.id} data={data} />
-          ))}
-        </GridRow>
-      </Col>
-    </div>
+    <PageTransition>
+      <div className="flex flex-col gap-4">
+        <Col title="晚上好">
+          <ShortCuts/>
+        </Col>
+        <Col title="今日推荐">
+          <GridRow singleLine rowType={GridType.A}>
+            {playlist?.map((data) => (
+              <Cover type="playlist" key={data.id} data={data}/>
+            ))}
+          </GridRow>
+        </Col>
+        <Col title="雷达歌单">
+          <GridRow singleLine rowType={GridType.A}>
+            {radarPlaylist?.map((data) => (
+              <Cover type="playlist" key={data.id} data={data}/>
+            ))}
+          </GridRow>
+        </Col>
+      </div>
+    </PageTransition>
+
   );
 }
 

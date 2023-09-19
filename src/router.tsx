@@ -12,10 +12,20 @@ import Library from "./pages/Library";
 
 import NotFound from "./pages/NotFound";
 import Search from "./pages/Search";
+import PlaylistPage from "./pages/detail/Playlist";
+import Playground from "@/pages/Playground";
+import { useQuery } from "@tanstack/react-query";
+import { getPlaylistDetail } from "./api/playlist";
+import { client as queryClient } from "./plugins/query";
 
 const lazyLoad = (component: ReactNode) => {
   return <Suspense>{component}</Suspense>;
 };
+
+const playlistDetailQuery = (id: number) => ({
+  queryKey: ["playlist", "detail", id],
+  queryFn: async () => getPlaylistDetail(id),
+});
 
 const router = createBrowserRouter(
   [
@@ -24,16 +34,29 @@ const router = createBrowserRouter(
       element: <App />,
       children: [
         {
+          id: 'home',
           path: "/home",
           element: <Home />,
         },
         {
+          id: 'library',
           path: "/library",
           element: <Library />,
         },
         {
+          id: 'playlist',
+          path: "/playlist/:id",
+          element: <PlaylistPage />,
+        },
+        {
+          id: 'search',
           path: "/search",
           element: <Search />,
+        },
+        {
+          id: 'playground',
+          path: '/playground',
+          element: <Playground/>
         },
         {
           path: "*",

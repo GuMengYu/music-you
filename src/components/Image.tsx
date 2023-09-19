@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const ease = [0.4, 0, 0.2, 1];
 type Props = {
+  fit?: 'cover' | 'contain' | 'fill' | 'none'
   src?: string;
   srcSet?: string;
   sizes?: string;
@@ -13,9 +14,11 @@ type Props = {
   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
   onMouseOver?: (e: React.MouseEvent<HTMLImageElement>) => void;
   animation?: boolean;
+  gradient?: string
 };
 
 const Image = ({
+  fit,
   src,
   srcSet,
   className,
@@ -25,6 +28,7 @@ const Image = ({
   onClick,
   onMouseOver,
   animation = true,
+  gradient,
 }: Props) => {
   const [error, setError] = useState(false);
   const animate = useAnimation();
@@ -68,7 +72,8 @@ const Image = ({
         "overflow-hidden",
         'h-full',
         'w-full',
-        'relative'
+        'relative',
+        className,
       )}
     >
       {/* Image */}
@@ -78,6 +83,7 @@ const Image = ({
           style={{
             height: "100%",
             width: "100%",
+            objectFit: fit
           }}
           src={src}
           srcSet={srcSet}
@@ -99,6 +105,13 @@ const Image = ({
           ></motion.div>
         )}
       </AnimatePresence>
+      {
+        gradient && (
+          <div className="absolute inset-0 h-full w-full" style={{
+            backgroundImage: gradient
+          }}></div>
+        )
+      }
     </div>
   );
 };

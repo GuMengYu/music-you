@@ -17,7 +17,7 @@ export const createElectronMenu = (window: BrowserWindow) => {
                 label: '设置',
                 accelerator: (() => (isMac ? 'CmdOrCtrl+,' : 'Ctrl+,'))(),
                 click: () => {
-                  window.webContents.send('open-route', 'setting')
+                  window.webContents.send('open-route', '/setting')
                 },
               },
               { type: 'separator' },
@@ -45,7 +45,7 @@ export const createElectronMenu = (window: BrowserWindow) => {
           label: '搜索',
           accelerator: 'CmdOrCtrl+F',
           click: () => {
-            window.webContents.send('open-route', 'search')
+            window.webContents.send('open-route', '/search')
           },
         },
       ],
@@ -168,6 +168,16 @@ export const createElectronMenu = (window: BrowserWindow) => {
             window.webContents.toggleDevTools()
           },
         },
+        ...(is.dev()
+          ? [
+            {
+              label: '演练场',
+              click: () => {
+                window.webContents.send('open-route', '/playground')
+              },
+            },
+          ]
+          : []),
         {
           label: '问题&反馈',
           click: async () => {

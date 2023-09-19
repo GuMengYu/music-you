@@ -31,6 +31,7 @@ import DarkModeToggle from "@/components/toggle/DarkModeToggle";
 // hooks
 import { useAppStore } from "@/store/app";
 import Account from "@/components/button/Account";
+import AggregateExtendButton from "@/components/button/AggregateExtendButton";
 
 const drawerWidth = 256;
 const drawerHeight =   'calc(100% - 74px)'
@@ -123,17 +124,7 @@ export default function MiniDrawer() {
         ""
       ) : (
         <Box sx={{ mx: 1.5 }}>
-          <Button
-            variant="contained"
-            sx={{
-              height: 50,
-              width: 50,
-              borderRadius: 3.5,
-              minWidth: 50,
-            }}
-          >
-            <RampRightIcon />
-          </Button>
+           <AggregateExtendButton />
         </Box>
       )}
       <Box

@@ -94,7 +94,7 @@ export const recommendPlaylist = () =>
   request<{
     recommend: Playlist[]
     featureFirst: boolean
-  }>('/recommend/resource', { params: { timestamp: now() } })
+  }>('/recommend/resource')
 
 /**
  * 日推-不喜欢

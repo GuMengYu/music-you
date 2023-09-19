@@ -14,6 +14,7 @@ import Image from "@/components/Image";
 import {getTrackList} from "@/api/music";
 import {playQueueStore} from "@/store/playQueue";
 import {usePlayer} from "@/hooks/usePlayer";
+import { useNavigate } from "react-router-dom";
 
 const Cover = ({data, subTitle, type}: { data: any; subTitle?: string; type: 'album' | 'playlist' }) => {
   const theme = useTheme();
@@ -23,8 +24,9 @@ const Cover = ({data, subTitle, type}: { data: any; subTitle?: string; type: 'al
   const {updatePlayQueue} = playQueueStore()
   const {player} = usePlayer()
   const [loaded, setLoaded] = useState(false)
-
+  const navigate = useNavigate()
   function jumpTo() {
+    navigate(`/playlist/${data.id}`,)
   }
 
   async function handlePlay() {

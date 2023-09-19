@@ -1,42 +1,39 @@
-import { useState, useMemo, useEffect } from "react";
+import {useState, useMemo, useEffect} from "react";
 import "./App.scss";
-import { Box, createTheme, ThemeProvider } from "@mui/material";
-import type { ThemeOptions } from "@mui/material";
+import {Box, createTheme, ThemeProvider} from "@mui/material";
+import type {ThemeOptions} from "@mui/material";
 import Themes from "./plugins/themes";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { SnackbarProvider } from "notistack";
+import {SnackbarProvider} from "notistack";
 import Nav from "./pages/layout/Nav";
 import Main from "./pages/layout/Main";
-import { APPEARANCE, useSettingStore } from "./store/setting";
+import {APPEARANCE, useSettingStore} from "./store/setting";
 import LoginDialog from "./pages/modal/Login";
 import Profile from "./pages/modal/Profile";
 import QuickPanel from "./pages/layout/QuickPanel";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import NowPlayingBar from "@/components/nowPlaying/NowPlayingBar";
 import bootstrap from "./store/bootstrap";
-const client = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+import {client} from "./plugins/query";
+import {useElectron} from "./plugins/electron";
+import {useNavigate} from "react-router-dom";
+
 function App() {
-  const { appearance } = useSettingStore();
+  const {appearance} = useSettingStore();
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const navigate = useNavigate()
   const darkMode =
     appearance === APPEARANCE.SYSTEM
       ? prefersDarkMode
-      : appearance === APPEARANCE.DARK
-      ? true
-      : false;
+      : appearance === APPEARANCE.DARK;
   const theme = useMemo(() => {
     return createTheme(getDesignTokens(darkMode));
   }, [darkMode]);
   useEffect(() => {
-    console.log('app bootstrap')
     bootstrap()
+    useElectron()
+    navigate('/home')
   }, [])
   return (
     <QueryClientProvider client={client}>
@@ -58,12 +55,12 @@ function App() {
               display: "flex",
             }}
           >
-            <Nav />
-            <Main />
-            <NowPlayingBar />
-            <LoginDialog />
-            <Profile />
-            <QuickPanel />
+            <Nav/>
+            <Main/>
+            <NowPlayingBar/>
+            <LoginDialog/>
+            <Profile/>
+            <QuickPanel/>
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
@@ -84,6 +81,7 @@ function App() {
     </QueryClientProvider>
   );
 }
+
 function getDesignTokens(isDark: boolean): ThemeOptions {
   return {
     typography: {
