@@ -1,20 +1,21 @@
-import {sizeOfImage, toHttps} from "@/util/fn";
+import {sizeOfImage, sleep, toHttps} from "@/util/fn";
 import {
   Box,
   Card,
-  CardContent,
+  CardContent, CircularProgress,
   IconButton,
   Typography,
   useTheme,
 } from "@mui/material";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {PlayArrow as PlayIcon, Pause as PauseIcon} from "@mui/icons-material";
 import Image from "@/components/Image";
 import {getTrackList} from "@/api/music";
 import {playQueueStore} from "@/store/playQueue";
 import {usePlayer} from "@/hooks/usePlayer";
 import {useNavigate} from "react-router-dom";
+import {PlayIcon} from "@/components/icons/icons";
+import LoadingButton from "@/components/button/LoadingButton";
 
 const Cover = ({data, subTitle, type, inset}: {
   data: any;
@@ -28,23 +29,27 @@ const Cover = ({data, subTitle, type, inset}: {
   const [isHovering, setIsHovering] = useState(false);
   const {updatePlayQueue} = playQueueStore()
   const {player} = usePlayer()
-  const [loaded, setLoaded] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
 
   function jumpTo() {
-    navigate(`/playlist/${data.id}`,)
+    navigate(`/${type}/${data.id}`,)
   }
 
-  async function handlePlay() {
+  const handlePlay = useCallback(async (e:any) => {
+    e.stopPropagation()
     try {
+      setLoading(true)
+      await sleep(2000)
       const info = await getTrackList(type, data.id)
       updatePlayQueue(info.id, type, data.name, info.tracks)
       player.next()
-      setLoaded(true)
+      setLoading(false)
     } catch (e) {
       console.log(e)
     }
-  }
+  }, [type, data])
 
   return (
     <Card
@@ -63,7 +68,7 @@ const Cover = ({data, subTitle, type, inset}: {
         <Box
           sx={{
             position: "relative",
-            aspectRatio: 1 / 1
+            aspectRatio: 1
           }}
         >
           {/* <CardMedia
@@ -90,7 +95,7 @@ const Cover = ({data, subTitle, type, inset}: {
                     opacity: 0,
                     position: "absolute",
                     bottom: 0,
-                    padding: 8,
+                    padding: 16,
                     right: 0,
                     transform: "translateY(20px)",
                   }}
@@ -107,19 +112,19 @@ const Cover = ({data, subTitle, type, inset}: {
                     ease: [0.34, 1.56, 0.64, 1],
                   }}
                 >
-                  <IconButton
+                  <LoadingButton
+                    loading={loading}
                     sx={{
-                      bgcolor: theme.palette.primary.main,
-                      color: theme.palette.onPrimary.main,
+                      p: 0,
+                      bgcolor: `${theme.palette.primary.main}66`,
                       '&:hover': {
-                        bgcolor: theme.palette.primaryContainer.main,
-                        color: theme.palette.onPrimaryContainer.main,
+                        bgcolor: `${theme.palette.primary.main}4D`,
                       }
                     }}
                     onClick={handlePlay}
                   >
-                    <PlayIcon sx={{fontSize: 36}}/>
-                  </IconButton>
+                    <PlayIcon sx={{fontSize: '2.5rem'}} color='primary'/>
+                  </LoadingButton>
                 </motion.div>
               )}
             </AnimatePresence>

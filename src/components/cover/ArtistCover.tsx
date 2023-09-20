@@ -9,32 +9,33 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {PlayArrow as PlayIcon, Pause as PauseIcon} from "@mui/icons-material";
+import {PlayIcon} from '@/components/icons/icons'
 import Image from "@/components/Image";
 import {getTrackList} from "@/api/music";
 import {playQueueStore} from "@/store/playQueue";
 import {usePlayer} from "@/hooks/usePlayer";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Artist} from "@/types";
+import {cx} from "@emotion/css";
 
-const ArtistCover = ({data, subTitle}: { data: Artist; subTitle?: string}) => {
+const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
   const theme = useTheme();
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl));
   const [isHovering, setIsHovering] = useState(false);
   const {updatePlayQueue} = playQueueStore()
   const {player} = usePlayer()
-  const [loaded, setLoaded] = useState(false)
   const navigate = useNavigate()
+
   function jumpTo() {
-    navigate(`/playlist/${data.id}`,)
+    navigate(`/artist/${data.id}`,)
   }
 
-  async function handlePlay() {
+  async function handlePlay(e: any) {
+    e.stopPropagation()
     try {
       const info = await getTrackList('artist', data.id)
       updatePlayQueue(info.id, 'artist', data.name, info.tracks)
       player.next()
-      setLoaded(true)
     } catch (e) {
       console.log(e)
     }
@@ -44,8 +45,8 @@ const ArtistCover = ({data, subTitle}: { data: Artist; subTitle?: string}) => {
     <Card
       elevation={isHovering ? 1 : 0}
       sx={{
-        borderRadius: 4,
-        bgcolor: theme.palette.surfaceVariant.main,
+        borderRadius: compact ? '50%' : 4,
+        bgcolor: compact ? 'transparent' : theme.palette.surfaceVariant.main,
         color: theme.palette.onSurfaceVariant.main,
       }}
       className="cursor-pointer"
@@ -57,19 +58,18 @@ const ArtistCover = ({data, subTitle}: { data: Artist; subTitle?: string}) => {
         <Box
           sx={{
             position: "relative",
-            aspectRatio: 1 / 1
+            aspectRatio: 1
           }}
         >
-          <Box className='absolute p-4'>
+          <Box className={cx('absolute', !compact && 'p-4')}>
             <Image src={coverBgUrl} className="absolute rounded-full"/>
           </Box>
           <AnimatePresence>
             {isHovering && (
               <motion.div
+                className='absolute flex items-center justify-center h-full w-full'
                 initial={{
                   opacity: 0,
-                  position: "absolute",
-                  padding: 8,
                   transform: "translateY(20px)",
                 }}
                 animate={{
@@ -86,27 +86,24 @@ const ArtistCover = ({data, subTitle}: { data: Artist; subTitle?: string}) => {
                 }}
               >
                 <IconButton
-                  sx={{
-                    bgcolor: theme.palette.primary.main,
-                    color: theme.palette.onPrimary.main,
-                    '&:hover': {
-                      bgcolor: theme.palette.primaryContainer.main,
-                      color: theme.palette.onPrimaryContainer.main,
-                    }
-                  }}
                   onClick={handlePlay}
                 >
-                  <PlayIcon sx={{fontSize: 36}}/>
+                  <PlayIcon  sx={{fontSize: '4rem'}} color='primary' />
                 </IconButton>
               </motion.div>
             )}
           </AnimatePresence>
         </Box>
-        <CardContent sx={{px: 1.5}}>
-          <Typography className="line-clamp-1 text-center" variant="subtitle2">
-            {data.name}
-          </Typography>
-        </CardContent>
+        {
+          !compact && (
+            <CardContent sx={{px: 1.5}}>
+              <Typography className="line-clamp-1 text-center" variant="subtitle2">
+                {data.name}
+              </Typography>
+            </CardContent>
+          )
+        }
+
       </Box>
     </Card>
   );

@@ -15,7 +15,7 @@ const ArtistPanel = () => {
   const {data} = useUserArtists()
   return <GridRow>
     {
-      data?.artists.map(art => <ArtistCover data={art} key={art.id} />)
+      data?.artists.map(art => <ArtistCover compact data={art} key={art.id} />)
     }
   </GridRow>
 }
@@ -62,10 +62,10 @@ function Library() {
   return <PageTransition>
     <Box sx={{color: theme.palette.onSurface.main}}>
       <MYTabs value={currentTab} onChange={(tabVal) => setCurrentTab(tabVal)}
-              tabs={[{value: 'artist', label: 'Artist'}, {value: 'album', label: 'Alum'}, {
+              tabs={[{
                 value: 'playlist',
                 label: 'Playlist'
-              }]}/>
+              },{value: 'album', label: 'Alum'},{value: 'artist', label: 'Artist'}]}/>
       <Box className='overflow-y-auto px-2 my-4'>
         {
           {
