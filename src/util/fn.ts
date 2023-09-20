@@ -250,8 +250,8 @@ export function formatDuring(t = 0, i18n = false) {
   }
 }
 
-export function formatDate(datetime: string | number, format = 'YYYY.MM.DD') {
-  return dayjs(datetime).format(format)
+export function formatDate(datetime: string | number | undefined, format = 'YYYY.MM.DD') {
+  return datetime ? dayjs(datetime).format(format) : '----.--.--'
 }
 
 /**

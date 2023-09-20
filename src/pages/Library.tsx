@@ -1,24 +1,82 @@
-import Migration from "@/components/migration";
-import { PlayerContext } from "@/contexts/player";
-import { usePlayerStore } from "@/store/player";
-import { Box, Button } from "@mui/material";
-import { useContext } from "react";
+import {Box, Typography, useTheme} from "@mui/material";
+import {useContext, useMemo, useState} from "react";
 
+import MYTabs from "@/components/Tabs";
+import PageTransition from "@/components/PageTransition";
+import {useUserStore} from "@/store/user";
+import GridRow from "@/components/GridRow";
+import {Cover} from "@/components/cover/Cover";
+import {groupBy} from "lodash-es";
+import {useUserAlbums, useUserArtists} from "@/hooks/query/user";
+import ArtistCover from "@/components/cover/ArtistCover";
+
+
+const ArtistPanel = () => {
+  const {data} = useUserArtists()
+  return <GridRow>
+    {
+      data?.artists.map(art => <ArtistCover data={art} key={art.id} />)
+    }
+  </GridRow>
+}
+const PlaylistPanel = () => {
+  const {playlists, account} = useUserStore()
+  const filteredPlaylist = useMemo(() => {
+    const uid = account?.profile.userId
+      return groupBy(playlists, (i) => {
+      return i.userId === uid ? 'create' : 'sub'
+    })
+  }, [playlists, account])
+  return <div className='flex flex-col gap-4'>
+    <div>
+      <Typography variant='body1'>创建的歌单</Typography>
+      <GridRow>
+        {
+          filteredPlaylist['create']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+        }
+      </GridRow>
+    </div>
+    <div>
+      <Typography variant='body1'>收藏的歌单</Typography>
+
+      <GridRow>
+        {
+          filteredPlaylist['sub']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+        }
+      </GridRow>
+    </div>
+
+  </div>
+}
+const AlbumPanel = () => {
+  const {data} = useUserAlbums()
+  return <GridRow>
+    {
+      data?.albums.map((al => (<Cover type='album' inset key={al.id} data={al} />)))
+    }
+  </GridRow>
+}
 function Library() {
-  console.log('library-----')
-  const player = useContext(PlayerContext)
-  const {currentTime, setCurrentTime} = usePlayerStore()
-  function playerTest() {
-  }
-  return <Box>
-    <Migration />
-    <Button onClick={() => {
-      setCurrentTime(currentTime + 1)
-    }}>{ currentTime }</Button>
-    <Button onClick={() => {
-      playerTest()
-    }}>player test</Button>
-  </Box>;
+  const [currentTab, setCurrentTab] = useState('playlist')
+  const theme = useTheme()
+  return <PageTransition>
+    <Box sx={{color: theme.palette.onSurface.main}}>
+      <MYTabs value={currentTab} onChange={(tabVal) => setCurrentTab(tabVal)}
+              tabs={[{value: 'artist', label: 'Artist'}, {value: 'album', label: 'Alum'}, {
+                value: 'playlist',
+                label: 'Playlist'
+              }]}/>
+      <Box className='overflow-y-auto px-2 my-4'>
+        {
+          {
+            'artist': <ArtistPanel />,
+            'playlist': <PlaylistPanel />,
+            'album': <AlbumPanel />,
+          }[currentTab]
+        }
+      </Box>
+    </Box>
+  </PageTransition>
 }
 
 export default Library;

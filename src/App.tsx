@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     bootstrap()
     useElectron()
-    navigate('/home')
+    // navigate('/home')
   }, [])
   return (
     <QueryClientProvider client={client}>
@@ -86,7 +86,7 @@ function getDesignTokens(isDark: boolean): ThemeOptions {
   return {
     typography: {
       fontFamily: [
-        '"Google Sans"',
+        "Quicksand",
         "Roboto",
         "Arial",
         "sans-serif",

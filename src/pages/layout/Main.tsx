@@ -28,7 +28,7 @@ export default function Main() {
       sx={{
         overflowY: "auto",
         marginTop: inDetail ? 0 : 2,
-        marginBottom: 2,
+        marginBottom: 10,
         paddingLeft: 1,
         paddingRight: 2,
         transition: theme.transitions.create("width", {

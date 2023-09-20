@@ -145,7 +145,7 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
     </motion.div>
   );
 };
-export default function PlaylistPage() {
+export default function AlbumPage() {
   const params = useParams();
   const theme = useTheme()
   const {data, isLoading} = useQueryPlaylist(params.id)
