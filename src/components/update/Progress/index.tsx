@@ -3,7 +3,7 @@ import styles from './progress.module.scss'
 
 const Progress: React.FC<React.PropsWithChildren<{
   percent?: number
-}>> = props => {
+}>> = (props) => {
   const { percent = 0 } = props
 
   return (
@@ -14,7 +14,7 @@ const Progress: React.FC<React.PropsWithChildren<{
           style={{ width: `${percent}%` }}
         />
       </div>
-      <span className='progress-num'>{(percent ?? 0).toString().substring(0,4)}%</span>
+      <span className='progress-num'>{(percent ?? 0).toString().substring(0, 4)}%</span>
     </div>
   )
 }

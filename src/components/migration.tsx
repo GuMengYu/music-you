@@ -1,17 +1,18 @@
-import { Box, Button, Link, Typography, useTheme } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { forwardRef } from "react";
+import { Box, Button, Link, Typography, useTheme } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
+import { forwardRef } from 'react'
+
 const Migration = forwardRef((props, ref) => {
-  const theme = useTheme();
+  const theme = useTheme()
   return (
     <Box
       {...props}
       ref={ref}
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      height={"100%"}
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      height={'100%'}
       gap={1}
     >
       <Typography variant="h4" color={theme.palette.onSurfaceVariant.main}>
@@ -25,12 +26,13 @@ const Migration = forwardRef((props, ref) => {
       </Typography>
       <Link component={RouterLink} to="/home">
         <Button color="primary" variant="outlined">
-          {" "}
-          Get me out of here!{" "}
+          {' '}
+          Get me out of here!{' '}
         </Button>
       </Link>
     </Box>
-  );
-});
+  )
+})
 
-export default Migration;
+Migration.displayName = 'Migration'
+export default Migration

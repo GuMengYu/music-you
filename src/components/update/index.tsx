@@ -1,11 +1,11 @@
 import { ipcRenderer } from 'electron'
 import type { ProgressInfo } from 'electron-updater'
 import { useCallback, useEffect, useState } from 'react'
+import styles from './update.module.scss'
 import Modal from '@/components/update/Modal'
 import Progress from '@/components/update/Progress'
-import styles from './update.module.scss'
 
-const Update = () => {
+function Update() {
   const [checking, setChecking] = useState(false)
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [versionInfo, setVersionInfo] = useState<VersionInfo>()
@@ -18,9 +18,9 @@ const Update = () => {
     onCancel?: () => void
     onOk?: () => void
   }>({
-    onCancel: () => setModalOpen(false),
-    onOk: () => ipcRenderer.invoke('start-download'),
-  })
+        onCancel: () => setModalOpen(false),
+        onOk: () => ipcRenderer.invoke('start-download'),
+      })
 
   const checkUpdate = async () => {
     setChecking(true)
@@ -49,7 +49,8 @@ const Update = () => {
         onOk: () => ipcRenderer.invoke('start-download'),
       }))
       setUpdateAvailable(true)
-    } else {
+    }
+    else {
       setUpdateAvailable(false)
     }
   }, [])
@@ -105,8 +106,8 @@ const Update = () => {
                 <p>Error downloading the latest version.</p>
                 <p>{updateError.message}</p>
               </div>
-            ) : updateAvailable
-              ? (
+              ) : updateAvailable
+                ? (
                 <div className='can-available'>
                   <div>The last version is: v{versionInfo?.newVersion}</div>
                   <div className='new-version-target'>v{versionInfo?.version} -&gt; v{versionInfo?.newVersion}</div>
@@ -117,10 +118,10 @@ const Update = () => {
                     </div>
                   </div>
                 </div>
-              )
-              : (
+                  )
+                : (
                 <div className='can-not-available'>{JSON.stringify(versionInfo ?? {}, null, 2)}</div>
-              )}
+                  )}
         </div>
       </Modal>
       <button disabled={checking} onClick={checkUpdate}>

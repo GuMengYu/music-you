@@ -1,21 +1,21 @@
+import type {
+  TypographyVariant } from '@mui/material'
 import {
   Box,
-  Paper,
   Typography,
-  TypographyVariant,
   useTheme,
-} from "@mui/material";
-import { PropsWithChildren, ReactNode } from "react";
+} from '@mui/material'
+import type { PropsWithChildren, ReactNode } from 'react'
 
 export default function Col(
   props: PropsWithChildren & {
-    title?: string;
-    subTitle?: string;
-    more?: ReactNode;
-    variant?: TypographyVariant;
-  }
+    title?: string
+    subTitle?: string
+    more?: ReactNode
+    variant?: TypographyVariant
+  },
 ) {
-  const theme = useTheme();
+  const theme = useTheme()
   return (
     <div>
       <Box className="mb-3">
@@ -31,12 +31,12 @@ export default function Col(
           className="flex justify-between"
           sx={{ color: theme.palette.onSurface.main }}
         >
-          <Typography variant={props.variant ?? "h5"}>{props.title}</Typography>
+          <Typography variant={props.variant ?? 'h5'}>{props.title}</Typography>
           <Box>{props.more}</Box>
         </Box>
       </Box>
 
       {props.children}
     </div>
-  );
+  )
 }

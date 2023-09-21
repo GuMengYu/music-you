@@ -1,15 +1,14 @@
-import {useQuery} from "@tanstack/react-query";
-import {client} from '@/plugins/query'
-import {favAlbums, favArtists} from "@/api/user";
+import { useQuery } from '@tanstack/react-query'
+import { favAlbums, favArtists } from '@/api/user'
 
 export function useUserArtists() {
   const key = ['user', 'artists']
   return useQuery(
     key,
     async () => {
-      const {data} = await favArtists()
+      const { data } = await favArtists()
       return {
-        artists: data
+        artists: data,
       }
     },
   )
@@ -20,9 +19,9 @@ export function useUserAlbums() {
   return useQuery(
     key,
     async () => {
-      const {data} = await favAlbums()
+      const { data } = await favAlbums()
       return {
-        albums: data
+        albums: data,
       }
     },
   )

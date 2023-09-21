@@ -1,36 +1,36 @@
-import {useState, useMemo, useEffect} from "react";
-import "./App.scss";
-import {Box, createTheme, ThemeProvider} from "@mui/material";
-import type {ThemeOptions} from "@mui/material";
-import Themes from "./plugins/themes";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import {SnackbarProvider} from "notistack";
-import Nav from "./pages/layout/Nav";
-import Main from "./pages/layout/Main";
-import {APPEARANCE, useSettingStore} from "./store/setting";
-import LoginDialog from "./pages/modal/Login";
-import Profile from "./pages/modal/Profile";
-import QuickPanel from "./pages/layout/QuickPanel";
-import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
-import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import NowPlayingBar from "@/components/nowPlaying/NowPlayingBar";
-import bootstrap from "./store/bootstrap";
-import {client} from "./plugins/query";
-import {useElectron} from "./plugins/electron";
-import {useNavigate} from "react-router-dom";
-import NowPlayingList from "@/components/nowPlaying/NowPlayingList";
+import { useEffect, useMemo } from 'react'
+import './App.scss'
+import { Box, ThemeProvider, createTheme } from '@mui/material'
+import type { ThemeOptions } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { SnackbarProvider } from 'notistack'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useNavigate } from 'react-router-dom'
+import Themes from './plugins/themes'
+import Nav from './pages/layout/Nav'
+import Main from './pages/layout/Main'
+import { APPEARANCE, useSettingStore } from './store/setting'
+import LoginDialog from './pages/modal/Login'
+import Profile from './pages/modal/Profile'
+import QuickPanel from './pages/layout/QuickPanel'
+import bootstrap from './store/bootstrap'
+import { client } from './plugins/query'
+import { useElectron } from './plugins/electron'
+import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
+import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 
 function App() {
-  const {appearance} = useSettingStore();
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const { appearance } = useSettingStore()
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const navigate = useNavigate()
   const darkMode =
     appearance === APPEARANCE.SYSTEM
       ? prefersDarkMode
-      : appearance === APPEARANCE.DARK;
+      : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {
-    return createTheme(getDesignTokens(darkMode));
-  }, [darkMode]);
+    return createTheme(getDesignTokens(darkMode))
+  }, [darkMode])
   useEffect(() => {
     bootstrap()
     useElectron()
@@ -43,17 +43,17 @@ function App() {
           <Box
             sx={{
               bgcolor: theme.palette.surface.main,
-              height: "100vh",
-              width: "100vw",
+              height: '100vh',
+              width: '100vw',
               borderRadius: 7,
               borderColor: `${theme.palette.primary.main}63`,
               borderWidth: 8,
-              borderStyle: "solid",
-              transform: "scale(1)",
-              overflowY: "hidden",
-              overflowX: "hidden",
-              boxSizing: "border-box",
-              display: "flex",
+              borderStyle: 'solid',
+              transform: 'scale(1)',
+              overflowY: 'hidden',
+              overflowX: 'hidden',
+              boxSizing: 'border-box',
+              display: 'flex',
             }}
           >
             <Nav/>
@@ -68,13 +68,13 @@ function App() {
                 style: {
                   right: 0,
                   bottom: 72,
-                  left: "auto",
+                  left: 'auto',
                 },
               }}
               closeButtonProps={{
                 style: {
                   right: 0,
-                  left: "auto",
+                  left: 'auto',
                 },
               }}
             />
@@ -82,29 +82,29 @@ function App() {
         </SnackbarProvider>
       </ThemeProvider>
     </QueryClientProvider>
-  );
+  )
 }
 
 function getDesignTokens(isDark: boolean): ThemeOptions {
   return {
     typography: {
       fontFamily: [
-        "Quicksand",
-        "Roboto",
-        "Arial",
-        "sans-serif",
+        'Quicksand',
+        'Roboto',
+        'Arial',
+        'sans-serif',
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"',
-      ].join(","),
+      ].join(','),
     },
     palette: {
-      mode: isDark ? "dark" : "light",
+      mode: isDark ? 'dark' : 'light',
       ...(isDark
         ? Themes.GreenRockyMountains.palette.dark
         : Themes.GreenRockyMountains.palette.light),
     },
-  };
+  }
 }
 
-export default App;
+export default App

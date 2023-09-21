@@ -1,75 +1,74 @@
 import {
-  Route,
   createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+} from 'react-router-dom'
 
-import { ReactNode, Suspense, lazy } from "react";
-import App from "./App";
+import type { ReactNode } from 'react'
+import { Suspense } from 'react'
+import App from './App'
 
-import Home from "./pages/Home";
-import Library from "./pages/Library";
+import Home from './pages/Home'
+import Library from './pages/Library'
 
-import NotFound from "./pages/NotFound";
-import Search from "./pages/Search";
-import PlaylistPage from "./pages/detail/Playlist";
-import Playground from "@/pages/Playground";
-import { useQuery } from "@tanstack/react-query";
-import { getPlaylistDetail } from "./api/playlist";
-import { client as queryClient } from "./plugins/query";
+import NotFound from './pages/NotFound'
+import Search from './pages/Search'
+import PlaylistPage from './pages/detail/Playlist'
+import { getPlaylistDetail } from './api/playlist'
+import Playground from '@/pages/Playground'
 
-const lazyLoad = (component: ReactNode) => {
-  return <Suspense>{component}</Suspense>;
-};
+function lazyLoad(component: ReactNode) {
+  return <Suspense>{component}</Suspense>
+}
 
-const playlistDetailQuery = (id: number) => ({
-  queryKey: ["playlist", "detail", id],
-  queryFn: async () => getPlaylistDetail(id),
-});
+function playlistDetailQuery(id: number) {
+  return {
+    queryKey: ['playlist', 'detail', id],
+    queryFn: async () => getPlaylistDetail(id),
+  }
+}
 
 const router = createBrowserRouter(
   [
     {
-      path: "/",
+      path: '/',
       element: <App />,
       children: [
         {
           id: 'redirect_home',
-          path: "/",
+          path: '/',
           element: <Home />,
         },
         {
           id: 'home',
-          path: "/home",
+          path: '/home',
           element: <Home />,
         },
         {
           id: 'library',
-          path: "/library",
+          path: '/library',
           element: <Library />,
         },
         {
           id: 'playlist',
-          path: "/playlist/:id",
+          path: '/playlist/:id',
           element: <PlaylistPage />,
         },
         {
           id: 'search',
-          path: "/search",
+          path: '/search',
           element: <Search />,
         },
         {
           id: 'playground',
           path: '/playground',
-          element: <Playground/>
+          element: <Playground/>,
         },
         {
-          path: "*",
+          path: '*',
           element: <NotFound />,
         },
       ],
     },
-  ]
+  ],
   // createRoutesFromElements(
   //   <Route path='/' element={lazyLoad(<App />)}>
   //     <Route path='/home' element={lazyLoad(<Home />)} />
@@ -90,5 +89,5 @@ const router = createBrowserRouter(
   //     <Route path='*' element={lazyLoad(<NotFound/>)} />
   //   </Route>
   // )
-);
-export default router;
+)
+export default router

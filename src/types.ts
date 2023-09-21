@@ -98,7 +98,7 @@ export interface Artist {
   id: number
   userId?: number
   name: string
-  userName? :string
+  userName?: string
   img1v1Url?: string
   cover?: string
   picUrl?: string

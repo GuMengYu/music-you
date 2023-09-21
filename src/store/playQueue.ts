@@ -1,9 +1,9 @@
-import {mixinTrackSource} from "@/player/base";
-import {Program, SimpleTrack, Track, TrackFrom, listType} from "@/types";
-import {pick, shuffle} from "lodash-es";
-import {create} from "zustand";
-import {persist, createJSONStorage} from "zustand/middleware";
-import {PLAY_MODE, usePlayerStore} from "@/store/player";
+import { pick, shuffle } from 'lodash-es'
+import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import type { Program, SimpleTrack, Track, TrackFrom, listType } from '@/types'
+import { mixinTrackSource } from '@/player/base'
+import { PLAY_MODE, usePlayerStore } from '@/store/player'
 
 export interface PlayQueueState {
   queue: {
@@ -18,7 +18,7 @@ export interface PlayQueueState {
 }
 
 export interface PlayQueueAction {
-  updatePlayQueue: (id: number, type: listType, name: string, data: Track[]) => void;
+  updatePlayQueue: (id: number, type: listType, name: string, data: Track[]) => void
   updatePriorityQueue: (list: Track[]) => void
   clearPriorityQueue: () => void
   clearQueue: () => void
@@ -50,7 +50,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
       data.forEach((i) => {
-        mixinTrackSource(i, {type, id})
+        mixinTrackSource(i, { type, id })
       })
       // 精简track, 只在store存储必要的信息
       const tracks = simpleTracks(data)
@@ -62,7 +62,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
           sequence: [...tracks], // deep copy avoid mutation of sequence and states
           states: [...tracks],
           tracks: data,
-        }
+        },
       })
     },
     /**
@@ -71,7 +71,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     updatePriorityQueue(list: Track[]) {
       set({
-        priorityQueue: list
+        priorityQueue: list,
       })
     },
     /**
@@ -79,7 +79,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     clearPriorityQueue() {
       set({
-        priorityQueue: []
+        priorityQueue: [],
       })
     },
     clearQueue() {
@@ -88,7 +88,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
           sequence: [],
           states: [],
           tracks: [],
-        }
+        },
       })
     },
     /**
@@ -98,7 +98,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     addToPlayQueue(track: Track | Program, from: TrackFrom) {
       mixinTrackSource(track, from)
-      set((state) => ({priorityQueue: [...state.priorityQueue, track]}))
+      set(state => ({ priorityQueue: [...state.priorityQueue, track] }))
     },
     /**
      * 从队列中删除
@@ -123,12 +123,12 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       const queue = get().queue
       const shuffled = shuffle(queue.sequence)
       const len = queue.states.length
-      set((state) => ({
+      set(state => ({
         queue: {
           ...state.queue,
           sequence: shuffled,
-          states: shuffled.slice(shuffled.length - len)
-        }
+          states: shuffled.slice(shuffled.length - len),
+        },
       }))
     },
     /**
@@ -138,32 +138,32 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       const queue = get().queue
       const len = queue.states.length
       const tracks = simpleTracks(queue.tracks)
-      set((state) => ({
+      set(state => ({
         queue: {
           ...state.queue,
           sequence: tracks,
-          states: tracks.slice(tracks.length - len)
-        }
+          states: tracks.slice(tracks.length - len),
+        },
       }))
     },
     restoreStates() {
-      set((state) => ({
+      set(state => ({
         queue: {
           ...state.queue,
-          states: [...(state.queue.sequence)]
-        }
+          states: [...(state.queue.sequence)],
+        },
       }))
     },
     // 按照歌曲id 更新队列
     setQueue(id: number) {
       const states = get().queue.states
-      const foundIndex = states.findIndex((item) => item.id === id)
+      const foundIndex = states.findIndex(item => item.id === id)
       if (foundIndex > -1) {
-        set((state) => ({
+        set(state => ({
           queue: {
             ...state.queue,
-            states: states.slice(foundIndex + 1)
-          }
+            states: states.slice(foundIndex + 1),
+          },
         }))
         // this.queue.states.splice(0, foundIndex + 1)
       }
@@ -175,40 +175,41 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
         : null
     },
     popNextTrack() {
-      const {playMode} = usePlayerStore.getState()
-      const {queue, priorityQueue, restoreStates} = get()
+      const { playMode } = usePlayerStore.getState()
+      const { queue, priorityQueue, restoreStates } = get()
       // const playMode = get().playMode
 
       // 优先播放 priorityQueue 中的歌曲
       if (priorityQueue.length) {
         const track = priorityQueue.shift()
-        set((state) => ({
-          priorityQueue: priorityQueue
+        set(state => ({
+          priorityQueue,
         }))
         return track
       }
       if (playMode === PLAY_MODE.NORMAL) {
         if (queue.states.length) {
           const track = queue.states.shift()
-          set((state) => ({
+          set(state => ({
             queue: {
               ...state.queue,
-              states: queue.states
-            }
+              states: queue.states,
+            },
           }))
           return track
         }
         return null
-      } else if (playMode === PLAY_MODE.REPEAT) {
-        if (!queue.states.length) {
+      }
+      else if (playMode === PLAY_MODE.REPEAT) {
+        if (!queue.states.length) 
           restoreStates()
-        }
+        
         const track = queue.states.shift()
-        set((state) => ({
+        set(state => ({
           queue: {
             ...state.queue,
-            states: queue.states
-          }
+            states: queue.states,
+          },
         }))
         return track
       }
@@ -219,19 +220,21 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       // 处于第一首时，不能再往前
       if (playQueue.queue.states.length === sequence.length - 1) {
         return null
-      } else {
+      }
+      else {
         // 往前移动一首，取回前一首放到队列开头, 并返回前一首id
         const prev = sequence[sequence.length - playQueue.queue.states.length - 1]
         const prev2 = sequence[sequence.length - playQueue.queue.states.length - 2]
         if (prev2) {
-          set((state) => ({
+          set(state => ({
             queue: {
               ...state.queue,
-              states: [prev, ...state.queue.states]
-            }
+              states: [prev, ...state.queue.states],
+            },
           }))
           return prev2
-        } else {
+        }
+        else {
           return null
         }
       }
@@ -239,9 +242,9 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
   }
 }, {
   name: 'playQueue',
-  storage: createJSONStorage(() => localStorage)
+  storage: createJSONStorage(() => localStorage),
 }))
 
-const simpleTracks = (tracks: Track[]) => {
-  return tracks.map((track) => pick(track, ['id', 'name', 'source']) as any as SimpleTrack)
+function simpleTracks(tracks: Track[]) {
+  return tracks.map(track => pick(track, ['id', 'name', 'source']) as any as SimpleTrack)
 }

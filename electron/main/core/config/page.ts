@@ -1,7 +1,7 @@
 import { app } from 'electron'
-import is from 'electron-is'
 
 import store from '../util/store'
+
 export interface PageOption {
   width: number
   height: number
@@ -28,7 +28,8 @@ function initWindowSize() {
   if (size) {
     try {
       storeSize = store.get('windowSize')
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e)
     }
   }

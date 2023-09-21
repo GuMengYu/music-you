@@ -16,11 +16,11 @@ npm i electron-updater
 
    ``` json5
    {
-      "publish": {
-         "provider": "generic",
-         "channel": "latest",
-         "url": "https://foo.com/"
-      }
+     "publish": {
+       "provider": "generic",
+       "channel": "latest",
+       "url": "https://foo.com/"
+     }
    }
    ```
 

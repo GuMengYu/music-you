@@ -1,29 +1,29 @@
-import {Box, Typography, useTheme} from "@mui/material";
-import {useContext, useMemo, useState} from "react";
+import { Box, Typography, useTheme } from '@mui/material'
+import { useMemo, useState } from 'react'
 
-import MYTabs from "@/components/Tabs";
-import PageTransition from "@/components/PageTransition";
-import {useUserStore} from "@/store/user";
-import GridRow from "@/components/GridRow";
-import {Cover} from "@/components/cover/Cover";
-import {groupBy} from "lodash-es";
-import {useUserAlbums, useUserArtists} from "@/hooks/query/user";
-import ArtistCover from "@/components/cover/ArtistCover";
+import { groupBy } from 'lodash-es'
+import MYTabs from '@/components/Tabs'
+import PageTransition from '@/components/PageTransition'
+import { useUserStore } from '@/store/user'
+import GridRow from '@/components/GridRow'
+import { Cover } from '@/components/cover/Cover'
+import { useUserAlbums, useUserArtists } from '@/hooks/query/user'
+import ArtistCover from '@/components/cover/ArtistCover'
 
 
-const ArtistPanel = () => {
-  const {data} = useUserArtists()
+function ArtistPanel() {
+  const { data } = useUserArtists()
   return <GridRow>
     {
       data?.artists.map(art => <ArtistCover compact data={art} key={art.id} />)
     }
   </GridRow>
 }
-const PlaylistPanel = () => {
-  const {playlists, account} = useUserStore()
+function PlaylistPanel() {
+  const { playlists, account } = useUserStore()
   const filteredPlaylist = useMemo(() => {
     const uid = account?.profile.userId
-      return groupBy(playlists, (i) => {
+    return groupBy(playlists, (i) => {
       return i.userId === uid ? 'create' : 'sub'
     })
   }, [playlists, account])
@@ -48,8 +48,8 @@ const PlaylistPanel = () => {
 
   </div>
 }
-const AlbumPanel = () => {
-  const {data} = useUserAlbums()
+function AlbumPanel() {
+  const { data } = useUserAlbums()
   return <GridRow>
     {
       data?.albums.map((al => (<Cover type='album' inset key={al.id} data={al} />)))
@@ -60,18 +60,18 @@ function Library() {
   const [currentTab, setCurrentTab] = useState('playlist')
   const theme = useTheme()
   return <PageTransition>
-    <Box sx={{color: theme.palette.onSurface.main}}>
-      <MYTabs value={currentTab} onChange={(tabVal) => setCurrentTab(tabVal)}
-              tabs={[{
-                value: 'playlist',
-                label: 'Playlist'
-              },{value: 'album', label: 'Alum'},{value: 'artist', label: 'Artist'}]}/>
+    <Box sx={{ color: theme.palette.onSurface.main }}>
+      <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
+        tabs={[{
+          value: 'playlist',
+          label: 'Playlist',
+        }, { value: 'album', label: 'Alum' }, { value: 'artist', label: 'Artist' }]}/>
       <Box className='overflow-y-auto px-2 my-4'>
         {
           {
-            'artist': <ArtistPanel />,
-            'playlist': <PlaylistPanel />,
-            'album': <AlbumPanel />,
+            artist: <ArtistPanel />,
+            playlist: <PlaylistPanel />,
+            album: <AlbumPanel />,
           }[currentTab]
         }
       </Box>
@@ -79,4 +79,4 @@ function Library() {
   </PageTransition>
 }
 
-export default Library;
+export default Library

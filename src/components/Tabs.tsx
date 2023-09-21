@@ -1,22 +1,20 @@
-import {Tabs} from '@mui/base/Tabs'
-import {Tab, tabClasses} from '@mui/base/Tab'
-import {buttonClasses} from '@mui/base/Button';
+import { Tabs } from '@mui/base/Tabs'
+import { Tab, tabClasses } from '@mui/base/Tab'
 
-import {TabsList} from '@mui/base/TabsList';
-import {styled} from "@mui/material/styles";
-import {useState} from "react";
+import { TabsList } from '@mui/base/TabsList'
+import { styled } from '@mui/material/styles'
 
 
-const MYTab = styled(Tab)(({theme}) => ({
-  backgroundColor: `${theme.palette.primaryContainer.main}33`,
-  height: 48,
-  paddingLeft: 24,
-  paddingRight: 24,
-  borderRadius: 16,
-  display: 'inline-block',
-  marginRight: 6,
-  color: theme.palette.onPrimaryContainer.main,
-  transition: theme.transitions.create("background-color", {
+const MYTab = styled(Tab)(({ theme }) => ({
+  'backgroundColor': `${theme.palette.primaryContainer.main}33`,
+  'height': 48,
+  'paddingLeft': 24,
+  'paddingRight': 24,
+  'borderRadius': 16,
+  'display': 'inline-block',
+  'marginRight': 6,
+  'color': theme.palette.onPrimaryContainer.main,
+  'transition': theme.transitions.create('background-color', {
     easing: theme.transitions.easing.easeIn,
     duration: theme.transitions.duration.shorter,
   }),
@@ -31,12 +29,12 @@ const MYTab = styled(Tab)(({theme}) => ({
   },
   [`&.${tabClasses.selected}`]: {
     background: theme.palette.primaryContainer.main,
-  }
+  },
 }))
-export default function MYTabs({tabs, onChange, value}: {
-  value?: string | number | undefined;
-  onChange?: (v: any) => void;
-  tabs: { value: string, label: string }[]
+export default function MYTabs({ tabs, onChange, value }: {
+  value?: string | number | undefined
+  onChange?: (v: any) => void
+  tabs: { value: string; label: string }[]
 }) {
   return <Tabs value={value} onChange={(_, val) => {
     onChange && onChange(val)

@@ -1,21 +1,21 @@
-import { create } from "zustand";
-import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware'
+import { create } from 'zustand'
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
 
 export enum APPEARANCE {
   LIGHT = 'light',
   DARK = 'dark',
   SYSTEM = 'system',
 }
-type SettingState = {
-  appearance: APPEARANCE,
+interface SettingState {
+  appearance: APPEARANCE
 }
-type SettingAction = {
-  setAppearance: (appearance: APPEARANCE) => void,
+interface SettingAction {
+  setAppearance: (appearance: APPEARANCE) => void
 }
 export const useSettingStore = create(subscribeWithSelector(persist<SettingState & SettingAction>((set, get) => {
   return {
     appearance: APPEARANCE.SYSTEM,
-    setAppearance: (appearance: APPEARANCE) => set({ appearance: appearance }),
+    setAppearance: (appearance: APPEARANCE) => set({ appearance }),
   }
 }, {
   name: 'setting',

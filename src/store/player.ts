@@ -1,8 +1,7 @@
-import {SimpleTrack, Track} from "@/types";
-import {create} from "zustand";
-import {createJSONStorage, persist, subscribeWithSelector} from "zustand/middleware";
-import {playQueueStore} from "./playQueue";
-import {personalFM} from "@/api/user";
+import { create } from 'zustand'
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
+import type { Track } from '@/types'
+import { personalFM } from '@/api/user'
 
 
 export enum PLAY_MODE {
@@ -46,33 +45,35 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
     isCurrentFm: false,
     fmTrack: null,
     fmList: [],
-    setCurrentTime: (val) => (set({currentTime: val})),
-    setPlayMode: (playMode) => (set({playMode: playMode})),
-    setShuffle: (val) => (set({shuffle: val})),
+    setCurrentTime: val => (set({ currentTime: val })),
+    setPlayMode: playMode => (set({ playMode })),
+    setShuffle: val => (set({ shuffle: val })),
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...get().fmList]
       let pop: Track | undefined
       // 只有一首歌曲时，需要接口拉去新数据
       if (cacheList.length <= 1) {
-        const {data} = await personalFM()
+        const { data } = await personalFM()
         // 只有一首时，直接弹出最后一首，并用新数据替换fmList
         if (cacheList.length === 1) {
           pop = cacheList.shift()
-        } else {
+        }
+        else {
           // 先弹出，再更新fmList
           pop = data?.shift()
         }
-        set(() => ({fmList: data}))
+        set(() => ({ fmList: data }))
         // this.fmList = data // 更新数据
-      } else {
+      }
+      else {
         pop = cacheList.shift()
-        set(() => ({fmList: cacheList}))
+        set(() => ({ fmList: cacheList }))
         // this.fmList = cacheList
       }
-      if (pop) {
-        set({fmTrack: pop})
-      }
+      if (pop) 
+        set({ fmTrack: pop })
+      
       return pop
       // pop && (this.fmTrack = pop)
       // return this.fmTrack
@@ -80,5 +81,5 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
   }
 }, {
   name: 'player',
-  storage: createJSONStorage(() => localStorage)
+  storage: createJSONStorage(() => localStorage),
 })))

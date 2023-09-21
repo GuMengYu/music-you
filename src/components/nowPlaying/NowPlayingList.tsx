@@ -1,54 +1,54 @@
 import Modal from '@mui/material/Modal'
-import {Box, IconButton, Typography, useTheme} from "@mui/material";
-import {useAppStore} from "@/store/app";
-import React, {useEffect, useMemo} from "react";
-import {css, cx} from "@emotion/css";
-import {playQueueStore} from "@/store/playQueue";
-import {Track} from "@/types";
-import {sizeOfImage} from "@/util/fn";
-import ArtistLink from "@/components/links/artist";
-import {Virtuoso} from 'react-virtuoso'
-import {useWindowSize} from "react-use";
-import CloseIcon from "@mui/icons-material/Close";
-import Wave from "@/components/Wave";
-import Fade from '@mui/material/Fade';
-import {usePlayerControl} from "@/hooks/usePlayer";
+import { Box, IconButton, Typography, useTheme } from '@mui/material'
+import React from 'react'
+import { css, cx } from '@emotion/css'
+import { Virtuoso } from 'react-virtuoso'
+import { useWindowSize } from 'react-use'
+import CloseIcon from '@mui/icons-material/Close'
+import Fade from '@mui/material/Fade'
+import { useAppStore } from '@/store/app'
+import { playQueueStore } from '@/store/playQueue'
+import type { Track } from '@/types'
+import { sizeOfImage } from '@/util/fn'
+import ArtistLink from '@/components/links/artist'
+import Wave from '@/components/Wave'
+import { usePlayerControl } from '@/hooks/usePlayer'
 
-const TrackItem = ({
-                     track,
-                     index,
-                   }: {
+function TrackItem({
+  track,
+  index,
+}: {
   track?: Track
   index: number
-}) => {
-  const {playing, track: playingTrack} = usePlayerControl()
+}) {
+  const { playing, track: playingTrack } = usePlayerControl()
   const isPlaying = track?.id === playingTrack?.id
   const theme = useTheme()
   return (
     <div
       className='mb-5 flex items-center justify-between cursor-pointer'
-      onClick={e => {
-        if (e.detail === 2 && track?.id) {
+      onClick={(e) => {
+        if (e.detail === 2 && track?.id) 
           console.log('play track')
-        }
+        
       }}
-      onContextMenu={event => {
-        if (track?.id) {
+      onContextMenu={(event) => {
+        if (track?.id) 
           console.log('play track')
-        }
+        
       }}
     >
       {/* Cover */}
       <img
         alt='Cover'
         className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl'
-        src={sizeOfImage(track?.al?.picUrl || '',)}
+        src={sizeOfImage(track?.al?.picUrl || '')}
       />
 
       {/* Track info */}
       <div className='flex-grow'>
         <Typography className='line-clamp-1' variant='body1'
-                    color={isPlaying ? 'primary' : ''}>{track?.name}</Typography>
+          color={isPlaying ? 'primary' : ''}>{track?.name}</Typography>
         <Typography variant='body2'> {track?.ar && <ArtistLink artist={track?.ar}/>}</Typography>
       </div>
 
@@ -62,9 +62,9 @@ const TrackItem = ({
     </div>
   )
 }
-const TrackList = () => {
-  const {queue} = playQueueStore()
-  const {height: windowHeight} = useWindowSize()
+function TrackList() {
+  const { queue } = playQueueStore()
+  const { height: windowHeight } = useWindowSize()
   const theme = useTheme()
   const listHeight = windowHeight - 150 // padding 150
   return <div
@@ -80,7 +80,7 @@ const TrackList = () => {
       }
       style={
         {
-          height: `${listHeight}px`
+          height: `${listHeight}px`,
         }
       }
       itemContent={(idx, track) => {
@@ -99,8 +99,8 @@ const TrackList = () => {
     </Virtuoso>
   </div>
 }
-const NowPlayingList = () => {
-  const {showNowPlayingList, toggleNowPlayingList} = useAppStore()
+function NowPlayingList() {
+  const { showNowPlayingList, toggleNowPlayingList } = useAppStore()
   const theme = useTheme()
 
   const onClose = () => {
@@ -114,12 +114,12 @@ const NowPlayingList = () => {
   return (
     <Modal open={showNowPlayingList} onClose={onClose} sx={{
       '&:focus-visible': {
-        outline: 'none'
+        outline: 'none',
       },
       '& .MuiModal-backdrop': {
         backdropFilter: 'blur(100px)',
         borderRadius: '28px',
-      }
+      },
     }}>
       <Fade in={showNowPlayingList}>
         <Box sx={{
@@ -134,7 +134,7 @@ const NowPlayingList = () => {
             <TrackList/>
             <IconButton onClick={onClose} sx={{
               mt: 3,
-              bgcolor: `${theme.palette.primary.main}36`
+              bgcolor: `${theme.palette.primary.main}36`,
             }} size='large'><CloseIcon/></IconButton>
           </div>
         </Box>

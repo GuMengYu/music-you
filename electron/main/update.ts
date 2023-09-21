@@ -2,7 +2,7 @@ import { app, ipcMain } from 'electron'
 import {
   type ProgressInfo,
   type UpdateDownloadedEvent,
-  autoUpdater
+  autoUpdater,
 } from 'electron-updater'
 
 export function update(win: Electron.BrowserWindow) {
@@ -13,7 +13,7 @@ export function update(win: Electron.BrowserWindow) {
   autoUpdater.allowDowngrade = false
 
   // start check
-  autoUpdater.on('checking-for-update', function () { })
+  autoUpdater.on('checking-for-update', () => { })
   // update available
   autoUpdater.on('update-available', (arg) => {
     win.webContents.send('update-can-available', { update: true, version: app.getVersion(), newVersion: arg?.version })
@@ -32,7 +32,8 @@ export function update(win: Electron.BrowserWindow) {
 
     try {
       return await autoUpdater.checkForUpdatesAndNotify()
-    } catch (error) {
+    }
+    catch (error) {
       return { message: 'Network error', error }
     }
   })
@@ -44,7 +45,8 @@ export function update(win: Electron.BrowserWindow) {
         if (error) {
           // feedback download error message
           event.sender.send('update-error', { message: error.message, error })
-        } else {
+        }
+        else {
           // feedback update progress message
           event.sender.send('download-progress', progressInfo)
         }
@@ -52,7 +54,7 @@ export function update(win: Electron.BrowserWindow) {
       () => {
         // feedback update downloaded message
         event.sender.send('update-downloaded')
-      }
+      },
     )
   })
 

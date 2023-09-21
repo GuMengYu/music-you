@@ -1,12 +1,12 @@
-import {Button, SvgIcon, SvgIconProps} from "@mui/material";
-import {ArrowBack as ArrowBackIcon, Refresh as RefreshIcon} from '@mui/icons-material'
-import {useNavigate} from "react-router-dom";
-import useInForeground from "@/hooks/useInForeground";
-import {ReloadIcon} from "@/components/icons/icons";
+import { Button } from '@mui/material'
+import { ArrowBack as ArrowBackIcon } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
+import useInForeground from '@/hooks/useInForeground'
+import { ReloadIcon } from '@/components/icons/icons'
 
 export default function AggregateExtendButton() {
   const navigate = useNavigate()
-  const {isActive: needBack} = useInForeground([
+  const { isActive: needBack } = useInForeground([
     'podcast',
     'playlist',
     'album',

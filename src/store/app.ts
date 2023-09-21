@@ -3,7 +3,7 @@ import { create } from 'zustand'
 interface AppState {
   rail: boolean
   showLogin: boolean
-  showProfile:boolean
+  showProfile: boolean
   showQuick: boolean
   showNowPlaying: boolean
   showNowPlayingBar: boolean
@@ -27,24 +27,24 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
     showNowPlaying: false,
     showNowPlayingBar: false,
     showNowPlayingList: false,
-    toggleRail: () => set((state) => ({ rail: !state.rail })),
-    toggleLogin: (val) => set((state) => {
-      return { showLogin: val !== void 0 ? val : !state.showLogin }
+    toggleRail: () => set(state => ({ rail: !state.rail })),
+    toggleLogin: val => set((state) => {
+      return { showLogin: val !== undefined ? val : !state.showLogin }
     }),
-    toggleProfile: (val) => set((state) => {
-      return { showProfile: val !== void 0 ? val : !state.showProfile }
+    toggleProfile: val => set((state) => {
+      return { showProfile: val !== undefined ? val : !state.showProfile }
     }),
-    toggleQuick: (val) => set((state) => {
-      return { showQuick: val !== void 0 ? val : !state.showQuick }
+    toggleQuick: val => set((state) => {
+      return { showQuick: val !== undefined ? val : !state.showQuick }
     }),
-    toggleNowPlaying: (val) => set((state) => {
-      return { showNowPlaying: val !== void 0 ? val : !state.showNowPlaying }
+    toggleNowPlaying: val => set((state) => {
+      return { showNowPlaying: val !== undefined ? val : !state.showNowPlaying }
     }),
-    toggleNowPlayingBar: (val) => set((state) => {
-      return { showNowPlayingBar: val !== void 0 ? val : !state.showNowPlayingBar }
+    toggleNowPlayingBar: val => set((state) => {
+      return { showNowPlayingBar: val !== undefined ? val : !state.showNowPlayingBar }
     }),
-    toggleNowPlayingList: (val) => set((state) => {
-      return { showNowPlayingList: val !== void 0 ? val : !state.showNowPlayingList }
+    toggleNowPlayingList: val => set((state) => {
+      return { showNowPlayingList: val !== undefined ? val : !state.showNowPlayingList }
     }),
   }
 })

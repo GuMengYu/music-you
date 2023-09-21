@@ -1,5 +1,5 @@
-import Migration from "@/components/migration";
+import Migration from '@/components/migration'
 
 export default function Search() {
-  return <Migration />;
+  return <Migration />
 }

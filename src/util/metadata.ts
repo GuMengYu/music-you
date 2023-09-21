@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 export const officialPlaylist = {
   2829816518: {
     title: '欧美私人订制',
@@ -58,10 +57,10 @@ export const RADARPLAYLISTS = [
     id: 5300458264,
     name: '新歌雷达',
   },
-  {
-    id: 5341776086,
-    name: '神秘雷达',
-  },
+  // {
+  //   id: 5341776086,
+  //   name: '神秘雷达',
+  // },
   {
     id: 5327906368,
     name: '乐迷雷达',
@@ -71,7 +70,3 @@ export const RADARPLAYLISTS = [
     name: '雷击顿唱片行',
   },
 ]
-
-interface Color {
-  [key: string]: string
-}

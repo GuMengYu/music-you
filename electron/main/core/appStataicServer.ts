@@ -1,5 +1,5 @@
+import { join } from 'node:path'
 import { createProxyMiddleware } from 'http-proxy-middleware'
-import { join } from 'path'
 import polka from 'polka'
 import sirv from 'sirv'
 
@@ -15,8 +15,8 @@ export function useStaticServer() {
       createProxyMiddleware({
         target: `http://${VITE_API_SERVER_HOST}:${VITE_API_SERVER_PORT}`,
         changeOrigin: true,
-        pathRewrite: (path) => path.replace(/^\/api/, ''),
-      })
+        pathRewrite: path => path.replace(/^\/api/, ''),
+      }),
     )
     .use(assets)
     .listen(VITE_CLIENT_PORT, () => {

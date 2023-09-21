@@ -23,7 +23,7 @@ const breakpointsDefine = {
   desktop4K: 2116,
 }
 export function useSematicBreakPoint() {
-  const useBreakpoints = createBreakpoint(breakpointsDefine);
+  const useBreakpoints = createBreakpoint(breakpointsDefine)
 
   const breakname = useBreakpoints() as DisplayBreakpoint
   // const xxs = breakpoints.smaller('xxs')

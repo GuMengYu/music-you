@@ -2,6 +2,7 @@ import { now } from 'lodash-es'
 
 import type { Artist, MV } from '@/types'
 import { request } from '@/util/fetch'
+
 /**
  * 获取热门视频
  * @param offset
@@ -13,10 +14,11 @@ export const recommendVideo = (offset: number) => request('/video/timeline/recom
  * 获取新mv
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getNewMv = (params?: { limit?: number }) =>
-  request<{
+export function getNewMv(params?: { limit?: number }) {
+  return request<{
     data: MV[]
   }>('/mv/first', { params })
+}
 
 /**
  * 获取 mv 数据
@@ -31,7 +33,7 @@ interface mvDetailModel {
   artistId: number
   briefDesc: string
 }
-export const mvDetail = (mvid: number) => {
+export function mvDetail(mvid: number) {
   return request<{
     data: MV
     subed: boolean
@@ -47,11 +49,11 @@ export const mvDetail = (mvid: number) => {
  * mv 地址
  * 说明 : 调用此接口 , 传入 mv id,可获取 mv 播放地址
  * - id: mv id
- * @param {Object} params
+ * @param {object} params
  * @param {number} params.id
  * @param {number=} params.r
  */
-export const getMvUrl = (params: { id: number; r: number }) => {
+export function getMvUrl(params: { id: number; r: number }) {
   return request<{
     data: {
       url: string
@@ -69,7 +71,7 @@ export const getMvUrl = (params: { id: number; r: number }) => {
  * 说明 : 调用此接口 , 传入 mvid 可获取相似 mv
  * @param {number} mvid
  */
-export const simiMv = (mvid: number) => {
+export function simiMv(mvid: number) {
   return request<{
     mvs: MV[]
   }>('/simi/mv', {
@@ -86,7 +88,7 @@ export const simiMv = (mvid: number) => {
  * @param offset
  * @returns
  */
-export const getMVComment = (id: number, limit = 15, offset = 0) => {
+export function getMVComment(id: number, limit = 15, offset = 0) {
   return request<{
     code: number
     total: number

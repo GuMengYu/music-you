@@ -1,25 +1,26 @@
 import { isArray, now } from 'lodash-es'
 
+import { getAlbum } from './album'
+import { getArtist } from './artist'
+import { getPlaylistDetail, getPlaylistTrackAll } from './playlist'
+import { getLyricNew, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
 import { getProgramData, podcastPrograms } from '@/api/podcast'
+
 // import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 // import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import type { RESOURCE_TYPE } from '@/util/enum'
 import { request } from '@/util/fetch'
 
-import { getAlbum } from './album'
-import { getArtist } from './artist'
-import { getPlaylistDetail, getPlaylistTrackAll } from './playlist'
-import { getLyric, getLyricNew, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
-import {useUserStore} from "@/store/user";
+import { useUserStore } from '@/store/user'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
- * @param id: 歌曲id
+ * @param id 歌曲id
  * @param isProgram
  * @returns {Promise<{lyric: (*[]|*), url: string}>}
  */
-export const getTrackDetail = async (id: number, isProgram = false) => {
+export async function getTrackDetail(id: number, isProgram = false) {
   let track: Track | null = null
   let lyric = null
   if (isProgram) {
@@ -27,7 +28,8 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
     const { id: programVoiceId } = program.mainSong
     track = program as unknown as Track
     track.id = programVoiceId
-  } else {
+  }
+  else {
     const {
       songs: [data],
     } = await getSongData([id])
@@ -43,7 +45,7 @@ export const getTrackDetail = async (id: number, isProgram = false) => {
  * @param id
  * @returns
  */
-export const getMusicUrl = async (track: Track) => {
+export async function getMusicUrl(track: Track) {
   // const userStore = useUserStore()
   // const settingStore = useSettingStore()
   // const level = settingStore.quality_level ?? QUALITY_LEVEL.HIGHER
@@ -64,22 +66,25 @@ export const getMusicUrl = async (track: Track) => {
         const result = await getSongUrlFromUnlockMusic(track) // 尝试解锁灰色或者试听歌曲
         meta.url = result.url ?? ''
         meta.sourceFromUnlockMusic = true
-      } catch (e) {
+      }
+      catch (e) {
         console.log(e)
         meta.url = null
       }
-    } else {
+    }
+    else {
       meta.url = song.url
       meta.br = song['br']
       meta.type = song['type']?.toUpperCase()
       meta.encodeType = song['encodeType']?.toUpperCase()
     }
-  } else {
+  }
+  else {
     meta.url = `https://music.163.com/song/media/outer/url?id=${track.id}`
   }
   return meta
 }
-export const search = (keywords = '', conditions = {}) => {
+export function search(keywords = '', conditions = {}) {
   return request<{
     result: {
       songs?: Track[]
@@ -96,7 +101,7 @@ export const search = (keywords = '', conditions = {}) => {
   })
 }
 
-export const multiMatchSearch = (keywords = '') => {
+export function multiMatchSearch(keywords = '') {
   return request<{
     code: number
     result: {
@@ -118,7 +123,7 @@ export const multiMatchSearch = (keywords = '') => {
  * @param id
  * @returns
  */
-export const getTrackList = async (type: 'album' | 'playlist' | 'artist' | 'program', id: number) => {
+export async function getTrackList(type: 'album' | 'playlist' | 'artist' | 'program', id: number) {
   let res: { id: number; tracks: Track[]; name?: string }
   if (type === 'playlist') {
     const { playlist } = await getPlaylistDetail(id)
@@ -128,20 +133,23 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist' | 'prog
       name: playlist.name,
       tracks: songs,
     }
-  } else if (type === 'album') {
+  }
+  else if (type === 'album') {
     const { album, songs } = await getAlbum(id)
     res = {
       id: album.id,
       name: album.name,
       tracks: songs,
     }
-  } else if (type === 'artist') {
+  }
+  else if (type === 'artist') {
     const { artist, hotSongs } = await getArtist(id)
     res = {
       id: artist.id,
       tracks: hotSongs,
     }
-  } else {
+  }
+  else {
     const { programs } = await podcastPrograms(id)
     res = {
       id,
@@ -154,11 +162,11 @@ export const getTrackList = async (type: 'album' | 'playlist' | 'artist' | 'prog
 /**
  * 收藏|取消
  * @param type 类型： 歌曲, 歌单, 专辑, mv
- * @param id
- * @param t: 1 收藏 其他 取消收藏
+ * @param id 歌曲id
+ * @param t  1 收藏 其他 取消收藏
  * 根据歌单id返回歌单详细信息
  */
-export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: Track['id'], t: number) => {
+export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: Track['id'], t: number) {
   const params: {
     timestamp: number
     id: string | number
@@ -191,7 +199,7 @@ export const sub = (type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
  * @param id 资源id
  * @param t 1 点赞 其他 取消点赞
  */
-export const resourceLike = (type: RESOURCE_TYPE, id: number, t: 1 | 0) => {
+export function resourceLike(type: RESOURCE_TYPE, id: number, t: 1 | 0) {
   return request<{
     code: number
   }>('/resource/like', {
@@ -203,7 +211,7 @@ export const resourceLike = (type: RESOURCE_TYPE, id: number, t: 1 | 0) => {
     },
   })
 }
-export const start = (params: { id: number; content?: string }) => {
+export function start(params: { id: number; content?: string }) {
   return request('/startplay', {
     params: {
       content: params.content ?? '',
@@ -222,7 +230,7 @@ export const start = (params: { id: number; content?: string }) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const end = (params: { id: number; sourceId: number | string; time: number; content?: string }) => {
+export function end(params: { id: number; sourceId: number | string; time: number; content?: string }) {
   return request('/endplay', {
     params: {
       content: params.content,
@@ -241,7 +249,7 @@ export const end = (params: { id: number; sourceId: number | string; time: numbe
  * @param pid : number 歌单id
  * @param tracks : Array 歌曲id 可多个,用逗号隔开
  */
-export const opPlaylist = (op: 'add' | 'del' = 'add', pid: number, trackId: number[] | number = []) => {
+export function opPlaylist(op: 'add' | 'del' = 'add', pid: number, trackId: number[] | number = []) {
   return request<{
     code: number
     count: number

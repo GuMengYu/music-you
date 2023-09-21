@@ -1,21 +1,21 @@
-import { getAccount, getVipInfo } from '@/api/account'
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { useAppStore } from './app'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { useSnackbar } from 'notistack'
-import { Account, Playlist } from '@/types'
+import { useAppStore } from './app'
+import { getAccount, getVipInfo } from '@/api/account'
+import type { Account, Playlist } from '@/types'
 import { getLikeList, getUserPlaylist } from '@/api/user'
 import { sub } from '@/api/music'
 import { specialType } from '@/util/metadata'
 
-type userState = {
+interface userState {
   account: null | Account
-  likes: number[],
-  playlists: Playlist[],
+  likes: number[]
+  playlists: Playlist[]
 }
 interface userAction {
-  refreshAccount: () => void;
-  fetchAccount: () => void;
+  refreshAccount: () => void
+  fetchAccount: () => void
   favSong: (id: number, liked: boolean) => Promise<boolean>
   getFavs: () => Playlist
 }
@@ -32,9 +32,10 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
           account.vipInfo = vipInfo.data
         }
         set({
-          account: account
+          account,
         })
-      } else {
+      }
+      else {
         const { toggleLogin } = useAppStore()
         const { enqueueSnackbar } = useSnackbar()
         enqueueSnackbar('Your session has expired. Please log in again.', {
@@ -58,7 +59,7 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
         ])
         set({
           likes: likesRes.ids,
-          playlists: playlistRes.playlist
+          playlists: playlistRes.playlist,
         })
       }
     },
@@ -67,25 +68,27 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
       try {
         const { code } = await sub('track', id, like ? 1 : 0)
         if (code === 200) {
-          if (like) {
+          if (like) 
             likes.push(id)
-          } else {
-            likes = likes.filter((i) => i !== id)
-          }
+          else 
+            likes = likes.filter(i => i !== id)
+          
           set({
-            likes: likes
+            likes,
           })
           return true
-        } else {
+        }
+        else {
           return false
         }
-      } catch (e) {
+      }
+      catch (e) {
         return false
       }
     },
     getFavs() {
-      return (get().playlists.find((playlist) => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
-    }
+      return (get().playlists.find(playlist => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
+    },
   }
 }, {
   name: 'user',

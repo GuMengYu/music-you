@@ -7,7 +7,8 @@ import store from './util/store'
 import YoutubeFinder from './util/youtube'
 import type WindowManager from './windowManager'
 import { WindowDefaultSize } from './windowManager'
-export const registerIpcMain = (windowManager: WindowManager) => {
+
+export function registerIpcMain(windowManager: WindowManager) {
   const { open, proxy } = store.get('youtube')
   if (open) {
     log.info('[main] init youtubeFinder', proxy)
@@ -24,11 +25,11 @@ export const registerIpcMain = (windowManager: WindowManager) => {
   //   windowManager.openWindow('minimal')
   // })
   ipcMain.handle('zoom-window', () => {
-    if (window.isMaximized()) {
+    if (window.isMaximized()) 
       window.unmaximize()
-    } else {
+    else 
       window.maximize()
-    }
+    
   })
   ipcMain.handle('downloadFile', (_e, data) => {
     downloadFile(data)
@@ -40,11 +41,11 @@ export const registerIpcMain = (windowManager: WindowManager) => {
     window.minimize()
   })
   ipcMain.handle(WindowState.MAXIMIZED, () => {
-    if (window.isMaximized()) {
+    if (window.isMaximized()) 
       window.unmaximize()
-    } else {
+    else 
       window.maximize()
-    }
+    
   })
   ipcMain.handle(WindowState.NORMAL, () => {
     window.unmaximize()
@@ -59,7 +60,8 @@ export const registerIpcMain = (windowManager: WindowManager) => {
     console.log('open url')
     try {
       shell.openExternal(url)
-    } catch (e) {
+    }
+    catch (e) {
       log.error('open external url failed', e)
     }
   })
@@ -81,26 +83,26 @@ export const registerIpcMain = (windowManager: WindowManager) => {
     console.log('adjustWidth: current', width, height)
     cacheSize = [width, height]
     const resizedWidth = height * aspectRatio
-    if (resizedWidth !== width) {
+    if (resizedWidth !== width) 
       window.setSize(resizedWidth, height, true)
-    }
+    
     console.log('adjustWidth: resized', resizedWidth)
 
     return resizedWidth
   })
   ipcMain.handle('restoreSize', () => {
     const [width, height] = cacheSize
-    if (width && height) {
+    if (width && height) 
       window.setSize(width, height, true)
-    } else {
+    else 
       window.setSize(WindowDefaultSize.width, WindowDefaultSize.height, true)
-    }
+    
   })
   ipcMain.handle('setSize', (e, payload) => {
     const { width, height } = payload
-    if (width && height) {
+    if (width && height) 
       window.setSize(width, height, true)
-    }
+    
   })
   ipcMain.handle('minimal', (e, open) => {
     log.info('[main] minimal player')
@@ -109,17 +111,19 @@ export const registerIpcMain = (windowManager: WindowManager) => {
       store.set('windowPosition', window.getPosition())
       window.setSize(256, 144, true)
       window.setAlwaysOnTop(true)
-    } else {
+    }
+    else {
       store.set('minimal', false)
       window.setAlwaysOnTop(false)
       try {
         const { height, width } = store.get('windowSize')
         const position = store.get('windowPosition')
-        if (position) {
+        if (position) 
           window.setPosition(position[0], position[1])
-        }
+        
         window.setSize(width, height, true)
-      } catch (e) {
+      }
+      catch (e) {
         log.error('[main] close minimal error')
       }
     }
@@ -132,7 +136,8 @@ export const registerIpcMain = (windowManager: WindowManager) => {
       log.info('[main]: updateYoutubeConfig', payload)
       const data = JSON.parse(payload)
       store.set('youtube', data)
-    } catch (e) {
+    }
+    catch (e) {
       log.error('[main]: updateYoutubeConfig error', e)
     }
   })

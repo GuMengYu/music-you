@@ -1,5 +1,5 @@
 import { css, cx, keyframes } from '@emotion/css'
-import {useTheme} from "@mui/material";
+import { useTheme } from '@mui/material'
 
 const wave = keyframes`
     0% { transform: scaleY(1) }
@@ -12,11 +12,11 @@ const animation = css`
 `
 const delay = ['-100ms', '-500ms', '-1200ms', '-1000ms', '-700ms']
 
-const Wave = ({ animate }: { animate: boolean }) => {
+function Wave({ animate }: { animate: boolean }) {
   const theme = useTheme()
   return (
     <div className='grid h-3 flex-shrink-0 grid-cols-5 items-end gap-0.5'>
-      {[...new Array(5).keys()].map(i => (
+      {[...Array.from({ length: 5 }).keys()].map(i => (
         <div
           key={i}
           className={cx('h-full w-0.5', animation)}

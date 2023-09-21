@@ -1,10 +1,11 @@
-import Slider, {SliderProps} from "@mui/material/Slider";
-import {usePlayer, usePlayerControl} from "@/hooks/usePlayer";
-import {useState} from "react";
+import type { SliderProps } from '@mui/material/Slider'
+import Slider from '@mui/material/Slider'
+import { useState } from 'react'
+import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 
 export default function NowPlayingSlider(props: SliderProps) {
-  const {player} = usePlayer()
-  const {track, currentTime} = usePlayerControl()
+  const { player } = usePlayer()
+  const { track, currentTime } = usePlayerControl()
   const trackDt = track?.dt ?? track?.duration ?? 0
 
   const [position] = useState(0)

@@ -1,26 +1,27 @@
 import { ipcRenderer } from 'electron'
 
-import type { QUALITY_LEVEL } from '@/store/setting'
+// import type { QUALITY_LEVEL } from '@/store/setting'
 import { useSettingStore } from '@/store/setting'
 import type { Track } from '@/types'
 import { request } from '@/util/fetch'
 
 /**
  * 获取歌曲详情
- * @param ids[]
+ * @param {number[]} ids
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongData = (ids: number[] = []) =>
-  request<{
+export function getSongData(ids: number[] = []) {
+  return request<{
     songs: Track[]
   }>(`/song/detail?ids=${ids.join()}`)
+}
 /**
  * 获取歌曲可播放url
  * @param params
  * 根据歌曲id返回歌曲详细信息
  */
-export const getSongUrl = (params: { id: number; level: QUALITY_LEVEL }) =>
-  request<{
+export function getSongUrl(params: { id: number; level: QUALITY_LEVEL }) {
+  return request<{
     data: {
       freeTrialInfo: boolean
       url: string
@@ -31,12 +32,13 @@ export const getSongUrl = (params: { id: number; level: QUALITY_LEVEL }) =>
   }>('/song/url/v1', {
     params,
   })
+}
 
 /**
  * 获取歌曲下载链接
  * @param params
  */
-export const getSongDownloadUrl = (params: { id: number; br?: number }) => {
+export function getSongDownloadUrl(params: { id: number; br?: number }) {
   return request<{
     data: {
       id: Track['id']
@@ -53,7 +55,7 @@ export const getSongDownloadUrl = (params: { id: number; br?: number }) => {
  * 解锁灰色不可播放歌曲
  * @param track
  */
-export const getSongUrlFromUnlockMusic = async (track: Track) => {
+export async function getSongUrlFromUnlockMusic(track: Track) {
   const settingStore = useSettingStore()
   if (settingStore.unlock.unblockNetEaseMusic.open) {
     try {
@@ -63,10 +65,11 @@ export const getSongUrlFromUnlockMusic = async (track: Track) => {
         }
         code: number
       }>('/unlockmusic', { params: { id: track.id, source: settingStore.unlock.unblockNetEaseMusic.source } })
-      if (code === 200) {
+      if (code === 200)
         return data
-      }
-    } catch (e) {
+
+    }
+    catch (e) {
       console.log(e)
     }
   }
@@ -74,7 +77,8 @@ export const getSongUrlFromUnlockMusic = async (track: Track) => {
   if (settingStore.unlock.youtube.open) {
     try {
       return await ipcRenderer.invoke('getTrackFromYoutube', track.ar?.[0].name, track.name)
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e)
     }
   }
@@ -96,8 +100,8 @@ interface Lyric {
  * @param id
  * @returns
  */
-export const getLyric = (id: number) =>
-  request<{
+export function getLyric(id: number) {
+  return request<{
     briefDesc: string
     lrc: Lyric
     klyric: Lyric
@@ -105,13 +109,14 @@ export const getLyric = (id: number) =>
     lyricUser: LyricUser
     transUser: LyricUser
   }>(`/lyric?id=${id}`)
+}
 
 /**
  * 获取歌词，逐字歌词
  * @param id
  */
-export const getLyricNew = (id: number) =>
-  request<{
+export function getLyricNew(id: number) {
+  return request<{
     briefDesc: string
     lrc: Lyric
     klyric: Lyric
@@ -119,6 +124,7 @@ export const getLyricNew = (id: number) =>
     lyricUser: LyricUser
     transUser: LyricUser
   }>(`/lyric/new?id=${id}`)
+}
 
 /**
  * 获取歌曲评论
@@ -127,7 +133,7 @@ export const getLyricNew = (id: number) =>
  * @param offset
  * @returns
  */
-export const getMusicComment = (id: number, limit = 15, offset = 0) => {
+export function getMusicComment(id: number, limit = 15, offset = 0) {
   return request<{
     code: number
     total: number

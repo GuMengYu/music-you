@@ -10,17 +10,18 @@ import { request } from '@/util/fetch'
  * @returns {Promise<Album>}
  */
 
-export const getAlbum = (id: number) =>
-  request<{
+export function getAlbum(id: number) {
+  return request<{
     album: Album
     songs: Track[]
     resourceState: boolean
   }>('/album', { params: { id } })
+}
 
 /**
  * 获取新专辑
  */
-export const newAlbums = (params?: { limit?: number; area?: string }) => {
+export function newAlbums(params?: { limit?: number; area?: string }) {
   return request<{
     code: number
     albums: Album[]
@@ -33,8 +34,8 @@ export const newAlbums = (params?: { limit?: number; area?: string }) => {
  * 获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
  * @param id
  */
-export const getAlbumDynamic = (id: number) =>
-  request<{
+export function getAlbumDynamic(id: number) {
+  return request<{
     isSub: boolean
     onSale: boolean
     likedCount: number
@@ -45,6 +46,7 @@ export const getAlbumDynamic = (id: number) =>
       id,
     },
   })
+}
 
 /**
  * 获取专辑评论
@@ -53,7 +55,7 @@ export const getAlbumDynamic = (id: number) =>
  * @param offset
  * @returns
  */
-export const getAlbumComment = (id: number, limit = 15, offset = 0) => {
+export function getAlbumComment(id: number, limit = 15, offset = 0) {
   return request<{
     code: number
     total: number

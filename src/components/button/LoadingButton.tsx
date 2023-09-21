@@ -1,11 +1,13 @@
-import {Box, IconButtonProps, CircularProgress, IconButton} from "@mui/material";
-import {memo, PropsWithChildren} from "react";
+import type { IconButtonProps } from '@mui/material'
+import { Box, CircularProgress, IconButton } from '@mui/material'
+import type { PropsWithChildren } from 'react'
+import { memo } from 'react'
 
 function LoadingButton(props: IconButtonProps & PropsWithChildren & { loading: boolean }) {
-  // @ts-ignore
+  const {  loading, ...restProps } = props
+
   return <IconButton
-    {...props}
-    loading={undefined}
+    {...restProps}
   >
     <Box sx={{
       height: 40,

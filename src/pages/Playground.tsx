@@ -1,12 +1,12 @@
-import useInForeground from "@/hooks/useInForeground";
-import {useLocation, useMatch} from "react-router-dom";
-import PageTransition from "@/components/PageTransition";
-import {Box, Typography} from "@mui/material";
+import { useLocation, useMatch } from 'react-router-dom'
+import { Box, Typography } from '@mui/material'
+import useInForeground from '@/hooks/useInForeground'
+import PageTransition from '@/components/PageTransition'
 
 export default function Playground() {
   const location = useLocation()
   const match = useMatch('/playground')
-  const {isActive, matches} = useInForeground('playground')
+  const { isActive, matches } = useInForeground('playground')
   return <PageTransition>
     <Box className='flex flex-col gap-4'>
       {/*{isActive} { JSON.stringify(matches) }*/}

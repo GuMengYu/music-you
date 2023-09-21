@@ -1,52 +1,52 @@
-import { css, cx } from "@emotion/css";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { cx } from '@emotion/css'
+import { AnimatePresence, motion, useAnimation } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
-const ease = [0.4, 0, 0.2, 1];
-type Props = {
+const ease = [0.4, 0, 0.2, 1]
+interface Props {
   fit?: 'cover' | 'contain' | 'fill' | 'none'
-  src?: string;
-  srcSet?: string;
-  sizes?: string;
-  className?: string;
-  lazyLoad?: boolean;
-  placeholder?: "artist" | "album" | "playlist" | "podcast" | "blank" | false;
-  onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
-  onMouseOver?: (e: React.MouseEvent<HTMLImageElement>) => void;
-  animation?: boolean;
+  src?: string
+  srcSet?: string
+  sizes?: string
+  className?: string
+  lazyLoad?: boolean
+  placeholder?: 'artist' | 'album' | 'playlist' | 'podcast' | 'blank' | false
+  onClick?: (e: React.MouseEvent<HTMLImageElement>) => void
+  onMouseOver?: (e: React.MouseEvent<HTMLImageElement>) => void
+  animation?: boolean
   gradient?: string
-};
+}
 
-const Image = ({
+function Image({
   fit,
   src,
   srcSet,
   className,
   lazyLoad = true,
   sizes,
-  placeholder = "blank",
+  placeholder = 'blank',
   onClick,
   onMouseOver,
   animation = true,
   gradient,
-}: Props) => {
-  const [error, setError] = useState(false);
-  const animate = useAnimation();
-  const placeholderAnimate = useAnimation();
-  const isAnimate = animation;
-  useEffect(() => setError(false), [src]);
+}: Props) {
+  const [error, setError] = useState(false)
+  const animate = useAnimation()
+  const placeholderAnimate = useAnimation()
+  const isAnimate = animation
+  useEffect(() => setError(false), [src])
 
   const onLoad = async () => {
     if (isAnimate) {
-      animate.start({ opacity: 1 });
-      placeholderAnimate.start({ opacity: 0 });
+      animate.start({ opacity: 1 })
+      placeholderAnimate.start({ opacity: 0 })
     }
-  };
+  }
   const onError = () => {
-    setError(true);
-  };
+    setError(true)
+  }
 
-  const transition = { duration: 0.6, ease };
+  const transition = { duration: 0.6, ease }
   const motionProps = isAnimate
     ? {
         animate,
@@ -54,7 +54,7 @@ const Image = ({
         exit: { opacity: 0 },
         transition,
       }
-    : {};
+    : {}
   const placeholderMotionProps = isAnimate
     ? {
         animate: placeholderAnimate,
@@ -62,14 +62,14 @@ const Image = ({
         exit: { opacity: 0 },
         transition,
       }
-    : {};
+    : {}
 
   return (
     <div
       onClick={onClick}
       onMouseOver={onMouseOver}
       className={cx(
-        "overflow-hidden",
+        'overflow-hidden',
         'h-full',
         'w-full',
         'relative',
@@ -81,15 +81,15 @@ const Image = ({
         <motion.img
           // className='absolute inset-0 h-full w-full'
           style={{
-            height: "100%",
-            width: "100%",
-            objectFit: fit
+            height: '100%',
+            width: '100%',
+            objectFit: fit,
           }}
           src={src}
           srcSet={srcSet}
           sizes={sizes}
           decoding="async"
-          loading={lazyLoad ? "lazy" : undefined}
+          loading={lazyLoad ? 'lazy' : undefined}
           onError={onError}
           onLoad={onLoad}
           {...motionProps}
@@ -108,12 +108,12 @@ const Image = ({
       {
         gradient && (
           <div className="absolute inset-0 h-full w-full" style={{
-            backgroundImage: gradient
+            backgroundImage: gradient,
           }}></div>
         )
       }
     </div>
-  );
-};
+  )
+}
 
-export default Image;
+export default Image

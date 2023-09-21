@@ -8,33 +8,36 @@ import { request } from '@/util/fetch'
  * @param id
  * @returns
  */
-export const getArtist = (id: number) =>
-  request<{
+export function getArtist(id: number) {
+  return request<{
     artist: Artist
     hotSongs: Track[]
   }>(`/artists?id=${id}&timestamp=${now()}`)
+}
 
 /**
  * 获取歌手详情
  * @param id
  * @returns
  */
-export const getArtistDetail = (id: number) =>
-  request<{
+export function getArtistDetail(id: number) {
+  return request<{
     data: {
       artist: Artist
     }
   }>(`/artist/detail?id=${id}`)
+}
 
 /**
  * 获取相似歌手
  * @param id
  * @returns
  */
-export const getSimiArtist = (id: number) =>
-  request<{
+export function getSimiArtist(id: number) {
+  return request<{
     artists: Artist[]
   }>(`/simi/artist?id=${id}`)
+}
 
 /**
  * 获取歌手专辑
@@ -42,8 +45,8 @@ export const getSimiArtist = (id: number) =>
  * @param limit
  * @returns
  */
-export const getArtistAlbum = (id: number, limit = 100) =>
-  request<{
+export function getArtistAlbum(id: number, limit = 100) {
+  return request<{
     artist: Artist
     hotAlbums: Album[]
   }>('/artist/album', {
@@ -52,16 +55,18 @@ export const getArtistAlbum = (id: number, limit = 100) =>
       limit,
     },
   })
+}
 
 /**
  * 获取歌手mv
  * @param id
  * @returns
  */
-export const getArtistMv = (id: number) =>
-  request<{
+export function getArtistMv(id: number) {
+  return request<{
     hasMore: boolean
     mvs: MV[]
   }>('/artist/mv', {
     params: { id },
   })
+}

@@ -1,38 +1,37 @@
-import { useAppStore } from "@/store/app";
-import { useSettingStore } from "@/store/setting";
-import { useUserStore } from "@/store/user";
-import { Close as CloseIcon } from "@mui/icons-material";
+import { Close as CloseIcon } from '@mui/icons-material'
 import {
+  Avatar,
   Box,
   Card,
+  CardActionArea,
   Divider,
   Drawer,
   IconButton,
-  Typography,
-  useTheme,
-  Avatar,
-  CardActionArea,
-  styled,
   Stack,
-} from "@mui/material";
-import dayjs from "dayjs";
-import { useMemo } from "react";
+  Typography,
+  styled,
+  useTheme,
+} from '@mui/material'
+import dayjs from 'dayjs'
+import { useMemo } from 'react'
+import { useUserStore } from '@/store/user'
+import { useAppStore } from '@/store/app'
 
-const AccountExtendFab = () => {
-  const { account } = useUserStore();
-  const { toggleProfile } = useAppStore();
-  const theme = useTheme();
+function AccountExtendFab() {
+  const { account } = useUserStore()
+  const { toggleProfile } = useAppStore()
+  const theme = useTheme()
   const avatarUrl = useMemo(() => {
-    return account?.profile.avatarUrl;
-  }, [account]);
+    return account?.profile.avatarUrl
+  }, [account])
 
   const vipInfo = useMemo(() => {
-    return account?.vipInfo;
-  }, [account]);
-  const VipBage = styled("img")(() => ({
+    return account?.vipInfo
+  }, [account])
+  const VipBage = styled('img')(() => ({
     maxWidth: 36,
-    height: "fit-content",
-  }));
+    height: 'fit-content',
+  }))
   function formatDate(datetime: string | number, format = 'YYYY.MM.DD') {
     return dayjs(datetime).format(format)
   }
@@ -43,9 +42,9 @@ const AccountExtendFab = () => {
         sx={{
           height: 78,
           bgcolor: theme.palette.surfaceVariant.main,
-          display: "flex",
-          justifyContent: "start",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'start',
+          alignItems: 'center',
           borderRadius: 7,
           px: 2,
         }}
@@ -72,32 +71,32 @@ const AccountExtendFab = () => {
         </Box>
       </CardActionArea>
     </Card>
-  );
-};
+  )
+}
 export default function QuickPanel() {
-  const { showQuick: open, toggleQuick } = useAppStore();
+  const { showQuick: open, toggleQuick } = useAppStore()
   return (
     <Drawer
       anchor="right"
       open={open}
       onClose={() => toggleQuick(false)}
       sx={{
-        width: 310,
-        "& .MuiDrawer-paper": {
+        'width': 310,
+        '& .MuiDrawer-paper': {
           width: 310,
           top: 8,
           bottom: 8,
           right: 8,
-          height: "calc(100% - 16px)",
+          height: 'calc(100% - 16px)',
           borderTopLeftRadius: 16,
           borderBottomLeftRadius: 16,
           borderTopRightRadius: 22,
           borderBottomRightRadius: 22,
         },
-        "& .MuiModal-backdrop": {
+        '& .MuiModal-backdrop': {
           margin: 1,
           borderRadius: 5,
-          backgroundColor: "rgba(0, 0, 0, 0.2)",
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
         },
       }}
     >
@@ -121,5 +120,5 @@ export default function QuickPanel() {
         </Box>
       </Box>
     </Drawer>
-  );
+  )
 }

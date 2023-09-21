@@ -1,12 +1,13 @@
 import { rmSync } from 'node:fs'
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
+
+// eslint-disable-next-line import/default
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
-import pkg from './package.json'
-import { dependencies, devDependencies, name, version } from './package.json'
-
 import { defineConfig, loadEnv } from 'vite'
+import pkg, { dependencies, devDependencies, name, version } from './package.json'
+
 
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
@@ -33,11 +34,11 @@ export default defineConfig(({ command, mode }) => {
         // Main-Process entry file of the Electron App.
         entry: 'electron/main/index.ts',
         onstart(options) {
-          if (process.env.VSCODE_DEBUG) {
+          if (process.env.VSCODE_DEBUG)
             console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
-          } else {
+          else
             options.startup()
-          }
+
         },
         vite: {
           build: {
@@ -53,7 +54,7 @@ export default defineConfig(({ command, mode }) => {
       {
         entry: 'electron/preload/index.ts',
         onstart(options) {
-          // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete, 
+          // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
           // instead of restarting the entire Electron App.
           options.reload()
         },
@@ -67,14 +68,14 @@ export default defineConfig(({ command, mode }) => {
             },
           },
         },
-      }
+      },
     ]),
-      // Use Node.js API in the Renderer-process
-      renderer(),)
+    // Use Node.js API in the Renderer-process
+    renderer())
   }
 
   return {
-    mode: mode,
+    mode,
     envDir: path.resolve(__dirname, './'),
     root: __dirname,
     resolve: {
@@ -101,7 +102,7 @@ export default defineConfig(({ command, mode }) => {
         '/api': {
           target: `http://${env.VITE_API_SERVER_HOST}:${env.VITE_API_SERVER_PORT}`,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: path => path.replace(/^\/api/, ''),
         },
       },
     },

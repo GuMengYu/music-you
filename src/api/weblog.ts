@@ -17,13 +17,11 @@ function getFidName(fid: number) {
   }
   return map[fid]
 }
-export const playAction = (
-  id: number,
+export function playAction(id: number,
   time: number,
   source: { fid: number; fdata: any },
   endType: 'ui' | 'playend' | 'interrupt' | 'exception',
-  type: string
-) => {
+  type: string) {
   const payload: Record<string, any> = {
     type: type || 'song',
     wifi: 0,
@@ -39,7 +37,7 @@ export const playAction = (
   return weblog('play', payload)
 }
 
-export const weblog = (action: string, json: any) => {
+export function weblog(action: string, json: any) {
   return requestPost('/weblog', {
     log: JSON.stringify({ action, json }),
   })

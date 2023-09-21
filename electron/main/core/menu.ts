@@ -1,10 +1,11 @@
 import type { BrowserWindow } from 'electron'
-import { app, Menu, shell } from 'electron'
+import { Menu, app, shell } from 'electron'
 import is from 'electron-is'
 
 import { name } from '../../../package.json'
+
 const isMac = process.platform === 'darwin'
-export const createElectronMenu = (window: BrowserWindow) => {
+export function createElectronMenu(window: BrowserWindow) {
   const template: any = [
     ...(is.macOS()
       ? [
@@ -170,13 +171,13 @@ export const createElectronMenu = (window: BrowserWindow) => {
         },
         ...(is.dev()
           ? [
-            {
-              label: '演练场',
-              click: () => {
-                window.webContents.send('open-route', '/playground')
+              {
+                label: '演练场',
+                click: () => {
+                  window.webContents.send('open-route', '/playground')
+                },
               },
-            },
-          ]
+            ]
           : []),
         {
           label: '问题&反馈',

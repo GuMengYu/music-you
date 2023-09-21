@@ -3,10 +3,9 @@ import { inRange } from 'lodash-es'
 
 /**
  * 休眠
- * @param time
- * @returns {Promise<unknown>}
+ * @param time 暂停程序时长（毫秒）
  */
-export const sleep = (time = 1000) => {
+export function sleep(time = 1000) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(time)
@@ -56,17 +55,17 @@ export const sleep = (time = 1000) => {
 [03:44.990]we'll stay forever this way.
 [03:52.990]You are safe in my heart,
 [03:57.589]and my heart will go on and on
-
+ 
  */
 
-export const formatLyric = (lyric = '') => {
+export function formatLyric(lyric = '') {
   return lyric
     .split('\n')
-    .filter((i) => !!i)
+    .filter(i => !!i)
     ?.map((i) => {
       let time = 0
       let sentence = i.match(/](.*)/)?.[1] ?? i
-      const reg = new RegExp(/\[\d*:\d*((\.|:)\d*)*\]/, 'g')
+      const reg = /\[\d*:\d*((\.|:)\d*)*\]/g
       const timeStr = i.match(reg)?.[0] ?? ''
       interface Info {
         t: number
@@ -79,7 +78,7 @@ export const formatLyric = (lyric = '') => {
       let info: Info
 
       if (timeStr) {
-        const reg = new RegExp(/\[\d*:\d*((\.|:)\d*)*\]/, 'g')
+        const reg = /\[\d*:\d*((\.|:)\d*)*\]/g
         const timeStr = i.match(reg)?.[0] ?? ''
         time = 0
         // [by: ***]
@@ -93,7 +92,9 @@ export const formatLyric = (lyric = '') => {
         const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2)
         time = min * 60 + sec + millToSec
         sentence = sentence || '...'
-      } else if ((info = toJson(i) as Info)) {
+      }
+      else {
+        info = toJson(i) as Info
         time = -1
         const { c } = info
         sentence = `${c[0].tx}${c[1].tx}`
@@ -112,7 +113,7 @@ export const formatLyric = (lyric = '') => {
  * @param url
  * @param name
  */
-export const downloadFile = (url: string, name?: string) => {
+export function downloadFile(url: string, name?: string) {
   const fileName = name || (url.split('/').pop() ?? url)
 
   const tempLink = document.createElement('a')
@@ -128,7 +129,7 @@ export const downloadFile = (url: string, name?: string) => {
   tempLink.click()
 
   // Fixes "webkit blob resource error 1"
-  setTimeout(function () {
+  setTimeout(() => {
     document.body.removeChild(tempLink)
   }, 200)
 }
@@ -145,7 +146,8 @@ export function fileToBuffer(file: File) {
     }
     try {
       reader.readAsArrayBuffer(file)
-    } catch (e) {
+    }
+    catch (e) {
       reject(e)
     }
   })
@@ -163,7 +165,8 @@ export function fileToDataURL(file: File) {
     }
     try {
       reader.readAsDataURL(file)
-    } catch (e) {
+    }
+    catch (e) {
       reject(e)
     }
   })
@@ -193,7 +196,8 @@ export function getImageDataUrl(url: string) {
     image.onload = () => {
       try {
         resolve(imageToDataUrl(image))
-      } catch (e) {
+      }
+      catch (e) {
         reject(e)
       }
     }
@@ -206,15 +210,16 @@ export function getImageDataUrl(url: string) {
  * 容量单位转换
  * @param _bytes 大小（字节）
  * @param {*} k 标准大小 （1024 ｜ 1000）
- * @returns
+ * @returns {string} eg: 2.45KB
  */
 export function bytesToSize(_bytes: string | number = 0, k = 1024) {
   const bytes = +_bytes
-  if (bytes === 0) return '0 B'
-  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-    i = Math.floor(Math.log(bytes) / Math.log(k))
+  if (bytes === 0)
+    return '0 B'
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-  return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
+  return `${(bytes / k ** i).toPrecision(3)  } ${  sizes[i]}`
 }
 
 /**
@@ -245,7 +250,8 @@ export function formatDuring(t = 0, i18n = false) {
     m && (text += `${m}${i18n ?? 'm'}`)
     s && (text += `${s}${i18n ?? 's'}`)
     return text || '-'
-  } else {
+  }
+  else {
     return `${h > 0 ? `${h < 10 ? `0${h}` : h}:` : ''}${m < 10 ? `0${m}` : m}:${s < 10 ? `0${s}` : s}`
   }
 }
@@ -258,19 +264,19 @@ export function formatDate(datetime: string | number | undefined, format = 'YYYY
  * 格式化数字
  * @param number
  */
-export const formatNumber = (number: number, fractionDigits = 2) => {
-  if (inRange(number, 1000, 1000000)) {
+export function formatNumber(number: number, fractionDigits = 2) {
+  if (inRange(number, 1000, 1000000))
     return `${(number / 1000).toFixed(fractionDigits)} K`
-  } else if (inRange(number, 1000001, 1000000000)) {
+  else if (inRange(number, 1000001, 1000000000))
     return `${(number / 1000000).toFixed(fractionDigits)} M`
-  } else if (inRange(number, 1000000001, Infinity)) {
+  else if (inRange(number, 1000000001, Number.POSITIVE_INFINITY))
     return `${(number / 1000000000).toFixed(fractionDigits)} B`
-  } else {
+  else
     return number
-  }
+
 }
 
-export const arrayToObject = (arr: Record<string, any>[], keyName: string) => {
+export function arrayToObject(arr: Record<string, any>[], keyName: string) {
   const o: Record<string, any> = {}
   arr.forEach((i) => {
     o[i[keyName]] = i
@@ -278,15 +284,16 @@ export const arrayToObject = (arr: Record<string, any>[], keyName: string) => {
   return o
 }
 
-export const toHttps = (url = '') => {
+export function toHttps(url = '') {
   return url.replace('http://', 'https://')
 }
 
-export const toJson = (str: string): boolean | Record<any, any> | Array<any> => {
+export function toJson(str: string): boolean | Record<any, any> | Array<any> {
   try {
     const res = JSON.parse(str)
     return res
-  } catch (error) {
+  }
+  catch (error) {
     return false
   }
 }
@@ -296,13 +303,13 @@ export function hexToRgb(hex: string, format = false) {
   hex = hex.replace('#', '')
 
   // 按照红色、绿色、蓝色的顺序提取颜色分量
-  const red = parseInt(hex.substring(0, 2), 16)
-  const green = parseInt(hex.substring(2, 4), 16)
-  const blue = parseInt(hex.substring(4, 6), 16)
+  const red = Number.parseInt(hex.substring(0, 2), 16)
+  const green = Number.parseInt(hex.substring(2, 4), 16)
+  const blue = Number.parseInt(hex.substring(4, 6), 16)
 
-  if (format) {
+  if (format)
     return `rgb(${red}, ${green}, ${blue})`
-  } else {
+  else
     return `${red}, ${green}, ${blue}`
-  }
+
 }

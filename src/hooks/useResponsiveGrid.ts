@@ -1,7 +1,7 @@
 // import { DisplayBreakpoint, useSematicBreakPoint } from './useBreakpoint'
 
-import { useEffect, useState } from 'react';
-import { DisplayBreakpoint, useSematicBreakPoint } from './useBreakpoint';
+import { useEffect, useState } from 'react'
+import { DisplayBreakpoint, useSematicBreakPoint } from './useBreakpoint'
 
 export enum GridType {
   A,

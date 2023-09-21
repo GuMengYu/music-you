@@ -1,58 +1,56 @@
-import { useAppStore } from "@/store/app";
-import { useUserStore } from "@/store/user";
 import {
   Avatar,
   Box,
+  Button,
+  Card,
   IconButton,
   Typography,
-  styled,
-  useTheme,
-} from "@mui/material";
-import { Card, Button } from "@mui/material";
-import { useMemo } from "react";
-import Md3Dialog from "./Md3Dialog";
+  styled, useTheme } from '@mui/material'
+import { useMemo } from 'react'
 import {
   Close,
   EditRounded,
   Logout as LogoutIcon,
   AddCircleOutline as PlusIcon,
-  GitHub as GithubIcon,
-  Assessment as AssignmentIcon,
-} from "@mui/icons-material";
-import { ipcRenderer } from "electron";
-import is from "@/util/is";
-const Profile = () => {
-  const { showProfile: open, toggleProfile } = useAppStore();
-  const { account } = useUserStore();
-  const theme = useTheme();
+} from '@mui/icons-material'
+import { ipcRenderer } from 'electron'
+import Md3Dialog from './Md3Dialog'
+import { useUserStore } from '@/store/user'
+import { useAppStore } from '@/store/app'
+import is from '@/util/is'
+
+function Profile() {
+  const { showProfile: open, toggleProfile } = useAppStore()
+  const { account } = useUserStore()
+  const theme = useTheme()
   const avatarUrl = useMemo(() => {
-    return account?.profile.avatarUrl;
-  }, [account]);
+    return account?.profile.avatarUrl
+  }, [account])
 
   const BottomButton = styled(Button)(() => ({
-    flex: 1,
-    height: 60,
-    boxShadow: "none",
-    border: "1px solid transparent",
-    justifyContent: "start",
-    gap: 4,
-    "&:hover": {
+    'flex': 1,
+    'height': 60,
+    'boxShadow': 'none',
+    'border': '1px solid transparent',
+    'justifyContent': 'start',
+    'gap': 4,
+    '&:hover': {
       bgcolor: theme.palette.secondaryContainer.main,
       borderColor: theme.palette.primary.main,
     },
-  }));
+  }))
   BottomButton.defaultProps = {
-    variant: "contained",
-    color: "surface" as "primary",
+    variant: 'contained',
+    color: 'surface' as 'primary',
     disableElevation: true,
-  };
+  }
   const goto = (url: string) => {
-    if (is.electron()) {
-      ipcRenderer.invoke("open-url", url);
-    } else {
-      window.open(url, "_blank");
-    }
-  };
+    if (is.electron()) 
+      ipcRenderer.invoke('open-url', url)
+    else 
+      window.open(url, '_blank')
+    
+  }
   function handleClose() {
     toggleProfile(false)
   }
@@ -73,7 +71,7 @@ const Profile = () => {
         </Box>
         <Box
           sx={{
-            position: "relative",
+            position: 'relative',
           }}
         >
           <Card
@@ -81,9 +79,9 @@ const Profile = () => {
             sx={{
               height: 86,
               bgcolor: theme.palette.surface.main,
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'start',
+              alignItems: 'center',
               borderRadius: 4,
               px: 2,
             }}
@@ -111,7 +109,7 @@ const Profile = () => {
               width: 48,
               borderRadius: 3.5,
               minWidth: 48,
-              position: "absolute",
+              position: 'absolute',
               bottom: -30,
               right: 25,
             }}
@@ -122,8 +120,8 @@ const Profile = () => {
         <Box
           sx={{
             mt: 5,
-            display: "flex",
-            justifyContent: "space-between",
+            display: 'flex',
+            justifyContent: 'space-between',
             gap: 0.5,
           }}
         >
@@ -149,7 +147,7 @@ const Profile = () => {
           <Button
             variant="text"
             size="small"
-            onClick={() => goto("https://github.com/GuMengYu/music-you/blob/dev/README.md#声明")}
+            onClick={() => goto('https://github.com/GuMengYu/music-you/blob/dev/README.md#声明')}
           >
             <Typography variant="caption">免责声明 </Typography>
           </Button>
@@ -157,14 +155,14 @@ const Profile = () => {
           <Button
             size="small"
             variant="text"
-            onClick={() => goto("https://github.com/GuMengYu/music-you")}
+            onClick={() => goto('https://github.com/GuMengYu/music-you')}
           >
             <Typography variant="caption">github </Typography>
           </Button>
         </Box>
       </Card>
     </Md3Dialog>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

@@ -1,20 +1,20 @@
 // import { useResizeObserver } from '@vueuse/core'
 // import { computed } from 'vue'
-import { useEffect, useMemo, useState } from 'react';
-import {useSize} from 'react-use';
+import { useEffect, useMemo, useState } from 'react'
 
-export const useElementScrollSize = (el: HTMLElement | null | undefined) => {
+export function useElementScrollSize(el: HTMLElement | null | undefined) {
   const [scrollWidth, setScrollWidth] = useState(0)
   const [clientWidth, setClientWidth] = useState(0)
 
   useEffect(() => {
-    if (!el) return
+    if (!el)
+      return
     updateData()
     const observer = new ResizeObserver((entries) => {
-      entries.map((entry) => {
-        if (entry.target === el) {
+      entries.forEach((entry) => {
+        if (entry.target === el)
           updateData()
-        }
+
       })
     })
     observer.observe(el)
@@ -24,8 +24,9 @@ export const useElementScrollSize = (el: HTMLElement | null | undefined) => {
   }, [el])
 
   function updateData() {
-    if (!el) return
-    const {scrollWidth, clientWidth } = el
+    if (!el)
+      return
+    const { scrollWidth, clientWidth } = el
     setScrollWidth(scrollWidth)
     setClientWidth(clientWidth)
   }

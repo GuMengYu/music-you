@@ -1,14 +1,14 @@
-import {Album, Artist} from "@/types";
-import {isArray} from "lodash-es";
-import {Link as RouterLink} from 'react-router-dom'
+import { isArray } from 'lodash-es'
+import { Link as RouterLink } from 'react-router-dom'
+import type { Album } from '@/types'
 
-export default function AlbumLink({album}: { album: Album[] | Album }) {
+export default function AlbumLink({ album }: { album: Album[] | Album }) {
   let albums = []
-  if (isArray(album)) {
+  if (isArray(album)) 
     albums = album
-  } else {
+  else 
     albums = [album]
-  }
+  
   return <span>
     {
       albums.map((al, idx) => {

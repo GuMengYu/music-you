@@ -1,14 +1,17 @@
 {
   "name": "music-you-react",
   "version": "0.0.1",
-  "main": "dist-electron/main/index.js",
+  "private": true,
   "description": "A NetEaseCloudMusic third-party music player (base on react)",
   "author": "gumengyu<1415515984yuri@gmail.com>",
-  "private": true,
+  "main": "dist-electron/main/index.js",
   "debug": {
     "env": {
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777/"
     }
+  },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
   },
   "scripts": {
     "dev": "vite",
@@ -18,12 +21,16 @@
     "electron:build:mac": "npm run electron:prebuild && electron-builder --mac --publish onTag",
     "electron:build:win": "npm run electron:prebuild && electron-builder --win --publish onTag",
     "electron:build:linux": "npm run electron:prebuild && electron-builder --linux --publish onTag",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "electron:prebuild": "vite build --mode electron",
+    "lint:eslint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@antfu/eslint-config": "^0.43.0",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -32,6 +39,7 @@
     "@mui/system": "^5.14.8",
     "@tanstack/react-query": "^4.35.0",
     "@tanstack/react-query-devtools": "^4.35.0",
+    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "dayjs": "^1.11.9",
     "electron-dl": "^3.5.0",
     "electron-is": "^3.0.0",
@@ -44,7 +52,6 @@
     "http-proxy-middleware": "^2.0.6",
     "lodash-es": "^4.17.21",
     "lottie-web": "^5.12.2",
-    "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#v-player",
     "node-id3": "^0.2.6",
     "notistack": "^3.0.1",
     "polka": "^0.5.2",
@@ -64,11 +71,15 @@
     "@types/polka": "^0.5.4",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.15",
-    "electron": "^26.0.0",
+    "electron": "26.2.0",
     "electron-builder": "^24.6.3",
     "electron-devtools-installer": "^3.2.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
     "md5": "^2.3.0",
     "postcss": "^8.4.29",
     "react": "^18.2.0",
@@ -80,8 +91,5 @@
     "vite": "^4.4.9",
     "vite-plugin-electron": "^0.13.0-beta.3",
     "vite-plugin-electron-renderer": "^0.14.5"
-  },
-  "engines": {
-    "node": "^14.18.0 || >=16.0.0"
   }
 }

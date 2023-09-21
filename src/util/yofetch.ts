@@ -59,34 +59,42 @@ class YoFetch {
   constructor(options: Options = {}) {
     this.defaults = options
   }
+
   get: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'get')
   }
+
   delete: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'delete')
   }
+
   head: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'head')
   }
+
   options: BodylessMethod = function (this: YoFetch, url, config) {
     return this.request(url, config, 'options')
   }
+
   post: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'post', data)
   }
+
   put: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'put', data)
   }
+
   patch: BodyMethod = function (this: YoFetch, url, data, config) {
     return this.request(url, config, 'patch', data)
   }
+
   request<T>(urlOrConfig: string | Options, config?: Options, _method?: method, data?: any): Promise<Response<T>> {
     let url = ''
-    if (typeof urlOrConfig !== 'string') {
+    if (typeof urlOrConfig !== 'string')
       config = urlOrConfig
-    } else {
+    else
       url = urlOrConfig
-    }
+
     const response: Response<any> = { config } as Response<any>
     const customHeaders: HeadersInit = {}
 
@@ -94,13 +102,13 @@ class YoFetch {
 
     data = data ?? options.data
 
-    options.transformRequest?.map((f) => {
+    options.transformRequest?.forEach((f) => {
       data = f(data, options.headers) ?? data
     })
 
-    if (options.auth) {
+    if (options.auth)
       customHeaders.authorization = options.auth
-    }
+
 
     if (data && typeof data === 'object' && typeof data.append !== 'function' && typeof data.text !== 'function') {
       data = JSON.stringify(data)
@@ -109,19 +117,20 @@ class YoFetch {
 
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error
       customHeaders[options.xsrfHeaderName] = decodeURIComponent(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        document.cookie.match(RegExp('(^|; )' + options.xsrfCookieName + '=([^;]*)'))[2]
+        // @ts-expect-error
+        document.cookie.match(RegExp(`(^|; )${  options.xsrfCookieName  }=([^;]*)`))[2],
       )
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+
+    }
+    catch (e) {}
 
     // append baseURL to url
-    if (options.baseURL) {
-      url = url.replace(/^(?!.*\/\/)\/?/, options.baseURL + '/')
-    }
+    if (options.baseURL)
+      url = url.replace(/^(?!.*\/\/)\/?/, `${options.baseURL  }/`)
+
 
     // serialize params to query string
     if (options.params) {
@@ -141,15 +150,15 @@ class YoFetch {
     }).then((res) => {
       for (const i in res) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // @ts-expect-error
         if (typeof res[i] !== 'function') {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error
           response[i] = res[i]
         }
       }
 
-      if (options.responseType == 'stream') {
+      if (options.responseType === 'stream') {
         response.data = res.body
         return response
       }
@@ -166,6 +175,7 @@ class YoFetch {
         })
     })
   }
+
   all = Promise.all.bind(Promise)
   create(config: Options) {
     return createInstance(config)
@@ -181,7 +191,7 @@ function deepMerge<T, U>(opts: T, overrides: U, lowerCase = false): Record<strin
   for (const i in overrides) {
     const key = lowerCase ? i.toLowerCase() : i
     const value = overrides[i]
-    out[key] = key in out && typeof value == 'object' ? deepMerge(out[key], value, key == 'headers') : value
+    out[key] = key in out && typeof value == 'object' ? deepMerge(out[key], value, key === 'headers') : value
   }
   return out as Record<string, any> & (T | U)
 }

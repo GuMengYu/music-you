@@ -1,12 +1,16 @@
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import type { SvgIconProps } from '@mui/material'
+import { SvgIcon } from '@mui/material'
 
-export const ReloadIcon = (props: SvgIconProps) => (<SvgIcon {...props}>
+export function ReloadIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
   <path
     d="M2 12C2 16.97 6.03 21 11 21C13.39 21 15.68 20.06 17.4 18.4L15.9 16.9C14.63 18.25 12.86 19 11 19C4.76 19 1.64 11.46 6.05 7.05C10.46 2.64 18 5.77 18 12H15L19 16H19.1L23 12H20C20 7.03 15.97 3 11 3C6.03 3 2 7.03 2 12Z"/>
-</SvgIcon>)
+</SvgIcon>
+}
 
 
-export const PlayOutlinedIcon = (props: SvgIconProps) => (<SvgIcon {...props}>
+export function PlayOutlinedIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="Play">
       <g id="Iconly/Bulk/Play">
@@ -17,10 +21,12 @@ export const PlayOutlinedIcon = (props: SvgIconProps) => (<SvgIcon {...props}>
       </g>
     </g>
   </svg>
-</SvgIcon>)
+</SvgIcon>
+}
 
 
-export const PlayIcon = (props: SvgIconProps) => (<SvgIcon {...props}>
+export function PlayIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
     <g id="Play">
       <g id="Iconly/Bulk/Play">
@@ -30,4 +36,5 @@ export const PlayIcon = (props: SvgIconProps) => (<SvgIcon {...props}>
       </g>
     </g>
   </svg>
-</SvgIcon>)
+</SvgIcon>
+}

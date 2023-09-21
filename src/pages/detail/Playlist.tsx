@@ -1,36 +1,35 @@
-import Image from "@/components/Image";
-import {Playlist} from "@/types";
-import {formatDuring, formatNumber, formatDate} from "@/util/fn";
-import {Button, DialogContent, DialogTitle, Divider, IconButton, Typography, useTheme} from "@mui/material";
-import {useParams} from "react-router-dom";
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import PageTransition from "@/components/PageTransition";
-import useQueryPlaylist from "@/pages/detail/useQueryPlaylist";
-import TrackList from "@/components/TrackList";
-import {Box} from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { Box, Button, DialogContent, DialogTitle, Divider, IconButton, Typography, useTheme } from '@mui/material'
+import { useParams } from 'react-router-dom'
+import QueueMusicIcon from '@mui/icons-material/QueueMusic'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import PlayListSkeleton from "@/pages/detail/PlayListSkeleton";
-import {motion} from "framer-motion";
-import Md3Dialog from "@/pages/modal/Md3Dialog";
-import {useState} from "react";
-import ImageViewer from "@/components/ImageViewer";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import Md3Dialog from '@/pages/modal/Md3Dialog'
+import TrackList from '@/components/TrackList'
+import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
+import PageTransition from '@/components/PageTransition'
+import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
+import { formatDate, formatDuring, formatNumber } from '@/util/fn'
+import type { Playlist } from '@/types'
+import Image from '@/components/Image'
+import ImageViewer from '@/components/ImageViewer'
 
-const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
-  const theme = useTheme();
+function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
+  const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
 
-  const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0);
+  const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   return (
     <motion.div
       initial={{
-        opacity: 0, transform: 'translateX(15px)'
+        opacity: 0, transform: 'translateX(15px)',
       }}
       animate={{
-        opacity: 1, transform: 'translateX(0px)'
+        opacity: 1, transform: 'translateX(0px)',
       }}
       transition={{
         duration: 0.25,
@@ -38,7 +37,7 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
       }}
     >
       <div className="flex flex-col">
-        <div className="flex justify-between -ml-2 -mr-4 relative" style={{height: '317px'}}>
+        <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
           <Image
             className="absolute"
             src={playlist?.coverImgUrl}
@@ -56,7 +55,7 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
               <Typography variant="h4">{playlist?.name}</Typography>
               <div className="flex flex-col">
                 <Typography variant="body1" color='primary'>
-                  {playlist?.["creator"]?.nickname}
+                  {playlist?.['creator']?.nickname}
                 </Typography>
                 <Typography variant="caption">
                   {formatDate(playlist?.createTime, 'LL')}
@@ -65,17 +64,17 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
               <div className="flex py-2">
                 <div
                   className="flex flex-col items-center pr-4"
-                  style={{minWidth: "96px"}}
+                  style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {playlist?.["trackCount"]}
+                    {playlist?.['trackCount']}
                   </Typography>
                   <Typography variant="caption">首</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
                 <div
                   className="flex flex-col items-center px-4"
-                  style={{minWidth: "96px"}}
+                  style={{ minWidth: '96px' }}
                 >
                   <QueueMusicIcon fontSize='small'/>
                   <Typography variant="caption">歌单</Typography>
@@ -84,7 +83,7 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
 
                 <div
                   className="flex flex-col items-center px-4"
-                  style={{minWidth: "96px"}}
+                  style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
                     {formatDuring(tracksDt)}
@@ -95,23 +94,23 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
 
                 <div
                   className="flex flex-col items-center pl-4"
-                  style={{minWidth: "96px"}}
+                  style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {playlist?.playCount ? formatNumber(playlist?.["playCount"]) : 0}
+                    {playlist?.playCount ? formatNumber(playlist?.['playCount']) : 0}
                   </Typography>
                   <Typography variant="caption">次</Typography>
                 </div>
               </div>
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
-                  bgcolor: `${theme.palette.primary.main}1f`,
-                  borderRadius: 6,
-                  px: 6,
-                  py: 1.5,
+                  'bgcolor': `${theme.palette.primary.main}1f`,
+                  'borderRadius': 6,
+                  'px': 6,
+                  'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
-                  }
+                  },
                 }}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
@@ -124,35 +123,35 @@ const PlayListHeader = ({playlist}: { playlist: Playlist | undefined }) => {
         </div>
         {
           playlist?.description && <>
-                <div className="flex flex-col gap-1">
-                    <div className="flex items-center">
-                        <Typography variant='body1'>歌单简介</Typography>
-                        <IconButton onClick={() => setShowDesc(true)}>
-                            <ArrowForwardIcon/>
-                        </IconButton>
-                    </div>
-                    <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
-                </div>
-                <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-                    <DialogTitle variant='body1'>歌单简介</DialogTitle>
-                    <DialogContent>
-                        <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
-                    </DialogContent>
-                </Md3Dialog>
-            </>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center">
+                <Typography variant='body1'>歌单简介</Typography>
+                <IconButton onClick={() => setShowDesc(true)}>
+                  <ArrowForwardIcon/>
+                </IconButton>
+              </div>
+              <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
+            </div>
+            <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
+              <DialogTitle variant='body1'>歌单简介</DialogTitle>
+              <DialogContent>
+                <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
+              </DialogContent>
+            </Md3Dialog>
+          </>
         }
       </div>
     </motion.div>
-  );
-};
+  )
+}
 export default function PlaylistPage() {
-  const params = useParams();
+  const params = useParams()
   const theme = useTheme()
-  const {data, isLoading} = useQueryPlaylist(params.id)
+  const { data, isLoading } = useQueryPlaylist(params.id)
   return (
     <PageTransition>
       {isLoading}
-      <Box  sx={{color: theme.palette.onSurface.main}}>
+      <Box  sx={{ color: theme.palette.onSurface.main }}>
         {
           isLoading ? <PlayListSkeleton/> : <PlayListHeader playlist={data?.playlist}/>
         }
@@ -163,5 +162,5 @@ export default function PlaylistPage() {
       </Box>
     </PageTransition>
 
-  );
+  )
 }

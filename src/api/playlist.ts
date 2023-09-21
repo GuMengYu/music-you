@@ -10,7 +10,7 @@ import { request, requestPost } from '@/util/fetch'
  * @returns {Promise<playListModel>}
  */
 
-export const getPlaylistDetail = (id: number, realTime = false) => {
+export function getPlaylistDetail(id: number, realTime = false) {
   const params: {
     id: number
     timestamp?: number
@@ -31,7 +31,7 @@ export const getPlaylistDetail = (id: number, realTime = false) => {
  * @param offset 默认值为0
  * @returns Playlist
  */
-export const getPlaylistTrackAll = (playlist: Playlist, limit?: number, offset = 0) => {
+export function getPlaylistTrackAll(playlist: Playlist, limit?: number, offset = 0) {
   const params: {
     id: number
     limit?: number
@@ -52,17 +52,18 @@ export const getPlaylistTrackAll = (playlist: Playlist, limit?: number, offset =
  * @param id 歌单 id
  * @returns {Promise<relatePlayListModel[]>}
  */
-export const getRelatedPlayList = (id: number) =>
-  request<{
+export function getRelatedPlayList(id: number) {
+  return request<{
     playlists: Playlist[]
-  }>(`/related/playlist`, { params: { id } })
+  }>('/related/playlist', { params: { id } })
+}
 
 /**
  * 删除歌单
  * @param id
  * @returns
  */
-export const deletePlayList = (id: number) => {
+export function deletePlayList(id: number) {
   return request<{
     code: number
     message: string
@@ -82,7 +83,7 @@ export const deletePlayList = (id: number) => {
  * @param tags 歌单tag ,多个用 `;` 隔开,只能用官方规定标签
  * @returns
  */
-export const updatePlaylist = (id: number, name: string, desc: string, tags: string[]) => {
+export function updatePlaylist(id: number, name: string, desc: string, tags: string[]) {
   return request<{
     code: number
   }>('/playlist/update', {
@@ -96,14 +97,12 @@ export const updatePlaylist = (id: number, name: string, desc: string, tags: str
   })
 }
 
-export const updatePlayListCover = (
-  id: number,
+export function updatePlayListCover(id: number,
   formdata: FormData,
   options: {
     imgX: number
     imgY: number
-  }
-) => {
+  }) {
   return requestPost('/playlist/cover/update', formdata, {
     params: {
       id,
@@ -118,11 +117,11 @@ export const updatePlayListCover = (
  * name 歌单名
  * privacy 是否设置为隐私歌单，默认否，'10' 为隐私歌单
  * type 歌单类型
- * @param {name: string, privacy: number, type: string} params
+ * @param params
  * @returns
  */
-export const createPlaylist = (params: { name: string; privacy: number }) =>
-  requestPost(
+export function createPlaylist(params: { name: string; privacy: number }) {
+  return requestPost(
     '/playlist/create',
     {
       ...params,
@@ -131,25 +130,27 @@ export const createPlaylist = (params: { name: string; privacy: number }) =>
       params: {
         timestamp: now(),
       },
-    }
+    },
   )
+}
 
 /**
  * 获取歌单分类列表
  * @returns
  */
-export const getCatList = () =>
-  request<{
+export function getCatList() {
+  return request<{
     categories: Record<string, string>
     sub: []
   }>('/playlist/catlist')
+}
 
 /**
  * 获得歌单动态信息,如是否收藏,收藏数,评论数,分享数
  * @param id
  */
-export const getPlayListDynamic = (id: number) =>
-  request<{
+export function getPlayListDynamic(id: number) {
+  return request<{
     isSub: boolean
     subCount: number
   }>('/playlist/detail/dynamic', {
@@ -158,6 +159,7 @@ export const getPlayListDynamic = (id: number) =>
       id,
     },
   })
+}
 /**
  * 获取歌单评论
  * @param id
@@ -165,7 +167,7 @@ export const getPlayListDynamic = (id: number) =>
  * @param offset
  * @returns
  */
-export const getPlayListComment = (id: number, limit = 15, offset = 0) => {
+export function getPlayListComment(id: number, limit = 15, offset = 0) {
   return request<{
     code: number
     total: number

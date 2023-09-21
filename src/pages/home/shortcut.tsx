@@ -1,64 +1,70 @@
-import Image from "@/components/Image";
-import { Box, Card, IconButton, Typography, useTheme } from "@mui/material";
-import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useState } from "react";
-import { Track } from "@/types";
-import { getDailyRecommend, recent } from "@/api/user";
-import { playQueueStore } from "@/store/playQueue";
-import { getTrackList } from "@/api/music";
-import { usePlayerControl } from "@/hooks/usePlayer";
-import LoadingButton from "@/components/button/LoadingButton";
-import {PlayIcon} from "@/components/icons/icons";
+import { Box, Card, Typography, useTheme } from '@mui/material'
+import { AnimatePresence, motion } from 'framer-motion'
+import type { ReactNode } from 'react'
+import { useState } from 'react'
+import Image from '@/components/Image'
+import type { Track } from '@/types'
+import { getDailyRecommend, recent } from '@/api/user'
+import { playQueueStore } from '@/store/playQueue'
+import { getTrackList } from '@/api/music'
+import { usePlayerControl } from '@/hooks/usePlayer'
+import LoadingButton from '@/components/button/LoadingButton'
+import { PlayIcon } from '@/components/icons/icons'
+
 export default function ShortCut({
   data,
   decoration,
   type,
 }: {
-  data: any;
+  data: any
   decoration: {
-    text?: string;
-    icon?: ReactNode;
-    color?: string;
-  };
-  type: "album" | "playlist" | "artist" | "daily" | "recent" | "program";
+    text?: string
+    icon?: ReactNode
+    color?: string
+  }
+  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent' | 'program'
 }) {
-  const [isHovering, setIsHovering] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { updatePlayQueue } = playQueueStore();
-  const { playNext } = usePlayerControl();
-  const theme = useTheme();
+  const [isHovering, setIsHovering] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { updatePlayQueue } = playQueueStore()
+  const { playNext } = usePlayerControl()
+  const theme = useTheme()
   async function handlePlay() {
     try {
-      setLoading(true);
+      setLoading(true)
       let info: {
-        id?: number;
-        list: Track[];
-      };
-      if (type === "daily") {
-        const { data } = await getDailyRecommend();
+        id?: number
+        list: Track[]
+      }
+      if (type === 'daily') {
+        const { data } = await getDailyRecommend()
         info = {
-          list: data["dailySongs"],
-        };
-        updatePlayQueue(0, "daily", "日推", info.list);
-      } else if (type === "recent") {
-        const { data } = await recent();
+          list: data['dailySongs'],
+        }
+        updatePlayQueue(0, 'daily', '日推', info.list)
+      }
+      else if (type === 'recent') {
+        const { data } = await recent()
         info = {
-          list: data.list.map((i) => i["data"]),
-        };
-        updatePlayQueue(0, "recent", "最近播放", info.list);
-      } else {
-        const _data = await getTrackList(type, data.id as number);
+          list: data.list.map(i => i['data']),
+        }
+        updatePlayQueue(0, 'recent', '最近播放', info.list)
+      }
+      else {
+        const _data = await getTrackList(type, data.id as number)
         info = {
           id: _data.id,
           list: _data.tracks,
-        };
-        updatePlayQueue(info.id!, type, data.name!, info.list);
+        }
+        updatePlayQueue(info.id!, type, data.name!, info.list)
       }
-      playNext();
-    } catch (e) {
-      console.debug(e);
-    } finally {
-      setLoading(false);
+      playNext()
+    }
+    catch (e) {
+      console.debug(e)
+    }
+    finally {
+      setLoading(false)
     }
   }
   function handleJump() {}
@@ -78,10 +84,10 @@ export default function ShortCut({
     >
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: "100%",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: '100%',
           height: 45,
           width: 45,
           bgcolor: decoration.color,
@@ -111,7 +117,7 @@ export default function ShortCut({
         sx={{
           height: 76,
           width: 76,
-          position: "relative",
+          position: 'relative',
         }}
       >
         <Image sizes="" src={data.picUrl} className="absolute" />
@@ -121,15 +127,15 @@ export default function ShortCut({
               className="flex justify-center items-center top-0 w-full h-full absolute"
               initial={{
                 opacity: 0,
-                transform: "translateX(30px)",
+                transform: 'translateX(30px)',
               }}
               animate={{
                 opacity: 1,
-                transform: "translateX(0px)",
+                transform: 'translateX(0px)',
               }}
               exit={{
                 opacity: 0,
-                transform: "translateX(30px)",
+                transform: 'translateX(30px)',
               }}
               transition={{
                 duration: 0.35,
@@ -140,19 +146,19 @@ export default function ShortCut({
                 loading={loading}
                 onClick={handlePlay}
                 sx={{
-                  p: 0,
-                  bgcolor: `${theme.palette.primary.main}`,
+                  'p': 0,
+                  'bgcolor': `${theme.palette.primary.main}`,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}F2`,
-                  }
+                  },
                 }}
               >
-                <PlayIcon sx={{fontSize: '2.5rem'}} color={'onPrimary' as 'primary'} />
+                <PlayIcon sx={{ fontSize: '2.5rem' }} color={'onPrimary' as 'primary'} />
               </LoadingButton>
             </motion.div>
           )}
         </AnimatePresence>
       </Box>
     </Card>
-  );
+  )
 }

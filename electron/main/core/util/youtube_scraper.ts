@@ -17,14 +17,15 @@ export function _parseData(data) {
     videos: [],
   }
 
-  const isVideo = (item) => item.videoRenderer && item.videoRenderer.lengthText
+  const isVideo = item => item.videoRenderer && item.videoRenderer.lengthText
   const getVideoData = (item) => {
     const vRender = item.videoRenderer
     const compress = (key) => {
-      return (key && key['runs'] ? key['runs'].map((v) => v.text) : []).join('')
+      return (key && key['runs'] ? key['runs'].map(v => v.text) : []).join('')
     }
     const parseDuration = (vRender) => {
-      if (!vRender.lengthText?.simpleText) return 0
+      if (!vRender.lengthText?.simpleText) 
+        return 0
 
       const nums = vRender.lengthText.simpleText.split(':')
       const time = nums.reduce((a, t) => 60 * a + +t) * 1e3
@@ -40,8 +41,10 @@ export function _parseData(data) {
   }
 
   for (const item of data) {
-    if (isVideo(item)) results.videos.push(getVideoData(item))
+    if (isVideo(item)) 
+      results.videos.push(getVideoData(item))
   }
+  
 
   return results
 }
@@ -53,16 +56,16 @@ export function _extractData(json) {
 
   if (json.sectionListRenderer) {
     contents = json.sectionListRenderer.contents
-      .filter((item) =>
-        item?.itemSectionRenderer?.contents.filter((x) => x.videoRenderer || x.playlistRenderer || x.channelRenderer)
+      .filter(item =>
+        item?.itemSectionRenderer?.contents.filter(x => x.videoRenderer || x.playlistRenderer || x.channelRenderer),
       )
       .shift().itemSectionRenderer.contents
   }
 
   if (json.richGridRenderer) {
     contents = json.richGridRenderer.contents
-      .filter((item) => item.richItemRenderer && item.richItemRenderer.content)
-      .map((item) => item.richItemRenderer.content)
+      .filter(item => item.richItemRenderer && item.richItemRenderer.content)
+      .map(item => item.richItemRenderer.content)
   }
 
   return contents
@@ -77,9 +80,10 @@ export function _getSearchData(webPage: string) {
 
   try {
     return JSON.parse(data)
-  } catch (e) {
+  }
+  catch (e) {
     throw new Error(
-      'Failed to parse YouTube search data. YouTube might have updated their site or no results returned.'
+      'Failed to parse YouTube search data. YouTube might have updated their site or no results returned.',
     )
   }
 }

@@ -1,8 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { useSnackbar } from 'notistack'
 
-import { useAppStore } from '@/store/app'
-import { usePlayerStore } from '@/store/player'
 import router from '@/router'
 
 // const toast = useSnackbar()
@@ -11,9 +8,9 @@ import is from '@/util/is'
 
 export function useElectron() {
   console.log('register electron ipc renderer')
-  if (is.electron()) {
+  if (is.electron()) 
     registerIpcRenderer()
-  }
+  
 }
 
 function registerIpcRenderer() {

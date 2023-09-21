@@ -1,107 +1,107 @@
+import type {
+  CSSObject,
+  IconButtonProps } from '@mui/material'
 import {
   Box,
-  CSSObject,
   IconButton,
-  IconButtonProps,
   useTheme,
-} from "@mui/material";
-import { PropsWithChildren, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { useElementScrollSize } from "@/hooks/useElementScrollSize";
-import { GridType, useResponsiveGrid } from "@/hooks/useResponsiveGrid";
-import { goto } from "@/util/service";
-import { useScroll } from "react-use";
-import { motion } from "framer-motion";
+} from '@mui/material'
+import type { PropsWithChildren } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight } from '@mui/icons-material'
+import { useScroll } from 'react-use'
+import { useElementScrollSize } from '@/hooks/useElementScrollSize'
+import { GridType, useResponsiveGrid } from '@/hooks/useResponsiveGrid'
+import { goto } from '@/util/service'
 
-const GridRow = (
-  props: PropsWithChildren & {
-    singleLine?: boolean;
-    forceCount?: boolean;
-    rowType?: GridType;
-  }
-) => {
-  const cardRowRef = useRef(null);
-  const theme = useTheme();
+function GridRow(props: PropsWithChildren & {
+  singleLine?: boolean
+  forceCount?: boolean
+  rowType?: GridType
+}) {
+  const cardRowRef = useRef(null)
+  const theme = useTheme()
   const FloatBtn = (
-    props: IconButtonProps & { direction: "prev" | "next" }
+    props: IconButtonProps & { direction: 'prev' | 'next' },
   ) => {
     function handleClick() {
-      scrollTo(props.direction === "prev");
+      scrollTo(props.direction === 'prev')
     }
     return (
       <IconButton
         {...props}
         onClick={handleClick}
         sx={{
-          width: 30,
-          height: 30,
-          position: "absolute",
-          zIndex: 10,
-          top: "calc(50% - 32px)",
-          bgcolor: theme.palette.surface.main,
-          color: theme.palette.onSurface.main,
-          boxShadow: theme.shadows[1],
-          "&:hover": {
+          'width': 30,
+          'height': 30,
+          'position': 'absolute',
+          'zIndex': 10,
+          'top': 'calc(50% - 32px)',
+          'bgcolor': theme.palette.surface.main,
+          'color': theme.palette.onSurface.main,
+          'boxShadow': theme.shadows[1],
+          '&:hover': {
             bgcolor: theme.palette.primaryContainer.main,
           },
         }}
       >
-        {props.direction === "prev" ? (
+        {props.direction === 'prev' ? (
           <ChevronLeft fontSize="small" />
         ) : (
           <ChevronRight fontSize="small" />
         )}
       </IconButton>
-    );
-  };
-  const [isHovering, setIsHovering] = useState(false);
-  const { gap, count } = useResponsiveGrid(props.rowType ?? GridType.A);
+    )
+  }
+  const [isHovering, setIsHovering] = useState(false)
+  const { gap, count } = useResponsiveGrid(props.rowType ?? GridType.A)
   const {
     clientWidth: scrollPageOffset,
     willScroll,
     scrollWidth,
-  } = useElementScrollSize(cardRowRef.current);
-  const { x } = useScroll(cardRowRef);
+  } = useElementScrollSize(cardRowRef.current)
+  const { x } = useScroll(cardRowRef)
 
   const showPrevious = useMemo(() => {
-    return props.singleLine && x > 0;
-  }, [x]);
+    return props.singleLine && x > 0
+  }, [x])
   const showNext = useMemo(() => {
-    const arriveRight = scrollWidth - (x + scrollPageOffset) < 1;
-    return props.singleLine && !arriveRight && willScroll;
-  }, [x, willScroll, scrollPageOffset]);
+    const arriveRight = scrollWidth - (x + scrollPageOffset) < 1
+    return props.singleLine && !arriveRight && willScroll
+  }, [x, willScroll, scrollPageOffset])
 
   const cardRowStyle = useMemo(() => {
     const style: CSSObject = {
       columnGap: gap,
-      display: "grid",
-      rowGap: "16px",
-    };
+      display: 'grid',
+      rowGap: '16px',
+    }
     if (props.singleLine) {
-      style.overflowX = "auto";
-      style.gridAutoFlow = "column";
+      style.overflowX = 'auto'
+      style.gridAutoFlow = 'column'
       style.gridAutoColumns = `calc((100% - ${count - 1} * ${gap}) / ${
         props.forceCount ?? count
-      })`;
-    } else {
-      style.gridTemplateColumns = `repeat(${count}, 1fr)`;
+      })`
     }
-    return style;
-  }, [gap, count]);
+    else {
+      style.gridTemplateColumns = `repeat(${count}, 1fr)`
+    }
+    return style
+  }, [gap, count])
 
   function scrollTo(forward: boolean) {
-    const offset = scrollPageOffset + parseInt(gap);
+    const offset = scrollPageOffset + Number.parseInt(gap)
     if (cardRowRef.current) {
       goto(cardRowRef.current, {
         offset: forward ? -offset : offset,
-      });
+      })
     }
   }
 
   return (
     <div
       style={{
-        position: "relative",
+        position: 'relative',
       }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -111,14 +111,14 @@ const GridRow = (
           <FloatBtn
             size="small"
             direction="prev"
-            style={{ left: 0, transform: "translateX(-50%)" }}
+            style={{ left: 0, transform: 'translateX(-50%)' }}
           />
         )}
         {showNext && isHovering && (
           <FloatBtn
             size="small"
             direction="next"
-            style={{ right: 0, transform: "translateX(50%)" }}
+            style={{ right: 0, transform: 'translateX(50%)' }}
           />
         )}
       </Box>
@@ -133,7 +133,7 @@ const GridRow = (
         {props.children}
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default GridRow;
+export default GridRow

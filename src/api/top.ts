@@ -13,21 +13,23 @@ export const topArtists = () => request('/toplist/artist?type=2')
  limit: 取出歌单数量 , 默认为 50
  offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-export const getTopPlaylist = (params = { limit: 20, cat: '全部', offset: 0 }) =>
-  request<{
+export function getTopPlaylist(params = { limit: 20, cat: '全部', offset: 0 }) {
+  return request<{
     playlists: Playlist[]
   }>('/top/playlist', { params })
+}
 
-export const getTopPlaylistHighQuality = (params = { limit: 20, cat: '全部' }) =>
-  request<{
+export function getTopPlaylistHighQuality(params = { limit: 20, cat: '全部' }) {
+  return request<{
     playlists: Playlist[]
   }>('/top/playlist/highquality', { params })
+}
 
 /**
  * 新歌
  * @returns {AxiosPromise}
  */
-export const topSongs = () => {
+export function topSongs() {
   return request('/top/songs', {
     params: {
       limit: 20,
@@ -41,7 +43,7 @@ export const topSongs = () => {
  * mv排行
  * @returns {AxiosPromise}
  */
-export const topMvs = () => {
+export function topMvs() {
   return request<{
     data: MV[]
     hasMore: boolean
@@ -55,7 +57,8 @@ export const topMvs = () => {
 /**
  * 获取所有榜单
  */
-export const getTopList = () =>
-  request<{
+export function getTopList() {
+  return request<{
     list: Playlist[]
   }>('/toplist')
+}

@@ -1,9 +1,9 @@
+import { EventEmitter } from 'node:events'
+import { join } from 'node:path'
 import type { BrowserWindowConstructorOptions } from 'electron'
 import { BrowserWindow, shell } from 'electron'
 import is from 'electron-is'
 import type Store from 'electron-store'
-import { EventEmitter } from 'events'
-import { join } from 'path'
 
 import { WindowState } from '../../../shared/types'
 import type { Pages } from './config/page'
@@ -11,6 +11,7 @@ import pages from './config/page'
 import log from './util/log'
 import type { StoreType } from './util/store'
 import store from './util/store'
+
 export const WindowDefaultSize = {
   height: 720,
   width: 1210,
@@ -42,6 +43,7 @@ export default class WindowManager extends EventEmitter {
     height: number
     width: number
   }
+
   store: Store<StoreType>
   constructor() {
     super()
@@ -54,6 +56,7 @@ export default class WindowManager extends EventEmitter {
 
     this.initWindowSize()
   }
+
   async openWindow(page: Pages) {
     const pageOptions = this.getPageOption(page)
 
@@ -76,19 +79,22 @@ export default class WindowManager extends EventEmitter {
         },
       })
       this.windows[page] = window
-      if (pageOptions.url) {
+      if (pageOptions.url) 
         window.loadURL(pageOptions.url)
-      }
+      
       this.initWindowListener(page)
       return window
-    } catch (e) {
+    }
+    catch (e) {
       log.info(e)
     }
   }
+
   getPageOption(page: Pages) {
     const option = pages[page]
     return option
   }
+
   initWindowListener(page: Pages) {
     const window = this.windows?.[page]
     if (window) {
@@ -107,7 +113,8 @@ export default class WindowManager extends EventEmitter {
           if (window.isFullScreen()) {
             window.once('leave-full-screen', () => window.hide())
             window.setFullScreen(false)
-          } else {
+          }
+          else {
             window.hide()
           }
         }
@@ -135,12 +142,12 @@ export default class WindowManager extends EventEmitter {
         log.info(`[main]: window resize height: ${height} width: ${width}`)
 
         if (!minimal) {
-          log.info(`[main]: store window size`)
+          log.info('[main]: store window size')
           this.store.set('windowSize', { width, height })
         }
       })
       window?.on('moved', () => {
-        log.info(`[main]: window moved`)
+        log.info('[main]: window moved')
       })
 
       // Test active push message to Renderer-process
@@ -150,24 +157,29 @@ export default class WindowManager extends EventEmitter {
 
       // Make all links open with the browser, not with the application
       window.webContents.setWindowOpenHandler(({ url }) => {
-        if (url.startsWith('https:')) shell.openExternal(url)
+        if (url.startsWith('https:')) 
+          shell.openExternal(url)
         return { action: 'deny' }
       })
     }
   }
+
   initWindowSize() {
     const size = this.store.get('windowSize')
     if (!size) {
       this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
       this.store.set('windowSize', this.size)
-    } else {
+    }
+    else {
       try {
         this.size = this.store.get('windowSize')
-      } catch (e) {
+      }
+      catch (e) {
         this.size = { height: WindowDefaultSize.height, width: WindowDefaultSize.width }
       }
     }
   }
+
   getWindow(page: Pages) {
     return this.windows[page]
   }

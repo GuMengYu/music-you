@@ -3,9 +3,10 @@ import type { AxiosProxyConfig } from 'axios'
 import { HttpProxyAgent } from 'http-proxy-agent'
 import ytdl from 'ytdl-core'
 
+import axios from 'axios'
 import log from './log'
 import { _extractData, _getSearchData, _parseData } from './youtube_scraper'
-const axios = require('axios')
+
 
 export interface YoutubeFinderOption {
   proxy: AxiosProxyConfig
@@ -30,14 +31,14 @@ class YoutubeFinder {
       headers: { 'Accept-Language': 'en-US' },
       timeout: 6000,
     }
-    if (this.options.proxy) {
+    if (this.options.proxy)
       config['proxy'] = this.options.proxy
-    }
-    const webPage = await axios.get(`https://www.youtube.com/results`, config)
 
-    if (webPage.status !== 200) {
+    const webPage = await axios.get('https://www.youtube.com/results', config)
+
+    if (webPage.status !== 200)
       return []
-    }
+
 
     const parsedJson = _getSearchData(webPage.data)
     const extracted = _extractData(parsedJson)
@@ -47,7 +48,7 @@ class YoutubeFinder {
 
   async matchTrack(
     artist: string,
-    name: string
+    name: string,
   ): Promise<{
     url: string
     bitRate: number
@@ -67,10 +68,11 @@ class YoutubeFinder {
         title: string
       } | null = null
 
-      if (!video) {
+      if (!video)
         video = videos[0]
-      }
-      if (!video) return null
+
+      if (!video)
+        return null
 
       const getInfoStartTime = new Date().getTime()
       const proxy = 'http://127.0.0.1:7890'
@@ -80,11 +82,12 @@ class YoutubeFinder {
       })
       const getInfoElapsedTime = new Date().getTime() - getInfoStartTime
       log.info('[youtube ytdl]: getInfo', getInfoElapsedTime)
-      if (!info) return null
+      if (!info)
+        return null
       let url = ''
       let bitRate = 0
       info.formats.forEach((video) => {
-        if (video.mimeType === `audio/webm; codecs="opus"` && video.bitrate && video.bitrate > bitRate) {
+        if (video.mimeType === 'audio/webm; codecs="opus"' && video.bitrate && video.bitrate > bitRate) {
           url = video.url
           bitRate = video.bitrate
         }
@@ -97,18 +100,20 @@ class YoutubeFinder {
         duration: info.videoDetails.lengthSeconds,
         channel: info.videoDetails.ownerChannelName,
       }
-      log.info(`[youtube] matched `, data)
+      log.info('[youtube] matched ', data)
       return data
     }
 
     return new Promise((resolve, reject) => {
-      setTimeout(() => reject('youtube match timeout'), 10000)
+      setTimeout(() => reject(Error('youtube match timeout')), 10000)
       try {
         match().then((result) => {
-          if (result) resolve(result)
+          if (result)
+            resolve(result)
         })
-      } catch (e) {
-        log.error(`[youtube] matchTrack error`, e)
+      }
+      catch (e) {
+        log.error('[youtube] matchTrack error', e)
         reject(e)
       }
     })

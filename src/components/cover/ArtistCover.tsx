@@ -1,4 +1,3 @@
-import {sizeOfImage, toHttps} from "@/util/fn";
 import {
   Box,
   Card,
@@ -6,28 +5,29 @@ import {
   IconButton,
   Typography,
   useTheme,
-} from "@mui/material";
-import {useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
-import {PlayIcon} from '@/components/icons/icons'
-import Image from "@/components/Image";
-import {getTrackList} from "@/api/music";
-import {playQueueStore} from "@/store/playQueue";
-import {usePlayer} from "@/hooks/usePlayer";
-import {useNavigate} from "react-router-dom";
-import {Artist} from "@/types";
-import {cx} from "@emotion/css";
+} from '@mui/material'
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
+import { cx } from '@emotion/css'
+import { sizeOfImage, toHttps } from '@/util/fn'
+import { PlayIcon } from '@/components/icons/icons'
+import Image from '@/components/Image'
+import { getTrackList } from '@/api/music'
+import { playQueueStore } from '@/store/playQueue'
+import { usePlayer } from '@/hooks/usePlayer'
+import type { Artist } from '@/types'
 
-const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
-  const theme = useTheme();
-  const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl));
-  const [isHovering, setIsHovering] = useState(false);
-  const {updatePlayQueue} = playQueueStore()
-  const {player} = usePlayer()
+function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
+  const theme = useTheme()
+  const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl))
+  const [isHovering, setIsHovering] = useState(false)
+  const { updatePlayQueue } = playQueueStore()
+  const { player } = usePlayer()
   const navigate = useNavigate()
 
   function jumpTo() {
-    navigate(`/artist/${data.id}`,)
+    navigate(`/artist/${data.id}`)
   }
 
   async function handlePlay(e: any) {
@@ -36,7 +36,8 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
       const info = await getTrackList('artist', data.id)
       updatePlayQueue(info.id, 'artist', data.name, info.tracks)
       player.next()
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e)
     }
   }
@@ -57,8 +58,8 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
       <Box>
         <Box
           sx={{
-            position: "relative",
-            aspectRatio: 1
+            position: 'relative',
+            aspectRatio: 1,
           }}
         >
           <Box className={cx('absolute', !compact && 'p-4')}>
@@ -70,15 +71,15 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
                 className='absolute flex items-center justify-center h-full w-full'
                 initial={{
                   opacity: 0,
-                  transform: "translateY(20px)",
+                  transform: 'translateY(20px)',
                 }}
                 animate={{
                   opacity: 1,
-                  transform: "translateY(0px)",
+                  transform: 'translateY(0px)',
                 }}
                 exit={{
                   opacity: 0,
-                  transform: "translateY(20px)",
+                  transform: 'translateY(20px)',
                 }}
                 transition={{
                   duration: 0.35,
@@ -88,7 +89,7 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
                 <IconButton
                   onClick={handlePlay}
                 >
-                  <PlayIcon  sx={{fontSize: '4rem'}} color='primary' />
+                  <PlayIcon  sx={{ fontSize: '4rem' }} color='primary' />
                 </IconButton>
               </motion.div>
             )}
@@ -96,7 +97,7 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
         </Box>
         {
           !compact && (
-            <CardContent sx={{px: 1.5}}>
+            <CardContent sx={{ px: 1.5 }}>
               <Typography className="line-clamp-1 text-center" variant="subtitle2">
                 {data.name}
               </Typography>
@@ -106,7 +107,7 @@ const ArtistCover = ({data, compact}: { data: Artist; compact?: boolean }) => {
 
       </Box>
     </Card>
-  );
-};
+  )
+}
 
-export default ArtistCover;
+export default ArtistCover

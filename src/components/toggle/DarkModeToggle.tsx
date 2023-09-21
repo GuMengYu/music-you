@@ -1,15 +1,15 @@
-import { useAppStore } from "@/store/app";
-import { IconButton } from "@mui/material";
-import BrightnessHighIcon from "@mui/icons-material/BrightnessHigh";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import { APPEARANCE, useSettingStore } from "@/store/setting";
-import { useTheme } from "@mui/material/styles";
+import { IconButton } from '@mui/material'
+import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import { useTheme } from '@mui/material/styles'
+import { APPEARANCE, useSettingStore } from '@/store/setting'
+
 export default function DarkModeToggle() {
-  const { setAppearance } = useSettingStore();
-  const theme = useTheme(); 
-  const isDark = theme.palette.mode === "dark";
+  const { setAppearance } = useSettingStore()
+  const theme = useTheme() 
+  const isDark = theme.palette.mode === 'dark'
   function toggleAppearance() {
-    setAppearance(isDark ? APPEARANCE.LIGHT : APPEARANCE.DARK);
+    setAppearance(isDark ? APPEARANCE.LIGHT : APPEARANCE.DARK)
   }
   return (
     <IconButton
@@ -27,5 +27,5 @@ export default function DarkModeToggle() {
         <Brightness4Icon sx={{ height: 20, width: 20 }} />
       )}
     </IconButton>
-  );
+  )
 }

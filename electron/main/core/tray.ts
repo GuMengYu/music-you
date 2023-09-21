@@ -1,13 +1,11 @@
-/* global __static */
+import os from 'node:os'
+import path, { join } from 'node:path'
 import type { BrowserWindow } from 'electron'
-import { app, Menu, nativeImage, nativeTheme, Tray } from 'electron'
-import is from 'electron-is'
-import os from 'os'
-import path, { join } from 'path'
+import { Menu, Tray, app, nativeImage, nativeTheme } from 'electron'
 
 let tray = null
 const distPath = join(__dirname, '../../dist')
-export const createTray = (win: BrowserWindow) => {
+export function createTray(win: BrowserWindow) {
   const icon = nativeImage.createFromPath(getTrayIcon())
   tray = new Tray(icon)
   tray.setToolTip('Music-You')
@@ -57,11 +55,11 @@ function handleEvents(tray: Tray, win: BrowserWindow) {
 }
 
 function getTrayIcon(): string {
-  if (os.platform() === 'darwin') {
+  if (os.platform() === 'darwin')
     return path.join(distPath, 'icon/trayTemplate.png')
-  }
-  if (nativeTheme.shouldUseDarkColors) {
+
+  if (nativeTheme.shouldUseDarkColors)
     return path.join(distPath, os.platform() === 'win32' ? 'icon/tray_white.ico' : 'icon/tray_white.png')
-  }
+
   return path.join(distPath, os.platform() === 'win32' ? 'icon/tray_black.ico' : 'icon/tray_black.png')
 }

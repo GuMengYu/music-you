@@ -1,14 +1,14 @@
-import {Artist} from "@/types";
-import {isArray} from "lodash-es";
-import {Link as RouterLink} from 'react-router-dom'
+import { isArray } from 'lodash-es'
+import { Link as RouterLink } from 'react-router-dom'
+import type { Artist } from '@/types'
 
-export default function ArtistLink({artist}: { artist: Artist[] | Artist }) {
+export default function ArtistLink({ artist }: { artist: Artist[] | Artist }) {
   let artists = []
-  if (isArray(artist)) {
+  if (isArray(artist)) 
     artists = artist
-  } else {
+  else 
     artists = [artist]
-  }
+  
   return <span>
     {
       artists.map((artist, idx) => {

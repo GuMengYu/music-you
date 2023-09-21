@@ -1,15 +1,14 @@
-import {useAppStore} from "@/store/app";
-import {useTheme} from "@mui/material";
-import {styled} from "@mui/material";
-import {Box} from "@mui/system";
-import {Outlet} from "react-router-dom";
-import useInForeground from "@/hooks/useInForeground";
-import {AnimatePresence} from "framer-motion";
+import {  useTheme } from '@mui/material'
+import { Box } from '@mui/system'
+import { Outlet } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+import useInForeground from '@/hooks/useInForeground'
+import { useAppStore } from '@/store/app'
 
 export default function Main() {
-  const {rail} = useAppStore();
-  const theme = useTheme();
-  const {isActive: inDetail} = useInForeground(['playlist', 'album'])
+  const { rail } = useAppStore()
+  const theme = useTheme()
+  const { isActive: inDetail } = useInForeground(['playlist', 'album'])
 
   // const AppMain = styled(Box)(() => ({
   //   overflowY: "auto",
@@ -26,16 +25,16 @@ export default function Main() {
   return (
     <Box
       sx={{
-        overflowY: "auto",
+        overflowY: 'auto',
         marginTop: inDetail ? 0 : 2,
         marginBottom: 10,
         paddingLeft: 1,
         paddingRight: 2,
-        transition: theme.transitions.create("width", {
+        transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.easeIn,
           duration: theme.transitions.duration.complex,
         }),
-        width: `calc(100vw - ${rail ? "256px" : "72px"} - 16px)`,
+        width: `calc(100vw - ${rail ? '256px' : '72px'} - 16px)`,
       }}
       component="main"
       className="hide-scrollbar"
@@ -44,5 +43,5 @@ export default function Main() {
         <Outlet/>
       </AnimatePresence>
     </Box>
-  );
+  )
 }

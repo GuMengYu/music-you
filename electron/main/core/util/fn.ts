@@ -1,5 +1,6 @@
 import { exec, spawn } from 'node:child_process'
-import { extname } from 'path'
+import { extname } from 'node:path'
+
 /**
  * 判断文件是否为 MP3 文件
  * @param {string} filePath - 文件路径
@@ -22,11 +23,11 @@ export function isFlacFile(filePath) {
 export function isPythonInstalled() {
   return new Promise((resolve) => {
     exec('python --version', (error) => {
-      if (error) {
+      if (error) 
         resolve(false)
-      } else {
+      else 
         resolve(true)
-      }
+      
     })
   })
 }
@@ -35,9 +36,9 @@ export function isPythonInstalled() {
 export function isMutagenInstalled() {
   return new Promise((resolve) => {
     exec('python -c "import mutagen"', (err, stdout, stderr) => {
-      if (err) {
+      if (err) 
         resolve(false)
-      }
+      
       resolve(true)
     })
   })
@@ -56,11 +57,11 @@ export function runPythonScript(scriptPath, args) {
       console.error(data.toString())
     })
     python.on('close', (code) => {
-      if (code === 0) {
+      if (code === 0) 
         resolve(output)
-      } else {
+      else 
         reject(new Error(`Python script exited with code ${code}`))
-      }
+      
     })
     python.on('error', reject)
   })

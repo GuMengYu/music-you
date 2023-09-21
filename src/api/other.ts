@@ -9,16 +9,14 @@ export interface Meta {
   query: any
   seed: any
 }
-export const wallpapers = (
-  params = {
-    categories: 110,
-    purity: 110,
-    sorting: 'toplist',
-    order: 'desc',
-    topRange: '1w',
-    page: 1,
-  }
-) => {
+export function wallpapers(params = {
+  categories: 110,
+  purity: 110,
+  sorting: 'toplist',
+  order: 'desc',
+  topRange: '1w',
+  page: 1,
+}) {
   return request<{
     code: number
     data: {
