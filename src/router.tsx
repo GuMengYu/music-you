@@ -34,6 +34,11 @@ const router = createBrowserRouter(
       element: <App />,
       children: [
         {
+          id: 'redirect_home',
+          path: "/",
+          element: <Home />,
+        },
+        {
           id: 'home',
           path: "/home",
           element: <Home />,

@@ -158,6 +158,8 @@ export class Player {
         if (autoplay) {
           this.play()
           await start({ id: this.track.id })
+        } else {
+          this.pause()
         }
         // if (from === 'online' && cacheLimit) {
         //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求

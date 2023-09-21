@@ -88,18 +88,21 @@ export default function MiniDrawer() {
       val: "search",
       title: "搜索",
       to: "/search",
+      pathname: ['/search'],
     },
     {
       icon: <HomeIcon sx={{ height: 20, width: 20 }} />,
       val: "home",
       title: "主页",
       to: "/home",
+      pathname: ['/home', '/'],
     },
     {
       icon: <MapIcon sx={{ height: 20, width: 20 }} />,
       val: "explore",
       title: "浏览",
       to: "/explore",
+      pathname: ['/explore'],
     },
     // {
     //   icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
@@ -112,6 +115,7 @@ export default function MiniDrawer() {
       val: "library",
       title: "资料库",
       to: "/library",
+      pathname: ['/library'],
     },
   ];
 
@@ -154,7 +158,7 @@ export default function MiniDrawer() {
             >
               <Link component={RouterLink} to={item.to}>
                 <ListItemButton
-                  selected={pathname === item.to}
+                  selected={item.pathname.includes(pathname)}
                   sx={{
                     borderRadius: 14,
                     minHeight: 56,

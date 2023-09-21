@@ -2,12 +2,13 @@ import Image from "@/components/Image";
 import { Box, Card, IconButton, Typography, useTheme } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
-import { PlayArrow as PlayIcon } from "@mui/icons-material";
 import { Track } from "@/types";
 import { getDailyRecommend, recent } from "@/api/user";
 import { playQueueStore } from "@/store/playQueue";
 import { getTrackList } from "@/api/music";
 import { usePlayerControl } from "@/hooks/usePlayer";
+import LoadingButton from "@/components/button/LoadingButton";
+import {PlayIcon} from "@/components/icons/icons";
 export default function ShortCut({
   data,
   decoration,
@@ -135,19 +136,19 @@ export default function ShortCut({
                 ease: [0.34, 1.56, 0.64, 1],
               }}
             >
-              <IconButton
+              <LoadingButton
+                loading={loading}
                 onClick={handlePlay}
                 sx={{
-                  bgcolor: theme.palette.primary.main,
-                  color: theme.palette.onPrimary.main,
-                  "&:hover": {
-                    bgcolor: theme.palette.primary.main,
-                    opacity: 0.9
-                  },
+                  p: 0,
+                  bgcolor: `${theme.palette.primary.main}`,
+                  '&:hover': {
+                    bgcolor: `${theme.palette.primary.main}F2`,
+                  }
                 }}
               >
-                <PlayIcon sx={{ fontSize: 32 }} />
-              </IconButton>
+                <PlayIcon sx={{fontSize: '2.5rem'}} color={'onPrimary' as 'primary'} />
+              </LoadingButton>
             </motion.div>
           )}
         </AnimatePresence>

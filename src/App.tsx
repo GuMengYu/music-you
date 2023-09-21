@@ -18,6 +18,7 @@ import bootstrap from "./store/bootstrap";
 import {client} from "./plugins/query";
 import {useElectron} from "./plugins/electron";
 import {useNavigate} from "react-router-dom";
+import NowPlayingList from "@/components/nowPlaying/NowPlayingList";
 
 function App() {
   const {appearance} = useSettingStore();
@@ -61,10 +62,12 @@ function App() {
             <LoginDialog/>
             <Profile/>
             <QuickPanel/>
+            <NowPlayingList />
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
                   right: 0,
+                  bottom: 72,
                   left: "auto",
                 },
               }}

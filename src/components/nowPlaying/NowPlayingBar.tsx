@@ -8,6 +8,7 @@ import NowPlayingSlider from "@/components/nowPlaying/NowPlayingSlider";
 import PlayToggle from "../toggle/PlayToggle";
 import { Control } from "../Control";
 import LikeToggle from "../toggle/likeToggle";
+import NowPlayingListToggle from "@/components/toggle/NowPlayingListToggle";
 
 function NowPlayingBar() {
   const theme = useTheme();
@@ -68,7 +69,9 @@ function NowPlayingBar() {
         <div className="flex flex-1 items-center justify-center">
           <Control />
         </div>
-        <div className="flex flex-1 items-center justify-end"></div>
+        <div className="flex flex-1 items-center justify-end">
+          <NowPlayingListToggle />
+        </div>
       </div>
     </Box>
   );

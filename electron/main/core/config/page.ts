@@ -40,7 +40,7 @@ export default {
     minWidth: 256,
     minHeight: 0,
     bindCloseToHide: true,
-    url: IndexUrl,
+    url: `${IndexUrl}`,
   },
   // minimal: {
   //   width: 300,
