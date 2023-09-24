@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-
+import { player } from '@/contexts/player'
 import router from '@/router'
 
 // const toast = useSnackbar()
@@ -8,9 +8,9 @@ import is from '@/util/is'
 
 export function useElectron() {
   console.log('register electron ipc renderer')
-  if (is.electron()) 
+  if (is.electron())
     registerIpcRenderer()
-  
+
 }
 
 function registerIpcRenderer() {
@@ -28,9 +28,9 @@ function registerIpcRenderer() {
   // // ipcRenderer.on('search', () => {
   // //   appStore.$state.showSearch = !appStore.$state.showSearch
   // // })
-  // ipcRenderer.on('next', () => {
-  //   player.next()
-  // })
+  ipcRenderer.on('next', () => {
+    player.next()
+  })
   // ipcRenderer.on('prev', () => {
   //   player.prev()
   // })

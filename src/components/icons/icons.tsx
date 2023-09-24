@@ -24,6 +24,27 @@ export function PlayOutlinedIcon(props: SvgIconProps) {
 </SvgIcon>
 }
 
+function VolumeMuteIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9h4l5-5v16l-5-5H3V9m13.59 3L14 9.41L15.41 8L18 10.59L20.59 8L22 9.41L19.41 12L22 14.59L20.59 16L18 13.41L15.41 16L14 14.59L16.59 12Z"/></svg>
+  </SvgIcon>
+}
+
+function VolumeMediumIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M5 9v6h4l5 5V4L9 9m9.5 3c0-1.77-1-3.29-2.5-4.03V16c1.5-.71 2.5-2.24 2.5-4Z"/></svg>
+  </SvgIcon>
+}
+function VolumeLowIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M7 9v6h4l5 5V4l-5 5H7Z"/></svg>
+  </SvgIcon>
+}
+function VolumeHighIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M3 9h4l5-5v16l-5-5H3V9zm18 3a9.003 9.003 0 0 1-7 8.777V18.71a7.003 7.003 0 0 0 0-13.42V3.223c4.008.91 7 4.494 7 8.777zm-4 0a5.001 5.001 0 0 1-3 4.584V7.416c1.766.772 3 2.534 3 4.584z" fill="currentColor"/></svg>
+  </SvgIcon>
+}
 
 export function PlayIcon(props: SvgIconProps) {
   return <SvgIcon {...props}>
@@ -37,4 +58,12 @@ export function PlayIcon(props: SvgIconProps) {
     </g>
   </svg>
 </SvgIcon>
+}
+
+
+export {
+  VolumeMuteIcon,
+  VolumeMediumIcon,
+  VolumeLowIcon,
+  VolumeHighIcon,
 }

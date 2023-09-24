@@ -364,6 +364,12 @@ export class Player {
     this.updateCurrentTime()
   }
 
+  setVolume(volume: number) {
+    this.volume = volume
+    Howler.volume(this.volume)
+    usePlayerStore.setState({ volume: this.volume })
+  }
+
   pauseProgress() {
     clearTimeout(this.progressInterval)
     this.progressInterval = undefined
@@ -428,7 +434,6 @@ export class Player {
   }
 
   private initMediaSession(track: Track) {
-    console.log('initMediaSession', track)
     // https://developers.google.com/web/updates/2017/02/media-session
     if ('mediaSession' in navigator) {
       const { ar: artist, al: album, name: title } = track

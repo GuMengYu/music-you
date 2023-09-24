@@ -1,9 +1,11 @@
-import { Box, Typography } from '@mui/material'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import Slider from '@mui/material/Slider'
+import { useCallback } from 'react'
 import { Control } from '../Control'
 import LikeToggle from '../toggle/likeToggle'
 import Image from '@/components/Image'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import { sizeOfImage } from '@/util/fn'
 import ArtistLink from '@/components/links/artist'
 import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
@@ -11,9 +13,15 @@ import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
 
 function NowPlayingBar() {
   const theme = useTheme()
-  const { track } = usePlayerControl()
+  const { player } = usePlayer()
+  const { track, volume, volumeIcon } = usePlayerControl()
   const coverUrl = sizeOfImage(track?.coverUrl ?? track?.al?.picUrl ?? '', 256)
   const trackDt = track?.dt ?? track?.duration ?? 0
+
+
+  const handleVolumeChange = useCallback((val: number) => {
+    player.setVolume(val)
+  }, [])
   return (
     <Box
       component="footer"
@@ -68,7 +76,13 @@ function NowPlayingBar() {
         <div className="flex flex-1 items-center justify-center">
           <Control />
         </div>
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end gap-1">
+          <Stack direction="row" sx={{ width: 130 }} alignItems="center">
+            <IconButton>
+              { volumeIcon }
+            </IconButton>
+            <Slider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} onChange={(_, val) => handleVolumeChange(val as number)} />
+          </Stack>
           <NowPlayingListToggle />
         </div>
       </div>

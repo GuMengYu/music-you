@@ -1,7 +1,8 @@
 import Modal from '@mui/material/Modal'
 import { Box, IconButton, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { css, cx } from '@emotion/css'
+import type { VirtuosoHandle } from 'react-virtuoso'
 import { Virtuoso } from 'react-virtuoso'
 import { useWindowSize } from 'react-use'
 import CloseIcon from '@mui/icons-material/Close'
@@ -17,42 +18,41 @@ import { usePlayerControl } from '@/hooks/usePlayer'
 function TrackItem({
   track,
   index,
+  isCurrentPlaying,
+  playing,
 }: {
   track?: Track
   index: number
+  playing: boolean
+  isCurrentPlaying: boolean
 }) {
-  const { playing, track: playingTrack } = usePlayerControl()
-  const isPlaying = track?.id === playingTrack?.id
   const theme = useTheme()
   return (
     <div
       className='mb-5 flex items-center justify-between cursor-pointer'
       onClick={(e) => {
-        if (e.detail === 2 && track?.id) 
+        if (e.detail === 2 && track?.id)
           console.log('play track')
-        
+
       }}
       onContextMenu={(event) => {
-        if (track?.id) 
+        if (track?.id)
           console.log('play track')
-        
+
       }}
     >
       {/* Cover */}
-      <img
-        alt='Cover'
-        className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl'
-        src={sizeOfImage(track?.al?.picUrl || '')}
+      <img alt='Cover' className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl' src={sizeOfImage(track?.al?.picUrl || '')}
       />
 
       {/* Track info */}
       <div className='flex-grow'>
         <Typography className='line-clamp-1' variant='body1'
-          color={isPlaying ? 'primary' : ''}>{track?.name}</Typography>
+          color={isCurrentPlaying ? 'primary' : ''}>{track?.name}</Typography>
         <Typography variant='body2'> {track?.ar && <ArtistLink artist={track?.ar}/>}</Typography>
       </div>
 
-      {isPlaying ? (
+      {isCurrentPlaying ? (
         <Wave animate={playing}/>
       ) : (
         <Typography variant='body1'>
@@ -64,15 +64,45 @@ function TrackItem({
 }
 function TrackList() {
   const { queue } = playQueueStore()
+  const { track: playingTrack, playing, playingIndex } = usePlayerControl()
   const { height: windowHeight } = useWindowSize()
+  const virtuoso = useRef<VirtuosoHandle | null>(null)
   const theme = useTheme()
   const listHeight = windowHeight - 150 // padding 150
+  const [currentRange, setCurrentRange] = useState({
+    startIndex: 0,
+    endIndex: 0,
+  })
+  const [animateScroll, setAnimateScroll] = useState(false)
+  useEffect(() => {
+    if (!playingIndex)
+      return
+    // todo need to scroll to position
+    const offset = -3 // todo 需计算
+
+    // not in view range
+    if (playingIndex < currentRange.startIndex || playingIndex > currentRange.endIndex) {
+
+      const toIndex = playingIndex + offset
+      setTimeout(() => {
+        virtuoso.current?.scrollToIndex({
+          index: toIndex,
+          align: 'start',
+          behavior: animateScroll ? 'smooth' : undefined,
+        })
+        setAnimateScroll(true)
+
+      }, 0)
+    }
+  }, [playingTrack])
   return <div
     className={cx('w-full', css`
       mask-image: linear-gradient(to bottom, transparent 22px, ${theme.palette.primary.main} 48px);
     `)}
   >
     <Virtuoso
+      ref={virtuoso}
+      rangeChanged={setCurrentRange}
       className={
         cx('hide-scrollbar', css`
           mask-image: linear-gradient(to top, transparent 8px, ${theme.palette.primary.main} 48px);
@@ -84,7 +114,13 @@ function TrackList() {
         }
       }
       itemContent={(idx, track) => {
-        return <TrackItem key={track.id} track={track} index={idx}></TrackItem>
+        return <TrackItem
+          key={track.id}
+          track={track}
+          index={idx}
+          isCurrentPlaying={playingIndex === idx}
+          playing={playing}
+        ></TrackItem>
       }}
       data={queue.tracks}
       totalCount={queue.tracks.length}

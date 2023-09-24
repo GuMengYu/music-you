@@ -4,10 +4,7 @@ import { useAppStore } from '@/store/app'
 
 export default function NowPlayingListToggle() {
   const { toggleNowPlayingList } = useAppStore()
-  return <IconButton color="primary" className="no-drag-area" onClick={() => toggleNowPlayingList()} sx={{
-    height: 56,
-    width: 56,
-  }}>
-    <QueueMusicIcon sx={{ height: 20, width: 20 }} />
+  return <IconButton className="no-drag-area" onClick={() => toggleNowPlayingList()}>
+    <QueueMusicIcon fontSize={'small'} />
   </IconButton>
 }
