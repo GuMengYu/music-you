@@ -8,7 +8,6 @@ export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',
   REPEAT_ONCE = 'repeatOnce',
-  DISABLE = 'disable',
 }
 
 export interface PlayerState {
@@ -30,6 +29,8 @@ export interface PlayerAction {
   setCurrentTime: (val: number) => void
   setPlayMode: (mode: PLAY_MODE) => void
   setShuffle: (val: boolean) => void
+  setIsCurrentFm: (val: boolean) => void
+  setShowPipLyric: (val: boolean) => void
 }
 
 export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState & PlayerAction>((set, get) => {
@@ -45,9 +46,11 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
     isCurrentFm: false,
     fmTrack: null,
     fmList: [],
+    setIsCurrentFm: val => (set({ isCurrentFm: val })),
     setCurrentTime: val => (set({ currentTime: val })),
     setPlayMode: playMode => (set({ playMode })),
     setShuffle: val => (set({ shuffle: val })),
+    setShowPipLyric: val => (set({ showPipLyric: val })),
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...get().fmList]
@@ -71,9 +74,9 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
         set(() => ({ fmList: cacheList }))
         // this.fmList = cacheList
       }
-      if (pop) 
+      if (pop)
         set({ fmTrack: pop })
-      
+
       return pop
       // pop && (this.fmTrack = pop)
       // return this.fmTrack

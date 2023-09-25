@@ -96,8 +96,14 @@ export function formatLyric(lyric = '') {
       else {
         info = toJson(i) as Info
         time = -1
-        const { c } = info
-        sentence = `${c[0].tx}${c[1].tx}`
+        if (info) {
+          const { c } = info
+          sentence = `${c[0]?.tx}${c[1]?.tx}`
+        }
+        else {
+          sentence = ''
+        }
+
       }
 
       return {
@@ -312,4 +318,15 @@ export function hexToRgb(hex: string, format = false) {
   else
     return `${red}, ${green}, ${blue}`
 
+}
+
+export function formatFrequency(frequency: number) {
+  // 将频率除以 1000，以得到 kHz 为单位的频率
+  const frequencyKHz = frequency / 1000
+
+  // 将 kHz 格式化为带有一位小数的字符串
+  const formattedFrequency = frequencyKHz.toFixed(1)
+
+  // 返回格式化后的字符串
+  return `${formattedFrequency} kHz`
 }

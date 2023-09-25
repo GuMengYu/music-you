@@ -1,14 +1,15 @@
 import { Box, Typography, useTheme } from '@mui/material'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-import { groupBy } from 'lodash-es'
 import MYTabs from '@/components/Tabs'
 import PageTransition from '@/components/PageTransition'
-import { useUserStore } from '@/store/user'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
-import { useUserAlbums, useUserArtists } from '@/hooks/query/user'
+import { useUserAlbums, useUserArtists, useUserMVs } from '@/hooks/query/user'
 import ArtistCover from '@/components/cover/ArtistCover'
+import { useMyPlaylist } from '@/hooks/usePlaylist'
+import VideoCover from '@/components/cover/VideoCover'
+import { GridType } from '@/hooks/useResponsiveGrid'
 
 
 function ArtistPanel() {
@@ -20,19 +21,13 @@ function ArtistPanel() {
   </GridRow>
 }
 function PlaylistPanel() {
-  const { playlists, account } = useUserStore()
-  const filteredPlaylist = useMemo(() => {
-    const uid = account?.profile.userId
-    return groupBy(playlists, (i) => {
-      return i.userId === uid ? 'create' : 'sub'
-    })
-  }, [playlists, account])
+  const { createdPlaylist, subscribePlaylist } = useMyPlaylist()
   return <div className='flex flex-col gap-4'>
     <div>
       <Typography variant='body1'>创建的歌单</Typography>
       <GridRow>
         {
-          filteredPlaylist['create']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+          createdPlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>
@@ -41,7 +36,7 @@ function PlaylistPanel() {
 
       <GridRow>
         {
-          filteredPlaylist['sub']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+          subscribePlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>
@@ -56,22 +51,35 @@ function AlbumPanel() {
     }
   </GridRow>
 }
+function MVPanel() {
+  const { data } = useUserMVs()
+  return <GridRow rowType={GridType.B}>
+    {
+      data?.mvs.map((mv => (<VideoCover key={mv.vid} data={mv} />)))
+    }
+  </GridRow>
+}
+
 function Library() {
   const [currentTab, setCurrentTab] = useState('playlist')
   const theme = useTheme()
   return <PageTransition>
-    <Box sx={{ color: theme.palette.onSurface.main }}>
+    <Box sx={{ color: theme.palette.onSurface.main }} className='h-full'>
       <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
         tabs={[{
           value: 'playlist',
           label: 'Playlist',
-        }, { value: 'album', label: 'Alum' }, { value: 'artist', label: 'Artist' }]}/>
-      <Box className='overflow-y-auto px-2 my-4'>
+        },
+        { value: 'album', label: 'Alum' },
+        { value: 'artist', label: 'Artist' },
+        { value: 'mv', label: 'MV' }]}/>
+      <Box className='overflow-y-auto px-2 my-4 h-full hide-scrollbar'>
         {
           {
             artist: <ArtistPanel />,
             playlist: <PlaylistPanel />,
             album: <AlbumPanel />,
+            mv: <MVPanel />,
           }[currentTab]
         }
       </Box>

@@ -5,7 +5,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
@@ -15,14 +15,81 @@ import { formatDate, formatDuring, formatNumber } from '@/util/fn'
 import type { Playlist } from '@/types'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
+import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
+import { useMyPlaylist } from '@/hooks/usePlaylist'
 
 function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
+  const { addToQueueAndPlay } = usePlayQueue()
+  const { openContextMenu } = useContextMenu()
+  const { isCreatedPlaylist } = useMyPlaylist()
+  const [subscribed, setSubscribed] = useState(false)
+
+  useEffect(() => {
+    setSubscribed(playlist.subscribed)
+  }, [playlist])
+
+  function handlePlay() {
+    addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
+  }
+  function handleMore(e: React.MouseEvent<HTMLElement>) {
+    const items = [
+      {
+        type: 'item',
+        label: '下一首播放',
+        onClick: () => {
+
+        },
+      },
+      { type: 'divider' as any },
+      ...(!isCreatedPlaylist(playlist) && subscribed ? [
+        {
+          type: 'item' as any,
+          label: '从音乐库中移除',
+          onClick: () => {
+
+          },
+        },
+      ] : []),
+      ...(!isCreatedPlaylist(playlist) && !subscribed ? [
+        {
+          type: 'item' as any,
+          label: '添加到音乐库',
+          onClick: () => {
+
+          },
+        },
+      ] : []),
+      ...(isCreatedPlaylist(playlist) ? [
+        {
+          type: 'item' as any,
+          label: '编辑歌单',
+          onClick: () => {
+
+          },
+        },
+        {
+          type: 'item' as any,
+          label: '删除歌单',
+          onClick: () => {
+
+          },
+        },
+      ] : []),
+      { type: 'divider' },
+      {
+        type: 'item',
+        label: '复制网页分享链接',
+        onClick: () => {},
+      },
+    ]
+    openContextMenu(e,  items)
+  }
   return (
     <motion.div
       initial={{
@@ -111,10 +178,10 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }} onClick={handleMore}>
                   <MoreHorizIcon/>
                 </IconButton>
               </div>
@@ -130,7 +197,6 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   <ArrowForwardIcon/>
                 </IconButton>
               </div>
-              <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
             </div>
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
               <DialogTitle variant='body1'>歌单简介</DialogTitle>
@@ -148,6 +214,7 @@ export default function PlaylistPage() {
   const params = useParams()
   const theme = useTheme()
   const { data, isLoading } = useQueryPlaylist(params.id)
+  const { isCreatedPlaylist } = useMyPlaylist()
   return (
     <PageTransition>
       {isLoading}
@@ -157,7 +224,10 @@ export default function PlaylistPage() {
         }
         <Box className='h-4'></Box>
         {
-          data?.tracks && <TrackList tracks={data.tracks}/>
+          data?.tracks && <TrackList tracks={data.tracks} source={{
+            type: 'playlist',
+            own: isCreatedPlaylist(data.playlist),
+          }} />
         }
       </Box>
     </PageTransition>

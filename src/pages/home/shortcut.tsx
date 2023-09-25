@@ -2,14 +2,14 @@ import { Box, Card, Typography, useTheme } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Image from '@/components/Image'
 import type { Track } from '@/types'
 import { getDailyRecommend, recent } from '@/api/user'
-import { playQueueStore } from '@/store/playQueue'
 import { getTrackList } from '@/api/music'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 export default function ShortCut({
   data,
@@ -26,10 +26,11 @@ export default function ShortCut({
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { updatePlayQueue } = playQueueStore()
-  const { playNext } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const theme = useTheme()
-  async function handlePlay() {
+  const navigate = useNavigate()
+  async function handlePlay(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation()
     try {
       setLoading(true)
       let info: {
@@ -41,14 +42,14 @@ export default function ShortCut({
         info = {
           list: data['dailySongs'],
         }
-        updatePlayQueue(0, 'daily', '日推', info.list)
+        addToQueueAndPlay(info.list, 0, 'daily', '日推' )
       }
       else if (type === 'recent') {
         const { data } = await recent()
         info = {
           list: data.list.map(i => i['data']),
         }
-        updatePlayQueue(0, 'recent', '最近播放', info.list)
+        addToQueueAndPlay(info.list, 0, 'recent', '最近播放')
       }
       else {
         const _data = await getTrackList(type, data.id as number)
@@ -56,9 +57,8 @@ export default function ShortCut({
           id: _data.id,
           list: _data.tracks,
         }
-        updatePlayQueue(info.id!, type, data.name!, info.list)
+        addToQueueAndPlay(info.list, info.id!, type, data.name!)
       }
-      playNext()
     }
     catch (e) {
       console.debug(e)
@@ -67,7 +67,16 @@ export default function ShortCut({
       setLoading(false)
     }
   }
-  function handleJump() {}
+  function handleJump() {
+    if (['album', 'playlist', 'daily'].includes(type)) {
+      const to = ({
+        playlist: `/playlist/${data.id}`,
+        album: `/album/${data.id}`,
+        daily: '/daily',
+      })[type as 'album' | 'playlist' | 'daily']
+      navigate(to)
+    }
+  }
   return (
     <Card
       elevation={isHovering ? 1 : 0}
@@ -101,7 +110,7 @@ export default function ShortCut({
         <Typography
           title={data.title}
           className="line-clamp-1"
-          variant="subtitle1"
+          variant="body2"
         >
           {data.title}
         </Typography>

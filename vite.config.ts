@@ -1,11 +1,12 @@
 import { rmSync } from 'node:fs'
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
+import swc from 'unplugin-swc'
 
 // eslint-disable-next-line import/default
 import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron-renderer'
 import { defineConfig, loadEnv } from 'vite'
+import renderer from './rollplugins/renderer.js'
 import pkg, { dependencies, devDependencies, name, version } from './package.json'
 
 
@@ -38,15 +39,24 @@ export default defineConfig(({ command, mode }) => {
             console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
           else
             options.startup()
-
         },
         vite: {
+          plugins: [
+            swc.vite({
+              jsc: {
+                target: 'esnext', // override ts.config.json ESNext, avoid error notify
+              },
+            }),
+          ],
+          esbuild: false,
           build: {
-            sourcemap,
             minify: isBuild,
             outDir: 'dist-electron/main',
             rollupOptions: {
               external: Object.keys(dependencies ?? {}),
+              watch: {
+                exclude: 'electron/main/local-library/**',
+              },
             },
           },
         },
@@ -104,6 +114,9 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
+      },
+      watch: {
+        ignored: ['**/electron/main/local-library/**'],
       },
     },
     clearScreen: false,

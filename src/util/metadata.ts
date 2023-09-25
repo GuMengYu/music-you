@@ -1,3 +1,5 @@
+import * as Colors from '@mui/material/colors'
+
 export const officialPlaylist = {
   2829816518: {
     title: '欧美私人订制',
@@ -70,3 +72,17 @@ export const RADARPLAYLISTS = [
     name: '雷击顿唱片行',
   },
 ]
+
+export function getColorTable() {
+  const o: Record<string, string> = {}
+  Object.entries(Colors).forEach((color) => {
+    const name = color[0]
+    const colors = color[1]
+    Object.entries(colors).forEach(([sub, hex]) => {
+      o[`${name}${sub}`] = hex
+    })
+  })
+  return o
+}
+
+export const HexColors = Object.values(getColorTable()) ?? []

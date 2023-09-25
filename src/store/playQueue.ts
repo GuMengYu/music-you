@@ -50,6 +50,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
       data.forEach((i) => {
+        // 混入队列信息
         mixinTrackSource(i, { type, id })
       })
       // 精简track, 只在store存储必要的信息
@@ -201,9 +202,9 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
         return null
       }
       else if (playMode === PLAY_MODE.REPEAT) {
-        if (!queue.states.length) 
+        if (!queue.states.length)
           restoreStates()
-        
+
         const track = queue.states.shift()
         set(state => ({
           queue: {
@@ -246,5 +247,5 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
 }))
 
 function simpleTracks(tracks: Track[]) {
-  return tracks.map(track => pick(track, ['id', 'name', 'source']) as any as SimpleTrack)
+  return tracks.map(track => pick(track, ['id', 'name', 'source', 'al']) as any as SimpleTrack)
 }

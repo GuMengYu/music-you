@@ -1,31 +1,46 @@
-import { useLocation, useMatch } from 'react-router-dom'
-import { Box, Typography } from '@mui/material'
-import useInForeground from '@/hooks/useInForeground'
+import { useState } from 'react'
+import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material/styles'
+import { useSnackbar } from 'notistack'
 import PageTransition from '@/components/PageTransition'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 export default function Playground() {
-  const location = useLocation()
-  const match = useMatch('/playground')
-  const { isActive, matches } = useInForeground('playground')
+  const [value, setValue] = useState(1)
+  const theme = useTheme()
+  const { enqueueSnackbar } = useSnackbar()
+  const { openContextMenu } = useContextMenu()
+  function handleContextMenu(e: any) {
+    openContextMenu(e, [
+      {
+        type: 'item',
+        label: '111',
+        onClick: () => {
+          enqueueSnackbar('施工中')
+        },
+      },
+      {
+        type: 'submenu',
+        label: 'sub',
+        items: [{
+          type: 'item',
+          label: '111',
+          onClick: () => {},
+
+        }, {
+          type: 'item',
+          label: '1112',
+          onClick: () => {},
+        }],
+      },
+    ], { useCursorPosition: true })
+
+
+  }
+
   return <PageTransition>
-    <Box className='flex flex-col gap-4'>
-      {/*{isActive} { JSON.stringify(matches) }*/}
-      <Typography variant='h3' color='secondary'>hello world</Typography>
-      <p>
-        {JSON.stringify(matches)}
-
-      </p>
-
-      <p>
-        {JSON.stringify(location)}
-
-      </p>
-
-
-      <p>
-        {JSON.stringify(match)}
-
-      </p>
+    <Box onContextMenu={handleContextMenu} sx={{ height: '300px', width: '500px', mx: 12, bgcolor: theme.palette.tertiaryContainer.main, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      右键点击
     </Box>
   </PageTransition>
 }

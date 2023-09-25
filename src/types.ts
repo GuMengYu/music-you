@@ -8,7 +8,7 @@ export type listType =
   | 'recent'
   | 'program'
   | 'unknown'
-
+  | 'local'
 export interface TrackFrom {
   id: number
   type: listType
@@ -52,10 +52,11 @@ export interface Track {
   hr?: Quality
   meta?: {
     url: null | string
-    br: null | number
-    type: string
-    encodeType: string
+    br?: null | number
+    type?: string
+    encodeType?: string
     sourceFromUnlockMusic?: boolean
+    sourceFromLocalMusic?: boolean
   }
   lyric?: {
     tlyric: {
@@ -83,15 +84,19 @@ export interface MV {
   artist?: Artist
   artists?: Artist[]
   id: number
+  vid?: string
   name: string
   copywriter: string
   picUrl?: string
+  imgurl16v9?: string
+  coverUrl?: string
   cover?: string
   playCount: number
   type: number
   canDislike: boolean
   publishTime?: string
   briefDesc?: string
+  subed?: boolean
 }
 
 export interface Artist {
@@ -113,6 +118,8 @@ export interface Artist {
   transNames: string[]
   followed: boolean
   alias: string[]
+  identifyTag?: []
+  identities?: []
 }
 
 export interface Album {
@@ -355,4 +362,15 @@ export interface PlayNowEvent {
   id: number
   setQueue: boolean
   from: TrackFrom
+}
+
+export interface ContextMenuType {
+  target: HTMLElement | null
+  cursorPosition: {
+    x: number
+    y: number
+  } | null
+  options: {
+    useCursorPosition?: boolean
+  } | null
 }

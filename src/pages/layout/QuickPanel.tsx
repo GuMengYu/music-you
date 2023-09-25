@@ -13,9 +13,18 @@ import {
   useTheme,
 } from '@mui/material'
 import dayjs from 'dayjs'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import SettingsIcon from '@mui/icons-material/Settings'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import ImageIcon from '@mui/icons-material/Image'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh'
+import { useNavigate } from 'react-router-dom'
+import { ipcRenderer } from 'electron'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
+import SwitchCard from '@/components/SwitchCard'
+import { APPEARANCE, useSettingStore } from '@/store/setting'
 
 function AccountExtendFab() {
   const { account } = useUserStore()
@@ -46,7 +55,7 @@ function AccountExtendFab() {
           justifyContent: 'start',
           alignItems: 'center',
           borderRadius: 7,
-          px: 2,
+          px: '14px',
         }}
       >
         <Avatar
@@ -75,11 +84,25 @@ function AccountExtendFab() {
 }
 export default function QuickPanel() {
   const { showQuick: open, toggleQuick } = useAppStore()
+  const { appearance, setAppearance } = useSettingStore()
+  const theme = useTheme()
+  const navigate = useNavigate()
+  const isDark = theme.palette.mode === 'dark'
+
+  function onClose() {
+    toggleQuick(false)
+  }
+  const  handleChangeDarkMode = useCallback(() => {
+    setAppearance(isDark ? APPEARANCE.LIGHT : APPEARANCE.DARK)
+  }, [isDark])
+  function appRelaunch() {
+    ipcRenderer.invoke('relaunch')
+  }
   return (
     <Drawer
       anchor="right"
       open={open}
-      onClose={() => toggleQuick(false)}
+      onClose={onClose}
       sx={{
         'width': 310,
         '& .MuiDrawer-paper': {
@@ -110,13 +133,27 @@ export default function QuickPanel() {
           pr={1}
         >
           <Typography variant="caption">快捷面板</Typography>
-          <IconButton size="small" onClick={() => toggleQuick(false)}>
+          <IconButton size="small" onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </Box>
         <Divider />
-        <Box sx={{ p: 1.5 }}>
+        <Box className='p-3 flex flex-col gap-2'>
           <AccountExtendFab />
+          <div className='grid grid-cols-2 gap-2'>
+            <SwitchCard checked={isDark} title='深色模式' subTitle={isDark ? '已开启' : '已关闭'} icon={ isDark ? <Brightness4Icon /> : <BrightnessHighIcon/>} onChange={handleChangeDarkMode} />
+            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small'  />} onChange={() => {
+              appRelaunch()
+            }} />
+            <SwitchCard title='wallpaper' subTitle='gallery' icon={<ImageIcon fontSize='small'  />} onChange={() => {
+              onClose()
+              navigate('/wallpaper')
+            }} />
+            <SwitchCard title='设置' icon={<SettingsIcon fontSize='small' />} onClick={() => {
+              onClose()
+              navigate('/setting')
+            }} />
+          </div>
         </Box>
       </Box>
     </Drawer>

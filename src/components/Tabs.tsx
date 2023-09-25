@@ -3,6 +3,7 @@ import { Tab, tabClasses } from '@mui/base/Tab'
 
 import { TabsList } from '@mui/base/TabsList'
 import { styled } from '@mui/material/styles'
+import { Typography } from '@mui/material'
 
 
 const MYTab = styled(Tab)(({ theme }) => ({
@@ -41,7 +42,7 @@ export default function MYTabs({ tabs, onChange, value }: {
   }}>
     <TabsList>
       {
-        tabs.map(tab => <MYTab key={tab.value} value={tab.value}>{tab.label}</MYTab>)
+        tabs.map(tab => <MYTab key={tab.value} value={tab.value}><Typography>{tab.label}</Typography></MYTab>)
       }
     </TabsList>
   </Tabs>

@@ -18,6 +18,7 @@ const IndexUrl = app.isPackaged
 let storeSize: {
   width: number
   height: number
+
 } = {
   width: 1210,
   height: 720,

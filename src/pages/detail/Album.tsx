@@ -1,28 +1,78 @@
 import { Box, Button, DialogContent, DialogTitle, Divider, IconButton, Typography, useTheme } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import QueueMusicIcon from '@mui/icons-material/QueueMusic'
+import AlbumIcon from '@mui/icons-material/Album'
+import CopyrightIcon from '@mui/icons-material/Copyright'
+
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
-import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
-import { formatDate, formatDuring, formatNumber } from '@/util/fn'
-import type { Playlist } from '@/types'
+import { formatDate, formatDuring } from '@/util/fn'
+import type { Album } from '@/types'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
+import useQueryAlbum from '@/pages/detail/useQueryAlbum'
+import ArtistLink from '@/components/links/artist'
+import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
-function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
+function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
 
-  const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
+  const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
+  const { addToQueueAndPlay } = usePlayQueue()
+  const { openContextMenu } = useContextMenu()
+
+  const [subscribed, setSubscribed] = useState(false)
+  useEffect(() => {
+    setSubscribed(album.isSub)
+  }, [album])
+  function handlePlay() {
+    addToQueueAndPlay(album.tracks, album.id, 'album', album.name)
+  }
+  function handleMore(e: React.MouseEvent<HTMLElement>) {
+    openContextMenu(e, [
+      {
+        type: 'item',
+        label: '下一首播放',
+        onClick: () => {
+
+        },
+      },
+      { type: 'divider' as any },
+      ...(subscribed ? [
+        {
+          type: 'item' as any,
+          label: '从音乐库中移除',
+          onClick: () => {
+
+          },
+        },
+      ] : [
+        {
+          type: 'item' as any,
+          label: '添加到音乐库',
+          onClick: () => {
+
+          },
+        },
+      ]),
+      { type: 'divider' },
+      {
+        type: 'item',
+        label: '复制网页分享链接',
+        onClick: () => {},
+      },
+    ] )
+  }
   return (
     <motion.div
       initial={{
@@ -40,25 +90,25 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
         <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
           <Image
             className="absolute"
-            src={playlist?.coverImgUrl}
+            src={album.picUrl}
             fit="cover"
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            playlist?.coverImgUrl &&
-              <ImageViewer open={showImageView} src={playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
+            album?.picUrl &&
+              <ImageViewer open={showImageView} src={album?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
             <div className="flex-1" onClick={() => setShowImageView(true)}></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">{playlist?.name}</Typography>
+              <Typography variant="h4">{album.name}</Typography>
               <div className="flex flex-col">
                 <Typography variant="body1" color='primary'>
-                  {playlist?.['creator']?.nickname}
+                  <ArtistLink artist={album.artist} />
                 </Typography>
                 <Typography variant="caption">
-                  {formatDate(playlist?.createTime, 'LL')}
+                  {formatDate(album.publishTime, 'LL')}
                 </Typography>
               </div>
               <div className="flex py-2">
@@ -67,17 +117,17 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {playlist?.['trackCount']}
+                    {album.size}
                   </Typography>
-                  <Typography variant="caption">首</Typography>
+                  <Typography variant="caption">曲目</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
                 <div
                   className="flex flex-col items-center px-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <QueueMusicIcon fontSize='small'/>
-                  <Typography variant="caption">歌单</Typography>
+                  <AlbumIcon fontSize='small'/>
+                  <Typography variant="caption">专辑</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
 
@@ -96,10 +146,10 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   className="flex flex-col items-center pl-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <Typography variant="body2">
-                    {playlist?.playCount ? formatNumber(playlist?.['playCount']) : 0}
+                  <CopyrightIcon fontSize='small'/>
+                  <Typography variant="caption">
+                    { album.company }
                   </Typography>
-                  <Typography variant="caption">次</Typography>
                 </div>
               </div>
               <div className='flex gap-3'>
@@ -111,10 +161,10 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }} onClick={handleMore}>
                   <MoreHorizIcon/>
                 </IconButton>
               </div>
@@ -122,20 +172,19 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
           </div>
         </div>
         {
-          playlist?.description && <>
+          album?.description && <>
             <div className="flex flex-col gap-1">
               <div className="flex items-center">
-                <Typography variant='body1'>歌单简介</Typography>
+                <Typography variant='body1'>专辑简介</Typography>
                 <IconButton onClick={() => setShowDesc(true)}>
                   <ArrowForwardIcon/>
                 </IconButton>
               </div>
-              <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
             </div>
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
               <DialogTitle variant='body1'>歌单简介</DialogTitle>
               <DialogContent>
-                <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
+                <Typography variant='caption'>{album['description']}</Typography>
               </DialogContent>
             </Md3Dialog>
           </>
@@ -147,17 +196,16 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
 export default function AlbumPage() {
   const params = useParams()
   const theme = useTheme()
-  const { data, isLoading } = useQueryPlaylist(params.id)
+  const { data, isLoading } = useQueryAlbum(params.id)
   return (
     <PageTransition>
-      {isLoading}
       <Box  sx={{ color: theme.palette.onSurface.main }}>
         {
-          isLoading ? <PlayListSkeleton/> : <PlayListHeader playlist={data?.playlist}/>
+          isLoading ? <PlayListSkeleton/> : <Header album={data?.album}/>
         }
         <Box className='h-4'></Box>
         {
-          data?.tracks && <TrackList tracks={data.tracks}/>
+          data?.album?.tracks?.length && <TrackList tracks={data.album.tracks}/>
         }
       </Box>
     </PageTransition>

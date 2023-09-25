@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
-import { APPEARANCE, useSettingStore } from './store/setting'
+import { APPEARANCE, THEME_COLOR, useSettingStore } from './store/setting'
 import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
@@ -19,9 +19,11 @@ import { client } from './plugins/query'
 import { useElectron } from './plugins/electron'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
+import BackToTop from '@/components/BackToTop'
+import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 
 function App() {
-  const { appearance } = useSettingStore()
+  const { appearance, themeColor } = useSettingStore()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const navigate = useNavigate()
   const darkMode =
@@ -29,8 +31,8 @@ function App() {
       ? prefersDarkMode
       : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {
-    return createTheme(getDesignTokens(darkMode))
-  }, [darkMode])
+    return createTheme(getDesignTokens(darkMode, themeColor))
+  }, [darkMode, themeColor])
   useEffect(() => {
     bootstrap()
     useElectron()
@@ -39,10 +41,11 @@ function App() {
   return (
     <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
+        <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }} variant='info' autoHideDuration={2000}>
           <Box
             sx={{
               bgcolor: theme.palette.surface.main,
+              color: theme.palette.onSurface.main,
               height: '100vh',
               width: '100vw',
               borderRadius: 7,
@@ -59,16 +62,20 @@ function App() {
             <Nav/>
             <Main/>
             <NowPlayingBar/>
+            {/*<NowPlayingBlock/>*/}
+            <NowPlayingPage/>
             <LoginDialog/>
             <Profile/>
             <QuickPanel/>
+            <BackToTop />
             <NowPlayingList />
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
                   right: 0,
-                  bottom: 72,
+                  top: 0,
                   left: 'auto',
+                  height: 42,
                 },
               }}
               closeButtonProps={{
@@ -85,11 +92,12 @@ function App() {
   )
 }
 
-function getDesignTokens(isDark: boolean): ThemeOptions {
+function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptions {
   return {
     typography: {
       fontFamily: [
         'Quicksand',
+        'serif',
         'Roboto',
         'Arial',
         'sans-serif',
@@ -101,8 +109,8 @@ function getDesignTokens(isDark: boolean): ThemeOptions {
     palette: {
       mode: isDark ? 'dark' : 'light',
       ...(isDark
-        ? Themes.GreenRockyMountains.palette.dark
-        : Themes.GreenRockyMountains.palette.light),
+        ? Themes[color].palette.dark
+        : Themes[color].palette.light),
     },
   }
 }

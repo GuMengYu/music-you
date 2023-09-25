@@ -2,16 +2,18 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 
 import type * as http from 'node:http'
-import { BrowserWindow, app, protocol } from 'electron'
+import { BrowserWindow, app, net, protocol } from 'electron'
 import is from 'electron-is'
 import log from 'electron-log'
 
+import { enable, initialize as initializeElectronRemote } from '@electron/remote/main'
 import { useStaticServer } from './core/appStataicServer'
 import { registerIpcMain } from './core/ipcMain'
 import { createElectronMenu } from './core/menu'
 import { useNetEaseApiServer } from './core/neteaseapi/apiserver'
 import { createTray } from './core/tray'
 import WindowManager from './core/windowManager'
+import { useLocalLibraryService } from './local-library'
 
 
 // The built directory structure
@@ -49,7 +51,7 @@ function bootstrap() {
       const window = wm.getWindow('index')
       if (window) {
         window.show()
-        if (window.isMinimized()) 
+        if (window.isMinimized())
           window.restore()
         window.focus()
       }
@@ -63,32 +65,39 @@ function handleAppEvent() {
   app.on('window-all-closed', () => {
     // On macOS, it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') 
+    if (process.platform !== 'darwin')
       app.quit()
-    
+
   })
 
   app.on('activate', () => {
     // On macOS, it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) 
-      wm.openWindow('index')
-    else wm.getWindow('index')?.show()
+    if (wm) {
+      if (BrowserWindow.getAllWindows().length === 0)
+        wm.openWindow('index')
+      else wm.getWindow('index')?.show()
+    }
+
   })
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
+    protocol.handle('track', (request) => {
+      return net.fetch(`file:///${  request.url.slice('track://'.length)}`)
+    })
+
     // install extensions
     // await installExtensions()
     // Exit cleanly on request from parent process in development mode.
     if (is.dev()) {
       if (process.platform === 'win32') {
         process.on('message', (data) => {
-          if (data === 'graceful-exit') 
+          if (data === 'graceful-exit')
             app.quit()
-          
+
         })
       }
       else {
@@ -108,9 +117,12 @@ function handleAppEvent() {
     wm = new WindowManager()
     const window = await wm.openWindow('index')
     if (window) {
+      initializeElectronRemote()
+      enable(window.webContents)
       createElectronMenu(window)
       createTray(window)
       registerIpcMain(wm)
+      await useLocalLibraryService()
     }
   })
   app.on('quit', () => {
@@ -123,14 +135,25 @@ function handleAppEvent() {
 
 function preCheck() {
   // Scheme must be registered before the app is ready
-  protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+  protocol.registerSchemesAsPrivileged([
+    {
+      scheme: 'track',
+      privileges: {
+        secure: true,
+        standard: true,
+        corsEnabled: true,
+        stream: true,
+        supportFetchAPI: true,
+      },
+    },
+  ])
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
   // Disable GPU Acceleration for Windows 7
-  if (release().startsWith('6.1')) 
+  if (release().startsWith('6.1'))
     app.disableHardwareAcceleration()
 
   // Set application name for Windows 10+ notifications
-  if (process.platform === 'win32') 
+  if (process.platform === 'win32')
     app.setAppUserModelId(app.getName())
 }
 export const getWin = () => wm.getWindow('index')

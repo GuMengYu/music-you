@@ -16,6 +16,8 @@ export default function AggregateExtendButton() {
     'daily',
     'recent',
     'setting',
+    'local-album',
+    'moods_and_genres',
   ])
 
   function back() {

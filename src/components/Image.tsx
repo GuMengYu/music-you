@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css'
-import { AnimatePresence, motion, useAnimation } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useAnimate } from 'framer-motion'
+import { memo, useEffect, useState } from 'react'
 
 const ease = [0.4, 0, 0.2, 1]
 interface Props {
@@ -10,10 +10,8 @@ interface Props {
   sizes?: string
   className?: string
   lazyLoad?: boolean
-  placeholder?: 'artist' | 'album' | 'playlist' | 'podcast' | 'blank' | false
   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void
   onMouseOver?: (e: React.MouseEvent<HTMLImageElement>) => void
-  animation?: boolean
   gradient?: string
 }
 
@@ -24,46 +22,22 @@ function Image({
   className,
   lazyLoad = true,
   sizes,
-  placeholder = 'blank',
   onClick,
   onMouseOver,
-  animation = true,
   gradient,
 }: Props) {
   const [error, setError] = useState(false)
-  const animate = useAnimation()
-  const placeholderAnimate = useAnimation()
-  const isAnimate = animation
+  const [imageScope, animate] = useAnimate()
+  const [ placeholderScope, placeholderAnimate] = useAnimate()
   useEffect(() => setError(false), [src])
 
   const onLoad = async () => {
-    if (isAnimate) {
-      animate.start({ opacity: 1 })
-      placeholderAnimate.start({ opacity: 0 })
-    }
+    animate(imageScope.current, { opacity: 1 }, { duration: 0.5 })
+    placeholderAnimate(placeholderScope.current, { opacity: 0 }, { duration: 0.5 })
   }
   const onError = () => {
     setError(true)
   }
-
-  const transition = { duration: 0.6, ease }
-  const motionProps = isAnimate
-    ? {
-        animate,
-        initial: { opacity: 0 },
-        exit: { opacity: 0 },
-        transition,
-      }
-    : {}
-  const placeholderMotionProps = isAnimate
-    ? {
-        animate: placeholderAnimate,
-        initial: { opacity: 1 },
-        exit: { opacity: 0 },
-        transition,
-      }
-    : {}
-
   return (
     <div
       onClick={onClick}
@@ -77,34 +51,33 @@ function Image({
       )}
     >
       {/* Image */}
-      <AnimatePresence>
-        <motion.img
-          // className='absolute inset-0 h-full w-full'
-          style={{
-            height: '100%',
-            width: '100%',
-            objectFit: fit,
-          }}
-          src={src}
-          srcSet={srcSet}
-          sizes={sizes}
-          decoding="async"
-          loading={lazyLoad ? 'lazy' : undefined}
-          onError={onError}
-          onLoad={onLoad}
-          {...motionProps}
-        />
-      </AnimatePresence>
+      <img
+        ref={imageScope}
+        // className='absolute inset-0 h-full w-full'
+        style={{
+          height: '100%',
+          width: '100%',
+          objectFit: fit,
+          opacity: 0,
+        }}
+        alt='cover image'
+        src={src}
+        srcSet={srcSet}
+        sizes={sizes}
+        decoding="async"
+        loading={lazyLoad ? 'lazy' : undefined}
+        onError={onError}
+        onLoad={onLoad}
+      />
 
       {/* Placeholder / Error fallback */}
-      <AnimatePresence>
-        {placeholder && (
-          <motion.div
-            {...placeholderMotionProps}
-            className="absolute inset-0 h-full w-full bg-white dark:bg-white/10"
-          ></motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        ref={placeholderScope}
+        style={{
+          opacity: 1,
+        }}
+        className="absolute inset-0 h-full w-full bg-white dark:bg-white/10"
+      ></div>
       {
         gradient && (
           <div className="absolute inset-0 h-full w-full" style={{
@@ -116,4 +89,4 @@ function Image({
   )
 }
 
-export default Image
+export default memo(Image)

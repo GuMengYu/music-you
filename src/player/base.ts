@@ -9,7 +9,7 @@ import { sleep, toHttps } from '@/util/fn'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import is from '@/util/is'
 import { playQueueStore } from '@/store/playQueue'
-
+import { PipLyric } from '@/util/pipLyric'
 
 // const messages = {
 //   zhCN: {
@@ -74,8 +74,7 @@ export class Player {
       this.track = track
     else
       this.track = null
-
-    this.volume = volume
+    this.setVolume(volume)
     this.currentTime = currentTime
     this.playing = playing
     this.isCurrentFm = isCurrentFm
@@ -85,14 +84,29 @@ export class Player {
   private init() {
     const style = 'color: tomato; -webkit-text-stroke: 1px black; font-size:20px;'
     console.log('%c Start initializing the player 😆', style )
-    // this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
+    this.initPip()
     if (this.track?.id)
       this.updatePlayerTrack(this.track.id, false, false, false, this.track.source?.from)
 
     if (is.electron() && is.windows())
       this.taskbarProgress = true
 
+  }
+
+  initPip() {
+    this.pipLyric = PipLyric()() as any
+    this.pipLyric.onLeave = () => {
+      usePlayerStore.setState({
+        showPipLyric: false,
+      })
+
+    }
+    this.pipLyric.onEnter = () => {
+      usePlayerStore.setState({
+        showPipLyric: true,
+      })
+    }
   }
 
   private initStoreEvent() {
@@ -124,7 +138,7 @@ export class Player {
       return
     usePlayerStore.setState({ loadingTrack: true })
     try {
-      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from?.type === 'program')
+      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from)
       // restore common mode
       if (!isFm)
         usePlayerStore.setState({ isCurrentFm: false })
@@ -159,7 +173,9 @@ export class Player {
 
         if (autoplay) {
           this.play()
-          await start({ id: this.track.id })
+          if (from.type !== 'local')
+            await start({ id: this.track.id })
+
         }
         else {
           this.pause()
@@ -190,7 +206,7 @@ export class Player {
     const sound = new Howl({
       volume: this.volume,
       src,
-      html5: this.track?.meta?.sourceFromUnlockMusic, // web audio 用 xhr 方式拉取音频，解锁音乐可能会存在跨域，强制 html5 加载
+      html5: true, // web audio 用 xhr 方式拉取音频，解锁音乐可能会存在跨域，强制 html5 加载
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {
@@ -208,9 +224,12 @@ export class Player {
         if (this.track) {
           const { name, ar = [] } = this.track
           const artists = ar.map(a => a.name).join('&')
+          //global window
           document.title = `${name} - ${artists}`
           this.fixDuration()
-          // this.pipLyric?.setData(this.track, this.track.lyric)
+          if (this.pipLyric && this.track?.source?.fromType !== 'local')
+            this.pipLyric.setData(this.track, this.track.lyric)
+
           // this.pipLyric.enter()
         }
       },
@@ -405,7 +424,7 @@ export class Player {
     else
       this.next()
 
-    if (this.track)
+    if (this.track && this.track.source.fromType !== 'local')
       this.endPlay(this.track, 0, true)
 
   }
@@ -476,6 +495,7 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
     intelligence: '',
     program: `/podcast/${from.id}`,
     unknown: '',
+    local: '/local',
   }[from.type as listType]
   track.source = {
     fromUrl: url,
