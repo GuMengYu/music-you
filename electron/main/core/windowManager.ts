@@ -79,9 +79,9 @@ export default class WindowManager extends EventEmitter {
         },
       })
       this.windows[page] = window
-      if (pageOptions.url) 
+      if (pageOptions.url)
         window.loadURL(pageOptions.url)
-      
+
       this.initWindowListener(page)
       return window
     }
@@ -157,7 +157,7 @@ export default class WindowManager extends EventEmitter {
 
       // Make all links open with the browser, not with the application
       window.webContents.setWindowOpenHandler(({ url }) => {
-        if (url.startsWith('https:')) 
+        if (url.startsWith('https:'))
           shell.openExternal(url)
         return { action: 'deny' }
       })

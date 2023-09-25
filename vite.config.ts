@@ -1,6 +1,7 @@
 import { rmSync } from 'node:fs'
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
+import swc from 'unplugin-swc'
 
 // eslint-disable-next-line import/default
 import electron from 'vite-plugin-electron'
@@ -34,15 +35,22 @@ export default defineConfig(({ command, mode }) => {
         // Main-Process entry file of the Electron App.
         entry: 'electron/main/index.ts',
         onstart(options) {
+          console.log(options)
           if (process.env.VSCODE_DEBUG)
             console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
           else
             options.startup()
-
         },
         vite: {
+          plugins: [
+            swc.vite({
+              jsc: {
+                target: 'esnext', // override ts.config.json ESNext, avoid error notify
+              },
+            }),
+          ],
+          esbuild: false,
           build: {
-            sourcemap,
             minify: isBuild,
             outDir: 'dist-electron/main',
             rollupOptions: {
