@@ -8,12 +8,14 @@ import App from './App'
 
 import Home from './pages/Home'
 import Library from './pages/Library'
+import LocalLibrary from './pages/local/LocalLibrary'
 
 import NotFound from './pages/NotFound'
 import Search from './pages/Search'
 import PlaylistPage from './pages/detail/Playlist'
 import { getPlaylistDetail } from './api/playlist'
 import Playground from '@/pages/Playground'
+import Setting from '@/pages/setting/Setting'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -35,7 +37,7 @@ const router = createBrowserRouter(
         {
           id: 'redirect_home',
           path: '/',
-          element: <Home />,
+          element: <Playground />,
         },
         {
           id: 'home',
@@ -48,9 +50,19 @@ const router = createBrowserRouter(
           element: <Library />,
         },
         {
+          id: 'local-library',
+          path: '/local-library',
+          element: <LocalLibrary />,
+        },
+        {
           id: 'playlist',
           path: '/playlist/:id',
           element: <PlaylistPage />,
+        },
+        {
+          id: 'setting',
+          path: '/setting',
+          element: <Setting />,
         },
         {
           id: 'search',

@@ -43,6 +43,7 @@ function App() {
           <Box
             sx={{
               bgcolor: theme.palette.surface.main,
+              color: theme.palette.onSurface.main,
               height: '100vh',
               width: '100vw',
               borderRadius: 7,
@@ -101,8 +102,8 @@ function getDesignTokens(isDark: boolean): ThemeOptions {
     palette: {
       mode: isDark ? 'dark' : 'light',
       ...(isDark
-        ? Themes.GreenRockyMountains.palette.dark
-        : Themes.GreenRockyMountains.palette.light),
+        ? Themes.PurpleDress.palette.dark
+        : Themes.PurpleDress.palette.light),
     },
   }
 }

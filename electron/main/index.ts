@@ -6,6 +6,7 @@ import { BrowserWindow, app, protocol } from 'electron'
 import is from 'electron-is'
 import log from 'electron-log'
 
+import { enable, initialize as initializeElectronRemote } from '@electron/remote/main'
 import { useStaticServer } from './core/appStataicServer'
 import { registerIpcMain } from './core/ipcMain'
 import { createElectronMenu } from './core/menu'
@@ -112,10 +113,12 @@ function handleAppEvent() {
     wm = new WindowManager()
     const window = await wm.openWindow('index')
     if (window) {
+      initializeElectronRemote()
+      enable(window.webContents)
       createElectronMenu(window)
       createTray(window)
       registerIpcMain(wm)
-      useLocalLibraryService()
+      await useLocalLibraryService()
     }
   })
   app.on('quit', () => {

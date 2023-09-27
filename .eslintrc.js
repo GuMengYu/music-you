@@ -60,6 +60,7 @@ module.exports = {
     'unused-imports/no-unused-vars': 0,
     'jsdoc/check-param-names': 0,
     '@typescript-eslint/consistent-type-imports': 0,
+    'n/prefer-global/buffer': 1,
   },
   ignorePatterns: ['pipLyric.ts', '.vscode'],
   // ignorePatterns: ['dist','dist-electron', 'release', 'public', '!.eslintrc.js', '!.prettierrc.js'],

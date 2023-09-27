@@ -1,5 +1,4 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 import Slider from '@mui/material/Slider'
 import { useCallback } from 'react'
 import { Control } from '../Control'
@@ -12,7 +11,6 @@ import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
 import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
 
 function NowPlayingBar() {
-  const theme = useTheme()
   const { player } = usePlayer()
   const { track, volume, volumeIcon } = usePlayerControl()
   const coverUrl = sizeOfImage(track?.coverUrl ?? track?.al?.picUrl ?? '', 256)
@@ -26,8 +24,6 @@ function NowPlayingBar() {
     <Box
       component="footer"
       sx={{
-        bgcolor: theme.palette.surface.main,
-        color: theme.palette.onSurface.main,
         px: 1,
         height: 72,
         position: 'fixed',

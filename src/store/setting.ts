@@ -14,7 +14,7 @@ interface SettingAction {
 }
 export const useSettingStore = create(subscribeWithSelector(persist<SettingState & SettingAction>((set, get) => {
   return {
-    appearance: APPEARANCE.SYSTEM,
+    appearance: APPEARANCE.DARK,
     setAppearance: (appearance: APPEARANCE) => set({ appearance }),
   }
 }, {

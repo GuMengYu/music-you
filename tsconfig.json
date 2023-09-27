@@ -24,6 +24,8 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false
   },
   "references": [{ "path": "./tsconfig.node.json" }],
   "include": ["src", "electron"]

@@ -10,7 +10,7 @@ export default function Playground() {
   const { isActive, matches } = useInForeground('playground')
   async function sendMsg() {
     console.log('send msg')
-    const res = await ipcRenderer.invoke('msg', 'hello world')
+    const res = await ipcRenderer.invoke('folder/remove-folder', 1)
     console.log(res)
   }
   ipcRenderer.on('reply-msg', (msg) => {

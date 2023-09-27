@@ -15,9 +15,9 @@ import ListItemButton from '@mui/material/ListItemButton'
 import CategoryIcon from '@mui/icons-material/Category'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import SearchIcon from '@mui/icons-material/Search'
 import HomeIcon from '@mui/icons-material/Home'
 import MapIcon from '@mui/icons-material/Public'
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService'
 
 // components
 import MenuToggle from '@/components/toggle/MenuToggle'
@@ -83,13 +83,13 @@ export default function MiniDrawer() {
   const { rail: open, toggleLogin } = useAppStore()
   const { pathname } = useLocation()
   const list = [
-    {
-      icon: <SearchIcon sx={{ height: 20, width: 20 }} />,
-      val: 'search',
-      title: '搜索',
-      to: '/search',
-      pathname: ['/search'],
-    },
+    // {
+    //   icon: <SearchIcon sx={{ height: 20, width: 20 }} />,
+    //   val: 'search',
+    //   title: '搜索',
+    //   to: '/search',
+    //   pathname: ['/search'],
+    // },
     {
       icon: <HomeIcon sx={{ height: 20, width: 20 }} />,
       val: 'home',
@@ -116,6 +116,13 @@ export default function MiniDrawer() {
       title: '资料库',
       to: '/library',
       pathname: ['/library'],
+    },
+    {
+      icon: <LocalLaundryServiceIcon sx={{ height: 20, width: 20 }} />,
+      val: 'local-library',
+      title: '本地音乐库',
+      to: '/local-library',
+      pathname: ['/local-library'],
     },
   ]
 

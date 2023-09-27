@@ -5,8 +5,8 @@ import swc from 'unplugin-swc'
 
 // eslint-disable-next-line import/default
 import electron from 'vite-plugin-electron'
-import renderer from 'vite-plugin-electron-renderer'
 import { defineConfig, loadEnv } from 'vite'
+import renderer from './rollplugins/renderer.js'
 import pkg, { dependencies, devDependencies, name, version } from './package.json'
 
 
@@ -35,7 +35,6 @@ export default defineConfig(({ command, mode }) => {
         // Main-Process entry file of the Electron App.
         entry: 'electron/main/index.ts',
         onstart(options) {
-          console.log(options)
           if (process.env.VSCODE_DEBUG)
             console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
           else
@@ -55,6 +54,9 @@ export default defineConfig(({ command, mode }) => {
             outDir: 'dist-electron/main',
             rollupOptions: {
               external: Object.keys(dependencies ?? {}),
+              watch: {
+                exclude: 'electron/main/local-library/**',
+              },
             },
           },
         },
@@ -112,6 +114,9 @@ export default defineConfig(({ command, mode }) => {
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, ''),
         },
+      },
+      watch: {
+        ignored: ['**/electron/main/local-library/**'],
       },
     },
     clearScreen: false,

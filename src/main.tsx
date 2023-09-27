@@ -7,7 +7,7 @@ import router from './router'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>,
+    <RouterProvider router={router}></RouterProvider>
   </React.StrictMode>,
 )
 postMessage({ payload: 'removeLoading' }, '*')
