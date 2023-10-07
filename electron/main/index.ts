@@ -2,7 +2,7 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 
 import type * as http from 'node:http'
-import { BrowserWindow, app, protocol } from 'electron'
+import { BrowserWindow, app, net, protocol } from 'electron'
 import is from 'electron-is'
 import log from 'electron-log'
 
@@ -85,6 +85,10 @@ function handleAppEvent() {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
+    protocol.handle('track', (request) => {
+      return net.fetch(`file:///${  request.url.slice('track://'.length)}`)
+    })
+
     // install extensions
     // await installExtensions()
     // Exit cleanly on request from parent process in development mode.
@@ -131,7 +135,18 @@ function handleAppEvent() {
 
 function preCheck() {
   // Scheme must be registered before the app is ready
-  protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+  protocol.registerSchemesAsPrivileged([
+    {
+      scheme: 'track',
+      privileges: {
+        secure: true,
+        standard: true,
+        corsEnabled: true,
+        stream: true,
+        supportFetchAPI: true,
+      },
+    },
+  ])
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
   // Disable GPU Acceleration for Windows 7
   if (release().startsWith('6.1'))

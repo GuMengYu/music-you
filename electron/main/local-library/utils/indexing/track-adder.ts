@@ -8,6 +8,7 @@ import { TrackService } from '../../track/track.service'
 import { FolderTrackService } from '../../folderTrack/folder-track.service'
 import { Timer } from '../timer'
 import { RemovedTrackService } from '../../removedTrack/removedTrack.service'
+import { getWin } from '../../../index'
 import { IndexablePath } from './indexable-path'
 import { IndexablePathFetcher } from './indexable-path-fetcher'
 import { TrackFiller } from './track-filler'
@@ -28,6 +29,8 @@ export class TrackAdder {
   public async addTracksThatAreNotInTheDatabaseAsync(): Promise<void> {
     const timer: Timer = new Timer()
     timer.start()
+    const win = getWin()
+
 
     try {
       const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(false)
@@ -51,7 +54,8 @@ export class TrackAdder {
           numberOfAddedTracks++
 
           const percentageOfAddedTracks: number = Math.round((numberOfAddedTracks / indexablePaths.length) * 100)
-
+          const { webContents } = win
+          webContents.send('snackbar-add-tracks', numberOfAddedTracks, percentageOfAddedTracks)
           // await this.snackBarService.addedTracksAsync(numberOfAddedTracks, percentageOfAddedTracks)
         }
         catch (e: any) {

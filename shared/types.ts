@@ -16,3 +16,15 @@ export enum WindowState {
   CLOSED = 'closed',
   MINIMIZEDTRAY = 'minimizedTray',
 }
+
+
+export interface LocalTrack {
+  name: string
+  id: number
+  url: string
+  ar?: { id: number; name: string }[]
+  al: {
+    name: string
+    id: number
+  }
+}

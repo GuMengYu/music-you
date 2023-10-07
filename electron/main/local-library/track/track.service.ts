@@ -6,6 +6,7 @@ import { AlbumArtwork } from '../albumArtwork/albumArtwork.entity'
 import { FolderTrack } from '../folderTrack/folder-track.entity'
 import { Folder } from '../folder/folder.entity'
 import { Track } from './track.entity'
+import { TrackModel } from './track-model'
 
 @Injectable()
 export class TrackService {
@@ -43,6 +44,29 @@ export class TrackService {
     return await this.trackRepo.find()
   }
 
+  async getAllTracksNormalized() {
+    const tracks =  await this.trackRepo.find()
+    return tracks.map((track) => {
+      const trackModel = new TrackModel(track)
+
+      return {
+        id: trackModel.id,
+        name: trackModel.fileName,
+        url: trackModel.path,
+        dt: trackModel.durationInMilliseconds,
+        ar: trackModel.artists?.split(',').map(i => ({
+          name: i,
+          id: i,
+        })),
+        al: {
+          id: trackModel.albumTitle,
+          name: trackModel.albumTitle,
+        },
+        size: trackModel.fileSizeInBytes,
+      }
+    })
+  }
+
   public async deleteTrack(trackId: number) {
     try {
       const deleteResult = await this.trackRepo
@@ -67,6 +91,15 @@ export class TrackService {
     }
   }
 
+  public async getTrackById(trackId: number) {
+    try {
+      return await this.trackRepo.findOneBy({ trackId })
+    }
+    catch (e) {
+      console.error('Error during bulk deletion:', e)
+    }
+  }
+
   public async deleteTracks(trackIds: number[]) {
     try {
       const deleteResult = await this.trackRepo
@@ -83,6 +116,20 @@ export class TrackService {
 
   public async updateTrack(track: Track) {
     await this.trackRepo.save(track)
+  }
+
+  public async updateLove(trackId: number, love: number) {
+    await this.trackRepo.createQueryBuilder()
+      .update().set({ love })
+      .where('trackId = :trackId', { trackId })
+      .execute()
+  }
+
+  public async updateRating(trackId: number, rating: number) {
+    await this.trackRepo.createQueryBuilder()
+      .update().set({ rating })
+      .where('trackId = :trackId', { trackId })
+      .execute()
   }
 
   public async addTrack(track: Track) {
@@ -121,6 +168,25 @@ export class TrackService {
       .getRawMany()
 
     return result as AlbumData[]
+  }
+
+  public async getAlbumDataForAlbumKey(albumKey: string) {
+
+    const albumData = await this.trackRepo.createQueryBuilder('t').select([
+      't.albumTitle as albumTitle',
+      't.albumArtists as albumArtists',
+      't.albumKey as albumKey',
+      'a.artworkId as artworkId',
+      'MAX(t.artists) as artists',
+      'MAX(t.year) as year',
+      'MAX(t.dateFileCreated) as dateFileCreated',
+      'MAX(t.dateAdded) as dateAdded',
+      'MAX(t.dateLastPlayed) as dateLastPlayed'])
+      .leftJoin(AlbumArtwork, 'a', 't.albumKey = a.albumKey')
+      .where(`t.albumKey = '${albumKey}'`)
+      .groupBy('t.albumKey')
+      .getRawMany()
+    return albumData as AlbumData[]
   }
 
   public async getAlbumDataThatNeedsIndexing() {

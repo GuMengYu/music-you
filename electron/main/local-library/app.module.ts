@@ -35,11 +35,11 @@ const electronModule = ElectronModule.registerAsync({
   imports: [
     electronModule,
     OrmModule,
+    TrackModule,
     FolderModule,
     AlbumModule,
     ArtistModule,
     BaseModule,
-    TrackModule,
     FolderTrackModule,
     RemovedTrackModule,
     AlbumArtworkModule,

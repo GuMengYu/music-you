@@ -7,6 +7,7 @@ import { Observable, Subject, Subscription } from 'rxjs'
 // import { AlbumArtworkIndexer } from './album-artwork-indexer'
 // import { BaseIndexingService } from './base-indexing.service'
 // import { CollectionChecker } from './collection-checker'
+import { getWin } from '../../../index'
 import { TrackIndexer } from './track-indexer'
 import { AlbumArtworkIndexer } from './album-artwork-indexer'
 
@@ -36,12 +37,15 @@ export class IndexingService {
   public isIndexingCollection: boolean = false
 
   public async indexCollectionAlwaysAsync(): Promise<void> {
+    const { webContents } = getWin()
+
     if (this.isIndexingCollection) {
       // this.logger.info('Already indexing.', 'IndexingService', 'indexCollectionAlwaysAsync')
       console.log('Already indexing.', 'IndexingService', 'indexCollectionAlwaysAsync')
 
       return
     }
+    webContents.send('snackbar-indexing', 'start')
 
     this.isIndexingCollection = true
     this.foldersHaveChanged = false
@@ -54,6 +58,7 @@ export class IndexingService {
 
     this.isIndexingCollection = false
     this.indexingFinished.next()
+    webContents.send('snackbar-indexing', 'end')
   }
 
 }

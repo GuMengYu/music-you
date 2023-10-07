@@ -51,7 +51,7 @@ export class TrackFiller {
       track.needsIndexing = 0
       track.needsAlbumArtworkIndexing = 1
       track.rating = this.trackFieldCreator.createNumberField(fileMetadata.rating)
-
+      track.love = 0
       track.indexingSuccess = 1
       track.indexingFailureReason = ''
     }

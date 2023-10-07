@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
 import { Track } from '../track/track.entity'
 import { TrackService } from '../track/track.service'
 import { FileAccess } from '../utils/io/file-access'
@@ -11,7 +10,6 @@ import { AlbumModel } from './album-model'
 export class AlbumService {
   constructor(
     @InjectRepository(Track)
-    private trackRepository: Repository<Track>,
     private readonly trackService: TrackService,
     private fileAccess: FileAccess,
   ) {
@@ -24,9 +22,9 @@ export class AlbumService {
   }
 
   private createAlbumsFromAlbumData(albumDatas: AlbumData[]): AlbumModel[] {
-    if (albumDatas) 
+    if (albumDatas)
       return albumDatas.map(x => new AlbumModel(x, this.fileAccess))
-    
+
 
     return []
   }

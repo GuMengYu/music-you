@@ -5,7 +5,6 @@ import { Control } from '../Control'
 import LikeToggle from '../toggle/likeToggle'
 import Image from '@/components/Image'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
-import { sizeOfImage } from '@/util/fn'
 import ArtistLink from '@/components/links/artist'
 import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
 import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
@@ -13,7 +12,7 @@ import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
 function NowPlayingBar() {
   const { player } = usePlayer()
   const { track, volume, volumeIcon } = usePlayerControl()
-  const coverUrl = sizeOfImage(track?.coverUrl ?? track?.al?.picUrl ?? '', 256)
+  const coverUrl = track?.coverUrl ?? track?.al?.picUrl ?? ''
   const trackDt = track?.dt ?? track?.duration ?? 0
 
 

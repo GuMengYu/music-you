@@ -44,8 +44,7 @@ export default function Local() {
     }
   }
   async function handleSync() {
-    const res = await ipcRenderer.invoke('base/indexing', '/Users/yoda/Music')
-    console.log(res)
+    await ipcRenderer.invoke('base/indexing', '/Users/yoda/Music')
   }
   const handleRemove = useCallback(async (folderId: number) => {
     await ipcRenderer.invoke('folder/remove-folder', folderId)

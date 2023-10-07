@@ -91,6 +91,7 @@ function getDesignTokens(isDark: boolean): ThemeOptions {
     typography: {
       fontFamily: [
         'Quicksand',
+        'serif',
         'Roboto',
         'Arial',
         'sans-serif',

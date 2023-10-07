@@ -29,7 +29,7 @@ function TrackItem({
   const theme = useTheme()
   return (
     <div
-      className='mb-5 flex items-center justify-between cursor-pointer'
+      className='mb-4 flex items-center justify-between cursor-pointer h-14'
       onClick={(e) => {
         if (e.detail === 2 && track?.id)
           console.log('play track')
@@ -42,8 +42,11 @@ function TrackItem({
       }}
     >
       {/* Cover */}
-      <img alt='Cover' className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl' src={sizeOfImage(track?.al?.picUrl || '')}
-      />
+      {
+        track?.al?.picUrl && <img alt='Cover' className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl' src={sizeOfImage(track?.al?.picUrl || '')}
+          />
+      }
+
 
       {/* Track info */}
       <div className='flex-grow'>

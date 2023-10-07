@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron'
+import { enqueueSnackbar } from 'notistack'
 import { player } from '@/contexts/player'
 import router from '@/router'
 
@@ -87,4 +88,18 @@ function registerIpcRenderer() {
   // ipcRenderer.on('windowState', (e, state) => {
   //   appStore.$state.windowState = state
   // })
+  ipcRenderer.on('snackbar-add-tracks', (e, data, data2) => {
+    console.log(data, data2)
+  })
+  ipcRenderer.on('snackbar-indexing', (e, indexing) => {
+    if (indexing === 'start')
+      enqueueSnackbar({ message: '开始检索歌曲', variant: 'warning', autoHideDuration: 3000 })
+
+
+    else if (indexing === 'end')
+      enqueueSnackbar({ message: '检索完成', variant: 'warning', autoHideDuration: 1000 })
+
+
+
+  })
 }

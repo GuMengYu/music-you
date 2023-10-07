@@ -8,22 +8,36 @@ import { getProgramData, podcastPrograms } from '@/api/podcast'
 
 // import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 // import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Playlist, Track } from '@/types'
+import type { Album, Artist, MV, Playlist, Track, TrackFrom } from '@/types'
 import type { RESOURCE_TYPE } from '@/util/enum'
 import { request } from '@/util/fetch'
 
 import { useUserStore } from '@/store/user'
+import { getLocalTrack } from '@/api/local'
 
 /**
  * 获取歌曲详情，包括歌词、可供播放的url
  * @param id 歌曲id
- * @param isProgram
- * @returns {Promise<{lyric: (*[]|*), url: string}>}
+ * @param from
  */
-export async function getTrackDetail(id: number, isProgram = false) {
+export async function getTrackDetail(id: number, from: TrackFrom) {
   let track: Track | null = null
   let lyric = null
-  if (isProgram) {
+
+  if (from.type === 'local') {
+    const localTrack = await getLocalTrack(id)
+    track = localTrack
+    return { track, trackMeta: {
+      url: localTrack.url as string,
+      br: 0,
+      type: '',
+      encodeType: '',
+      sourceFromUnlockMusic: false,
+      sourceFromLocalMusic: true,
+    } }
+  }
+  // track from program
+  if (from.type === 'program') {
     const { program } = await getProgramData(id)
     const { id: programVoiceId } = program.mainSong
     track = program as unknown as Track
@@ -55,6 +69,8 @@ export async function getMusicUrl(track: Track) {
     br: null,
     type: '',
     encodeType: '',
+    sourceFromUnlockMusic: false,
+    sourceFromLocalMusic: false,
   }
   const logged = !!useUserStore.getState().account?.account?.id
   if (logged) {

@@ -8,7 +8,7 @@ export type listType =
   | 'recent'
   | 'program'
   | 'unknown'
-
+  | 'local'
 export interface TrackFrom {
   id: number
   type: listType
@@ -52,10 +52,11 @@ export interface Track {
   hr?: Quality
   meta?: {
     url: null | string
-    br: null | number
-    type: string
-    encodeType: string
+    br?: null | number
+    type?: string
+    encodeType?: string
     sourceFromUnlockMusic?: boolean
+    sourceFromLocalMusic?: boolean
   }
   lyric?: {
     tlyric: {

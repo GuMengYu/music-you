@@ -124,11 +124,13 @@ export class Player {
       return
     usePlayerStore.setState({ loadingTrack: true })
     try {
-      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from?.type === 'program')
+      console.log(trackId, from)
+      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from)
       // restore common mode
       if (!isFm)
         usePlayerStore.setState({ isCurrentFm: false })
 
+      console.log(track, trackMeta, lyric)
       if (trackMeta.url) {
         if (lyric)
           track.lyric = lyric // 存入歌词
@@ -159,7 +161,9 @@ export class Player {
 
         if (autoplay) {
           this.play()
-          await start({ id: this.track.id })
+          if (from.type !== 'local')
+            await start({ id: this.track.id })
+
         }
         else {
           this.pause()
@@ -208,6 +212,7 @@ export class Player {
         if (this.track) {
           const { name, ar = [] } = this.track
           const artists = ar.map(a => a.name).join('&')
+          //global window
           document.title = `${name} - ${artists}`
           this.fixDuration()
           // this.pipLyric?.setData(this.track, this.track.lyric)
@@ -405,7 +410,7 @@ export class Player {
     else
       this.next()
 
-    if (this.track)
+    if (this.track && this.track.source.fromType !== 'local')
       this.endPlay(this.track, 0, true)
 
   }
@@ -476,6 +481,7 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
     intelligence: '',
     program: `/podcast/${from.id}`,
     unknown: '',
+    local: '/local',
   }[from.type as listType]
   track.source = {
     fromUrl: url,

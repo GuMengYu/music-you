@@ -60,13 +60,13 @@ function Library() {
   const [currentTab, setCurrentTab] = useState('playlist')
   const theme = useTheme()
   return <PageTransition>
-    <Box sx={{ color: theme.palette.onSurface.main }}>
+    <Box sx={{ color: theme.palette.onSurface.main }} className='h-full'>
       <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
         tabs={[{
           value: 'playlist',
           label: 'Playlist',
         }, { value: 'album', label: 'Alum' }, { value: 'artist', label: 'Artist' }]}/>
-      <Box className='overflow-y-auto px-2 my-4'>
+      <Box className='overflow-y-auto px-2 my-4 h-full'>
         {
           {
             artist: <ArtistPanel />,
