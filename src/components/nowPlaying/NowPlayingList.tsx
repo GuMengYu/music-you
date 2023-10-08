@@ -125,8 +125,8 @@ function TrackList() {
           playing={playing}
         ></TrackItem>
       }}
-      data={queue.tracks}
-      totalCount={queue.tracks.length}
+      data={queue.sequence}
+      totalCount={queue.sequence.length}
       fixedItemHeight={72}
       overscan={10}
       components={{

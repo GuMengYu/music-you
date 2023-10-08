@@ -8,7 +8,6 @@ export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',
   REPEAT_ONCE = 'repeatOnce',
-  DISABLE = 'disable',
 }
 
 export interface PlayerState {
@@ -71,9 +70,9 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
         set(() => ({ fmList: cacheList }))
         // this.fmList = cacheList
       }
-      if (pop) 
+      if (pop)
         set({ fmTrack: pop })
-      
+
       return pop
       // pop && (this.fmTrack = pop)
       // return this.fmTrack

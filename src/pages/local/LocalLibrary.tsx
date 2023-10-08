@@ -5,12 +5,14 @@ import { useTheme } from '@mui/material/styles'
 import { useState } from 'react'
 import { Button, Typography } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import { Cover } from './components/Cover'
 import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
 import TrackList from '@/pages/local/TrackList'
 import { bytesToSize, formatDuring } from '@/util/fn'
 import { playQueueStore } from '@/store/playQueue'
 import { usePlayer } from '@/hooks/usePlayer'
+import GridRow from '@/components/GridRow'
 
 
 function LocalTracksPanel() {
@@ -50,7 +52,17 @@ function LocalTracksPanel() {
 }
 
 function LocalAlbumPanel() {
-  return <Box></Box>
+  const { data } = useQuery(['local', 'albums'], async () => {
+    const albums = await ipcRenderer.invoke('album/all-albums')
+    return {
+      albums,
+    }
+  })
+  return <GridRow>
+    {
+      data?.albums.map(((al: any) => (<Cover type='album' key={al.id} data={al} />)))
+    }
+  </GridRow>
 }
 function LocalArtistPanel() {
   return <Box></Box>
@@ -68,7 +80,7 @@ export default function LocalLibrary() {
                 { value: 'artist', label: '艺术家' },
                 { value: 'playlist', label: '播放列表' },
               ]}/>
-      <Box className='overflow-y-auto h-full mt-4'>
+      <Box className='overflow-y-auto h-full mt-4 hide-scrollbar'>
         {
           {
             tracks: <LocalTracksPanel />,

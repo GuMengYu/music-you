@@ -130,7 +130,6 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   <ArrowForwardIcon/>
                 </IconButton>
               </div>
-              <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
             </div>
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
               <DialogTitle variant='body1'>歌单简介</DialogTitle>

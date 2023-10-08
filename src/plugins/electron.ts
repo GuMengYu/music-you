@@ -8,7 +8,6 @@ import router from '@/router'
 import is from '@/util/is'
 
 export function useElectron() {
-  console.log('register electron ipc renderer')
   if (is.electron())
     registerIpcRenderer()
 

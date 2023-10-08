@@ -11,12 +11,12 @@ import {
 } from '@mui/icons-material'
 import { useTheme } from '@mui/material'
 import dayjs from 'dayjs'
+import { motion } from 'framer-motion'
 import ShortCut from './home/shortcut'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import {
-  QueryKeys,
   personalizedPlaylist,
   personalizedRadar,
 } from '@/api/personalized'
@@ -25,6 +25,7 @@ import { specialType } from '@/util/metadata'
 import { getPlaylistDetail } from '@/api/playlist'
 import { useUserStore } from '@/store/user'
 import PageTransition from '@/components/PageTransition'
+import HomePageSkeleton from '@/components/skeleton/HomeSkeleton'
 
 function ShortCuts() {
   const theme = useTheme()
@@ -120,37 +121,52 @@ function ShortCuts() {
 }
 
 function Home() {
-  const { data: playlist } = useQuery([QueryKeys.personalizedPlaylist], () => {
-    return personalizedPlaylist()
+  const { data, isLoading } = useQuery(['home', 'recommend'], async () => {
+    const [playlist, radarPlaylist] = await Promise.all([personalizedPlaylist(), personalizedRadar()])
+    return {
+      playlist,
+      radarPlaylist,
+    }
+  }, {
+    staleTime: 30 * 60 * 60 * 1000,
   })
-  const { data: radarPlaylist } = useQuery(
-    [QueryKeys.personalizedRadar],
-    () => {
-      return personalizedRadar()
-    },
-  )
 
   return (
     <PageTransition>
-      <div className="flex flex-col gap-4">
-        <Col title="晚上好">
-          <ShortCuts/>
-        </Col>
-        <Col title="今日推荐">
-          <GridRow singleLine rowType={GridType.A}>
-            {playlist?.map(data => (
-              <Cover type="playlist" key={data.id} data={data}/>
-            ))}
-          </GridRow>
-        </Col>
-        <Col title="雷达歌单">
-          <GridRow singleLine rowType={GridType.A}>
-            {radarPlaylist?.map(data => (
-              <Cover type="playlist" key={data.id} data={data}/>
-            ))}
-          </GridRow>
-        </Col>
-      </div>
+      {
+        isLoading ? <HomePageSkeleton /> : <motion.div
+          className='flex flex-col gap-4'
+          initial={{
+            opacity: 0, transform: 'translateX(15px)',
+          }}
+          animate={{
+            opacity: 1, transform: 'translateX(0px)',
+          }}
+          transition={{
+            duration: 0.25,
+            ease: [0.34, 1.56, 0.64, 1],
+          }}
+        >
+          <Col title="晚上好">
+            <ShortCuts/>
+          </Col>
+          <Col title="今日推荐">
+            <GridRow singleLine rowType={GridType.A}>
+              {data?.playlist?.map(data => (
+                <Cover type="playlist" key={data.id} data={data}/>
+              ))}
+            </GridRow>
+          </Col>
+          <Col title="雷达歌单">
+            <GridRow singleLine rowType={GridType.A}>
+              {data?.radarPlaylist?.map(data => (
+                <Cover type="playlist" key={data.id} data={data}/>
+              ))}
+            </GridRow>
+          </Col>
+        </motion.div>
+      }
+
     </PageTransition>
 
   )

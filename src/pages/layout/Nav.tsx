@@ -16,7 +16,6 @@ import CategoryIcon from '@mui/icons-material/Category'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import HomeIcon from '@mui/icons-material/Home'
-import MapIcon from '@mui/icons-material/Public'
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService'
 
 // components
@@ -97,13 +96,13 @@ export default function MiniDrawer() {
       to: '/home',
       pathname: ['/home', '/'],
     },
-    {
-      icon: <MapIcon sx={{ height: 20, width: 20 }} />,
-      val: 'explore',
-      title: '浏览',
-      to: '/explore',
-      pathname: ['/explore'],
-    },
+    // {
+    //   icon: <MapIcon sx={{ height: 20, width: 20 }} />,
+    //   val: 'explore',
+    //   title: '浏览',
+    //   to: '/explore',
+    //   pathname: ['/explore'],
+    // },
     // {
     //   icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
     //   val: "podcast",

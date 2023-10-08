@@ -1,13 +1,12 @@
 import { useCallback, useState } from 'react'
-import { IconButton, Typography } from '@mui/material'
+import { Divider, IconButton, Typography } from '@mui/material'
 import { css, cx } from '@emotion/css'
 import PlayIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-
 import { AnimatePresence, motion } from 'framer-motion'
 import { LocalTrack } from '@shared/types'
-import { formatDuring } from '@/util/fn'
+import { formatDuring, formatFrequency } from '@/util/fn'
 import { usePlayer } from '@/hooks/usePlayer'
 import { playQueueStore } from '@/store/playQueue'
 
@@ -20,7 +19,7 @@ function Track({ track, index, onPlay }: {
   const [isHovering, setIsHovering] = useState(false)
   return <div
     className={
-      cx('grid gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 2fr 1fr 1fr [last] 126px;`)
+      cx('grid gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 3fr 2fr 1fr [last] 126px;`)
     } onMouseEnter={() => setIsHovering(true)}
     onMouseLeave={() => setIsHovering(false)}>
     <div className='flex gap-2'>
@@ -49,13 +48,12 @@ function Track({ track, index, onPlay }: {
       </div>
       <div className='flex flex-col justify-center'>
         <Typography className='line-clamp-1' variant='body1'>{track.name}</Typography>
+        {/*<Typography className='line-clamp-1' variant='caption'>{ track.ar?.map(i => i.name).join(',') }</Typography>*/}
       </div>
     </div>
 
     <Typography className='line-clamp-1' variant='body2'>{ track.al.name }</Typography>
-
-    <Typography className='line-clamp-1' variant='body2'>{ track.ar?.map(i => i.name).join(',') }</Typography>
-
+    <Typography className='line-clamp-1' variant='body2'>{ formatFrequency(track.sample) }</Typography>
     <div className='flex justify-between items-center'>
       <div className='h-9 w-9'>
         {
@@ -113,6 +111,24 @@ export default function TrackList({ tracks, className }: {
     player.updatePlayerTrack(trackId, true, true, false, { type: 'local', id: 0 })
   }, [tracks])
   return <div className={className}>
+    <div>
+      <div
+       className={
+         cx('grid gap-4 px-1 items-center', css`grid-template-columns: 3fr 2fr 1fr [last] 126px;`)
+       }
+      >
+        <div className='flex items-center gap-2'>
+          <div className='w-12 text-center'>
+            <Typography variant='caption'>#</Typography>
+          </div>
+          <Typography variant='caption'>标题</Typography>
+        </div>
+        <Typography variant='caption'>专辑</Typography>
+        <Typography variant='caption'>采样率</Typography>
+        <Typography variant='caption' className='text-center'>时长</Typography>
+    </div>
+    <Divider className="mx-4 my-2" />
+  </div>
     {
       tracks?.length && tracks.map((track, index) => {
         return <Track track={track} key={track.id} index={index} onPlay={handleTrackPlay} />

@@ -16,6 +16,9 @@ import PlaylistPage from './pages/detail/Playlist'
 import { getPlaylistDetail } from './api/playlist'
 import Playground from '@/pages/Playground'
 import Setting from '@/pages/setting/Setting'
+import LocalAlbumPage from '@/pages/local/components/Album'
+import AlbumPage from '@/pages/detail/Album'
+import ArtistPage from '@/pages/detail/Artist'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -37,7 +40,7 @@ const router = createBrowserRouter(
         {
           id: 'redirect_home',
           path: '/',
-          element: <Playground />,
+          element: <Home />,
         },
         {
           id: 'home',
@@ -50,14 +53,18 @@ const router = createBrowserRouter(
           element: <Library />,
         },
         {
-          id: 'local-library',
-          path: '/local-library',
-          element: <LocalLibrary />,
-        },
-        {
           id: 'playlist',
           path: '/playlist/:id',
           element: <PlaylistPage />,
+        },
+        {
+          id: 'album',
+          path: '/album/:id',
+          element: <AlbumPage />,
+        }, {
+          id: 'artist',
+          path: '/artist/:id',
+          element: <ArtistPage />,
         },
         {
           id: 'setting',
@@ -73,6 +80,16 @@ const router = createBrowserRouter(
           id: 'playground',
           path: '/playground',
           element: <Playground/>,
+        },
+        {
+          id: 'local-library',
+          path: '/local-library',
+          element: <LocalLibrary />,
+        },
+        {
+          id: 'local-album',
+          path: '/local/album/:id?',
+          element: <LocalAlbumPage />,
         },
         {
           path: '*',

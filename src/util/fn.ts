@@ -313,3 +313,14 @@ export function hexToRgb(hex: string, format = false) {
     return `${red}, ${green}, ${blue}`
 
 }
+
+export function formatFrequency(frequency: number) {
+  // 将频率除以 1000，以得到 kHz 为单位的频率
+  const frequencyKHz = frequency / 1000
+
+  // 将 kHz 格式化为带有一位小数的字符串
+  const formattedFrequency = frequencyKHz.toFixed(1)
+
+  // 返回格式化后的字符串
+  return `${formattedFrequency} kHz`
+}

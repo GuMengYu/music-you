@@ -215,4 +215,12 @@ export class TrackModel {
   public increaseSkipCount(): void {
     this.track.skipCount++
   }
+
+  public get bitRate() {
+    return this.track.bitRate
+  }
+
+  public get sampleRate() {
+    return this.track.sampleRate
+  }
 }

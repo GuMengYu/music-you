@@ -32,7 +32,7 @@ function PlaylistPanel() {
       <Typography variant='body1'>创建的歌单</Typography>
       <GridRow>
         {
-          filteredPlaylist['create']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+          filteredPlaylist['create']?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>
@@ -41,7 +41,7 @@ function PlaylistPanel() {
 
       <GridRow>
         {
-          filteredPlaylist['sub']?.map(playlist => (<Cover key={playlist.id} inset type='playlist' data={playlist} />))
+          filteredPlaylist['sub']?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>
@@ -66,7 +66,7 @@ function Library() {
           value: 'playlist',
           label: 'Playlist',
         }, { value: 'album', label: 'Alum' }, { value: 'artist', label: 'Artist' }]}/>
-      <Box className='overflow-y-auto px-2 my-4 h-full'>
+      <Box className='overflow-y-auto px-2 my-4 h-full hide-scrollbar'>
         {
           {
             artist: <ArtistPanel />,

@@ -16,7 +16,7 @@ export default function useQueryPlaylist(playlistId?: number | string) {
     },
     {
       enabled: !!playlistId,
-      staleTime: 6 * 60 * 60 * 1000, // 歌单缓存6小时
+      staleTime: 60 * 60 * 1000, // 歌单缓存1小时
     },
   )
 

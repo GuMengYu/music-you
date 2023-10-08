@@ -6,7 +6,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { formatDuring } from '@/util/fn'
+import { formatDuring, sizeOfImage } from '@/util/fn'
 import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
@@ -19,13 +19,13 @@ function Track({ track }: {
   const [isHovering, setIsHovering] = useState(false)
   return <div
     className={
-      cx('grid grid-cols-3 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 126px;`)
+      cx('grid grid-cols-3 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
     } onMouseEnter={() => setIsHovering(true)}
     onMouseLeave={() => setIsHovering(false)}>
     <div className='flex gap-2'>
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden'>
-          <Image src={track.al?.picUrl}/>
+          <Image src={sizeOfImage(track.al?.picUrl, 128)}/>
         </div>
         <AnimatePresence>
           {
@@ -54,7 +54,7 @@ function Track({ track }: {
     <Typography className='line-clamp-1' variant='body2'>{track.al && <AlbumLink album={track.al}/>}</Typography>
 
     <div className='flex justify-between items-center'>
-      <div className='h-9 w-9'>
+      <div className='h-11 w-11'>
         {
           isHovering && <motion.div
             initial={{
@@ -68,14 +68,14 @@ function Track({ track }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton><FavoriteBorderIcon fontSize='small'/></IconButton>
+            <IconButton sx={{ p: 1.5 }}><FavoriteBorderIcon fontSize='small'/></IconButton>
 
           </motion.div>
         }
 
       </div>
       <Typography variant='body2'>{formatDuring(track.dt)}</Typography>
-      <div className='h-9 w-9'>
+      <div className='h-11 w-11'>
         {
           isHovering && <motion.div
             initial={{
@@ -89,7 +89,7 @@ function Track({ track }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton><MoreHorizIcon fontSize='small'/></IconButton>
+            <IconButton sx={{ p: 1.5 }}><MoreHorizIcon fontSize='small'/></IconButton>
 
           </motion.div>
         }

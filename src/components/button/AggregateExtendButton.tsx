@@ -16,6 +16,7 @@ export default function AggregateExtendButton() {
     'daily',
     'recent',
     'setting',
+    'local-album',
   ])
 
   function back() {

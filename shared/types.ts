@@ -27,4 +27,6 @@ export interface LocalTrack {
     name: string
     id: number
   }
+  bit: number
+  sample: number
 }

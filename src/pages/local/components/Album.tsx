@@ -1,30 +1,32 @@
-import { Box, Button, DialogContent, DialogTitle, Divider, IconButton, Typography, useTheme } from '@mui/material'
+import { Box, Button, Divider, Typography, useTheme } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import AlbumIcon from '@mui/icons-material/Album'
-import CopyrightIcon from '@mui/icons-material/Copyright'
-
+import QueueMusicIcon from '@mui/icons-material/QueueMusic'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import Md3Dialog from '@/pages/modal/Md3Dialog'
-import TrackList from '@/components/TrackList'
+import { useMemo, useState } from 'react'
+import TrackList from '../TrackList'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
-import { formatDate, formatDuring } from '@/util/fn'
-import type { Album } from '@/types'
+import { formatDuring } from '@/util/fn'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
-import useQueryAlbum from '@/pages/detail/useQueryAlbum'
-import ArtistLink from '@/components/links/artist'
+import { useQueryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
+import { playQueueStore } from '@/store/playQueue'
+import { usePlayer } from '@/hooks/usePlayer'
 
-function Header({ album }: { album: Album | undefined }) {
+function Header({ data }: { data: any }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
+  const { updatePlayQueue } = playQueueStore()
+  const { player }  = usePlayer()
 
-  const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
+  const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
+
+  function handlePlay() {
+    updatePlayQueue(0, 'local', `本地专辑: ${data.name}`, data.tracks)
+    player.next()
+  }
 
   return (
     <motion.div
@@ -35,7 +37,7 @@ function Header({ album }: { album: Album | undefined }) {
         opacity: 1, transform: 'translateX(0px)',
       }}
       transition={{
-        duration: 0.25,
+        duration: 0.35,
         ease: [0.34, 1.56, 0.64, 1],
       }}
     >
@@ -43,25 +45,22 @@ function Header({ album }: { album: Album | undefined }) {
         <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
           <Image
             className="absolute"
-            src={album.picUrl}
+            src={data?.picUrl}
             fit="cover"
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            album?.picUrl &&
-              <ImageViewer open={showImageView} src={album?.picUrl} onClose={() => setShowImageView(false)}/>
+            data?.picUrl &&
+              <ImageViewer open={showImageView} src={data?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
             <div className="flex-1" onClick={() => setShowImageView(true)}></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">{album.name}</Typography>
+              <Typography variant="h4">{data?.name}</Typography>
               <div className="flex flex-col">
                 <Typography variant="body1" color='primary'>
-                  <ArtistLink artist={album.artist} />
-                </Typography>
-                <Typography variant="caption">
-                  {formatDate(album.publishTime, 'LL')}
+                  { data?.ar }
                 </Typography>
               </div>
               <div className="flex py-2">
@@ -70,16 +69,16 @@ function Header({ album }: { album: Album | undefined }) {
                   style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {album.size}
+                    {data?.tracks.length}
                   </Typography>
-                  <Typography variant="caption">曲目</Typography>
+                  <Typography variant="caption">首曲目</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
                 <div
                   className="flex flex-col items-center px-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <AlbumIcon fontSize='small'/>
+                  <QueueMusicIcon fontSize='small'/>
                   <Typography variant="caption">专辑</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
@@ -93,17 +92,6 @@ function Header({ album }: { album: Album | undefined }) {
                   </Typography>
                   <Typography variant="caption">时长</Typography>
                 </div>
-                <Divider flexItem variant='middle' orientation="vertical"/>
-
-                <div
-                  className="flex flex-col items-center pl-4"
-                  style={{ minWidth: '96px' }}
-                >
-                  <CopyrightIcon fontSize='small'/>
-                  <Typography variant="caption">
-                    { album.company }
-                  </Typography>
-                </div>
               </div>
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
@@ -114,51 +102,35 @@ function Header({ album }: { album: Album | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
-                <IconButton size='large' sx={{
-                  bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
-                  <MoreHorizIcon/>
-                </IconButton>
+                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
               </div>
             </div>
           </div>
         </div>
-        {
-          album?.description && <>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center">
-                <Typography variant='body1'>专辑简介</Typography>
-                <IconButton onClick={() => setShowDesc(true)}>
-                  <ArrowForwardIcon/>
-                </IconButton>
-              </div>
-            </div>
-            <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-              <DialogTitle variant='body1'>歌单简介</DialogTitle>
-              <DialogContent>
-                <Typography variant='caption'>{album['description']}</Typography>
-              </DialogContent>
-            </Md3Dialog>
-          </>
-        }
       </div>
     </motion.div>
   )
 }
-export default function AlbumPage() {
+export default function LocalAlbumPage() {
   const params = useParams()
   const theme = useTheme()
-  const { data, isLoading } = useQueryAlbum(params.id)
+  const { data : tracks, isLoading } = useQueryAlbumTracks(params.id)
+  const album = useMemo(() => {
+    return {
+      ...history.state.usr,
+      tracks,
+    }
+  }, [tracks])
   return (
     <PageTransition>
+      {isLoading}
       <Box  sx={{ color: theme.palette.onSurface.main }}>
         {
-          isLoading ? <PlayListSkeleton/> : <Header album={data?.album}/>
+          isLoading ? <PlayListSkeleton/> : <Header data={album}/>
         }
         <Box className='h-4'></Box>
         {
-          data?.album?.tracks?.length && <TrackList tracks={data.album.tracks}/>
+          tracks && <TrackList tracks={tracks}/>
         }
       </Box>
     </PageTransition>

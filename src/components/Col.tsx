@@ -28,7 +28,7 @@ export default function Col(
           </Typography>
         </Box>
         <Box
-          className="flex justify-between"
+          className="flex justify-between items-center"
           sx={{ color: theme.palette.onSurface.main }}
         >
           <Typography variant={props.variant ?? 'h5'}>{props.title}</Typography>

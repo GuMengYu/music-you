@@ -124,13 +124,11 @@ export class Player {
       return
     usePlayerStore.setState({ loadingTrack: true })
     try {
-      console.log(trackId, from)
       const { track, trackMeta, lyric } = await getTrackDetail(trackId, from)
       // restore common mode
       if (!isFm)
         usePlayerStore.setState({ isCurrentFm: false })
 
-      console.log(track, trackMeta, lyric)
       if (trackMeta.url) {
         if (lyric)
           track.lyric = lyric // 存入歌词
