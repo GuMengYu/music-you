@@ -10,15 +10,13 @@ import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
 import TrackList from '@/pages/local/TrackList'
 import { bytesToSize, formatDuring } from '@/util/fn'
-import { playQueueStore } from '@/store/playQueue'
-import { usePlayer } from '@/hooks/usePlayer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 import GridRow from '@/components/GridRow'
 
 
 function LocalTracksPanel() {
   const theme = useTheme()
-  const { updatePlayQueue } = playQueueStore()
-  const { player }  = usePlayer()
+  const { addToQueueAndPlay }  = usePlayerControl()
   const { data } = useQuery(['local', 'tracks'], async () => {
     const { data, totalDt, totalSize } = await ipcRenderer.invoke('track/all-tracks')
     return {
@@ -28,8 +26,7 @@ function LocalTracksPanel() {
     }
   })
   function handlePlay() {
-    updatePlayQueue(0, 'local', '本地歌曲', data.tracks)
-    player.next()
+    addToQueueAndPlay(data.tracks, 0, 'local', '本地歌曲' )
   }
   return <Box>
     <div className='flex justify-between items-center px-4'>

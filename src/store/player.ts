@@ -29,6 +29,7 @@ export interface PlayerAction {
   setCurrentTime: (val: number) => void
   setPlayMode: (mode: PLAY_MODE) => void
   setShuffle: (val: boolean) => void
+  setIsCurrentFm: (val: boolean) => void
 }
 
 export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState & PlayerAction>((set, get) => {
@@ -44,6 +45,7 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
     isCurrentFm: false,
     fmTrack: null,
     fmList: [],
+    setIsCurrentFm: val => (set({ isCurrentFm: val })),
     setCurrentTime: val => (set({ currentTime: val })),
     setPlayMode: playMode => (set({ playMode })),
     setShuffle: val => (set({ shuffle: val })),

@@ -21,10 +21,11 @@ import { getLocalTrack } from '@/api/local'
  * @param from
  */
 export async function getTrackDetail(id: number, from: TrackFrom) {
+  console.log(id, '---------id', from)
   let track: Track | null = null
   let lyric = null
 
-  if (from.type === 'local') {
+  if (from?.type === 'local') {
     const localTrack = await getLocalTrack(id)
     track = localTrack
     return { track, trackMeta: {
@@ -37,7 +38,7 @@ export async function getTrackDetail(id: number, from: TrackFrom) {
     } }
   }
   // track from program
-  if (from.type === 'program') {
+  if (from?.type === 'program') {
     const { program } = await getProgramData(id)
     const { id: programVoiceId } = program.mainSong
     track = program as unknown as Track

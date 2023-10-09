@@ -8,7 +8,7 @@ import { useAppStore } from '@/store/app'
 export default function Main() {
   const { rail } = useAppStore()
   const theme = useTheme()
-  const { isActive: inDetail } = useInForeground(['playlist', 'album', 'artist', 'local-album'])
+  const { isActive: inDetail } = useInForeground(['playlist', 'album', 'artist', 'daily', 'local-album'])
 
   // const AppMain = styled(Box)(() => ({
   //   overflowY: "auto",
@@ -38,6 +38,7 @@ export default function Main() {
       }}
       component="main"
       className="hide-scrollbar"
+      id="app-main-content"
     >
       <AnimatePresence mode='wait'>
         <Outlet/>

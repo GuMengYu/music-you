@@ -11,8 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { sizeOfImage, sleep, toHttps } from '@/util/fn'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
-import { playQueueStore } from '@/store/playQueue'
-import { usePlayer } from '@/hooks/usePlayer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 import { PlayIcon } from '@/components/icons/icons'
 import LoadingButton from '@/components/button/LoadingButton'
 
@@ -26,8 +25,7 @@ function Cover({ data, subTitle, type, inset }: {
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.coverImgUrl))
   const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { updatePlayQueue } = playQueueStore()
-  const { player } = usePlayer()
+  const { addToQueueAndPlay } = usePlayerControl()
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -42,8 +40,7 @@ function Cover({ data, subTitle, type, inset }: {
       setLoading(true)
       await sleep(2000)
       const info = await getTrackList(type, data.id)
-      updatePlayQueue(info.id, type, data.name, info.tracks)
-      player.next()
+      addToQueueAndPlay(info.tracks, info.id, type, data.name)
       setLoading(false)
     }
     catch (e) {

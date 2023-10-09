@@ -1,80 +1,55 @@
-import { Box, Card, Typography, useTheme } from '@mui/material'
+import { Box, Card, IconButton, Typography, useTheme } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
-import type { ReactNode } from 'react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SkipNextIcon from '@mui/icons-material/SkipNext'
+import PauseIcon from '@mui/icons-material/Pause'
+
 import Image from '@/components/Image'
-import type { Track } from '@/types'
-import { getDailyRecommend, recent } from '@/api/user'
-import { getTrackList } from '@/api/music'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
+import { usePlayerStore } from '@/store/player'
+import { sizeOfImage, toHttps } from '@/util/fn'
+import { usePlayer } from '@/hooks/usePlayer'
 
-export default function ShortCut({
-  data,
-  decoration,
-  type,
-}: {
-  data: any
-  decoration: {
-    text?: string
-    icon?: ReactNode
-    color?: string
-  }
-  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent' | 'program'
-}) {
+export default function ShortCutFM() {
   const [isHovering, setIsHovering] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
   const theme = useTheme()
+  const { fmTrack, updatePersonalFmList, isCurrentFm, setIsCurrentFm, playing } = usePlayerStore()
+  const { player } = usePlayer()
   const navigate = useNavigate()
+  useEffect(() => {
+    updatePersonalFmList()
+  }, [])
+
+  const coverImgUrl = useMemo(() => {
+    if (fmTrack?.album?.picUrl)
+      return sizeOfImage(toHttps(fmTrack?.album?.picUrl), 256)
+    else if (fmTrack?.al?.picUrl)
+      return sizeOfImage(toHttps(fmTrack?.al?.picUrl), 256)
+
+  }, [fmTrack])
   async function handlePlay() {
     try {
-      setLoading(true)
-      let info: {
-        id?: number
-        list: Track[]
+      if (isCurrentFm) {
+        if (playing)
+          await player.pause()
+        else
+          await player.play()
+
       }
-      if (type === 'daily') {
-        const { data } = await getDailyRecommend()
-        info = {
-          list: data['dailySongs'],
-        }
-        addToQueueAndPlay(info.list, 0, 'daily', '日推' )
-      }
-      else if (type === 'recent') {
-        const { data } = await recent()
-        info = {
-          list: data.list.map(i => i['data']),
-        }
-        addToQueueAndPlay(info.list, 0, 'recent', '最近播放')
-      }
-      else {
-        const _data = await getTrackList(type, data.id as number)
-        info = {
-          id: _data.id,
-          list: _data.tracks,
-        }
-        addToQueueAndPlay(info.list, info.id!, type, data.name!)
+      else if (fmTrack?.id) {
+        setIsCurrentFm(true)
+        await player.updatePlayerTrack(fmTrack.id, true, true, true) // 替换当前播放歌曲
       }
     }
     catch (e) {
       console.debug(e)
     }
-    finally {
-      setLoading(false)
-    }
   }
   function handleJump() {
-    if (['album', 'playlist', 'daily'].includes(type)) {
-      const to = ({
-        playlist: `/playlist/${data.id}`,
-        album: `/album/${data.id}`,
-        daily: '/daily',
-      })[type as 'album' | 'playlist' | 'daily']
-      navigate(to)
-    }
+
   }
   return (
     <Card
@@ -90,35 +65,41 @@ export default function ShortCut({
       onMouseLeave={() => setIsHovering(false)}
       onClick={handleJump}
     >
-      <Box
+      <IconButton
+        onClick={handlePlay}
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: '100%',
-          height: 45,
-          width: 45,
-          bgcolor: decoration.color,
-          ml: 2,
+          'display': 'flex',
+          'justifyContent': 'center',
+          'alignItems': 'center',
+          'borderRadius': '100%',
+          'height': 45,
+          'width': 45,
+          'bgcolor': theme.palette.primary.main,
+          'color': theme.palette.onPrimary.main,
+          '&:hover': {
+            bgcolor: `${theme.palette.primary.main}F2`,
+          },
+          'ml': 2,
         }}
       >
-        {decoration.icon}
-        {decoration.text && <span>{decoration.text}</span>}
-      </Box>
+        {
+          playing && isCurrentFm ? <PauseIcon color={'onPrimary' as 'primary'}/> : <PlayIcon sx={{ fontSize: '2.5rem' }} color={'onPrimary' as 'primary'} />
+        }
+
+      </IconButton>
       <div className="flex flex-col items-start justify-between px-4 flex-1">
         <Typography
-          title={data.title}
           className="line-clamp-1"
           variant="body2"
         >
-          {data.title}
+          私人漫游
         </Typography>
         <Typography
-          title={data.subTitle}
+          title={''}
           className="line-clamp-1"
           variant="caption"
         >
-          {data.subTitle}
+          {fmTrack.name}
         </Typography>
       </div>
       <Box
@@ -128,7 +109,7 @@ export default function ShortCut({
           position: 'relative',
         }}
       >
-        <Image sizes="" src={data.picUrl} className="absolute" />
+        <Image sizes="" src={coverImgUrl} className="absolute" />
         <AnimatePresence>
           {isHovering && (
             <motion.div
@@ -152,16 +133,19 @@ export default function ShortCut({
             >
               <LoadingButton
                 loading={loading}
-                onClick={handlePlay}
+                onClick={() => {
+                  player.nextFm()
+                }}
                 sx={{
                   'p': 0,
                   'bgcolor': `${theme.palette.primary.main}`,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}F2`,
                   },
+                  'color': theme.palette.onPrimary.main,
                 }}
               >
-                <PlayIcon sx={{ fontSize: '2.5rem' }} color={'onPrimary' as 'primary'} />
+                <SkipNextIcon />
               </LoadingButton>
             </motion.div>
           )}

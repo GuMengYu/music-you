@@ -74,8 +74,7 @@ export class Player {
       this.track = track
     else
       this.track = null
-
-    this.volume = volume
+    this.setVolume(volume)
     this.currentTime = currentTime
     this.playing = playing
     this.isCurrentFm = isCurrentFm

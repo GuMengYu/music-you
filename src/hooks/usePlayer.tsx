@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import RepeatIcon from '@mui/icons-material/Repeat'
 import RepeatOneOnIcon from '@mui/icons-material/RepeatOneOn'
 import RepeatOnIcon from '@mui/icons-material/RepeatOn'
@@ -8,6 +8,7 @@ import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import { PlayerContext } from '@/contexts/player'
 import { playQueueStore } from '@/store/playQueue'
 import { VolumeHighIcon, VolumeLowIcon, VolumeMediumIcon, VolumeMuteIcon } from '@/components/icons/icons'
+import { Track, listType } from '@/types'
 
 export function usePlayer() {
   const player = useContext(PlayerContext)
@@ -31,7 +32,7 @@ export function usePlayerControl() {
     showPipLyric,
     currentTime,
   } = usePlayerStore()
-  const {  shuffle: doShuffle, unShuffle: doUnShuffle, queue } = playQueueStore()
+  const {  shuffle: doShuffle, unShuffle: doUnShuffle, queue, updatePlayQueue } = playQueueStore()
   const isProgram = useMemo(() => track?.source?.fromType === 'program', [track])
   const playingIndex = useMemo(() => {
     return track ? queue.sequence.findIndex(_t => _t.id === track.id) : null
@@ -59,29 +60,28 @@ export function usePlayerControl() {
     else
       return <VolumeHighIcon sx={{ fontSize: 16 }} />
   }, [volume])
-  const playPrev = () => {
+  const playPrev = useCallback(() => {
     player.prev()
-  }
-  const playNext = () => {
+  }, [player])
+  const playNext = useCallback(() => {
     if (isCurrentFm)
       player.nextFm()
     else
       player.next()
-  }
-  const playToggle = () => {
+  }, [player])
+  const playToggle = useCallback(() => {
     player.togglePlay()
-  }
-  const playModeToggle = () => {
-    const mode = playMode as string
-    if (mode === PLAY_MODE.NORMAL)
+  }, [player])
+  const playModeToggle = useCallback(() => {
+    if (playMode === PLAY_MODE.NORMAL)
       setPlayMode(PLAY_MODE.REPEAT)
-    else if (mode === PLAY_MODE.REPEAT)
+    else if (playMode === PLAY_MODE.REPEAT)
       setPlayMode(PLAY_MODE.REPEAT_ONCE)
-    else if (mode === PLAY_MODE.REPEAT_ONCE)
+    else if (playMode === PLAY_MODE.REPEAT_ONCE)
       setPlayMode(PLAY_MODE.NORMAL)
-  }
+  }, [playMode])
 
-  function shuffleToggle() {
+  const shuffleToggle = useCallback(() => {
     if (shuffle) {
       doUnShuffle()
       setShuffle(false)
@@ -90,7 +90,12 @@ export function usePlayerControl() {
       doShuffle()
       setShuffle(true)
     }
-  }
+  }, [shuffle])
+
+  const addToQueueAndPlay = useCallback((tracks: Track[], id?: number, type?: listType, name?: string ) => {
+    updatePlayQueue(id, type, name, tracks)
+    player.next()
+  }, [])
 
   return {
     playPrev,
@@ -112,5 +117,6 @@ export function usePlayerControl() {
     shuffle,
     shuffleIcon,
     currentTime,
+    addToQueueAndPlay,
   }
 }

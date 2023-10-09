@@ -50,6 +50,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
       data.forEach((i) => {
+        // 混入队列信息
         mixinTrackSource(i, { type, id })
       })
       // 精简track, 只在store存储必要的信息

@@ -8,7 +8,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useImmer } from 'use-immer'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
@@ -22,12 +22,12 @@ import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import ArtistCover from '@/components/cover/ArtistCover'
+import { usePlayerControl } from '@/hooks/usePlayer'
 
-function Header({ artist }: { artist: Artist | undefined }) {
+function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => void }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-
   return (
     <motion.div
       initial={{
@@ -110,7 +110,7 @@ function Header({ artist }: { artist: Artist | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={onPlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }}>
@@ -159,12 +159,18 @@ export default function ArtistPage() {
   const epAndSingle = useMemo(() => data?.hotAlbums.filter(a => ['EP/Single', 'EP', 'Single'].includes(a.type)), [data])
   const collection = useMemo(() => data?.hotAlbums.filter(a => a.type === '合集'), [data])
 
+  const { addToQueueAndPlay } = usePlayerControl()
+
+  const handlePlay = useCallback(() =>  {
+    if (data.artist)
+      addToQueueAndPlay(data.hotSongs, data.artist.id, 'artist', data.artist.name)
+  }, [data])
   return (
     <PageTransition>
       {isLoading}
       <Box sx={{ color: theme.palette.onSurface.main, display: 'flex', flexDirection: 'column', gap: 2 }}>
         {
-          isLoading ? <PlayListSkeleton/> : <Header artist={data.artist}/>
+          isLoading ? <PlayListSkeleton/> : <Header artist={data.artist} onPlay={handlePlay}/>
         }
         {
           data?.hotSongs && <Col

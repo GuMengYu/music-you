@@ -26,6 +26,7 @@ import { getPlaylistDetail } from '@/api/playlist'
 import { useUserStore } from '@/store/user'
 import PageTransition from '@/components/PageTransition'
 import HomePageSkeleton from '@/components/skeleton/HomeSkeleton'
+import ShortCutFM from '@/pages/home/shortcutFM'
 
 function ShortCuts() {
   const theme = useTheme()
@@ -70,6 +71,7 @@ function ShortCuts() {
       setRadar((state) => {
         return {
           ...state,
+          type: 'playlist',
           data: {
             id: playlist.id,
             picUrl: playlist.coverImgUrl,
@@ -116,6 +118,7 @@ function ShortCuts() {
           )
         )
       })}
+      <ShortCutFM />
     </GridRow>
   )
 }

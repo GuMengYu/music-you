@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { LocalTrack } from '@shared/types'
 import { formatDuring, formatFrequency } from '@/util/fn'
 import { usePlayer } from '@/hooks/usePlayer'
-import { playQueueStore } from '@/store/playQueue'
 
 
 function Track({ track, index, onPlay }: {
@@ -105,7 +104,6 @@ export default function TrackList({ tracks, className }: {
   tracks: LocalTrack[]
   className?: string
 }) {
-  const { updatePlayQueue } = playQueueStore()
   const { player } = usePlayer()
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false, { type: 'local', id: 0 })

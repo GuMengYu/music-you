@@ -8,8 +8,7 @@ import { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Image from '@/components/Image'
-import { playQueueStore } from '@/store/playQueue'
-import { usePlayer } from '@/hooks/usePlayer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 import { PlayIcon } from '@/components/icons/icons'
 import { queryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
 
@@ -21,8 +20,7 @@ function Cover({ data, subTitle, type }: {
   const theme = useTheme()
   const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { updatePlayQueue } = playQueueStore()
-  const { player } = usePlayer()
+  const { addToQueueAndPlay } = usePlayerControl()
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -38,8 +36,7 @@ function Cover({ data, subTitle, type }: {
     try {
       setLoading(true)
       const tracks = await queryAlbumTracks(data.id)
-      updatePlayQueue(0, 'local', `本地音乐专辑：${data.name}`, tracks)
-      player.next()
+      addToQueueAndPlay(tracks, 0, 'local', `本地音乐专辑：${data.name}`)
       setLoading(false)
     }
     catch (e) {

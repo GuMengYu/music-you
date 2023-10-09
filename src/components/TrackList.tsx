@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { IconButton, Typography } from '@mui/material'
 import { css, cx } from '@emotion/css'
 import PlayIcon from '@mui/icons-material/PlayArrow'
@@ -11,10 +11,12 @@ import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
 import type { Track as TrackType } from '@/types'
+import { usePlayer } from '@/hooks/usePlayer'
 
 
-function Track({ track }: {
+function Track({ track, onPlay }: {
   track: TrackType
+  onPlay: (id: number) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
   return <div
@@ -38,7 +40,7 @@ function Track({ track }: {
                 ease: [0.34, 1.56, 0.64, 1],
               }}
             >
-              <IconButton><PlayIcon color='primary'/></IconButton>
+              <IconButton onClick={() => onPlay(track.id)}><PlayIcon color='primary'/></IconButton>
             </motion.div>
           }
         </AnimatePresence>
@@ -105,10 +107,14 @@ export default function TrackList({ tracks, id, className }: {
   id?: number
   className?: string
 }) {
+  const { player } = usePlayer()
+  const handleTrackPlay = useCallback((trackId: number) => {
+    player.updatePlayerTrack(trackId, true, true, false)
+  }, [tracks])
   return <div className={className}>
     {
       tracks.length && tracks.map((track) => {
-        return <Track track={track} key={track.id}/>
+        return <Track track={track} key={track.id} onPlay={handleTrackPlay}/>
       })
     }
   </div>

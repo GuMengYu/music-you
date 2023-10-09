@@ -11,21 +11,18 @@ import { formatDuring } from '@/util/fn'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import { useQueryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
-import { playQueueStore } from '@/store/playQueue'
-import { usePlayer } from '@/hooks/usePlayer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 
 function Header({ data }: { data: any }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-  const { updatePlayQueue } = playQueueStore()
-  const { player }  = usePlayer()
+  const { addToQueueAndPlay }  = usePlayerControl()
 
   const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
 
   function handlePlay() {
-    updatePlayQueue(0, 'local', `本地专辑: ${data.name}`, data.tracks)
-    player.next()
+    addToQueueAndPlay(data.tracks, 0, 'local', `本地专辑: ${data.name}` )
   }
 
   return (

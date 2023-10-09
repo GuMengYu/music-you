@@ -15,14 +15,19 @@ import { formatDate, formatDuring, formatNumber } from '@/util/fn'
 import type { Playlist } from '@/types'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 
 function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
+  const { addToQueueAndPlay } = usePlayerControl()
+
+  function handlePlay() {
+    addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
+  }
   return (
     <motion.div
       initial={{
@@ -111,7 +116,7 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }}>

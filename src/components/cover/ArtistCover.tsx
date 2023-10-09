@@ -14,16 +14,14 @@ import { sizeOfImage, toHttps } from '@/util/fn'
 import { PlayIcon } from '@/components/icons/icons'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
-import { playQueueStore } from '@/store/playQueue'
-import { usePlayer } from '@/hooks/usePlayer'
+import { usePlayerControl } from '@/hooks/usePlayer'
 import type { Artist } from '@/types'
 
 function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
   const theme = useTheme()
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl))
   const [isHovering, setIsHovering] = useState(false)
-  const { updatePlayQueue } = playQueueStore()
-  const { player } = usePlayer()
+  const { addToQueueAndPlay } = usePlayerControl()
   const navigate = useNavigate()
 
   function jumpTo() {
@@ -34,8 +32,7 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
     e.stopPropagation()
     try {
       const info = await getTrackList('artist', data.id)
-      updatePlayQueue(info.id, 'artist', data.name, info.tracks)
-      player.next()
+      addToQueueAndPlay( info.tracks, info.id, 'artist', data.name)
     }
     catch (e) {
       console.log(e)

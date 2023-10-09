@@ -18,6 +18,7 @@ import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import useQueryAlbum from '@/pages/detail/useQueryAlbum'
 import ArtistLink from '@/components/links/artist'
+import { usePlayerControl } from '@/hooks/usePlayer'
 
 function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
@@ -26,6 +27,11 @@ function Header({ album }: { album: Album | undefined }) {
 
   const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
+  const { addToQueueAndPlay } = usePlayerControl()
+
+  function handlePlay() {
+    addToQueueAndPlay(album.tracks, album.id, 'album', album.name)
+  }
   return (
     <motion.div
       initial={{
@@ -114,7 +120,7 @@ function Header({ album }: { album: Album | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }}>

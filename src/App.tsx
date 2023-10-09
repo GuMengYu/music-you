@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
-import { APPEARANCE, useSettingStore } from './store/setting'
+import { APPEARANCE, THEME_COLOR, useSettingStore } from './store/setting'
 import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
@@ -19,9 +19,10 @@ import { client } from './plugins/query'
 import { useElectron } from './plugins/electron'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
+import BackToTop from '@/components/BackToTop'
 
 function App() {
-  const { appearance } = useSettingStore()
+  const { appearance, themeColor } = useSettingStore()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const navigate = useNavigate()
   const darkMode =
@@ -29,8 +30,8 @@ function App() {
       ? prefersDarkMode
       : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {
-    return createTheme(getDesignTokens(darkMode))
-  }, [darkMode])
+    return createTheme(getDesignTokens(darkMode, themeColor))
+  }, [darkMode, themeColor])
   useEffect(() => {
     bootstrap()
     useElectron()
@@ -63,13 +64,15 @@ function App() {
             <LoginDialog/>
             <Profile/>
             <QuickPanel/>
+            <BackToTop />
             <NowPlayingList />
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
                   right: 0,
-                  bottom: 72,
+                  top: 0,
                   left: 'auto',
+                  height: 42,
                 },
               }}
               closeButtonProps={{
@@ -86,7 +89,7 @@ function App() {
   )
 }
 
-function getDesignTokens(isDark: boolean): ThemeOptions {
+function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptions {
   return {
     typography: {
       fontFamily: [
@@ -103,8 +106,8 @@ function getDesignTokens(isDark: boolean): ThemeOptions {
     palette: {
       mode: isDark ? 'dark' : 'light',
       ...(isDark
-        ? Themes.PurpleDress.palette.dark
-        : Themes.PurpleDress.palette.light),
+        ? Themes[color].palette.dark
+        : Themes[color].palette.light),
     },
   }
 }

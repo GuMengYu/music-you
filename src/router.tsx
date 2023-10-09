@@ -19,6 +19,7 @@ import Setting from '@/pages/setting/Setting'
 import LocalAlbumPage from '@/pages/local/components/Album'
 import AlbumPage from '@/pages/detail/Album'
 import ArtistPage from '@/pages/detail/Artist'
+import DailyPage from '@/pages/Daily'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -46,6 +47,11 @@ const router = createBrowserRouter(
           id: 'home',
           path: '/home',
           element: <Home />,
+        },
+        {
+          id: 'daily',
+          path: '/daily',
+          element: <DailyPage />,
         },
         {
           id: 'library',

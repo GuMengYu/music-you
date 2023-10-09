@@ -15,7 +15,6 @@ function PageTransition({ children, disableEnterAnimation }: {
 
   return (
     <motion.div
-      className='h-full'
       initial={{
         opacity: disableEnterAnimation ? 1 : 0,
         transform: disableEnterAnimation ? 'translateX(0px)' : 'translateX(20px)',
