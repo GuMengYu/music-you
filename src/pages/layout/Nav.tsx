@@ -123,6 +123,13 @@ export default function MiniDrawer() {
       to: '/local-library',
       pathname: ['/local-library'],
     },
+    {
+      icon: <LocalLaundryServiceIcon sx={{ height: 20, width: 20 }} />,
+      val: 'wallpaper',
+      title: '本地音乐库',
+      to: '/wallpaper',
+      pathname: ['/wallpaper'],
+    },
   ]
 
   return (

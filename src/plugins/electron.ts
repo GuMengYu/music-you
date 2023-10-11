@@ -66,21 +66,26 @@ function registerIpcRenderer() {
   // ipcRenderer.on('fullscreen', (e, fullscreen) => {
   //   // appStore.$state.showLyricsPage = fullscreen
   // })
-  // ipcRenderer.on('startDownload', (e, data) => {
-  //   // console.log('startDownload', e, data)
-  //   // window?.app?.$toast(`开始下载 ${data.name}`, {
-  //   //   color: 'info',
-  //   // })
-  // })
+  ipcRenderer.on('startDownload', (e, data) => {
+    // console.log('startDownload', e, data)
+    // window?.app?.$toast(`开始下载 ${data.name}`, {
+    //   color: 'info',
+    // })
+  })
   // ipcRenderer.on('downloadProgress', (e, data) => {
   //   const { percent } = data
   //   // playerStore.commit('app/downloadprogress', percent)
   // })
-  // ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
-  //   const { path } = file
-  //   toast.success(`${fileName} 已下载到:${path}`, {
-  //     timeout: 2500,
-  //   })
+  ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
+    const { path } = file
+    enqueueSnackbar(`${fileName} 已下载到:${path}`, {
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'center',
+      },
+      variant: 'success',
+    })
+  })
   //
   //   // playerStore.commit('app/downloadprogress', 0)
   // })

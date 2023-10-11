@@ -5,7 +5,7 @@ import type { File } from 'electron-dl'
 import { download } from 'electron-dl'
 import NodeID3 from 'node-id3'
 
-import type { Tags } from '../../../../shared/types'
+import type { Tags } from '@shared/types'
 import { getWin } from '../../index'
 import { isFlacFile, isMP3File, isMutagenInstalled, isPythonInstalled, runPythonScript } from './fn'
 import log from './log'
@@ -31,9 +31,9 @@ export function downloadFile(data: { fileName?: string; url: string; completed?:
       onCompleted(file) {
         win.webContents.send('downloadCompleted', file, fileName)
         log.info('download file completed', file)
-        if (data.completed) 
+        if (data.completed)
           data.completed(file)
-        
+
       },
     })
   }
@@ -51,12 +51,12 @@ export async function downloadTrack(data: { fileName?: string; url: string; tags
     url,
     completed: (file) => {
       const { path } = file
-      if (isMP3File(path)) 
+      if (isMP3File(path))
         updateId3Tags(tags, path)
-      
-      if (isFlacFile(path)) 
+
+      if (isFlacFile(path))
         updateVorbis(tags, path)
-      
+
     },
   })
 }

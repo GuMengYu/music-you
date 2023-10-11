@@ -20,6 +20,7 @@ import LocalAlbumPage from '@/pages/local/components/Album'
 import AlbumPage from '@/pages/detail/Album'
 import ArtistPage from '@/pages/detail/Artist'
 import DailyPage from '@/pages/Daily'
+import WallpaperPage from '@/pages/Wallpaper'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -96,6 +97,11 @@ const router = createBrowserRouter(
           id: 'local-album',
           path: '/local/album/:id?',
           element: <LocalAlbumPage />,
+        },
+        {
+          id: 'wallpaper',
+          path: '/wallpaper',
+          element: <WallpaperPage/>,
         },
         {
           path: '*',
