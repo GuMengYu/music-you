@@ -4,26 +4,36 @@ import { css, cx } from '@emotion/css'
 import PlayIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
 import type { Track as TrackType } from '@/types'
 import { usePlayer } from '@/hooks/usePlayer'
+import { useContextMenu } from '@/hooks/useContextMenu'
+import { useTrackOperation } from '@/hooks/useTrackOperation'
+import { useLikeTrack } from '@/hooks/useLike'
 
 
-function Track({ track, onPlay }: {
+function Track({ track, onPlay, onContextMenu }: {
   track: TrackType
   onPlay: (id: number) => void
+  onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
+  const { isLiked } = useLikeTrack()
+  const liked = isLiked(track.id)
   return <div
     className={
       cx('grid grid-cols-3 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
     } onMouseEnter={() => setIsHovering(true)}
-    onMouseLeave={() => setIsHovering(false)}>
+    onMouseLeave={() => setIsHovering(false)}
+  onContextMenu={e => onContextMenu && onContextMenu(e, { ...track, liked })}
+  >
     <div className='flex gap-2'>
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden'>
@@ -58,7 +68,7 @@ function Track({ track, onPlay }: {
     <div className='flex justify-between items-center'>
       <div className='h-11 w-11'>
         {
-          isHovering && <motion.div
+          (isHovering || liked) && <motion.div
             initial={{
               opacity: 0, transform: 'translateY(12px)',
             }}
@@ -70,7 +80,9 @@ function Track({ track, onPlay }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton sx={{ p: 1.5 }}><FavoriteBorderIcon fontSize='small'/></IconButton>
+            <IconButton sx={{ p: 1.5 }}>{
+              liked ?  <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
+            } </IconButton>
 
           </motion.div>
         }
@@ -91,7 +103,7 @@ function Track({ track, onPlay }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton sx={{ p: 1.5 }}><MoreHorizIcon fontSize='small'/></IconButton>
+            <IconButton sx={{ p: 1.5 }} onClick={e => onContextMenu && onContextMenu(e, track)}><MoreHorizIcon fontSize='small' /></IconButton>
 
           </motion.div>
         }
@@ -102,19 +114,112 @@ function Track({ track, onPlay }: {
   </div>
 }
 
-export default function TrackList({ tracks, id, className }: {
+export default function TrackList({ tracks, source, className }: {
   tracks: TrackType[]
-  id?: number
+  source?: {
+    id?: number
+    type?: 'playlist' | 'album' | 'artist'
+    own?: boolean // 属于用户自己创建的歌单列表
+  }
   className?: string
 }) {
   const { player } = usePlayer()
+  const navigate = useNavigate()
+  const { openContextMenu } = useContextMenu()
+  const { getToPlaylistMenuItem } = useTrackOperation()
+
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false)
   }, [tracks])
+  const handleContextMenu = useCallback((e:  React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+    openContextMenu(e, [
+      {
+        type: 'item',
+        label: '下一首播放',
+        onClick: () => {
+
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        label: '转至艺人',
+        ...(track.ar && track.ar.length > 1
+          ? {
+              type: 'submenu',
+              items: track.ar?.map((artist) => {
+                return {
+                  type: 'item',
+                  label: artist.name,
+                  onClick: () => {
+                    toArtist(artist.id)
+                  },
+                }
+              }),
+            }
+          : {
+              type: 'item',
+              onClick: (i) => {
+                toArtist(track.ar![0].id)
+              },
+            }),
+      },
+
+      {
+        type: 'item',
+        label: '转至专辑',
+        onClick: () => {
+          toAlbum(track.al!.id)
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'submenu',
+        label: '添加到歌单',
+        items: getToPlaylistMenuItem(track),
+      },
+      ...(source?.own ? [{
+        type: 'item' as any,
+        label: '从本歌单移除',
+        onClick: () => {
+          // todo remove from playlist
+        },
+      }] : []),
+      {
+        type: 'item',
+        label: `${track.liked ? '从“喜欢的音乐”移除' : '添加到“喜欢的音乐”'}`,
+        onClick: () => {
+          // todo toggle like
+        },
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'item',
+        label: '下载到本地',
+        onClick: async (i) => {
+        // await useDownloadMusic(track)
+        },
+      },
+    ], {
+      useCursorPosition: true,
+    })
+  }, [])
+
+  function toArtist(id: number) {
+    navigate(`/artist/${id}`)
+  }
+  function toAlbum(id: number) {
+    navigate(`/album/${id}`)
+  }
   return <div className={className}>
     {
       tracks.length && tracks.map((track) => {
-        return <Track track={track} key={track.id} onPlay={handleTrackPlay}/>
+        return <Track track={track} key={track.id} onPlay={handleTrackPlay} onContextMenu={handleContextMenu} />
       })
     }
   </div>

@@ -10,13 +10,13 @@ import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
 import TrackList from '@/pages/local/TrackList'
 import { bytesToSize, formatDuring } from '@/util/fn'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import GridRow from '@/components/GridRow'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 
 function LocalTracksPanel() {
   const theme = useTheme()
-  const { addToQueueAndPlay }  = usePlayerControl()
+  const { addToQueueAndPlay }  = usePlayQueue()
   const { data } = useQuery(['local', 'tracks'], async () => {
     const { data, totalDt, totalSize } = await ipcRenderer.invoke('track/all-tracks')
     return {

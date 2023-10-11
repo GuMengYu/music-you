@@ -11,7 +11,8 @@ import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import TrackList from '@/components/TrackList'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
-import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
+import { usePlayer } from '@/hooks/usePlayer'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Header({
   data,
@@ -21,7 +22,7 @@ function Header({
 
   const { player } = usePlayer()
   const [loading, toggleLoading] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const cover = data.dailySongs[0]?.al.picUrl
 
   function handlePlay() {

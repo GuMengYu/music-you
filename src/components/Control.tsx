@@ -6,13 +6,16 @@ import {
 import PlayToggle from './toggle/PlayToggle'
 import { usePlayerControl } from '@/hooks/usePlayer'
 
-function Control() {
+function Control({ compact }: { compact?: boolean }) {
   const { playNext, playPrev, modeIcon, shuffleIcon, shuffleToggle, playModeToggle } = usePlayerControl()
   return (
     <div className="flex items-center">
-      <IconButton sx={{ p: 2 }} onClick={shuffleToggle}>
-        {shuffleIcon}
-      </IconButton>
+      {
+        !compact && <IconButton sx={{ p: 2 }} onClick={shuffleToggle}>
+          {shuffleIcon}
+          </IconButton>
+      }
+
       <IconButton sx={{ p: 2 }} onClick={playPrev}>
         <SkipPreviousIcon fontSize='small' />
       </IconButton>
@@ -22,9 +25,12 @@ function Control() {
       <IconButton sx={{ p: 2 }} onClick={playNext}>
         <SkipNextIcon  fontSize='small' />
       </IconButton>
-      <IconButton sx={{ p: 2 }} onClick={playModeToggle}>
-        {modeIcon}
-      </IconButton>
+      {
+        !compact && <IconButton sx={{ p: 2 }} onClick={playModeToggle}>
+          {modeIcon}
+          </IconButton>
+      }
+
     </div>
   )
 }

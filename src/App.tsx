@@ -20,6 +20,7 @@ import { useElectron } from './plugins/electron'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
+import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 
 function App() {
   const { appearance, themeColor } = useSettingStore()
@@ -40,7 +41,7 @@ function App() {
   return (
     <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider>
+        <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }} variant='info' autoHideDuration={2000}>
           <Box
             sx={{
               bgcolor: theme.palette.surface.main,
@@ -61,6 +62,7 @@ function App() {
             <Nav/>
             <Main/>
             <NowPlayingBar/>
+            <NowPlayingPage/>
             <LoginDialog/>
             <Profile/>
             <QuickPanel/>

@@ -9,7 +9,7 @@ import { sleep, toHttps } from '@/util/fn'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import is from '@/util/is'
 import { playQueueStore } from '@/store/playQueue'
-
+import { PipLyric } from '@/util/pipLyric'
 
 // const messages = {
 //   zhCN: {
@@ -84,14 +84,29 @@ export class Player {
   private init() {
     const style = 'color: tomato; -webkit-text-stroke: 1px black; font-size:20px;'
     console.log('%c Start initializing the player 😆', style )
-    // this.pipLyric = PipLyric()() as unknown as PipLyric
     this.initStoreEvent()
+    this.initPip()
     if (this.track?.id)
       this.updatePlayerTrack(this.track.id, false, false, false, this.track.source?.from)
 
     if (is.electron() && is.windows())
       this.taskbarProgress = true
 
+  }
+
+  initPip() {
+    this.pipLyric = PipLyric()() as any
+    this.pipLyric.onLeave = () => {
+      usePlayerStore.setState({
+        showPipLyric: false,
+      })
+
+    }
+    this.pipLyric.onEnter = () => {
+      usePlayerStore.setState({
+        showPipLyric: true,
+      })
+    }
   }
 
   private initStoreEvent() {
@@ -212,7 +227,9 @@ export class Player {
           //global window
           document.title = `${name} - ${artists}`
           this.fixDuration()
-          // this.pipLyric?.setData(this.track, this.track.lyric)
+          if (this.pipLyric && this.track?.source?.fromType !== 'local') 
+            this.pipLyric.setData(this.track, this.track.lyric)
+          
           // this.pipLyric.enter()
         }
       },

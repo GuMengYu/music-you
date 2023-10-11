@@ -30,6 +30,7 @@ export interface PlayerAction {
   setPlayMode: (mode: PLAY_MODE) => void
   setShuffle: (val: boolean) => void
   setIsCurrentFm: (val: boolean) => void
+  setShowPipLyric: (val: boolean) => void
 }
 
 export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState & PlayerAction>((set, get) => {
@@ -49,6 +50,7 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
     setCurrentTime: val => (set({ currentTime: val })),
     setPlayMode: playMode => (set({ playMode })),
     setShuffle: val => (set({ shuffle: val })),
+    setShowPipLyric: val => (set({ showPipLyric: val })),
     async updatePersonalFmList() {
       // 已有的FM歌曲列表 （最多3首）
       const cacheList = [...get().fmList]

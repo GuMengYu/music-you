@@ -8,9 +8,9 @@ import { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Image from '@/components/Image'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import { PlayIcon } from '@/components/icons/icons'
 import { queryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Cover({ data, subTitle, type }: {
   data: any
@@ -20,7 +20,7 @@ function Cover({ data, subTitle, type }: {
   const theme = useTheme()
   const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()

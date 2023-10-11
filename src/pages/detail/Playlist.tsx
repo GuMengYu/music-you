@@ -15,7 +15,9 @@ import { formatDate, formatDuring, formatNumber } from '@/util/fn'
 import type { Playlist } from '@/types'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
+import { useMyPlaylist } from '@/hooks/usePlaylist'
 
 function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const theme = useTheme()
@@ -23,10 +25,47 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const [showImageView, setShowImageView] = useState(false)
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
+  const { openContextMenu } = useContextMenu()
+  const { isCreatedPlaylist } = useMyPlaylist()
+
 
   function handlePlay() {
     addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
+  }
+  function handleMore(e: React.MouseEvent<HTMLElement>) {
+    openContextMenu(e, [
+      {
+        type: 'item',
+        label: '在下一首播放',
+        onClick: () => {
+
+        },
+      },
+      ...(isCreatedPlaylist(playlist) ? [
+        { type: 'divider' as any },
+        {
+          type: 'item' as any,
+          label: '从音乐库中移除',
+          onClick: () => {
+
+          },
+        },
+        {
+          type: 'item' as any,
+          label: '编辑歌单',
+          onClick: () => {
+
+          },
+        },
+      ] : []),
+      { type: 'divider' },
+      {
+        type: 'item',
+        label: '复制分享链接',
+        onClick: () => {},
+      },
+    ] )
   }
   return (
     <motion.div
@@ -119,7 +158,7 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                 }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }} onClick={handleMore}>
                   <MoreHorizIcon/>
                 </IconButton>
               </div>
@@ -152,6 +191,7 @@ export default function PlaylistPage() {
   const params = useParams()
   const theme = useTheme()
   const { data, isLoading } = useQueryPlaylist(params.id)
+  const { isCreatedPlaylist } = useMyPlaylist()
   return (
     <PageTransition>
       {isLoading}
@@ -161,7 +201,10 @@ export default function PlaylistPage() {
         }
         <Box className='h-4'></Box>
         {
-          data?.tracks && <TrackList tracks={data.tracks}/>
+          data?.tracks && <TrackList tracks={data.tracks} source={{
+            type: 'playlist',
+            own: isCreatedPlaylist(data.playlist),
+          }} />
         }
       </Box>
     </PageTransition>

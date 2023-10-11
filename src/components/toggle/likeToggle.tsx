@@ -3,11 +3,12 @@ import type { AnimationItem } from 'lottie-web'
 import { IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import LottieIcon from '../LottieIcon'
 import heart from '@/assets/lottie-assets/heart.json'
 import { sleep } from '@/util/fn'
 import { useUserStore } from '@/store/user'
+import { useLikeTrack } from '@/hooks/useLike'
 
 export default function LikeToggle({
   id,
@@ -18,7 +19,9 @@ export default function LikeToggle({
   size?: 'small' | 'medium' | 'large'
   color?: string
 }) {
-  const { likes, favSong } = useUserStore()
+  const {  favSong } = useUserStore()
+  const { isLiked } = useLikeTrack()
+  const liked = isLiked(id)
   const heartOptions = {
     animationData: heart,
     loop: false,
@@ -27,13 +30,7 @@ export default function LikeToggle({
   const [heartAnim, setHeartAnim] = useState<AnimationItem | null>(null)
   const [showAnim, setShowAnim] = useState(false)
 
-  const liked = useMemo(() => {
-    return likes.includes(id!)
-  }, [likes])
-
   function handleAnimation(animation: AnimationItem) {
-    console.log('---- created animation ', animation)
-
     setHeartAnim(animation)
   }
   async function likeSong() {

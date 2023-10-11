@@ -1,14 +1,13 @@
 import { Box, Typography, useTheme } from '@mui/material'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-import { groupBy } from 'lodash-es'
 import MYTabs from '@/components/Tabs'
 import PageTransition from '@/components/PageTransition'
-import { useUserStore } from '@/store/user'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import { useUserAlbums, useUserArtists } from '@/hooks/query/user'
 import ArtistCover from '@/components/cover/ArtistCover'
+import { useMyPlaylist } from '@/hooks/usePlaylist'
 
 
 function ArtistPanel() {
@@ -20,19 +19,13 @@ function ArtistPanel() {
   </GridRow>
 }
 function PlaylistPanel() {
-  const { playlists, account } = useUserStore()
-  const filteredPlaylist = useMemo(() => {
-    const uid = account?.profile.userId
-    return groupBy(playlists, (i) => {
-      return i.userId === uid ? 'create' : 'sub'
-    })
-  }, [playlists, account])
+  const { createdPlaylist, subscribePlaylist } = useMyPlaylist()
   return <div className='flex flex-col gap-4'>
     <div>
       <Typography variant='body1'>创建的歌单</Typography>
       <GridRow>
         {
-          filteredPlaylist['create']?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
+          createdPlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>
@@ -41,7 +34,7 @@ function PlaylistPanel() {
 
       <GridRow>
         {
-          filteredPlaylist['sub']?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
+          subscribePlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </div>

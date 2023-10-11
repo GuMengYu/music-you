@@ -18,7 +18,7 @@ import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import useQueryAlbum from '@/pages/detail/useQueryAlbum'
 import ArtistLink from '@/components/links/artist'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
@@ -27,7 +27,7 @@ function Header({ album }: { album: Album | undefined }) {
 
   const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
 
   function handlePlay() {
     addToQueueAndPlay(album.tracks, album.id, 'album', album.name)

@@ -96,8 +96,14 @@ export function formatLyric(lyric = '') {
       else {
         info = toJson(i) as Info
         time = -1
-        const { c } = info
-        sentence = `${c[0].tx}${c[1].tx}`
+        if (info) {
+          const { c } = info
+          sentence = `${c[0]?.tx}${c[1]?.tx}`
+        }
+        else {
+          sentence = ''
+        }
+
       }
 
       return {

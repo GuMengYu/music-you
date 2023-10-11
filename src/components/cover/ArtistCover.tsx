@@ -14,14 +14,14 @@ import { sizeOfImage, toHttps } from '@/util/fn'
 import { PlayIcon } from '@/components/icons/icons'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import type { Artist } from '@/types'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
   const theme = useTheme()
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl))
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const navigate = useNavigate()
 
   function jumpTo() {

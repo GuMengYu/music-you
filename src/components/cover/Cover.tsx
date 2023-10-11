@@ -11,9 +11,10 @@ import { useNavigate } from 'react-router-dom'
 import { sizeOfImage, sleep, toHttps } from '@/util/fn'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import { PlayIcon } from '@/components/icons/icons'
 import LoadingButton from '@/components/button/LoadingButton'
+import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 function Cover({ data, subTitle, type, inset }: {
   data: any
@@ -25,10 +26,11 @@ function Cover({ data, subTitle, type, inset }: {
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.coverImgUrl))
   const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
+  const { openContextMenu } = useContextMenu()
 
   function jumpTo() {
     navigate(`/${type}/${data.id}`)
@@ -48,6 +50,17 @@ function Cover({ data, subTitle, type, inset }: {
     }
   }, [type, data])
 
+  function handleContextMenu(e: any) {
+    e.preventDefault()
+    // openContextMenu(e, [{
+    //   type: 'item',
+    //   label: '',
+    //
+    // }], {
+    //   useCursorPosition: true,
+    // })
+  }
+
   return (
     <Card
       elevation={isHovering ? 1 : 0}
@@ -60,6 +73,7 @@ function Cover({ data, subTitle, type, inset }: {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onClick={jumpTo}
+      onContextMenu={handleContextMenu}
     >
       <Box>
         <Box

@@ -21,7 +21,6 @@ import { getLocalTrack } from '@/api/local'
  * @param from
  */
 export async function getTrackDetail(id: number, from: TrackFrom) {
-  console.log(id, '---------id', from)
   let track: Track | null = null
   let lyric = null
 

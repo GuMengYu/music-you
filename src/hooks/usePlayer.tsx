@@ -8,7 +8,6 @@ import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import { PlayerContext } from '@/contexts/player'
 import { playQueueStore } from '@/store/playQueue'
 import { VolumeHighIcon, VolumeLowIcon, VolumeMediumIcon, VolumeMuteIcon } from '@/components/icons/icons'
-import { Track, listType } from '@/types'
 
 export function usePlayer() {
   const player = useContext(PlayerContext)
@@ -30,7 +29,7 @@ export function usePlayerControl() {
     setShuffle,
     volume,
     showPipLyric,
-    currentTime,
+    setShowPipLyric,
   } = usePlayerStore()
   const {  shuffle: doShuffle, unShuffle: doUnShuffle, queue, updatePlayQueue } = playQueueStore()
   const isProgram = useMemo(() => track?.source?.fromType === 'program', [track])
@@ -92,10 +91,13 @@ export function usePlayerControl() {
     }
   }, [shuffle])
 
-  const addToQueueAndPlay = useCallback((tracks: Track[], id?: number, type?: listType, name?: string ) => {
-    updatePlayQueue(id, type, name, tracks)
-    player.next()
-  }, [])
+  const togglePipPlayer = useCallback(() => {
+    if (!showPipLyric)
+      player.pipLyric?.enter()
+    else
+      player.pipLyric?.leave()
+
+  }, [player, showPipLyric])
 
   return {
     playPrev,
@@ -104,6 +106,7 @@ export function usePlayerControl() {
     shuffleToggle,
     playModeToggle,
     showPipLyric,
+    togglePipPlayer,
     volume,
     volumeIcon,
     playing,
@@ -116,7 +119,5 @@ export function usePlayerControl() {
     modeIcon,
     shuffle,
     shuffleIcon,
-    currentTime,
-    addToQueueAndPlay,
   }
 }

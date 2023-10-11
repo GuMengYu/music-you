@@ -7,9 +7,9 @@ import Image from '@/components/Image'
 import type { Track } from '@/types'
 import { getDailyRecommend, recent } from '@/api/user'
 import { getTrackList } from '@/api/music'
-import { usePlayerControl } from '@/hooks/usePlayer'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 export default function ShortCut({
   data,
@@ -26,7 +26,7 @@ export default function ShortCut({
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { addToQueueAndPlay } = usePlayerControl()
+  const { addToQueueAndPlay } = usePlayQueue()
   const theme = useTheme()
   const navigate = useNavigate()
   async function handlePlay() {

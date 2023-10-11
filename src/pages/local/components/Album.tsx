@@ -11,13 +11,13 @@ import { formatDuring } from '@/util/fn'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import { useQueryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Header({ data }: { data: any }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-  const { addToQueueAndPlay }  = usePlayerControl()
+  const { addToQueueAndPlay }  = usePlayQueue()
 
   const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
 

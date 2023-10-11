@@ -22,7 +22,7 @@ import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import ArtistCover from '@/components/cover/ArtistCover'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => void }) {
   const theme = useTheme()
@@ -159,8 +159,7 @@ export default function ArtistPage() {
   const epAndSingle = useMemo(() => data?.hotAlbums.filter(a => ['EP/Single', 'EP', 'Single'].includes(a.type)), [data])
   const collection = useMemo(() => data?.hotAlbums.filter(a => a.type === '合集'), [data])
 
-  const { addToQueueAndPlay } = usePlayerControl()
-
+  const { addToQueueAndPlay } = usePlayQueue()
   const handlePlay = useCallback(() =>  {
     if (data.artist)
       addToQueueAndPlay(data.hotSongs, data.artist.id, 'artist', data.artist.name)

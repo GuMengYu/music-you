@@ -359,3 +359,14 @@ export interface PlayNowEvent {
   setQueue: boolean
   from: TrackFrom
 }
+
+export interface ContextMenuType {
+  target: HTMLElement | null
+  cursorPosition: {
+    x: number
+    y: number
+  } | null
+  options: {
+    useCursorPosition?: boolean
+  } | null
+}
