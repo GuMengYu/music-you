@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ElectronModule } from '@doubleshot/nest-electron'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { app } from 'electron'
 import { getWin } from '../index'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -18,9 +19,11 @@ import { RemovedTrackModule } from './removedTrack/removedTrack.module'
 import { AlbumArtworkModule } from './albumArtwork/albumArtwork.module'
 import { AlbumArtwork } from './albumArtwork/albumArtwork.entity'
 
+const userDataPath = app.getPath('userData')
+console.log(userDataPath)
 const OrmModule = TypeOrmModule.forRoot({
   type: 'sqlite',
-  database: 'musicYouDB',
+  database: `${userDataPath}/databases/musicYouDB.db`,
   entities: [Folder, Track, FolderTrack, RemovedTrack, AlbumArtwork],
   synchronize: true,
 })
