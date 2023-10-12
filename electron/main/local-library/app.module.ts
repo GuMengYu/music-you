@@ -20,7 +20,6 @@ import { AlbumArtworkModule } from './albumArtwork/albumArtwork.module'
 import { AlbumArtwork } from './albumArtwork/albumArtwork.entity'
 
 const userDataPath = app.getPath('userData')
-console.log(userDataPath)
 const OrmModule = TypeOrmModule.forRoot({
   type: 'sqlite',
   database: `${userDataPath}/databases/musicYouDB.db`,

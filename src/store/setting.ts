@@ -17,6 +17,9 @@ export enum QUALITY_LEVEL {
   EXHIGH = 'exhigh',
   LOSSLESS = 'lossless',
   HIRES = 'hires',
+  JYEFFECT = 'jyeffect',
+  SKY = 'sky',
+  JYMASTER = 'jymaster',
 }
 export enum APPEARANCE {
   LIGHT = 'light',

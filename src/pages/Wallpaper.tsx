@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import { ReactNode, useMemo, useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
-import { createPortal } from 'react-dom'
 import { useTheme } from '@mui/material/styles'
 import { Close as CloseIcon } from '@mui/icons-material'
 import { useWallpapers } from '@/hooks/useWallpapers'
@@ -31,13 +30,13 @@ export default function WallpaperPage() {
   const [filter, setFilter] = useState(false)
   const theme = useTheme()
   function FilterButton() {
-    return createPortal(<Button
+    return <Button
       color={'tertiaryContainer' as 'primary'}
       variant="contained"
       sx={{
         position: 'fixed',
-        top: '50%',
-        right: 32,
+        top: '50vh',
+        right: 12,
         height: 50,
         width: 50,
         borderRadius: 3.5,
@@ -47,7 +46,7 @@ export default function WallpaperPage() {
       onClick={() => {setFilter(true)}}
     >
       <FilterAltIcon />
-    </Button>, document.body)
+    </Button>
   }
   return <PageTransition>
     <Box>

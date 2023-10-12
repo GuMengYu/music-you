@@ -1,4 +1,4 @@
-import { app, ipcMain, shell } from 'electron'
+import { app, dialog, ipcMain, shell } from 'electron'
 
 import { WindowState } from '../../../shared/types'
 import { downloadFile, downloadTrack } from './util/download'
@@ -142,8 +142,19 @@ export function registerIpcMain(windowManager: WindowManager) {
     }
   })
   ipcMain.handle('relaunch', () => {
-    log.info('[main]: app relaunch')
-    app.relaunch()
-    app.quit()
+    dialog.showMessageBox(window, {
+      type: 'info',
+      buttons: ['取消', '确定'],
+      defaultId: 1,
+      title: '重启应用',
+      message: '确定重新启动应用？',
+    }).then(({ response }) => {
+      if (response === 1) {
+        log.info('[main]: app relaunch')
+        app.relaunch()
+        app.quit()
+      }
+    })
+
   })
 }

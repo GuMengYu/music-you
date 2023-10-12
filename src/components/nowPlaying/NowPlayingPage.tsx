@@ -1,8 +1,9 @@
 import { Box, Dialog, IconButton, Slide, Typography } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { forwardRef } from 'react'
+import { forwardRef, memo, useCallback, useState } from 'react'
 import { alpha, useTheme } from '@mui/material/styles'
 import CloseIcon from '@mui/icons-material/Close'
+import WallpaperIcon from '@mui/icons-material/Wallpaper'
 import { motion } from 'framer-motion'
 import NowPlayingLyric from './NowPlayingLyric'
 import { useAppStore } from '@/store/app'
@@ -14,6 +15,7 @@ import { Control } from '@/components/Control'
 import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
 import { formatDuring } from '@/util/fn'
 import LikeToggle from '@/components/toggle/likeToggle'
+import WallpaperPage from '@/pages/Wallpaper'
 
 const Transition = forwardRef((
   props: TransitionProps & {
@@ -23,6 +25,41 @@ const Transition = forwardRef((
 ) => {
   return <Slide direction="up" ref={ref} {...props} />
 })
+
+const NowPlayingWallpaper = memo(({ open, onClose }: { open: boolean; onClose?: () => void }) => {
+  return <Dialog fullScreen open={open} onClose={onClose}>
+    <Box className='p-4 hide-scrollbar h-full overflow-y-auto' sx={{
+
+    }}>
+      <WallpaperPage />
+
+    </Box>
+  </Dialog>
+})
+
+function NowPlayingPageBackDrop() {
+  const theme = useTheme()
+  const { track } = usePlayerStore()
+  const coverUrl = track?.coverUrl ?? track?.al?.picUrl ?? ''
+
+  return <Box
+  sx={{
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: 'flex',
+    borderRadius: 7,
+    // backgroundImage: `url(${coverUrl})`,
+    // backgroundSize: 'cover',
+    bgcolor: alpha(theme.palette.surface.main, 0.7),
+    backdropFilter: 'blur(100px)',
+    zIndex: -1,
+    filter: 'blur(100px)',
+  }}
+  ></Box>
+}
 export default function NowPlayingPage() {
   const { showNowPlaying, toggleNowPlaying } = useAppStore()
   const { track, currentTime } = usePlayerStore()
@@ -30,19 +67,26 @@ export default function NowPlayingPage() {
   const coverUrl = track?.coverUrl ?? track?.al?.picUrl ?? ''
   const trackDt = track?.dt ?? track?.duration ?? 0
 
+  const [bgSet, setBgSet] = useState(false)
+
+  const handleCloseWallpaperSet = useCallback(() => {
+    setBgSet(false)
+  }, [])
   return <Dialog
     sx={{
       '& .MuiPaper-root': {
         borderRadius: 7,
-        bgcolor: alpha(theme.palette.surface.main, 0.5),
-        backdropFilter: 'blur(100px)',
+        bgcolor: 'transparent',
+        // backdropFilter: 'blur(100px)',
       },
     }}
-    hideBackdrop
     TransitionComponent={Transition}
     open={showNowPlaying}
     fullScreen
     onClose={() => toggleNowPlaying(false)}
+    slots={{
+      backdrop: NowPlayingPageBackDrop,
+    }}
   >
     <Box className='p-2 flex flex-col'>
       <div className="frame-header flex pt-2 px-2 justify-end drag-area">
@@ -92,8 +136,12 @@ export default function NowPlayingPage() {
           <Box className='flex'>
             <LikeToggle id={track.id}/>
           </Box>
+          <IconButton onClick={() => setBgSet(true)}>
+            <WallpaperIcon />
+          </IconButton>
         </div>
       </div>
+      <NowPlayingWallpaper open={bgSet} onClose={handleCloseWallpaperSet} />
     </Box>
   </Dialog>
 }

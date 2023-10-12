@@ -28,6 +28,18 @@ export default function MusicSetting() {
           title: 'Hi-Res(vip)',
           value: QUALITY_LEVEL.HIRES,
         },
+        {
+          title: '高清环绕声(vip)',
+          value: QUALITY_LEVEL.JYEFFECT,
+        },
+        {
+          title: '沉浸环绕声(vip)',
+          value: QUALITY_LEVEL.SKY,
+        },
+        {
+          title: '超清母带(vip)',
+          value: QUALITY_LEVEL.JYMASTER,
+        },
       ]} onChange={setQuality} />
     }>
 
