@@ -88,7 +88,7 @@ export default function NowPlayingPage() {
       backdrop: NowPlayingPageBackDrop,
     }}
   >
-    <Box className='p-2 flex flex-col'>
+    <Box className='p-2 flex flex-col h-full'>
       <div className="frame-header flex pt-2 px-2 justify-end drag-area">
         <IconButton className="no-drag-area" onClick={() => toggleNowPlaying(false)}>
           <CloseIcon />

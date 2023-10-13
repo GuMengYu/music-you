@@ -46,14 +46,14 @@ export default function LikeToggle({
   return (
     <IconButton
       onClick={likeSong}
-      sx={{ p: 0, height: 48, width: 48 }}
+      sx={{ p: 0, height: size === 'small' ? 28 : 48, width: size === 'small' ? 28 : 48 }}
       color="error"
     >
       {showAnim ? (
         <LottieIcon
           option={heartOptions}
-          height={size === 'small' ? 24 : 48}
-          width={size === 'small' ? 24 : 48}
+          height={size === 'small' ? 28 : 48}
+          width={size === 'small' ? 28 : 48}
           animCreated={handleAnimation}
         ></LottieIcon>
       ) : liked ? (

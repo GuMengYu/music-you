@@ -1,39 +1,53 @@
 import type { SliderProps } from '@mui/material/Slider'
-import Slider from '@mui/material/Slider'
 import { useState } from 'react'
+import { useTheme } from '@mui/material/styles'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import { usePlayerStore } from '@/store/player'
+import { formatDuring } from '@/util/fn'
+import MdSlider from '@/components/Slider'
 
 export default function NowPlayingSlider(props: SliderProps) {
   const { player } = usePlayer()
   const { currentTime } = usePlayerStore()
   const { track } = usePlayerControl()
   const trackDt = track?.dt ?? track?.duration ?? 0
+  const theme = useTheme()
 
-  const [position] = useState(0)
+  const [position, setPosition] = useState(0)
+  const [dragging, setDragging] = useState(false)
 
   function handleSliderChange( value: number) {
     console.log(value)
     player.setSeek(value)
   }
   function dragStart(value: number) {
+    if (!dragging)
+      setDragging(true)
+
+    setPosition(value)
     // player.pauseProgress()
   }
   function dragEnd(val: number) {
+    setDragging(false)
+    setPosition(val)
+    player.setSeek(val)
     // player.setSeek(val)
     // player.restoreProgress()
   }
 
-  return <Slider
+  return <MdSlider
     {...props}
-    value={currentTime}
-    size="small"
+    value={dragging ? position : currentTime}
+    valueLabelFormat={(val) => {
+      return formatDuring(val * 1000)
+    }}
     max={trackDt / 1000}
     min={0}
-    step={1}
+    step={0.5}
     aria-label="track-slider"
     valueLabelDisplay="auto"
-    // onChange={(_, value) => dragStart(value as number)}
+    onChangeCommitted={(_, value) => dragEnd(value as number)}
+    onChange={(_, value) => dragStart(value as number)}
   />
 }
 

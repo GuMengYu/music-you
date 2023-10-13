@@ -27,7 +27,7 @@ function MenuItem({
   const theme = useTheme()
   if (item.type === 'divider') {
     return (
-      <div className='my-2 h-px w-full px-3'>
+      <div className='my-1 h-px w-full px-3'>
         <div className={cx('h-full w-full', css({
           backgroundColor: theme.palette.divider,
         }))}></div>
@@ -76,7 +76,7 @@ function MenuItem({
     >
       <div
         className={cx(
-          'relative flex w-full items-center rounded-lg justify-between whitespace-nowrap p-3',
+          'relative flex w-full items-center rounded-lg justify-between whitespace-nowrap p-2',
           css({
             transition: 'background-color .2s ease-in',
             backgroundColor: isHover ? alpha(

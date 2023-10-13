@@ -51,13 +51,13 @@ export function usePlayerControl() {
   }, [shuffle])
   const volumeIcon = useMemo(() => {
     if (volume === 0)
-      return <VolumeMuteIcon sx={{ fontSize: 16 }} />
+      return <VolumeMuteIcon fontSize='small' />
     else if (volume > 0 && volume <= 0.3)
-      return <VolumeLowIcon sx={{ fontSize: 16 }} />
+      return <VolumeLowIcon  fontSize='small' />
     else if (volume > 0.3 && volume <= 0.6)
-      return <VolumeMediumIcon sx={{ fontSize: 16 }} />
+      return <VolumeMediumIcon  fontSize='small' />
     else
-      return <VolumeHighIcon sx={{ fontSize: 16 }} />
+      return <VolumeHighIcon  fontSize='small' />
   }, [volume])
   const playPrev = useCallback(() => {
     player.prev()

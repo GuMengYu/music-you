@@ -8,7 +8,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useImmer } from 'use-immer'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
@@ -23,11 +23,56 @@ import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import ArtistCover from '@/components/cover/ArtistCover'
 import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => void }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
+  const { openContextMenu } = useContextMenu()
+  const [subscribed, setSubscribed] = useState(false)
+
+  useEffect(() => {
+    setSubscribed(artist.followed)
+  }, [artist])
+
+
+  function handleMore(e: React.MouseEvent<HTMLElement>) {
+    const items = [
+      {
+        type: 'item',
+        label: '下一首播放',
+        onClick: () => {
+
+        },
+      },
+      { type: 'divider' as any },
+      ...(subscribed ? [
+        {
+          type: 'item' as any,
+          label: '取消关注艺人',
+          onClick: () => {
+
+          },
+        },
+      ] : [
+        {
+          type: 'item' as any,
+          label: '关注艺人',
+          onClick: () => {
+
+          },
+        },
+      ]),
+      { type: 'divider' as any },
+      {
+        type: 'item' as any,
+        label: '复制网页分享链接',
+        onClick: () => {},
+      },
+    ]
+    openContextMenu(e,  items)
+  }
   return (
     <motion.div
       initial={{
@@ -113,7 +158,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                 }} onClick={onPlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }} onClick={handleMore}>
                   <MoreHorizIcon/>
                 </IconButton>
               </div>

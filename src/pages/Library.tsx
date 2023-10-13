@@ -5,9 +5,11 @@ import MYTabs from '@/components/Tabs'
 import PageTransition from '@/components/PageTransition'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
-import { useUserAlbums, useUserArtists } from '@/hooks/query/user'
+import { useUserAlbums, useUserArtists, useUserMVs } from '@/hooks/query/user'
 import ArtistCover from '@/components/cover/ArtistCover'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
+import VideoCover from '@/components/cover/VideoCover'
+import { GridType } from '@/hooks/useResponsiveGrid'
 
 
 function ArtistPanel() {
@@ -49,6 +51,15 @@ function AlbumPanel() {
     }
   </GridRow>
 }
+function MVPanel() {
+  const { data } = useUserMVs()
+  return <GridRow rowType={GridType.B}>
+    {
+      data?.mvs.map((mv => (<VideoCover key={mv.vid} data={mv} />)))
+    }
+  </GridRow>
+}
+
 function Library() {
   const [currentTab, setCurrentTab] = useState('playlist')
   const theme = useTheme()
@@ -58,13 +69,17 @@ function Library() {
         tabs={[{
           value: 'playlist',
           label: 'Playlist',
-        }, { value: 'album', label: 'Alum' }, { value: 'artist', label: 'Artist' }]}/>
+        },
+        { value: 'album', label: 'Alum' },
+        { value: 'artist', label: 'Artist' },
+        { value: 'mv', label: 'MV' }]}/>
       <Box className='overflow-y-auto px-2 my-4 h-full hide-scrollbar'>
         {
           {
             artist: <ArtistPanel />,
             playlist: <PlaylistPanel />,
             album: <AlbumPanel />,
+            mv: <MVPanel />,
           }[currentTab]
         }
       </Box>

@@ -29,7 +29,8 @@ export default function ShortCut({
   const { addToQueueAndPlay } = usePlayQueue()
   const theme = useTheme()
   const navigate = useNavigate()
-  async function handlePlay() {
+  async function handlePlay(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation()
     try {
       setLoading(true)
       let info: {

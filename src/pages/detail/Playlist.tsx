@@ -5,7 +5,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
@@ -28,22 +28,26 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const { addToQueueAndPlay } = usePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { isCreatedPlaylist } = useMyPlaylist()
+  const [subscribed, setSubscribed] = useState(false)
 
+  useEffect(() => {
+    setSubscribed(playlist.subscribed)
+  }, [playlist])
 
   function handlePlay() {
     addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
-    openContextMenu(e, [
+    const items = [
       {
         type: 'item',
-        label: '在下一首播放',
+        label: '下一首播放',
         onClick: () => {
 
         },
       },
-      ...(isCreatedPlaylist(playlist) ? [
-        { type: 'divider' as any },
+      { type: 'divider' as any },
+      ...(!isCreatedPlaylist(playlist) && subscribed ? [
         {
           type: 'item' as any,
           label: '从音乐库中移除',
@@ -51,9 +55,27 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
 
           },
         },
+      ] : []),
+      ...(!isCreatedPlaylist(playlist) && !subscribed ? [
+        {
+          type: 'item' as any,
+          label: '添加到音乐库',
+          onClick: () => {
+
+          },
+        },
+      ] : []),
+      ...(isCreatedPlaylist(playlist) ? [
         {
           type: 'item' as any,
           label: '编辑歌单',
+          onClick: () => {
+
+          },
+        },
+        {
+          type: 'item' as any,
+          label: '删除歌单',
           onClick: () => {
 
           },
@@ -62,10 +84,11 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
       { type: 'divider' },
       {
         type: 'item',
-        label: '复制分享链接',
+        label: '复制网页分享链接',
         onClick: () => {},
       },
-    ] )
+    ]
+    openContextMenu(e,  items)
   }
   return (
     <motion.div

@@ -13,6 +13,7 @@ import type { RESOURCE_TYPE } from '@/util/enum'
 import { request } from '@/util/fetch'
 
 import { useUserStore } from '@/store/user'
+import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import { getLocalTrack } from '@/api/local'
 
 /**
@@ -62,8 +63,7 @@ export async function getTrackDetail(id: number, from: TrackFrom) {
 export async function getMusicUrl(track: Track) {
   // const userStore = useUserStore()
   // const settingStore = useSettingStore()
-  // const level = settingStore.quality_level ?? QUALITY_LEVEL.HIGHER
-  const level = 'standard'
+  const level = useSettingStore.getState().quality ?? QUALITY_LEVEL.HIGHER
   const meta: Track['meta'] = {
     url: null,
     br: null,

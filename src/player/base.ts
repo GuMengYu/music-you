@@ -206,7 +206,7 @@ export class Player {
     const sound = new Howl({
       volume: this.volume,
       src,
-      html5: this.track?.meta?.sourceFromUnlockMusic, // web audio 用 xhr 方式拉取音频，解锁音乐可能会存在跨域，强制 html5 加载
+      html5: true, // web audio 用 xhr 方式拉取音频，解锁音乐可能会存在跨域，强制 html5 加载
       preload: 'metadata',
       format: ['mp3', 'flac'],
       onplay: () => {
@@ -227,9 +227,9 @@ export class Player {
           //global window
           document.title = `${name} - ${artists}`
           this.fixDuration()
-          if (this.pipLyric && this.track?.source?.fromType !== 'local') 
+          if (this.pipLyric && this.track?.source?.fromType !== 'local')
             this.pipLyric.setData(this.track, this.track.lyric)
-          
+
           // this.pipLyric.enter()
         }
       },

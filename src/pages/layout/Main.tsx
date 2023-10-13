@@ -8,7 +8,7 @@ import { useAppStore } from '@/store/app'
 export default function Main() {
   const { rail } = useAppStore()
   const theme = useTheme()
-  const { isActive: inDetail } = useInForeground(['playlist', 'album', 'artist', 'daily', 'local-album'])
+  const { isActive: inDetail } = useInForeground(['playlist', 'album', 'artist', 'daily', 'local-album', 'video'])
 
   // const AppMain = styled(Box)(() => ({
   //   overflowY: "auto",

@@ -62,6 +62,7 @@ function App() {
             <Nav/>
             <Main/>
             <NowPlayingBar/>
+            {/*<NowPlayingBlock/>*/}
             <NowPlayingPage/>
             <LoginDialog/>
             <Profile/>

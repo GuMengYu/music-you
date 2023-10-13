@@ -84,15 +84,19 @@ export interface MV {
   artist?: Artist
   artists?: Artist[]
   id: number
+  vid?: string
   name: string
   copywriter: string
   picUrl?: string
+  imgurl16v9?: string
+  coverUrl?: string
   cover?: string
   playCount: number
   type: number
   canDislike: boolean
   publishTime?: string
   briefDesc?: string
+  subed?: boolean
 }
 
 export interface Artist {

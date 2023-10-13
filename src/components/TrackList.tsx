@@ -144,6 +144,11 @@ export default function TrackList({ tracks, source, className }: {
         type: 'divider',
       },
       {
+        type: 'item',
+        label: '查看评论',
+        onClick: () => {},
+      },
+      {
         label: '转至艺人',
         ...(track.ar && track.ar.length > 1
           ? {
@@ -188,16 +193,6 @@ export default function TrackList({ tracks, source, className }: {
           // todo remove from playlist
         },
       }] : []),
-      {
-        type: 'item',
-        label: `${track.liked ? '从“喜欢的音乐”移除' : '添加到“喜欢的音乐”'}`,
-        onClick: () => {
-          // todo toggle like
-        },
-      },
-      {
-        type: 'divider',
-      },
       {
         type: 'item',
         label: '下载到本地',

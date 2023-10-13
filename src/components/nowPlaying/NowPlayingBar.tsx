@@ -1,5 +1,4 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
-import Slider from '@mui/material/Slider'
 import { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';import { Control } from '../Control'
@@ -11,6 +10,8 @@ import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
 import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
 import { useAppStore } from '@/store/app'
 import PIPPlayerToggle from '@/components/toggle/PIPPlayerToggle'
+import MdSlider from '@/components/Slider'
+import TrackMore from '@/components/nowPlaying/TrackMore'
 
 function NowPlayingBar() {
   const { player } = usePlayer()
@@ -20,12 +21,26 @@ function NowPlayingBar() {
   const trackDt = track?.dt ?? track?.duration ?? 0
 
   const [isHovering, setIsHovering] = useState(false)
-
+  const [cacheVolume, setCacheVolume] = useState(0)
 
 
   const handleVolumeChange = useCallback((val: number) => {
     player.setVolume(val)
   }, [])
+
+  function handleMute() {
+    if (volume === 0) {
+      // sliderVolume.value = cacheVolume.value
+      player.setVolume(cacheVolume)
+    }
+    else {
+      setCacheVolume(volume)
+      player.setVolume(0)
+
+      // sliderVolume.value = 0.0
+      // sliderVolume.value = 0
+    }
+  }
   return (
     <Box
       component="footer"
@@ -39,15 +54,20 @@ function NowPlayingBar() {
         zIndex: 9999,
       }}
     >
-      <div className="flex w-full h-full">
-        <NowPlayingSlider
+      <div className="flex w-full h-full relative">
+        <Box
           sx={{
             position: 'absolute',
-            top: -13,
-            width: 'calc(100% - 12px)',
-            margin: '0 2px',
+            top: -10,
+            width: '100%',
+            // margin: '0 2px',
           }}
-        />
+        >
+          <NowPlayingSlider
+
+          />
+        </Box>
+
         <div className="flex flex-1 items-center gap-2">
           <Box
             sx={{
@@ -103,13 +123,14 @@ function NowPlayingBar() {
         </div>
         <div className="flex flex-1 items-center justify-end gap-1">
           <PIPPlayerToggle />
-          <Stack direction="row" sx={{ width: 130 }} alignItems="center">
-            <IconButton>
+          <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={1}>
+            <IconButton onClick={handleMute}>
               { volumeIcon }
             </IconButton>
-            <Slider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} onChange={(_, val) => handleVolumeChange(val as number)} />
+            <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='auto' onChange={(_, val) => handleVolumeChange(val as number)} />
           </Stack>
           <NowPlayingListToggle />
+          <TrackMore track={track} />
         </div>
       </div>
     </Box>

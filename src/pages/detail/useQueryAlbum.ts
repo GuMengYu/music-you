@@ -15,6 +15,7 @@ export default function useQueryAlbum(albumId?: number | string) {
         relatedAlbum = hotAlbums.filter(i => i.id !== album.id)
       }
       album.tracks = songs
+      album.isSub = isSub
       return {
         album,
         relatedAlbum,

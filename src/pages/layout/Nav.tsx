@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import HomeIcon from '@mui/icons-material/Home'
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService'
+import PublicIcon from '@mui/icons-material/Public'
 
 // components
 import MenuToggle from '@/components/toggle/MenuToggle'
@@ -96,13 +97,13 @@ export default function MiniDrawer() {
       to: '/home',
       pathname: ['/home', '/'],
     },
-    // {
-    //   icon: <MapIcon sx={{ height: 20, width: 20 }} />,
-    //   val: 'explore',
-    //   title: '浏览',
-    //   to: '/explore',
-    //   pathname: ['/explore'],
-    // },
+    {
+      icon: <PublicIcon sx={{ height: 20, width: 20 }} />,
+      val: 'explore',
+      title: '浏览',
+      to: '/explore',
+      pathname: ['/explore'],
+    },
     // {
     //   icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
     //   val: "podcast",
@@ -122,13 +123,6 @@ export default function MiniDrawer() {
       title: '本地音乐库',
       to: '/local-library',
       pathname: ['/local-library'],
-    },
-    {
-      icon: <LocalLaundryServiceIcon sx={{ height: 20, width: 20 }} />,
-      val: 'wallpaper',
-      title: '本地音乐库',
-      to: '/wallpaper',
-      pathname: ['/wallpaper'],
     },
   ]
 

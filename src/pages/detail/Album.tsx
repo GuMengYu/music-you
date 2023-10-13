@@ -7,7 +7,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import PageTransition from '@/components/PageTransition'
@@ -19,6 +19,7 @@ import ImageViewer from '@/components/ImageViewer'
 import useQueryAlbum from '@/pages/detail/useQueryAlbum'
 import ArtistLink from '@/components/links/artist'
 import usePlayQueue from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
@@ -28,9 +29,49 @@ function Header({ album }: { album: Album | undefined }) {
   const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { addToQueueAndPlay } = usePlayQueue()
+  const { openContextMenu } = useContextMenu()
 
+  const [subscribed, setSubscribed] = useState(false)
+  useEffect(() => {
+    setSubscribed(album.isSub)
+  }, [album])
   function handlePlay() {
     addToQueueAndPlay(album.tracks, album.id, 'album', album.name)
+  }
+  function handleMore(e: React.MouseEvent<HTMLElement>) {
+    openContextMenu(e, [
+      {
+        type: 'item',
+        label: '下一首播放',
+        onClick: () => {
+
+        },
+      },
+      { type: 'divider' as any },
+      ...(subscribed ? [
+        {
+          type: 'item' as any,
+          label: '从音乐库中移除',
+          onClick: () => {
+
+          },
+        },
+      ] : [
+        {
+          type: 'item' as any,
+          label: '添加到音乐库',
+          onClick: () => {
+
+          },
+        },
+      ]),
+      { type: 'divider' },
+      {
+        type: 'item',
+        label: '复制网页分享链接',
+        onClick: () => {},
+      },
+    ] )
   }
   return (
     <motion.div
@@ -123,7 +164,7 @@ function Header({ album }: { album: Album | undefined }) {
                 }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }} onClick={handleMore}>
                   <MoreHorizIcon/>
                 </IconButton>
               </div>
