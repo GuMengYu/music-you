@@ -29,7 +29,7 @@ export function downloadFile(data: { fileName?: string; url: string; completed?:
         log.info('download file progress', progress)
       },
       onCompleted(file) {
-        win.webContents.send('downloadCompleted', file, fileName)
+        win.webContents.send('downloadCompleted', { ...file, dir: downloadLocation }, fileName)
         log.info('download file completed', file)
         if (data.completed)
           data.completed(file)
@@ -61,7 +61,7 @@ export async function downloadTrack(data: { fileName?: string; url: string; tags
   })
 }
 
-async function getSongArtworkPath(url) {
+async function getSongArtworkPath(url: string) {
   const win = getWin()
   const tempDirectory = join(app.getPath('userData'), 'temp')
   if (win) {
@@ -85,7 +85,7 @@ async function updateId3Tags(tags: Tags, path: string) {
   removeTempArtworkPicture(tags.APIC)
 }
 
-function removeTempArtworkPicture(path) {
+function removeTempArtworkPicture(path: string) {
   // remove temp artwork file
   unlink(path, () => {
     log.info('remove artwork temp file', path)

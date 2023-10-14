@@ -11,7 +11,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { cx } from '@emotion/css'
 import { sizeOfImage, toHttps } from '@/util/fn'
-import { PlayIcon } from '@/components/icons/icons'
+import { PlayRoundedIcon } from '@/components/icons/icons'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
 import type { Artist } from '@/types'
@@ -59,8 +59,8 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
             aspectRatio: 1,
           }}
         >
-          <Box className={cx('absolute', !compact && 'p-4')}>
-            <Image src={coverBgUrl} className="absolute rounded-full"/>
+          <Box className={cx('absolute h-full', !compact && 'p-4')}>
+            <Image src={coverBgUrl} className="absolute rounded-full" fit='cover' />
           </Box>
           <AnimatePresence>
             {isHovering && (
@@ -86,7 +86,7 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
                 <IconButton
                   onClick={handlePlay}
                 >
-                  <PlayIcon  sx={{ fontSize: '4rem' }} color='primary' />
+                  <PlayRoundedIcon fontSize='large'   color='primary' />
                 </IconButton>
               </motion.div>
             )}

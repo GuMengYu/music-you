@@ -6,6 +6,6 @@ import { FileAccess } from './file-access'
 @Module({
   imports: [],
   providers: [FileAccess, Desktop, DateTime],
-  exports: [FileAccess],
+  exports: [FileAccess, Desktop],
 })
 export class IoModule {}

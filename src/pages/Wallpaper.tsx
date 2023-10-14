@@ -1,18 +1,19 @@
 import {
   Box,
   Button,
-  Card, Chip,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem, TextField,
-  Typography,
+  Card, Chip, Divider,
 } from '@mui/material'
-import { ReactNode, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
+import CheckIcon from '@mui/icons-material/Check'
 import { useTheme } from '@mui/material/styles'
-import { Close as CloseIcon } from '@mui/icons-material'
+import * as React from 'react'
+import FaceIcon from '@mui/icons-material/Face'
+import  EmojiNature  from '@mui/icons-material/EmojiNature'
+import Pentagon  from '@mui/icons-material/Pentagon'
+import StrollerIcon from '@mui/icons-material/Stroller'
+import NoStrollerIcon from '@mui/icons-material/NoStroller'
+import AddReactionIcon from '@mui/icons-material/AddReaction'
 import { useWallpapers } from '@/hooks/useWallpapers'
 import PageTransition from '@/components/PageTransition'
 import GridRow from '@/components/GridRow'
@@ -21,9 +22,10 @@ import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import SelectMenu from '@/components/SelectMenu'
 import { CATGORY, ORDER, PURITY, SORTING, TOPRANGE, useWallpaperStore } from '@/store/wallpaper'
-import Switch from '@/components/Switch'
 
-export default function WallpaperPage() {
+export default function WallpaperPage({
+  select,
+}: { select?: boolean }) {
   const { wallpapers } = useWallpapers()
   const [selectedIndex, setSeletedIndex] = useState(-1)
   const [preview, setPreview] = useState(false)
@@ -48,9 +50,10 @@ export default function WallpaperPage() {
       <FilterAltIcon />
     </Button>
   }
-  return <PageTransition>
-    <Box>
-      <GridRow rowType={GridType.B}>
+  return <PageTransition className='relative'>
+    <FilterPanel />
+    <Box className='flex'>
+      <GridRow rowType={GridType.D}>
         {
           wallpapers?.map((wallpaper, index) => {
             return <Card
@@ -60,6 +63,12 @@ export default function WallpaperPage() {
                 setSeletedIndex(index)
                 setPreview(true)
               }}
+              sx={{
+                transition: 'outline .35s ease',
+                outlineStyle: 'solid',
+                outlineWidth: 2,
+                outlineColor: (selectedIndex === index) ? theme.palette.primary.main : 'transparent',
+              }}
             >
               <Image fit='cover' src={wallpaper.thumbs.large} className='aspect-video'></Image>
             </Card>
@@ -67,14 +76,12 @@ export default function WallpaperPage() {
         }
 
       </GridRow>
-      <FilterButton />
       <ImageViewer src={wallpapers[selectedIndex]?.path} open={preview} onClose={() => setPreview(false)} />
-      <FilterPanel open={filter} onClose={() => setFilter(false)} />
     </Box>
   </PageTransition>
 }
 
-function FilterPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+function FilterPanel() {
   const theme = useTheme()
   const {
     wallpapers,
@@ -193,16 +200,21 @@ function FilterPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
 
   const categoriesOptions = [
     {
+      icon: <Pentagon sx={{ fontSize: '1.125rem' }} />,
+
       title: 'GENERAL',
       value: CATGORY.GENERAL,
       activeClass: 'text-primary',
     },
     {
+      icon: <EmojiNature sx={{ fontSize: '1.125rem' }} />,
       title: 'ANIME',
       value: CATGORY.ANIME,
       activeClass: 'text-primary',
     },
     {
+      icon: <FaceIcon sx={{ fontSize: '1.125rem' }} />,
+
       title: 'PEOPLE',
       value: CATGORY.PEOPLE,
       activeClass: 'text-primary',
@@ -211,11 +223,13 @@ function FilterPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
   const purityOptions = useMemo(() => {
     const options = [
       {
+        icon: <AddReactionIcon sx={{ fontSize: '1.125rem' }}  />,
         title: 'SFW',
         value: PURITY.SFW,
         activeClass: 'text-primary',
       },
       {
+        icon: <StrollerIcon sx={{ fontSize: '1.125rem' }}  />,
         title: 'SKETCHY',
         value: PURITY.SKETCHY,
         activeClass: 'text-primary',
@@ -223,6 +237,7 @@ function FilterPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
     ]
     if (apiKey) {
       options.push({
+        icon: <NoStrollerIcon sx={{ fontSize: '1.125rem' }}  />,
         title: 'NSFW',
         value: PURITY.NSFW,
         activeClass: 'text-primary',
@@ -232,130 +247,40 @@ function FilterPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
   }, [apiKey])
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={onClose}
-      sx={{
-        'width': 310,
-        '& .MuiDrawer-paper': {
-          width: 310,
-          top: 8,
-          bottom: 8,
-          right: 8,
-          height: 'calc(100% - 16px)',
-          borderRadius: 5,
-        },
-        '& .MuiModal-backdrop': {
-          margin: 1,
-          borderRadius: 5,
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          // backdropFilter: 'blur(100px)',
-        },
-      }}
-    >
-      <Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          height={40}
-          pl={2}
-          pr={0.5}
-        >
-          <Typography variant="caption">wallhaven</Typography>
-          <IconButton size="small" onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-        <Divider />
-        <Box className='flex flex-col gap-3 p-3'>
-          <List
-            sx={{ width: '100%', borderRadius: 4, bgcolor: theme.palette.secondaryContainer.main }}
-          >
-            <Item>
-              <Typography variant='caption'>排行</Typography>
-              <SelectMenu value={sorting} options={sortingOptions} onChange={(e) => {
-                setSorting(e)
-              }} />
-            </Item>
-            <Item>
-              <Typography variant='caption'>升降序</Typography>
-              <SelectMenu value={order} options={orderOptions} onChange={(e) => {
-                setOrder(e)
-              }} />
-            </Item>
-            {
-              sorting === SORTING.TOPLIST &&  <Item>
-                    <Typography variant='caption'>时间范围</Typography>
+    <Box className='sticky top-0 py-3 flex gap-2 items-center justify-center' sx={{ zIndex: 1, bgcolor: theme.palette.surface.main,
+    }}>
 
-                    <SelectMenu value={topRange} options={topRangeOptions} onChange={(e) => {
-                      setTopRange(e)
-                    }} />
-                </Item>
-            }
-
-            <Item>
-              <Typography variant='caption'>分类</Typography>
-              <ChipGroup chips={categoriesOptions} value={categories} onChange={(val) => {
-                setCategories(val)
-              }}></ChipGroup>
-            </Item>
-            <Item>
-              <Typography variant='caption'>限制级</Typography>
-              <ChipGroup chips={purityOptions} value={purity} onChange={(val) => {
-                setPurity(val)
-              }}></ChipGroup>
-            </Item>
-          </List>
-          <List
-            sx={{ width: '100%', borderRadius: 4, bgcolor: theme.palette.secondaryContainer.main }}
-          >
-            <Item>
-              <Typography variant='caption'>apiKey</Typography>
-              <TextField
-                value={apiKey}
-                size="small"
-                variant='outlined'
-                onChange={(e) => {
-                  setApiKey(e.target.value)
-                }}
-              />
-            </Item>
-            <Item>
-              <Typography variant='caption'>代理</Typography>
-              <Switch checked={proxy.open} onChange={(e) => {
-                setProxy({ open: e.target.checked, url: proxy.url })
-              }}></Switch>
-            </Item>
-            <Item>
-              <Typography variant='caption'>uri</Typography>
-              <TextField
-                value={proxy.url}
-                size="small"
-                variant='outlined'
-                onChange={(e) => {
-                  setProxy({ open: proxy.open, url: e.target.value })
-                }}
-              />
-            </Item>
-          </List>
-         </Box>
-      </Box>
-    </Drawer>
+      <ChipGroup chips={categoriesOptions} value={categories} onChange={(val) => {
+        setCategories(val)
+      }}></ChipGroup>
+      <Divider orientation='vertical' flexItem variant='middle' />
+      <ChipGroup chips={purityOptions} value={purity} onChange={(val) => {
+        setPurity(val)
+      }}></ChipGroup>
+      <Divider orientation='vertical' flexItem variant='middle' />
+      <div className='flex gap-1'>
+        <SelectMenu value={sorting} options={sortingOptions} onChange={(e) => {
+          setSorting(e)
+        }} />
+        {
+          sorting === SORTING.TOPLIST && <SelectMenu value={topRange} options={topRangeOptions} onChange={(e) => {
+            setTopRange(e)
+          }} />
+        }
+        <SelectMenu value={order} options={orderOptions} onChange={(e) => {
+          setOrder(e)
+        }} />
+      </div>
+    </Box>
   )
-}
-function Item({ children }: { children: ReactNode }) {
-  return <ListItem sx={{ justifyContent: 'space-between' }}>
-    {children}
-  </ListItem>
 }
 
 function ChipGroup({ chips, value, onChange }: {
-  chips: { title: string; value: any }[]
+  chips: { title: string; value: any; icon?: React.ReactElement }[]
   value: any[]
   onChange: (val: any[]) => void
 }) {
+  const theme = useTheme()
   function handleClick(val: any) {
     if (value.includes(val))
       onChange(value.filter(v => (v !== val)))
@@ -370,14 +295,32 @@ function ChipGroup({ chips, value, onChange }: {
     {
       chips.map((chip) => {
         return <Chip
+          icon={actived(chip.value) ? <CheckIcon sx={{ fontSize: '1.125rem' }}/> : chip.icon}
           variant={actived(chip.value) ? 'filled' : 'outlined'}
           sx={{
-            borderRadius: 1,
+            'borderRadius': 2,
+            'fontSize': '0.875rem',
+            'fontWeight': 500,
+            '&.MuiChip-filled': {
+              bgcolor: theme.palette.secondaryContainer.main,
+              color: theme.palette.onSecondaryContainer.main,
+            },
+            '&.MuiChip-outlined': {
+              borderColor: theme.palette.outline.main,
+            },
+            '&.MuiChip-root': {
+              '.MuiChip-icon': {
+                marginLeft: '8px',
+                marginRight: '-8px',
+              },
+              '.MuiChip-label': {
+                paddingLeft: '16px',
+                paddingRight: '16px',
+              },
+            },
           }}
-          size='small'
           key={chip.value}
           label={chip.title}
-          color={ actived(chip.value) ? 'primary' : 'default' }
           onClick={() => handleClick(chip.value)} />
       })
     }

@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 
-function PageTransition({ children, disableEnterAnimation }: {
+function PageTransition({ children, disableEnterAnimation, className }: {
   children: ReactNode
   disableEnterAnimation?: boolean
+  className?: string
 }) {
   // To restore scroll position
   // useLayoutEffect(() => {
@@ -15,13 +16,14 @@ function PageTransition({ children, disableEnterAnimation }: {
 
   return (
     <motion.div
+      className={className}
       initial={{
         opacity: disableEnterAnimation ? 1 : 0,
         transform: disableEnterAnimation ? 'translateX(0px)' : 'translateX(20px)',
       }}
       animate={{ opacity: 1, transform: 'translateX(0px)' }}
       exit={{ opacity: 0, transform: 'translateX(-20px)' }}
-      transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+      transition={{ duration: 0.3, ease: [0.42, 0.0, 0.58, 1.0] }}
     >
       {children}
     </motion.div>

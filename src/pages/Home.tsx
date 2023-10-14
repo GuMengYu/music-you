@@ -8,7 +8,9 @@ import {
   CalendarToday,
   Favorite,
   Radar as RadarIcon,
+
 } from '@mui/icons-material'
+import CloudQueueIcon from '@mui/icons-material/CloudQueue'
 import { useTheme } from '@mui/material'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
@@ -101,6 +103,20 @@ function ShortCuts() {
         },
       },
       radar,
+      {
+        data: {
+          picUrl:
+            'https://cdn.dribbble.com/userupload/5937173/file/original-f14b5cf31374d9e829baab07bbf571a9.jpg?resize=752x',
+          title: '音乐云盘',
+        },
+        type: 'cloud',
+        decoration: {
+          color: theme.palette.tertiary.main,
+          icon: (
+            <CloudQueueIcon fontSize="small" color={'onTertiary' as 'primary'}/>
+          ),
+        },
+      },
     ]
   }, [radar, fav])
 
@@ -131,14 +147,14 @@ function Home() {
       radarPlaylist,
     }
   }, {
-    staleTime: 30 * 60 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
 
   return (
     <PageTransition>
       {
         isLoading ? <HomePageSkeleton /> : <motion.div
-          className='flex flex-col gap-4'
+          className='flex flex-col gap-4 pr-2'
           initial={{
             opacity: 0, transform: 'translateX(15px)',
           }}
@@ -150,9 +166,7 @@ function Home() {
             ease: [0.34, 1.56, 0.64, 1],
           }}
         >
-          <Col title="晚上好">
-            <ShortCuts/>
-          </Col>
+          <ShortCuts />
           <Col title="今日推荐">
             <GridRow singleLine rowType={GridType.A}>
               {data?.playlist?.map(data => (

@@ -18,6 +18,14 @@ export default function AggregateExtendButton() {
     'setting',
     'local-album',
     'moods_and_genres',
+    'moods_and_genres_detail',
+    'list_collection',
+    'cloud',
+    'rank',
+    'recent',
+    'my_podcast',
+    'podcast_detail',
+    'podcast_genres',
   ])
 
   function back() {

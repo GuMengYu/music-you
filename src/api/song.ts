@@ -56,15 +56,15 @@ export function getSongDownloadUrl(params: { id: number; br?: number }) {
  * @param track
  */
 export async function getSongUrlFromUnlockMusic(track: Track) {
-  const settingStore = useSettingStore()
-  if (settingStore.unlock.unblockNetEaseMusic.open) {
+  const { youtubeUnlock, unblockNetEaseMusic } = useSettingStore.getState()
+  if (unblockNetEaseMusic.open) {
     try {
       const { data, code } = await request<{
         data: {
           url: string
         }
         code: number
-      }>('/unlockmusic', { params: { id: track.id, source: settingStore.unlock.unblockNetEaseMusic.source } })
+      }>('/unlockmusic', { params: { id: track.id, source: unblockNetEaseMusic.source } })
       if (code === 200)
         return data
 
@@ -74,7 +74,7 @@ export async function getSongUrlFromUnlockMusic(track: Track) {
     }
   }
 
-  if (settingStore.unlock.youtube.open) {
+  if (youtubeUnlock.open) {
     try {
       return await ipcRenderer.invoke('getTrackFromYoutube', track.ar?.[0].name, track.name)
     }

@@ -121,7 +121,7 @@ export default function LocalAlbumPage() {
   return (
     <PageTransition>
       {isLoading}
-      <Box  sx={{ color: theme.palette.onSurface.main }}>
+      <Box>
         {
           isLoading ? <PlayListSkeleton/> : <Header data={album}/>
         }

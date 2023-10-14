@@ -29,16 +29,20 @@ export function getPlaylistDetail(id: number, realTime = false) {
  * @param id 歌单 id
  * @param limit 限制获取歌曲的数量，默认值为当前歌单的歌曲数量
  * @param offset 默认值为0
+ * @param needFresh
  * @returns Playlist
  */
-export function getPlaylistTrackAll(playlist: Playlist, limit?: number, offset = 0) {
+export function getPlaylistTrackAll(id: number, limit?: number, offset = 0, needFresh = false) {
   const params: {
     id: number
     limit?: number
     offset?: number
     timestamp?: number
-  } = { id: playlist.id, offset }
-  params.limit = limit ?? playlist.trackIds.length >= 1000 ? 1000 : playlist.trackIds.length
+  } = { id, offset }
+  params.limit = limit ?? 1000
+  if (needFresh)
+    params.timestamp = now()
+
   return request<{
     songs: Track[]
     privileges: []

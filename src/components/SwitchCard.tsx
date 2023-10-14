@@ -10,6 +10,7 @@ export default function SwitchCard({
   checked,
   onChange,
   onClick,
+  color,
 }: {
   checked?: boolean
   size?: 'md' | 'sm' | 'lg' | 'default'
@@ -18,6 +19,7 @@ export default function SwitchCard({
   icon?: ReactNode
   onChange?: (checked: boolean) => void
   onClick?: () => void
+  color?: string
 }) {
 
   const theme = useTheme()
@@ -48,7 +50,7 @@ export default function SwitchCard({
       onClick={handleClick}
       sx={{
         borderRadius: 4,
-        bgcolor: checked ? theme.palette.primary.main : theme.palette.surfaceVariant.main,
+        bgcolor: checked ? theme.palette.primary.main : (color ?? theme.palette.surfaceVariant.main),
         color: checked ? theme.palette.onPrimary.main : theme.palette.onSurfaceVariant.main,
       }}
     >

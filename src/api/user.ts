@@ -28,7 +28,7 @@ export function favAlbums(offset = 0) {
     data: Album[]
     count: number
     hasMore: boolean
-  }>('/album/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+  }>('/album/sublist', { params: { timestamp: now(), offset, limit: 50 } })
 }
 
 /**
@@ -39,7 +39,7 @@ export function favMVs(offset = 0) {
     count: number
     hasMore: boolean
     data: MV[]
-  }>('/mv/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+  }>('/mv/sublist', { params: { timestamp: now(), offset, limit: 50 } })
 }
 /**
  * 获取收藏的歌手
@@ -49,7 +49,7 @@ export function favArtists(offset = 0) {
     count: number
     hasMore: boolean
     data: Artist[]
-  }>('/artist/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+  }>('/artist/sublist', { params: { timestamp: now(), offset, limit: 50 } })
 }
 
 export function favPodcast(offset = 0) {
@@ -57,14 +57,14 @@ export function favPodcast(offset = 0) {
     count: number
     hasMore: boolean
     djRadios: Podcast[]
-  }>('/dj/sublist', { params: { timestamp: now(), offset, limit: 20 } })
+  }>('/dj/sublist', { params: { timestamp: now(), offset, limit: 50 } })
 }
 /**
  * 获取最近播放
  * @param limit
  * @param type
  */
-export function recent(limit = 50, type = 'song') {
+export function recent(type = 'song', limit = 50) {
   return request<{
     data: {
       list: []
@@ -152,11 +152,11 @@ export async function getHeartBeatList(id: number) {
       pid,
     },
   })
-  if (res.code === 200) 
+  if (res.code === 200)
     return res.data.map(i => i.songInfo)
-  else 
+  else
     return []
-  
+
 }
 
 export interface PlayRecord {
@@ -168,8 +168,7 @@ export interface PlayRecord {
 /**
  * 获取听歌排行
  */
-export async function fetchPlayRecord() {
-  const userStore = useUserStore()
+export async function fetchPlayRecord(uid: string | number) {
   const fetch = (type = 0) =>
     request<{
       code: number
@@ -177,7 +176,7 @@ export async function fetchPlayRecord() {
       allData?: Array<PlayRecord>
     }>('/user/record', {
       params: {
-        uid: userStore.uid,
+        uid,
         timestamp: now(),
         type,
       },

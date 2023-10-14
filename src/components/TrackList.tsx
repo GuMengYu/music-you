@@ -8,15 +8,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import { alpha, useTheme } from '@mui/material/styles'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
-import type { Track as TrackType } from '@/types'
+import type { Playlist, Track as TrackType } from '@/types'
 import { usePlayer } from '@/hooks/usePlayer'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { useLikeTrack } from '@/hooks/useLike'
+import { downloadMusic } from '@/hooks/useDownload'
 
 
 function Track({ track, onPlay, onContextMenu }: {
@@ -25,11 +28,18 @@ function Track({ track, onPlay, onContextMenu }: {
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
-  const { isLiked } = useLikeTrack()
+  const { isLiked, toggleLike } = useLikeTrack()
+  const theme = useTheme()
   const liked = isLiked(track.id)
-  return <div
+  return <Box
+    sx={{
+      'transition': 'background-color .35s ease',
+      '&:hover': {
+        bgcolor: alpha(theme.palette.surfaceVariant.main, 0.2),
+      },
+    }}
     className={
-      cx('grid grid-cols-3 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
+      cx('grid grid-cols-3 gap-4 px-2 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
     } onMouseEnter={() => setIsHovering(true)}
     onMouseLeave={() => setIsHovering(false)}
   onContextMenu={e => onContextMenu && onContextMenu(e, { ...track, liked })}
@@ -80,7 +90,9 @@ function Track({ track, onPlay, onContextMenu }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton sx={{ p: 1.5 }}>{
+            <IconButton sx={{ p: 1.5 }} onClick={() => {
+              toggleLike(track.id, liked)
+            }}>{
               liked ?  <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
             } </IconButton>
 
@@ -111,7 +123,7 @@ function Track({ track, onPlay, onContextMenu }: {
       </div>
 
     </div>
-  </div>
+  </Box>
 }
 
 export default function TrackList({ tracks, source, className }: {
@@ -120,13 +132,14 @@ export default function TrackList({ tracks, source, className }: {
     id?: number
     type?: 'playlist' | 'album' | 'artist'
     own?: boolean // 属于用户自己创建的歌单列表
+    playlist?: Playlist // 原始歌单数据
   }
   className?: string
 }) {
   const { player } = usePlayer()
   const navigate = useNavigate()
   const { openContextMenu } = useContextMenu()
-  const { getToPlaylistMenuItem } = useTrackOperation()
+  const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
 
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false)
@@ -190,6 +203,7 @@ export default function TrackList({ tracks, source, className }: {
         type: 'item' as any,
         label: '从本歌单移除',
         onClick: () => {
+          removeFromPlaylist(track.id, source.playlist)
           // todo remove from playlist
         },
       }] : []),
@@ -197,7 +211,7 @@ export default function TrackList({ tracks, source, className }: {
         type: 'item',
         label: '下载到本地',
         onClick: async (i) => {
-        // await useDownloadMusic(track)
+          await downloadMusic(track)
         },
       },
     ], {
@@ -213,7 +227,7 @@ export default function TrackList({ tracks, source, className }: {
   }
   return <div className={className}>
     {
-      tracks.length && tracks.map((track) => {
+      tracks?.length && tracks.map((track) => {
         return <Track track={track} key={track.id} onPlay={handleTrackPlay} onContextMenu={handleContextMenu} />
       })
     }

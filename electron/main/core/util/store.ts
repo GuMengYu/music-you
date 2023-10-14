@@ -11,11 +11,7 @@ export interface StoreType {
   }
   youtube: {
     open: boolean
-    proxy: {
-      host: string
-      port: number
-      protocol?: string
-    }
+    proxy: string
   }
   windowPosition: any
 }
@@ -29,11 +25,7 @@ const store = new Store<StoreType>({
     windowPosition: null,
     youtube: {
       open: false,
-      proxy: {
-        host: '127.0.0.1',
-        port: 7890,
-        protocol: 'http',
-      },
+      proxy: 'http://127.0.0.1:7890',
     },
   },
 })

@@ -24,6 +24,15 @@ import WallpaperPage from '@/pages/Wallpaper'
 import VideoPage from '@/pages/detail/Video'
 import ExplorePage from '@/pages/explore/Explore'
 import MoodsGenresPage from '@/pages/explore/MoodsGenres'
+import MoodsGenresDetail from '@/pages/detail/MoodsGenresDetail'
+import ListCollection from '@/pages/detail/ListCollection'
+import CloudPage from '@/pages/cloud/Cloud'
+import ListenRank from '@/pages/listen-rank/ListenRank'
+import Recent from '@/pages/recent/Recent'
+import PodcastCenter from '@/pages/podcast/PodcastCenter'
+import PodcastDetail from '@/pages/detail/Podcast'
+import MyPodcast from '@/pages/podcast/MyPodcast'
+import PodcastGenresDetail from '@/pages/detail/PodcastGenresDetail'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -63,6 +72,16 @@ const router = createBrowserRouter(
           element: <MoodsGenresPage />,
         },
         {
+          id: 'moods_and_genres_detail',
+          path: '/moods_and_genres/:type',
+          element: <MoodsGenresDetail />,
+        },
+        {
+          id: 'list_collection',
+          path: '/list_collection/:type',
+          element: <ListCollection />,
+        },
+        {
           id: 'daily',
           path: '/daily',
           element: <DailyPage />,
@@ -90,6 +109,41 @@ const router = createBrowserRouter(
           id: 'video',
           path: '/video/:id',
           element: <VideoPage/>,
+        },
+        {
+          id: 'podcast_center',
+          path: '/podcast_center',
+          element: <PodcastCenter />,
+        },
+        {
+          id: 'podcast_detail',
+          path: '/podcast/:id',
+          element: <PodcastDetail />,
+        },
+        {
+          id: 'podcast_genres',
+          path: '/podcast_genres/:categoryName/:categoryId',
+          element: <PodcastGenresDetail />,
+        },
+        {
+          id: 'cloud',
+          path: '/cloud',
+          element: <CloudPage/>,
+        },
+        {
+          id: 'my_podcast',
+          path: '/my_podcast',
+          element: <MyPodcast />,
+        },
+        {
+          id: 'rank',
+          path: '/rank',
+          element: <ListenRank/>,
+        },
+        {
+          id: 'recent',
+          path: '/recent',
+          element: <Recent />,
         },
         {
           id: 'setting',

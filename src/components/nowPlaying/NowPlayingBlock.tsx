@@ -82,7 +82,7 @@ export default function NowPlayingBlock() {
 
     <div className="flex flex-col justify-between h-full p-1">
       <div className="flex justify-between">
-        <LikeToggle size='small' id={track.id} />
+        <LikeToggle size='small' id={track?.id} />
         <IconButton sx={{
           height: 28,
           width: 28,

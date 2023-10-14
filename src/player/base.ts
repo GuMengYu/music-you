@@ -364,7 +364,7 @@ export class Player {
   }
 
   updateCurrentTime(this: Player, val?: number) {
-    const current = val ?? Math.ceil(this.howler?.seek() ?? 0)
+    const current = val ?? Math.ceil(this.howler?.seek() || this.currentTime)
     this.currentTime = current
     usePlayerStore.setState({
       currentTime: current,

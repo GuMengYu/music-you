@@ -1,17 +1,21 @@
 import { create } from 'zustand'
+import { WindowState } from '@shared/types'
 
 interface AppState {
   rail: boolean
   showLogin: boolean
+  showSearch: boolean
   showProfile: boolean
   showQuick: boolean
   showNowPlaying: boolean
   showNowPlayingBar: boolean
   showNowPlayingList: boolean
+  windowState: WindowState
 }
 interface AppStateAction {
   toggleRail: () => void
   toggleLogin: (val?: boolean) => void
+  toggleSearch: (val?: boolean) => void
   toggleProfile: (val?: boolean) => void
   toggleQuick: (val?: boolean) => void
   toggleNowPlaying: (val?: boolean) => void
@@ -22,14 +26,19 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
   return {
     rail: false,
     showLogin: false,
+    showSearch: false,
     showProfile:  false,
     showQuick: false,
     showNowPlaying: false,
     showNowPlayingBar: false,
     showNowPlayingList: false,
+    windowState: WindowState.NORMAL,
     toggleRail: () => set(state => ({ rail: !state.rail })),
     toggleLogin: val => set((state) => {
       return { showLogin: val !== undefined ? val : !state.showLogin }
+    }),
+    toggleSearch: val => set((state) => {
+      return { showSearch: val !== undefined ? val : !state.showSearch }
     }),
     toggleProfile: val => set((state) => {
       return { showProfile: val !== undefined ? val : !state.showProfile }

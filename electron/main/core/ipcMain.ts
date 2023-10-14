@@ -1,3 +1,4 @@
+import { URL } from 'node:url'
 import { app, dialog, ipcMain, shell } from 'electron'
 
 import { WindowState } from '../../../shared/types'
@@ -12,8 +13,13 @@ export function registerIpcMain(windowManager: WindowManager) {
   const { open, proxy } = store.get('youtube')
   if (open) {
     log.info('[main] init youtubeFinder', proxy)
+    const url = new URL(proxy)
     const youtubeFinder = new YoutubeFinder({
-      proxy,
+      proxy: {
+        host: url.hostname,
+        port: +url.port,
+        protocol: url.protocol,
+      },
     })
     ipcMain.handle('getTrackFromYoutube', async (e, artist, name) => {
       return youtubeFinder.matchTrack(artist, name)

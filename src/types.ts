@@ -79,6 +79,7 @@ export interface Track {
     id: number
   }
   liked?: boolean
+  mainTrackId?: number
 }
 export interface MV {
   artist?: Artist
@@ -248,6 +249,7 @@ export interface Program {
   listenerCount: number
   source: TrackSource
   program?: Program
+  createTime?: string
 }
 interface Profile extends User {
   userName: string

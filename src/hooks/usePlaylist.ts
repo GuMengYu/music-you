@@ -19,8 +19,10 @@ export function useMyPlaylist() {
   }, [filteredPlaylist])
 
   const isCreatedPlaylist = (playlist: Playlist) => playlist.creator.userId === account.account.id && playlist.specialType !== specialType.fav.type
+  const isMyPlaylist = (playlist: Playlist) => playlist.creator.userId === account.account.id
 
   return {
+    isMyPlaylist,
     isCreatedPlaylist,
     createdPlaylist,
     subscribePlaylist: filteredPlaylist['sub'] ?? [],

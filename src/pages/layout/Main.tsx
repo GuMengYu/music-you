@@ -2,13 +2,34 @@ import {  useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import { Outlet } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import useInForeground from '@/hooks/useInForeground'
 import { useAppStore } from '@/store/app'
+import HeaderSpacer from '@/pages/layout/HeaderSpacer'
 
-export default function Main() {
+export default function Main({
+  onScroll,
+}: {
+  onScroll?: (instance: any, e: Event) => void
+}) {
   const { rail } = useAppStore()
   const theme = useTheme()
-  const { isActive: inDetail } = useInForeground(['playlist', 'album', 'artist', 'daily', 'local-album', 'video'])
+  const { isActive: inDetail } = useInForeground([
+    'playlist',
+    'album',
+    'artist',
+    'daily',
+    'local-album',
+    'video',
+    'moods_and_genres_detail',
+    'list_collection',
+    'cloud',
+    'rank',
+    'recent',
+    'my_podcast',
+    'podcast_detail',
+    'podcast_genres',
+  ])
 
   // const AppMain = styled(Box)(() => ({
   //   overflowY: "auto",
@@ -22,27 +43,52 @@ export default function Main() {
   //   // }),
   //   width: `calc(100vw - ${rail ? "256px" : "72px"} - 16px)`,
   // }));
+
   return (
     <Box
       sx={{
-        overflowY: 'auto',
-        marginTop: inDetail ? 0 : 2,
-        marginBottom: 10,
-        paddingLeft: 1,
-        paddingRight: 2,
+        gridArea: 'main',
+        overflowY: 'hidden',
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.easeIn,
           duration: theme.transitions.duration.complex,
         }),
-        width: `calc(100vw - ${rail ? '256px' : '72px'} - 16px)`,
       }}
       component="main"
-      className="hide-scrollbar"
-      id="app-main-content"
+      className="hide-scrollbar flex"
     >
-      <AnimatePresence mode='wait'>
-        <Outlet/>
-      </AnimatePresence>
+      <div className='main-view-container flex-1 min-h-0 relative w-full'>
+        <OverlayScrollbarsComponent
+          className='h-full'
+          defer
+          events={{
+            scroll: onScroll,
+          }}
+          options={{
+            overflow: {
+              x: 'hidden',
+            },
+            scrollbars: {
+              visibility: 'hidden',
+            },
+          }}>
+          {
+            !inDetail && <HeaderSpacer />
+          }
+          <Box
+          sx={{
+            minHeight: 'calc(((100vh - 64px) - 90px) - 519px)',
+          }}
+          >
+            <AnimatePresence mode='wait'>
+              <Outlet/>
+            </AnimatePresence>
+          </Box>
+        </OverlayScrollbarsComponent>
+      </div>
+
     </Box>
   )
 }
+
+

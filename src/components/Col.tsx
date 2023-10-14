@@ -8,6 +8,7 @@ import {
 import type { PropsWithChildren, ReactNode } from 'react'
 import { ArrowCircleRightOutlined } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import { alpha } from '@mui/material/styles'
 
 export default function Col(
   props: PropsWithChildren & {
@@ -21,26 +22,28 @@ export default function Col(
   const theme = useTheme()
   return (
     <div className={props.className}>
-      <Box className="mb-3">
+      <Box className="mb-2">
         <Box
           className="flex justify-between items-center"
-          sx={{ color: theme.palette.onSurface.main }}
         >
           <Typography variant={props.variant ?? 'h6'}>{props.title}</Typography>
           <Box>{
             typeof props.more === 'string' ? <IconButton
+              sx={{
+                bgcolor: alpha(theme.palette.tertiaryContainer.main, theme.palette.action.activatedOpacity),
+              }}
               component={Link}
-              color='primary'
+              color={'tertiary' as 'primary'}
+              size='small'
               to={props.more}
             >
-              <ArrowCircleRightOutlined />
+              <ArrowCircleRightOutlined fontSize='small' />
             </IconButton> : props.more
           }</Box>
         </Box>
         <Box>
           <Typography
             variant="caption"
-            sx={{ color: theme.palette.onSurface.main }}
           >
             {props.subTitle}
           </Typography>
