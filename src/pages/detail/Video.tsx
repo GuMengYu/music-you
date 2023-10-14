@@ -5,6 +5,8 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { motion } from 'framer-motion'
 import { useCallback, useState } from 'react'
+import { useSnackbar } from 'notistack'
+import { useCopyToClipboard } from 'react-use'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import Image from '@/components/Image'
@@ -24,6 +26,8 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
   const theme = useTheme()
 
   const { openContextMenu } = useContextMenu()
+  const { enqueueSnackbar } = useSnackbar()
+  const [copied, copyToClipboard] = useCopyToClipboard()
 
   const [subscribed, setSubscribed] = useState(false)
   function handleMore(e: React.MouseEvent<HTMLElement>) {
@@ -49,7 +53,10 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
       {
         type: 'item',
         label: '复制网页分享链接',
-        onClick: () => {},
+        onClick: () => {
+          copyToClipboard(`https://music.163.com/#/playlist?id=${data.id}`)
+          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+        },
       },
     ] )
   }

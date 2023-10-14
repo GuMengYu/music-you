@@ -7,13 +7,20 @@ export default function MdSlider(props: SliderProps) {
   return <Slider
     {...rest}
     sx={{
-      'height': 2,
+      'height': 4,
       'py': 1,
       'px': 0,
       '& .MuiSlider-thumb': {
-        width: size === 'small' ?  9 : 11,
-        height: size === 'small' ?  9 : 11,
-        transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+        'cursor': 'pointer',
+        'width': 0,
+        'height': 0,
+        'transition': '0.3s cubic-bezier(.47,1.64,.41,.8)',
+        'boxShadow': 'none',
+        '&:hover': {
+          boxShadow: '0px 0px 0px 8px rgba(195, 192, 255, 0.16)',
+          width: 12,
+          height: 12,
+        },
       },
       '& .MuiSlider-valueLabel': {
         'lineHeight': 1.2,

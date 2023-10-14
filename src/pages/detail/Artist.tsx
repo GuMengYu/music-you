@@ -10,6 +10,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useImmer } from 'use-immer'
+import { useSnackbar } from 'notistack'
+import { useCopyToClipboard } from 'react-use'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import PageTransition from '@/components/PageTransition'
@@ -24,35 +26,41 @@ import { Cover } from '@/components/cover/Cover'
 import ArtistCover from '@/components/cover/ArtistCover'
 import usePlayQueue from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
+import { sub } from '@/api/music'
 
 function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => void }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
   const { openContextMenu } = useContextMenu()
+  const { enqueueSnackbar } = useSnackbar()
+  const [copied, copyToClipboard] = useCopyToClipboard()
+
   const [subscribed, setSubscribed] = useState(false)
 
   useEffect(() => {
     setSubscribed(artist.followed)
   }, [artist])
 
+  async function subscribe() {
+    const { code, message } = await sub('artist', artist.id, subscribed ? 0 : 1)
+    if (code === 200) {
+      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      setSubscribed(!subscribed)
+    }
+    else {
+      enqueueSnackbar(message, { variant: 'error' })
+    }
+  }
 
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      {
-        type: 'item',
-        label: '下一首播放',
-        onClick: () => {
-
-        },
-      },
-      { type: 'divider' as any },
       ...(subscribed ? [
         {
           type: 'item' as any,
           label: '取消关注艺人',
           onClick: () => {
-
+            subscribe()
           },
         },
       ] : [
@@ -60,15 +68,17 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
           type: 'item' as any,
           label: '关注艺人',
           onClick: () => {
-
+            subscribe()
           },
         },
       ]),
-      { type: 'divider' as any },
       {
         type: 'item' as any,
         label: '复制网页分享链接',
-        onClick: () => {},
+        onClick: () => {
+          copyToClipboard(`https://music.163.com/#/playlist?id=${artist.id}`)
+          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+        },
       },
     ]
     openContextMenu(e,  items)

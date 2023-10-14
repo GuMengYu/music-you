@@ -8,6 +8,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useSnackbar } from 'notistack'
+import { useCopyToClipboard } from 'react-use'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import PageTransition from '@/components/PageTransition'
@@ -20,6 +22,7 @@ import useQueryAlbum from '@/pages/detail/useQueryAlbum'
 import ArtistLink from '@/components/links/artist'
 import usePlayQueue from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
+import { sub } from '@/api/music'
 
 function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
@@ -30,6 +33,8 @@ function Header({ album }: { album: Album | undefined }) {
 
   const { addToQueueAndPlay } = usePlayQueue()
   const { openContextMenu } = useContextMenu()
+  const { enqueueSnackbar } = useSnackbar()
+  const [copied, copyToClipboard] = useCopyToClipboard()
 
   const [subscribed, setSubscribed] = useState(false)
   useEffect(() => {
@@ -38,22 +43,24 @@ function Header({ album }: { album: Album | undefined }) {
   function handlePlay() {
     addToQueueAndPlay(album.tracks, album.id, 'album', album.name)
   }
+  async function subscribe() {
+    const { code, message } = await sub('album', album.id, subscribed ? 0 : 1)
+    if (code === 200) {
+      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      setSubscribed(!subscribed)
+    }
+    else {
+      enqueueSnackbar(message, { variant: 'error' })
+    }
+  }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     openContextMenu(e, [
-      {
-        type: 'item',
-        label: '下一首播放',
-        onClick: () => {
-
-        },
-      },
-      { type: 'divider' as any },
       ...(subscribed ? [
         {
           type: 'item' as any,
           label: '从音乐库中移除',
           onClick: () => {
-
+            subscribe()
           },
         },
       ] : [
@@ -61,15 +68,17 @@ function Header({ album }: { album: Album | undefined }) {
           type: 'item' as any,
           label: '添加到音乐库',
           onClick: () => {
-
+            subscribe()
           },
         },
       ]),
-      { type: 'divider' },
       {
         type: 'item',
         label: '复制网页分享链接',
-        onClick: () => {},
+        onClick: () => {
+          copyToClipboard(`https://music.163.com/#/playlist?id=${album.id}`)
+          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+        },
       },
     ] )
   }

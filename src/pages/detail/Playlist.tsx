@@ -6,6 +6,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useCopyToClipboard } from 'react-use'
+import { useSnackbar } from 'notistack'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
@@ -18,17 +20,21 @@ import ImageViewer from '@/components/ImageViewer'
 import usePlayQueue from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
+import { sub } from '@/api/music'
+import { deletePlayList } from '@/api/playlist'
 
 function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { addToQueueAndPlay } = usePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { isCreatedPlaylist } = useMyPlaylist()
   const [subscribed, setSubscribed] = useState(false)
+  const [copied, copyToClipboard] = useCopyToClipboard()
 
   useEffect(() => {
     setSubscribed(playlist.subscribed)
@@ -37,22 +43,33 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   function handlePlay() {
     addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
   }
+
+  async function subscribe() {
+    const { code, message } = await sub('playlist', playlist.id, subscribed ? 0 : 1)
+    if (code === 200) {
+      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      setSubscribed(!subscribed)
+    }
+    else {
+      enqueueSnackbar(message, { variant: 'error' })
+    }
+  }
+  async function del() {
+    const { code, message } = await deletePlayList(playlist.id)
+    if (code === 200)
+      enqueueSnackbar('已删除', { variant: 'success' })
+    else
+      enqueueSnackbar(message, { variant: 'error' })
+
+  }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      {
-        type: 'item',
-        label: '下一首播放',
-        onClick: () => {
-
-        },
-      },
-      { type: 'divider' as any },
       ...(!isCreatedPlaylist(playlist) && subscribed ? [
         {
           type: 'item' as any,
           label: '从音乐库中移除',
           onClick: () => {
-
+            subscribe()
           },
         },
       ] : []),
@@ -61,7 +78,7 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
           type: 'item' as any,
           label: '添加到音乐库',
           onClick: () => {
-
+            subscribe()
           },
         },
       ] : []),
@@ -70,22 +87,25 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
           type: 'item' as any,
           label: '编辑歌单',
           onClick: () => {
-
+            enqueueSnackbar('待开发...', { variant: 'warning' })
           },
         },
         {
           type: 'item' as any,
           label: '删除歌单',
           onClick: () => {
-
+            del()
           },
         },
+        { type: 'divider' as any },
       ] : []),
-      { type: 'divider' },
       {
         type: 'item',
         label: '复制网页分享链接',
-        onClick: () => {},
+        onClick: () => {
+          copyToClipboard(`https://music.163.com/#/playlist?id=${playlist.id}`)
+          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+        },
       },
     ]
     openContextMenu(e,  items)
@@ -225,6 +245,7 @@ export default function PlaylistPage() {
         <Box className='h-4'></Box>
         {
           data?.tracks && <TrackList tracks={data.tracks} source={{
+            playlist: data.playlist,
             type: 'playlist',
             own: isCreatedPlaylist(data.playlist),
           }} />

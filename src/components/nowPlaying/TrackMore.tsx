@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
+import { downloadMusic } from '@/hooks/useDownload'
 
 export default function TrackMore({ track }: { track: Track }) {
   const { openContextMenu } = useContextMenu()
@@ -69,7 +70,7 @@ export default function TrackMore({ track }: { track: Track }) {
         type: 'item',
         label: '下载到本地',
         onClick: async (i) => {
-          // await useDownloadMusic(track)
+          await downloadMusic(track)
         },
       },
     ])

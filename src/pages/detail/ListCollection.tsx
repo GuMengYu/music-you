@@ -36,12 +36,15 @@ export default function ListCollection() {
     return ({
       new_album : {
         name: '新发行的专辑和单曲',
+        cover: 'https://cdn.dribbble.com/userupload/5937173/file/original-f14b5cf31374d9e829baab07bbf571a9.jpg?resize=752x',
       },
       new_video: {
         name: '新发布的音乐视频',
+        cover: 'https://cdn.dribbble.com/userupload/6383523/file/original-fdc01c77ebfaa0216cff6bbad12b353f.jpg?resize=752x',
       },
       leaderboard: {
         name: '歌曲排行榜',
+        cover: 'https://cdn.dribbble.com/userupload/3005240/file/original-954788082556fd1aac4f983cce2af921.png',
       },
     })[param.type]
   }, [param])
@@ -62,7 +65,7 @@ export default function ListCollection() {
         <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
           <Image
             className="absolute"
-            src={'https://cdn.dribbble.com/userupload/3005240/file/original-954788082556fd1aac4f983cce2af921.png'}
+            src={collection.cover}
             fit="cover"
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />

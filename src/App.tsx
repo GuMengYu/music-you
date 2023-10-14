@@ -3,10 +3,11 @@ import './App.scss'
 import { Box, ThemeProvider, createTheme } from '@mui/material'
 import type { ThemeOptions } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { SnackbarProvider } from 'notistack'
+import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useNavigate } from 'react-router-dom'
+import { styled } from '@mui/material/styles'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
@@ -22,6 +23,17 @@ import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 
+
+const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
+  '&.notistack-MuiContent-success': {
+    backgroundColor: theme.palette.inverseSurface.main,
+    color: theme.palette.inverseOnSurface.main,
+  },
+  '&.notistack-MuiContent-error': {
+    backgroundColor: theme.palette.errorContainer.main,
+    color: theme.palette.onErrorContainer.main,
+  },
+}))
 function App() {
   const { appearance, themeColor } = useSettingStore()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
@@ -41,7 +53,12 @@ function App() {
   return (
     <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }} variant='info' autoHideDuration={2000}>
+        <SnackbarProvider Components={
+          {
+            success: StyledMaterialDesignContent,
+            error: StyledMaterialDesignContent,
+          }
+        } anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} variant='info' autoHideDuration={2000}>
           <Box
             sx={{
               bgcolor: theme.palette.surface.main,

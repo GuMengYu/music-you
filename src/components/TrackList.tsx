@@ -12,11 +12,12 @@ import { formatDuring, sizeOfImage } from '@/util/fn'
 import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
-import type { Track as TrackType } from '@/types'
+import type { Playlist, Track as TrackType } from '@/types'
 import { usePlayer } from '@/hooks/usePlayer'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { useLikeTrack } from '@/hooks/useLike'
+import { downloadMusic } from '@/hooks/useDownload'
 
 
 function Track({ track, onPlay, onContextMenu }: {
@@ -25,7 +26,7 @@ function Track({ track, onPlay, onContextMenu }: {
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
-  const { isLiked } = useLikeTrack()
+  const { isLiked, toggleLike } = useLikeTrack()
   const liked = isLiked(track.id)
   return <div
     className={
@@ -80,7 +81,9 @@ function Track({ track, onPlay, onContextMenu }: {
               ease: [0.34, 1.56, 0.64, 1],
             }}
           >
-            <IconButton sx={{ p: 1.5 }}>{
+            <IconButton sx={{ p: 1.5 }} onClick={() => {
+              toggleLike(track.id, liked)
+            }}>{
               liked ?  <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
             } </IconButton>
 
@@ -120,13 +123,14 @@ export default function TrackList({ tracks, source, className }: {
     id?: number
     type?: 'playlist' | 'album' | 'artist'
     own?: boolean // 属于用户自己创建的歌单列表
+    playlist?: Playlist // 原始歌单数据
   }
   className?: string
 }) {
   const { player } = usePlayer()
   const navigate = useNavigate()
   const { openContextMenu } = useContextMenu()
-  const { getToPlaylistMenuItem } = useTrackOperation()
+  const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
 
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false)
@@ -190,6 +194,7 @@ export default function TrackList({ tracks, source, className }: {
         type: 'item' as any,
         label: '从本歌单移除',
         onClick: () => {
+          removeFromPlaylist(track.id, source.playlist)
           // todo remove from playlist
         },
       }] : []),
@@ -197,7 +202,7 @@ export default function TrackList({ tracks, source, className }: {
         type: 'item',
         label: '下载到本地',
         onClick: async (i) => {
-        // await useDownloadMusic(track)
+          await downloadMusic(track)
         },
       },
     ], {
