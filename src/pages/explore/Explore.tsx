@@ -59,13 +59,13 @@ export default function ExplorePage() {
             {
               data?.tags?.map((i) => {
                 return <MdTag onClick={() => {
-                  navigate(`/moods_and_genres/${i.name}`)
+                  navigate(`/moods_and_genres/${i.name}?color=${encodeURIComponent(i.color)}`)
                 }} tagcolor={i.color} to={`/${i.name}`} key={i.name} name={i.name} />
               })
             }
           </GridRow>
         </Col>
-        <Col title='新专辑' variant='h6' subTitle='new release album' more={'/new_releases/albums'}>
+        <Col title='新专辑' variant='h6'  more={'/list_collection/new_album'}>
           <GridRow singleLine>
             {
               data?.albums?.map((i) => {
@@ -75,7 +75,7 @@ export default function ExplorePage() {
           </GridRow>
         </Col>
 
-        <Col title='排行榜' variant='h6' subTitle='new mvs' more='/leader_board/'>
+        <Col title='排行榜' variant='h6' more='/list_collection/leaderboard'>
           <GridRow>
             {
               data?.topList?.map((i) => {
@@ -85,7 +85,7 @@ export default function ExplorePage() {
           </GridRow>
         </Col>
 
-        <Col title='新的音乐视频' variant='h6' subTitle='new mvs' more='/new_releases/videos/'>
+        <Col title='新的音乐视频' variant='h6' more='/list_collection/new_video'>
           <GridRow singleLine rowType={GridType.B}>
             {
               data?.mvs?.map((i) => {

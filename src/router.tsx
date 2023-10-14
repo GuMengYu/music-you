@@ -24,6 +24,8 @@ import WallpaperPage from '@/pages/Wallpaper'
 import VideoPage from '@/pages/detail/Video'
 import ExplorePage from '@/pages/explore/Explore'
 import MoodsGenresPage from '@/pages/explore/MoodsGenres'
+import MoodsGenresDetail from '@/pages/detail/MoodsGenresDetail'
+import ListCollection from '@/pages/detail/ListCollection'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -61,6 +63,16 @@ const router = createBrowserRouter(
           id: 'moods_and_genres',
           path: '/moods_and_genres',
           element: <MoodsGenresPage />,
+        },
+        {
+          id: 'moods_and_genres_detail',
+          path: '/moods_and_genres/:type',
+          element: <MoodsGenresDetail />,
+        },
+        {
+          id: 'list_collection',
+          path: '/list_collection/:type',
+          element: <ListCollection />,
         },
         {
           id: 'daily',

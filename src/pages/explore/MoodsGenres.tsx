@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { entries, groupBy, random } from 'lodash-es'
-import { Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
 import { getCatList } from '@/api/playlist'
 import { HexColors } from '@/util/metadata'
@@ -10,7 +10,9 @@ import MdTag from '@/components/Tag'
 
 const randomColor = () => HexColors[random(0, HexColors.length)]
 export default function MoodsGenresPage() {
-  const { data, isLoading } = useQuery([], async () => {
+  const navigate = useNavigate()
+
+  const { data, isLoading } = useQuery(['moodsgenres', 'cats'], async () => {
     const { sub, categories } = await getCatList()
     const items = sub.map((i: any) => {
       i.color = randomColor()
@@ -46,14 +48,15 @@ export default function MoodsGenresPage() {
     staleTime: 30 * 60 * 60 * 1000,
   })
   return <PageTransition>
-    <Typography variant='h6'>歌单广场</Typography>
     {
       data?.cats?.map((cat) => {
-        return <Col variant='body1' title={cat.title} key={cat.title}>
+        return <Col variant='h6' title={cat.title} key={cat.title}>
           <GridRow>
             {
               cat.tags.map((tag) => {
-                return <MdTag key={tag.name} name={tag.name} tagcolor={tag.color} to={`${tag.name}`} />
+                return <MdTag onClick={() => {
+                  navigate(`/moods_and_genres/${tag.name}?color=${encodeURIComponent(tag.color)}`)
+                }} key={tag.name} name={tag.name} tagcolor={tag.color} to={`${tag.name}`} />
               })
             }
           </GridRow>
