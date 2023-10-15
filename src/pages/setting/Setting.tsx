@@ -6,7 +6,7 @@ import MusicSetting from '@/pages/setting/Music'
 
 export default function Setting() {
   return <PageTransition>
-    <Box className='flex flex-col gap-4'>
+    <Box className='flex flex-col gap-4 pr-2'>
       <ThemeSetting />
       <MusicSetting />
       <Local />

@@ -20,7 +20,7 @@ let storeSize: {
   height: number
 
 } = {
-  width: 1210,
+  width: 1100,
   height: 720,
 }
 initWindowSize()

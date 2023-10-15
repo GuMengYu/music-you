@@ -69,7 +69,7 @@ export default function LocalLibrary() {
   const [currentTab, setCurrentTab] = useState('tracks')
 
   return <PageTransition>
-    <Box className='h-full flex flex-col' sx={{ color: theme.palette.onSurface.main }}>
+    <Box className='h-full flex flex-col pr-2' sx={{ color: theme.palette.onSurface.main }}>
       <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
               tabs={[
                 { value: 'tracks', label: '歌曲' },

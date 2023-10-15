@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron'
-import { enqueueSnackbar } from 'notistack'
+import { closeSnackbar, enqueueSnackbar } from 'notistack'
+import { Button } from '@mui/material'
 import { player } from '@/contexts/player'
 import router from '@/router'
 
@@ -60,9 +61,9 @@ function registerIpcRenderer() {
   //     playerStore.$state.volume = 0
   //   }
   // })
-  // ipcRenderer.on('search', () => {
-  //   router.push({ name: 'search' })
-  // })
+  ipcRenderer.on('search', () => {
+    router.navigate('/search')
+  })
   // ipcRenderer.on('fullscreen', (e, fullscreen) => {
   //   // appStore.$state.showLyricsPage = fullscreen
   // })
@@ -77,13 +78,31 @@ function registerIpcRenderer() {
   //   // playerStore.commit('app/downloadprogress', percent)
   // })
   ipcRenderer.on('downloadCompleted', (e, file, fileName) => {
+    let action
+    if (file.dir) {
+      action = (snackbarId: any) => (
+        <>
+          <Button onClick={() => {
+            ipcRenderer.invoke('base/open-path', file.dir)
+          }}>
+            打开目录
+          </Button>
+          <Button onClick={() => { closeSnackbar(snackbarId) }}>
+            关闭
+          </Button>
+        </>
+      )
+    }
+
     const { path } = file
     enqueueSnackbar(`${fileName} 已下载到:${path}`, {
+      action,
       anchorOrigin: {
         vertical: 'bottom',
         horizontal: 'center',
       },
       variant: 'success',
+      autoHideDuration: 5000,
     })
   })
   //

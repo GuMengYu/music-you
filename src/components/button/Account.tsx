@@ -22,7 +22,7 @@ export default function Account() {
             backgroundColor: 'rgba(0,0,0, 0.1)',
           },
         }} onClick={() => toggleQuick()}>
-          <Avatar sx={{ height: 42, width: 42 }} src={avatarUrl}></Avatar>
+          <Avatar sx={{ height: 40, width: 40 }} src={avatarUrl}></Avatar>
         </IconButton>
       ) : (
         <IconButton color="primary" onClick={() => toggleLogin(true)}>

@@ -138,7 +138,7 @@ function Home() {
     <PageTransition>
       {
         isLoading ? <HomePageSkeleton /> : <motion.div
-          className='flex flex-col gap-4'
+          className='flex flex-col gap-4 pr-2'
           initial={{
             opacity: 0, transform: 'translateX(15px)',
           }}

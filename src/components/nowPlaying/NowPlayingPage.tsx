@@ -116,7 +116,7 @@ export default function NowPlayingPage() {
               <Image src={coverUrl} />
             </Box>
           <div className="flex flex-col justify-evenly">
-            <Typography variant='h5'><AlbumLink album={track['al']}/> - <ArtistLink artist={track['ar']} /></Typography>
+            <Typography variant='h5'><AlbumLink album={track?.al}/> - <ArtistLink artist={track?.ar} /></Typography>
             <Typography variant='h4' className="font-weight-regular">{ track?.name }</Typography>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function NowPlayingPage() {
             <Typography variant='subtitle2' className="flex justify-center" style={{ width: '65px' }}>{ formatDuring(track?.['dt']) }</Typography>
           </div>
           <Box className='flex'>
-            <LikeToggle id={track.id}/>
+            <LikeToggle id={track?.id}/>
           </Box>
           <IconButton onClick={() => setBgSet(true)}>
             <WallpaperIcon />

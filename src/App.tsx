@@ -22,12 +22,13 @@ import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
+import Header from '@/pages/layout/Header'
 
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
-    backgroundColor: theme.palette.inverseSurface.main,
-    color: theme.palette.inverseOnSurface.main,
+    backgroundColor: theme.palette.primaryContainer.main,
+    color: theme.palette.onPrimaryContainer.main,
   },
   '&.notistack-MuiContent-error': {
     backgroundColor: theme.palette.errorContainer.main,
@@ -73,9 +74,14 @@ function App() {
               overflowY: 'hidden',
               overflowX: 'hidden',
               boxSizing: 'border-box',
-              display: 'flex',
+              display: 'grid',
+              gap: 1,
+              gridTemplateAreas: '"left-nav main" "now-playing-bar now-playing-bar"',
+              gridTemplateRows: '1fr auto',
+              gridTemplateColumns: 'auto 1fr',
             }}
           >
+            <Header/>
             <Nav/>
             <Main/>
             <NowPlayingBar/>
@@ -89,9 +95,8 @@ function App() {
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
-                  right: 0,
-                  top: 0,
-                  left: 'auto',
+                  left: 4,
+                  bottom: 150,
                   height: 42,
                 },
               }}

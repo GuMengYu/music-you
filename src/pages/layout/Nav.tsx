@@ -18,24 +18,23 @@ import ListItemText from '@mui/material/ListItemText'
 import HomeIcon from '@mui/icons-material/Home'
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService'
 import PublicIcon from '@mui/icons-material/Public'
+import SearchIcon from '@mui/icons-material/Search'
 
 // components
+import { useState } from 'react'
 import MenuToggle from '@/components/toggle/MenuToggle'
-import DarkModeToggle from '@/components/toggle/DarkModeToggle'
 
 
 // hooks
 import { useAppStore } from '@/store/app'
-import Account from '@/components/button/Account'
 import AggregateExtendButton from '@/components/button/AggregateExtendButton'
 
 const drawerWidth = 256
-const drawerHeight =   'calc(100% - 74px)'
 
 function openedMixin(theme: Theme): CSSObject {
   return {
+    position: 'static',
     width: drawerWidth,
-    height: drawerHeight,
     transition: theme.transitions.create('width', {
       easing: 'cubic-bezier(0.55, -0.01, 0, 1.03)',
       duration: theme.transitions.duration.complex,
@@ -48,13 +47,13 @@ function openedMixin(theme: Theme): CSSObject {
 
 function closedMixin(theme: Theme): CSSObject {
   return {
+    position: 'static',
     transition: theme.transitions.create('width', {
       easing: 'cubic-bezier(0.55, -0.01, 0, 1.03)',
       duration: theme.transitions.duration.complex,
     }),
     overflowX: 'hidden',
     width: theme.spacing(9),
-    height: drawerHeight,
     borderRight: 'none',
     background: theme.palette.surface.main,
   }
@@ -64,7 +63,6 @@ const Drawer = styled(MuiDrawer, {
   shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
   width: drawerWidth,
-  height: drawerHeight,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
@@ -80,7 +78,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme()
-  const { rail: open, toggleLogin } = useAppStore()
+  const { rail: open, toggleLogin, showSearch, toggleSearch } = useAppStore()
+  const [searchOpen, setSearchOpen ] = useState(false)
+  const [keyword, setKeyword] = useState()
   const { pathname } = useLocation()
   const list = [
     // {
@@ -127,7 +127,9 @@ export default function MiniDrawer() {
   ]
 
   return (
-    <Drawer variant="permanent" open={open} className="drag-area">
+    <Drawer variant="permanent" open={open} className="drag-area" sx={{
+      gridArea: 'left-nav',
+    }}>
       <Box sx={{ mt: 2, mx: 1, mb: 1 }}>
         <MenuToggle />
       </Box>
@@ -155,6 +157,40 @@ export default function MiniDrawer() {
             transition: 'flex 350ms cubic-bezier(0.55, -0.01, 0, 1.03)',
           }}
         >
+          <ListItem
+            disablePadding
+            sx={{ display: 'block', mb: 0.5 }}
+            className="no-drag-area"
+            onClick={() => {
+              toggleSearch()
+            }}
+          >
+            <ListItemButton
+              selected={showSearch }
+              sx={{
+                borderRadius: 14,
+                minHeight: 56,
+                justifyContent: open ? 'initial' : 'center',
+                px: 1,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 40,
+                  minHeight: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  color: theme.palette.primary.main,
+                }}
+              >
+                <SearchIcon sx={{ height: 20, width: 20 }} />
+              </ListItemIcon>
+              <ListItemText
+                secondary='搜索'
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
           {list.map((item, index) => (
             <ListItem
               key={item.val}
@@ -208,8 +244,8 @@ export default function MiniDrawer() {
               gap: 0.5,
             }}
           >
-            <Account />
-            <DarkModeToggle />
+            {/*<Account />*/}
+            {/*<DarkModeToggle />*/}
           </Box>
         )}
       </Box>

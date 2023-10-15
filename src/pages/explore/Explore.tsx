@@ -53,7 +53,7 @@ export default function ExplorePage() {
   })
   return <Box component='section'>
     {
-      isLoading ? <HomePageSkeleton/> : <div className='flex flex-col gap-4'>
+      isLoading ? <HomePageSkeleton/> : <div className='flex flex-col gap-4 pr-2'>
         <Col title='歌单广场' variant='h6' more={'/moods_and_genres/'}>
           <GridRow>
             {

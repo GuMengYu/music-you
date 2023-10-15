@@ -99,7 +99,7 @@ export default function ShortCutFM() {
           className="line-clamp-1"
           variant="caption"
         >
-          {fmTrack.name}
+          {fmTrack?.name}
         </Typography>
       </div>
       <Box

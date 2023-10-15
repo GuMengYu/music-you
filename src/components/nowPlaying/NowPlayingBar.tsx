@@ -47,11 +47,8 @@ function NowPlayingBar() {
       sx={{
         px: 1,
         height: 72,
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
         zIndex: 9999,
+        gridArea: 'now-playing-bar',
       }}
     >
       <div className="flex w-full h-full relative">
