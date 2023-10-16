@@ -75,6 +75,7 @@ class YoutubeFinder {
         return null
 
       const getInfoStartTime = new Date().getTime()
+      // todo config proxy
       const proxy = 'http://127.0.0.1:7890'
       const agent = new HttpProxyAgent(proxy)
       const info = await ytdl.getInfo(video.id, {

@@ -1,5 +1,6 @@
 import { InputBase, Paper } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 
 export default function SearchBar() {
@@ -11,7 +12,10 @@ export default function SearchBar() {
       navigate(`/search?keyword=${target.value}`)
 
   }
-  return  <Paper
+  return  <motion.div
+    initial={{ opacity: 0 }}
+  animate={{ opacity: 1, transition: { duration: 0.3 } }}
+  ><Paper
     sx={{ display: 'flex', alignItems: 'center', bgcolor: theme.palette.surfaceVariant.main, borderRadius: 16, width: 280, p: '2px' }}
   >
     <InputBase
@@ -21,4 +25,5 @@ export default function SearchBar() {
       onKeyDown={handleSearch}
     />
   </Paper>
+  </motion.div>
 }
