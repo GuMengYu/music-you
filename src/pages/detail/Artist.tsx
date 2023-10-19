@@ -222,7 +222,7 @@ export default function ArtistPage() {
   return (
     <PageTransition>
       {isLoading}
-      <Box sx={{ color: theme.palette.onSurface.main, display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box sx={{ color: theme.palette.onSurface.main, display: 'flex', flexDirection: 'column', gap: 2 }} className='pr-2'>
         {
           isLoading ? <PlayListSkeleton/> : <Header artist={data.artist} onPlay={handlePlay}/>
         }

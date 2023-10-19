@@ -8,6 +8,7 @@ export default function useQueryPlaylist(playlistId?: number | string) {
       const { playlist } = await getPlaylistDetail(Number(playlistId))
       const { songs } = await getPlaylistTrackAll(playlist)
       const { playlists } = await getRelatedPlayList(Number(playlistId))
+      playlist.tracks = songs
       return {
         tracks: songs,
         playlist,
@@ -16,7 +17,7 @@ export default function useQueryPlaylist(playlistId?: number | string) {
     },
     {
       enabled: !!playlistId,
-      staleTime: 60 * 60 * 1000, // 歌单缓存1小时
+      staleTime: 30 * 60 * 1000, // 歌单缓存0.5小时
     },
   )
 

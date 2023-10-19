@@ -55,7 +55,7 @@ export default function ShortCutFM() {
     <Card
       elevation={isHovering ? 1 : 0}
       sx={{
-        height: 76,
+        height: 64,
         borderRadius: 4,
         bgcolor: theme.palette.surfaceVariant.main,
         color: theme.palette.onSurfaceVariant.main,
@@ -79,7 +79,7 @@ export default function ShortCutFM() {
           '&:hover': {
             bgcolor: `${theme.palette.primary.main}F2`,
           },
-          'ml': 2,
+          'ml': 1.5,
         }}
       >
         {
@@ -104,8 +104,8 @@ export default function ShortCutFM() {
       </div>
       <Box
         sx={{
-          height: 76,
-          width: 76,
+          height: 64,
+          width: 64,
           position: 'relative',
         }}
       >

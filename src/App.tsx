@@ -116,8 +116,11 @@ function App() {
               toggleButtonProps={{
                 style: {
                   left: 4,
-                  bottom: 120,
+                  bottom: 90,
                   height: 42,
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  appRegion: 'no-drag',
                 },
               }}
               closeButtonProps={{

@@ -8,7 +8,7 @@ import { Typography } from '@mui/material'
 
 const MYTab = styled(Tab)(({ theme }) => ({
   'backgroundColor': `${theme.palette.primaryContainer.main}33`,
-  'height': 48,
+  'height': 46,
   'paddingLeft': 24,
   'paddingRight': 24,
   'borderRadius': 16,

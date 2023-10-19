@@ -31,7 +31,7 @@ export default function ListCollection() {
       collection = list
     }
     return { collection }
-  }, { staleTime: 5 * 60 * 60 * 1000, enabled: !!param.type })
+  }, { staleTime: 30 * 60 * 1000, enabled: !!param.type })
   const collection = useMemo(() => {
     return ({
       new_album : {
@@ -62,7 +62,7 @@ export default function ListCollection() {
       }}
     >
       <div className="flex flex-col">
-        <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
+        <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '256px' }}>
           <Image
             className="absolute"
             src={collection.cover}
@@ -78,22 +78,24 @@ export default function ListCollection() {
         </div>
       </div>
     </motion.div>
-    <GridRow>
-      {
-        data?.collection?.map((data) => {
-          const children = []
-          if (param.type === 'new_album')
-            return <Cover data={data} type='album' key={data.id} />
-          else if (param.type === 'new_video')
-            return <VideoCover data={data}   key={data.id} />
+    <div className='pr-2'>
+      <GridRow>
+        {
+          data?.collection?.map((data) => {
+            const children = []
+            if (param.type === 'new_album')
+              return <Cover data={data} type='album' key={data.id} />
+            else if (param.type === 'new_video')
+              return <VideoCover data={data}   key={data.id} />
 
-          else if (param.type === 'leaderboard')
-            return <Cover data={data} type='playlist' key={data.id} />
-          else
-            return <></>
+            else if (param.type === 'leaderboard')
+              return <Cover data={data} type='playlist' key={data.id} />
+            else
+              return <></>
 
-        })
-      }
-    </GridRow>
+          })
+        }
+      </GridRow>
+    </div>
   </PageTransition>
 }

@@ -23,7 +23,7 @@ export default function useQueryAlbum(albumId?: number | string) {
     },
     {
       enabled: !!albumId,
-      staleTime: 60 * 60 * 1000, // 缓存1小时
+      staleTime: 30 * 60 * 1000, // 缓存0.5小时
     },
   )
 

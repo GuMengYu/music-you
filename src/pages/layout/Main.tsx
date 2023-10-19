@@ -23,6 +23,12 @@ export default function Main({
     'video',
     'moods_and_genres_detail',
     'list_collection',
+    'cloud',
+    'rank',
+    'recent',
+    'my_podcast',
+    'podcast_detail',
+    'podcast_genres',
   ])
 
   // const AppMain = styled(Box)(() => ({

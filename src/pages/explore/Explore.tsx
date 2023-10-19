@@ -1,10 +1,8 @@
-import Box from '@mui/material/Box'
 import { useQuery } from '@tanstack/react-query'
 import { random } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { filter } from 'lodash-es'
 import Col from '@/components/Col'
-import HomePageSkeleton from '@/components/skeleton/HomeSkeleton'
 import { newAlbums } from '@/api/album'
 import { getCatList } from '@/api/playlist'
 import { getTopList, topMvs } from '@/api/top'
@@ -14,6 +12,8 @@ import { Cover } from '@/components/cover/Cover'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import VideoCover from '@/components/cover/VideoCover'
 import MdTag from '@/components/Tag'
+import PageTransition from '@/components/PageTransition'
+import ExploreSkeleton from '@/components/skeleton/ExploreSkeleton'
 
 interface Tag {
   color: string
@@ -49,11 +49,11 @@ export default function ExplorePage() {
       topList: filter(topList, i => boardId.includes(i.id)),
     }
   }, {
-    staleTime: 30 * 60 * 60 * 1000,
+    staleTime: 30  * 60 * 1000,
   })
-  return <Box component='section'>
+  return <PageTransition>
     {
-      isLoading ? <HomePageSkeleton/> : <div className='flex flex-col gap-4 pr-2'>
+      isLoading ? <ExploreSkeleton/> : <div className='flex flex-col gap-4 pr-2'>
         <Col title='歌单广场' variant='h6' more={'/moods_and_genres/'}>
           <GridRow>
             {
@@ -74,7 +74,6 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-
         <Col title='排行榜' variant='h6' more='/list_collection/leaderboard'>
           <GridRow>
             {
@@ -84,7 +83,6 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-
         <Col title='新的音乐视频' variant='h6' more='/list_collection/new_video'>
           <GridRow singleLine rowType={GridType.B}>
             {
@@ -96,7 +94,5 @@ export default function ExplorePage() {
         </Col>
       </div>
     }
-
-
-  </Box>
+  </PageTransition>
 }

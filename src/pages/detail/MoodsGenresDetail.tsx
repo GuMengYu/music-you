@@ -36,7 +36,7 @@ export default function MoodsGenresDetail() {
     }
   }, {
     enabled: !!params.type,
-    staleTime: 10 * 60 * 60 * 1000,
+    staleTime: 30 * 60 * 1000,
   })
   return <PageTransition>
     <motion.div
@@ -67,7 +67,7 @@ export default function MoodsGenresDetail() {
         </div>
       </div>
     </motion.div>
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 pr-2'>
       <Col title='精选歌单'>
         <GridRow>
           {

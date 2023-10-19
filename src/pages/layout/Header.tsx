@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles'
 import SearchBar from '@/pages/layout/SearchBar'
 import Account from '@/components/button/Account'
 import { useAppStore } from '@/store/app'
-import DarkModeToggle from '@/components/toggle/DarkModeToggle'
+import SearchToggle from '@/components/toggle/SearchToggle'
 
 export default function Header() {
   const theme = useTheme()
@@ -25,7 +25,8 @@ export default function Header() {
         showSearch && <SearchBar />
       }
       <div className='flex-auto'></div>
-      <DarkModeToggle />
+      <SearchToggle />
+      {/*<DarkModeToggle />*/}
       <Account />
     </div>
     <Box sx={{
@@ -34,9 +35,9 @@ export default function Header() {
       right: 0,
       bottom: 0,
       left: 0,
-      transition: 'background-color .25s',
+      transition: 'background-color,opacity .25s',
       bgcolor: theme.palette.surface.main,
-      opacity: 'var(--top-bar-opacity)',
+      opacity: 'var(--top-bar-opacity, 0)',
       zIndex: -1,
     }}></Box>
 

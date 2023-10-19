@@ -20,9 +20,9 @@ export default function Search() {
     {
       isLoading ? <SearchSkeleton /> : <section className='flex flex-col gap-4 pr-2'>
         <div
-          className='grid grid-cols-2 gap-4'
+          className='grid grid-cols-5 gap-4'
         >
-          <Col title='最佳匹配' variant='subtitle1' className='flex flex-col'>
+          <Col title='最佳匹配' variant='subtitle1' className='flex flex-col col-span-2'>
             <Card variant='outlined' sx={{
               flex: 1,
               bgcolor: theme.palette.surfaceVariant.main,
@@ -59,7 +59,7 @@ export default function Search() {
             </Card>
           </Col>
           {
-            data?.result?.songs && <Col title='音乐' variant='subtitle1'>
+            data?.result?.songs && <Col title='音乐' variant='subtitle1' className='col-span-3'>
                   <TrackList tracks={data?.result?.songs}  />
               </Col>
           }

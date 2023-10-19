@@ -142,7 +142,7 @@ export default function VideoPage() {
   }, [data])
   return (
     <PageTransition>
-      <Box  sx={{ color: theme.palette.onSurface.main }}>
+      <Box className='pr-2'>
         {
           isLoading ? <PlayListSkeleton/> : <Header data={data?.video} onPlay={handlePlay}/>
         }

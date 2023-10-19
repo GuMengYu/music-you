@@ -9,43 +9,39 @@ import { useEffect, useState } from 'react'
 import { useCopyToClipboard } from 'react-use'
 import { useSnackbar } from 'notistack'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
-import TrackList from '@/components/TrackList'
-import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
-import { formatDate, formatDuring, formatNumber } from '@/util/fn'
-import type { Playlist } from '@/types'
+import { formatDate, formatNumber } from '@/util/fn'
+import type { Podcast } from '@/types'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import usePlayQueue from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
-import { useMyPlaylist } from '@/hooks/usePlaylist'
 import { sub } from '@/api/music'
-import { deletePlayList } from '@/api/playlist'
+import useQueryPodcast from '@/pages/detail/useQueryPodcast'
+import ProgramList from '@/pages/podcast/ProgramList'
 
-function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
+function PodcastHeader({ podcast }: { podcast: Podcast }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
-  const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { addToQueueAndPlay } = usePlayQueue()
   const { openContextMenu } = useContextMenu()
-  const { isCreatedPlaylist } = useMyPlaylist()
   const [subscribed, setSubscribed] = useState(false)
   const [copied, copyToClipboard] = useCopyToClipboard()
 
   useEffect(() => {
-    setSubscribed(playlist.subscribed)
-  }, [playlist])
+    setSubscribed(podcast.subed)
+  }, [podcast])
 
   function handlePlay() {
-    addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
+    addToQueueAndPlay(podcast.programs, podcast.id, 'program', podcast.name)
   }
 
   async function subscribe() {
-    const { code, message } = await sub('playlist', playlist.id, subscribed ? 0 : 1)
+    const { code, message } = await sub('podcast', podcast.id, subscribed ? 0 : 1)
     if (code === 200) {
       enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
       setSubscribed(!subscribed)
@@ -54,56 +50,30 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
       enqueueSnackbar(message, { variant: 'error' })
     }
   }
-  async function del() {
-    const { code, message } = await deletePlayList(playlist.id)
-    if (code === 200)
-      enqueueSnackbar('已删除', { variant: 'success' })
-    else
-      enqueueSnackbar(message, { variant: 'error' })
-
-  }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      ...(!isCreatedPlaylist(playlist) && subscribed ? [
+      ...(subscribed ? [
         {
           type: 'item' as any,
-          label: '从音乐库中移除',
+          label: '取消订阅',
           onClick: () => {
             subscribe()
           },
         },
-      ] : []),
-      ...(!isCreatedPlaylist(playlist) && !subscribed ? [
+      ] : [
         {
           type: 'item' as any,
-          label: '添加到音乐库',
+          label: '订阅收听播客',
           onClick: () => {
             subscribe()
           },
         },
-      ] : []),
-      ...(isCreatedPlaylist(playlist) ? [
-        {
-          type: 'item' as any,
-          label: '编辑歌单',
-          onClick: () => {
-            enqueueSnackbar('待开发...', { variant: 'warning' })
-          },
-        },
-        {
-          type: 'item' as any,
-          label: '删除歌单',
-          onClick: () => {
-            del()
-          },
-        },
-        { type: 'divider' as any },
-      ] : []),
+      ]),
       {
         type: 'item',
         label: '复制网页分享链接',
         onClick: () => {
-          copyToClipboard(`https://music.163.com/#/playlist?id=${playlist.id}`)
+          copyToClipboard(`https://music.163.com/#/djradio?id=${podcast.id}`)
           enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
         },
       },
@@ -127,25 +97,25 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
         <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
           <Image
             className="absolute"
-            src={playlist?.coverImgUrl}
+            src={podcast?.picUrl}
             fit="cover"
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            playlist?.coverImgUrl &&
-              <ImageViewer open={showImageView} src={playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
+            podcast?.picUrl &&
+              <ImageViewer open={showImageView} src={podcast?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
             <div className="flex-1" onClick={() => setShowImageView(true)}></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">{playlist?.name}</Typography>
+              <Typography variant="h4">{podcast?.name}</Typography>
               <div className="flex flex-col">
                 <Typography variant="body1" color='primary'>
-                  {playlist?.['creator']?.nickname}
+                  {podcast?.['dj']?.nickname}
                 </Typography>
                 <Typography variant="caption">
-                  {formatDate(playlist?.createTime, 'LL')}
+                  {formatDate(podcast?.createTime, 'LL')}
                 </Typography>
               </div>
               <div className="flex py-2">
@@ -154,9 +124,9 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {playlist?.['trackCount']}
+                    {podcast?.['programCount']}
                   </Typography>
-                  <Typography variant="caption">首</Typography>
+                  <Typography variant="caption">节目</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
                 <div
@@ -164,29 +134,17 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   style={{ minWidth: '96px' }}
                 >
                   <QueueMusicIcon fontSize='small'/>
-                  <Typography variant="caption">歌单</Typography>
+                  <Typography variant="caption">播客</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
-
-                <div
-                  className="flex flex-col items-center px-4"
-                  style={{ minWidth: '96px' }}
-                >
-                  <Typography variant="body2">
-                    {formatDuring(tracksDt)}
-                  </Typography>
-                  <Typography variant="caption">时长</Typography>
-                </div>
-                <Divider flexItem variant='middle' orientation="vertical"/>
-
                 <div
                   className="flex flex-col items-center pl-4"
                   style={{ minWidth: '96px' }}
                 >
                   <Typography variant="body2">
-                    {playlist?.playCount ? formatNumber(playlist?.['playCount']) : 0}
+                    {podcast?.subCount ? formatNumber(podcast?.subCount) : 0}
                   </Typography>
-                  <Typography variant="caption">次</Typography>
+                  <Typography variant="caption">订阅</Typography>
                 </div>
               </div>
               <div className='flex gap-3'>
@@ -209,19 +167,19 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
           </div>
         </div>
         {
-          playlist?.description && <>
+          podcast?.desc && <>
             <div className="flex flex-col gap-1">
               <div className="flex items-center">
-                <Typography variant='body1'>歌单简介</Typography>
+                <Typography variant='body1'>播客简介</Typography>
                 <IconButton onClick={() => setShowDesc(true)}>
                   <ArrowForwardIcon/>
                 </IconButton>
               </div>
             </div>
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-              <DialogTitle variant='body1'>歌单简介</DialogTitle>
+              <DialogTitle variant='body1'>播客简介</DialogTitle>
               <DialogContent>
-                <Typography className='line-clamp-3' variant='caption'>{playlist['description']}</Typography>
+                <Typography className='line-clamp-3' variant='caption'>{podcast.desc}</Typography>
               </DialogContent>
             </Md3Dialog>
           </>
@@ -230,24 +188,19 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
     </motion.div>
   )
 }
-export default function PlaylistPage() {
+export default function PodcastDetail() {
   const params = useParams()
-  const { data, isLoading } = useQueryPlaylist(params.id)
-  const { isCreatedPlaylist } = useMyPlaylist()
+  const { data, isLoading } = useQueryPodcast(params.id)
   return (
     <PageTransition>
       {isLoading}
       <Box className='pr-2'>
         {
-          isLoading ? <PlayListSkeleton/> : <PlayListHeader playlist={data?.playlist}/>
+          isLoading ? <PlayListSkeleton/> : <PodcastHeader podcast={data?.podcast}/>
         }
         <Box className='h-4'></Box>
         {
-          data?.tracks && <TrackList tracks={data.tracks} source={{
-            playlist: data.playlist,
-            type: 'playlist',
-            own: isCreatedPlaylist(data.playlist),
-          }} />
+          data?.programs && <ProgramList programs={data.programs} podcast={data.podcast} />
         }
       </Box>
     </PageTransition>

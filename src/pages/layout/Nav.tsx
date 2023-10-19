@@ -16,12 +16,12 @@ import CategoryIcon from '@mui/icons-material/Category'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import HomeIcon from '@mui/icons-material/Home'
-import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService'
 import PublicIcon from '@mui/icons-material/Public'
-import SearchIcon from '@mui/icons-material/Search'
+import ComputerIcon from '@mui/icons-material/Computer'
 
 // components
 import { useState } from 'react'
+import PodcastsIcon from '@mui/icons-material/Podcasts'
 import MenuToggle from '@/components/toggle/MenuToggle'
 
 
@@ -104,12 +104,13 @@ export default function MiniDrawer() {
       to: '/explore',
       pathname: ['/explore'],
     },
-    // {
-    //   icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
-    //   val: "podcast",
-    //   title: "播客",
-    //   to: "/podcasts",
-    // },
+    {
+      icon: <PodcastsIcon sx={{ height: 20, width: 20 }} />,
+      val: 'podcast_center',
+      title: '播客',
+      to: '/podcast_center',
+      pathname: ['/podcast_center'],
+    },
     {
       icon: <CategoryIcon sx={{ height: 20, width: 20 }} />,
       val: 'library',
@@ -118,7 +119,7 @@ export default function MiniDrawer() {
       pathname: ['/library'],
     },
     {
-      icon: <LocalLaundryServiceIcon sx={{ height: 20, width: 20 }} />,
+      icon: <ComputerIcon sx={{ height: 20, width: 20 }} />,
       val: 'local-library',
       title: '本地音乐库',
       to: '/local-library',
@@ -157,40 +158,40 @@ export default function MiniDrawer() {
             transition: 'flex 350ms cubic-bezier(0.55, -0.01, 0, 1.03)',
           }}
         >
-          <ListItem
-            disablePadding
-            sx={{ display: 'block', mb: 0.5 }}
-            className="no-drag-area"
-            onClick={() => {
-              toggleSearch()
-            }}
-          >
-            <ListItemButton
-              selected={showSearch }
-              sx={{
-                borderRadius: 14,
-                minHeight: 56,
-                justifyContent: open ? 'initial' : 'center',
-                px: 1,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 40,
-                  minHeight: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  color: theme.palette.primary.main,
-                }}
-              >
-                <SearchIcon sx={{ height: 20, width: 20 }} />
-              </ListItemIcon>
-              <ListItemText
-                secondary='搜索'
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
+          {/*<ListItem*/}
+          {/*  disablePadding*/}
+          {/*  sx={{ display: 'block', mb: 0.5 }}*/}
+          {/*  className="no-drag-area"*/}
+          {/*  onClick={() => {*/}
+          {/*    toggleSearch()*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <ListItemButton*/}
+          {/*    selected={showSearch }*/}
+          {/*    sx={{*/}
+          {/*      borderRadius: 14,*/}
+          {/*      minHeight: 56,*/}
+          {/*      justifyContent: open ? 'initial' : 'center',*/}
+          {/*      px: 1,*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    <ListItemIcon*/}
+          {/*      sx={{*/}
+          {/*        minWidth: 40,*/}
+          {/*        minHeight: 40,*/}
+          {/*        justifyContent: 'center',*/}
+          {/*        alignItems: 'center',*/}
+          {/*        color: theme.palette.primary.main,*/}
+          {/*      }}*/}
+          {/*    >*/}
+          {/*      <SearchIcon sx={{ height: 20, width: 20 }} />*/}
+          {/*    </ListItemIcon>*/}
+          {/*    <ListItemText*/}
+          {/*      secondary='搜索'*/}
+          {/*      sx={{ opacity: open ? 1 : 0 }}*/}
+          {/*    />*/}
+          {/*  </ListItemButton>*/}
+          {/*</ListItem>*/}
           {list.map((item, index) => (
             <ListItem
               key={item.val}

@@ -55,6 +55,7 @@
     "electron-log": "^4.4.7",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
+    "flubber": "^0.4.2",
     "framer-motion": "^10.16.4",
     "howler": "^2.2.3",
     "http-proxy-agent": "^6.0.1",

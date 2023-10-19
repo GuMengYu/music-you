@@ -10,6 +10,7 @@ import { getTrackList } from '@/api/music'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
 import usePlayQueue from '@/hooks/usePlayQueue'
+import { cloudDiskMusicList } from '@/api/cloud'
 
 export default function ShortCut({
   data,
@@ -22,7 +23,7 @@ export default function ShortCut({
     icon?: ReactNode
     color?: string
   }
-  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent' | 'program'
+  type: 'album' | 'playlist' | 'artist' | 'daily' | 'recent' | 'program' | 'cloud'
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -51,6 +52,13 @@ export default function ShortCut({
         }
         addToQueueAndPlay(info.list, 0, 'recent', '最近播放')
       }
+      else if (type === 'cloud') {
+        const { data } = await cloudDiskMusicList()
+        info = {
+          list: data.map(i => i.simpleSong),
+        }
+        addToQueueAndPlay(info.list, 0, 'cloud', '云盘')
+      }
       else {
         const _data = await getTrackList(type, data.id as number)
         info = {
@@ -68,12 +76,13 @@ export default function ShortCut({
     }
   }
   function handleJump() {
-    if (['album', 'playlist', 'daily'].includes(type)) {
+    if (['album', 'playlist', 'daily', 'cloud'].includes(type)) {
       const to = ({
         playlist: `/playlist/${data.id}`,
         album: `/album/${data.id}`,
         daily: '/daily',
-      })[type as 'album' | 'playlist' | 'daily']
+        cloud: '/cloud',
+      })[type as 'album' | 'playlist' | 'daily' | 'cloud']
       navigate(to)
     }
   }
@@ -81,7 +90,7 @@ export default function ShortCut({
     <Card
       elevation={isHovering ? 1 : 0}
       sx={{
-        height: 76,
+        height: 64,
         borderRadius: 4,
         bgcolor: theme.palette.surfaceVariant.main,
         color: theme.palette.onSurfaceVariant.main,
@@ -100,7 +109,7 @@ export default function ShortCut({
           height: 45,
           width: 45,
           bgcolor: decoration.color,
-          ml: 2,
+          ml: 1.5,
         }}
       >
         {decoration.icon}
@@ -124,8 +133,8 @@ export default function ShortCut({
       </div>
       <Box
         sx={{
-          height: 76,
-          width: 76,
+          height: 64,
+          width: 64,
           position: 'relative',
         }}
       >

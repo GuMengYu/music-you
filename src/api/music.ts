@@ -40,9 +40,7 @@ export async function getTrackDetail(id: number, from: TrackFrom) {
   // track from program
   if (from?.type === 'program') {
     const { program } = await getProgramData(id)
-    const { id: programVoiceId } = program.mainSong
     track = program as unknown as Track
-    track.id = programVoiceId
   }
   else {
     const {
@@ -73,10 +71,11 @@ export async function getMusicUrl(track: Track) {
     sourceFromLocalMusic: false,
   }
   const logged = !!useUserStore.getState().account?.account?.id
+  const trackdId = track.radio ? track.mainTrackId : track.id
   if (logged) {
     const {
       data: [song],
-    } = await getSongUrl({ id: track.id, level })
+    } = await getSongUrl({ id: trackdId, level })
     if (song?.freeTrialInfo || !song.url) {
       try {
         const result = await getSongUrlFromUnlockMusic(track) // 尝试解锁灰色或者试听歌曲
@@ -96,7 +95,7 @@ export async function getMusicUrl(track: Track) {
     }
   }
   else {
-    meta.url = `https://music.163.com/song/media/outer/url?id=${track.id}`
+    meta.url = `https://music.163.com/song/media/outer/url?id=${trackdId}`
   }
   return meta
 }
@@ -182,7 +181,7 @@ export async function getTrackList(type: 'album' | 'playlist' | 'artist' | 'prog
  * @param t  1 收藏 其他 取消收藏
  * 根据歌单id返回歌单详细信息
  */
-export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: Track['id'], t: number) {
+export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track'  | 'podcast', id: Track['id'], t: number) {
   const params: {
     timestamp: number
     id: string | number
@@ -195,6 +194,7 @@ export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track', id: 
     mv: '/mv/sub',
     artist: '/artist/sub',
     track: '/like',
+    podcast: '/dj/sub',
   }[type]
   Object.assign(params, { t })
   if (type === 'track') {

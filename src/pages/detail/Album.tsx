@@ -76,7 +76,7 @@ function Header({ album }: { album: Album | undefined }) {
         type: 'item',
         label: '复制网页分享链接',
         onClick: () => {
-          copyToClipboard(`https://music.163.com/#/playlist?id=${album.id}`)
+          copyToClipboard(`https://music.163.com/#/album?id=${album.id}`)
           enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
         },
       },
@@ -208,7 +208,7 @@ export default function AlbumPage() {
   const { data, isLoading } = useQueryAlbum(params.id)
   return (
     <PageTransition>
-      <Box  sx={{ color: theme.palette.onSurface.main }}>
+      <Box className='pr-2'>
         {
           isLoading ? <PlayListSkeleton/> : <Header album={data?.album}/>
         }

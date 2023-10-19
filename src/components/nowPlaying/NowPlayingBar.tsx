@@ -1,8 +1,9 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { useCallback, useState } from 'react'
-import { AnimatePresence, motion, useAnimate } from 'framer-motion'
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';import { Control } from '../Control'
-import LikeToggle from '../toggle/likeToggle'
+import { AnimatePresence, motion } from 'framer-motion'
+import OpenInFullIcon from '@mui/icons-material/OpenInFull'
+import { Link as RouterLink } from 'react-router-dom'
+import { Control } from '../Control'
 import Image from '@/components/Image'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import ArtistLink from '@/components/links/artist'
@@ -12,6 +13,10 @@ import { useAppStore } from '@/store/app'
 import PIPPlayerToggle from '@/components/toggle/PIPPlayerToggle'
 import MdSlider from '@/components/Slider'
 import TrackMore from '@/components/nowPlaying/TrackMore'
+import PodcastLink from '@/components/links/podcast'
+import ResourceThumbToggle from '@/components/toggle/ResourceThumbToggle'
+import { RESOURCE_TYPE } from '@/util/enum'
+import LikeToggle from '@/components/toggle/likeToggle'
 
 const variants = {
   enter: (direction: number) => {
@@ -36,16 +41,10 @@ const variants = {
 function NowPlayingBar() {
   const { player } = usePlayer()
   const { toggleNowPlaying } = useAppStore()
-  const { track, volume, volumeIcon } = usePlayerControl()
-  const [animateRef, animate] = useAnimate()
+  const { track, volume, volumeIcon, isProgram } = usePlayerControl()
   const coverUrl = track?.coverUrl ?? track?.al?.picUrl ?? ''
   const [isHovering, setIsHovering] = useState(false)
   const [cacheVolume, setCacheVolume] = useState(0)
-
-
-  // useEffect(() => {
-  //   animate(animateRef.current, { transform: 'translateX(0px)' }, { duration: 0.45, ease: [0.47, 1.64, 0.41, 0.8] })
-  // }, [track])
 
   const handleVolumeChange = useCallback((val: number) => {
     player.setVolume(val)
@@ -59,6 +58,20 @@ function NowPlayingBar() {
       setCacheVolume(volume)
       player.setVolume(0)
     }
+  }
+  function SubTitle() {
+    if (isProgram) {
+      return <span><PodcastLink podcast={track.radio as any} /> - [播客节目]</span>
+    }
+    else if (track.ar) {
+      return <Typography className="line-clamp-1" variant="caption">
+        <ArtistLink artist={track?.ar} />
+      </Typography>
+    }
+    else {
+      return <span>未知</span>
+    }
+
   }
   return (
     <Box
@@ -86,7 +99,6 @@ function NowPlayingBar() {
         <div className='flex items-center relative flex-1'>
           <AnimatePresence initial={false} custom={1}>
             <motion.div
-              // ref={animateRef}
               custom={1}
               variants={variants}
               initial="enter"
@@ -97,7 +109,6 @@ function NowPlayingBar() {
                 opacity: { duration: 0.25, ease: [0.2, 0.0, 0, 1.0] },
               }}
               key={track.id}
-              // style={{ transform: 'translateX(20px)' }}
               className="flex items-center gap-2 absolute w-full">
               <Box
                 sx={{
@@ -138,15 +149,21 @@ function NowPlayingBar() {
               </Box>
               <div className="flex flex-col justify-center ml-2">
                 <Typography className="line-clamp-1" variant='h6'>
-                  {track?.name}
-                </Typography>
-                {track?.ar?.length && (
-                  <Typography className="line-clamp-1" variant="caption">
-                    <ArtistLink artist={track?.ar} />
+                {
+                  track?.al?.id ?  <RouterLink to={`/album/${track.al.id}`}>{track.name}</RouterLink> : track?.name
+                }
                   </Typography>
-                )}
+                <Typography className="line-clamp-1" variant='caption'>
+                  <SubTitle />
+                </Typography>
               </div>
-              <LikeToggle id={track?.id} />
+              {
+                isProgram ?
+                  <ResourceThumbToggle type={RESOURCE_TYPE.PROGRAM} id={track.id} liked={track.liked} />
+                  :
+                  <LikeToggle id={track?.id} />
+              }
+
             </motion.div>
           </AnimatePresence>
         </div>
