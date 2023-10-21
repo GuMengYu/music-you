@@ -21,6 +21,13 @@ export enum QUALITY_LEVEL {
   SKY = 'sky',
   JYMASTER = 'jymaster',
 }
+
+export enum ExitMode {
+  minimize,
+  exit,
+  prompt,
+}
+
 export enum APPEARANCE {
   LIGHT = 'light',
   DARK = 'dark',
@@ -32,6 +39,7 @@ interface SettingState {
   quality: QUALITY_LEVEL
   lyricTrans: boolean
   dynamicBg: boolean
+  exitMode: ExitMode
   youtubeUnlock: {
     open: boolean
     proxy: string
@@ -49,6 +57,7 @@ interface SettingAction {
   setDynamicBg: (enable: SettingState['dynamicBg']) => void
   setYoutubeUnlock: (config: SettingState['youtubeUnlock']) => void
   setUnblockNetEaseMusic: (config: SettingState['unblockNetEaseMusic']) => void
+  setExitMode: (mode: ExitMode) => void
 }
 export const useSettingStore = create(subscribeWithSelector(persist<SettingState & SettingAction>((set, get) => {
   return {
@@ -57,6 +66,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     quality: QUALITY_LEVEL.HIGHER,
     lyricTrans: false,
     dynamicBg: false,
+    exitMode: ExitMode.prompt,
     youtubeUnlock: {
       open: false,
       proxy: 'http://127.0.0.1:7890',
@@ -72,6 +82,8 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     setDynamicBg: dynamicBg => set({ dynamicBg }),
     setYoutubeUnlock: config => set({ youtubeUnlock: config }),
     setUnblockNetEaseMusic: config => set({ unblockNetEaseMusic: config }),
+    setExitMode: exitMode => set({ exitMode }),
+
   }
 }, {
   name: 'setting',

@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { WindowState } from '@shared/types'
 
 interface AppState {
   rail: boolean
@@ -9,6 +10,7 @@ interface AppState {
   showNowPlaying: boolean
   showNowPlayingBar: boolean
   showNowPlayingList: boolean
+  windowState: WindowState
 }
 interface AppStateAction {
   toggleRail: () => void
@@ -30,6 +32,7 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
     showNowPlaying: false,
     showNowPlayingBar: false,
     showNowPlayingList: false,
+    windowState: WindowState.NORMAL,
     toggleRail: () => set(state => ({ rail: !state.rail })),
     toggleLogin: val => set((state) => {
       return { showLogin: val !== undefined ? val : !state.showLogin }

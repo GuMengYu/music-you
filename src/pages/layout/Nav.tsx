@@ -22,12 +22,14 @@ import ComputerIcon from '@mui/icons-material/Computer'
 // components
 import { useState } from 'react'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
+import is from 'electron-is'
 import MenuToggle from '@/components/toggle/MenuToggle'
 
 
 // hooks
 import { useAppStore } from '@/store/app'
 import AggregateExtendButton from '@/components/button/AggregateExtendButton'
+import WindowControl from '@/components/WindowControl'
 
 const drawerWidth = 256
 
@@ -75,6 +77,7 @@ const Drawer = styled(MuiDrawer, {
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
 }))
+const notMacos = is.windows() || is.linux()
 
 export default function MiniDrawer() {
   const theme = useTheme()
@@ -131,6 +134,10 @@ export default function MiniDrawer() {
     <Drawer variant="permanent" open={open} className="drag-area" sx={{
       gridArea: 'left-nav',
     }}>
+      {
+        notMacos && <WindowControl />
+      }
+
       <Box sx={{ mt: 2.5, mx: 1.5 }}>
         <MenuToggle />
       </Box>
