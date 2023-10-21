@@ -60,10 +60,10 @@ function NowPlayingBar() {
     }
   }
   function SubTitle() {
-    if (isProgram) {
+    if (isProgram && track) {
       return <span><PodcastLink podcast={track.radio as any} /> - [播客节目]</span>
     }
-    else if (track.ar) {
+    else if (track?.ar) {
       return <Typography className="line-clamp-1" variant="caption">
         <ArtistLink artist={track?.ar} />
       </Typography>
@@ -71,7 +71,6 @@ function NowPlayingBar() {
     else {
       return <span>未知</span>
     }
-
   }
   return (
     <Box
@@ -108,7 +107,7 @@ function NowPlayingBar() {
                 x: { duration: 0.35, ease: [0.2, 0.0, 0, 1.0] },
                 opacity: { duration: 0.25, ease: [0.2, 0.0, 0, 1.0] },
               }}
-              key={track.id}
+              key={track?.id}
               className="flex items-center gap-2 absolute w-full">
               <Box
                 sx={{
@@ -141,7 +140,7 @@ function NowPlayingBar() {
                         }}
                         onClick={() => toggleNowPlaying()}
                       >
-                        <OpenInFullIcon color={'tertiary' as 'primary'}  />
+                        <OpenInFullIcon color={'tertiary' as 'primary'} />
                       </IconButton>
                     </motion.div>
                   )}
@@ -150,7 +149,7 @@ function NowPlayingBar() {
               <div className="flex flex-col justify-center ml-2">
                 <Typography className="line-clamp-1" variant='h6'>
                 {
-                  track?.al?.id ?  <RouterLink to={`/album/${track.al.id}`}>{track.name}</RouterLink> : track?.name
+                  track?.al?.id ? <RouterLink to={`/album/${track.al.id}`}>{track.name}</RouterLink> : track?.name
                 }
                   </Typography>
                 <Typography className="line-clamp-1" variant='caption'>
@@ -158,16 +157,14 @@ function NowPlayingBar() {
                 </Typography>
               </div>
               {
-                isProgram ?
-                  <ResourceThumbToggle type={RESOURCE_TYPE.PROGRAM} id={track.id} liked={track.liked} />
-                  :
-                  <LikeToggle id={track?.id} />
+                isProgram && track
+                  ? <ResourceThumbToggle type={RESOURCE_TYPE.PROGRAM} id={track.id} liked={track.liked} />
+                  : <LikeToggle id={track?.id} />
               }
 
             </motion.div>
           </AnimatePresence>
         </div>
-
 
         <div className="flex flex-1 items-center justify-center">
           <Control />
