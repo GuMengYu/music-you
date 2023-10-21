@@ -7,6 +7,7 @@ import AlbumIcon from '@mui/icons-material/Album'
 import { useNavigate } from 'react-router-dom'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { sampleSize } from 'lodash-es'
+import { ipcRenderer } from 'electron'
 import { Cover } from './components/Cover'
 import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
@@ -18,6 +19,7 @@ import SwitchCard from '@/components/SwitchCard'
 import useQueryTrack from '@/pages/local/hooks/useQueryTrack'
 import { useQueryAlbums } from '@/pages/local/hooks/useQueryAlbum'
 import Image from '@/components/Image'
+import Migration from '@/components/migration'
 
 
 const AlbumCovers = memo(({ albums }: { albums: any[] }) => {
@@ -56,8 +58,16 @@ function LocalAlbumPanel() {
   </GridRow>
 }
 function LocalArtistPanel() {
-  return <Box></Box>
+  return <Box>
+    <Migration />
+  </Box>
 }
+function LocalPlaylistPanel() {
+  return <Box>
+    <Migration />
+  </Box>
+}
+
 function FavCard() {
   const theme = useTheme()
 
@@ -125,8 +135,8 @@ export default function LocalLibrary() {
         <SwitchCard color={theme.palette.tertiaryContainer.main} title='管理曲库' icon={<SettingsIcon fontSize='small'  />} onChange={() => {
           navigate('/setting')
         }} />
-        <SwitchCard color={theme.palette.secondaryContainer.main} title='文件夹' icon={<AlbumIcon fontSize='small' />} onClick={() => {
-          navigate('/cloud')
+        <SwitchCard color={theme.palette.secondaryContainer.main} title='打开目录' icon={<AlbumIcon fontSize='small' />} onClick={() => {
+          ipcRenderer.invoke('base/open-path', '~/Downloads/')
         }} />
       </div>
     </div>
@@ -144,6 +154,7 @@ export default function LocalLibrary() {
             tracks: <LocalTracksPanel />,
             album: <LocalAlbumPanel />,
             artist: <LocalArtistPanel />,
+            playlist: <LocalPlaylistPanel />,
 
           }[currentTab]
         }

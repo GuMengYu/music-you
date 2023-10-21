@@ -74,7 +74,7 @@ function GridRow(props: PropsWithChildren & {
     const style: CSSObject = {
       columnGap: gap,
       display: 'grid',
-      rowGap: '16px',
+      rowGap: gap,
     }
     if (props.singleLine) {
       style.overflowX = 'auto'
@@ -124,7 +124,7 @@ function GridRow(props: PropsWithChildren & {
       </Box>
       <Box
         sx={{
-          py: 0.5,
+          pb: 0.5,
           ...cardRowStyle,
         }}
         className="hide-scrollbar"

@@ -4,6 +4,7 @@ import Local from '@/pages/setting/Local'
 import ThemeSetting from '@/pages/setting/Theme'
 import MusicSetting from '@/pages/setting/Music'
 import UnlockMusic from '@/pages/setting/UnlockMusic'
+import WallhavenSetting from '@/pages/setting/Wallhaven'
 
 export default function Setting() {
   return <PageTransition>
@@ -11,6 +12,7 @@ export default function Setting() {
       <ThemeSetting />
       <MusicSetting />
       <UnlockMusic />
+      <WallhavenSetting />
       <Local />
     </Box>
   </PageTransition>

@@ -5,6 +5,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/gumengyu/music-you?color=d8b22d)
 ![GitHub license](https://img.shields.io/github/license/gumengyu/music-you?)
 [![Required Node.JS >= 14.18.0 || >=16.0.0](https://img.shields.io/static/v1?label=node&message=14.18.0%20||%20%3E=16.0.0&logo=node.js&color=3f893e)](https://nodejs.org/about/releases)
+![GitHub stars](https://img.shields.io/badge/React-18.2.0-blue)
 
 English | [简体中文](README.zh-CN.md)
 

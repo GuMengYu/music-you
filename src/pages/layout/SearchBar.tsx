@@ -17,7 +17,8 @@ export default function SearchBar() {
     animate={{ opacity: 1, transition: { duration: 0.3 } }}
   >
     <Paper
-      sx={{ display: 'flex', alignItems: 'center', bgcolor: theme.palette.surfaceVariant.main, borderRadius: 16, width: 240, height: '100%' }}
+      elevation={0}
+      sx={{ display: 'flex', alignItems: 'center', bgcolor: theme.palette.surfaceVariant.main, borderRadius: 16, width: 240, height: 46 }}
     >
       <InputBase
         sx={{ ml: 2, flex: 1, fontSize: 14 }}

@@ -45,7 +45,7 @@ export default function MoodsGenresPage() {
       cats,
     }
   }, {
-    staleTime: 30 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
   return <PageTransition>
     {

@@ -72,7 +72,7 @@ export default function NowPlayingLyric({ enable }: { enable: boolean }) {
       <li>&nbsp;</li>
       {
         lyrics.map((item, index) => {
-          return <Typography variant={isActive(index) ? 'h6' : 'body1'}
+          return <Typography variant={isActive(index) ? 'h5' : 'h6'}
                              sx={{
                                mb: 2,
                              }}

@@ -23,7 +23,7 @@ function PageTransition({ children, disableEnterAnimation, className }: {
       }}
       animate={{ opacity: 1, transform: 'translateX(0px)' }}
       exit={{ opacity: 0, transform: 'translateX(-20px)' }}
-      transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+      transition={{ duration: 0.3, ease: [0.42, 0.0, 0.58, 1.0] }}
     >
       {children}
     </motion.div>

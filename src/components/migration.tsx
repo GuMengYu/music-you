@@ -16,7 +16,7 @@ const Migration = forwardRef((props, ref) => {
       gap={1}
     >
       <Typography variant="h4" color={theme.palette.onSurfaceVariant.main}>
-        Whoops, 页面还在迁移中
+        Whoops, 功能还在迁移中
       </Typography>
       <Typography
         variant="subtitle2"
@@ -26,8 +26,7 @@ const Migration = forwardRef((props, ref) => {
       </Typography>
       <Link component={RouterLink} to="/home">
         <Button color="primary" variant="outlined">
-          {' '}
-          Get me out of here!{' '}
+          Get me out of here!
         </Button>
       </Link>
     </Box>

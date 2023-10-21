@@ -31,6 +31,7 @@ interface SettingState {
   themeColor: THEME_COLOR
   quality: QUALITY_LEVEL
   lyricTrans: boolean
+  dynamicBg: boolean
   youtubeUnlock: {
     open: boolean
     proxy: string
@@ -45,6 +46,7 @@ interface SettingAction {
   setThemeColor: (themeColor: THEME_COLOR) => void
   setQuality: (quality: QUALITY_LEVEL) => void
   setLyricTrans: (enable: SettingState['lyricTrans']) => void
+  setDynamicBg: (enable: SettingState['dynamicBg']) => void
   setYoutubeUnlock: (config: SettingState['youtubeUnlock']) => void
   setUnblockNetEaseMusic: (config: SettingState['unblockNetEaseMusic']) => void
 }
@@ -54,6 +56,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     themeColor: THEME_COLOR.GreenRockyMountains,
     quality: QUALITY_LEVEL.HIGHER,
     lyricTrans: false,
+    dynamicBg: false,
     youtubeUnlock: {
       open: false,
       proxy: 'http://127.0.0.1:7890',
@@ -66,6 +69,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     setThemeColor: themeColor => set({ themeColor }),
     setQuality: quality => set({ quality }),
     setLyricTrans: lyricTrans => set({ lyricTrans }),
+    setDynamicBg: dynamicBg => set({ dynamicBg }),
     setYoutubeUnlock: config => set({ youtubeUnlock: config }),
     setUnblockNetEaseMusic: config => set({ unblockNetEaseMusic: config }),
   }

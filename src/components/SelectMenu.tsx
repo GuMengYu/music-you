@@ -83,6 +83,9 @@ export default function SelectMenu({
       disableElevation
       onClick={handleClick}
       endIcon={<KeyboardArrowDownIcon />}
+      sx={{
+        borderRadius: '8px',
+      }}
     >
       {options.find(i => i.value === value)?.title}
     </Button>

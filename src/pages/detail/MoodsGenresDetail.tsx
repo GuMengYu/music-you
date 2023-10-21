@@ -36,7 +36,7 @@ export default function MoodsGenresDetail() {
     }
   }, {
     enabled: !!params.type,
-    staleTime: 30 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
   return <PageTransition>
     <motion.div

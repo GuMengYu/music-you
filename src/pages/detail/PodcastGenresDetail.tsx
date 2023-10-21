@@ -29,7 +29,7 @@ export default function PodcastGenresDetail() {
     }
   }, {
     enabled: !!params.categoryId,
-    staleTime: 30 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
   const cover = data?.hots?.[0].picUrl
   const [value, setValue] = useState(0)

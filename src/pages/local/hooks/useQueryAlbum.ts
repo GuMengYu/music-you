@@ -10,7 +10,6 @@ export async function queryAlbumTracks(albumKey: string) {
       const tracks = await getLocalAlbumTrack(albumKey)
       return tracks ?? []
     },
-    staleTime: 10 * 60 * 1000,
   })
 }
 
@@ -18,8 +17,6 @@ export function useQueryAlbumTracks(albumKey: string) {
   const { data, isLoading, refetch } = useQuery(['local', 'album', 'tracks', albumKey], async () => {
     const tracks = await getLocalAlbumTrack(albumKey)
     return tracks ?? []
-  }, {
-    staleTime: 10 * 60 * 1000,
   })
   return {
     data,
@@ -34,8 +31,6 @@ export function useQueryAlbums() {
     return {
       albums,
     }
-  }, {
-    staleTime: 10 * 60 * 1000,
   })
   return {
     data,

@@ -131,13 +131,13 @@ export default function MiniDrawer() {
     <Drawer variant="permanent" open={open} className="drag-area" sx={{
       gridArea: 'left-nav',
     }}>
-      <Box sx={{ mt: 2.5, mx: 1, mb: 1 }}>
+      <Box sx={{ mt: 2.5, mx: 1.5 }}>
         <MenuToggle />
       </Box>
       {open ? (
         ''
       ) : (
-        <Box sx={{ mx: 1.5 }}>
+        <Box sx={{ mx: 1.5, mt: 2 }}>
           <AggregateExtendButton />
         </Box>
       )}

@@ -23,7 +23,7 @@ export default function Account() {
             backgroundColor: alpha(theme.palette.inverseSurface.main, 0.3),
           },
         }} onClick={() => toggleQuick()}>
-          <Avatar sx={{ height: 32, width: 32 }} src={avatarUrl}></Avatar>
+          <Avatar sx={{ height: 36, width: 36 }} src={avatarUrl}></Avatar>
         </IconButton>
       ) : (
         <IconButton color="primary" onClick={() => toggleLogin(true)}>

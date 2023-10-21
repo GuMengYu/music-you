@@ -31,7 +31,7 @@ export default function ListCollection() {
       collection = list
     }
     return { collection }
-  }, { staleTime: 30 * 60 * 1000, enabled: !!param.type })
+  }, { staleTime: 5 * 60 * 1000, enabled: !!param.type })
   const collection = useMemo(() => {
     return ({
       new_album : {

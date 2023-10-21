@@ -8,7 +8,7 @@ export default function SearchSkeleton() {
   return (<div className='flex flex-col gap-4 pr-2'>
     <div className='grid grid-cols-2 gap-4'>
       <div className='flex flex-col'>
-        <div className='mb-3'>
+        <div className='mb-2'>
           <Skeleton variant="text" className='w-24' sx={{ fontSize: '1rem', lineHeight: 1.75 }}/>
         </div>
         <Card
@@ -34,7 +34,7 @@ export default function SearchSkeleton() {
         </Card>
       </div>
       <div className='flex flex-col'>
-        <div className='mb-3'>
+        <div className='mb-2'>
           <Skeleton variant="text" className='w-24' sx={{ fontSize: '1rem', lineHeight: 1.75 }}/>
         </div>
         <div className='flex flex-col gap-1'>
@@ -46,7 +46,7 @@ export default function SearchSkeleton() {
       </div>
     </div>
     <div>
-      <div className='mb-3'>
+      <div className='mb-2'>
         <Skeleton variant="text" className='w-24' sx={{ fontSize: '1.5rem', lineHeight: 1.334 }}/>
       </div>
       <GridRow rowType={GridType.A}>

@@ -16,7 +16,7 @@ export default function ArtistLink({ artist }: { artist: Artist[] | Artist }) {
     {
       artists.map((artist, idx) => {
         return (<RouterLink
-          key={artist.id ?? artist.userId}
+          key={artist.id || artist.userId || idx}
           to={`/artist/${artist.id ?? artist.userId}`}>
           {artist.name ?? artist.userName}
           { idx !== artists.length - 1 ? ', ' : '' }

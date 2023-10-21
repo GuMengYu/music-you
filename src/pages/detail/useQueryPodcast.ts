@@ -15,7 +15,7 @@ export default function useQueryPodcast(podcastId?: number | string) {
     },
     {
       enabled: !!podcastId,
-      staleTime: 30 * 60 * 1000, // 播客缓存0.5小时
+      staleTime: 5 * 60 * 1000,
     },
   )
 

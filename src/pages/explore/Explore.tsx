@@ -49,7 +49,7 @@ export default function ExplorePage() {
       topList: filter(topList, i => boardId.includes(i.id)),
     }
   }, {
-    staleTime: 30  * 60 * 1000,
+    staleTime: 5  * 60 * 1000,
   })
   return <PageTransition>
     {

@@ -4,6 +4,7 @@ import SearchBar from '@/pages/layout/SearchBar'
 import Account from '@/components/button/Account'
 import { useAppStore } from '@/store/app'
 import SearchToggle from '@/components/toggle/SearchToggle'
+import NavigateButton from '@/components/button/NavigateButton'
 
 export default function Header() {
   const theme = useTheme()
@@ -11,16 +12,21 @@ export default function Header() {
   return <Box
     className='flex gap-2 items-center'
     sx={{
-      height: 56,
+      height: 88,
       zIndex: 2,
       gridArea: 'main',
-      pr: 1,
-      py: 1,
+      pr: 2,
       position: 'relative',
     }}
   >
-    <div className='flex flex-1 h-full gap-2'>
-      {/*<NavigateButton />*/}
+    <Box sx={{
+      height: 44,
+      display: 'flex',
+      alignItems: 'center',
+      flex: 1,
+      gap: 1,
+    }}>
+      <NavigateButton />
       {
         showSearch && <SearchBar />
       }
@@ -28,7 +34,7 @@ export default function Header() {
       <SearchToggle />
       {/*<DarkModeToggle />*/}
       <Account />
-    </div>
+    </Box>
     <Box sx={{
       position: 'absolute',
       top: 0,

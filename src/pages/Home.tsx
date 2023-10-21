@@ -147,7 +147,7 @@ function Home() {
       radarPlaylist,
     }
   }, {
-    staleTime: 30 * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
 
   return (
@@ -166,9 +166,7 @@ function Home() {
             ease: [0.34, 1.56, 0.64, 1],
           }}
         >
-          <Col title="晚上好">
-            <ShortCuts/>
-          </Col>
+          <ShortCuts />
           <Col title="今日推荐">
             <GridRow singleLine rowType={GridType.A}>
               {data?.playlist?.map(data => (

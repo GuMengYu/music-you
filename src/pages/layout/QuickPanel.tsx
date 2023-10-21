@@ -142,16 +142,17 @@ export default function QuickPanel() {
           <AccountExtendFab />
           <div className='grid grid-cols-2 gap-2'>
             <SwitchCard checked={isDark} title='深色模式' subTitle={isDark ? '已开启' : '已关闭'} icon={ isDark ? <Brightness4Icon /> : <BrightnessHighIcon/>} onChange={handleChangeDarkMode} />
-            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small'  />} onChange={() => {
-              appRelaunch()
+            <SwitchCard title='设置' icon={<SettingsIcon fontSize='small' />} onClick={() => {
+              onClose()
+              navigate('/setting')
             }} />
+
             <SwitchCard title='wallpaper' subTitle='gallery' icon={<ImageIcon fontSize='small'  />} onChange={() => {
               onClose()
               navigate('/wallpaper')
             }} />
-            <SwitchCard title='设置' icon={<SettingsIcon fontSize='small' />} onClick={() => {
-              onClose()
-              navigate('/setting')
+            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small'  />} onChange={() => {
+              appRelaunch()
             }} />
           </div>
         </Box>

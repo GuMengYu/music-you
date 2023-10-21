@@ -22,7 +22,7 @@ export default function Col(
   const theme = useTheme()
   return (
     <div className={props.className}>
-      <Box className="mb-3">
+      <Box className="mb-2">
         <Box
           className="flex justify-between items-center"
         >

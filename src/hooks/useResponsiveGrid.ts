@@ -7,6 +7,7 @@ export enum GridType {
   A,
   B,
   C,
+  D,
 }
 
 const GridTypeToGap = {
@@ -39,6 +40,16 @@ const GridTypeToGap = {
     [DisplayBreakpoint.xl]: { columnCount: 2, gap: '24px' },
     [DisplayBreakpoint.xll]: { columnCount: 2, gap: '24px' },
     [DisplayBreakpoint.desktop4K]: { columnCount: 2, gap: '24px' },
+  },
+  [GridType.D]: {
+    [DisplayBreakpoint.xxs]: { columnCount: 1, gap: '4px' },
+    [DisplayBreakpoint.xs]: { columnCount: 2, gap: '4px' },
+    [DisplayBreakpoint.sm]: { columnCount: 3, gap: '8px' },
+    [DisplayBreakpoint.md]: { columnCount: 4, gap: '8px' },
+    [DisplayBreakpoint.lg]: { columnCount: 4, gap: '8px' },
+    [DisplayBreakpoint.xl]: { columnCount: 5, gap: '12px' },
+    [DisplayBreakpoint.xll]: { columnCount: 6, gap: '12px' },
+    [DisplayBreakpoint.desktop4K]: { columnCount: 6, gap: '12px' },
   },
 }
 export function useResponsiveGrid(type: GridType) {

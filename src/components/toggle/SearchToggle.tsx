@@ -14,8 +14,8 @@ export default function SearchToggle() {
     sx={{
       bgcolor: alpha(theme.palette.surfaceVariant.main, showSearch ? 0.5 : 0.25),
       p: 0,
-      height: 40,
-      width: 40,
+      height: 42,
+      width: 42,
     }}
   >
     <SearchIcon sx={{ height: 20, width: 20 }} />

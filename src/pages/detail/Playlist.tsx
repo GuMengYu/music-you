@@ -5,12 +5,12 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useCopyToClipboard } from 'react-use'
 import { useSnackbar } from 'notistack'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
-import useQueryPlaylist from '@/pages/detail/useQueryPlaylist'
+import useQueryPlaylist, { useQueryPlaylistTracks } from '@/pages/detail/useQueryPlaylist'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import { formatDate, formatDuring, formatNumber } from '@/util/fn'
@@ -22,15 +22,18 @@ import { useContextMenu } from '@/hooks/useContextMenu'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
 import { sub } from '@/api/music'
 import { deletePlayList } from '@/api/playlist'
+import TrackListSkeleton from '@/components/skeleton/TrackListSkeleton'
+import Col from '@/components/Col'
+import GridRow from '@/components/GridRow'
+import { Cover } from '@/components/cover/Cover'
 
-function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
+const PlayListHeader = memo(({ playlist, onPlay }: { playlist: Playlist | undefined; onPlay: () => void }) => {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
-  const { addToQueueAndPlay } = usePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { isCreatedPlaylist } = useMyPlaylist()
   const [subscribed, setSubscribed] = useState(false)
@@ -39,10 +42,6 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
   useEffect(() => {
     setSubscribed(playlist.subscribed)
   }, [playlist])
-
-  function handlePlay() {
-    addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
-  }
 
   async function subscribe() {
     const { code, message } = await sub('playlist', playlist.id, subscribed ? 0 : 1)
@@ -198,7 +197,7 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={onPlay}><PlayArrowIcon color='primary'/> </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }} onClick={handleMore}>
@@ -229,26 +228,47 @@ function PlayListHeader({ playlist }: { playlist: Playlist | undefined }) {
       </div>
     </motion.div>
   )
-}
+})
 export default function PlaylistPage() {
+  const { addToQueueAndPlay } = usePlayQueue()
+
   const params = useParams()
   const { data, isLoading } = useQueryPlaylist(params.id)
-  const { isCreatedPlaylist } = useMyPlaylist()
+  const { isCreatedPlaylist, isMyPlaylist } = useMyPlaylist()
+  const isMyList = useMemo(() => {
+    if (data?.playlist)
+      return isMyPlaylist(data.playlist)
+
+  }, [data])
+  // isMyList 用户创建的歌单需要请求最新的数据
+  const { tracks, isLoading: isLoadingList } = useQueryPlaylistTracks(data?.playlist.id, isMyList)
+  const handlePlay = useCallback(() => {
+    addToQueueAndPlay(tracks, data.playlist.id, 'playlist', data.playlist.name)
+  }, [tracks, data])
   return (
     <PageTransition>
-      {isLoading}
       <Box className='pr-2'>
         {
-          isLoading ? <PlayListSkeleton/> : <PlayListHeader playlist={data?.playlist}/>
+          isLoading ? <PlayListSkeleton/> : <PlayListHeader playlist={data?.playlist} onPlay={handlePlay}/>
         }
         <Box className='h-4'></Box>
         {
-          data?.tracks && <TrackList tracks={data.tracks} source={{
+          isLoadingList ? <TrackListSkeleton /> : <TrackList tracks={tracks} source={data?.playlist && {
             playlist: data.playlist,
             type: 'playlist',
             own: isCreatedPlaylist(data.playlist),
           }} />
         }
+        <Box className='h-4'></Box>
+        <Col variant='h6' title='相似歌单'>
+          <GridRow singleLine>
+            {
+              data?.relatedPlaylists?.map((i) => {
+                return <Cover data={i} key={i.id} type='playlist' />
+              })
+            }
+          </GridRow>
+        </Col>
       </Box>
     </PageTransition>
 

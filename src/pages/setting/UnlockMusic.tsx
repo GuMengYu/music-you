@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 import { useCallback, useEffect } from 'react'
 import { ipcRenderer } from 'electron'
 import Col from '@/components/Col'
@@ -42,13 +42,15 @@ export default function UnlockMusic() {
   }, [youtubeUnlock])
   return <div className='flex flex-col gap-2'>
     <Col variant='body2' title='youtube 解锁' more={<Switch checked={youtubeUnlock.open} onChange={handleOpenChange} />}>
-      <div className='flex items-center gap-2'>
-        proxy: <TextField size='small' value={youtubeUnlock.proxy} onChange={handleProxyChange} />
+      <div className='flex justify-between items-center gap-2 mx-2'>
+        <Typography variant='caption'>proxy: </Typography>
+        <TextField size='small' value={youtubeUnlock.proxy} onChange={handleProxyChange} />
       </div>
     </Col>
     <Col variant='body2' title='unblockneteasemusic 解锁' more={<Switch checked={unblockNetEaseMusic.open} onChange={handleOpenUnblockChange} />}>
-      <div className='flex items-center gap-2'>
-        source: <TextField size='small' value={unblockNetEaseMusic.source} onChange={handleSourceChange} />
+      <div className='flex justify-between items-center gap-2 mx-2'>
+        <Typography variant='caption'>source: </Typography>
+        <TextField size='small' value={unblockNetEaseMusic.source} onChange={handleSourceChange} />
       </div>
     </Col>
   </div>
