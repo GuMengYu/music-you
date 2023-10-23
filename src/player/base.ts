@@ -10,6 +10,7 @@ import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import is from '@/util/is'
 import { playQueueStore } from '@/store/playQueue'
 import { PipLyric } from '@/util/pipLyric'
+import { useSettingStore } from '@/store/setting'
 
 // const messages = {
 //   zhCN: {
@@ -398,15 +399,18 @@ export class Player {
     this.setProgressInterval()
   }
 
-  setOutPutDevice() {
-    // // @ts-ignore
-    // if (this.howler?._sounds.length) {
-    //   // @ts-ignore
-    //   const soundNode = this.howler._sounds[0]._node
-    //   if (this.settingStore.outputdevice && soundNode?.setSinkId) {
-    //     soundNode.setSinkId(this.settingStore.outputdevice)
-    //   }
-    // }
+  setOutPutDevice(deviceId?: string) {
+    const outputdevice = deviceId ??  useSettingStore.getState().outputdevice
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (this.howler?._sounds.length) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const soundNode = this.howler._sounds[0]._node
+      if (outputdevice && soundNode?.setSinkId)
+        soundNode.setSinkId(outputdevice)
+
+    }
   }
 
   private setProgressInterval(this: Player) {

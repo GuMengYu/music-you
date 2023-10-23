@@ -18,14 +18,20 @@ export function useMyPlaylist() {
     return filteredPlaylist['create']?.filter(playlist => playlist.specialType !== specialType.fav.type)
   }, [filteredPlaylist])
 
+  const favList = useMemo(() => {
+    return filteredPlaylist['create']?.find(playlist => playlist.specialType === specialType.fav.type)
+  }, [filteredPlaylist])
+
   const isCreatedPlaylist = (playlist: Playlist) => playlist.creator.userId === account.account.id && playlist.specialType !== specialType.fav.type
-  const isMyPlaylist = (playlist: Playlist) => playlist.creator.userId === account.account.id
+  const isMyPlaylist = (playlistId: number) => filteredPlaylist['create'].some(i => i.id === playlistId)
+  const isMyFavList = (playlistId: number) => favList.id === playlistId
 
   return {
     isMyPlaylist,
     isCreatedPlaylist,
+    isMyFavList,
     createdPlaylist,
     subscribePlaylist: filteredPlaylist['sub'] ?? [],
-    favList: playlists.find(playlist => playlist.specialType === specialType.fav.type),
+    favList,
   }
 }

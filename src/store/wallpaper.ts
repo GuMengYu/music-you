@@ -79,7 +79,7 @@ export const useWallpaperStore = create(persist<WallpaperState & WallpaperAction
     sorting: SORTING.TOPLIST,
     order: ORDER.DESC,
     topRange: TOPRANGE.LAST_WEEK,
-    apiKey: null,
+    apiKey: '',
     page: 1,
     brightness: 60,
     blur: 50,

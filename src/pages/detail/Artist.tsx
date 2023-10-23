@@ -74,6 +74,13 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
       ]),
       {
         type: 'item' as any,
+        label: '查看封面',
+        onClick: () => {
+          setShowImageView(true)
+        },
+      },
+      {
+        type: 'item' as any,
         label: '复制网页分享链接',
         onClick: () => {
           copyToClipboard(`https://music.163.com/#/playlist?id=${artist.id}`)
@@ -110,7 +117,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
           }
 
           <div className="absolute h-full w-full flex flex-col">
-            <div className="flex-1" onClick={() => setShowImageView(true)}></div>
+            <div className="flex-1"></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
               <Typography variant="h4">{artist?.name}</Typography>
               <div className="flex flex-col">
@@ -188,7 +195,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                 <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
                     <DialogTitle variant='body1'>歌手简介</DialogTitle>
                     <DialogContent>
-                        <Typography className='line-clamp-3' variant='caption'>{artist.briefDesc}</Typography>
+                        <Typography variant='caption'>{artist.briefDesc}</Typography>
                     </DialogContent>
                 </Md3Dialog>
             </>

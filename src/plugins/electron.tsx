@@ -122,7 +122,17 @@ function registerIpcRenderer() {
     else if (indexing === 'end')
       enqueueSnackbar({ message: '检索完成', variant: 'warning', autoHideDuration: 1000 })
 
+  })
+  ipcRenderer.on('reset-app', () => {
+    resetApp()
+  })
+}
 
-
+export function resetApp() {
+  ipcRenderer.invoke('reset').then((confirm) => {
+    if (confirm) {
+      localStorage.clear()
+      ipcRenderer.invoke('relaunch-direct')
+    }
   })
 }

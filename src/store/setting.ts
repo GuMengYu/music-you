@@ -48,6 +48,7 @@ interface SettingState {
     open: boolean
     source: string
   }
+  outputdevice: string | null
 }
 interface SettingAction {
   setAppearance: (appearance: APPEARANCE) => void
@@ -58,6 +59,7 @@ interface SettingAction {
   setYoutubeUnlock: (config: SettingState['youtubeUnlock']) => void
   setUnblockNetEaseMusic: (config: SettingState['unblockNetEaseMusic']) => void
   setExitMode: (mode: ExitMode) => void
+  setOutputdevice: (outputdevice: SettingState['outputdevice']) => void
 }
 export const useSettingStore = create(subscribeWithSelector(persist<SettingState & SettingAction>((set, get) => {
   return {
@@ -75,6 +77,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
       open: false,
       source: '',
     },
+    outputdevice: null,
     setAppearance: appearance => set({ appearance }),
     setThemeColor: themeColor => set({ themeColor }),
     setQuality: quality => set({ quality }),
@@ -83,7 +86,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     setYoutubeUnlock: config => set({ youtubeUnlock: config }),
     setUnblockNetEaseMusic: config => set({ unblockNetEaseMusic: config }),
     setExitMode: exitMode => set({ exitMode }),
-
+    setOutputdevice: outputdevice => set({ outputdevice }),
   }
 }, {
   name: 'setting',

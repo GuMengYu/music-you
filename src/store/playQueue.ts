@@ -204,12 +204,13 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       else if (playMode === PLAY_MODE.REPEAT) {
         if (!queue.states.length)
           restoreStates()
-
-        const track = queue.states.shift()
+        const newState = get().queue.states
+        const track = newState.shift()
+        // set new state after shift track
         set(state => ({
           queue: {
             ...state.queue,
-            states: queue.states,
+            states: newState,
           },
         }))
         return track

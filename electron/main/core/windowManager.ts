@@ -13,8 +13,8 @@ import type { StoreType } from './util/store'
 import store from './util/store'
 
 export const WindowDefaultSize = {
-  height: 720,
-  width: 1210,
+  height: 740,
+  width: 1099,
   minWidth: 393,
   minHeight: 600,
 }
@@ -24,8 +24,8 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   trafficLightPosition: { x: 16, y: 16 },
   // show: false,
   frame: !(is.windows() || is.linux()),
-  width: 1210,
-  height: 720,
+  width: 1099,
+  height: 740,
   // vibrancy: 'ultra-dark',
   // visualEffectState: 'active',
   webPreferences: {
@@ -147,7 +147,7 @@ export default class WindowManager extends EventEmitter {
         }
       })
       window?.on('moved', () => {
-        log.info('[main]: window moved')
+        // log.info('[main]: window moved')
       })
 
       // Test active push message to Renderer-process

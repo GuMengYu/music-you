@@ -185,6 +185,12 @@ export function createElectronMenu(window: BrowserWindow) {
             await shell.openExternal('https://github.com/GuMengYu/music-you/issues')
           },
         },
+        {
+          label: '重置应用',
+          click: async () => {
+            window.webContents.send('reset-app')
+          },
+        },
       ],
     },
   ]

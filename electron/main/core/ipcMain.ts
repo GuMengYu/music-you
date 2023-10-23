@@ -163,4 +163,31 @@ export function registerIpcMain(windowManager: WindowManager) {
     })
 
   })
+  ipcMain.handle('relaunch-direct', () => {
+    app.relaunch()
+    app.quit()
+  })
+
+  ipcMain.handle('reset', () => {
+    return dialog.showMessageBox(window, {
+      type: 'info',
+      buttons: ['取消', '确定'],
+      defaultId: 1,
+      title: '重置应用',
+      message: '重置应用状态，将会退出登录，所有设置恢复到安装时的状态',
+    }).then(({ response }) => {
+      if (response === 1) {
+        log.info('[main]: app reset')
+        store.clear()
+        return true
+      }
+      else {
+        return false
+      }
+    })
+  })
+
+  ipcMain.handle('reset-direct', () => {
+    store.clear()
+  })
 }

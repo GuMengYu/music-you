@@ -52,24 +52,19 @@ export default function Local() {
     await refetch()
   }, [])
   return <div>
-    <Col className='mb-4' variant='body2' title='文件夹' subTitle='本地音乐库需要扫描音乐的文件夹' more={
-      <Button sx={{ ml: 'auto' }} size='small' onClick={handleAdd}><AddIcon fontSize='small'/>添加文件夹</Button>
-    }>
-      <List sx={{ py: 0 }}>
-        {
-          foldersRes?.folders.map((folder) => {
-            return <FolderItem key={folder['folderId']} folder={folder} onRemove={handleRemove}></FolderItem>
-          })
-        }
-      </List>
+    <Col title='本地音乐播放' variant='body1'>
+      <Col variant='body2' title='文件夹' more={
+        <Button sx={{ ml: 'auto' }} size='small' onClick={handleAdd}><AddIcon fontSize='small'/>添加文件夹</Button>
+      }>
+        <List sx={{ py: 0 }}>
+          {
+            foldersRes?.folders.map((folder) => {
+              return <FolderItem key={folder['folderId']} folder={folder} onRemove={handleRemove}></FolderItem>
+            })
+          }
+        </List>
+        <Button variant='contained' size='small' onClick={handleSync}><SyncIcon fontSize='small'/>立即刷新</Button>
+      </Col>
     </Col>
-    <Col variant='body2' title='刷新' subTitle='扫描添加的文件夹中的歌曲' more={
-      <Button sx={{ ml: 'auto' }} size='small' onClick={handleSync}><SyncIcon fontSize='small'/>立即刷新</Button>
-    }>
-      <div className='flex items-center'>
-
-      </div>
-    </Col>
-
   </div>
 }

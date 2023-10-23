@@ -10,17 +10,12 @@ import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import TrackList from '@/components/TrackList'
 import Image from '@/components/Image'
-import ImageViewer from '@/components/ImageViewer'
-import { usePlayer } from '@/hooks/usePlayer'
 import usePlayQueue from '@/hooks/usePlayQueue'
 
 function Header({
   data,
 }: { data: any }) {
   const theme = useTheme()
-  const [showImageView, setShowImageView] = useState(false)
-
-  const { player } = usePlayer()
   const [loading, toggleLoading] = useState(false)
   const { addToQueueAndPlay } = usePlayQueue()
   const cover = data.dailySongs[0]?.al.picUrl
@@ -52,13 +47,8 @@ function Header({
             fit="cover"
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
-          {
-            cover &&
-              <ImageViewer open={showImageView} src={cover} onClose={() => setShowImageView(false)}/>
-          }
-
           <div className="absolute h-full w-full flex flex-col">
-            <div className="flex-1" onClick={() => setShowImageView(true)}></div>
+            <div className="flex-1"></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
               <Typography variant="h4">每日歌曲推荐</Typography>
               <div className="flex flex-col">

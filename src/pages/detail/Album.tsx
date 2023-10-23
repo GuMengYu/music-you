@@ -73,6 +73,13 @@ function Header({ album }: { album: Album | undefined }) {
         },
       ]),
       {
+        type: 'item' as any,
+        label: '查看封面',
+        onClick: () => {
+          setShowImageView(true)
+        },
+      },
+      {
         type: 'item',
         label: '复制网页分享链接',
         onClick: () => {
@@ -109,7 +116,7 @@ function Header({ album }: { album: Album | undefined }) {
           }
 
           <div className="absolute h-full w-full flex flex-col">
-            <div className="flex-1" onClick={() => setShowImageView(true)}></div>
+            <div className="flex-1"></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
               <Typography variant="h4">{album.name}</Typography>
               <div className="flex flex-col">

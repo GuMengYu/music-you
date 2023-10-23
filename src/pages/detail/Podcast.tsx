@@ -70,6 +70,13 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
         },
       ]),
       {
+        type: 'item' as any,
+        label: '查看封面',
+        onClick: () => {
+          setShowImageView(true)
+        },
+      },
+      {
         type: 'item',
         label: '复制网页分享链接',
         onClick: () => {
@@ -107,7 +114,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
           }
 
           <div className="absolute h-full w-full flex flex-col">
-            <div className="flex-1" onClick={() => setShowImageView(true)}></div>
+            <div className="flex-1"></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
               <Typography variant="h4">{podcast?.name}</Typography>
               <div className="flex flex-col">
@@ -179,7 +186,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
               <DialogTitle variant='body1'>播客简介</DialogTitle>
               <DialogContent>
-                <Typography className='line-clamp-3' variant='caption'>{podcast.desc}</Typography>
+                <Typography variant='caption'>{podcast.desc}</Typography>
               </DialogContent>
             </Md3Dialog>
           </>

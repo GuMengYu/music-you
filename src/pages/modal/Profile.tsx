@@ -45,14 +45,20 @@ function Profile() {
     disableElevation: true,
   }
   const goto = (url: string) => {
-    if (is.electron()) 
+    if (is.electron())
       ipcRenderer.invoke('open-url', url)
-    else 
+    else
       window.open(url, '_blank')
-    
+
   }
   function handleClose() {
     toggleProfile(false)
+  }
+  function handleLogout() {
+    ipcRenderer.invoke('reset-direct')
+    localStorage.clear()
+    location.reload()
+    // ipcRenderer.invoke('relaunch-direct')
   }
   return (
     <Md3Dialog open={open} onClose={handleClose}>
@@ -138,6 +144,7 @@ function Profile() {
               borderTopRightRadius: 30,
               borderBottomRightRadius: 30,
             }}
+            onClick={handleLogout}
           >
             <LogoutIcon />
             退出账号

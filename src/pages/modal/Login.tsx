@@ -133,6 +133,7 @@ function LoginDialog() {
           // await userStore.refreshAccount()
           // await userStore.fetch()
           handleClose()
+          // ipcRenderer.invoke('relaunch-direct')
         }
       }
     }, 2000)

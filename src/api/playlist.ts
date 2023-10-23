@@ -7,7 +7,6 @@ import { request, requestPost } from '@/util/fetch'
  * 根据歌单id返回歌单详细信息
  * @param {number} id 歌单 id
  * @param {realTime=} realTime 是否实时获取
- * @returns {Promise<playListModel>}
  */
 
 export function getPlaylistDetail(id: number, realTime = false) {

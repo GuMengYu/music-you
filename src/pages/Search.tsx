@@ -48,7 +48,7 @@ export default function Search() {
                     return <div key={i.object.id} className='flex flex-col gap-4'>
                       {content}
                       <div className='flex flex-col items-center'>
-                        <Typography variant='subtitle1'>{ i.object.name }</Typography>
+                        <Typography variant='caption'>{ i.object.name }</Typography>
                         <Typography variant='caption'>{ i.type }</Typography>
                       </div>
                     </div>

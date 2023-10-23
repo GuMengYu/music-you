@@ -1,7 +1,8 @@
 import { Box, Skeleton } from '@mui/material'
+import TrackListSkeleton from '@/components/skeleton/TrackListSkeleton'
 
 export default function PlayListSkeleton() {
-  return <Box className='flex flex-col -ml-2 -mr-4' sx={{ height: 317, bgcolor: 'rgba(0, 0, 0, 0.03)' }}>
+  return <><Box className='flex flex-col -ml-2 -mr-4' sx={{ height: 317, bgcolor: 'rgba(0, 0, 0, 0.03)' }}>
     <div className='mb-auto'></div>
     <div className='flex flex-col gap-2 mx-3 mb-4'>
       <Skeleton variant="text" className='w-72' sx={{ fontSize: '2.125rem', lineHeight: 1.235 }}/>
@@ -23,4 +24,6 @@ export default function PlayListSkeleton() {
       </div>
     </div>
   </Box>
+  <TrackListSkeleton/>
+  </>
 }

@@ -20,11 +20,11 @@ export default function TrackMore({ track }: { track: Track }) {
   function openMore(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     openContextMenu(e, [
 
-      {
-        type: 'item',
-        label: '查看评论',
-        onClick: () => {},
-      },
+      // {
+      //   type: 'item',
+      //   label: '查看评论',
+      //   onClick: () => {},
+      // },
       {
         label: '转至艺人',
         ...(track.ar && track.ar.length > 1
