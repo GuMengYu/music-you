@@ -6,11 +6,11 @@ import { useAppStore } from '@/store/app'
 export default function MenuToggle() {
   const { rail, toggleRail } = useAppStore()
   return <IconButton color="primary" className="no-drag-area" onClick={toggleRail} sx={{
-    height: 48,
-    width: 48,
+    height: 42,
+    width: 42,
   }}>
     {
-      rail ? <MenuOpenIcon sx={{ height: 20, width: 20 }} /> : <MenuIcon sx={{ height: 20, width: 20 }} />
+      rail ? <MenuOpenIcon fontSize='small' /> : <MenuIcon fontSize='small' />
     }
   </IconButton>
 }

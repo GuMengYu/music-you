@@ -17,6 +17,7 @@ import PodcastLink from '@/components/links/podcast'
 import ResourceThumbToggle from '@/components/toggle/ResourceThumbToggle'
 import { RESOURCE_TYPE } from '@/util/enum'
 import LikeToggle from '@/components/toggle/likeToggle'
+import MinimalButton from '@/components/button/MinimalButton'
 
 const variants = {
   enter: (direction: number) => {
@@ -170,6 +171,7 @@ function NowPlayingBar() {
           <Control />
         </div>
         <div className="flex flex-1 items-center justify-end gap-1">
+          <MinimalButton />
           <PIPPlayerToggle />
           <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={1}>
             <IconButton onClick={handleMute}>

@@ -8,10 +8,9 @@ export default function NavigateButton() {
   const theme = useTheme()
   const navigate = useNavigate()
 
-  return <div className='flex items-center gap-2'>
+  return <div className='flex items-center gap-2 no-drag-area'>
     <IconButton
       color="primary"
-      className="no-drag-area"
       onClick={() => navigate(-1)}
       sx={{
         bgcolor: alpha(theme.palette.surfaceVariant.main, 0.35),
@@ -23,7 +22,6 @@ export default function NavigateButton() {
     </IconButton>
     <IconButton
       color="primary"
-      className="no-drag-area"
       onClick={() => navigate(1)}
       sx={{
         bgcolor: alpha(theme.palette.surfaceVariant.main, 0.35),

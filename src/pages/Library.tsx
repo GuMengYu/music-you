@@ -25,6 +25,7 @@ import { useUserStore } from '@/store/user'
 import { getSongData } from '@/api/song'
 import usePlayQueue from '@/hooks/usePlayQueue'
 import { getTrackList } from '@/api/music'
+import Col from '@/components/Col'
 
 const AlbumCovers = memo(({ tracks }: { tracks: Track[] }) => {
   const navigate = useNavigate()
@@ -55,24 +56,20 @@ function ArtistPanel() {
 function PlaylistPanel() {
   const { createdPlaylist, subscribePlaylist } = useMyPlaylist()
   return <div className='flex flex-col gap-4'>
-    <div>
-      <Typography variant='body1'>创建的歌单</Typography>
+    <Col title='创建的歌单' variant='body1'>
       <GridRow>
         {
           createdPlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
-    </div>
-    <div>
-      <Typography variant='body1'>收藏的歌单</Typography>
-
+    </Col>
+    <Col title='收藏的歌单' variant='body1'>
       <GridRow>
         {
           subscribePlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
-    </div>
-
+    </Col>
   </div>
 }
 function AlbumPanel() {

@@ -1,88 +1,68 @@
 import {
-  useEffect,
   useMemo,
-  useState,
 } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import {
-  CalendarToday,
-  Favorite,
-  Radar as RadarIcon,
-
-} from '@mui/icons-material'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import RadarIcon from '@mui/icons-material/Radar'
+import TodayIcon from '@mui/icons-material/Today'
 import CloudQueueIcon from '@mui/icons-material/CloudQueue'
 import { useTheme } from '@mui/material'
 import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
 import ShortCut from './home/shortcut'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
-import {
-  personalizedPlaylist,
-  personalizedRadar,
-} from '@/api/personalized'
+
+
 import Col from '@/components/Col'
-import { specialType } from '@/util/metadata'
-import { getPlaylistDetail } from '@/api/playlist'
-import { useUserStore } from '@/store/user'
 import PageTransition from '@/components/PageTransition'
 import HomePageSkeleton from '@/components/skeleton/HomeSkeleton'
 import ShortCutFM from '@/pages/home/shortcutFM'
+import {
+  useQueryPersonalRadarPlaylist,
+  useQueryPersonalizedNewAlbums,
+  useQueryPersonalizedPlaylists, useQueryPersonalizedRadarPlaylists,
+} from '@/hooks/query/home'
+import { useMyPlaylist } from '@/hooks/usePlaylist'
 
 function ShortCuts() {
   const theme = useTheme()
-  const { playlists } = useUserStore()
+  const { favList } = useMyPlaylist()
+  const { data: personalRadarPlaylist } = useQueryPersonalRadarPlaylist()
 
   const fav = useMemo(() => {
-    const favoritelist = playlists.find(
-      playlist => playlist.specialType === specialType.fav.type,
-    )
-    if (favoritelist) {
+    if (favList) {
       return {
         data: {
-          picUrl: favoritelist.coverImgUrl,
+          picUrl: favList.coverImgUrl,
           title: '你喜欢的音乐',
-          id: favoritelist.id,
+          id: favList.id,
         },
         type: 'playlist',
         decoration: {
           color: theme.palette.primary.main,
-          icon: <Favorite fontSize="small" color={'onPrimary' as 'primary'}/>,
+          icon: <FavoriteIcon fontSize="small" color={'onPrimary' as 'primary'}/>,
         },
       }
     }
-  }, [playlists, theme])
-  const [radar, setRadar] = useState({
-    data: {
-      picUrl: '',
-      title: '私人雷达',
-    },
-    type: 'radar',
-    decoration: {
-      color: theme.palette.secondary.main,
-      icon: (
-        <CalendarToday fontSize="small" color={'onSecondary' as 'primary'}/>
-      ),
-    },
-  })
-
-  useEffect(() => {
-    // 私人雷达歌单
-    getPlaylistDetail(specialType.radar.id).then(({ playlist }) => {
-      setRadar((state) => {
-        return {
-          ...state,
-          type: 'playlist',
-          data: {
-            id: playlist.id,
-            picUrl: playlist.coverImgUrl,
-            title: '私人雷达',
-          },
-        }
-      })
-    })
-  }, [])
+  }, [favList, theme])
+  const radar = useMemo(() => {
+    if (personalRadarPlaylist) {
+      return {
+        type: 'playlist',
+        data: {
+          id: personalRadarPlaylist.playlist.id,
+          picUrl: personalRadarPlaylist.playlist.coverImgUrl,
+          title: '私人雷达',
+        },
+        decoration: {
+          color: theme.palette.secondary.main,
+          icon: (
+            <RadarIcon fontSize="small" color={'onSecondary' as 'primary'}/>
+          ),
+        },
+      }
+    }
+  }, [personalRadarPlaylist])
 
   const shortcuts = useMemo(() => {
     return [
@@ -98,11 +78,11 @@ function ShortCuts() {
         decoration: {
           color: theme.palette.tertiary.main,
           icon: (
-            <RadarIcon fontSize="small" color={'onTertiary' as 'primary'}/>
+            <TodayIcon fontSize="small" color={'onTertiary' as 'primary'}/>
           ),
         },
       },
-      radar,
+      ...(radar ? [radar] : []),
       {
         data: {
           picUrl:
@@ -140,50 +120,38 @@ function ShortCuts() {
 }
 
 function Home() {
-  const { data, isLoading } = useQuery(['home', 'recommend'], async () => {
-    const [playlist, radarPlaylist] = await Promise.all([personalizedPlaylist(), personalizedRadar()])
-    return {
-      playlist,
-      radarPlaylist,
-    }
-  }, {
-    staleTime: 5 * 60 * 1000,
-  })
+  const { data: personalizedPlaylists, isLoading: isLoadingPersonalizedPlaylists } = useQueryPersonalizedPlaylists()
+  const { data: personalizedRadarPlaylists } = useQueryPersonalizedRadarPlaylists()
+  const { data: personalizedPersonalizedNewAlbums } = useQueryPersonalizedNewAlbums()
 
   return (
     <PageTransition>
       {
-        isLoading ? <HomePageSkeleton /> : <motion.div
-          className='flex flex-col gap-4 pr-2'
-          initial={{
-            opacity: 0, transform: 'translateX(15px)',
-          }}
-          animate={{
-            opacity: 1, transform: 'translateX(0px)',
-          }}
-          transition={{
-            duration: 0.25,
-            ease: [0.34, 1.56, 0.64, 1],
-          }}
-        >
+        isLoadingPersonalizedPlaylists ? <HomePageSkeleton /> : <div className='flex flex-col gap-4 pr-2'>
           <ShortCuts />
           <Col title="今日推荐">
             <GridRow singleLine rowType={GridType.A}>
-              {data?.playlist?.map(data => (
+              {personalizedPlaylists?.map(data => (
                 <Cover type="playlist" key={data.id} data={data}/>
               ))}
             </GridRow>
           </Col>
           <Col title="雷达歌单">
             <GridRow singleLine rowType={GridType.A}>
-              {data?.radarPlaylist?.map(data => (
+              {personalizedRadarPlaylists?.map(data => (
                 <Cover type="playlist" key={data.id} data={data}/>
               ))}
             </GridRow>
           </Col>
-        </motion.div>
+          <Col title="推荐新音乐">
+            <GridRow singleLine rowType={GridType.A}>
+              {personalizedPersonalizedNewAlbums?.result?.map(data => (
+                <Cover type="album" key={data.id} data={data.song.album}/>
+              ))}
+            </GridRow>
+          </Col>
+        </div>
       }
-
     </PageTransition>
 
   )

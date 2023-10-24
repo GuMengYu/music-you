@@ -115,7 +115,8 @@ export function registerIpcMain(windowManager: WindowManager) {
     if (open) {
       store.set('minimal', true)
       store.set('windowPosition', window.getPosition())
-      window.setSize(256, 144, true)
+      window.setSize(144, 144, true)
+      window.setWindowButtonVisibility(false)
       window.setAlwaysOnTop(true)
     }
     else {
@@ -128,6 +129,7 @@ export function registerIpcMain(windowManager: WindowManager) {
           window.setPosition(position[0], position[1])
 
         window.setSize(width, height, true)
+        window.setWindowButtonVisibility(true)
       }
       catch (e) {
         log.error('[main] close minimal error')

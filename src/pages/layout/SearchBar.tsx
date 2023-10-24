@@ -13,12 +13,13 @@ export default function SearchBar() {
 
   }
   return  <motion.div
+    className='no-drag-area'
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, transition: { duration: 0.3 } }}
   >
     <Paper
       elevation={0}
-      sx={{ display: 'flex', alignItems: 'center', bgcolor: theme.palette.surfaceVariant.main, borderRadius: 16, width: 240, height: 46 }}
+      sx={{ display: 'flex', alignItems: 'center', bgcolor: theme.palette.surfaceVariant.main, borderRadius: 16, width: 240, height: 42 }}
     >
       <InputBase
         sx={{ ml: 2, flex: 1, fontSize: 14 }}

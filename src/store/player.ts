@@ -37,7 +37,7 @@ export const usePlayerStore = create(subscribeWithSelector(persist<PlayerState &
   return {
     track: null,
     currentTime: 0,
-    playMode: PLAY_MODE.NORMAL,
+    playMode: PLAY_MODE.REPEAT,
     shuffle: false,
     volume: 0.8,
     showPipLyric: false,

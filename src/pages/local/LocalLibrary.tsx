@@ -106,7 +106,7 @@ function FavCard() {
     <div className='flex justify-between items-end mt-auto'>
       <Button
         disableElevation
-        color={'tertiaryContainer' as 'primary'}
+        color={'errorContainer' as 'primary'}
         className='no-drag-area'
         variant="contained"
         sx={{
@@ -116,7 +116,7 @@ function FavCard() {
           minWidth: 50,
         }}
         onClick={handlePlay}
-      ><PlayArrowIcon color={'onTertiaryContainer' as 'primary'}/> </Button>
+      ><PlayArrowIcon color={'onErrorContainer' as 'primary'}/> </Button>
       <AlbumCovers albums={randomAlbums} />
     </div>
   </Card>

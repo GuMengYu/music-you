@@ -36,6 +36,7 @@ function Bg() {
     right: 0,
     display: 'flex',
     bgcolor: theme.palette.surface.main,
+    borderRadius: 7,
   }}></Box>
 }
 export default function NowPlayingPage() {

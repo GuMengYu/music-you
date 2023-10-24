@@ -382,7 +382,7 @@ export default function PlaylistPage() {
           components={{
             Header: () => <PlayListHeader playlist={data?.playlist} cover={cover} />,
             Footer: () =>
-              <Col variant='h6' title='相似歌单'>
+              <Col variant='h6' title='相似歌单' className='pr-2'>
                 <GridRow singleLine>
                   {
                     relatedPlaylist?.relatedPlaylists?.map((i) => {

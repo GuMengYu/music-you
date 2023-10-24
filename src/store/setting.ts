@@ -40,6 +40,7 @@ interface SettingState {
   lyricTrans: boolean
   dynamicBg: boolean
   exitMode: ExitMode
+  border: number
   youtubeUnlock: {
     open: boolean
     proxy: string
@@ -60,6 +61,7 @@ interface SettingAction {
   setUnblockNetEaseMusic: (config: SettingState['unblockNetEaseMusic']) => void
   setExitMode: (mode: ExitMode) => void
   setOutputdevice: (outputdevice: SettingState['outputdevice']) => void
+  setBorder: (border: number) => void
 }
 export const useSettingStore = create(subscribeWithSelector(persist<SettingState & SettingAction>((set, get) => {
   return {
@@ -69,6 +71,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     lyricTrans: false,
     dynamicBg: false,
     exitMode: ExitMode.prompt,
+    border: 8,
     youtubeUnlock: {
       open: false,
       proxy: 'http://127.0.0.1:7890',
@@ -87,6 +90,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     setUnblockNetEaseMusic: config => set({ unblockNetEaseMusic: config }),
     setExitMode: exitMode => set({ exitMode }),
     setOutputdevice: outputdevice => set({ outputdevice }),
+    setBorder: border => set({ border }),
   }
 }, {
   name: 'setting',

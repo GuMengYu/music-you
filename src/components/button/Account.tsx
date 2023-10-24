@@ -15,7 +15,7 @@ export default function Account() {
   return (
     <>
       {account ? (
-        <IconButton sx={{
+        <IconButton className='no-drag-area' sx={{
           'backgroundColor': alpha(theme.palette.inverseSurface.main, 0.2),
           'p': 0.5,
           'transition': 'background-color 0.25s ease',

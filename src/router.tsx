@@ -33,6 +33,7 @@ import PodcastCenter from '@/pages/podcast/PodcastCenter'
 import PodcastDetail from '@/pages/detail/Podcast'
 import MyPodcast from '@/pages/podcast/MyPodcast'
 import PodcastGenresDetail from '@/pages/detail/PodcastGenresDetail'
+import Minimal from '@/Minimal'
 
 function lazyLoad(component: ReactNode) {
   return <Suspense>{component}</Suspense>
@@ -180,6 +181,10 @@ const router = createBrowserRouter(
           element: <NotFound />,
         },
       ],
+    },
+    {
+      path: '/minimal',
+      element: <Minimal />,
     },
   ],
   // createRoutesFromElements(

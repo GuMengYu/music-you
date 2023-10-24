@@ -16,10 +16,6 @@ export default function NowPlayingSlider(props: SliderProps) {
   const [position, setPosition] = useState(0)
   const [dragging, setDragging] = useState(false)
 
-  function handleSliderChange( value: number) {
-    console.log(value)
-    player.setSeek(value)
-  }
   function dragStart(value: number) {
     if (!dragging)
       setDragging(true)
@@ -45,7 +41,7 @@ export default function NowPlayingSlider(props: SliderProps) {
     min={0}
     step={0.5}
     aria-label="track-slider"
-    valueLabelDisplay="auto"
+    valueLabelDisplay={props.valueLabelDisplay ?? 'auto'}
     onChangeCommitted={(_, value) => dragEnd(value as number)}
     onChange={(_, value) => dragStart(value as number)}
   />

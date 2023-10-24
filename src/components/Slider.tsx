@@ -8,7 +8,7 @@ export default function MdSlider(props: SliderProps) {
     {...rest}
     color={'inverseSurface' as 'primary'}
     sx={{
-      'height': 4,
+      'height': size === 'small' ? 2 : 3,
       'py': 1,
       'px': 0,
       '&: hover': {
@@ -25,8 +25,8 @@ export default function MdSlider(props: SliderProps) {
         'boxShadow': 'none',
         '&:hover': {
           boxShadow: '0px 0px 0px 8px rgba(195, 192, 255, 0.16)',
-          width: 12,
-          height: 12,
+          width: size === 'small' ? 8 : 12,
+          height: size === 'small' ? 8 : 12,
         },
       },
       '& .MuiSlider-valueLabel': {

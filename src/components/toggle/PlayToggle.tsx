@@ -1,6 +1,7 @@
 import { IconButton, useTheme } from '@mui/material'
 import { animate, motion, useMotionValue } from 'framer-motion'
 import { useEffect } from 'react'
+import { alpha } from '@mui/material/styles'
 import { usePlayerControl } from '@/hooks/usePlayer'
 import { useFlubber } from '@/hooks/useFlubber'
 
@@ -9,28 +10,6 @@ const pausePath = 'M16 19q-.825 0-1.413-.588T14 17V7q0-.825.588-1.413T16 5q.825 
 export default function PlayToggle() {
   const theme = useTheme()
   const { playing, playToggle } = usePlayerControl()
-  // const [playAnim, setPlayAnim] = useState<any>(null)
-  // const playOptions = {
-  //   animationData: playToPauseAnimationData,
-  //   loop: false,
-  //   autoplay: false,
-  // }
-  // useEffect(() => {
-  //   starPlayAnimate(playing)
-  // }, [playing])
-
-  // function starPlayAnimate(playing: boolean) {
-  //
-  //   if (playing)
-  //     playAnim?.playSegments([0, 30], true)
-  //   else
-  //     playAnim?.playSegments([30, 60], true)
-  //
-  // }
-  // function handleAnimation(animation: any) {
-  //   setPlayAnim(animation)
-  //   animation?.setSpeed(2)
-  // }
   const progress = useMotionValue(playing ? 1 : 0)
   const path = useFlubber(progress, [pausePath, playPath])
   useEffect(() => {
@@ -39,6 +18,7 @@ export default function PlayToggle() {
   }, [playing])
   return (
     <IconButton
+      className='no-drag-area'
       onClick={playToggle}
       sx={{
         'height': 50,
@@ -49,7 +29,7 @@ export default function PlayToggle() {
         'borderRadius': playing ? '14px' : '50%',
         'transition': 'background-color, border-radius 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         '&:hover': {
-          bgcolor: `${theme.palette.primaryContainer.main}CC`,
+          bgcolor: alpha(theme.palette.primaryContainer.main, 0.9),
         },
       }}
     >

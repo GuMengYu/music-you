@@ -39,8 +39,8 @@ export default {
   index: {
     width: storeSize.width,
     height: storeSize.height,
-    minWidth: 256,
-    minHeight: 0,
+    minWidth: 144,
+    minHeight: 144,
     bindCloseToHide: true,
     url: `${IndexUrl}`,
   },

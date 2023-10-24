@@ -3,17 +3,18 @@ import {
   Box,
   Button,
   Card,
+  Divider,
   IconButton,
-  Typography,
-  styled, useTheme } from '@mui/material'
+  Typography, styled, useTheme,
+} from '@mui/material'
 import { useMemo } from 'react'
 import {
   Close,
   EditRounded,
   Logout as LogoutIcon,
-  AddCircleOutline as PlusIcon,
 } from '@mui/icons-material'
 import { ipcRenderer } from 'electron'
+import * as React from 'react'
 import Md3Dialog from './Md3Dialog'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
@@ -60,17 +61,20 @@ function Profile() {
     location.reload()
     // ipcRenderer.invoke('relaunch-direct')
   }
+  function handleEdit() {
+    ipcRenderer.invoke('open-url', 'https://music.163.com/#/user/update')
+  }
   return (
     <Md3Dialog open={open} onClose={handleClose}>
       <Card
         sx={{
           width: 400,
-          padding: 2,
-          bgcolor: theme.palette.surfaceVariant.main,
-          color: theme.palette.onSurfaceVariant.main,
+          p:1,
+          bgcolor: theme.palette.surface.main,
+          color: theme.palette.onSurface.main,
         }}
       >
-        <Box display="flex" justifyContent="end" mb={1}>
+        <Box display="flex" justifyContent="end">
           <IconButton onClick={handleClose}>
             <Close />
           </IconButton>
@@ -78,13 +82,14 @@ function Profile() {
         <Box
           sx={{
             position: 'relative',
+            px: 1,
           }}
         >
           <Card
             variant="outlined"
             sx={{
-              height: 86,
-              bgcolor: theme.palette.surface.main,
+              height: 92,
+              bgcolor: theme.palette.surfaceVariant.main,
               display: 'flex',
               justifyContent: 'start',
               alignItems: 'center',
@@ -107,25 +112,27 @@ function Profile() {
               </Typography>
             </Box>
           </Card>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              height: 48,
-              width: 48,
-              borderRadius: 3.5,
-              minWidth: 48,
-              position: 'absolute',
-              bottom: -30,
-              right: 25,
-            }}
-          >
-            <EditRounded />
-          </Button>
+          {/*<Button*/}
+          {/*  variant="contained"*/}
+          {/*  color="primary"*/}
+          {/*  sx={{*/}
+          {/*    height: 48,*/}
+          {/*    width: 48,*/}
+          {/*    borderRadius: 3.5,*/}
+          {/*    minWidth: 48,*/}
+          {/*    position: 'absolute',*/}
+          {/*    bottom: -26,*/}
+          {/*    right: 25,*/}
+          {/*  }}*/}
+          {/*  onClick={handleEdit}*/}
+          {/*>*/}
+          {/*  <EditRounded />*/}
+          {/*</Button>*/}
         </Box>
         <Box
           sx={{
-            mt: 5,
+            mt: 2,
+            px: 1,
             display: 'flex',
             justifyContent: 'space-between',
             gap: 0.5,
@@ -137,7 +144,8 @@ function Profile() {
               borderBottomLeftRadius: 30,
             }}
           >
-            <PlusIcon /> 添加账号
+            <EditRounded  fontSize='small' />
+            <Typography variant="caption">编辑资料 </Typography>
           </BottomButton>
           <BottomButton
             sx={{
@@ -146,8 +154,8 @@ function Profile() {
             }}
             onClick={handleLogout}
           >
-            <LogoutIcon />
-            退出账号
+            <LogoutIcon fontSize='small' />
+            <Typography variant="caption">退出登录 </Typography>
           </BottomButton>
         </Box>
         <Box display="flex" justifyContent="center" mt={2} gap={1}>
@@ -158,7 +166,7 @@ function Profile() {
           >
             <Typography variant="caption">免责声明 </Typography>
           </Button>
-          <Typography variant="h6">·</Typography>
+          <Divider orientation='vertical' flexItem variant='middle' />
           <Button
             size="small"
             variant="text"

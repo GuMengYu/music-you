@@ -138,13 +138,13 @@ export default function MiniDrawer() {
         notMacos && <WindowControl />
       }
 
-      <Box sx={{ mt: 2.5, mx: 1.5 }}>
+      <Box sx={{ mt: 2.75, mx: 1.875, mb: 3 }}>
         <MenuToggle />
       </Box>
       {open ? (
         ''
       ) : (
-        <Box sx={{ mx: 1.5, mt: 2 }}>
+        <Box sx={{ mx: 1.5 }}>
           <AggregateExtendButton />
         </Box>
       )}
@@ -157,6 +157,7 @@ export default function MiniDrawer() {
       >
         <List
           sx={{
+            pt: 0,
             mx: 1,
             flex: open ? '' : 'auto',
             display: 'flex',

@@ -22,7 +22,7 @@ export enum QueryKeys {
   personalizedPodcast = 'personalizedPodcast',
   personalizedSong = 'personalizedSong',
 }
-export async function personalizedPlaylist(limit = 7) {
+export async function personalizedPlaylist(limit = 8) {
   const isLogged = useUserStore.getState().account?.account?.id
   let result: Playlist[]
   if (isLogged) {
@@ -53,7 +53,7 @@ export function personalizedMV() {
  * @param {number} limit 返回数量限制
  * @returns
  */
-export function personalizedSong(limit: number) {
+export function personalizedSong(limit =  8) {
   return request<{
     category: number
     code: number

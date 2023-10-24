@@ -45,6 +45,7 @@ export default function LikeToggle({
   }
   return (
     <IconButton
+      className='no-drag-area'
       onClick={likeSong}
       sx={{ p: 0, height: size === 'small' ? 28 : 48, width: size === 'small' ? 28 : 48 }}
       color="error"

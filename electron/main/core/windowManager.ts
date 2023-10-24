@@ -15,8 +15,8 @@ import store from './util/store'
 export const WindowDefaultSize = {
   height: 740,
   width: 1099,
-  minWidth: 393,
-  minHeight: 600,
+  minWidth: 144,
+  minHeight: 144,
 }
 
 const defaultBrowserOptions: BrowserWindowConstructorOptions = {
@@ -34,7 +34,7 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   transparent: true,
   backgroundColor: 'rgba(0,0,0,0)',
   roundedCorners: true,
-  hasShadow: false,
+  // hasShadow: false,
 }
 export default class WindowManager extends EventEmitter {
   windows: Record<Pages, BrowserWindow> | Record<string, never>

@@ -18,10 +18,14 @@ export async function generateMUITheme(
     theme = await themeFromImage(colorOrImage)
 
   const toHex = (scheme: Scheme) => {
-    const map: Record<string, string> = {}
-    for (const [key, value] of Object.entries(scheme.toJSON()))
-      map[key] = hexFromArgb(value)
-
+    const map: any = {}
+    for (const [key, value] of Object.entries(scheme.toJSON())) {
+      if (!['background', 'onBackground'].includes(key)) {
+        map[key] = {
+          main: hexFromArgb(value),
+        }
+      }
+    }
     return map
   }
   return {

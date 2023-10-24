@@ -6,7 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { styled } from '@mui/material/styles'
+import { alpha, styled } from '@mui/material/styles'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
@@ -37,6 +37,7 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) =>
 }))
 function App() {
   const { theme } = useCreateTheme()
+  const { border } = useSettingStore()
 
   const cacheOpacity = useRef(0)
   const appRef = useRef<HTMLDivElement>()
@@ -87,8 +88,8 @@ function App() {
               height: '100vh',
               width: '100vw',
               borderRadius: 7,
-              borderColor: `${theme.palette.primary.main}63`,
-              borderWidth: 8,
+              borderColor: alpha(theme.palette.primary.main, 0.45),
+              borderWidth: border ?? 0,
               borderStyle: 'solid',
               transform: 'scale(1)',
               overflowY: 'hidden',
@@ -99,6 +100,7 @@ function App() {
               gridTemplateAreas: '"left-nav main" "now-playing-bar now-playing-bar"',
               gridTemplateRows: '1fr auto',
               gridTemplateColumns: 'auto 1fr',
+              transition: 'border-width .3s ease',
             }}
           >
             <Header/>

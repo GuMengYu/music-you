@@ -113,8 +113,8 @@ export default function QuickPanel() {
           height: 'calc(100% - 16px)',
           borderTopLeftRadius: 16,
           borderBottomLeftRadius: 16,
-          borderTopRightRadius: 22,
-          borderBottomRightRadius: 22,
+          borderTopRightRadius: 16,
+          borderBottomRightRadius: 16,
         },
         '& .MuiModal-backdrop': {
           margin: 1,

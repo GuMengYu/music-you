@@ -10,7 +10,7 @@ export default function Header() {
   const theme = useTheme()
   const { showSearch } = useAppStore()
   return <Box
-    className='flex gap-2 items-center'
+    className='flex gap-2 items-center drag-area'
     sx={{
       height: 88,
       zIndex: 2,
