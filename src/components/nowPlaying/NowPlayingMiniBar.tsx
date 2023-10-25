@@ -23,10 +23,10 @@ export default function NowPlayingMiniBar(props: { slot?: React.ReactElement }) 
     else
       return 'rgba(0 0 0, 0)'
   }, [theme])
-  return <Paper className='h-full w-full flex flex-col drag-area rounded-2xl' elevation={24} sx={{
+  return <Paper className='h-full w-full flex flex-col drag-area rounded-lg' elevation={24} sx={{
     borderRadius: 4,
   }}>
-    <div className='absolute overflow-hidden rounded-2xl'>
+    <div className='absolute overflow-hidden rounded-lg'>
       <MotionImage src={cover} gradient={`linear-gradient(90deg, ${maskColor} 0%, ${maskColor} 100%)`} />
     </div>
 

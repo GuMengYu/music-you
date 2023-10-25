@@ -15,7 +15,7 @@ export class AlbumModel {
     if (isEmpty(this.albumData.artworkId))
       return Constants.emptyImage
 
-    return `track:///${this.fileAccess.coverArtFullPath(this.albumData.artworkId)}`
+    return `file:///${this.fileAccess.coverArtFullPath(this.albumData.artworkId)}`
   }
 
   public get albumArtist(): string {

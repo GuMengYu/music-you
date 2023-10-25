@@ -33,7 +33,7 @@ export class TrackController {
         id: trackModel.id,
         name: trackModel.fileName,
         dt: trackModel.durationInMilliseconds,
-        url: `track://${trackModel.path}`,
+        url: `file:///${trackModel.path}`,
         ar: trackModel.artists?.split(',').map(i => ({
           name: i,
           id: i,

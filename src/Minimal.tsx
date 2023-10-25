@@ -44,9 +44,13 @@ export default function Minimal() {
 
   useEffect(() => {
     if (track?.al.picUrl) {
+      const imageUrl = track?.al.picUrl
+      if (track.source.fromType !== 'local')
+        sizeOfImage(track?.al.picUrl, 256)
+
       const image = new Image()
       image.crossOrigin = 'anonymous'
-      image.src = sizeOfImage(track?.al.picUrl, 256)
+      image.src = imageUrl
       generateMUITheme(image, 'Palette').then((res) => {
         setPalette(res.palette.dark)
       })

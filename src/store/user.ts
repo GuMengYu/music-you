@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import { useSnackbar } from 'notistack'
+import { enqueueSnackbar } from 'notistack'
 import { useAppStore } from './app'
 import { getAccount, getVipInfo } from '@/api/account'
 import type { Account, Playlist } from '@/types'
@@ -36,8 +36,7 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
         })
       }
       else {
-        const { toggleLogin } = useAppStore()
-        const { enqueueSnackbar } = useSnackbar()
+        const { toggleLogin } = useAppStore.getState()
         enqueueSnackbar('Your session has expired. Please log in again.', {
           autoHideDuration: 1000,
           anchorOrigin: { vertical: 'bottom', horizontal: 'center' },

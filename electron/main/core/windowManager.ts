@@ -28,9 +28,6 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   height: 740,
   // vibrancy: 'ultra-dark',
   // visualEffectState: 'active',
-  webPreferences: {
-    nodeIntegration: true,
-  },
   // transparent: true,
   backgroundColor: 'rgba(0,0,0,0)',
   roundedCorners: true,
@@ -76,6 +73,7 @@ export default class WindowManager extends EventEmitter {
           contextIsolation: false,
           nodeIntegration: true,
           nodeIntegrationInWorker: true,
+          webSecurity: false, // todo 关闭同源策略，问题在于加载本地音乐如果不是 file 协议，会造成设置进度失败
         },
       })
       this.windows[page] = window

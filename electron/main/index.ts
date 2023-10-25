@@ -2,9 +2,8 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 
 import type * as http from 'node:http'
-import { URL } from 'node:url'
 
-import { BrowserWindow, app, net, protocol } from 'electron'
+import { BrowserWindow, Menu, app } from 'electron'
 import is from 'electron-is'
 import log from 'electron-log'
 
@@ -83,11 +82,15 @@ function handleAppEvent() {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
-    protocol.handle('track', (request) => {
-      const { host, port, pathname, search } = new URL(request.url)
-      const url = `file://${host}:${port}${pathname}${search}`
-      return net.fetch(url)
-    })
+    // protocol.handle('track', (request) => {
+    //   let url = request.url
+    //   const { host, port, pathname, search } = new URL(url)
+    //   if (is.windows())
+    //     url = `file://${host}:${port}${pathname}${search}`
+    //   else
+    //     url = `file:///${host}${port}${pathname}${search}`
+    //   return net.fetch(url, { keepalive: true })
+    // })
 
     // install extensions
     // await installExtensions()
@@ -134,18 +137,18 @@ function handleAppEvent() {
 
 function preCheck() {
   // Scheme must be registered before the app is ready
-  protocol.registerSchemesAsPrivileged([
-    {
-      scheme: 'track',
-      privileges: {
-        secure: true,
-        standard: true,
-        corsEnabled: true,
-        stream: true,
-        supportFetchAPI: true,
-      },
-    },
-  ])
+  // protocol.registerSchemesAsPrivileged([
+  //   {
+  //     scheme: 'track',
+  //     privileges: {
+  //       secure: true,
+  //       standard: true,
+  //       corsEnabled: true,
+  //       stream: true,
+  //       supportFetchAPI: true,
+  //     },
+  //   },
+  // ])
   process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
   // Disable GPU Acceleration for Windows 7
   if (release().startsWith('6.1'))
@@ -154,6 +157,8 @@ function preCheck() {
   // Set application name for Windows 10+ notifications
   if (process.platform === 'win32')
     app.setAppUserModelId(app.getName())
+
+  Menu.setApplicationMenu(null)
 }
 export const getWin = () => wm.getWindow('index')
 

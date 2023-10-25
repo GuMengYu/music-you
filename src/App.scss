@@ -53,3 +53,7 @@ button:hover .lottie-icon path {
 .ReactQueryDevtools {
   position: absolute;
 }
+
+::-webkit-scrollbar {
+  width: 0;
+}

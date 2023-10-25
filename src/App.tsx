@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import './App.scss'
 import { Box, ThemeProvider, createTheme } from '@mui/material'
 import type { ThemeOptions } from '@mui/material'
@@ -6,7 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { alpha, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
@@ -14,9 +14,7 @@ import { APPEARANCE, THEME_COLOR, useSettingStore } from './store/setting'
 import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
-import bootstrap from './store/bootstrap'
 import { client } from './plugins/query'
-import { useElectron } from './plugins/electron'
 import is from './util/is'
 import WindowControl from './components/WindowControl'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
@@ -46,12 +44,6 @@ function App() {
   const overlayContent = useRef<HTMLDivElement>()
   const [showBTT, setShowBTT] = useState(false)
   const { isActive: atHome } = useInForeground('home')
-
-  useEffect(() => {
-    bootstrap()
-    useElectron()
-    // navigate('/home')
-  }, [])
 
   const handleMainScroll = useCallback((instance: any, e: any) => {
     const scrollTop = e.target.scrollTop
