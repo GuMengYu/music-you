@@ -2,6 +2,8 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 
 import type * as http from 'node:http'
+import { URL } from 'node:url'
+
 import { BrowserWindow, app, net, protocol } from 'electron'
 import is from 'electron-is'
 import log from 'electron-log'
@@ -82,7 +84,9 @@ function handleAppEvent() {
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
     protocol.handle('track', (request) => {
-      return net.fetch(`file:///${request.url.slice('track://'.length)}`)
+      const { host, port, pathname, search } = new URL(request.url)
+      const url = `file://${host}:${port}${pathname}${search}`
+      return net.fetch(url)
     })
 
     // install extensions

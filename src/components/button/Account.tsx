@@ -28,7 +28,7 @@ export default function Account() {
         </IconButton>
           )
         : (
-        <IconButton color="primary" onClick={() => toggleLogin(true)}>
+        <IconButton className='no-drag-area' color="primary" onClick={() => toggleLogin(true)}>
           <FaceIcon />
         </IconButton>
           )}

@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "vite",
     "electron:dev": "vite --mode electron",
-    "build": "vite build && electron-builder",
+    "build": "vite build",
     "electron:build": "npm run electron:prebuild && electron-builder",
     "electron:build:mac": "npm run electron:prebuild && electron-builder --mac --publish onTag",
     "electron:build:win": "npm run electron:prebuild && electron-builder --win --publish onTag",
