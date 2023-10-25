@@ -17,6 +17,8 @@ import QuickPanel from './pages/layout/QuickPanel'
 import bootstrap from './store/bootstrap'
 import { client } from './plugins/query'
 import { useElectron } from './plugins/electron'
+import is from './util/is'
+import WindowControl from './components/WindowControl'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
@@ -24,6 +26,7 @@ import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
 
+const notMacos = is.windows() || is.linux()
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
@@ -37,7 +40,6 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) =>
 }))
 function App() {
   const { theme } = useCreateTheme()
-  const { border } = useSettingStore()
 
   const cacheOpacity = useRef(0)
   const appRef = useRef<HTMLDivElement>()
@@ -71,6 +73,7 @@ function App() {
       behavior: 'smooth',
     })
   }, [])
+
   return (
     <QueryClientProvider client={client}>
       <ThemeProvider theme={theme}>
@@ -87,10 +90,10 @@ function App() {
               color: theme.palette.onSurface.main,
               height: '100vh',
               width: '100vw',
-              borderRadius: 7,
-              borderColor: alpha(theme.palette.primary.main, 0.45),
-              borderWidth: border ?? 0,
-              borderStyle: 'solid',
+              // borderRadius: 0,
+              // borderColor: alpha(theme.palette.primary.main, 0.45),
+              // borderWidth: border ?? 0,
+              // borderStyle: 'solid',
               transform: 'scale(1)',
               overflowY: 'hidden',
               overflowX: 'hidden',
@@ -107,13 +110,16 @@ function App() {
             <Nav/>
             <Main onScroll={handleMainScroll}/>
             <NowPlayingBar/>
-            {/*<NowPlayingBlock/>*/}
+            {/* <NowPlayingBlock/> */}
             <NowPlayingPage/>
             <LoginDialog/>
             <Profile/>
             <QuickPanel/>
             <BackToTop show={showBTT} onBackToTop={onBackToTop} />
             <NowPlayingList />
+            {
+              notMacos && <WindowControl />
+            }
             <ReactQueryDevtools
               toggleButtonProps={{
                 style: {
@@ -167,14 +173,12 @@ function getOpacity(current: number, range = 1, offset = 0) {
   if (offset > range)
     return 1
 
-
   // Calculate normalized value
   let opacity = (current - offset) / (range - offset)
 
   // Handle NaN (Not a Number)
   if (Number.isNaN(opacity))
     opacity = 1
-
 
   // Ensure the normalized value is between 0 and 1
   return Math.min(Math.max(opacity, 0), 1)
@@ -184,8 +188,8 @@ function useCreateTheme() {
   const { appearance, themeColor } = useSettingStore()
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const darkMode =
-    appearance === APPEARANCE.SYSTEM
+  const darkMode
+    = appearance === APPEARANCE.SYSTEM
       ? prefersDarkMode
       : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {
