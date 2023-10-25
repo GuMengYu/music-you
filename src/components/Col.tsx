@@ -1,5 +1,4 @@
-import type {
-  TypographyVariant } from '@mui/material'
+import type { TypographyVariant } from '@mui/material'
 import {
   Box, IconButton,
   Typography,
@@ -28,7 +27,8 @@ export default function Col(
         >
           <Typography variant={props.variant ?? 'h6'}>{props.title}</Typography>
           <Box>{
-            typeof props.more === 'string' ? <IconButton
+            typeof props.more === 'string'
+              ? <IconButton
               sx={{
                 bgcolor: alpha(theme.palette.tertiaryContainer.main, theme.palette.action.activatedOpacity),
               }}
@@ -38,7 +38,8 @@ export default function Col(
               to={props.more}
             >
               <ArrowCircleRightOutlined fontSize='small' />
-            </IconButton> : props.more
+            </IconButton>
+              : props.more
           }</Box>
         </Box>
         <Box>

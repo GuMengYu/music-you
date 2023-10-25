@@ -21,7 +21,6 @@ export default function SwitchCard({
   onClick?: () => void
   color?: string
 }) {
-
   const theme = useTheme()
   const dark = theme
 
@@ -63,6 +62,3 @@ export default function SwitchCard({
       </div>
 </Paper>
 }
-
-
-

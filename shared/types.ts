@@ -17,7 +17,6 @@ export enum WindowState {
   MINIMIZEDTRAY = 'minimizedTray',
 }
 
-
 export interface LocalTrack {
   name: string
   id: number

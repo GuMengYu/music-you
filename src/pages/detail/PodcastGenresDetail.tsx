@@ -72,20 +72,20 @@ export default function PodcastGenresDetail() {
         <Tab label="新播客" value={1} />
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
-        <TabPanel value={value} index={0}  >
+        <TabPanel value={value} index={0} >
           <GridRow>
             {
               data?.hots?.map((podcast) => {
-                return <PodcastCover data={podcast}   key={podcast.id} />
+                return <PodcastCover data={podcast} key={podcast.id} />
               })
             }
           </GridRow>
         </TabPanel>
-        <TabPanel value={value} index={1}  >
+        <TabPanel value={value} index={1} >
           <GridRow>
             {
               data?.news?.map((podcast) => {
-                return <PodcastCover data={podcast}   key={podcast.id} />
+                return <PodcastCover data={podcast} key={podcast.id} />
               })
             }
           </GridRow>

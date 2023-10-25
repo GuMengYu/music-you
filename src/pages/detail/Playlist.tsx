@@ -1,4 +1,3 @@
-
 // components
 import { Virtuoso } from 'react-virtuoso'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -35,7 +34,6 @@ import type { Playlist } from '@/types'
 import { Track as TrackType } from '@/types'
 import { sub } from '@/api/music'
 import { deletePlayList } from '@/api/playlist'
-
 
 const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefined; cover?: string }) => {
   const theme = useTheme()
@@ -74,45 +72,50 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
       enqueueSnackbar('已删除', { variant: 'success' })
     else
       enqueueSnackbar(message, { variant: 'error' })
-
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      ...(!isCreatedPlaylist(playlist) && subscribed ? [
-        {
-          type: 'item' as any,
-          label: '从音乐库中移除',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ] : []),
-      ...(!isCreatedPlaylist(playlist) && !subscribed ? [
-        {
-          type: 'item' as any,
-          label: '添加到音乐库',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ] : []),
-      ...(isCreatedPlaylist(playlist) ? [
-        {
-          type: 'item' as any,
-          label: '编辑歌单',
-          onClick: () => {
-            enqueueSnackbar('待开发...', { variant: 'warning' })
-          },
-        },
-        {
-          type: 'item' as any,
-          label: '删除歌单',
-          onClick: () => {
-            del()
-          },
-        },
-        { type: 'divider' as any },
-      ] : []),
+      ...(!isCreatedPlaylist(playlist) && subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '从音乐库中移除',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]
+        : []),
+      ...(!isCreatedPlaylist(playlist) && !subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '添加到音乐库',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]
+        : []),
+      ...(isCreatedPlaylist(playlist)
+        ? [
+            {
+              type: 'item' as any,
+              label: '编辑歌单',
+              onClick: () => {
+                enqueueSnackbar('待开发...', { variant: 'warning' })
+              },
+            },
+            {
+              type: 'item' as any,
+              label: '删除歌单',
+              onClick: () => {
+                del()
+              },
+            },
+            { type: 'divider' as any },
+          ]
+        : []),
       {
         type: 'item' as any,
         label: '查看封面',
@@ -129,7 +132,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
         },
       },
     ]
-    openContextMenu(e,  items)
+    openContextMenu(e, items)
   }
   return (
     <div className="flex flex-col">
@@ -148,15 +151,15 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
             />
           </Box>
 
-          {/*<Image*/}
-          {/*  className="absolute"*/}
-          {/*  src={playlist?.coverImgUrl}*/}
-          {/*  fit="cover"*/}
-          {/*  gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}*/}
-          {/*/>*/}
+          {/* <Image */}
+          {/*  className="absolute" */}
+          {/*  src={playlist?.coverImgUrl} */}
+          {/*  fit="cover" */}
+          {/*  gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`} */}
+          {/* /> */}
           {
-            playlist?.coverImgUrl &&
-              <ImageViewer open={showImageView} src={playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
+            playlist?.coverImgUrl
+              && <ImageViewer open={showImageView} src={playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
@@ -253,13 +256,11 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
   )
 })
 export default function PlaylistPage() {
-
   const params = useParams()
   const { isCreatedPlaylist, isMyPlaylist, isMyFavList } = useMyPlaylist()
   const isMyList = useMemo(() => {
     if (params.id)
       return isMyPlaylist(+params.id)
-
   }, [params])
   const { data, isLoading } = useQueryPlaylist(params.id, isMyList)
   const { data: relatedPlaylist } = useQueryRelatedPlaylist(params.id)
@@ -272,12 +273,11 @@ export default function PlaylistPage() {
     return isMyFavList(+params.id) ? data?.playlist?.tracks[0]?.al.picUrl : data?.playlist.coverImgUrl
   }, [data, params])
 
-
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false, { type: 'playlist', id: data.playlist.id })
   }, [data])
 
-  const handleContextMenu = useCallback((e:  React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
     openContextMenu(e, [
       {
         type: 'item',
@@ -332,14 +332,16 @@ export default function PlaylistPage() {
         label: '添加到歌单',
         items: getToPlaylistMenuItem(track),
       },
-      ...(isCreatedPlaylist(data.playlist) ? [{
-        type: 'item' as any,
-        label: '从本歌单移除',
-        onClick: () => {
-          removeFromPlaylist(track.id, data.playlist)
-          // todo remove from playlist
-        },
-      }] : []),
+      ...(isCreatedPlaylist(data.playlist)
+        ? [{
+            type: 'item' as any,
+            label: '从本歌单移除',
+            onClick: () => {
+              removeFromPlaylist(track.id, data.playlist)
+              // todo remove from playlist
+            },
+          }]
+        : []),
       {
         type: 'item',
         label: '下载到本地',
@@ -360,7 +362,9 @@ export default function PlaylistPage() {
   return (
     <PageTransition>
       {
-        isLoading ? <PlayListSkeleton/> :  <Virtuoso
+        isLoading
+          ? <PlayListSkeleton/>
+          : <Virtuoso
           className='hide-scrollbar'
           style={
             {

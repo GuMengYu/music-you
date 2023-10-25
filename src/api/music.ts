@@ -28,14 +28,17 @@ export async function getTrackDetail(id: number, from: TrackFrom) {
   if (from?.type === 'local') {
     const localTrack = await getLocalTrack(id)
     track = localTrack
-    return { track, trackMeta: {
-      url: localTrack.url as string,
-      br: 0,
-      type: '',
-      encodeType: '',
-      sourceFromUnlockMusic: false,
-      sourceFromLocalMusic: true,
-    } }
+    return {
+      track,
+      trackMeta: {
+        url: localTrack.url as string,
+        br: 0,
+        type: '',
+        encodeType: '',
+        sourceFromUnlockMusic: false,
+        sourceFromLocalMusic: true,
+      },
+    }
   }
   // track from program
   if (from?.type === 'program') {
@@ -181,7 +184,7 @@ export async function getTrackList(type: 'album' | 'playlist' | 'artist' | 'prog
  * @param t  1 收藏 其他 取消收藏
  * 根据歌单id返回歌单详细信息
  */
-export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track'  | 'podcast', id: Track['id'], t: number) {
+export function sub(type: 'album' | 'playlist' | 'artist' | 'mv' | 'track' | 'podcast', id: Track['id'], t: number) {
   const params: {
     timestamp: number
     id: string | number

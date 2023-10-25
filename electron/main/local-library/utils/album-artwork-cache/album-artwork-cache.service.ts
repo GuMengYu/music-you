@@ -37,10 +37,8 @@ export class AlbumArtworkCacheService {
     if (!imageBuffer)
       return undefined
 
-
     if (imageBuffer.length === 0)
       return undefined
-
 
     try {
       const albumArtworkCacheId: AlbumArtworkCacheId = this.albumArtworkCacheIdFactory.create()

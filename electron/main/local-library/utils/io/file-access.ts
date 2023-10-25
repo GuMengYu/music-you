@@ -29,10 +29,8 @@ export class FileAccess implements BaseFileAccess {
     if (pathPieces === undefined || pathPieces.length === 0)
       return ''
 
-
     if (pathPieces.length === 1)
       return pathPieces[0]
-
 
     const combinedPath: string = pathPieces.join(this._pathSeparator)
 
@@ -65,16 +63,13 @@ export class FileAccess implements BaseFileAccess {
       try {
         if (fs.lstatSync(possibleFilePath).isFile())
           confirmedFilePaths.push(possibleFilePath)
-
       }
       catch (e) {
         if (continueOnError === undefined || !continueOnError)
           throw e
 
-
         if (errors !== undefined)
           errors.push(e as any)
-
       }
     }
 
@@ -91,16 +86,13 @@ export class FileAccess implements BaseFileAccess {
       try {
         if (fs.lstatSync(possibleFilePath).isFile())
           confirmedFilePaths.push(possibleFilePath)
-
       }
       catch (e) {
         if (continueOnError === undefined || !continueOnError)
           throw e
 
-
         if (errors !== undefined)
           errors.push(e as any)
-
       }
     }
 
@@ -117,16 +109,13 @@ export class FileAccess implements BaseFileAccess {
       try {
         if (fs.lstatSync(possibleDirectoryPath).isDirectory())
           confirmedDirectoryPaths.push(possibleDirectoryPath)
-
       }
       catch (e) {
         if (continueOnError === undefined || !continueOnError)
           throw e
 
-
         if (errors !== undefined)
           errors.push(e as any)
-
       }
     }
 
@@ -182,7 +171,6 @@ export class FileAccess implements BaseFileAccess {
   public createFullDirectoryPathIfDoesNotExist(directoryPath: string): void {
     if (!fs.existsSync(directoryPath))
       fs.mkdirSync(directoryPath, { recursive: true })
-
   }
 
   public createFile(filePath: string): void {
@@ -196,7 +184,6 @@ export class FileAccess implements BaseFileAccess {
   public async deleteFileIfExistsAsync(filePath: string): Promise<void> {
     if (fs.existsSync(filePath))
       await fs.unlink(filePath)
-
   }
 
   public deleteDirectoryRecursively(directoryPath: string): void {

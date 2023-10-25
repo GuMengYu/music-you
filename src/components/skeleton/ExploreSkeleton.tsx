@@ -11,7 +11,7 @@ export default function ExploreSkeleton() {
       <GridRow>
         {
           Array(12).fill('_').map((i, idx) => {
-            return  <Skeleton key={idx} variant="rectangular" height={32} sx={{ borderRadius: 1 }}/>
+            return <Skeleton key={idx} variant="rectangular" height={32} sx={{ borderRadius: 1 }}/>
           })
         }
       </GridRow>

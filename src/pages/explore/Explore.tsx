@@ -21,8 +21,8 @@ interface Tag {
 }
 const colors = Object.values(getColorTable())
 const boardId = [
-  60198 /*美国Billboard排行榜*/, 180106 /*UK排行榜周榜*/, 19723756 /*飙升榜*/, 2884035 /*原创榜*/,
-  5059661515 /*云音乐民谣榜*/, 7775163417 /*赏音榜*/,
+  60198 /* 美国Billboard排行榜 */, 180106 /* UK排行榜周榜 */, 19723756 /* 飙升榜 */, 2884035 /* 原创榜 */,
+  5059661515 /* 云音乐民谣榜 */, 7775163417 /* 赏音榜 */,
 ]
 export default function ExplorePage() {
   const navigate = useNavigate()
@@ -49,11 +49,13 @@ export default function ExplorePage() {
       topList: filter(topList, i => boardId.includes(i.id)),
     }
   }, {
-    staleTime: 5  * 60 * 1000,
+    staleTime: 5 * 60 * 1000,
   })
   return <PageTransition>
     {
-      isLoading ? <ExploreSkeleton/> : <div className='flex flex-col gap-4 pr-2'>
+      isLoading
+        ? <ExploreSkeleton/>
+        : <div className='flex flex-col gap-4 pr-2'>
         <Col title='歌单广场' variant='h6' more={'/moods_and_genres/'}>
           <GridRow>
             {
@@ -65,7 +67,7 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-        <Col title='新专辑' variant='h6'  more={'/list_collection/new_album'}>
+        <Col title='新专辑' variant='h6' more={'/list_collection/new_album'}>
           <GridRow singleLine>
             {
               data?.albums?.map((i) => {
@@ -78,7 +80,7 @@ export default function ExplorePage() {
           <GridRow>
             {
               data?.topList?.map((i) => {
-                return <Cover data={i} type='playlist' key={i.id}  />
+                return <Cover data={i} type='playlist' key={i.id} />
               })
             }
           </GridRow>

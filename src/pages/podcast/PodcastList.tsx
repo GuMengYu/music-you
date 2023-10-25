@@ -7,7 +7,6 @@ import { sizeOfImage } from '@/util/fn'
 import Image from '@/components/Image'
 import type { Podcast } from '@/types'
 
-
 function PodcastItem({ podcast }: {
   podcast: Podcast
 }) {
@@ -48,7 +47,7 @@ export default function PodcastList({ podcasts, className }: {
   return <div className={className}>
     {
       podcasts?.length && podcasts.map((track) => {
-        return <PodcastItem podcast={track} key={track.id}  />
+        return <PodcastItem podcast={track} key={track.id} />
       })
     }
   </div>

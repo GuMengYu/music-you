@@ -18,7 +18,6 @@ function ImageViewer({ src, open, onClose }: {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape')
       onClose && onClose()
-
   }
   const removeListener = () => {
     window.removeEventListener('keydown', handleKeyDown)

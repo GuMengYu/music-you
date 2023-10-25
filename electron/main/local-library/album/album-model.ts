@@ -4,7 +4,6 @@ import { FileAccess } from '../utils/io/file-access'
 import { Constants } from '../utils/constant/constants'
 import { AlbumData } from './album.entity'
 
-
 export class AlbumModel {
   constructor(private albumData: AlbumData, private fileAccess: FileAccess) {}
 
@@ -16,8 +15,7 @@ export class AlbumModel {
     if (isEmpty(this.albumData.artworkId))
       return Constants.emptyImage
 
-
-    return `track:///${  this.fileAccess.coverArtFullPath(this.albumData.artworkId)}`
+    return `track:///${this.fileAccess.coverArtFullPath(this.albumData.artworkId)}`
   }
 
   public get albumArtist(): string {
@@ -26,12 +24,10 @@ export class AlbumModel {
     if (albumArtists && albumArtists.length > 0)
       return albumArtists[0]
 
-
     const trackArtists = DataDelimiter.fromDelimitedString(this.albumData.artists)
 
     if (trackArtists && trackArtists.length > 0)
       return trackArtists[0]
-
 
     return 'unknown-artist'
   }
@@ -39,7 +35,6 @@ export class AlbumModel {
   public get albumTitle(): string {
     if (isEmpty(this.albumData.albumTitle))
       return 'Unknown Album'
-
 
     return this.albumData.albumTitle
   }

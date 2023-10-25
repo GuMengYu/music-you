@@ -3,7 +3,6 @@ import { now } from 'lodash-es'
 import { request } from '../util/fetch'
 import type { Account } from '@/types'
 
-
 /**
  * 登录
  * - phone: 手机号

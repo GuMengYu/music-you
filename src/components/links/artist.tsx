@@ -11,7 +11,6 @@ export default function ArtistLink({ artist }: { artist: Artist[] | Artist }) {
       artists = [artist]
   }
 
-
   return <span>
     {
       artists.map((artist, idx) => {

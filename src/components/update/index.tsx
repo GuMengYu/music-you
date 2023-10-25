@@ -106,8 +106,9 @@ function Update() {
                 <p>Error downloading the latest version.</p>
                 <p>{updateError.message}</p>
               </div>
-              ) : updateAvailable
-                ? (
+              )
+            : updateAvailable
+              ? (
                 <div className='can-available'>
                   <div>The last version is: v{versionInfo?.newVersion}</div>
                   <div className='new-version-target'>v{versionInfo?.version} -&gt; v{versionInfo?.newVersion}</div>
@@ -118,10 +119,10 @@ function Update() {
                     </div>
                   </div>
                 </div>
-                  )
-                : (
+                )
+              : (
                 <div className='can-not-available'>{JSON.stringify(versionInfo ?? {}, null, 2)}</div>
-                  )}
+                )}
         </div>
       </Modal>
       <button disabled={checking} onClick={checkUpdate}>

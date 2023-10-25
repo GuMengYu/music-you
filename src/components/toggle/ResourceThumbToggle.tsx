@@ -19,7 +19,6 @@ export default function ResourceThumbToggle({
     const { code } = await resourceLike(type, id!, _liked ? 0 : 1)
     if (code === 200)
       setLiked(!_liked)
-
   }
 
   useEffect(() => {
@@ -27,11 +26,10 @@ export default function ResourceThumbToggle({
       setLiked(true)
     else
       setLiked(false)
-
   }, [liked])
   return <IconButton
     onClick={likeResource}
-    sx={{ height:   48, width: 48 }}
+    sx={{ height: 48, width: 48 }}
     color="error"
   >
     {

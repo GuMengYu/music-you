@@ -49,6 +49,5 @@ export class RatingConverter {
     else
       return 0
     // Should not happen
-
   }
 }

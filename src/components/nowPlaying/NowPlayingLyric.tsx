@@ -6,7 +6,6 @@ import { Typography } from '@mui/material'
 import { useTrackLyric } from '@/hooks/useTrackOperation'
 import { usePlayerStore } from '@/store/player'
 
-
 export default function NowPlayingLyric({ enable }: { enable: boolean }) {
   const { currentTime, track } = usePlayerStore()
   const theme = useTheme()

@@ -1,6 +1,7 @@
 import { URL } from 'node:url'
 import { app, dialog, ipcMain, shell } from 'electron'
 
+import is from 'electron-is'
 import { WindowState } from '../../../shared/types'
 import { downloadFile, downloadTrack } from './util/download'
 import log from './util/log'
@@ -35,7 +36,6 @@ export function registerIpcMain(windowManager: WindowManager) {
       window.unmaximize()
     else
       window.maximize()
-
   })
   ipcMain.handle('downloadFile', (_e, data) => {
     downloadFile(data)
@@ -51,9 +51,9 @@ export function registerIpcMain(windowManager: WindowManager) {
       window.unmaximize()
     else
       window.maximize()
-
   })
   ipcMain.handle(WindowState.NORMAL, () => {
+    console.log(window.isMaximizable(), window.isMaximized())
     window.unmaximize()
   })
   ipcMain.handle(WindowState.CLOSED, () => {
@@ -102,13 +102,11 @@ export function registerIpcMain(windowManager: WindowManager) {
       window.setSize(width, height, true)
     else
       window.setSize(WindowDefaultSize.width, WindowDefaultSize.height, true)
-
   })
   ipcMain.handle('setSize', (e, payload) => {
     const { width, height } = payload
     if (width && height)
       window.setSize(width, height, true)
-
   })
   ipcMain.handle('minimal', (e, open) => {
     log.info('[main] minimal player')
@@ -116,7 +114,10 @@ export function registerIpcMain(windowManager: WindowManager) {
       store.set('minimal', true)
       store.set('windowPosition', window.getPosition())
       window.setSize(144, 144, true)
-      window.setWindowButtonVisibility(false)
+
+      if (is.macOS())
+        window.setWindowButtonVisibility(false)
+
       window.setAlwaysOnTop(true)
     }
     else {
@@ -129,7 +130,8 @@ export function registerIpcMain(windowManager: WindowManager) {
           window.setPosition(position[0], position[1])
 
         window.setSize(width, height, true)
-        window.setWindowButtonVisibility(true)
+        if (is.macOS())
+          window.setWindowButtonVisibility(true)
       }
       catch (e) {
         log.error('[main] close minimal error')
@@ -163,7 +165,6 @@ export function registerIpcMain(windowManager: WindowManager) {
         app.quit()
       }
     })
-
   })
   ipcMain.handle('relaunch-direct', () => {
     app.relaunch()

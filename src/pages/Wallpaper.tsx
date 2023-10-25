@@ -9,8 +9,8 @@ import CheckIcon from '@mui/icons-material/Check'
 import { useTheme } from '@mui/material/styles'
 import * as React from 'react'
 import FaceIcon from '@mui/icons-material/Face'
-import  EmojiNature  from '@mui/icons-material/EmojiNature'
-import Pentagon  from '@mui/icons-material/Pentagon'
+import EmojiNature from '@mui/icons-material/EmojiNature'
+import Pentagon from '@mui/icons-material/Pentagon'
 import StrollerIcon from '@mui/icons-material/Stroller'
 import NoStrollerIcon from '@mui/icons-material/NoStroller'
 import AddReactionIcon from '@mui/icons-material/AddReaction'
@@ -45,7 +45,7 @@ export default function WallpaperPage({
         minWidth: 50,
         color: theme.palette.onPrimaryContainer.main,
       }}
-      onClick={() => {setFilter(true)}}
+      onClick={() => { setFilter(true) }}
     >
       <FilterAltIcon />
     </Button>
@@ -223,13 +223,13 @@ function FilterPanel() {
   const purityOptions = useMemo(() => {
     const options = [
       {
-        icon: <AddReactionIcon sx={{ fontSize: '1.125rem' }}  />,
+        icon: <AddReactionIcon sx={{ fontSize: '1.125rem' }} />,
         title: 'SFW',
         value: PURITY.SFW,
         activeClass: 'text-primary',
       },
       {
-        icon: <StrollerIcon sx={{ fontSize: '1.125rem' }}  />,
+        icon: <StrollerIcon sx={{ fontSize: '1.125rem' }} />,
         title: 'SKETCHY',
         value: PURITY.SKETCHY,
         activeClass: 'text-primary',
@@ -237,7 +237,7 @@ function FilterPanel() {
     ]
     if (apiKey) {
       options.push({
-        icon: <NoStrollerIcon sx={{ fontSize: '1.125rem' }}  />,
+        icon: <NoStrollerIcon sx={{ fontSize: '1.125rem' }} />,
         title: 'NSFW',
         value: PURITY.NSFW,
         activeClass: 'text-primary',
@@ -247,8 +247,7 @@ function FilterPanel() {
   }, [apiKey])
 
   return (
-    <Box className='sticky top-0 py-3 flex gap-2 items-center justify-center' sx={{ zIndex: 1, bgcolor: theme.palette.surface.main,
-    }}>
+    <Box className='sticky top-0 py-3 flex gap-2 items-center justify-center' sx={{ zIndex: 1, bgcolor: theme.palette.surface.main }}>
 
       <ChipGroup chips={categoriesOptions} value={categories} onChange={(val) => {
         setCategories(val)
@@ -326,4 +325,3 @@ function ChipGroup({ chips, value, onChange }: {
     }
   </div>
 }
-

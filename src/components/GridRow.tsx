@@ -1,6 +1,7 @@
 import type {
   CSSObject,
-  IconButtonProps } from '@mui/material'
+  IconButtonProps,
+} from '@mui/material'
 import {
   Box,
   IconButton,
@@ -45,11 +46,13 @@ function GridRow(props: PropsWithChildren & {
           },
         }}
       >
-        {props.direction === 'prev' ? (
+        {props.direction === 'prev'
+          ? (
           <ChevronLeft fontSize="small" />
-        ) : (
+            )
+          : (
           <ChevronRight fontSize="small" />
-        )}
+            )}
       </IconButton>
     )
   }

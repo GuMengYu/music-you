@@ -106,7 +106,6 @@ function FavCard() {
     }
 
     setRandomTracks([])
-
   }, [likes])
   async function handlePlayMyFav() {
     const _data = await getTrackList('playlist', favList.id)
@@ -114,8 +113,7 @@ function FavCard() {
     addToQueueAndPlay(_data.tracks, favList.id, 'playlist', favList.name)
   }
 
-
-  return  <Card className='flex flex-col col-span-3' variant='outlined' sx={{
+  return <Card className='flex flex-col col-span-3' variant='outlined' sx={{
     flex: 1,
     bgcolor: theme.palette.surfaceVariant.main,
     color: theme.palette.onSurfaceVariant.main,
@@ -132,7 +130,6 @@ function FavCard() {
 
       </div>
     </div>
-
 
     <div className='flex justify-between items-end mt-auto'>
       <Button
@@ -164,7 +161,7 @@ function Library() {
 
       <FavCard />
       <div className='grid grid-cols-1 grid-rows-4 gap-2 col-span-1'>
-        <SwitchCard color={theme.palette.tertiaryContainer.main} title='听歌排行' icon={<ThumbUpAltIcon fontSize='small'  />} onChange={() => {
+        <SwitchCard color={theme.palette.tertiaryContainer.main} title='听歌排行' icon={<ThumbUpAltIcon fontSize='small' />} onChange={() => {
           navigate('/rank')
         }} />
         <SwitchCard color={theme.palette.secondaryContainer.main} title='音乐云盘' icon={<AlbumIcon fontSize='small' />} onClick={() => {

@@ -44,12 +44,14 @@ const ModalTemplate: React.FC<React.PropsWithChildren<{
             </span>
           </div>
           <div className='modal-body'>{children}</div>
-          {typeof footer !== 'undefined' ? (
+          {typeof footer !== 'undefined'
+            ? (
             <div className='modal-footer'>
               <button onClick={onCancel}>{cancelText}</button>
               <button onClick={onOk}>{okText}</button>
             </div>
-          ) : footer}
+              )
+            : footer}
         </div>
       </div>
     </div>

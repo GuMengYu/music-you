@@ -28,7 +28,6 @@ export class LastfmApi {
     if (this.isJsonResponseValid(jsonResponse))
       return jsonResponse.session.key
 
-
     return ''
   }
 
@@ -42,7 +41,6 @@ export class LastfmApi {
 
     if (!Strings.isNullOrWhiteSpace(languageCode))
       parameters.set('lang', languageCode)
-
 
     const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false)
     const lastfmArtist: LastfmArtist = new LastfmArtist()
@@ -98,7 +96,6 @@ export class LastfmApi {
     if (!Strings.isNullOrWhiteSpace(languageCode))
       parameters.set('lang', languageCode)
 
-
     const jsonResponse: any = await this.performGetRequestAsync(method, parameters, false)
     const lastfmAlbum: LastfmAlbum = new LastfmAlbum()
 
@@ -139,7 +136,6 @@ export class LastfmApi {
     if (!Strings.isNullOrWhiteSpace(albumTitle))
       parameters.set('album', albumTitle)
 
-
     const methodSignature: string = this.generateMethodSignature(method, parameters)
     parameters.set('api_sig', methodSignature)
 
@@ -147,7 +143,6 @@ export class LastfmApi {
 
     if (this.isJsonResponseValid(jsonResponse))
       isScrobbleSuccessful = true
-
 
     return isScrobbleSuccessful
   }
@@ -167,7 +162,6 @@ export class LastfmApi {
     if (!Strings.isNullOrWhiteSpace(albumTitle))
       parameters.set('album', albumTitle)
 
-
     const methodSignature: string = this.generateMethodSignature(method, parameters)
     parameters.set('api_sig', methodSignature)
 
@@ -175,7 +169,6 @@ export class LastfmApi {
 
     if (this.isJsonResponseValid(jsonResponse))
       isNowPlayingUpdateSuccessful = true
-
 
     return isNowPlayingUpdateSuccessful
   }
@@ -200,7 +193,6 @@ export class LastfmApi {
     if (this.isJsonResponseValid(jsonResponse))
       isLoveTrackSuccessful = true
 
-
     return isLoveTrackSuccessful
   }
 
@@ -223,7 +215,6 @@ export class LastfmApi {
 
     if (this.isJsonResponseValid(jsonResponse))
       isLoveTrackSuccessful = true
-
 
     return isLoveTrackSuccessful
   }
@@ -281,7 +272,6 @@ export class LastfmApi {
 
       if (size === imageSize)
         return images[i]['#text']
-
     }
 
     return ''

@@ -34,8 +34,6 @@ export default function Playground() {
         }],
       },
     ], { useCursorPosition: true })
-
-
   }
 
   return <PageTransition>

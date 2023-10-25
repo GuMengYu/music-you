@@ -10,7 +10,6 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 
-
 // icons
 import CategoryIcon from '@mui/icons-material/Category'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -24,7 +23,6 @@ import { useState } from 'react'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
 import is from 'electron-is'
 import MenuToggle from '@/components/toggle/MenuToggle'
-
 
 // hooks
 import { useAppStore } from '@/store/app'
@@ -77,12 +75,11 @@ const Drawer = styled(MuiDrawer, {
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
 }))
-const notMacos = is.windows() || is.linux()
 
 export default function MiniDrawer() {
   const theme = useTheme()
   const { rail: open, toggleLogin, showSearch, toggleSearch } = useAppStore()
-  const [searchOpen, setSearchOpen ] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const [keyword, setKeyword] = useState()
   const { pathname } = useLocation()
   const list = [
@@ -134,20 +131,18 @@ export default function MiniDrawer() {
     <Drawer variant="permanent" open={open} className="drag-area" sx={{
       gridArea: 'left-nav',
     }}>
-      {
-        notMacos && <WindowControl />
-      }
-
-      <Box sx={{ mt: 2.75, mx: 1.875, mb: 3 }}>
+      <Box sx={{ mt: 2.65, mx: 2.2, mb: 2.75 }}>
         <MenuToggle />
       </Box>
-      {open ? (
-        ''
-      ) : (
+      {open
+        ? (
+            ''
+          )
+        : (
         <Box sx={{ mx: 1.5 }}>
           <AggregateExtendButton />
         </Box>
-      )}
+          )}
       <Box
         sx={{
           display: 'flex',
@@ -166,40 +161,40 @@ export default function MiniDrawer() {
             transition: 'flex 350ms cubic-bezier(0.55, -0.01, 0, 1.03)',
           }}
         >
-          {/*<ListItem*/}
-          {/*  disablePadding*/}
-          {/*  sx={{ display: 'block', mb: 0.5 }}*/}
-          {/*  className="no-drag-area"*/}
-          {/*  onClick={() => {*/}
-          {/*    toggleSearch()*/}
-          {/*  }}*/}
-          {/*>*/}
-          {/*  <ListItemButton*/}
-          {/*    selected={showSearch }*/}
-          {/*    sx={{*/}
-          {/*      borderRadius: 14,*/}
-          {/*      minHeight: 56,*/}
-          {/*      justifyContent: open ? 'initial' : 'center',*/}
-          {/*      px: 1,*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    <ListItemIcon*/}
-          {/*      sx={{*/}
-          {/*        minWidth: 40,*/}
-          {/*        minHeight: 40,*/}
-          {/*        justifyContent: 'center',*/}
-          {/*        alignItems: 'center',*/}
-          {/*        color: theme.palette.primary.main,*/}
-          {/*      }}*/}
-          {/*    >*/}
-          {/*      <SearchIcon sx={{ height: 20, width: 20 }} />*/}
-          {/*    </ListItemIcon>*/}
-          {/*    <ListItemText*/}
-          {/*      secondary='搜索'*/}
-          {/*      sx={{ opacity: open ? 1 : 0 }}*/}
-          {/*    />*/}
-          {/*  </ListItemButton>*/}
-          {/*</ListItem>*/}
+          {/* <ListItem */}
+          {/*  disablePadding */}
+          {/*  sx={{ display: 'block', mb: 0.5 }} */}
+          {/*  className="no-drag-area" */}
+          {/*  onClick={() => { */}
+          {/*    toggleSearch() */}
+          {/*  }} */}
+          {/* > */}
+          {/*  <ListItemButton */}
+          {/*    selected={showSearch } */}
+          {/*    sx={{ */}
+          {/*      borderRadius: 14, */}
+          {/*      minHeight: 56, */}
+          {/*      justifyContent: open ? 'initial' : 'center', */}
+          {/*      px: 1, */}
+          {/*    }} */}
+          {/*  > */}
+          {/*    <ListItemIcon */}
+          {/*      sx={{ */}
+          {/*        minWidth: 40, */}
+          {/*        minHeight: 40, */}
+          {/*        justifyContent: 'center', */}
+          {/*        alignItems: 'center', */}
+          {/*        color: theme.palette.primary.main, */}
+          {/*      }} */}
+          {/*    > */}
+          {/*      <SearchIcon sx={{ height: 20, width: 20 }} /> */}
+          {/*    </ListItemIcon> */}
+          {/*    <ListItemText */}
+          {/*      secondary='搜索' */}
+          {/*      sx={{ opacity: open ? 1 : 0 }} */}
+          {/*    /> */}
+          {/*  </ListItemButton> */}
+          {/* </ListItem> */}
           {list.map((item, index) => (
             <ListItem
               key={item.val}
@@ -238,9 +233,11 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List>
-        {open ? (
-          ''
-        ) : (
+        {open
+          ? (
+              ''
+            )
+          : (
           <Box
             className="no-drag-area"
             sx={{
@@ -253,10 +250,10 @@ export default function MiniDrawer() {
               gap: 0.5,
             }}
           >
-            {/*<Account />*/}
-            {/*<DarkModeToggle />*/}
+            {/* <Account /> */}
+            {/* <DarkModeToggle /> */}
           </Box>
-        )}
+            )}
       </Box>
     </Drawer>
   )

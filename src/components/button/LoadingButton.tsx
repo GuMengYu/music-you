@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react'
 import { memo } from 'react'
 
 function LoadingButton(props: IconButtonProps & PropsWithChildren & { loading: boolean }) {
-  const {  loading, ...restProps } = props
+  const { loading, ...restProps } = props
 
   return <IconButton
     {...restProps}
@@ -17,10 +17,12 @@ function LoadingButton(props: IconButtonProps & PropsWithChildren & { loading: b
       alignItems: 'center',
     }}>
       {
-        props.loading ? <CircularProgress
+        props.loading
+          ? <CircularProgress
           size={20}
           color="secondary"
-        ></CircularProgress> : props.children
+        ></CircularProgress>
+          : props.children
       }
 
     </Box>

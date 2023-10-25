@@ -31,7 +31,7 @@ export function usePlayerControl() {
     showPipLyric,
     setShowPipLyric,
   } = usePlayerStore()
-  const {  shuffle: doShuffle, unShuffle: doUnShuffle, queue, updatePlayQueue } = playQueueStore()
+  const { shuffle: doShuffle, unShuffle: doUnShuffle, queue, updatePlayQueue } = playQueueStore()
   const isProgram = useMemo(() => track?.source?.fromType === 'program', [track])
   const playingIndex = useMemo(() => {
     return track ? queue.sequence.findIndex(_t => _t.id === track.id) : null
@@ -47,17 +47,17 @@ export function usePlayerControl() {
     )
   }, [playMode])
   const shuffleIcon = useMemo(() => {
-    return shuffle ? <ShuffleOnIcon sx={{ fontSize: 16 }} /> : <ShuffleIcon sx={{ fontSize: 16 }}  />
+    return shuffle ? <ShuffleOnIcon sx={{ fontSize: 16 }} /> : <ShuffleIcon sx={{ fontSize: 16 }} />
   }, [shuffle])
   const volumeIcon = useMemo(() => {
     if (volume === 0)
       return <VolumeMuteIcon fontSize='small' />
     else if (volume > 0 && volume <= 0.3)
-      return <VolumeLowIcon  fontSize='small' />
+      return <VolumeLowIcon fontSize='small' />
     else if (volume > 0.3 && volume <= 0.6)
-      return <VolumeMediumIcon  fontSize='small' />
+      return <VolumeMediumIcon fontSize='small' />
     else
-      return <VolumeHighIcon  fontSize='small' />
+      return <VolumeHighIcon fontSize='small' />
   }, [volume])
   const playPrev = useCallback(() => {
     player.prev()
@@ -96,7 +96,6 @@ export function usePlayerControl() {
       player.pipLyric?.enter()
     else
       player.pipLyric?.leave()
-
   }, [player, showPipLyric])
 
   return {

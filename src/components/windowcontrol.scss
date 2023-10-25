@@ -14,7 +14,7 @@ $maximize-green-active: #1d9730;
 $maximize-green-icon: #006500;
 $maximize-green-icon-active: #003200;
 
-$disabled-gray: #ddd;
+$disabled-gray: #bcbcbc;
 
 .traffic-lights {
   position: absolute;
@@ -133,6 +133,25 @@ $disabled-gray: #ddd;
       width: 10px;
       height: 2px;
       transform: rotate(45deg);
+    }
+    &:active:hover:before {
+      background-color: $maximize-green-icon-active;
+    }
+    &:active:hover:after {
+      background-color: $maximize-green-active;
+    }
+  }
+  &-restore {
+    &:before {
+      background-color: $maximize-green-icon;
+      width: 6px;
+      height: 6px;
+    }
+    &:after {
+      background-color: $maximize-green;
+      width: 10px;
+      height: 2px;
+      transform: rotate(145deg);
     }
     &:active:hover:before {
       background-color: $maximize-green-icon-active;

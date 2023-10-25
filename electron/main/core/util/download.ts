@@ -33,7 +33,6 @@ export function downloadFile(data: { fileName?: string; url: string; completed?:
         log.info('download file completed', file)
         if (data.completed)
           data.completed(file)
-
       },
     })
   }
@@ -56,7 +55,6 @@ export async function downloadTrack(data: { fileName?: string; url: string; tags
 
       if (isFlacFile(path))
         updateVorbis(tags, path)
-
     },
   })
 }

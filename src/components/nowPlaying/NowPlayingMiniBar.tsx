@@ -22,7 +22,6 @@ export default function NowPlayingMiniBar(props: { slot?: React.ReactElement }) 
 
     else
       return 'rgba(0 0 0, 0)'
-
   }, [theme])
   return <Paper className='h-full w-full flex flex-col drag-area rounded-2xl' elevation={24} sx={{
     borderRadius: 4,
@@ -48,7 +47,7 @@ export default function NowPlayingMiniBar(props: { slot?: React.ReactElement }) 
           }} size='small' onClick={() => player.prev()}>
           <SkipPreviousIcon fontSize='small'/>
         </IconButton>
-        <NowPlayingSlider size='small' valueLabelDisplay='off' className='no-drag-area'  />
+        <NowPlayingSlider size='small' valueLabelDisplay='off' className='no-drag-area' />
         <IconButton
           className='no-drag-area'
           sx={{

@@ -8,10 +8,8 @@ export class MetadataPatcher {
     if (!possiblySplittedMetadata)
       return []
 
-
     if (possiblySplittedMetadata.length <= 1)
       return possiblySplittedMetadata
-
 
     const joinedMetadata: string[] = []
 

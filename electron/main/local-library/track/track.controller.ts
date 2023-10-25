@@ -17,8 +17,8 @@ export class TrackController {
     const tracks = await this.trackService.getAllTracksNormalized()
     return {
       data: tracks,
-      totalSize: tracks.reduce((prev, crt) => prev + crt.size, 0 ),
-      totalDt: tracks.reduce((prev, crt) => prev + crt.dt, 0 ),
+      totalSize: tracks.reduce((prev, crt) => prev + crt.size, 0),
+      totalDt: tracks.reduce((prev, crt) => prev + crt.dt, 0),
     }
   }
 

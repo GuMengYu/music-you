@@ -52,23 +52,25 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      ...(subscribed ? [
-        {
-          type: 'item' as any,
-          label: '取消订阅',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ] : [
-        {
-          type: 'item' as any,
-          label: '订阅收听播客',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ]),
+      ...(subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '取消订阅',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]
+        : [
+            {
+              type: 'item' as any,
+              label: '订阅收听播客',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]),
       {
         type: 'item' as any,
         label: '查看封面',
@@ -85,7 +87,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
         },
       },
     ]
-    openContextMenu(e,  items)
+    openContextMenu(e, items)
   }
   return (
     <motion.div
@@ -109,8 +111,8 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            podcast?.picUrl &&
-              <ImageViewer open={showImageView} src={podcast?.picUrl} onClose={() => setShowImageView(false)}/>
+            podcast?.picUrl
+              && <ImageViewer open={showImageView} src={podcast?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">

@@ -6,7 +6,6 @@ on:
       - master
     tags:
       - v*
-  workflow_dispatch:
 
 jobs:
   mac_release:
@@ -20,13 +19,13 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@master
         with:
-          node-version: '16.x'
-          cache: 'npm'
-      
+          node-version: 16.x
+          cache: npm
+
       - run: npm ci
       - run: npm run electron:build:mac
         shell: bash
-      
+
       - name: Upload binaries
         uses: actions/upload-artifact@v3
         with:
@@ -38,7 +37,7 @@ jobs:
         with:
           draft: true
           files: release/*/*.*
-  
+
   windows_release:
     runs-on: windows-latest
     timeout-minutes: 30
@@ -50,19 +49,19 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@master
         with:
-          node-version: '16.x'
-          cache: 'npm'
-      
+          node-version: 16.x
+          cache: npm
+
       - run: npm ci
       - run: npm run electron:build:win
         shell: bash
-      
+
       - name: Upload binaries
         uses: actions/upload-artifact@v3
         with:
           path: release/*/*.*
           if-no-files-found: ignore
-      
+
       - name: Create a release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
@@ -81,9 +80,9 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@master
         with:
-          node-version: '16.x'
-          cache: 'npm'
-      
+          node-version: 16.x
+          cache: npm
+
       - run: npm ci
       - run: npm run electron:build:linux
         shell: bash
@@ -93,12 +92,10 @@ jobs:
         with:
           path: release/*/*.*
           if-no-files-found: ignore
-      
+
       - name: Create a release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           draft: true
           files: release/*/*.*
-        
-      

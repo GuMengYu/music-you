@@ -14,7 +14,6 @@ export class AlbumKeyGenerator {
       if (albumArtists && albumArtists.length > 0)
         albumKeyItems.push(...albumArtists)
 
-
       return DataDelimiter.toDelimitedString(albumKeyItems)
     }
 

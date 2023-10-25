@@ -35,7 +35,6 @@ export class MetadataService {
     if (!track)
       return Constants.emptyImage
 
-
     try {
       const fileMetaData: IFileMetadata = await this.fileMetadataFactory.createAsync(track.path)
 
@@ -44,15 +43,13 @@ export class MetadataService {
 
         if (coverArt)
           return this.imageProcessor.convertBufferToImageUrl(coverArt)
-
       }
 
       const cachedAlbumArtworkPath: string = await this.cachedAlbumArtworkGetter.getCachedAlbumArtworkPath(track.albumKey)
       console.log(cachedAlbumArtworkPath)
 
       if (!Strings.isNullOrWhiteSpace(cachedAlbumArtworkPath) && this.fileAccess.pathExists(cachedAlbumArtworkPath))
-        return `file:///${  cachedAlbumArtworkPath}`
-
+        return `file:///${cachedAlbumArtworkPath}`
 
       return Constants.emptyImage
     }

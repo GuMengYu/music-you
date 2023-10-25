@@ -77,7 +77,6 @@ export class TrackFiller {
     if (!isEmpty(lyrics))
       return 1
 
-
     return 0
   }
 }

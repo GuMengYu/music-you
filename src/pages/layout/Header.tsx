@@ -12,7 +12,7 @@ export default function Header() {
   return <Box
     className='flex gap-2 items-center drag-area'
     sx={{
-      height: 88,
+      height: 78,
       zIndex: 2,
       gridArea: 'main',
       pr: 2,
@@ -32,7 +32,7 @@ export default function Header() {
       }
       <div className='flex-auto'></div>
       <SearchToggle />
-      {/*<DarkModeToggle />*/}
+      {/* <DarkModeToggle /> */}
       <Account />
     </Box>
     <Box sx={{
@@ -47,6 +47,6 @@ export default function Header() {
       zIndex: -1,
     }}></Box>
 
-    {/*<Account />*/}
+    {/* <Account /> */}
   </Box>
 }

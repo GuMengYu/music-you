@@ -67,7 +67,6 @@ export async function getSongUrlFromUnlockMusic(track: Track) {
       }>('/unlockmusic', { params: { id: track.id, source: unblockNetEaseMusic.source } })
       if (code === 200)
         return data
-
     }
     catch (e) {
       console.log(e)

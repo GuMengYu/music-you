@@ -11,7 +11,6 @@ export class ExternalArtworkPathGetter {
     if (Strings.isNullOrWhiteSpace(audioFilePath))
       return undefined
 
-
     const directory: string = this.fileAccess.getDirectoryPath(audioFilePath)
     const filesInDirectory: string[] = await this.fileAccess.getFilesInDirectoryAsync(directory)
 
@@ -20,7 +19,6 @@ export class ExternalArtworkPathGetter {
 
       if (Constants.externalCoverArtPatterns.includes(fileName.toLowerCase()))
         return filePath
-
 
       const fileNameWithoutExtension: string = this.fileAccess.getFileNameWithoutExtension(filePath)
 
@@ -33,7 +31,6 @@ export class ExternalArtworkPathGetter {
 
         if (fileName.toLowerCase() === externalCoverArtPatternReplacedByFileName.toLowerCase())
           return filePath
-
       }
     }
 

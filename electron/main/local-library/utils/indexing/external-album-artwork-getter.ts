@@ -18,7 +18,6 @@ export class ExternalAlbumArtworkGetter {
     if (!fileMetadata)
       return undefined
 
-
     let artworkData: Buffer
 
     try {
@@ -26,7 +25,6 @@ export class ExternalAlbumArtworkGetter {
 
       if (!Strings.isNullOrWhiteSpace(externalArtworkPath))
         artworkData = await this.imageProcessor.convertLocalImageToBufferAsync(externalArtworkPath)
-
     }
     catch (e) {
       console.error(

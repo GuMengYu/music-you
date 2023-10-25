@@ -31,7 +31,6 @@ export class TrackAdder {
     timer.start()
     const win = getWin()
 
-
     try {
       const indexablePaths: IndexablePath[] = await this.getIndexablePathsAsync(false)
 
@@ -104,7 +103,6 @@ export class TrackAdder {
       if (!isTrackInDatabase) {
         if (!isTrackThatWasPreviouslyRemoved || isTrackThatWasPreviouslyRemovedAndCanBeReAdded)
           indexablePaths.push(indexablePath)
-
       }
     }
 

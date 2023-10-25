@@ -50,7 +50,7 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
           handleUploadTrack()
         },
       },
-    ] )
+    ])
   }
 
   function handleUploadTrack() {
@@ -174,7 +174,7 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
   )
 }
 export default function CloudPage() {
-  const { data:clouds, isLoading, refetch } = useQuery(['cloud', 'music'], async () => {
+  const { data: clouds, isLoading, refetch } = useQuery(['cloud', 'music'], async () => {
     const { data } = await cloudDiskMusicList({ limit: 500, offset: 0 })
     return data.map(song => song.simpleSong)
   })

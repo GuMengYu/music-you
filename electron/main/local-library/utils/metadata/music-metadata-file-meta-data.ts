@@ -34,89 +34,68 @@ export class MusicMetadataFileMetadata implements IFileMetadata {
     if (!audioMetadata)
       return
 
-
     if (!audioMetadata.format)
       return
-
 
     if (audioMetadata.format.bitrate && !Number.isNaN(audioMetadata.format.bitrate))
       this.bitRate = audioMetadata.format.bitrate
 
-
     if (audioMetadata.format.sampleRate && !Number.isNaN(audioMetadata.format.sampleRate))
       this.sampleRate = audioMetadata.format.sampleRate
-
 
     if (audioMetadata.format.duration && !Number.isNaN(audioMetadata.format.duration))
       this.durationInMilliseconds = audioMetadata.format.duration * 1000
 
-
     if (!audioMetadata.common)
       return
-
 
     if (audioMetadata.common.title)
       this.title = audioMetadata.common.title
 
-
     if (audioMetadata.common.album)
       this.album = audioMetadata.common.album
-
 
     if (audioMetadata.common.albumartist)
       this.albumArtists = [audioMetadata.common.albumartist]
 
-
     if (audioMetadata.common.artists)
       this.artists = audioMetadata.common.artists
-
 
     if (audioMetadata.common.genre)
       this.genres = audioMetadata.common.genre
 
-
     if (audioMetadata.common.comment && audioMetadata.common.comment.length > 0)
       this.comment = audioMetadata.common.comment[0]
-
 
     if (audioMetadata.common.grouping && audioMetadata.common.grouping.length > 0)
       this.grouping = audioMetadata.common.grouping[0]
 
-
     if (audioMetadata.common.year && !Number.isNaN(audioMetadata.common.year))
       this.year = audioMetadata.common.year
-
 
     if (audioMetadata.common.track) {
       if (audioMetadata.common.track.no && !Number.isNaN(audioMetadata.common.track.no))
         this.trackNumber = audioMetadata.common.track.no
 
-
       if (audioMetadata.common.track.of && !Number.isNaN(audioMetadata.common.track.of))
         this.trackCount = audioMetadata.common.track.of
-
     }
 
     if (audioMetadata.common.disk) {
       if (audioMetadata.common.disk.no && !Number.isNaN(audioMetadata.common.disk.no))
         this.discNumber = audioMetadata.common.disk.no
 
-
       if (audioMetadata.common.disk.of && !Number.isNaN(audioMetadata.common.disk.of))
         this.discCount = audioMetadata.common.disk.of
-
     }
 
     if (audioMetadata.common.rating && audioMetadata.common.rating.length > 0)
       this.rating = audioMetadata.common.rating[0].rating
 
-
     if (audioMetadata.common.lyrics && audioMetadata.common.lyrics.length > 0)
       this.lyrics = audioMetadata.common.lyrics[0]
 
-
     if (audioMetadata.common.picture && audioMetadata.common.picture.length > 0)
       this.picture = audioMetadata.common.picture[0].data
-
   }
 }

@@ -15,7 +15,6 @@ export class OnlineAlbumArtworkGetter {
     if (!fileMetadata)
       return undefined
 
-
     let title: string = ''
     const artists: string[] = []
 
@@ -24,7 +23,6 @@ export class OnlineAlbumArtworkGetter {
       title = fileMetadata.album
     else if (!Strings.isNullOrWhiteSpace(fileMetadata.title))
       title = fileMetadata.title
-
 
     // Artist
     if (fileMetadata.albumArtists && fileMetadata.albumArtists.length > 0) {
@@ -39,7 +37,6 @@ export class OnlineAlbumArtworkGetter {
 
     if (Strings.isNullOrWhiteSpace(title) || artists.length === 0)
       return undefined
-
 
     for (const artist of artists) {
       let lastfmAlbum: LastfmAlbum

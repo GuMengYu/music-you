@@ -14,25 +14,20 @@ export class LastfmArtist {
   public biography: LastfmBiography
 
   public largestImage(): string {
-    if (!Strings.isNullOrWhiteSpace(this.imageMega)) 
+    if (!Strings.isNullOrWhiteSpace(this.imageMega))
       return this.imageMega
-        
 
-    if (!Strings.isNullOrWhiteSpace(this.imageExtraLarge)) 
+    if (!Strings.isNullOrWhiteSpace(this.imageExtraLarge))
       return this.imageExtraLarge
-        
 
-    if (!Strings.isNullOrWhiteSpace(this.imageLarge)) 
+    if (!Strings.isNullOrWhiteSpace(this.imageLarge))
       return this.imageLarge
-        
 
-    if (!Strings.isNullOrWhiteSpace(this.imageMedium)) 
+    if (!Strings.isNullOrWhiteSpace(this.imageMedium))
       return this.imageMedium
-        
 
-    if (!Strings.isNullOrWhiteSpace(this.imageSmall)) 
+    if (!Strings.isNullOrWhiteSpace(this.imageSmall))
       return this.imageSmall
-        
 
     return ''
   }

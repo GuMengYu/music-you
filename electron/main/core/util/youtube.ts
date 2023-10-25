@@ -7,7 +7,6 @@ import axios from 'axios'
 import log from './log'
 import { _extractData, _getSearchData, _parseData } from './youtube_scraper'
 
-
 export interface YoutubeFinderOption {
   proxy: AxiosProxyConfig
 }
@@ -38,7 +37,6 @@ class YoutubeFinder {
 
     if (webPage.status !== 200)
       return []
-
 
     const parsedJson = _getSearchData(webPage.data)
     const extracted = _extractData(parsedJson)

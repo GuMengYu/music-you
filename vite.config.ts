@@ -9,7 +9,6 @@ import { defineConfig, loadEnv } from 'vite'
 import renderer from './rollplugins/renderer.js'
 import pkg, { dependencies, devDependencies, name, version } from './package.json'
 
-
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: new Date().toISOString(),

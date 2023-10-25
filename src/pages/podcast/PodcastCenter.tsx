@@ -29,7 +29,9 @@ export default function PodcastCenter() {
   const navigate = useNavigate()
   return <PageTransition>
     {
-      isLoading ? <ExploreSkeleton /> : <Box className='pr-2 flex flex-col gap-4'>
+      isLoading
+        ? <ExploreSkeleton />
+        : <Box className='pr-2 flex flex-col gap-4'>
         <Col title='播客分类' variant='h6'>
           <GridRow>
             {

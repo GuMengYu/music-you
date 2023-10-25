@@ -27,7 +27,7 @@ export class ImageProcessor {
   }
 
   public convertBufferToImageUrl(imageBuffer: Buffer): string {
-    return `data:image/png;base64,${  imageBuffer.toString('base64')}`
+    return `data:image/png;base64,${imageBuffer.toString('base64')}`
   }
 
   public async resizeImageAsync(imageBuffer: Buffer, maxWidth: number, maxHeight: number, jpegQuality: number): Promise<Buffer> {
@@ -36,7 +36,6 @@ export class ImageProcessor {
 
     if (imageSize.width > maxWidth || imageSize.height > maxHeight)
       image = image.resize({ width: maxWidth, height: maxHeight, quality: 'best' })
-
 
     return image.toJPEG(jpegQuality)
   }

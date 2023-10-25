@@ -35,7 +35,7 @@ function Control({
   togglePlay: () => void
   toggleFullscreen: () => void
   title?: string
-  currentTime?:   number
+  currentTime?: number
   onSeek?: (v: number) => void
 }) {
   const [position, setPosition] = useState(0)
@@ -104,7 +104,6 @@ function VideoPlayer({
     fullscreen: false,
   })
 
-
   useEffect(() => {
     if (!src || !videoRef)
       return
@@ -168,13 +167,10 @@ function VideoPlayer({
     }
   }, [videoState, videoContainerRef])
 
-
   return <Box className='w-full h-full relative' ref={videoContainerRef}>
     <video ref={videoRef} src={src} poster={poster} controls={false} autoPlay={autoPlay} ></video>
     { controls && <Control video={videoRef} videoState={videoState} toggleFullscreen={toggleFullscreen} currentTime={currentTime} togglePlay={togglePlay} onSeek={onSeek} title={title} />}
   </Box>
 }
 
-
 export default memo(VideoPlayer)
-

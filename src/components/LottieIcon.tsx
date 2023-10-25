@@ -35,11 +35,10 @@ function LottieIcon({
       })
       if (animation) {
         animation.setSpeed(2)
-        if (updated) 
+        if (updated)
           animUpdated?.(animation)
-        else 
+        else
           animCreated?.(animation)
-        
       }
     }
   }

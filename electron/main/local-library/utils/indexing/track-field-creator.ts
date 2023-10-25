@@ -10,7 +10,6 @@ export class TrackFieldCreator {
     if (!value || Number.isNaN(value))
       return 0
 
-
     return value
   }
 
@@ -18,14 +17,12 @@ export class TrackFieldCreator {
     if (!value)
       return ''
 
-
     return value.trim()
   }
 
   public createMultiTextField(valueArray: string[]): string {
     if (!valueArray)
       return ''
-
 
     return DataDelimiter.toDelimitedString(this.metadataPatcher.joinUnsplittableMetadata(valueArray))
   }

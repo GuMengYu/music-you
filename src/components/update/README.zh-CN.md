@@ -17,9 +17,9 @@ npm i electron-updater
     ``` json5
     {
       "publish": {
-        "provider": "generic",    // 提供者、提供商
-        "channel": "latest",      // 生成yml文件的名称
-        "url": "https://foo.com/" //更新地址
+        "provider": "generic", // 提供者、提供商
+        "channel": "latest", // 生成yml文件的名称
+        "url": "https://foo.com/" // 更新地址
       }
     }
     ```

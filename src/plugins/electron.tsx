@@ -7,11 +7,11 @@ import router from '@/router'
 // const toast = useSnackbar()
 
 import is from '@/util/is'
+import { useAppStore } from '@/store/app'
 
 export function useElectron() {
   if (is.electron())
     registerIpcRenderer()
-
 }
 
 function registerIpcRenderer() {
@@ -108,9 +108,11 @@ function registerIpcRenderer() {
   //
   //   // playerStore.commit('app/downloadprogress', 0)
   // })
-  // ipcRenderer.on('windowState', (e, state) => {
-  //   appStore.$state.windowState = state
-  // })
+  ipcRenderer.on('windowState', (e, state) => {
+    useAppStore.setState({
+      windowState: state,
+    })
+  })
   ipcRenderer.on('snackbar-add-tracks', (e, data, data2) => {
     console.log(data, data2)
   })
@@ -118,10 +120,8 @@ function registerIpcRenderer() {
     if (indexing === 'start')
       enqueueSnackbar({ message: '开始检索歌曲', variant: 'warning', autoHideDuration: 3000 })
 
-
     else if (indexing === 'end')
       enqueueSnackbar({ message: '检索完成', variant: 'warning', autoHideDuration: 1000 })
-
   })
   ipcRenderer.on('reset-app', () => {
     resetApp()

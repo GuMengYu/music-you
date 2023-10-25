@@ -5,6 +5,6 @@ import { usePlayerControl } from '@/hooks/usePlayer'
 export default function PIPPlayerToggle() {
   const { togglePipPlayer, showPipLyric } = usePlayerControl()
   return <IconButton color={showPipLyric ? 'primary' : 'default'} className="no-drag-area" onClick={togglePipPlayer}>
-    <PictureInPictureIcon fontSize='small'  />
+    <PictureInPictureIcon fontSize='small' />
   </IconButton>
 }

@@ -44,14 +44,12 @@ export class TrackModel {
     if (!Strings.isNullOrWhiteSpace(this.track.trackTitle))
       return this.track.trackTitle
 
-
     return this.track.fileName
   }
 
   public get rawTitle(): string {
     if (Strings.isNullOrWhiteSpace(this.track.trackTitle))
       return ''
-
 
     return this.track.trackTitle
   }
@@ -66,12 +64,10 @@ export class TrackModel {
     if (!trackArtists || trackArtists.length === 0)
       return 'unknown-artist'
 
-
     const commaSeparatedArtists: string = trackArtists.filter(x => !Strings.isNullOrWhiteSpace(x)).join(', ')
 
     if (commaSeparatedArtists.length === 0)
-      return  'unknown-artist'
-
+      return 'unknown-artist'
 
     return commaSeparatedArtists
   }
@@ -82,7 +78,6 @@ export class TrackModel {
     if (!trackArtists)
       return []
 
-
     const nonEmptyArtists: string[] = trackArtists.filter(x => !Strings.isNullOrWhiteSpace(x))
 
     return nonEmptyArtists
@@ -91,7 +86,6 @@ export class TrackModel {
   public get rawFirstArtist(): string {
     if (this.rawArtists.length === 0)
       return ''
-
 
     const nonEmptyArtists: string[] = this.rawArtists.filter(x => !Strings.isNullOrWhiteSpace(x))
 
@@ -108,12 +102,10 @@ export class TrackModel {
     if (!trackGenres || trackGenres.length === 0)
       return 'unknown-genre'
 
-
     const commaSeparatedGenres: string = trackGenres.filter(x => !Strings.isNullOrWhiteSpace(x)).join(', ')
 
     if (commaSeparatedGenres.length === 0)
       return 'unknown-genre'
-
 
     return commaSeparatedGenres
   }
@@ -130,14 +122,12 @@ export class TrackModel {
     if (Strings.isNullOrWhiteSpace(this.track.albumTitle))
       return 'unknown-album'
 
-
     return this.track.albumTitle
   }
 
   public get rawAlbumTitle(): string {
     if (Strings.isNullOrWhiteSpace(this.track.albumTitle))
       return ''
-
 
     return this.track.albumTitle
   }
@@ -148,12 +138,10 @@ export class TrackModel {
     if (albumArtists && albumArtists.length > 0)
       return albumArtists.join(', ')
 
-
     const trackArtists: string[] = DataDelimiter.fromDelimitedString(this.track.artists)
 
     if (trackArtists && trackArtists.length > 0)
       return trackArtists.join(', ')
-
 
     return 'unknown-artist'
   }

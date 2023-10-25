@@ -55,7 +55,7 @@ export function sleep(time = 1000) {
 [03:44.990]we'll stay forever this way.
 [03:52.990]You are safe in my heart,
 [03:57.589]and my heart will go on and on
- 
+
  */
 
 export function formatLyric(lyric = '') {
@@ -103,7 +103,6 @@ export function formatLyric(lyric = '') {
         else {
           sentence = ''
         }
-
       }
 
       return {
@@ -225,7 +224,7 @@ export function bytesToSize(_bytes: string | number = 0, k = 1024) {
   const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-  return `${(bytes / k ** i).toPrecision(3)  } ${  sizes[i]}`
+  return `${(bytes / k ** i).toPrecision(3)} ${sizes[i]}`
 }
 
 /**
@@ -279,7 +278,6 @@ export function formatNumber(number: number, fractionDigits = 2) {
     return `${(number / 1000000000).toFixed(fractionDigits)} B`
   else
     return number
-
 }
 
 export function arrayToObject(arr: Record<string, any>[], keyName: string) {
@@ -317,7 +315,6 @@ export function hexToRgb(hex: string, format = false) {
     return `rgb(${red}, ${green}, ${blue})`
   else
     return `${red}, ${green}, ${blue}`
-
 }
 
 export function formatFrequency(frequency: number) {

@@ -12,13 +12,12 @@ export function request<T>(url: string | Options, config?: Options) {
     const { data, ok } = response
     const { code, status, body } = data as any
     // success code is 100 or 200
-    if (ok && [100, 200].includes(code)) 
+    if (ok && [100, 200].includes(code))
       return data
-    else if (status === 200) 
+    else if (status === 200)
       return body as T
-    else 
+    else
       return Promise.reject(data)
-    
   })
 }
 export function requestPost<T>(url: string | Options, body: any, config?: Options) {
@@ -26,11 +25,10 @@ export function requestPost<T>(url: string | Options, body: any, config?: Option
     const { data, ok } = response
     const { code } = data as any
     // success code is 100 or 200
-    if (ok && [100, 200].includes(code)) 
+    if (ok && [100, 200].includes(code))
       return data
-    else 
+    else
       return Promise.reject(data)
-    
   })
 }
 

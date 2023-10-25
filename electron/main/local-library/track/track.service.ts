@@ -46,7 +46,7 @@ export class TrackService {
   }
 
   async getAllTracksNormalized() {
-    const tracks =  await this.trackRepo.find()
+    const tracks = await this.trackRepo.find()
     return tracks.map((track) => {
       const trackModel = new TrackModel(track)
 
@@ -108,7 +108,6 @@ export class TrackService {
     catch (e) {
       console.error('Error during bulk deletion:', e)
     }
-
   }
 
   public async getTrackByPath(path: string) {
@@ -166,7 +165,6 @@ export class TrackService {
   }
 
   public async getAllAlbumData() {
-
     const result = await this.trackRepo
       .createQueryBuilder('t')
       .select([
@@ -191,7 +189,6 @@ export class TrackService {
   }
 
   public async getAlbumDataForAlbumKey(albumKey: string) {
-
     const albumData = await this.trackRepo.createQueryBuilder('t').select([
       't.albumTitle as albumTitle',
       't.albumArtists as albumArtists',

@@ -43,7 +43,7 @@ export default function ShortCut({
         info = {
           list: data['dailySongs'],
         }
-        addToQueueAndPlay(info.list, 0, 'daily', '日推' )
+        addToQueueAndPlay(info.list, 0, 'daily', '日推')
       }
       else if (type === 'recent') {
         const { data } = await recent()

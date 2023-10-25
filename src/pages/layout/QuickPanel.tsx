@@ -92,7 +92,7 @@ export default function QuickPanel() {
   function onClose() {
     toggleQuick(false)
   }
-  const  handleChangeDarkMode = useCallback(() => {
+  const handleChangeDarkMode = useCallback(() => {
     setAppearance(isDark ? APPEARANCE.LIGHT : APPEARANCE.DARK)
   }, [isDark])
   function appRelaunch() {
@@ -107,17 +107,16 @@ export default function QuickPanel() {
         'width': 310,
         '& .MuiDrawer-paper': {
           width: 310,
-          top: 8,
-          bottom: 8,
-          right: 8,
-          height: 'calc(100% - 16px)',
+          // top: 8,
+          // bottom: 8,
+          // right: 8,
+          // height: 'calc(100% - 16px)',
           borderTopLeftRadius: 16,
           borderBottomLeftRadius: 16,
-          borderTopRightRadius: 16,
-          borderBottomRightRadius: 16,
+          // borderTopRightRadius: 16,
+          // borderBottomRightRadius: 16,
         },
         '& .MuiModal-backdrop': {
-          margin: 1,
           borderRadius: 5,
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
         },
@@ -130,11 +129,11 @@ export default function QuickPanel() {
           alignItems="center"
           height={40}
           pl={2}
-          pr={1}
+          pr={0.5}
         >
           <Typography variant="caption">快捷面板</Typography>
           <IconButton size="small" onClick={onClose}>
-            <CloseIcon />
+            <CloseIcon fontSize='small' />
           </IconButton>
         </Box>
         <Divider />
@@ -147,11 +146,11 @@ export default function QuickPanel() {
               navigate('/setting')
             }} />
 
-            <SwitchCard title='wallpaper' subTitle='gallery' icon={<ImageIcon fontSize='small'  />} onChange={() => {
+            <SwitchCard title='wallpaper' subTitle='gallery' icon={<ImageIcon fontSize='small' />} onChange={() => {
               onClose()
               navigate('/wallpaper')
             }} />
-            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small'  />} onChange={() => {
+            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small' />} onChange={() => {
               appRelaunch()
             }} />
           </div>

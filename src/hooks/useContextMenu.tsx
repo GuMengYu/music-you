@@ -10,10 +10,10 @@ export function useContextMenu() {
   const openContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, items: ContextMenuItem[], options?: ContextMenuType['options']) => {
     e.preventDefault()
     const cursorPosition = {
-      x:e.clientX,
+      x: e.clientX,
       y: e.clientY,
     }
-    const root  = ReactDOM.createRoot(document.getElementById('contextmenu-host'))
+    const root = ReactDOM.createRoot(document.getElementById('contextmenu-host'))
     root.render(<BasicContextMenu theme={theme} onClose={() => {
       root.unmount()
     }} items={items} target={e.target as HTMLElement} cursorPosition={cursorPosition} options={options} />)

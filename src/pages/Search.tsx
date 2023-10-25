@@ -18,7 +18,9 @@ export default function Search() {
   const theme = useTheme()
   return <PageTransition>
     {
-      isLoading ? <SearchSkeleton /> : <section className='flex flex-col gap-4 pr-2'>
+      isLoading
+        ? <SearchSkeleton />
+        : <section className='flex flex-col gap-4 pr-2'>
         <div
           className='grid grid-cols-5 gap-4'
         >
@@ -52,7 +54,6 @@ export default function Search() {
                         <Typography variant='caption'>{ i.type }</Typography>
                       </div>
                     </div>
-
                   })
                 }
               </GridRow>
@@ -60,7 +61,7 @@ export default function Search() {
           </Col>
           {
             data?.result?.songs && <Col title='音乐' variant='subtitle1' className='col-span-3'>
-                  <TrackList tracks={data?.result?.songs}  />
+                  <TrackList tracks={data?.result?.songs} />
               </Col>
           }
         </div>
@@ -102,8 +103,6 @@ export default function Search() {
         }
       </section>
     }
-
-
 
   </PageTransition>
 }

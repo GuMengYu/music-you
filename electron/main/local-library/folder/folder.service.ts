@@ -37,5 +37,4 @@ export class FolderService {
       .where('folderId = :folderId', { folderId })
       .execute()
   }
-
 }

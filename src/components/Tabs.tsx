@@ -5,7 +5,6 @@ import { TabsList } from '@mui/base/TabsList'
 import { styled } from '@mui/material/styles'
 import { Typography } from '@mui/material'
 
-
 const MYTab = styled(Tab)(({ theme }) => ({
   'backgroundColor': `${theme.palette.primaryContainer.main}33`,
   'height': 46,

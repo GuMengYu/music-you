@@ -19,7 +19,7 @@ export default function LikeToggle({
   size?: 'small' | 'medium' | 'large'
   color?: string
 }) {
-  const {  favSong } = useUserStore()
+  const { favSong } = useUserStore()
   const { isLiked } = useLikeTrack()
   const liked = isLiked(id)
   const heartOptions = {
@@ -50,18 +50,22 @@ export default function LikeToggle({
       sx={{ p: 0, height: size === 'small' ? 28 : 48, width: size === 'small' ? 28 : 48 }}
       color="error"
     >
-      {showAnim ? (
+      {showAnim
+        ? (
         <LottieIcon
           option={heartOptions}
           height={size === 'small' ? 28 : 48}
           width={size === 'small' ? 28 : 48}
           animCreated={handleAnimation}
         ></LottieIcon>
-      ) : liked ? (
+          )
+        : liked
+          ? (
         <FavoriteIcon fontSize='small' />
-      ) : (
-        <FavoriteBorderIcon fontSize='small'  />
-      )}
+            )
+          : (
+        <FavoriteBorderIcon fontSize='small' />
+            )}
     </IconButton>
   )
 }

@@ -76,10 +76,10 @@ export default function Recent() {
         <Tab label="专辑" value={2} />
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
-        <CustomTabPanel value={value} index={0}  >
+        <CustomTabPanel value={value} index={0} >
           <TrackList tracks={data?.recentTrack.list.map((i: any) => i.data)} />
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}  >
+        <CustomTabPanel value={value} index={1} >
           <GridRow>
             {
               data?.recentPlaylist.list.map((i: any) => {
@@ -88,7 +88,7 @@ export default function Recent() {
             }
           </GridRow>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}  >
+        <CustomTabPanel value={value} index={2} >
           <GridRow>
             {
               data?.recentAlbum.list.map((i: any) => {

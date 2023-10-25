@@ -8,13 +8,11 @@ import type { Track } from '@/types'
 import { downloadFile, sizeOfImage } from '@/util/fn'
 import is from '@/util/is'
 
-
 export async function download(url: string, fileName?: string) {
   if (is.electron())
     ipcRenderer.invoke('downloadFile', { url, fileName })
   else
     downloadFile(url, fileName)
-
 }
 
 export async function downloadMusic(track: Track) {
@@ -57,6 +55,5 @@ export async function downloadMusic(track: Track) {
   }
   catch (e) {
     enqueueSnackbar('出现错误，稍后再试', { variant: 'error' })
-
   }
 }

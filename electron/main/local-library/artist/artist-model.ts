@@ -9,7 +9,6 @@ export class ArtistModel {
     if (Strings.isNullOrWhiteSpace(this.name))
       return 'Unknown Artist'
 
-
     return this.name
   }
 }

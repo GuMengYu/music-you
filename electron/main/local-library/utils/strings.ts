@@ -9,14 +9,11 @@ export class Strings {
     if (!string1 && !string2)
       return true
 
-
     if (!string1)
       return false
 
-
     if (!string2)
       return false
-
 
     return string1.toLowerCase() === string2.toLowerCase()
   }
@@ -25,11 +22,9 @@ export class Strings {
     if (!stringToCheck)
       return true
 
-
     try {
       if (stringToCheck.trim() === '')
         return true
-
     }
     catch (e) {
       return true
@@ -54,20 +49,17 @@ export class Strings {
     if (this.isNullOrWhiteSpace(originalString))
       return ''
 
-
     try {
       const trimmedAndLowerCasedOriginalString: string = originalString.trim().toLowerCase()
 
       if (!removePrefixes)
         return trimmedAndLowerCasedOriginalString
 
-
       for (const removablePrefix of Constants.removablePrefixes) {
         const prefixFollowedBySpace: string = `${removablePrefix} `
 
         if (trimmedAndLowerCasedOriginalString.startsWith(prefixFollowedBySpace))
           return trimmedAndLowerCasedOriginalString.replace(prefixFollowedBySpace, '').trim()
-
       }
     }
     catch (e) {

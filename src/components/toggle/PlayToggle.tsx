@@ -13,8 +13,7 @@ export default function PlayToggle() {
   const progress = useMotionValue(playing ? 1 : 0)
   const path = useFlubber(progress, [pausePath, playPath])
   useEffect(() => {
-    animate(progress, playing ? 0 : 1, { duration: 0.3, ease: 'easeInOut',
-    })
+    animate(progress, playing ? 0 : 1, { duration: 0.3, ease: 'easeInOut' })
   }, [playing])
   return (
     <IconButton
@@ -39,15 +38,15 @@ export default function PlayToggle() {
           <motion.path fill={theme.palette.onPrimaryContainer.main} d={path} />
         </g>
       </svg>
-      {/*{*/}
-      {/*  playing ? <PauseIcon color={'primary'} /> : <PlayArrowIcon color='primary' />*/}
-      {/*}*/}
-      {/*<LottieIcon*/}
-      {/*  height={30}*/}
-      {/*  width={30}*/}
-      {/*  option={playOptions}*/}
-      {/*  animCreated={handleAnimation}*/}
-      {/*></LottieIcon>*/}
+      {/* { */}
+      {/*  playing ? <PauseIcon color={'primary'} /> : <PlayArrowIcon color='primary' /> */}
+      {/* } */}
+      {/* <LottieIcon */}
+      {/*  height={30} */}
+      {/*  width={30} */}
+      {/*  option={playOptions} */}
+      {/*  animCreated={handleAnimation} */}
+      {/* ></LottieIcon> */}
     </IconButton>
   )
 }

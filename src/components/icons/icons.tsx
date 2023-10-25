@@ -8,7 +8,6 @@ function ReloadIcon(props: SvgIconProps) {
   </SvgIcon>
 }
 
-
 function PlayOutlinedIcon(props: SvgIconProps) {
   return <SvgIcon {...props}>
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,6 +103,30 @@ function MinimizeSquareIcon(props: SvgIconProps) {
   </SvgIcon>
 }
 
+function ChromeRestoreIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M10 16q-.825 0-1.413-.588T8 14V6q0-.825.588-1.413T10 4h8q.825 0 1.413.588T20 6v8q0 .825-.588 1.413T18 16h-8Zm0-10v8h8V6h-8ZM6 20q-.825 0-1.413-.588T4 18V8.525h2V18h9.475v2H6Zm4-14v8v-8Z"/></svg>
+  </SvgIcon>
+}
+
+function ChromeMinimizeIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20v-2h16v2H4Z"/></svg>
+
+  </SvgIcon>
+}
+
+function ChromeMaximizeIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 20q-.825 0-1.413-.588T4 18V6q0-.825.588-1.413T6 4h12q.825 0 1.413.588T20 6v12q0 .825-.588 1.413T18 20H6Zm0-2h12V6H6v12ZM6 6v12V6Z"/></svg>
+  </SvgIcon>
+}
+function CheckIndeterminateIcon(props: SvgIconProps) {
+  return <SvgIcon {...props}>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M7 13q-.425 0-.713-.288T6 12q0-.425.288-.713T7 11h10q.425 0 .713.288T18 12q0 .425-.288.713T17 13H7Z"/></svg>
+
+  </SvgIcon>
+}
 
 export {
   ReloadIcon,
@@ -116,4 +139,8 @@ export {
   PlayRoundedIcon,
   PauseRoundedIcon,
   MinimizeSquareIcon,
+  ChromeRestoreIcon,
+  ChromeMinimizeIcon,
+  ChromeMaximizeIcon,
+  CheckIndeterminateIcon,
 }

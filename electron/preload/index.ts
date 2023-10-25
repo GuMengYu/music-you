@@ -7,7 +7,6 @@ function domReady(condition: DocumentReadyState[] = ['complete', 'interactive'])
       document.addEventListener('readystatechange', () => {
         if (condition.includes(document.readyState))
           resolve(true)
-
       })
     }
   })
@@ -17,12 +16,10 @@ const safeDOM = {
   append(parent: HTMLElement, child: HTMLElement) {
     if (!Array.from(parent.children).find(e => e === child))
       return parent.appendChild(child)
-
   },
   remove(parent: HTMLElement, child: HTMLElement) {
     if (Array.from(parent.children).find(e => e === child))
       return parent.removeChild(child)
-
   },
 }
 

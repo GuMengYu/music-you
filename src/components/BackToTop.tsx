@@ -5,7 +5,6 @@ export default function BackToTop({
   show,
   onBackToTop,
 }: { show: boolean; onBackToTop: () => void }) {
-
   return <div className='absolute bottom-20 right-4 z-50'>
     {
       <Zoom

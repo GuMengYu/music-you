@@ -197,7 +197,8 @@ function LoginDialog() {
             }}
             variant="outlined"
           >
-            {qrStatus === QR_STATUS.SCANNED ? (
+            {qrStatus === QR_STATUS.SCANNED
+              ? (
               <>
                 <CircularProgress
                   sx={{
@@ -212,9 +213,10 @@ function LoginDialog() {
                   src={qrState.qrHeadImage}
                 ></Avatar>
               </>
-            ) : (
-              ''
-            )}
+                )
+              : (
+                  ''
+                )}
             {
               qrStatus === QR_STATUS.EXPIRED ? <IconButton onClick={() => genCode()}><ReloadIcon/></IconButton> : ''
             }

@@ -36,7 +36,6 @@ function Bg() {
     right: 0,
     display: 'flex',
     bgcolor: theme.palette.surface.main,
-    borderRadius: 7,
   }}></Box>
 }
 export default function NowPlayingPage() {
@@ -48,7 +47,6 @@ export default function NowPlayingPage() {
   return <Dialog
     sx={{
       '& .MuiPaper-root': {
-        borderRadius: 7,
         bgcolor: 'transparent',
       },
     }}
@@ -80,7 +78,8 @@ export default function NowPlayingPage() {
             transform: 'translateX(0px)',
             transition: {
               duration: 0.3,
-            } }}
+            },
+          }}
         >
           <div className="flex gap-4 mx-2">
               <Box className='overflow-hidden rounded-lg' sx={{ height: '22vh', width: '22vh', maxWidth: '22vh', minWidth: '22vh' }}>

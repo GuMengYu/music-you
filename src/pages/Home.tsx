@@ -12,7 +12,6 @@ import { GridType } from '@/hooks/useResponsiveGrid'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 
-
 import Col from '@/components/Col'
 import PageTransition from '@/components/PageTransition'
 import HomePageSkeleton from '@/components/skeleton/HomeSkeleton'
@@ -127,7 +126,9 @@ function Home() {
   return (
     <PageTransition>
       {
-        isLoadingPersonalizedPlaylists ? <HomePageSkeleton /> : <div className='flex flex-col gap-4 pr-2'>
+        isLoadingPersonalizedPlaylists
+          ? <HomePageSkeleton />
+          : <div className='flex flex-col gap-4 pr-2'>
           <ShortCuts />
           <Col title="今日推荐">
             <GridRow singleLine rowType={GridType.A}>

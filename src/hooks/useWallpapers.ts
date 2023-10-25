@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query'
 import { wallpapers as searchWallpaper } from '@/api/other'
 import { CATGORY, PURITY, SORTING, useWallpaperStore } from '@/store/wallpaper'
 
-
 export function useWallpapers() {
   const { enqueueSnackbar } = useSnackbar()
 
@@ -66,7 +65,6 @@ export function useWallpapers() {
 
       if (proxy.open && proxy.url)
         params.proxy = proxy.url
-
 
       const { data, meta: _meta } = await searchWallpaper(params as any)
       return { wallpapers: data, meta }

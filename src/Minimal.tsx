@@ -10,7 +10,6 @@ import { generateMUITheme } from '@/plugins/theme'
 import useCreateTheme from '@/hooks/useCreateTheme'
 import { sizeOfImage } from '@/util/fn'
 
-
 function getDesignTokens(palette: PaletteOptions): ThemeOptions {
   return {
     typography: {
@@ -33,7 +32,7 @@ function getDesignTokens(palette: PaletteOptions): ThemeOptions {
 }
 
 export default function Minimal() {
-  const [palette, setPalette]  = useState<PaletteOptions>()
+  const [palette, setPalette] = useState<PaletteOptions>()
   const { track } = usePlayerStore()
   const { theme: defaultTheme } = useCreateTheme()
 
@@ -58,7 +57,6 @@ export default function Minimal() {
       return createTheme(getDesignTokens(palette))
     else
       return defaultTheme
-
   }, [palette])
 
   return (
@@ -81,4 +79,3 @@ export default function Minimal() {
       </ThemeProvider>
   )
 }
-

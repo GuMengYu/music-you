@@ -53,7 +53,7 @@ export function personalizedMV() {
  * @param {number} limit 返回数量限制
  * @returns
  */
-export function personalizedSong(limit =  8) {
+export function personalizedSong(limit = 8) {
   return request<{
     category: number
     code: number

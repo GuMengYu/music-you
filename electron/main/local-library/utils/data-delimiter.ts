@@ -8,10 +8,8 @@ export class DataDelimiter {
     if (!stringArray)
       return ''
 
-
     if (stringArray.length === 0)
       return ''
-
 
     const delimitedString: string = stringArray
       .filter(x => x !== '')
@@ -24,7 +22,6 @@ export class DataDelimiter {
   public static fromDelimitedString(delimitedString: string): string[] {
     if (isEmpty(delimitedString))
       return []
-
 
     const delimitedStrings: string[] = delimitedString.split(DataDelimiter.delimiter)
 

@@ -156,7 +156,6 @@ export async function getHeartBeatList(id: number) {
     return res.data.map(i => i.songInfo)
   else
     return []
-
 }
 
 export interface PlayRecord {

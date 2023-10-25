@@ -99,9 +99,11 @@ function libEsm(options) {
     exports: members = [],
     conflict = '',
   } = options
-  const _M_ = `_M_${  conflict}`
+  const _M_ = `_M_${conflict}`
   const windowSnippet = window == null ? '' : `const ${_M_} = window["${window}"];`
-  const requireSnippet = require22 == null ? '' : `
+  const requireSnippet = require22 == null
+    ? ''
+    : `
 import { createRequire } from "node:module";
 const ${_M_} = createRequire(import.meta.url)("${require22}");
 `.trim()
@@ -133,7 +135,7 @@ function relativeify(relative) {
     return '.'
 
   if (!relative.startsWith('./') || !relative.startsWith('.\\'))
-    return `./${  relative}`
+    return `./${relative}`
 
   return relative
 }
@@ -145,7 +147,7 @@ function normalizePath(id) {
   return path.posix.normalize(isWindows ? slash(id) : id)
 }
 const COLOURS = {
-  $: c => str => `\x1B[${c}m${  str  }\x1B[0m`,
+  $: c => str => `\x1B[${c}m${str}\x1B[0m`,
   gary: str => COLOURS.$(90)(str),
   cyan: str => COLOURS.$(36)(str),
   yellow: str => COLOURS.$(33)(str),
@@ -263,7 +265,7 @@ function renderer(options = {}) {
         async customResolver(source) {
           let id = moduleCache.get(source)
           if (!id) {
-            id = `${path.posix.join(cacheDir, source)  }.mjs`
+            id = `${path.posix.join(cacheDir, source)}.mjs`
             if (!fs.existsSync(id)) {
               ensureDir(path.dirname(id))
               fs.writeFileSync(
@@ -284,12 +286,13 @@ function renderer(options = {}) {
           let _a
           let id = moduleCache.get(source)
           if (!id) {
-            const filename = `${path.posix.join(cacheDir, source)  }.mjs`
+            const filename = `${path.posix.join(cacheDir, source)}.mjs`
             if (fs.existsSync(filename)) {
               id = filename
             }
             else {
-              const resolved = (_a = options.resolve) == null ? void 0 : _a[source]
+              // eslint-disable-next-line no-cond-assign
+              const resolved = (_a = options.resolve) == null ? undefined : _a[source]
               if (resolved) {
                 let snippets
                 if (typeof resolved.build === 'function') {
@@ -326,11 +329,13 @@ function renderer(options = {}) {
             }
             moduleCache.set(source, id)
           }
-          return id === source ? this.resolve(
-            source,
-            importer,
-            Object.assign({ skipSelf: true }, resolveOptions),
-          ).then(resolved => resolved || { id: source }) : { id }
+          return id === source
+            ? this.resolve(
+              source,
+              importer,
+              Object.assign({ skipSelf: true }, resolveOptions),
+            ).then(resolved => resolved || { id: source })
+            : { id }
         },
       })
       modifyAlias(config, aliases)
@@ -353,7 +358,6 @@ function setOutputFreeze(rollupOptions) {
   if (Array.isArray(rollupOptions.output)) {
     for (const o of rollupOptions.output)
       o.freeze ?? (o.freeze = false)
-
   }
   else {
     (_a = rollupOptions.output).freeze ?? (_a.freeze = false)
@@ -365,7 +369,7 @@ function withIgnore(configBuild, modules) {
     if (typeof configBuild.commonjsOptions.ignore === 'function') {
       const userIgnore = configBuild.commonjsOptions.ignore
       configBuild.commonjsOptions.ignore = (id) => {
-        if ((userIgnore == null ? void 0 : userIgnore(id)) === true)
+        if ((userIgnore == null ? undefined : userIgnore(id)) === true)
           return true
 
         return modules.includes(id)
@@ -386,7 +390,6 @@ function modifyOptimizeDeps(config, exclude) {
   for (const str of exclude) {
     if (!config.optimizeDeps.exclude.includes(str))
       config.optimizeDeps.exclude.push(str)
-
   }
 }
 function modifyAlias(config, aliases) {
@@ -399,10 +402,12 @@ function modifyAlias(config, aliases) {
   config.resolve.alias.push(...aliases)
 }
 function getSnippets(module) {
-  const { exports } = libEsm({ exports: Object.getOwnPropertyNames(
+  const { exports } = libEsm({
+    exports: Object.getOwnPropertyNames(
     /* not await import */
-    require2(module.import),
-  ) })
+      require2(module.import),
+    ),
+  })
   return `const avoid_parse_require = require; const _M_ = avoid_parse_require("${module.export}");
 ${exports}`
 }
@@ -412,7 +417,7 @@ async function getPreBundleSnippets(options) {
     outdir,
     buildOptions = {},
   } = options
-  const outfile = `${path.posix.join(outdir, module)  }.cjs`
+  const outfile = `${path.posix.join(outdir, module)}.cjs`
   await esbuild.build({
     entryPoints: [module],
     outfile,
@@ -433,7 +438,6 @@ async function getPreBundleSnippets(options) {
 function ensureDir(dirname) {
   if (!fs.existsSync(dirname))
     fs.mkdirSync(dirname, { recursive: true })
-
 }
 export {
   renderer as default,

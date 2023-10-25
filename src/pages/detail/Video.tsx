@@ -32,23 +32,25 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
   const [subscribed, setSubscribed] = useState(false)
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     openContextMenu(e, [
-      ...(subscribed ? [
-        {
-          type: 'item' as any,
-          label: '从音乐库中移除',
-          onClick: () => {
+      ...(subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '从音乐库中移除',
+              onClick: () => {
 
-          },
-        },
-      ] : [
-        {
-          type: 'item' as any,
-          label: '收藏视频',
-          onClick: () => {
+              },
+            },
+          ]
+        : [
+            {
+              type: 'item' as any,
+              label: '收藏视频',
+              onClick: () => {
 
-          },
-        },
-      ]),
+              },
+            },
+          ]),
       { type: 'divider' },
       {
         type: 'item',
@@ -58,7 +60,7 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
           enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
         },
       },
-    ] )
+    ])
   }
   return (
     <motion.div

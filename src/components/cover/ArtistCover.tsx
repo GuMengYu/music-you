@@ -32,7 +32,7 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
     e.stopPropagation()
     try {
       const info = await getTrackList('artist', data.id)
-      addToQueueAndPlay( info.tracks, info.id, 'artist', data.name)
+      addToQueueAndPlay(info.tracks, info.id, 'artist', data.name)
     }
     catch (e) {
       console.log(e)
@@ -86,7 +86,7 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
                 <IconButton
                   onClick={handlePlay}
                 >
-                  <PlayRoundedIcon fontSize='large'   color='primary' />
+                  <PlayRoundedIcon fontSize='large' color='primary' />
                 </IconButton>
               </motion.div>
             )}

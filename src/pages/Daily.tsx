@@ -87,7 +87,7 @@ export default function DailyPage() {
   return <PageTransition>
     <Box>
       {
-        isLoading ? <PlayListSkeleton/> : <Header data={data}  />
+        isLoading ? <PlayListSkeleton/> : <Header data={data} />
       }
       <Box className='h-4'></Box>
       {

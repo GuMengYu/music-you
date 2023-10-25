@@ -84,7 +84,7 @@ export class Player {
 
   private init() {
     const style = 'color: tomato; -webkit-text-stroke: 1px black; font-size:20px;'
-    console.log('%c Start initializing the player 😆', style )
+    console.log('%c Start initializing the player 😆', style)
     this.initStoreEvent()
     this.initPip()
     if (this.track?.id)
@@ -92,7 +92,6 @@ export class Player {
 
     if (is.electron() && is.windows())
       this.taskbarProgress = true
-
   }
 
   initPip() {
@@ -101,7 +100,6 @@ export class Player {
       usePlayerStore.setState({
         showPipLyric: false,
       })
-
     }
     this.pipLyric.onEnter = () => {
       usePlayerStore.setState({
@@ -111,7 +109,6 @@ export class Player {
   }
 
   private initStoreEvent() {
-
     usePlayerStore.subscribe(state => [state.volume, state.isCurrentFm], (state, prev) => {
       const [volume, isCurrentFm] = state
       const [prevVolume, prevIsCurrentFm] = prev
@@ -122,7 +119,6 @@ export class Player {
       }
       if (prevIsCurrentFm !== isCurrentFm)
         this.isCurrentFm = <boolean>isCurrentFm
-
     })
   }
 
@@ -176,7 +172,6 @@ export class Player {
           this.play()
           if (from.type !== 'local')
             await start({ id: this.track.id })
-
         }
         else {
           this.pause()
@@ -225,7 +220,7 @@ export class Player {
         if (this.track) {
           const { name, ar = [] } = this.track
           const artists = ar.map(a => a.name).join('&')
-          //global window
+          // global window
           document.title = `${name} - ${artists}`
           this.fixDuration()
           if (this.pipLyric && this.track?.source?.fromType !== 'local')
@@ -299,7 +294,6 @@ export class Player {
       this.pause()
     else
       this.play()
-
   }
 
   replay() {
@@ -318,7 +312,6 @@ export class Player {
       this.updatePlayerTrack(track.id, true, true, false, track.source?.from)
     else
       this.pause()
-
   }
 
   async nextFm() {
@@ -330,7 +323,6 @@ export class Player {
     const track = await updatePersonalFmList()
     if (track?.id)
       await this.updatePlayerTrack(track.id, true, true, true)
-
   }
 
   prev() {
@@ -350,7 +342,6 @@ export class Player {
       this.updatePlayerTrack(track.id, true, true, false, track.source.from)
     else
       this.pause()
-
   }
 
   private nextTrack() {
@@ -400,7 +391,7 @@ export class Player {
   }
 
   setOutPutDevice(deviceId?: string) {
-    const outputdevice = deviceId ??  useSettingStore.getState().outputdevice
+    const outputdevice = deviceId ?? useSettingStore.getState().outputdevice
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     if (this.howler?._sounds.length) {
@@ -409,7 +400,6 @@ export class Player {
       const soundNode = this.howler._sounds[0]._node
       if (outputdevice && soundNode?.setSinkId)
         soundNode.setSinkId(outputdevice)
-
     }
   }
 
@@ -430,7 +420,6 @@ export class Player {
 
     if (this.track && this.track.source.fromType !== 'local')
       this.endPlay(this.track, 0, true)
-
   }
 
   // 播放完毕打卡
@@ -487,7 +476,6 @@ export class Player {
 
 export const createPlayer = () => new Player()
 
-
 export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
   const url = {
     album: `/album/${from.id}`,
@@ -510,5 +498,4 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
   }
   if (from.type === 'program')
     track.program = cloneDeep(track) as Program
-
 }

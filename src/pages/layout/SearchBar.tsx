@@ -10,9 +10,8 @@ export default function SearchBar() {
     const { code, target } = e
     if (code === 'Enter' && !!target.value)
       navigate(`/search?keyword=${target.value}`)
-
   }
-  return  <motion.div
+  return <motion.div
     className='no-drag-area'
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, transition: { duration: 0.3 } }}

@@ -47,7 +47,7 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
     },
     async fetchAccount() {
       const uid = get().account?.profile?.userId
-      const logged  = !!uid
+      const logged = !!uid
       if (logged) {
         const [, likesRes, playlistRes] = await Promise.all([
           this.refreshAccount(),
@@ -68,11 +68,11 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
       try {
         const { code } = await sub('track', id, like ? 1 : 0)
         if (code === 200) {
-          if (like) 
+          if (like)
             likes.push(id)
-          else 
+          else
             likes = likes.filter(i => i !== id)
-          
+
           set({
             likes,
           })

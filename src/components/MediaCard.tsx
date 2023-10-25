@@ -88,8 +88,8 @@ export default function MusicPlayerSlider() {
     return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`
   }
   const mainIconColor = theme.palette.mode === 'dark' ? '#fff' : '#000'
-  const lightIconColor =
-    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'
+  const lightIconColor
+    = theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
       <Widget>
@@ -173,14 +173,16 @@ export default function MusicPlayerSlider() {
             aria-label={paused ? 'play' : 'pause'}
             onClick={() => setPaused(!paused)}
           >
-            {paused ? (
+            {paused
+              ? (
               <PlayArrowRounded
                 sx={{ fontSize: '3rem' }}
                 htmlColor={mainIconColor}
               />
-            ) : (
+                )
+              : (
               <PauseRounded sx={{ fontSize: '3rem' }} htmlColor={mainIconColor} />
-            )}
+                )}
           </IconButton>
           <IconButton aria-label="next song">
             <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />

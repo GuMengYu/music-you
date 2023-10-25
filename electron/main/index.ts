@@ -15,7 +15,6 @@ import { createTray } from './core/tray'
 import WindowManager from './core/windowManager'
 import { useLocalLibraryService } from './local-library'
 
-
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -31,7 +30,6 @@ process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
 process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, '../public')
   : process.env.DIST
-
 
 let appStaticServer: http.Server
 let wm: WindowManager
@@ -67,7 +65,6 @@ function handleAppEvent() {
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin')
       app.quit()
-
   })
 
   app.on('activate', () => {
@@ -78,7 +75,6 @@ function handleAppEvent() {
         wm.openWindow('index')
       else wm.getWindow('index')?.show()
     }
-
   })
 
   // This method will be called when Electron has finished
@@ -86,7 +82,7 @@ function handleAppEvent() {
   // Some APIs can only be used after this event occurs.
   app.on('ready', async () => {
     protocol.handle('track', (request) => {
-      return net.fetch(`file:///${  request.url.slice('track://'.length)}`)
+      return net.fetch(`file:///${request.url.slice('track://'.length)}`)
     })
 
     // install extensions
@@ -97,7 +93,6 @@ function handleAppEvent() {
         process.on('message', (data) => {
           if (data === 'graceful-exit')
             app.quit()
-
         })
       }
       else {
@@ -157,8 +152,6 @@ function preCheck() {
     app.setAppUserModelId(app.getName())
 }
 export const getWin = () => wm.getWindow('index')
-
-
 
 // // Disable GPU Acceleration for Windows 7
 // if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -259,4 +252,3 @@ export const getWin = () => wm.getWindow('index')
 //     childWindow.loadFile(indexHtml, { hash: arg })
 //   }
 // })
-

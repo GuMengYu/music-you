@@ -55,23 +55,25 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
 
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     const items = [
-      ...(subscribed ? [
-        {
-          type: 'item' as any,
-          label: '取消关注艺人',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ] : [
-        {
-          type: 'item' as any,
-          label: '关注艺人',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ]),
+      ...(subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '取消关注艺人',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]
+        : [
+            {
+              type: 'item' as any,
+              label: '关注艺人',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]),
       {
         type: 'item' as any,
         label: '查看封面',
@@ -88,7 +90,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
         },
       },
     ]
-    openContextMenu(e,  items)
+    openContextMenu(e, items)
   }
   return (
     <motion.div
@@ -112,8 +114,8 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            artist?.picUrl &&
-              <ImageViewer open={showImageView} src={artist?.picUrl} onClose={() => setShowImageView(false)}/>
+            artist?.picUrl
+              && <ImageViewer open={showImageView} src={artist?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
@@ -222,7 +224,7 @@ export default function ArtistPage() {
   const collection = useMemo(() => data?.hotAlbums.filter(a => a.type === '合集'), [data])
 
   const { addToQueueAndPlay } = usePlayQueue()
-  const handlePlay = useCallback(() =>  {
+  const handlePlay = useCallback(() => {
     if (data.artist)
       addToQueueAndPlay(data.hotSongs, data.artist.id, 'artist', data.artist.name)
   }, [data])
@@ -279,7 +281,6 @@ export default function ArtistPage() {
           </Col>
         }
 
-
         {
           epAndSingle?.length && <Col title="单曲和EP" variant='body1' more={
             <IconButton
@@ -304,7 +305,8 @@ export default function ArtistPage() {
           </Col>
         }
         {
-          collection?.length ? <Col title="合集" variant='body1' more={
+          collection?.length
+            ? <Col title="合集" variant='body1' more={
             <IconButton
               color='primary'
               onClick={() => {
@@ -324,7 +326,8 @@ export default function ArtistPage() {
                 })
               }
             </GridRow>
-          </Col> : null
+          </Col>
+            : null
         }
         {
           <Col title="相似歌手">

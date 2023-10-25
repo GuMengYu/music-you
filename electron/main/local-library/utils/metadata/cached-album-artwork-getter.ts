@@ -13,7 +13,6 @@ export class CachedAlbumArtworkGetter {
     if (albumDataForAlbumKey.length > 0)
       return this.fileAccess.coverArtFullPath(albumDataForAlbumKey[0].artworkId)
 
-
     return ''
   }
 }

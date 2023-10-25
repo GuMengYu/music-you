@@ -25,10 +25,9 @@ export class TrackRemover {
     const timer: Timer = new Timer()
     timer.start()
     try {
-      const numberOfTracksToRemove =  await this.trackService.getNumberOfTracksThatDoNotBelongFolders()
+      const numberOfTracksToRemove = await this.trackService.getNumberOfTracksThatDoNotBelongFolders()
 
       if (numberOfTracksToRemove === 0) {
-
         console.log(
                     `There are no tracks to remove. Time required: ${timer.elapsedMilliseconds} ms`,
                     'TrackRemover',

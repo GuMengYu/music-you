@@ -16,31 +16,26 @@ export class AlbumArtworkGetter {
   ) {}
 
   public async getAlbumArtworkAsync(fileMetadata: IFileMetadata, getOnlineArtwork: boolean): Promise<Buffer> {
-    if (fileMetadata == undefined)
+    if (!fileMetadata)
       return undefined
-
 
     const embeddedArtwork: Buffer = this.embeddedAlbumArtworkGetter.getEmbeddedArtwork(fileMetadata)
 
-    if (embeddedArtwork != undefined)
+    if (embeddedArtwork)
       return embeddedArtwork
-
 
     const externalArtwork: Buffer = await this.externalAlbumArtworkGetter.getExternalArtworkAsync(fileMetadata)
 
-    if (externalArtwork != undefined)
+    if (externalArtwork)
       return externalArtwork
 
-
     // if (getOnlineArtwork && this.settings.downloadMissingAlbumCovers) {
-    if (getOnlineArtwork && false) {
+    // if (getOnlineArtwork && false) {
+    //   const onlineArtwork: Buffer = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata)
 
-      const onlineArtwork: Buffer = await this.onlineAlbumArtworkGetter.getOnlineArtworkAsync(fileMetadata)
-
-      if (onlineArtwork != undefined)
-        return onlineArtwork
-
-    }
+    //   if (onlineArtwork)
+    //     return onlineArtwork
+    // }
 
     return undefined
   }

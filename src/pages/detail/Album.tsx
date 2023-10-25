@@ -55,23 +55,25 @@ function Header({ album }: { album: Album | undefined }) {
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     openContextMenu(e, [
-      ...(subscribed ? [
-        {
-          type: 'item' as any,
-          label: '从音乐库中移除',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ] : [
-        {
-          type: 'item' as any,
-          label: '添加到音乐库',
-          onClick: () => {
-            subscribe()
-          },
-        },
-      ]),
+      ...(subscribed
+        ? [
+            {
+              type: 'item' as any,
+              label: '从音乐库中移除',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]
+        : [
+            {
+              type: 'item' as any,
+              label: '添加到音乐库',
+              onClick: () => {
+                subscribe()
+              },
+            },
+          ]),
       {
         type: 'item' as any,
         label: '查看封面',
@@ -87,7 +89,7 @@ function Header({ album }: { album: Album | undefined }) {
           enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
         },
       },
-    ] )
+    ])
   }
   return (
     <motion.div
@@ -111,8 +113,8 @@ function Header({ album }: { album: Album | undefined }) {
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            album?.picUrl &&
-              <ImageViewer open={showImageView} src={album?.picUrl} onClose={() => setShowImageView(false)}/>
+            album?.picUrl
+              && <ImageViewer open={showImageView} src={album?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">

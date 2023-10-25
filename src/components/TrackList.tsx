@@ -21,7 +21,6 @@ import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { useLikeTrack } from '@/hooks/useLike'
 import { downloadMusic } from '@/hooks/useDownload'
 
-
 function Track({ track, onPlay, onContextMenu }: {
   track: TrackType
   onPlay: (id: number) => void
@@ -93,7 +92,7 @@ function Track({ track, onPlay, onContextMenu }: {
             <IconButton sx={{ p: 1.5 }} onClick={() => {
               toggleLike(track.id, liked)
             }}>{
-              liked ?  <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
+              liked ? <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
             } </IconButton>
 
           </motion.div>
@@ -144,7 +143,7 @@ export default function TrackList({ tracks, source, className }: {
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false)
   }, [tracks])
-  const handleContextMenu = useCallback((e:  React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
     openContextMenu(e, [
       {
         type: 'item',
@@ -199,14 +198,16 @@ export default function TrackList({ tracks, source, className }: {
         label: '添加到歌单',
         items: getToPlaylistMenuItem(track),
       },
-      ...(source?.own ? [{
-        type: 'item' as any,
-        label: '从本歌单移除',
-        onClick: () => {
-          removeFromPlaylist(track.id, source.playlist)
-          // todo remove from playlist
-        },
-      }] : []),
+      ...(source?.own
+        ? [{
+            type: 'item' as any,
+            label: '从本歌单移除',
+            onClick: () => {
+              removeFromPlaylist(track.id, source.playlist)
+              // todo remove from playlist
+            },
+          }]
+        : []),
       {
         type: 'item',
         label: '下载到本地',

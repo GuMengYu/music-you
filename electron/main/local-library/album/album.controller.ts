@@ -23,5 +23,4 @@ export class AlbumController {
       data: tracks,
     }
   }
-
 }

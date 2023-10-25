@@ -79,10 +79,12 @@ function MenuItem({
           'relative flex w-full items-center rounded-lg justify-between whitespace-nowrap p-2',
           css({
             transition: 'background-color .2s ease-in',
-            backgroundColor: isHover ? alpha(
-              theme.palette.surfaceVariant.main,
-              theme.palette.action.activatedOpacity,
-            ) : '',
+            backgroundColor: isHover
+              ? alpha(
+                theme.palette.surfaceVariant.main,
+                theme.palette.action.activatedOpacity,
+              )
+              : '',
           }),
         )}
       >

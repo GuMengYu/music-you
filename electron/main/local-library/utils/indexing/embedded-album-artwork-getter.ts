@@ -5,11 +5,9 @@ import { IFileMetadata } from '../metadata/i-file-metadata'
 
 @Injectable()
 export class EmbeddedAlbumArtworkGetter {
-
   public getEmbeddedArtwork(fileMetadata: IFileMetadata): Buffer {
-    if (fileMetadata == undefined)
+    if (!fileMetadata)
       return undefined
-
 
     let artworkData: Buffer
 

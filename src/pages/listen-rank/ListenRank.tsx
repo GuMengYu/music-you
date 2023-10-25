@@ -88,12 +88,12 @@ export default function ListenRank() {
         <Tab label="所有时间" value={1} />
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
-        <CustomTabPanel value={value} index={0}  >
+        <CustomTabPanel value={value} index={0} >
           {
             data?.weekData?.length && <RecordTrackList records={data?.weekData} />
           }
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}  >
+        <CustomTabPanel value={value} index={1} >
           {
             data?.allData?.length && <RecordTrackList records={data?.allData} />
           }

@@ -55,7 +55,6 @@ export default function NowPlayingPageBackDrop() {
   useEffect(() => {
     if (coverUrl)
       update()
-
   }, [coverUrl])
 
   useEffect(() => {
@@ -63,7 +62,6 @@ export default function NowPlayingPageBackDrop() {
       vhsRef.current?.play()
     else
       vhsRef.current?.stop()
-
   }, [playing])
   async function update() {
     const colors = await setColors(coverUrl)
@@ -89,7 +87,6 @@ export default function NowPlayingPageBackDrop() {
 
   async function initPixi() {
     const colors = await setColors(coverUrl)
-
 
     if (canvasRef.current) {
       const { primary, secondary, tertiary, primaryContainer } = colors

@@ -65,7 +65,6 @@ export class AlbumArtworkAdder {
           )
         }
       }
-
     }
     catch (e: any) {
       console.info(
@@ -81,7 +80,6 @@ export class AlbumArtworkAdder {
 
     if (!track)
       return
-
 
     let fileMetadata: IFileMetadata
 
@@ -99,12 +97,10 @@ export class AlbumArtworkAdder {
     if (!fileMetadata)
       return
 
-
     const albumArtwork: Buffer = await this.albumArtworkGetter.getAlbumArtworkAsync(fileMetadata, true)
 
     if (!albumArtwork)
       return
-
 
     const albumArtworkCacheId: AlbumArtworkCacheId = await this.albumArtworkCacheService.addArtworkDataToCacheAsync(albumArtwork)
 

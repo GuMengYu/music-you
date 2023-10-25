@@ -9,7 +9,6 @@ import { LocalTrack } from '@shared/types'
 import { formatDuring, formatFrequency } from '@/util/fn'
 import { usePlayer } from '@/hooks/usePlayer'
 
-
 function Track({ track, index, onPlay }: {
   track: LocalTrack
   index: number
@@ -24,7 +23,7 @@ function Track({ track, index, onPlay }: {
     <div className='flex gap-2'>
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden flex justify-center items-center'>
-          {/*<Image src={track}/>*/}
+          {/* <Image src={track}/> */}
           {!isHovering && <Typography>
             {String(index + 1).padStart(2, '0')}
           </Typography>}
@@ -47,7 +46,7 @@ function Track({ track, index, onPlay }: {
       </div>
       <div className='flex flex-col justify-center'>
         <Typography className='line-clamp-1' variant='body1'>{track.name}</Typography>
-        {/*<Typography className='line-clamp-1' variant='caption'>{ track.ar?.map(i => i.name).join(',') }</Typography>*/}
+        {/* <Typography className='line-clamp-1' variant='caption'>{ track.ar?.map(i => i.name).join(',') }</Typography> */}
       </div>
     </div>
 

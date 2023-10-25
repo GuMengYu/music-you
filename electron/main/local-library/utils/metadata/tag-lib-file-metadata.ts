@@ -56,54 +56,41 @@ export class TagLibFileMetadata implements IFileMetadata {
       if (tagLibFile.tag.performers)
         this.artists = tagLibFile.tag.performers
 
-
       if (tagLibFile.tag.title)
         this.title = tagLibFile.tag.title
-
 
       if (tagLibFile.tag.album)
         this.album = tagLibFile.tag.album
 
-
       if (tagLibFile.tag.albumArtists)
         this.albumArtists = tagLibFile.tag.albumArtists
-
 
       if (tagLibFile.tag.genres)
         this.genres = tagLibFile.tag.genres
 
-
       if (tagLibFile.tag.year && !Number.isNaN(tagLibFile.tag.year))
         this.year = tagLibFile.tag.year
-
 
       if (tagLibFile.tag.comment)
         this.comment = tagLibFile.tag.comment
 
-
       if (tagLibFile.tag.grouping)
         this.grouping = tagLibFile.tag.grouping
-
 
       if (tagLibFile.tag.track && !Number.isNaN(tagLibFile.tag.track))
         this.trackNumber = tagLibFile.tag.track
 
-
       if (tagLibFile.tag.trackCount && !Number.isNaN(tagLibFile.tag.trackCount))
         this.trackCount = tagLibFile.tag.trackCount
-
 
       if (tagLibFile.tag.disc && !Number.isNaN(tagLibFile.tag.disc))
         this.discNumber = tagLibFile.tag.disc
 
-
       if (tagLibFile.tag.discCount && !Number.isNaN(tagLibFile.tag.discCount))
         this.discCount = tagLibFile.tag.discCount
 
-
       if (tagLibFile.tag.lyrics)
         this.lyrics = tagLibFile.tag.lyrics
-
 
       if (tagLibFile.tag.pictures && tagLibFile.tag.pictures.length > 0) {
         let couldGetPicture: boolean = false
@@ -126,14 +113,11 @@ export class TagLibFileMetadata implements IFileMetadata {
       if (tagLibFile.properties.durationMilliseconds && !Number.isNaN(tagLibFile.properties.durationMilliseconds))
         this.durationInMilliseconds = tagLibFile.properties.durationMilliseconds
 
-
       if (tagLibFile.properties.audioBitrate && !Number.isNaN(tagLibFile.properties.audioBitrate))
         this.bitRate = tagLibFile.properties.audioBitrate
 
-
       if (tagLibFile.properties.audioSampleRate && !Number.isNaN(tagLibFile.properties.audioSampleRate))
         this.sampleRate = tagLibFile.properties.audioSampleRate
-
     }
 
     try {
@@ -155,14 +139,12 @@ export class TagLibFileMetadata implements IFileMetadata {
     if (allPopularimeterFrames.length === 0)
       return 0
 
-
     const popularimeterFramesForWindowsUser: Id3v2PopularimeterFrame[] = allPopularimeterFrames.filter(
       x => x.user === this.windowsPopMUser,
     )
 
     if (popularimeterFramesForWindowsUser.length > 0)
       return RatingConverter.popM2StarRating(popularimeterFramesForWindowsUser[0].rating)
-
 
     return RatingConverter.popM2StarRating(allPopularimeterFrames[0].rating)
   }

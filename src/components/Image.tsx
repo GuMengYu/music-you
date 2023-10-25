@@ -28,7 +28,7 @@ function Image({
 }: Props) {
   const [error, setError] = useState(false)
   const [imageScope, animate] = useAnimate()
-  const [ placeholderScope, placeholderAnimate] = useAnimate()
+  const [placeholderScope, placeholderAnimate] = useAnimate()
   useEffect(() => setError(false), [src])
 
   const onLoad = async () => {

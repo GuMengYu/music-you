@@ -17,12 +17,12 @@ function Header({ data }: { data: any }) {
   const theme = useTheme()
   const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-  const { addToQueueAndPlay }  = usePlayQueue()
+  const { addToQueueAndPlay } = usePlayQueue()
 
   const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
 
   function handlePlay() {
-    addToQueueAndPlay(data.tracks, 0, 'local', `本地专辑: ${data.name}` )
+    addToQueueAndPlay(data.tracks, 0, 'local', `本地专辑: ${data.name}`)
   }
 
   return (
@@ -47,8 +47,8 @@ function Header({ data }: { data: any }) {
             gradient={`linear-gradient(90deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 50%, ${theme.palette.surface.main}b3 100%), linear-gradient(360deg, ${theme.palette.surface.main} 0%, rgb(0 0 0 / 0%) 100%)`}
           />
           {
-            data?.picUrl &&
-              <ImageViewer open={showImageView} src={data?.picUrl} onClose={() => setShowImageView(false)}/>
+            data?.picUrl
+              && <ImageViewer open={showImageView} src={data?.picUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">
@@ -111,7 +111,7 @@ function Header({ data }: { data: any }) {
 export default function LocalAlbumPage() {
   const params = useParams()
   const theme = useTheme()
-  const { data : tracks, isLoading } = useQueryAlbumTracks(params.id)
+  const { data: tracks, isLoading } = useQueryAlbumTracks(params.id)
   const album = useMemo(() => {
     return {
       ...history.state.usr,

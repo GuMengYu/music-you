@@ -60,5 +60,4 @@ export class IndexingService {
     this.indexingFinished.next()
     webContents.send('snackbar-indexing', 'end')
   }
-
 }

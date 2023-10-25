@@ -22,7 +22,6 @@ export class AlbumArtworkService {
   }
 
   public async deleteAlbumArtworkThatHasNoTrack() {
-
     const res = await this.albumArtworkRepository
       .createQueryBuilder()
       .delete()
@@ -40,8 +39,6 @@ export class AlbumArtworkService {
   }
 
   public async deleteAlbumArtworkForTracksThatNeedAlbumArtworkIndexing() {
-
-
     const res = await this.albumArtworkRepository
       .createQueryBuilder()
       .delete()

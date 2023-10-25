@@ -109,7 +109,6 @@ class YoFetch {
     if (options.auth)
       customHeaders.authorization = options.auth
 
-
     if (data && typeof data === 'object' && typeof data.append !== 'function' && typeof data.text !== 'function') {
       data = JSON.stringify(data)
       customHeaders['content-type'] = 'application/json'
@@ -121,22 +120,20 @@ class YoFetch {
       customHeaders[options.xsrfHeaderName] = decodeURIComponent(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        document.cookie.match(RegExp(`(^|; )${  options.xsrfCookieName  }=([^;]*)`))[2],
+        document.cookie.match(RegExp(`(^|; )${options.xsrfCookieName}=([^;]*)`))[2],
       )
-
     }
     catch (e) {}
 
     // append baseURL to url
     if (options.baseURL)
-      url = url.replace(/^(?!.*\/\/)\/?/, `${options.baseURL  }/`)
-
+      url = url.replace(/^(?!.*\/\/)\/?/, `${options.baseURL}/`)
 
     // serialize params to query string
     if (options.params) {
-      url +=
-        (~url.indexOf('?') ? '&' : '?') +
-        (options.paramsSerializer ? options.paramsSerializer(options.params) : new URLSearchParams(options.params))
+      url
+        += (~url.indexOf('?') ? '&' : '?')
+        + (options.paramsSerializer ? options.paramsSerializer(options.params) : new URLSearchParams(options.params))
     }
 
     // use customer fetch function if provided

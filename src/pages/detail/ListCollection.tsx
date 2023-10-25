@@ -34,7 +34,7 @@ export default function ListCollection() {
   }, { staleTime: 5 * 60 * 1000, enabled: !!param.type })
   const collection = useMemo(() => {
     return ({
-      new_album : {
+      new_album: {
         name: '新发行的专辑和单曲',
         cover: 'https://cdn.dribbble.com/userupload/5937173/file/original-f14b5cf31374d9e829baab07bbf571a9.jpg?resize=752x',
       },
@@ -86,13 +86,12 @@ export default function ListCollection() {
             if (param.type === 'new_album')
               return <Cover data={data} type='album' key={data.id} />
             else if (param.type === 'new_video')
-              return <VideoCover data={data}   key={data.id} />
+              return <VideoCover data={data} key={data.id} />
 
             else if (param.type === 'leaderboard')
               return <Cover data={data} type='playlist' key={data.id} />
             else
               return <></>
-
           })
         }
       </GridRow>

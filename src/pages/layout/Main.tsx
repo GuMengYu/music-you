@@ -1,4 +1,4 @@
-import {  useTheme } from '@mui/material'
+import { useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import { Outlet } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
@@ -90,5 +90,3 @@ export default function Main({
     </Box>
   )
 }
-
-

@@ -18,7 +18,6 @@ function VideoViewer({ src, open, onClose, cover, title }: {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape')
       onClose && onClose()
-
   }
   const removeListener = () => {
     window.removeEventListener('keydown', handleKeyDown)

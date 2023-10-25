@@ -1,7 +1,6 @@
 export class Constants {
   public static readonly logFileName: string = 'Dopamine.log'
 
-
   public static readonly previewApplicationTag: string = 'preview'
   public static readonly releaseCandidateApplicationTag: string = 'rc'
   public static readonly columnValueDelimiter: string = ';'
@@ -76,5 +75,4 @@ export class Constants {
   public static emptyImage: string = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
   public static readonly removablePrefixes: string[] = ['the', 'le', 'les', 'a', 'and']
-
 }

@@ -23,11 +23,13 @@ export default function DarkModeToggle() {
         width: 40,
       }}
     >
-      {isDark ? (
+      {isDark
+        ? (
         <BrightnessHighIcon sx={{ height: 20, width: 20 }} />
-      ) : (
+          )
+        : (
         <Brightness4Icon sx={{ height: 20, width: 20 }} />
-      )}
+          )}
     </IconButton>
   )
 }

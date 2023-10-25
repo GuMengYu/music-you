@@ -18,7 +18,6 @@ interface GroupProps {
 export default function Group(
   { items = [], value, onChange, exclusive }: GroupProps,
 ) {
-
   const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     'display': 'grid',
     'width': '100%',
@@ -54,7 +53,9 @@ export default function Group(
       items.map((i) => {
         return (<ToggleButton key={i.value} value={i.value}>
           {
-            i.children ? i.children : (<div className='flex gap-2 items-center'>
+            i.children
+              ? i.children
+              : (<div className='flex gap-2 items-center'>
               {i.icon}
               <div className='flex flex-col items-start justify-center'>
                 <Typography variant='caption'>{i.title}</Typography>
@@ -63,9 +64,7 @@ export default function Group(
             </div>)
           }
 
-
           </ToggleButton>)
-
       })
     }
 

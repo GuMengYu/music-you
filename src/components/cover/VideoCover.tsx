@@ -39,7 +39,6 @@ function VideoCover({ data }: {
         return data.creator
       else
         return [data.creator]
-
     }
     return []
   }, [data])

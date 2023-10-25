@@ -83,7 +83,6 @@ export class Vhs {
     if (width < 700)
       this.cutoff = -0.125
 
-
     this.render()
     if (animate) {
       this.ticker = this.app.ticker.add(() => {

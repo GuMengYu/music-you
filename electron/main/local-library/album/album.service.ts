@@ -32,8 +32,6 @@ export class AlbumService {
       })
     }
 
-
     return []
   }
-
 }

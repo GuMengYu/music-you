@@ -6,7 +6,7 @@ import { TrackService } from './track.service'
 import { TrackController } from './track.controller'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Track]), forwardRef(() =>  MetadataModule)],
+  imports: [TypeOrmModule.forFeature([Track]), forwardRef(() => MetadataModule)],
   providers: [TrackService],
   exports: [TrackService],
   controllers: [TrackController],

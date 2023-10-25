@@ -2,7 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class RemovedTrack {
-
   @PrimaryGeneratedColumn()
   removeTrackId: number
 
@@ -17,5 +16,4 @@ export class RemovedTrack {
 
   @Column()
   dateRemoved: string
-
 }

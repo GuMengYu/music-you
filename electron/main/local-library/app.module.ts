@@ -50,4 +50,3 @@ const electronModule = ElectronModule.registerAsync({
   providers: [AppService],
 })
 export class AppModule { }
-

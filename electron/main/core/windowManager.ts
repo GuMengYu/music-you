@@ -31,7 +31,7 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   webPreferences: {
     nodeIntegration: true,
   },
-  transparent: true,
+  // transparent: true,
   backgroundColor: 'rgba(0,0,0,0)',
   roundedCorners: true,
   // hasShadow: false,

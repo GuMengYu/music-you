@@ -76,7 +76,7 @@ export default function SelectMenu({
     onChange(val)
   }
 
-  return  <div>
+  return <div>
     <Button
       size={'small'}
       variant="contained"

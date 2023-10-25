@@ -8,8 +8,8 @@ export default function useCreateTheme() {
   const { appearance, themeColor } = useSettingStore()
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const darkMode =
-    appearance === APPEARANCE.SYSTEM
+  const darkMode
+    = appearance === APPEARANCE.SYSTEM
       ? prefersDarkMode
       : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {

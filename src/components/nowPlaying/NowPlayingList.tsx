@@ -33,12 +33,10 @@ function TrackItem({
       onClick={(e) => {
         if (e.detail === 2 && track?.id)
           console.log('play track')
-
       }}
       onContextMenu={(event) => {
         if (track?.id)
           console.log('play track')
-
       }}
     >
       {/* Cover */}
@@ -47,7 +45,6 @@ function TrackItem({
           />
       }
 
-
       {/* Track info */}
       <div className='flex-grow'>
         <Typography className='line-clamp-1' variant='body1'
@@ -55,13 +52,15 @@ function TrackItem({
         <Typography variant='body2'> {track?.ar && <ArtistLink artist={track?.ar}/>}</Typography>
       </div>
 
-      {isCurrentPlaying ? (
+      {isCurrentPlaying
+        ? (
         <Wave animate={playing}/>
-      ) : (
+          )
+        : (
         <Typography variant='body1'>
           {String(index + 1).padStart(2, '0')}
         </Typography>
-      )}
+          )}
     </div>
   )
 }
@@ -85,7 +84,6 @@ function TrackList() {
 
     // not in view range
     if (playingIndex < currentRange.startIndex || playingIndex > currentRange.endIndex) {
-
       const toIndex = playingIndex + offset
       setTimeout(() => {
         virtuoso.current?.scrollToIndex({
@@ -94,7 +92,6 @@ function TrackList() {
           behavior: animateScroll ? 'smooth' : undefined,
         })
         setAnimateScroll(true)
-
       }, 0)
     }
   }, [playingTrack])

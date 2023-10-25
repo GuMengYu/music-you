@@ -3,7 +3,6 @@ import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middl
 import type { Track } from '@/types'
 import { personalFM } from '@/api/user'
 
-
 export enum PLAY_MODE {
   NORMAL = 'normal',
   REPEAT = 'repeat',

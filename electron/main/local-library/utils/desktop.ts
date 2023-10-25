@@ -12,10 +12,8 @@ export class Desktop implements BaseDesktop {
     if (systemPreferences !== undefined)
       systemPreferences.on('accent-color-changed', () => this.accentColorChanged.next())
 
-
     if (nativeTheme !== undefined)
       nativeTheme.on('updated', () => this.nativeThemeUpdated.next())
-
   }
 
   public accentColorChanged$: Observable<void> = this.accentColorChanged.asObservable()
@@ -28,12 +26,11 @@ export class Desktop implements BaseDesktop {
     })
 
     if (
-      openDialogReturnValue !== undefined &&
-            openDialogReturnValue.filePaths !== undefined &&
-            openDialogReturnValue.filePaths.length > 0
+      openDialogReturnValue !== undefined
+            && openDialogReturnValue.filePaths !== undefined
+            && openDialogReturnValue.filePaths.length > 0
     )
       return openDialogReturnValue.filePaths[0]
-
 
     return ''
   }
@@ -45,12 +42,11 @@ export class Desktop implements BaseDesktop {
     })
 
     if (
-      openDialogReturnValue !== undefined &&
-            openDialogReturnValue.filePaths !== undefined &&
-            openDialogReturnValue.filePaths.length > 0
+      openDialogReturnValue !== undefined
+            && openDialogReturnValue.filePaths !== undefined
+            && openDialogReturnValue.filePaths.length > 0
     )
       return openDialogReturnValue.filePaths[0]
-
 
     return ''
   }

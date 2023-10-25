@@ -114,7 +114,7 @@ function SubMenu({
     const submenu = submenuRef.current.getBoundingClientRect()
 
     const isRightSide = item.x + item.width + submenu.width <= window.innerWidth
-    const x = isRightSide ? item.x + item.width  : item.x - submenu.width
+    const x = isRightSide ? item.x + item.width : item.x - submenu.width
 
     const isTopSide = item.y - 10 + submenu.height <= window.innerHeight
     const y = isTopSide ? item.y - 10 : item.y + item.height + 10 - submenu.height
@@ -150,7 +150,6 @@ function SubMenu({
 
   if (!items || !itemRect)
     return <></>
-
 
   return (
     <>

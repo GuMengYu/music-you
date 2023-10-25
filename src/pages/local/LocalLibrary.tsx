@@ -21,7 +21,6 @@ import { useQueryAlbums } from '@/pages/local/hooks/useQueryAlbum'
 import Image from '@/components/Image'
 import Migration from '@/components/migration'
 
-
 const AlbumCovers = memo(({ albums }: { albums: any[] }) => {
   const navigate = useNavigate()
   return (
@@ -71,7 +70,7 @@ function LocalPlaylistPanel() {
 function FavCard() {
   const theme = useTheme()
 
-  const { addToQueueAndPlay }  = usePlayQueue()
+  const { addToQueueAndPlay } = usePlayQueue()
   const [randomAlbums, setRandomAlbums] = useState<any[]>([])
   const { data } = useQueryTrack()
   const { data: albumData } = useQueryAlbums()
@@ -84,12 +83,11 @@ function FavCard() {
     }
   }, [albumData])
 
-
   function handlePlay() {
-    addToQueueAndPlay(data.tracks, 0, 'local', '本地歌曲' )
+    addToQueueAndPlay(data.tracks, 0, 'local', '本地歌曲')
   }
 
-  return  <Card className='flex flex-col col-span-3' variant='outlined' sx={{
+  return <Card className='flex flex-col col-span-3' variant='outlined' sx={{
     flex: 1,
     bgcolor: theme.palette.secondaryContainer.main,
     color: theme.palette.onSecondaryContainer.main,
@@ -132,7 +130,7 @@ export default function LocalLibrary() {
 
       <FavCard />
       <div className='grid grid-cols-1 grid-rows-4 gap-2 col-span-1'>
-        <SwitchCard color={theme.palette.tertiaryContainer.main} title='管理曲库' icon={<SettingsIcon fontSize='small'  />} onChange={() => {
+        <SwitchCard color={theme.palette.tertiaryContainer.main} title='管理曲库' icon={<SettingsIcon fontSize='small' />} onChange={() => {
           navigate('/setting')
         }} />
         <SwitchCard color={theme.palette.secondaryContainer.main} title='打开目录' icon={<AlbumIcon fontSize='small' />} onClick={() => {

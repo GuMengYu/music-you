@@ -26,8 +26,8 @@ export function useSearch(keyword: string) {
       playlists?: Playlist[]
       mvs?: MV[]
     } = {}
-    const [{ result: song }, { result: album }, { result: artist }, { result: playlist }, { result: mv }] =
-      await Promise.all(requests)
+    const [{ result: song }, { result: album }, { result: artist }, { result: playlist }, { result: mv }]
+      = await Promise.all(requests)
     const { result: multi } = await multiMatchSearch(keyword)
     const orders = multi.orders.filter(i => ['artist', 'playlist', 'album'].includes(i)) // 排除掉无关内容( new_mlog ?)
 

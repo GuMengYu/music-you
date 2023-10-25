@@ -24,7 +24,7 @@ export function _parseData(data) {
       return (key && key['runs'] ? key['runs'].map(v => v.text) : []).join('')
     }
     const parseDuration = (vRender) => {
-      if (!vRender.lengthText?.simpleText) 
+      if (!vRender.lengthText?.simpleText)
         return 0
 
       const nums = vRender.lengthText.simpleText.split(':')
@@ -41,10 +41,9 @@ export function _parseData(data) {
   }
 
   for (const item of data) {
-    if (isVideo(item)) 
+    if (isVideo(item))
       results.videos.push(getVideoData(item))
   }
-  
 
   return results
 }

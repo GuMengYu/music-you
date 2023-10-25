@@ -39,8 +39,8 @@ export function goto(container: HTMLElement, _options = {}) {
   const startTime = performance.now()
   const startLocation = container.scrollLeft
 
-  const ease =
-    typeof options.ease === 'function' ? options.ease : easingPatterns[options.ease as keyof typeof easingPatterns]
+  const ease
+    = typeof options.ease === 'function' ? options.ease : easingPatterns[options.ease as keyof typeof easingPatterns]
   const offset = options.offset
   return new Promise(resolve =>
     requestAnimationFrame(function step(currentTime) {
@@ -50,9 +50,9 @@ export function goto(container: HTMLElement, _options = {}) {
       const clientWidth = container.clientWidth
       const reachRight = container.scrollLeft + clientWidth >= container.scrollWidth
       const reachLeft = container.scrollLeft <= 0 && offset < 0
-      if (progress === 1 || reachRight || reachLeft) 
+      if (progress === 1 || reachRight || reachLeft)
         return resolve(offset)
-      
+
       requestAnimationFrame(step)
     }),
   )

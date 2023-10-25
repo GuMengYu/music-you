@@ -1,6 +1,5 @@
 import { createBreakpoint } from 'react-use'
 
-
 export enum DisplayBreakpoint {
   'xxs' = 'xxs',
   'xs' = 'xs',

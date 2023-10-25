@@ -22,7 +22,6 @@ import { downloadMusic } from '@/hooks/useDownload'
 import { PlayRecord } from '@/api/user'
 import AlbumLink from '@/components/links/album'
 
-
 function Record({ record, onPlay, onContextMenu, color, count, max }: {
   color?: string
   record: PlayRecord
@@ -90,7 +89,7 @@ function Record({ record, onPlay, onContextMenu, color, count, max }: {
                 <IconButton sx={{ p: 1.5 }} onClick={() => {
                   toggleLike(record.song.id, liked)
                 }}>{
-                  liked ?  <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
+                  liked ? <FavoriteIcon fontSize='small'/> : <FavoriteBorderIcon fontSize='small'/>
                 } </IconButton>
 
             </motion.div>
@@ -111,12 +110,12 @@ export default function RecordTrackList({ records, className }: {
   const { openContextMenu } = useContextMenu()
   const theme = useTheme()
   const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
-  const maxCount = maxBy(records, r => r.playCount )?.playCount ?? 0
+  const maxCount = maxBy(records, r => r.playCount)?.playCount ?? 0
 
   const handleTrackPlay = useCallback((trackId: number) => {
     player.updatePlayerTrack(trackId, true, true, false)
   }, [])
-  const handleContextMenu = useCallback((e:  React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
     openContextMenu(e, [
       {
         type: 'item',

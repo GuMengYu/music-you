@@ -50,7 +50,6 @@ function Profile() {
       ipcRenderer.invoke('open-url', url)
     else
       window.open(url, '_blank')
-
   }
   function handleClose() {
     toggleProfile(false)
@@ -69,7 +68,7 @@ function Profile() {
       <Card
         sx={{
           width: 400,
-          p:1,
+          p: 1,
           bgcolor: theme.palette.surface.main,
           color: theme.palette.onSurface.main,
         }}
@@ -112,22 +111,22 @@ function Profile() {
               </Typography>
             </Box>
           </Card>
-          {/*<Button*/}
-          {/*  variant="contained"*/}
-          {/*  color="primary"*/}
-          {/*  sx={{*/}
-          {/*    height: 48,*/}
-          {/*    width: 48,*/}
-          {/*    borderRadius: 3.5,*/}
-          {/*    minWidth: 48,*/}
-          {/*    position: 'absolute',*/}
-          {/*    bottom: -26,*/}
-          {/*    right: 25,*/}
-          {/*  }}*/}
-          {/*  onClick={handleEdit}*/}
-          {/*>*/}
-          {/*  <EditRounded />*/}
-          {/*</Button>*/}
+          {/* <Button */}
+          {/*  variant="contained" */}
+          {/*  color="primary" */}
+          {/*  sx={{ */}
+          {/*    height: 48, */}
+          {/*    width: 48, */}
+          {/*    borderRadius: 3.5, */}
+          {/*    minWidth: 48, */}
+          {/*    position: 'absolute', */}
+          {/*    bottom: -26, */}
+          {/*    right: 25, */}
+          {/*  }} */}
+          {/*  onClick={handleEdit} */}
+          {/* > */}
+          {/*  <EditRounded /> */}
+          {/* </Button> */}
         </Box>
         <Box
           sx={{
@@ -144,7 +143,7 @@ function Profile() {
               borderBottomLeftRadius: 30,
             }}
           >
-            <EditRounded  fontSize='small' />
+            <EditRounded fontSize='small' />
             <Typography variant="caption">编辑资料 </Typography>
           </BottomButton>
           <BottomButton

@@ -28,7 +28,6 @@ export default function ShortCutFM() {
       return sizeOfImage(toHttps(fmTrack?.album?.picUrl), 256)
     else if (fmTrack?.al?.picUrl)
       return sizeOfImage(toHttps(fmTrack?.al?.picUrl), 256)
-
   }, [fmTrack])
   async function handlePlay() {
     try {
@@ -37,7 +36,6 @@ export default function ShortCutFM() {
           await player.pause()
         else
           await player.play()
-
       }
       else if (fmTrack?.id) {
         setIsCurrentFm(true)

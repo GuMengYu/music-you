@@ -10,29 +10,19 @@ export class TrackVerifier {
     if (track.fileSize === 0)
       return true
 
-
     if (track.fileSize !== (await this.fileAccess.getFileSizeInBytesAsync(track.path)))
       return true
 
-
     return track.dateFileModified !== (await this.fileAccess.getDateModifiedInTicksAsync(track.path))
-
-
-
   }
 
   public doesTrackNeedIndexing(track: Track): boolean {
     if (track.needsIndexing === undefined)
       return true
 
-
     if (Number.isNaN(track.needsIndexing))
       return true
 
-
     return track.needsIndexing === 1
-
-
-
   }
 }

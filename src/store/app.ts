@@ -27,7 +27,7 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
     rail: false,
     showLogin: false,
     showSearch: false,
-    showProfile:  false,
+    showProfile: false,
     showQuick: false,
     showNowPlaying: false,
     showNowPlayingBar: false,

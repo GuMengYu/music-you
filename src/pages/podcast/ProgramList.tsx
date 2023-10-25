@@ -12,7 +12,6 @@ import Image from '@/components/Image'
 import type { Podcast, Program } from '@/types'
 import { usePlayer } from '@/hooks/usePlayer'
 
-
 function ProgramItem({ program, onPlay, onContextMenu }: {
   program: Program
   onPlay: (id: number) => void

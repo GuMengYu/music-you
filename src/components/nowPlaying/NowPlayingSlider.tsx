@@ -46,4 +46,3 @@ export default function NowPlayingSlider(props: SliderProps) {
     onChange={(_, value) => dragStart(value as number)}
   />
 }
-

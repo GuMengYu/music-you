@@ -14,7 +14,6 @@ export function useElementScrollSize(el: HTMLElement | null | undefined) {
       entries.forEach((entry) => {
         if (entry.target === el)
           updateData()
-
       })
     })
     observer.observe(el)

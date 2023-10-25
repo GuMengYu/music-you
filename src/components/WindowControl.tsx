@@ -1,20 +1,51 @@
-import { useState } from 'react'
-import { ipcRenderer } from 'electron'
-import { WindowState } from '@shared/types'
+import { PropsWithChildren, useState } from 'react'
 import {
+  Box,
   Button,
   Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl, FormControlLabel, Radio,
+  FormControl, FormControlLabel, IconButton, Radio,
   RadioGroup, Typography,
+  alpha,
+  useTheme,
 } from '@mui/material'
+import { ipcRenderer } from 'electron'
+import { WindowState } from '@shared/types'
+import CloseIcon from '@mui/icons-material/Close'
+import { CheckIndeterminateIcon, ChromeMaximizeIcon, ChromeMinimizeIcon, ChromeRestoreIcon } from './icons/icons'
+
 import { ExitMode, useSettingStore } from '@/store/setting'
 import { useAppStore } from '@/store/app'
 import './windowcontrol.scss'
 
+function ControlButton(props: PropsWithChildren & { onClick: () => void; color: string; bgColor: string }) {
+  const theme = useTheme()
+
+  return <IconButton onClick={props.onClick} sx={{
+    'height': 15,
+    'width': 15,
+    'padding': 0,
+    'bgcolor': alpha(theme.palette.inverseSurface.main, 0.7),
+    'color': theme.palette.inverseOnSurface.main,
+    '& .MuiSvgIcon-root': {
+      visibility: 'hidden',
+    },
+    '&:hover':
+     {
+       'bgcolor': props.bgColor,
+       'color': props.color,
+       '& .MuiSvgIcon-root': {
+         visibility: 'visible',
+       },
+     },
+  }}>
+    { props.children }
+  </IconButton>
+}
 export default function WindowControl() {
+  const theme = useTheme()
   const { exitMode, setExitMode } = useSettingStore()
   const { windowState } = useAppStore()
   const [openAlert, setAlert] = useState(false)
@@ -28,7 +59,6 @@ export default function WindowControl() {
       ipcRenderer.invoke(WindowState.NORMAL)
     else
       ipcRenderer.invoke(WindowState.MAXIMIZED)
-
   }
   function handleClose() {
     if (exitMode === ExitMode.prompt)
@@ -38,7 +68,6 @@ export default function WindowControl() {
       ipcRenderer.invoke(WindowState.MINIMIZEDTRAY)
     else if (exitMode === ExitMode.exit)
       ipcRenderer.invoke(WindowState.CLOSED)
-
   }
   async function confirmExit() {
     if (remember)
@@ -51,12 +80,39 @@ export default function WindowControl() {
       ipcRenderer.invoke(WindowState.MINIMIZEDTRAY)
     else if (exit === ExitMode.exit)
       ipcRenderer.invoke(WindowState.CLOSED)
-
   }
-  return <div className="traffic-lights no-drag-area">
-            <button id="close" className="traffic-light traffic-light-close" onClick={handleClose}></button>
-            <button id="minimize" className="traffic-light traffic-light-minimize" onClick={handleMinimize}></button>
-            <button id="maximize" className="traffic-light traffic-light-maximize" onClick={handleToggleMaximize}></button>
+  return <Box sx={{
+    position: 'absolute',
+    top: '6px',
+    left: '9px',
+    zIndex: 9999,
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 54,
+
+  }} className="no-drag-area">
+            <ControlButton
+            onClick={handleClose}
+              bgColor={theme.palette.error.main}
+              color={theme.palette.onError.main }>
+              <CloseIcon sx={{ fontSize: 13, fontWeight: 700 }} />
+            </ControlButton>
+            <ControlButton
+            onClick={handleMinimize}
+              bgColor={theme.palette.primaryContainer.main}
+              color={theme.palette.onPrimaryContainer.main }>
+              <CheckIndeterminateIcon sx={{ fontSize: 16, fontWeight: 700 }} />
+            </ControlButton>
+            <ControlButton
+            onClick={handleToggleMaximize}
+              bgColor={theme.palette.tertiaryContainer.main}
+              color={theme.palette.onTertiaryContainer.main }>
+                {
+                  windowState === WindowState.MAXIMIZED
+                    ? <ChromeRestoreIcon sx={{ fontSize: 13, fontWeight: 700 }} />
+                    : <ChromeMaximizeIcon sx={{ fontSize: 13, fontWeight: 700 }} />
+                }
+            </ControlButton>
     <Dialog sx={{
       '& .MuiPaper-root': {
         borderRadius: 6,
@@ -87,5 +143,5 @@ export default function WindowControl() {
         <Button onClick={() => confirmExit()}>确认</Button>
       </DialogActions>
     </Dialog>
-  </div>
+  </Box>
 }

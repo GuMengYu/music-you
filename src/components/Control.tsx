@@ -23,7 +23,7 @@ function Control({ compact }: { compact?: boolean }) {
         <PlayToggle />
       </div>
       <IconButton sx={{ p: 2 }} onClick={playNext}>
-        <SkipNextIcon  fontSize='small' />
+        <SkipNextIcon fontSize='small' />
       </IconButton>
       {
         !compact && <IconButton sx={{ p: 2 }} onClick={playModeToggle}>
@@ -34,7 +34,6 @@ function Control({ compact }: { compact?: boolean }) {
     </div>
   )
 }
-
 
 export {
   Control,

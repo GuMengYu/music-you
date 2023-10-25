@@ -111,4 +111,3 @@ export const useWallpaperStore = create(persist<WallpaperState & WallpaperAction
   name: 'wallpaper',
   storage: createJSONStorage(() => localStorage),
 }))
-

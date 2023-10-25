@@ -16,5 +16,4 @@ export class ArtistController {
   async getAlbums() {
     return this.artistService.getArtists(ArtistType.allArtists)
   }
-
 }

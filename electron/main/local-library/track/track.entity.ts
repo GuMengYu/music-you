@@ -101,5 +101,4 @@ export class Track {
 
   @Column({ nullable: true })
   public dateLastPlayed?: number
-
 }

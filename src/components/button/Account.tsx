@@ -14,7 +14,8 @@ export default function Account() {
   }, [account])
   return (
     <>
-      {account ? (
+      {account
+        ? (
         <IconButton className='no-drag-area' sx={{
           'backgroundColor': alpha(theme.palette.inverseSurface.main, 0.2),
           'p': 0.5,
@@ -25,11 +26,12 @@ export default function Account() {
         }} onClick={() => toggleQuick()}>
           <Avatar sx={{ height: 36, width: 36 }} src={avatarUrl}></Avatar>
         </IconButton>
-      ) : (
+          )
+        : (
         <IconButton color="primary" onClick={() => toggleLogin(true)}>
           <FaceIcon />
         </IconButton>
-      )}
+          )}
     </>
   )
 }
