@@ -13,26 +13,30 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { sizeOfImage } from '@/util/fn'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
-import type { Track as TrackType } from '@/types'
-import { usePlayer } from '@/hooks/usePlayer'
+import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { useLikeTrack } from '@/hooks/useLike'
 import { downloadMusic } from '@/hooks/useDownload'
 import { PlayRecord } from '@/api/user'
 import AlbumLink from '@/components/links/album'
+import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
+import { TrackFrom } from '@/types'
 
-function Record({ record, onPlay, onContextMenu, color, count, max }: {
+function RecordItem({ record, onContextMenu, count }: {
   color?: string
   record: PlayRecord
   count: number
   max: number
-  onPlay: (id: number) => void
-  onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => void
+  onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
+  const { addToQueueAndPlay } = useAddToPlayQueue()
   const liked = isLiked(record.song.id)
+  const handlePlay = useCallback(()=> {
+    addToQueueAndPlay(record.song, { id: 0, type: 'rank', name: '听歌排行' })
+  }, [record])
   return <div
     className={
       cx('grid grid-cols-2 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg')
@@ -56,7 +60,7 @@ function Record({ record, onPlay, onContextMenu, color, count, max }: {
                                         ease: [0.34, 1.56, 0.64, 1],
                                       }}
               >
-                  <IconButton onClick={() => onPlay(record.song.id)}><PlayIcon color='primary'/></IconButton>
+                  <IconButton onClick={handlePlay}><PlayIcon color='primary'/></IconButton>
               </motion.div>
           }
         </AnimatePresence>
@@ -106,22 +110,21 @@ export default function RecordTrackList({ records, className }: {
   records: PlayRecord[]
   className?: string
 }) {
-  const { player } = usePlayer()
   const { openContextMenu } = useContextMenu()
+  const { playNext } = useAddToPlayQueue()
   const theme = useTheme()
-  const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
+  const { getToPlaylistMenuItem } = useTrackOperation()
+  const trackFrom: TrackFrom = { id: 0, type: 'rank', name: '听歌排行' }
+
   const maxCount = maxBy(records, r => r.playCount)?.playCount ?? 0
 
-  const handleTrackPlay = useCallback((trackId: number) => {
-    player.updatePlayerTrack(trackId, true, true, false)
-  }, [])
-  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => {
     openContextMenu(e, [
       {
         type: 'item',
         label: '下一首播放',
         onClick: () => {
-
+          playNext(track, trackFrom)
         },
       },
       {
@@ -130,12 +133,12 @@ export default function RecordTrackList({ records, className }: {
       {
         type: 'submenu',
         label: '添加到歌单',
-        items: getToPlaylistMenuItem(track),
+        items: getToPlaylistMenuItem(track.id),
       },
       {
         type: 'item',
         label: '下载到本地',
-        onClick: async (i) => {
+        onClick: async () => {
           await downloadMusic(track)
         },
       },
@@ -147,13 +150,12 @@ export default function RecordTrackList({ records, className }: {
   return <div className={className}>
     {
       records.length && records.map((record) => {
-        return <Record
+        return <RecordItem
           key={record.song.id}
           record={record}
           count={record.playCount}
           max={maxCount}
           color={theme.palette.surfaceVariant.main}
-          onPlay={handleTrackPlay}
           onContextMenu={handleContextMenu} />
       })
     }

@@ -15,13 +15,13 @@ import { PlayRoundedIcon } from '@/components/icons/icons'
 import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
 import type { Artist } from '@/types'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 
 function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
   const theme = useTheme()
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.picUrl))
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const navigate = useNavigate()
 
   function jumpTo() {
@@ -32,7 +32,7 @@ function ArtistCover({ data, compact }: { data: Artist; compact?: boolean }) {
     e.stopPropagation()
     try {
       const info = await getTrackList('artist', data.id)
-      addToQueueAndPlay(info.tracks, info.id, 'artist', data.name)
+      replaceQueueAndPlay(info.tracks, info.id, 'artist', data.name)
     }
     catch (e) {
       console.log(e)

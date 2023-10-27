@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useNavigate } from 'react-router-dom'
 import type { Track } from '@/types'
@@ -61,7 +61,7 @@ export default function TrackMore({ track }: { track: Track }) {
       {
         type: 'submenu',
         label: '添加到歌单',
-        items: getToPlaylistMenuItem(track),
+        items: getToPlaylistMenuItem(track.id),
       },
       {
         type: 'divider',
@@ -75,10 +75,8 @@ export default function TrackMore({ track }: { track: Track }) {
       },
     ])
   }
-  return <IconButton
-  sx={{
-    // p: 2,
-  }} onClick={e => openMore(e)}>
+  return <Tooltip title="更多操作" placement='top'><IconButton
+   onClick={e => openMore(e)}>
     <MoreVertIcon fontSize='small' />
-  </IconButton>
+  </IconButton></Tooltip>
 }

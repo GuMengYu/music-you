@@ -8,7 +8,7 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import { fetchPlayRecord } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import Image from '@/components/Image'
 import { useUserStore } from '@/store/user'
 import RecordTrackList from '@/pages/listen-rank/RecordTrackList'
@@ -24,7 +24,7 @@ export default function ListenRank() {
     }
   })
   const theme = useTheme()
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [value, setValue] = useState(0)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -32,7 +32,7 @@ export default function ListenRank() {
   function handlePlay() {
     const tracks = value === 0 ? data.weekData.map(i => i.song) : data.allData.map(i => i.song)
     if (tracks?.length)
-      addToQueueAndPlay(tracks)
+      replaceQueueAndPlay(tracks)
   }
 
   return <PageTransition>
@@ -68,13 +68,16 @@ export default function ListenRank() {
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
                   'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
+                  'color': theme.palette.primary.main,
+                  'borderRadius': 2.5,
+                  'px': 1.5,
                   'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
               </div>
             </div>
           </div>

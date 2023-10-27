@@ -34,7 +34,7 @@ const MenuPanel = forwardRef(
           'app-region-no-drag fixed select-none',
           isSubmenu ? 'submenu z-30 px-1' : 'z-20',
         )}
-        style={{ left: position.x, top: position.y }}
+        style={{ left: position.x, top: position.y, zIndex: theme.zIndex.modal + (isSubmenu ? 2 : 1) }}
       >
         {/* The real panel */}
         <motion.div

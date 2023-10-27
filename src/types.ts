@@ -9,16 +9,20 @@ export type listType =
   | 'program'
   | 'unknown'
   | 'local'
+  | 'rank'
+  | 'search'
 export interface TrackFrom {
-  id: number
+  id: number | string
   type: listType
+  name: string
 }
 export interface TrackSource {
   fromUrl: string
   fromType: listType
   from: TrackFrom
   fid: listType
-  fdata: number
+  fdata: number | string
+  fromName: string
 }
 export interface SimpleTrack {
   id: number
@@ -66,17 +70,12 @@ export interface Track {
       lyric: string
     }
   }
-  source?: {
-    fid: number | string
-    fdata: number | string
-    fromUrl: string
-    fromType: listType
-    from: TrackFrom
-  }
+  source?: TrackSource
   program?: Program
   radio?: {
     name: string
     id: number
+    picUrl: string
   }
   liked?: boolean
   mainTrackId?: number

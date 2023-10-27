@@ -21,7 +21,7 @@ export default function PodcastLink({ podcast }: { podcast: Podcast[] | Podcast 
           </RouterLink>
         }
         else {
-          return <span>未知</span>
+          return <span key={idx}>未知</span>
         }
       })
     }

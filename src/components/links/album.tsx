@@ -11,7 +11,7 @@ export default function AlbumLink({ album }: { album: Album[] | Album }) {
 
   return <span>
     {
-      albums.map((al, idx) => {
+      albums?.map((al, idx) => {
         if (al?.id && al?.name) {
           return <RouterLink
             key={al.id}
@@ -21,7 +21,7 @@ export default function AlbumLink({ album }: { album: Album[] | Album }) {
           </RouterLink>
         }
         else {
-          return <span>未知</span>
+          return <span key={idx}>未知</span>
         }
       })
     }

@@ -3,13 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { alpha } from '@mui/material/styles'
 import Image from '@/components/Image'
 import type { Track } from '@/types'
 import { getDailyRecommend, recent } from '@/api/user'
 import { getTrackList } from '@/api/music'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { cloudDiskMusicList } from '@/api/cloud'
 
 export default function ShortCut({
@@ -27,7 +28,7 @@ export default function ShortCut({
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const theme = useTheme()
   const navigate = useNavigate()
   async function handlePlay(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -43,21 +44,21 @@ export default function ShortCut({
         info = {
           list: data['dailySongs'],
         }
-        addToQueueAndPlay(info.list, 0, 'daily', '日推')
+        replaceQueueAndPlay(info.list, 0, 'daily', '日推')
       }
       else if (type === 'recent') {
         const { data } = await recent()
         info = {
           list: data.list.map(i => i['data']),
         }
-        addToQueueAndPlay(info.list, 0, 'recent', '最近播放')
+        replaceQueueAndPlay(info.list, 0, 'recent', '最近播放')
       }
       else if (type === 'cloud') {
         const { data } = await cloudDiskMusicList()
         info = {
           list: data.map(i => i.simpleSong),
         }
-        addToQueueAndPlay(info.list, 0, 'cloud', '云盘')
+        replaceQueueAndPlay(info.list, 0, 'cloud', '云盘')
       }
       else {
         const _data = await getTrackList(type, data.id as number)
@@ -65,7 +66,7 @@ export default function ShortCut({
           id: _data.id,
           list: _data.tracks,
         }
-        addToQueueAndPlay(info.list, info.id!, type, data.name!)
+        replaceQueueAndPlay(info.list, info.id!, type, data.name!)
       }
     }
     catch (e) {
@@ -167,7 +168,7 @@ export default function ShortCut({
                   'p': 0,
                   'bgcolor': `${theme.palette.primary.main}`,
                   '&:hover': {
-                    bgcolor: `${theme.palette.primary.main}F2`,
+                    bgcolor: alpha(theme.palette.primary.main, 0.7),
                   },
                 }}
               >

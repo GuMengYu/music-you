@@ -301,6 +301,13 @@ export class Player {
     this.howler?.play()
   }
 
+  load() {
+    const track = playQueueStore.getState().popTrack()
+    if (track)
+      this.updatePlayerTrack(track.id, true, true, false, track.source?.from)
+
+  }
+
   next() {
     const { playMode } = usePlayerStore.getState()
     if (playMode === PLAY_MODE.REPEAT_ONCE) {
@@ -311,7 +318,7 @@ export class Player {
     if (track)
       this.updatePlayerTrack(track.id, true, true, false, track.source?.from)
     else
-      this.pause()
+      enqueueSnackbar('往后没有更多可播放的音乐了', { variant: 'info' })
   }
 
   async nextFm() {
@@ -341,18 +348,16 @@ export class Player {
     if (track && track.id)
       this.updatePlayerTrack(track.id, true, true, false, track.source.from)
     else
-      this.pause()
+      enqueueSnackbar('往前没有更多可播放的音乐了', { variant: 'info' })
   }
+
 
   private nextTrack() {
     return playQueueStore.getState().popNextTrack()
-    // return this.store.popNextTrack()
   }
 
   private prevTrack() {
     return playQueueStore.getState().popPrevTrack()
-
-    // return this.store.popPrevTrack()
   }
 
   updateCurrentTime(this: Player, val?: number) {
@@ -418,7 +423,7 @@ export class Player {
     else
       this.next()
 
-    if (this.track && this.track.source.fromType !== 'local')
+    if (this.track && this.track.source?.fromType !== 'local')
       this.endPlay(this.track, 0, true)
   }
 
@@ -426,7 +431,7 @@ export class Player {
   private async endPlay(track: Track, time: number, played = false) {
     const { id, dt = 0 } = track
 
-    const sourceId = playQueueStore.getState().getSourceId()
+    const sourceId = track.source?.from?.id
     if (played)
       time = +dt / 1000
 
@@ -488,6 +493,8 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
     program: `/podcast/${from.id}`,
     unknown: '',
     local: '/local',
+    rank: '/rank',
+    search: `/search?keyword=${from.id}`,
   }[from.type as listType]
   track.source = {
     fromUrl: url,
@@ -495,6 +502,7 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
     fid: from.type,
     fdata: from.id,
     from,
+    fromName: from.name,
   }
   if (from.type === 'program')
     track.program = cloneDeep(track) as Program

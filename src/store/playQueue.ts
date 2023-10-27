@@ -1,4 +1,4 @@
-import { pick, shuffle } from 'lodash-es'
+import { pick, random, shuffle } from 'lodash-es'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { Program, SimpleTrack, Track, TrackFrom, listType } from '@/types'
@@ -14,22 +14,20 @@ export interface PlayQueueState {
     states: SimpleTrack[]
     tracks: Track[]
   }
-  priorityQueue: Track[]
+  index: number
 }
 
 export interface PlayQueueAction {
   updatePlayQueue: (id: number, type: listType, name: string, data: Track[]) => void
-  updatePriorityQueue: (list: Track[]) => void
-  clearPriorityQueue: () => void
   clearQueue: () => void
-  addToPlayQueue: (track: Track | Program, from: TrackFrom) => void
+  addToPlayQueue: (track: Track | Program, from?: TrackFrom, afterCurrent?: boolean) => number
+  removeFromQueue: (trackId: number) => void
   shuffle: () => void
   unShuffle: () => void
-  restoreStates: () => void
-  setQueue: (id: number) => void
-  getSourceId: () => number | null | undefined
   popNextTrack: () => SimpleTrack | Track | null | undefined
   popPrevTrack: () => SimpleTrack | null | undefined
+  popTrack: () => SimpleTrack | null | undefined
+  setIndex: (index: number) => void
 }
 
 export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((set, get) => {
@@ -39,8 +37,9 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       states: [],
       tracks: [],
     },
-    priorityQueue: [],
+    index: 0,
     // actions
+    setIndex: index => set({ index }),
     /**
      * 更新播放列表
      * @param id 队列id
@@ -51,15 +50,13 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
     updatePlayQueue(id: number, type: listType, name: string, data: Track[]) {
       data.forEach((i) => {
         // 混入队列信息
-        mixinTrackSource(i, { type, id })
+        mixinTrackSource(i, { type, id, name })
       })
       // 精简track, 只在store存储必要的信息
       const tracks = simpleTracks(data)
       set({
+        index: 0,
         queue: {
-          id,
-          type,
-          name,
           sequence: [...tracks], // deep copy avoid mutation of sequence and states
           states: [...tracks],
           tracks: data,
@@ -67,24 +64,11 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       })
     },
     /**
-     * 更新待播放列表
-     * @param list
+     * 清除队列
      */
-    updatePriorityQueue(list: Track[]) {
-      set({
-        priorityQueue: list,
-      })
-    },
-    /**
-     * 清空待播放列表
-     */
-    clearPriorityQueue() {
-      set({
-        priorityQueue: [],
-      })
-    },
     clearQueue() {
       set({
+        index: 0,
         queue: {
           sequence: [],
           states: [],
@@ -93,30 +77,79 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       })
     },
     /**
-     * 添加歌曲到待播放列表
-     * @param track
-     * @param from
+     * 添加歌曲到播放队列
+     * @param track 歌曲
+     * @param from 来源
+     * @param afterCurrent 是否插入到播放位置后
+     * @return number 插入位置
      */
-    addToPlayQueue(track: Track | Program, from: TrackFrom) {
-      mixinTrackSource(track, from)
-      set(state => ({ priorityQueue: [...state.priorityQueue, track] }))
+    addToPlayQueue(track: Track | Program, from?: TrackFrom, afterCurrent?: boolean) {
+      if (from)
+        mixinTrackSource(track, from)
+      const { queue, index } = get()
+      const [_track] = simpleTracks([track])
+      const { track: currentTrack } = usePlayerStore.getState()
+      const list = queue.sequence
+      // 已存在
+      const existIndex = list.findIndex(i => i.id === track.id)
+      if (existIndex >= 0) {
+        // 移动到正在播放的后面
+        if (afterCurrent) {
+          // 本身不需要移动
+          if (existIndex === index) {
+            return existIndex
+          }
+          // 已存在歌曲在当前歌曲后，先删除再添加到目标位置后
+          else if (existIndex > index) {
+            const [deleted] = list.splice(existIndex, 1)
+            list.splice(index + 1, 0, deleted)
+            set(state => ({ queue: { ...state.queue, sequence: list } }))
+            return index + 1
+          }
+          // 已存在歌曲在当前歌曲前，先删除再添加到目标位置后
+          else {
+            const [deleted] = list.splice(existIndex, 1)
+            list.splice(index, 0, deleted)
+            set(state => ({ queue: { ...state.queue, sequence: list } }))
+            return index
+          }
+        }
+        else {
+          return existIndex
+        }
+      }
+      else {
+        if (afterCurrent) {
+          list.splice( index + 1, 0, _track)
+          set(state => ({ queue: { ...state.queue, sequence: list } }))
+          return index + 1
+        }
+        else {
+          list.push(_track)
+          set(state => ({ queue: { ...state.queue, sequence: list } }))
+          return list.length - 1 // last track index
+        }
+
+      }
     },
-    /**
+    /*
      * 从队列中删除
      * @param trackId
      * @returns
      */
-    // deleteFromQueue(trackId: number, from: 'queue' | 'priority') {
-    //   if (from === 'queue') {
-    //     const index = this.queue.data.findIndex((item) => item.id === trackId)
-    //     if (index === -1) return
-    //     this.queue.data.splice(index, 1)
-    //   } else {
-    //     const index = this.priorityQueue.findIndex((item) => item.id === trackId)
-    //     if (index === -1) return
-    //     this.priorityQueue.splice(index, 1)
-    //   }
-    // },
+    removeFromQueue(trackId: number) {
+      const list = get().queue.sequence
+      if (list?.length) {
+        const index = list.findIndex(item => item.id === trackId)
+        list.splice(index, 1)
+        set(state => ({
+          queue: {
+            ...state.queue,
+            sequence: list,
+          },
+        }))
+      }
+    },
     /**
      * 随机队列
      */
@@ -147,99 +180,79 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
         },
       }))
     },
-    restoreStates() {
-      set(state => ({
-        queue: {
-          ...state.queue,
-          states: [...(state.queue.sequence)],
-        },
-      }))
-    },
-    // 按照歌曲id 更新队列
-    setQueue(id: number) {
-      const states = get().queue.states
-      const foundIndex = states.findIndex(item => item.id === id)
-      if (foundIndex > -1) {
-        set(state => ({
-          queue: {
-            ...state.queue,
-            states: states.slice(foundIndex + 1),
-          },
-        }))
-        // this.queue.states.splice(0, foundIndex + 1)
-      }
-    },
-    getSourceId() {
-      const queue = get().queue
-      return queue.type && ['album', 'playlist', 'artist'].includes(queue.type)
-        ? queue.id
-        : null
-    },
     popNextTrack() {
-      const { playMode } = usePlayerStore.getState()
-      const { queue, priorityQueue, restoreStates } = get()
-      // const playMode = get().playMode
+      const { playMode, shuffle } = usePlayerStore.getState()
+      const { queue, index } = get()
 
-      // 优先播放 priorityQueue 中的歌曲
-      if (priorityQueue.length) {
-        const track = priorityQueue.shift()
-        set(state => ({
-          priorityQueue,
-        }))
-        return track
+      // 无效索引
+      if (index > queue.sequence.length - 1)
+        return
+
+      if (shuffle) {
+        const randomIndex = random(0, queue.sequence.length - 1)
+        set({
+          index: randomIndex,
+        })
       }
-      if (playMode === PLAY_MODE.NORMAL) {
-        if (queue.states.length) {
-          const track = queue.states.shift()
-          set(state => ({
-            queue: {
-              ...state.queue,
-              states: queue.states,
-            },
-          }))
-          return track
+      else {
+        // last one
+        if (index === queue.sequence.length - 1 ) {
+          if (playMode === PLAY_MODE.NORMAL) {
+            return
+          }
+          else if (playMode === PLAY_MODE.REPEAT) {
+            set(state => ({
+              index: 0,
+            }))
+          }
         }
-        return null
+        else {
+          set(state => ({
+            index: index + 1,
+          }))
+        }
       }
-      else if (playMode === PLAY_MODE.REPEAT) {
-        if (!queue.states.length)
-          restoreStates()
-        const newState = get().queue.states
-        const track = newState.shift()
-        // set new state after shift track
-        set(state => ({
-          queue: {
-            ...state.queue,
-            states: newState,
-          },
-        }))
-        return track
-      }
+
+
+      const nextIndex = get().index
+      return queue.sequence[nextIndex]
     },
     popPrevTrack() {
-      const playQueue = get()
-      const sequence = playQueue.queue.sequence
-      // 处于第一首时，不能再往前
-      if (playQueue.queue.states.length === sequence.length - 1) {
+      const { index, queue } = get()
+      const sequence = queue.sequence
+      // 无效索引或处于第一
+      if (index <= 0) {
         return null
       }
       else {
-        // 往前移动一首，取回前一首放到队列开头, 并返回前一首id
-        const prev = sequence[sequence.length - playQueue.queue.states.length - 1]
-        const prev2 = sequence[sequence.length - playQueue.queue.states.length - 2]
-        if (prev2) {
-          set(state => ({
-            queue: {
-              ...state.queue,
-              states: [prev, ...state.queue.states],
-            },
-          }))
-          return prev2
-        }
-        else {
-          return null
-        }
+        // // 往前移动一首，取回前一首放到队列开头, 并返回前一首id
+        // const prev = sequence[sequence.length - playQueue.queue.states.length - 1]
+        // const prev2 = sequence[sequence.length - playQueue.queue.states.length - 2]
+        const prevIndex = index - 1
+        set({
+          index: prevIndex,
+        })
+        return queue.sequence[prevIndex]
+
+        // if (prev2) {
+        //   set(state => ({
+        //     queue: {
+        //       ...state.queue,
+        //       states: [prev, ...state.queue.states],
+        //     },
+        //   }))
+        //   return prev2
+        // }
+        // else {
+        //   return null
+        // }
       }
+    },
+    popTrack() {
+      const { index, queue } = get()
+      if (index >= 0 && index <= queue.sequence.length)
+        return queue.sequence[index]
+
     },
   }
 }, {
@@ -248,5 +261,5 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
 }))
 
 function simpleTracks(tracks: Track[]) {
-  return tracks.map(track => pick(track, ['id', 'name', 'source', 'al']) as any as SimpleTrack)
+  return tracks.map(track => pick(track, ['id', 'name', 'source', 'al', 'ar', 'radio']) as any as SimpleTrack)
 }

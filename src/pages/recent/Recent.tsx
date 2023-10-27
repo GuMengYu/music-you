@@ -7,7 +7,7 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import { recent } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import Image from '@/components/Image'
 import TrackList from '@/components/TrackList'
 import GridRow from '@/components/GridRow'
@@ -24,7 +24,7 @@ export default function Recent() {
     }
   })
   const theme = useTheme()
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [value, setValue] = useState(0)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -32,7 +32,7 @@ export default function Recent() {
   function handlePlay() {
     // const tracks = value === 0 ? data.weekData.map(i => i.song) : data.allData.map(i => i.song)
     // if (tracks?.length)
-    //   addToQueueAndPlay(tracks)
+    //   replaceQueueAndPlay(tracks)
   }
 
   return <PageTransition>
@@ -77,7 +77,7 @@ export default function Recent() {
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
         <CustomTabPanel value={value} index={0} >
-          <TrackList tracks={data?.recentTrack.list.map((i: any) => i.data)} />
+          <TrackList tracks={data?.recentTrack.list.map((i: any) => i.data)} trackFrom={{ id: 0, name: '最近播放', type: 'recent' }} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} >
           <GridRow>

@@ -23,7 +23,7 @@ import { formatNumber, sizeOfImage } from '@/util/fn'
 import Image from '@/components/Image'
 import { useUserStore } from '@/store/user'
 import { getSongData } from '@/api/song'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { getTrackList } from '@/api/music'
 import Col from '@/components/Col'
 
@@ -93,7 +93,7 @@ function FavCard() {
   const theme = useTheme()
   const { likes } = useUserStore()
   const { favList } = useMyPlaylist()
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
 
   const [randomTracks, setRandomTracks] = useState<Track[]>()
 
@@ -110,7 +110,7 @@ function FavCard() {
   async function handlePlayMyFav() {
     const _data = await getTrackList('playlist', favList.id)
 
-    addToQueueAndPlay(_data.tracks, favList.id, 'playlist', favList.name)
+    replaceQueueAndPlay(_data.tracks, favList.id, 'playlist', favList.name)
   }
 
   return <Card className='flex flex-col col-span-3' variant='outlined' sx={{

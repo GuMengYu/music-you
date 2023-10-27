@@ -4,25 +4,24 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
-import TrackList from '../TrackList'
+import LocalTrackList from '../LocalTrackList'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import { formatDuring } from '@/util/fn'
 import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import { useQueryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 
 function Header({ data }: { data: any }) {
   const theme = useTheme()
-  const [showDesc, setShowDesc] = useState(false)
   const [showImageView, setShowImageView] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
 
   const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
 
   function handlePlay() {
-    addToQueueAndPlay(data.tracks, 0, 'local', `本地专辑: ${data.name}`)
+    replaceQueueAndPlay(data.tracks, 0, 'local', `本地专辑: ${data.name}`)
   }
 
   return (
@@ -91,15 +90,21 @@ function Header({ data }: { data: any }) {
                 </div>
               </div>
               <div className='flex gap-3'>
-                <Button disableElevation variant='contained' sx={{
-                  'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
-                  'py': 1.5,
-                  '&:hover': {
-                    bgcolor: `${theme.palette.primary.main}38`,
-                  },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                <Button
+                    disableElevation
+                    variant='contained'
+                    sx={{
+                      'bgcolor': `${theme.palette.primary.main}1f`,
+                      'color': theme.palette.primary.main,
+                      'borderRadius': 2.5,
+                      'px': 1.5,
+                      'py': 1.5,
+                      '&:hover': {
+                        bgcolor: `${theme.palette.primary.main}38`,
+                      },
+                    }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' />Play Now
+                </Button>
               </div>
             </div>
           </div>
@@ -127,7 +132,7 @@ export default function LocalAlbumPage() {
         }
         <Box className='h-4'></Box>
         {
-          tracks && <TrackList tracks={tracks}/>
+          tracks && <LocalTrackList tracks={tracks}/>
         }
       </Box>
     </PageTransition>

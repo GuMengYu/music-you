@@ -2,19 +2,24 @@ import { IconButton, useTheme } from '@mui/material'
 import { animate, motion, useMotionValue } from 'framer-motion'
 import { useEffect } from 'react'
 import { alpha } from '@mui/material/styles'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import { usePlayer } from '@/hooks/usePlayer'
 import { useFlubber } from '@/hooks/useFlubber'
+import { usePlayerStore } from '@/store/player'
 
 const playPath = 'M9.525 18.025q-.5.325-1.012.038T8 17.175V6.825q0-.6.513-.888t1.012.038l8.15 5.175q.45.3.45.85t-.45.85l-8.15 5.175Z'
 const pausePath = 'M16 19q-.825 0-1.413-.588T14 17V7q0-.825.588-1.413T16 5q.825 0 1.413.588T18 7v10q0 .825-.588 1.413T16 19Zm-8 0q-.825 0-1.413-.588T6 17V7q0-.825.588-1.413T8 5q.825 0 1.413.588T10 7v10q0 .825-.588 1.413T8 19Z'
 export default function PlayToggle() {
   const theme = useTheme()
-  const { playing, playToggle } = usePlayerControl()
+  const { playing } = usePlayerStore()
+  const { player } = usePlayer()
   const progress = useMotionValue(playing ? 1 : 0)
   const path = useFlubber(progress, [pausePath, playPath])
   useEffect(() => {
     animate(progress, playing ? 0 : 1, { duration: 0.3, ease: 'easeInOut' })
   }, [playing])
+  function playToggle() {
+    player.togglePlay()
+  }
   return (
     <IconButton
       className='no-drag-area'

@@ -1,4 +1,4 @@
-declare module '@mui/material/styles/createPalette' {
+declare module '@mui/material/styles' {
   interface Palette {
     onPrimary: Palette['primary']
     primaryContainer: Palette['primary']

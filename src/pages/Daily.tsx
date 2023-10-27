@@ -10,19 +10,19 @@ import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import TrackList from '@/components/TrackList'
 import Image from '@/components/Image'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 
 function Header({
   data,
 }: { data: any }) {
   const theme = useTheme()
   const [loading, toggleLoading] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const cover = data.dailySongs[0]?.al.picUrl
 
   function handlePlay() {
     toggleLoading(true)
-    addToQueueAndPlay(data.dailySongs, 0, 'daily', '日推')
+    replaceQueueAndPlay(data.dailySongs, 0, 'daily', '日推')
     toggleLoading(false)
   }
 
@@ -59,13 +59,16 @@ function Header({
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
                   'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
+                  'color': theme.palette.primary.main,
+                  'borderRadius': 2.5,
+                  'px': 1.5,
                   'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }}>
@@ -91,7 +94,7 @@ export default function DailyPage() {
       }
       <Box className='h-4'></Box>
       {
-        data?.dailySongs?.length && <TrackList tracks={data.dailySongs}/>
+        <TrackList tracks={data?.dailySongs} trackFrom={{ id: 0, name: '每日推荐', type: 'daily' }} />
       }
     </Box>
   </PageTransition>

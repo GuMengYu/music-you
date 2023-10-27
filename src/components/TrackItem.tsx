@@ -1,36 +1,38 @@
-import { useCallback, useState } from 'react'
-import { IconButton, Typography } from '@mui/material'
+import { useState } from 'react'
+import { alpha, useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
 import { css, cx } from '@emotion/css'
-import PlayIcon from '@mui/icons-material/PlayArrow'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-
 import { AnimatePresence, motion } from 'framer-motion'
-import { formatDuring, sizeOfImage } from '@/util/fn'
+import { IconButton, Typography } from '@mui/material'
+import PlayIcon from '@mui/icons-material/PlayArrow'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import AlbumLink from '@/components/links/album'
-import Image from '@/components/Image'
+import { formatDuring, sizeOfImage } from '@/util/fn'
 import ArtistLink from '@/components/links/artist'
-import type { Track, TrackFrom } from '@/types'
-import { useContextMenu } from '@/hooks/useContextMenu'
+import Image from '@/components/Image'
 import { useLikeTrack } from '@/hooks/useLike'
-import { downloadMusic } from '@/hooks/useDownload'
-import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
+import { Track } from '@/types'
 
-function CloudTrackItem({ track, onContextMenu }: {
+export default function TrackItem({ track, onPlay, onContextMenu }: {
   track: Track
+  onPlay: (track: Track) => void
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
-  const { addToQueueAndPlay } = useAddToPlayQueue()
+  const theme = useTheme()
   const liked = isLiked(track.id)
-  const handlePlay = useCallback(()=> {
-    addToQueueAndPlay(track, { id: 0, type: 'cloud', name: '云盘' })
-  }, [track])
-  return <div
+  return <Box
+    sx={{
+      'transition': 'background-color .35s ease',
+      '&:hover': {
+        bgcolor: alpha(theme.palette.surfaceVariant.main, 0.2),
+      },
+    }}
     className={
-      cx('grid grid-cols-3 gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
+      cx('grid grid-cols-3 gap-4 px-2 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
     } onMouseEnter={() => setIsHovering(true)}
     onMouseLeave={() => setIsHovering(false)}
     onContextMenu={e => onContextMenu && onContextMenu(e, { ...track, liked })}
@@ -51,20 +53,20 @@ function CloudTrackItem({ track, onContextMenu }: {
                                         ease: [0.34, 1.56, 0.64, 1],
                                       }}
               >
-                  <IconButton onClick={handlePlay}><PlayIcon color='primary'/></IconButton>
+                  <IconButton onClick={() => onPlay(track)}><PlayIcon color='primary'/></IconButton>
               </motion.div>
           }
         </AnimatePresence>
       </div>
       <div className='flex flex-col justify-center'>
         <Typography className='line-clamp-1' variant='body1'>{track.name}</Typography>
-        <Typography className='line-clamp-1' variant='caption'>
+        <Typography className='line-clamp-1' variant='caption' component={'div'}>
           {track.ar && <ArtistLink artist={track.ar}/>}
         </Typography>
       </div>
     </div>
 
-    <Typography className='line-clamp-1' variant='body2'>{track.al && <AlbumLink album={track.al}/>}</Typography>
+    <Typography className='line-clamp-1' variant='body2' component={'div'}>{track.al && <AlbumLink album={track.al}/>}</Typography>
 
     <div className='flex justify-between items-center'>
       <div className='h-11 w-11'>
@@ -114,46 +116,5 @@ function CloudTrackItem({ track, onContextMenu }: {
       </div>
 
     </div>
-  </div>
-}
-
-export default function CloudTrackList({ tracks, className }: {
-  tracks: Track[]
-  className?: string
-}) {
-  const { openContextMenu } = useContextMenu()
-  const { playNext } = useAddToPlayQueue()
-  const trackFrom: TrackFrom = { id: 0, type: 'cloud', name: '云盘' }
-
-  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => {
-    openContextMenu(e, [
-      {
-        type: 'item',
-        label: '下一首播放',
-        onClick: () => {
-          playNext(track, trackFrom)
-        },
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'item',
-        label: '下载到本地',
-        onClick: async () => {
-          await downloadMusic(track)
-        },
-      },
-    ], {
-      useCursorPosition: true,
-    })
-  }, [])
-
-  return <div className={className}>
-    {
-      tracks.length && tracks.map((track) => {
-        return <CloudTrackItem track={track} key={track.id} onContextMenu={handleContextMenu} />
-      })
-    }
-  </div>
+  </Box>
 }

@@ -7,14 +7,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LocalTrack } from '@shared/types'
 import { formatDuring, formatFrequency } from '@/util/fn'
-import { usePlayer } from '@/hooks/usePlayer'
+import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
 
-function Track({ track, index, onPlay }: {
+function Track({ track, index }: {
   track: LocalTrack
   index: number
-  onPlay: (id: number) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
+  const { addToQueueAndPlay } = useAddToPlayQueue()
+  const handlePlay = useCallback(()=> {
+    addToQueueAndPlay(track as any, { id: 0, type: 'local', name: '本地音乐' })
+  }, [track])
   return <div
     className={
       cx('grid gap-4 px-1 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 3fr 2fr 1fr [last] 126px;`)
@@ -39,7 +42,7 @@ function Track({ track, index, onPlay }: {
                 ease: [0.34, 1.56, 0.64, 1],
               }}
             >
-              <IconButton onClick={() => onPlay(track.id)}><PlayIcon color='primary'/></IconButton>
+              <IconButton onClick={handlePlay}><PlayIcon color='primary'/></IconButton>
             </motion.div>
           }
         </AnimatePresence>
@@ -99,14 +102,10 @@ function Track({ track, index, onPlay }: {
   </div>
 }
 
-export default function TrackList({ tracks, className }: {
+export default function LocalTrackList({ tracks, className }: {
   tracks: LocalTrack[]
   className?: string
 }) {
-  const { player } = usePlayer()
-  const handleTrackPlay = useCallback((trackId: number) => {
-    player.updatePlayerTrack(trackId, true, true, false, { type: 'local', id: 0 })
-  }, [tracks])
   return <div className={className}>
     <div>
       <div
@@ -128,12 +127,8 @@ export default function TrackList({ tracks, className }: {
   </div>
     {
       tracks?.length && tracks.map((track, index) => {
-        return <Track track={track} key={track.id} index={index} onPlay={handleTrackPlay} />
+        return <Track track={track} key={track.id} index={index} />
       })
     }
   </div>
-}
-
-export {
-  Track,
 }

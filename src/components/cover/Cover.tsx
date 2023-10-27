@@ -13,7 +13,7 @@ import Image from '@/components/Image'
 import { getTrackList } from '@/api/music'
 import { PlayIcon } from '@/components/icons/icons'
 import LoadingButton from '@/components/button/LoadingButton'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 
 function Cover({ data, subTitle, type, inset }: {
@@ -26,7 +26,7 @@ function Cover({ data, subTitle, type, inset }: {
   const coverBgUrl = sizeOfImage(toHttps(data.picUrl ?? data.coverImgUrl))
   const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
@@ -42,7 +42,7 @@ function Cover({ data, subTitle, type, inset }: {
       setLoading(true)
       await sleep(2000)
       const info = await getTrackList(type, data.id)
-      addToQueueAndPlay(info.tracks, info.id, type, data.name)
+      replaceQueueAndPlay(info.tracks, info.id, type, data.name)
       setLoading(false)
     }
     catch (e) {

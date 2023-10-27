@@ -20,7 +20,7 @@ import Image from '@/components/Image'
 import ImageViewer from '@/components/ImageViewer'
 import useQueryAlbum from '@/pages/detail/useQueryAlbum'
 import ArtistLink from '@/components/links/artist'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { sub } from '@/api/music'
 
@@ -31,7 +31,7 @@ function Header({ album }: { album: Album | undefined }) {
 
   const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
   const [copied, copyToClipboard] = useCopyToClipboard()
@@ -41,7 +41,7 @@ function Header({ album }: { album: Album | undefined }) {
     setSubscribed(album.isSub)
   }, [album])
   function handlePlay() {
-    addToQueueAndPlay(album.tracks, album.id, 'album', album.name)
+    replaceQueueAndPlay(album.tracks, album.id, 'album', album.name)
   }
   async function subscribe() {
     const { code, message } = await sub('album', album.id, subscribed ? 0 : 1)
@@ -173,13 +173,16 @@ function Header({ album }: { album: Album | undefined }) {
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
                   'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
+                  'color': theme.palette.primary.main,
+                  'borderRadius': 2.5,
+                  'px': 1.5,
                   'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }} onClick={handleMore}>
@@ -223,7 +226,7 @@ export default function AlbumPage() {
         }
         <Box className='h-4'></Box>
         {
-          data?.album?.tracks?.length && <TrackList tracks={data.album.tracks}/>
+          <TrackList tracks={data?.album?.tracks} trackFrom={{ id: data?.album.id, name: data?.album.name, type: 'album' }}/>
         }
       </Box>
     </PageTransition>

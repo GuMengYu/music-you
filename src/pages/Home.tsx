@@ -130,7 +130,7 @@ function Home() {
           ? <HomePageSkeleton />
           : <div className='flex flex-col gap-4 pr-2'>
           <ShortCuts />
-          <Col title="今日推荐">
+          <Col title="专属推荐">
             <GridRow singleLine rowType={GridType.A}>
               {personalizedPlaylists?.map(data => (
                 <Cover type="playlist" key={data.id} data={data}/>

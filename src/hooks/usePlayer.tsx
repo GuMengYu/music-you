@@ -1,13 +1,16 @@
 import { useCallback, useContext, useMemo } from 'react'
-import RepeatIcon from '@mui/icons-material/Repeat'
-import RepeatOneOnIcon from '@mui/icons-material/RepeatOneOn'
-import RepeatOnIcon from '@mui/icons-material/RepeatOn'
-import ShuffleIcon from '@mui/icons-material/Shuffle'
-import ShuffleOnIcon from '@mui/icons-material/ShuffleOn'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
 import { PlayerContext } from '@/contexts/player'
 import { playQueueStore } from '@/store/playQueue'
-import { VolumeHighIcon, VolumeLowIcon, VolumeMediumIcon, VolumeMuteIcon } from '@/components/icons/icons'
+import {
+  InOrderIcon,
+  RepeatIcon,
+  RepeatOneIcon, ShuffleIcon,
+  VolumeHighIcon,
+  VolumeLowIcon,
+  VolumeMediumIcon,
+  VolumeMuteIcon,
+} from '@/components/icons/icons'
 
 export function usePlayer() {
   const player = useContext(PlayerContext)
@@ -40,14 +43,14 @@ export function usePlayerControl() {
   const modeIcon = useMemo(() => {
     return (
       {
-        [PLAY_MODE.NORMAL]: <RepeatIcon sx={{ fontSize: 16 }} />,
-        [PLAY_MODE.REPEAT]: <RepeatOnIcon sx={{ fontSize: 16 }} />,
-        [PLAY_MODE.REPEAT_ONCE]: <RepeatOneOnIcon sx={{ fontSize: 16 }} />,
-      }[playMode] ?? <RepeatOnIcon />
+        [PLAY_MODE.NORMAL]: <InOrderIcon sx={{ fontSize: 16 }}  />,
+        [PLAY_MODE.REPEAT]: <RepeatIcon sx={{ fontSize: 16 }}  color='primary' />,
+        [PLAY_MODE.REPEAT_ONCE]: <RepeatOneIcon sx={{ fontSize: 16 }}  color='primary' />,
+      }[playMode] ?? <RepeatIcon sx={{ fontSize: 16 }}  />
     )
   }, [playMode])
   const shuffleIcon = useMemo(() => {
-    return shuffle ? <ShuffleOnIcon sx={{ fontSize: 16 }} /> : <ShuffleIcon sx={{ fontSize: 16 }} />
+    return shuffle ? <ShuffleIcon sx={{ fontSize: 16 }} color='primary' /> : <ShuffleIcon sx={{ fontSize: 16 }} />
   }, [shuffle])
   const volumeIcon = useMemo(() => {
     if (volume === 0)

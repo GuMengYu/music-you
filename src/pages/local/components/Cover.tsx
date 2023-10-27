@@ -10,18 +10,15 @@ import { useNavigate } from 'react-router-dom'
 import Image from '@/components/Image'
 import { PlayIcon } from '@/components/icons/icons'
 import { queryAlbumTracks } from '@/pages/local/hooks/useQueryAlbum'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 
-function Cover({ data, subTitle, type }: {
+function Cover({ data, type }: {
   data: any
-  subTitle?: string
   type: 'album' | 'playlist'
 }) {
   const theme = useTheme()
-  const _subTitle = subTitle ?? data.copywriter
   const [isHovering, setIsHovering] = useState(false)
-  const { addToQueueAndPlay } = usePlayQueue()
-  const [loading, setLoading] = useState(false)
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
 
   const navigate = useNavigate()
 
@@ -34,10 +31,8 @@ function Cover({ data, subTitle, type }: {
   const handlePlay = useCallback(async (e: any) => {
     e.stopPropagation()
     try {
-      setLoading(true)
       const tracks = await queryAlbumTracks(data.id)
-      addToQueueAndPlay(tracks, 0, 'local', `本地音乐专辑：${data.name}`)
-      setLoading(false)
+      replaceQueueAndPlay(tracks, 0, 'local', `本地音乐专辑：${data.name}`)
     }
     catch (e) {
       console.log(e)

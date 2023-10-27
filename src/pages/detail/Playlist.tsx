@@ -15,23 +15,22 @@ import ImageViewer from '@/components/ImageViewer'
 import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
-import { Track } from '@/components/TrackList'
+import TrackItem from '@/components/TrackItem'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 
 // hooks
 import { useQueryPlaylist, useQueryRelatedPlaylist } from '@/pages/detail/useQueryPlaylist'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useAddToPlayQueue, useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
 import { downloadMusic } from '@/hooks/useDownload'
-import { usePlayer } from '@/hooks/usePlayer'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 
 // utils and types
 import { formatDate, formatDuring, formatNumber } from '@/util/fn'
-import type { Playlist } from '@/types'
-import { Track as TrackType } from '@/types'
+import type { Playlist, TrackFrom } from '@/types'
+import { Track } from '@/types'
 import { sub } from '@/api/music'
 import { deletePlayList } from '@/api/playlist'
 
@@ -44,17 +43,17 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
 
   const { openContextMenu } = useContextMenu()
   const { isCreatedPlaylist } = useMyPlaylist()
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
 
   const [subscribed, setSubscribed] = useState(false)
-  const [copied, copyToClipboard] = useCopyToClipboard()
+  const [_, copyToClipboard] = useCopyToClipboard()
 
   useEffect(() => {
     setSubscribed(playlist.subscribed)
   }, [playlist])
 
   const handlePlay = useCallback(() => {
-    addToQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
+    replaceQueueAndPlay(playlist.tracks, playlist.id, 'playlist', playlist.name)
   }, [playlist])
   async function subscribe() {
     const { code, message } = await sub('playlist', playlist.id, subscribed ? 0 : 1)
@@ -218,13 +217,16 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
                   'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
+                  'color': theme.palette.primary.main,
+                  'borderRadius': 2.5,
+                  'px': 1.5,
                   'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }} onClick={handleMore}>
@@ -265,25 +267,26 @@ export default function PlaylistPage() {
   const { data, isLoading } = useQueryPlaylist(params.id, isMyList)
   const { data: relatedPlaylist } = useQueryRelatedPlaylist(params.id)
   const { height: windowHeight } = useWindowSize()
-  const { player } = usePlayer()
+  const { playNext, addToQueueAndPlay } = useAddToPlayQueue()
   const navigate = useNavigate()
   const { openContextMenu } = useContextMenu()
   const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
   const cover = useMemo(() => {
     return isMyFavList(+params.id) ? data?.playlist?.tracks[0]?.al.picUrl : data?.playlist.coverImgUrl
   }, [data, params])
+  const trackFrom = useMemo<TrackFrom>(() => ({ type: 'playlist', id: data?.playlist.id, name: data?.playlist.name }), [data])
 
-  const handleTrackPlay = useCallback((trackId: number) => {
-    player.updatePlayerTrack(trackId, true, true, false, { type: 'playlist', id: data.playlist.id })
-  }, [data])
+  const handleTrackPlay = useCallback((track: Track) => {
+    addToQueueAndPlay(track, trackFrom)
+  }, [trackFrom])
 
-  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => {
     openContextMenu(e, [
       {
         type: 'item',
         label: '下一首播放',
         onClick: () => {
-
+          playNext(track, trackFrom)
         },
       },
       {
@@ -330,7 +333,7 @@ export default function PlaylistPage() {
       {
         type: 'submenu',
         label: '添加到歌单',
-        items: getToPlaylistMenuItem(track),
+        items: getToPlaylistMenuItem(track.id),
       },
       ...(isCreatedPlaylist(data.playlist)
         ? [{
@@ -352,7 +355,7 @@ export default function PlaylistPage() {
     ], {
       useCursorPosition: true,
     })
-  }, [data])
+  }, [data, trackFrom])
   function toArtist(id: number) {
     navigate(`/artist/${id}`)
   }
@@ -372,7 +375,7 @@ export default function PlaylistPage() {
             }
           }
           itemContent={(_, track) => {
-            return <Track
+            return <TrackItem
               key={track.id}
               track={track}
               onPlay={handleTrackPlay}

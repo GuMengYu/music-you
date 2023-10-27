@@ -115,11 +115,7 @@ class YoFetch {
     }
 
     try {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       customHeaders[options.xsrfHeaderName] = decodeURIComponent(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         document.cookie.match(RegExp(`(^|; )${options.xsrfCookieName}=([^;]*)`))[2],
       )
     }

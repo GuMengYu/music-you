@@ -1,55 +1,75 @@
 import Modal from '@mui/material/Modal'
 import { Box, IconButton, Typography, useTheme } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { css, cx } from '@emotion/css'
 import type { VirtuosoHandle } from 'react-virtuoso'
 import { Virtuoso } from 'react-virtuoso'
 import { useWindowSize } from 'react-use'
 import CloseIcon from '@mui/icons-material/Close'
 import Fade from '@mui/material/Fade'
+import { alpha } from '@mui/material/styles'
+import { useNavigate } from 'react-router-dom'
 import { useAppStore } from '@/store/app'
 import { playQueueStore } from '@/store/playQueue'
-import type { Track } from '@/types'
+import type { Track, TrackSource } from '@/types'
 import { sizeOfImage } from '@/util/fn'
-import ArtistLink from '@/components/links/artist'
 import Wave from '@/components/Wave'
-import { usePlayerControl } from '@/hooks/usePlayer'
+import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
+import { Track as TrackType } from '@/types'
+import { useContextMenu } from '@/hooks/useContextMenu'
+import { useTrackOperation } from '@/hooks/useTrackOperation'
+import { downloadMusic } from '@/hooks/useDownload'
+import { useLikeTrack } from '@/hooks/useLike'
+import { ContextMenuItem } from '@/components/contextMenu/types'
 
 function TrackItem({
   track,
   index,
   isCurrentPlaying,
   playing,
+  onPlay,
+  onContextMenu,
 }: {
   track?: Track
   index: number
   playing: boolean
   isCurrentPlaying: boolean
+  onPlay?: (id: number) => void
+  onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: TrackType) => void
 }) {
   const theme = useTheme()
+  const itemRef = useRef()
+  const [hovered, setHovered] = useState(false)
+
+  const coverUrl = useMemo(() => {
+    return sizeOfImage(track?.al?.picUrl || track?.radio?.picUrl, 256)
+  }, [track])
   return (
-    <div
-      className='mb-4 flex items-center justify-between cursor-pointer h-14'
+    <Box
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      ref={itemRef}
+      className='mb-1 pl-1 pr-2 rounded-xl flex items-center justify-between cursor-pointer h-16 transition-all'
       onClick={(e) => {
         if (e.detail === 2 && track?.id)
-          console.log('play track')
+          onPlay && onPlay(track.id)
+
       }}
-      onContextMenu={(event) => {
-        if (track?.id)
-          console.log('play track')
+      onContextMenu={e => onContextMenu && onContextMenu(e, track)}
+      sx={{
+        bgcolor: hovered ? alpha(theme.palette.inverseOnSurface.main, 0.3) : '',
       }}
     >
       {/* Cover */}
       {
-        track?.al?.picUrl && <img alt='Cover' className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl' src={sizeOfImage(track?.al?.picUrl || '')}
-          />
+        coverUrl && <img alt='Cover' className='mr-4 aspect-square h-14 w-14 flex-shrink-0 rounded-xl' src={coverUrl} />
       }
 
       {/* Track info */}
       <div className='flex-grow'>
         <Typography className='line-clamp-1' variant='body1'
           color={isCurrentPlaying ? 'primary' : ''}>{track?.name}</Typography>
-        <Typography variant='body2'> {track?.ar && <ArtistLink artist={track?.ar}/>}</Typography>
+        {/*<Typography variant='body2'> {track?.ar && <ArtistLink artist={track?.ar}/>}</Typography>*/}
       </div>
 
       {isCurrentPlaying
@@ -61,15 +81,20 @@ function TrackItem({
           {String(index + 1).padStart(2, '0')}
         </Typography>
           )}
-    </div>
+    </Box>
   )
 }
-function TrackList() {
-  const { queue } = playQueueStore()
+function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
+  const navigate = useNavigate()
+  const { player } = usePlayer()
+  const theme = useTheme()
+  const { openContextMenu } = useContextMenu()
+  const { queue, removeFromQueue, setIndex } = playQueueStore()
   const { track: playingTrack, playing, playingIndex } = usePlayerControl()
+  const { getToPlaylistMenuItem } = useTrackOperation()
+  const { toggleLike } = useLikeTrack()
   const { height: windowHeight } = useWindowSize()
   const virtuoso = useRef<VirtuosoHandle | null>(null)
-  const theme = useTheme()
   const listHeight = windowHeight - 150 // padding 150
   const [currentRange, setCurrentRange] = useState({
     startIndex: 0,
@@ -95,6 +120,117 @@ function TrackList() {
       }, 0)
     }
   }, [playingTrack])
+  function toArtist(id: number) {
+    navigate(`/artist/${id}`)
+    onClose()
+  }
+  function toAlbum(id: number) {
+    navigate(`/album/${id}`)
+    onClose()
+  }
+  function toSource(source: TrackSource) {
+    navigate(source.fromUrl)
+    onClose()
+  }
+  const handleContextMenu = useCallback((e: any, track: Track) => {
+    let fromName = `"${track.source.fromName}"`
+    if (track.source.fromType === 'program')
+      fromName = `电台: ${track.source.fromName}`
+    else if (track.source.fromType === 'playlist')
+      fromName = `歌单: ${track.source.fromName}`
+    else if (track.source.fromType === 'album')
+      fromName = `专辑: ${track.source.fromName}`
+    else if (track.source.fromType === 'artist')
+      fromName = `歌手: ${track.source.fromName}`
+
+
+
+    const normalItems: ContextMenuItem[] = [
+      {
+        type: 'item',
+        label: '从队列中移除',
+        onClick: () => {
+          removeFromQueue(track.id)
+        },
+      },
+    ]
+    if (track.source) {
+      normalItems.push({
+        type: 'item',
+        label: `来自${fromName}`,
+        onClick: () => {
+          toSource(track.source)
+        },
+      })
+    }
+    if (track?.source?.fromType !== 'local') {
+      normalItems.push(...[
+        {
+          type: 'divider',
+        },
+        {
+          type: 'submenu',
+          label: '添加到歌单',
+          items: getToPlaylistMenuItem(track.id),
+        },
+        {
+          type: 'item',
+          label: '添加到喜欢的音乐',
+          onClick: () => {
+            toggleLike(track.id, false)
+          },
+        },
+        {
+          type: 'divider',
+        },
+        {
+          label: '转至艺人',
+          ...(track.ar && track.ar.length > 1
+            ? {
+                type: 'submenu',
+                items: track.ar?.map((artist) => {
+                  return {
+                    type: 'item',
+                    label: artist.name,
+                    onClick: () => {
+                      toArtist(artist.id)
+                    },
+                  }
+                }),
+              }
+            : {
+                type: 'item',
+                onClick: () => {
+                  toArtist(track.ar![0].id)
+                },
+              }),
+        },
+        {
+          type: 'item',
+          label: '转至专辑',
+          onClick: () => {
+            toAlbum(track.al!.id)
+            onClose()
+          },
+        },
+        {
+          type: 'item',
+          label: '下载到本地',
+          onClick: async () => {
+            await downloadMusic(track)
+          },
+        },
+      ] as ContextMenuItem[])
+    }
+    openContextMenu(e, normalItems, {
+      useCursorPosition: true,
+    })
+
+  }, [])
+  const handlePlay = useCallback((index: number) => {
+    setIndex(index)
+    player.load()
+  }, [])
   return <div
     className={cx('w-full', css`
       mask-image: linear-gradient(to bottom, transparent 22px, ${theme.palette.primary.main} 48px);
@@ -120,6 +256,8 @@ function TrackList() {
           index={idx}
           isCurrentPlaying={playingIndex === idx}
           playing={playing}
+          onContextMenu={handleContextMenu}
+          onPlay={() => handlePlay(idx)}
         ></TrackItem>
       }}
       data={queue.sequence}
@@ -130,18 +268,17 @@ function TrackList() {
         Header: () => <div className='h-8'></div>,
         Footer: () => <div className='h-8'></div>,
       }}
-    >
-
-    </Virtuoso>
+    />
   </div>
 }
+
 function NowPlayingList() {
   const { showNowPlayingList, toggleNowPlayingList } = useAppStore()
   const theme = useTheme()
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     toggleNowPlayingList(false)
-  }
+  }, [])
   // useEffect(() => {
   //   if (showNowPlayingList) {
   //     console.log('open now playing list')
@@ -167,7 +304,7 @@ function NowPlayingList() {
           outline: 'none',
         }}>
           <div className='flex flex-col items-center w-1/2 relative'>
-            <TrackList/>
+            <NowPlayingTrackList onClose={onClose}/>
             <IconButton onClick={onClose} sx={{
               mt: 3,
               bgcolor: `${theme.palette.primary.main}36`,

@@ -1,6 +1,6 @@
 import type { AnimationItem } from 'lottie-web'
 
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { useState } from 'react'
@@ -44,18 +44,19 @@ export default function LikeToggle({
     }
   }
   return (
+    <Tooltip title={ liked ? '从喜欢的音乐移除' : '收藏到喜欢的音乐'} placement='top'>
     <IconButton
       className='no-drag-area'
       onClick={likeSong}
-      sx={{ p: 0, height: size === 'small' ? 28 : 48, width: size === 'small' ? 28 : 48 }}
+      sx={{ p: 0, height: size === 'small' ? 28 : 36, width: size === 'small' ? 28 : 36 }}
       color="error"
     >
       {showAnim
         ? (
         <LottieIcon
           option={heartOptions}
-          height={size === 'small' ? 28 : 48}
-          width={size === 'small' ? 28 : 48}
+          height={size === 'small' ? 28 : 36}
+          width={size === 'small' ? 28 : 36}
           animCreated={handleAnimation}
         ></LottieIcon>
           )
@@ -67,5 +68,6 @@ export default function LikeToggle({
         <FavoriteBorderIcon fontSize='small' />
             )}
     </IconButton>
+    </Tooltip>
   )
 }

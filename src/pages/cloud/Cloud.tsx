@@ -10,7 +10,7 @@ import PageTransition from '@/components/PageTransition'
 import { cloudDiskMusicList, uploadMusicToCloudDisk } from '@/api/cloud'
 import CloudTrackList from '@/pages/cloud/CloudTrackList'
 import { Track } from '@/types'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import Image from '@/components/Image'
 
@@ -25,7 +25,7 @@ const UPLOAD_STATE = {
 }
 function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
   const theme = useTheme()
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
   const uploadRef = useRef<HTMLInputElement>()
@@ -39,7 +39,7 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
   })
 
   function handlePlay() {
-    addToQueueAndPlay(tracks, 0, 'cloud', '云盘')
+    replaceQueueAndPlay(tracks, 0, 'cloud', '云盘')
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     openContextMenu(e, [
@@ -149,13 +149,16 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
               <div className='flex gap-3'>
                 <Button disableElevation variant='contained' sx={{
                   'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
+                  'color': theme.palette.primary.main,
+                  'borderRadius': 2.5,
+                  'px': 1.5,
                   'py': 1.5,
                   '&:hover': {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
-                }} onClick={handlePlay}><PlayArrowIcon color='primary'/> </Button>
+                }} onClick={handlePlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }} onClick={handleMore}>

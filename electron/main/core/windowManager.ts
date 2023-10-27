@@ -20,8 +20,8 @@ export const WindowDefaultSize = {
 }
 
 const defaultBrowserOptions: BrowserWindowConstructorOptions = {
-  titleBarStyle: 'customButtonsOnHover',
-  trafficLightPosition: { x: 16, y: 16 },
+  titleBarStyle: 'hidden',
+  trafficLightPosition: { x: 9, y: 6 },
   // show: false,
   frame: !(is.windows() || is.linux()),
   width: 1099,

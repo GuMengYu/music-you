@@ -61,7 +61,7 @@ export default function Search() {
           </Col>
           {
             data?.result?.songs && <Col title='音乐' variant='subtitle1' className='col-span-3'>
-                  <TrackList tracks={data?.result?.songs} />
+                  <TrackList tracks={data?.result?.songs} trackFrom={{ id: searchKeyword, name: '搜索页', type: 'search' }} />
               </Col>
           }
         </div>

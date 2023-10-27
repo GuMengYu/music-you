@@ -1,3 +1,5 @@
+import { TrackSource } from '@/types'
+
 export interface Tags {
   title: string
   artist?: string
@@ -29,4 +31,5 @@ export interface LocalTrack {
   bit: number
   sample: number
   dt: number
+  source: TrackSource
 }

@@ -11,15 +11,15 @@ import { ipcRenderer } from 'electron'
 import { Cover } from './components/Cover'
 import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
-import TrackList from '@/pages/local/TrackList'
 import { bytesToSize, formatDuring, sizeOfImage } from '@/util/fn'
 import GridRow from '@/components/GridRow'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import SwitchCard from '@/components/SwitchCard'
 import useQueryTrack from '@/pages/local/hooks/useQueryTrack'
 import { useQueryAlbums } from '@/pages/local/hooks/useQueryAlbum'
 import Image from '@/components/Image'
 import Migration from '@/components/migration'
+import LocalTrackList from '@/pages/local/LocalTrackList'
 
 const AlbumCovers = memo(({ albums }: { albums: any[] }) => {
   const navigate = useNavigate()
@@ -44,7 +44,7 @@ const AlbumCovers = memo(({ albums }: { albums: any[] }) => {
 function LocalTracksPanel() {
   const { data, isLoading } = useQueryTrack()
   return <Box>
-    <TrackList tracks={data?.tracks}></TrackList>
+    <LocalTrackList tracks={data?.tracks}></LocalTrackList>
   </Box>
 }
 
@@ -70,7 +70,7 @@ function LocalPlaylistPanel() {
 function FavCard() {
   const theme = useTheme()
 
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [randomAlbums, setRandomAlbums] = useState<any[]>([])
   const { data } = useQueryTrack()
   const { data: albumData } = useQueryAlbums()
@@ -84,7 +84,7 @@ function FavCard() {
   }, [albumData])
 
   function handlePlay() {
-    addToQueueAndPlay(data.tracks, 0, 'local', '本地歌曲')
+    replaceQueueAndPlay(data.tracks, 0, 'local', '本地歌曲')
   }
 
   return <Card className='flex flex-col col-span-3' variant='outlined' sx={{

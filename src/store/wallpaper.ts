@@ -85,7 +85,7 @@ export const useWallpaperStore = create(persist<WallpaperState & WallpaperAction
     blur: 50,
     useTrackCover: true,
     proxy: {
-      open: true,
+      open: false,
       url: 'http://127.0.0.1:7890',
     },
     setWallpapers: wallpapers => set({ wallpapers }),

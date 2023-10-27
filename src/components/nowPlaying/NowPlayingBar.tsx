@@ -1,5 +1,5 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { useCallback, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { Link as RouterLink } from 'react-router-dom'
@@ -18,6 +18,7 @@ import ResourceThumbToggle from '@/components/toggle/ResourceThumbToggle'
 import { RESOURCE_TYPE } from '@/util/enum'
 import LikeToggle from '@/components/toggle/likeToggle'
 import MinimalButton from '@/components/button/MinimalButton'
+import { sizeOfImage } from '@/util/fn'
 
 const variants = {
   enter: (direction: number) => {
@@ -43,7 +44,10 @@ function NowPlayingBar() {
   const { player } = usePlayer()
   const { toggleNowPlaying } = useAppStore()
   const { track, volume, volumeIcon, isProgram } = usePlayerControl()
-  const coverUrl = track?.coverUrl ?? track?.al?.picUrl ?? ''
+  const coverUrl = useMemo(() => {
+    // 本地音乐返回的封面是bast64 不能加sizeOfImage参数处理
+    return track.source.fromType === 'local' ? track?.al.picUrl : sizeOfImage(track?.coverUrl ?? track?.al?.picUrl ?? '')
+  }, [track])
   const [isHovering, setIsHovering] = useState(false)
   const [cacheVolume, setCacheVolume] = useState(0)
 
@@ -173,11 +177,13 @@ function NowPlayingBar() {
         <div className="flex flex-1 items-center justify-end gap-1">
           <MinimalButton />
           <PIPPlayerToggle />
-          <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={1}>
+          <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={0.5}>
+            <Tooltip title={ volume === 0 ? '取消静音' : '静音' } placement='top'>
             <IconButton onClick={handleMute}>
               { volumeIcon }
             </IconButton>
-            <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='auto' onChange={(_, val) => handleVolumeChange(val as number)} />
+            </Tooltip>
+            <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='off' onChange={(_, val) => handleVolumeChange(val as number)} />
           </Stack>
           <NowPlayingListToggle />
           <TrackMore track={track} />

@@ -1,10 +1,12 @@
-import { IconButton } from '@mui/material'
-import QueueMusicIcon from '@mui/icons-material/QueueMusic'
+import { IconButton, Tooltip } from '@mui/material'
 import { useAppStore } from '@/store/app'
+import { PlaylistIcon } from '@/components/icons/icons'
 
 export default function NowPlayingListToggle() {
   const { toggleNowPlayingList } = useAppStore()
-  return <IconButton className="no-drag-area" onClick={() => toggleNowPlayingList()}>
-    <QueueMusicIcon fontSize='small' />
-  </IconButton>
+  return <Tooltip title="正在播放队列" placement='top'>
+    <IconButton className="no-drag-area" onClick={() => toggleNowPlayingList()}>
+      <PlaylistIcon fontSize='small' />
+    </IconButton>
+  </Tooltip>
 }

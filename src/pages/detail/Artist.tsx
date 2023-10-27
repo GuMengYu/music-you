@@ -24,7 +24,7 @@ import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
 import ArtistCover from '@/components/cover/ArtistCover'
-import usePlayQueue from '@/hooks/usePlayQueue'
+import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { sub } from '@/api/music'
 
@@ -166,15 +166,21 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                 </div>
               </div>
               <div className='flex gap-3'>
-                <Button disableElevation variant='contained' sx={{
-                  'bgcolor': `${theme.palette.primary.main}1f`,
-                  'borderRadius': 6,
-                  'px': 6,
-                  'py': 1.5,
-                  '&:hover': {
-                    bgcolor: `${theme.palette.primary.main}38`,
-                  },
-                }} onClick={onPlay}><PlayArrowIcon color='primary'/> </Button>
+                <Button
+                    disableElevation
+                    variant='contained'
+                    sx={{
+                      'bgcolor': `${theme.palette.primary.main}1f`,
+                      'color': theme.palette.primary.main,
+                      'borderRadius': 2.5,
+                      'px': 1.5,
+                      'py': 1.5,
+                      '&:hover': {
+                        bgcolor: `${theme.palette.primary.main}38`,
+                      },
+                    }} onClick={onPlay}>
+                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
                 }} onClick={handleMore}>
@@ -223,10 +229,10 @@ export default function ArtistPage() {
   const epAndSingle = useMemo(() => data?.hotAlbums.filter(a => ['EP/Single', 'EP', 'Single'].includes(a.type)), [data])
   const collection = useMemo(() => data?.hotAlbums.filter(a => a.type === '合集'), [data])
 
-  const { addToQueueAndPlay } = usePlayQueue()
+  const { replaceQueueAndPlay } = useReplacePlayQueue()
   const handlePlay = useCallback(() => {
     if (data.artist)
-      addToQueueAndPlay(data.hotSongs, data.artist.id, 'artist', data.artist.name)
+      replaceQueueAndPlay(data.hotSongs, data.artist.id, 'artist', data.artist.name)
   }, [data])
   return (
     <PageTransition>
@@ -253,7 +259,7 @@ export default function ArtistPage() {
                 </IconButton>
           }
             >
-                <TrackList tracks={more.showMoreSong ? data.hotSongs : data.hotSongs.slice(0, 5)}/>
+                <TrackList tracks={more.showMoreSong ? data.hotSongs : data.hotSongs.slice(0, 5)} trackFrom={{ id: data.artist.id, name: data.artist.name, type: 'artist' }} />
             </Col>
         }
 

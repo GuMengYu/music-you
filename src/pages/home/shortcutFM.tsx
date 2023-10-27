@@ -33,9 +33,9 @@ export default function ShortCutFM() {
     try {
       if (isCurrentFm) {
         if (playing)
-          await player.pause()
+          player.pause()
         else
-          await player.play()
+          player.play()
       }
       else if (fmTrack?.id) {
         setIsCurrentFm(true)

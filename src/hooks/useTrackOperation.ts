@@ -2,7 +2,7 @@ import { useSnackbar } from 'notistack'
 import { useMemo } from 'react'
 import { isEmpty } from 'lodash'
 import { opPlaylist } from '@/api/music'
-import type { Playlist, Track } from '@/types'
+import type { Playlist } from '@/types'
 import { ContextMenuItem } from '@/components/contextMenu/types'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
 import { usePlayerStore } from '@/store/player'
@@ -13,13 +13,13 @@ export function useTrackOperation() {
   const { enqueueSnackbar } = useSnackbar()
   const { createdPlaylist } = useMyPlaylist()
 
-  function getToPlaylistMenuItem(track: Track): ContextMenuItem[] {
+  function getToPlaylistMenuItem(trackId: number): ContextMenuItem[] {
     return createdPlaylist.map((list) => {
       return {
         type: 'item',
         label: list.name,
         onClick: async () => {
-          addToPlaylist(track.id, list)
+          addToPlaylist(trackId, list)
         },
       }
     })

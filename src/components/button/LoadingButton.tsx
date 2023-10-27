@@ -20,7 +20,7 @@ function LoadingButton(props: IconButtonProps & PropsWithChildren & { loading: b
         props.loading
           ? <CircularProgress
           size={20}
-          color="secondary"
+          color={'inverseSurface' as 'primary'}
         ></CircularProgress>
           : props.children
       }
