@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { random } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import { filter } from 'lodash-es'
+import { useTranslation } from 'react-i18next'
 import Col from '@/components/Col'
 import { newAlbums } from '@/api/album'
 import { getCatList } from '@/api/playlist'
@@ -26,6 +27,7 @@ const boardId = [
 ]
 export default function ExplorePage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data, isLoading } = useQuery(['explore'], async () => {
     const [{ sub }, { albums }, { data: mvs }, { list: topList }] = await Promise.all([
       getCatList(),
@@ -56,7 +58,7 @@ export default function ExplorePage() {
       isLoading
         ? <ExploreSkeleton/>
         : <div className='flex flex-col gap-4 pr-2'>
-        <Col title='歌单广场' variant='h6' more={'/moods_and_genres/'}>
+        <Col title={t`main.moods_genres`} variant='h6' more={'/moods_and_genres/'}>
           <GridRow>
             {
               data?.tags?.map((i) => {
@@ -67,7 +69,7 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-        <Col title='新专辑' variant='h6' more={'/list_collection/new_album'}>
+        <Col title={t`main.new_releases_album`} variant='h6' more={'/list_collection/new_album'}>
           <GridRow singleLine>
             {
               data?.albums?.map((i) => {
@@ -76,7 +78,7 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-        <Col title='排行榜' variant='h6' more='/list_collection/leaderboard'>
+        <Col title={t`main.leader_board`} variant='h6' more='/list_collection/leaderboard'>
           <GridRow>
             {
               data?.topList?.map((i) => {
@@ -85,7 +87,7 @@ export default function ExplorePage() {
             }
           </GridRow>
         </Col>
-        <Col title='新的音乐视频' variant='h6' more='/list_collection/new_video'>
+        <Col title={t`main.new_releases_mv`} variant='h6' more='/list_collection/new_video'>
           <GridRow singleLine rowType={GridType.B}>
             {
               data?.mvs?.map((i) => {

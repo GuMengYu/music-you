@@ -12,6 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useImmer } from 'use-immer'
 import { useSnackbar } from 'notistack'
 import { useCopyToClipboard } from 'react-use'
+import { useTranslation } from 'react-i18next'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import PageTransition from '@/components/PageTransition'
@@ -34,6 +35,8 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
   const [showImageView, setShowImageView] = useState(false)
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
+  const { t } = useTranslation()
+
   const [copied, copyToClipboard] = useCopyToClipboard()
 
   const [subscribed, setSubscribed] = useState(false)
@@ -45,7 +48,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
   async function subscribe() {
     const { code, message } = await sub('artist', artist.id, subscribed ? 0 : 1)
     if (code === 200) {
-      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      enqueueSnackbar(`${subscribed ? t`message.remove_from_library_success` : t`message.add_library_success`}`, { variant: 'success' })
       setSubscribed(!subscribed)
     }
     else {
@@ -59,7 +62,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
         ? [
             {
               type: 'item' as any,
-              label: '取消关注艺人',
+              label: t`common.unfollow_artist`,
               onClick: () => {
                 subscribe()
               },
@@ -68,7 +71,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
         : [
             {
               type: 'item' as any,
-              label: '关注艺人',
+              label: t`common.follow_artist`,
               onClick: () => {
                 subscribe()
               },
@@ -76,17 +79,17 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
           ]),
       {
         type: 'item' as any,
-        label: '查看封面',
+        label: t`common.check_cover`,
         onClick: () => {
           setShowImageView(true)
         },
       },
       {
         type: 'item' as any,
-        label: '复制网页分享链接',
+        label: t`common.copy_share`,
         onClick: () => {
           copyToClipboard(`https://music.163.com/#/playlist?id=${artist.id}`)
-          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+          enqueueSnackbar(t`message.copy_share_success`, { variant: 'success' })
         },
       },
     ]
@@ -137,7 +140,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                   style={{ minWidth: '96px' }}
                 >
                   <QueueMusicIcon fontSize='small'/>
-                  <Typography variant="caption">歌手</Typography>
+                  <Typography variant="caption">{t`main.artists`}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
 
@@ -145,7 +148,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                   className="flex flex-col items-center px-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <Typography variant="body2">曲目</Typography>
+                  <Typography variant="body2">{t`main.tracks`}</Typography>
                   <Typography variant="caption">{artist.musicSize}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
@@ -153,7 +156,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                   className="flex flex-col items-center px-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <Typography variant="body2">专辑</Typography>
+                  <Typography variant="body2">{t`main.albums`}</Typography>
                   <Typography variant="caption">{artist.albumSize}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
@@ -161,7 +164,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                   className="flex flex-col items-center px-4"
                   style={{ minWidth: '96px' }}
                 >
-                  <Typography variant="body2">MV</Typography>
+                  <Typography variant="body2">{t`main.mvs`}</Typography>
                   <Typography variant="caption">{artist.mvSize}</Typography>
                 </div>
               </div>
@@ -179,7 +182,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
                         bgcolor: `${theme.palette.primary.main}38`,
                       },
                     }} onClick={onPlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
                 </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
@@ -194,14 +197,14 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
           artist?.briefDesc && <>
                 <div className="flex flex-col gap-1">
                     <div className="flex items-center">
-                        <Typography variant='body1'>歌手简介</Typography>
+                        <Typography variant='body1'>{t`main.artist.desc`}</Typography>
                         <IconButton onClick={() => setShowDesc(true)}>
                             <ArrowForwardIcon/>
                         </IconButton>
                     </div>
                 </div>
                 <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-                    <DialogTitle variant='body1'>歌手简介</DialogTitle>
+                    <DialogTitle variant='body1'>{t`main.artist.desc`}</DialogTitle>
                     <DialogContent>
                         <Typography variant='caption'>{artist.briefDesc}</Typography>
                     </DialogContent>
@@ -215,6 +218,7 @@ function Header({ artist, onPlay }: { artist: Artist | undefined; onPlay: () => 
 
 export default function ArtistPage() {
   const params = useParams()
+  const { t } = useTranslation()
   const theme = useTheme()
   const { data, isLoading } = useQueryArtist(params.id)
   const [more, setMore] = useImmer({
@@ -244,7 +248,7 @@ export default function ArtistPage() {
         {
           data?.hotSongs && <Col
                 variant='body1'
-                title="热门歌曲"
+                title={t`main.artist.hot`}
                 more={
             <IconButton
               color='primary'
@@ -264,7 +268,7 @@ export default function ArtistPage() {
         }
 
         {
-          albums?.length && <Col title="专辑" variant='body1' more={
+          albums?.length && <Col title={t`main.artist.albums`} variant='body1' more={
             <IconButton
               color='primary'
               onClick={() => {
@@ -288,7 +292,7 @@ export default function ArtistPage() {
         }
 
         {
-          epAndSingle?.length && <Col title="单曲和EP" variant='body1' more={
+          epAndSingle?.length && <Col title={t`main.artist.epAndSingle`} variant='body1' more={
             <IconButton
               color='primary'
               onClick={() => {
@@ -312,7 +316,7 @@ export default function ArtistPage() {
         }
         {
           collection?.length
-            ? <Col title="合集" variant='body1' more={
+            ? <Col title={t`main.artist.collection`} variant='body1' more={
             <IconButton
               color='primary'
               onClick={() => {
@@ -336,7 +340,7 @@ export default function ArtistPage() {
             : null
         }
         {
-          <Col title="相似歌手">
+          <Col title={t`main.artist.simi`}>
             <GridRow>
               {
                 data?.simiArtists && data.simiArtists.map((artist) => {

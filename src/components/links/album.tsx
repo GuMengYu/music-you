@@ -1,8 +1,10 @@
 import { isArray } from 'lodash-es'
 import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Album } from '@/types'
 
 export default function AlbumLink({ album }: { album: Album[] | Album }) {
+  const { t } = useTranslation()
   let albums = []
   if (isArray(album))
     albums = album
@@ -21,7 +23,7 @@ export default function AlbumLink({ album }: { album: Album[] | Album }) {
           </RouterLink>
         }
         else {
-          return <span key={idx}>未知</span>
+          return <span key={idx}>{t`common.unknown`}</span>
         }
       })
     }

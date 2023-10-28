@@ -9,6 +9,7 @@ import { useCopyToClipboard, useWindowSize } from 'react-use'
 import { useSnackbar } from 'notistack'
 import { Virtuoso } from 'react-virtuoso'
 import Box from '@mui/material/Box'
+import { useTranslation } from 'react-i18next'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
@@ -31,6 +32,8 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
 
   const { replaceQueueAndPlay } = useReplacePlayQueue()
   const { openContextMenu } = useContextMenu()
+  const { t } = useTranslation()
+
   const [subscribed, setSubscribed] = useState(false)
   const [_, copyToClipboard] = useCopyToClipboard()
 
@@ -45,7 +48,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
   async function subscribe() {
     const { code, message } = await sub('podcast', podcast.id, subscribed ? 0 : 1)
     if (code === 200) {
-      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      enqueueSnackbar(`${subscribed ? t`message.remove_from_library_success` : t`message.add_library_success`}`, { variant: 'success' })
       setSubscribed(!subscribed)
     }
     else {
@@ -58,7 +61,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
         ? [
             {
               type: 'item' as any,
-              label: '取消订阅',
+              label: t`main.podcast.unsub`,
               onClick: () => {
                 subscribe()
               },
@@ -67,7 +70,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
         : [
             {
               type: 'item' as any,
-              label: '订阅收听播客',
+              label: t`main.podcast.sub`,
               onClick: () => {
                 subscribe()
               },
@@ -75,17 +78,17 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
           ]),
       {
         type: 'item' as any,
-        label: '查看封面',
+        label: t`common.check_cover`,
         onClick: () => {
           setShowImageView(true)
         },
       },
       {
         type: 'item',
-        label: '复制网页分享链接',
+        label: t`common.copy_share`,
         onClick: () => {
           copyToClipboard(`https://music.163.com/#/djradio?id=${podcast.id}`)
-          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+          enqueueSnackbar(t`message.copy_share_success`, { variant: 'success' })
         },
       },
     ]
@@ -132,7 +135,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
                 <Typography variant="body2">
                   {podcast?.['programCount']}
                 </Typography>
-                <Typography variant="caption">节目</Typography>
+                <Typography variant="caption">{t`main.podcast.program`}</Typography>
               </div>
               <Divider flexItem variant='middle' orientation="vertical"/>
               <div
@@ -140,7 +143,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
                 style={{ minWidth: '96px' }}
               >
                 <QueueMusicIcon fontSize='small'/>
-                <Typography variant="caption">播客</Typography>
+                <Typography variant="caption">{t`main.podcasts`}</Typography>
               </div>
               <Divider flexItem variant='middle' orientation="vertical"/>
               <div
@@ -150,7 +153,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
                 <Typography variant="body2">
                   {podcast?.subCount ? formatNumber(podcast?.subCount) : 0}
                 </Typography>
-                <Typography variant="caption">订阅</Typography>
+                <Typography variant="caption">{t`main.podcast.sub_count`}</Typography>
               </div>
             </div>
             <div className='flex gap-3'>
@@ -164,7 +167,7 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
                   bgcolor: `${theme.palette.primary.main}38`,
                 },
               }} onClick={handlePlay}>
-                <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
               </Button>
               <IconButton size='large' sx={{
                 bgcolor: `${theme.palette.tertiary.main}1f`,
@@ -198,6 +201,8 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
 }
 export default function PodcastDetail() {
   const params = useParams()
+  const { t } = useTranslation()
+
   const { data, isLoading } = useQueryPodcast(params.id)
 
   const { height: windowHeight } = useWindowSize()
@@ -212,14 +217,14 @@ export default function PodcastDetail() {
   const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, program: Program) => {
     openContextMenu(e, [ {
       type: 'item',
-      label: '下一首播放',
+      label: t`common.next_play`,
       onClick: () => {
         playNext(program, trackFrom)
       },
     },
     {
       type: 'item',
-      label: '下载到本地',
+      label: t`common.download_local`,
       onClick: async () => {
         await downloadMusic(program)
       },

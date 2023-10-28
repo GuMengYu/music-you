@@ -6,6 +6,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
+import { useTranslation } from 'react-i18next'
 import { fetchPlayRecord } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
 import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
@@ -15,6 +16,8 @@ import RecordTrackList from '@/pages/listen-rank/RecordTrackList'
 
 export default function ListenRank() {
   const { account } = useUserStore()
+  const { t } = useTranslation()
+
 
   const { data } = useQuery(['listen', 'rank'], async () => {
     const { weekData, allData } = await fetchPlayRecord(account.account.id)
@@ -59,10 +62,10 @@ export default function ListenRank() {
           <div className="absolute h-full w-full flex flex-col">
             <div className='flex-1'></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">我的听歌排行</Typography>
+              <Typography variant="h4">{t`main.rank.my`}</Typography>
               <div className="flex flex-col">
                 <Typography variant="caption">
-                  统计每周和全部时间的听歌次数，实际播放时间过短的歌曲将不纳入计算
+                  {t`main.rank.desc`}
                 </Typography>
               </div>
               <div className='flex gap-3'>
@@ -76,7 +79,7 @@ export default function ListenRank() {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
                 }} onClick={handlePlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
                 </Button>
               </div>
             </div>
@@ -87,8 +90,8 @@ export default function ListenRank() {
     </motion.div>
     <div className='flex flex-col pr-2'>
       <Tabs className='self-start' value={value} onChange={handleChange} aria-label="basic tabs example">
-        <Tab label="最近一周" value={0} />
-        <Tab label="所有时间" value={1} />
+        <Tab label={t`main.week_time`} value={0} />
+        <Tab label={t`main.all_time`} value={1} />
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
         <CustomTabPanel value={value} index={0} >

@@ -4,6 +4,7 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import LocalTrackList from '../LocalTrackList'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
@@ -17,6 +18,7 @@ function Header({ data }: { data: any }) {
   const theme = useTheme()
   const [showImageView, setShowImageView] = useState(false)
   const { replaceQueueAndPlay } = useReplacePlayQueue()
+  const { t } = useTranslation()
 
   const tracksDt = data?.tracks?.reduce((p: number, c: any) => p + c.dt, 0)
 
@@ -103,7 +105,7 @@ function Header({ data }: { data: any }) {
                         bgcolor: `${theme.palette.primary.main}38`,
                       },
                     }} onClick={handlePlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' />Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' />{t`common.play_all`}
                 </Button>
               </div>
             </div>

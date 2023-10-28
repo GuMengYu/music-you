@@ -6,7 +6,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { motion } from 'framer-motion'
 import { useCallback, useState } from 'react'
 import { useSnackbar } from 'notistack'
-import { useCopyToClipboard } from 'react-use'
+import { useTranslation } from 'react-i18next'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import Image from '@/components/Image'
@@ -21,45 +21,49 @@ import VideoViewer from '@/components/VideoViewer'
 import { getMvUrl } from '@/api/mv'
 import { usePlayer } from '@/hooks/usePlayer'
 import { usePlayerStore } from '@/store/player'
+import { sub } from '@/api/music'
 
 function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void }) {
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
-  const [copied, copyToClipboard] = useCopyToClipboard()
+
 
   const [subscribed, setSubscribed] = useState(false)
+
+  async function subscribe() {
+    const { code, message } = await sub('mv', data.id, subscribed ? 0 : 1)
+    if (code === 200) {
+      enqueueSnackbar(`${subscribed ? t`message.remove_from_library_success` : t`message.add_library_success`}`, { variant: 'success' })
+      setSubscribed(!subscribed)
+    }
+    else {
+      enqueueSnackbar(message, { variant: 'error' })
+    }
+  }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
     openContextMenu(e, [
       ...(subscribed
         ? [
             {
               type: 'item' as any,
-              label: '从音乐库中移除',
+              label: t`common.remove_from_library`,
               onClick: () => {
-
+                subscribe()
               },
             },
           ]
         : [
             {
               type: 'item' as any,
-              label: '收藏视频',
+              label: t`common.add_to_library`,
               onClick: () => {
-
+                subscribe()
               },
             },
           ]),
-      { type: 'divider' },
-      {
-        type: 'item',
-        label: '复制网页分享链接',
-        onClick: () => {
-          copyToClipboard(`https://music.163.com/#/playlist?id=${data.id}`)
-          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
-        },
-      },
     ])
   }
   return (

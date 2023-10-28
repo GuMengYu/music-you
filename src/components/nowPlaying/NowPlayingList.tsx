@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Fade from '@mui/material/Fade'
 import { alpha } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAppStore } from '@/store/app'
 import { playQueueStore } from '@/store/playQueue'
 import type { Track, TrackSource } from '@/types'
@@ -86,6 +87,7 @@ function TrackItem({
 }
 function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { player } = usePlayer()
   const theme = useTheme()
   const { openContextMenu } = useContextMenu()
@@ -170,7 +172,7 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
         },
         {
           type: 'submenu',
-          label: '添加到歌单',
+          label: t`common.add_playlist`,
           items: getToPlaylistMenuItem(track.id),
         },
         {
@@ -184,7 +186,7 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
           type: 'divider',
         },
         {
-          label: '转至艺人',
+          label: t`common.to_artist`,
           ...(track.ar && track.ar.length > 1
             ? {
                 type: 'submenu',
@@ -207,7 +209,7 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
         },
         {
           type: 'item',
-          label: '转至专辑',
+          label: t`common.to_album`,
           onClick: () => {
             toAlbum(track.al!.id)
             onClose()
@@ -215,7 +217,7 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
         },
         {
           type: 'item',
-          label: '下载到本地',
+          label: t`common.download_local`,
           onClick: async () => {
             await downloadMusic(track)
           },

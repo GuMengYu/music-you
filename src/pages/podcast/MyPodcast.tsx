@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Typography, useTheme } from '@mui/material'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { favPodcast } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
 import Image from '@/components/Image'
@@ -9,6 +10,7 @@ import PodcastList from '@/pages/podcast/PodcastList'
 export default function MyPodcast() {
   const { data } = useQuery(['podcast', 'subscribed'], () => favPodcast())
   const theme = useTheme()
+  const { t } = useTranslation()
 
   return <PageTransition>
     <motion.div
@@ -34,7 +36,7 @@ export default function MyPodcast() {
           <div className="absolute h-full w-full flex flex-col">
             <div className='flex-1'></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">我订阅的播客</Typography>
+              <Typography variant="h4">{t`main.podcast.my_sub`}</Typography>
               <div className="flex flex-col">
                 <Typography variant="caption"></Typography>
               </div>

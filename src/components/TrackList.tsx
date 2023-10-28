@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import TrackItem from './TrackItem'
 import type { Track, TrackFrom } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -14,6 +15,7 @@ export default function TrackList({ tracks, trackFrom, className }: {
   className?: string
 }) {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { openContextMenu } = useContextMenu()
   const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
   const { addToQueueAndPlay, playNext } = useAddToPlayQueue()
@@ -25,7 +27,7 @@ export default function TrackList({ tracks, trackFrom, className }: {
     openContextMenu(e, [
       {
         type: 'item',
-        label: '下一首播放',
+        label: t`common.next_play`,
         onClick: () => {
           playNext(track, trackFrom)
         },
@@ -39,7 +41,7 @@ export default function TrackList({ tracks, trackFrom, className }: {
       //   onClick: () => {},
       // },
       {
-        label: '转至艺人',
+        label: t`common.to_artist`,
         ...(track.ar && track.ar.length > 1
           ? {
               type: 'submenu',
@@ -63,7 +65,7 @@ export default function TrackList({ tracks, trackFrom, className }: {
 
       {
         type: 'item',
-        label: '转至专辑',
+        label: t`common.to_album`,
         onClick: () => {
           toAlbum(track.al!.id)
         },
@@ -73,12 +75,12 @@ export default function TrackList({ tracks, trackFrom, className }: {
       },
       {
         type: 'submenu',
-        label: '添加到歌单',
+        label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
       },
       {
         type: 'item',
-        label: '下载到本地',
+        label: t`common.download_local`,
         onClick: async (i) => {
           await downloadMusic(track)
         },

@@ -10,6 +10,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useSnackbar } from 'notistack'
 import { useCopyToClipboard } from 'react-use'
+import { useTranslation } from 'react-i18next'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import TrackList from '@/components/TrackList'
 import PageTransition from '@/components/PageTransition'
@@ -35,6 +36,7 @@ function Header({ album }: { album: Album | undefined }) {
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
   const [copied, copyToClipboard] = useCopyToClipboard()
+  const { t } = useTranslation()
 
   const [subscribed, setSubscribed] = useState(false)
   useEffect(() => {
@@ -46,7 +48,7 @@ function Header({ album }: { album: Album | undefined }) {
   async function subscribe() {
     const { code, message } = await sub('album', album.id, subscribed ? 0 : 1)
     if (code === 200) {
-      enqueueSnackbar(`${subscribed ? '已从音乐库移除' : '已添加到音乐库'}`, { variant: 'success' })
+      enqueueSnackbar(`${subscribed ? t`message.remove_from_library_success` : t`message.add_library_success`}`, { variant: 'success' })
       setSubscribed(!subscribed)
     }
     else {
@@ -59,7 +61,7 @@ function Header({ album }: { album: Album | undefined }) {
         ? [
             {
               type: 'item' as any,
-              label: '从音乐库中移除',
+              label: t`common.remove_from_library`,
               onClick: () => {
                 subscribe()
               },
@@ -68,7 +70,7 @@ function Header({ album }: { album: Album | undefined }) {
         : [
             {
               type: 'item' as any,
-              label: '添加到音乐库',
+              label: t`common.add_to_library`,
               onClick: () => {
                 subscribe()
               },
@@ -76,17 +78,17 @@ function Header({ album }: { album: Album | undefined }) {
           ]),
       {
         type: 'item' as any,
-        label: '查看封面',
+        label: t`common.check_cover`,
         onClick: () => {
           setShowImageView(true)
         },
       },
       {
         type: 'item',
-        label: '复制网页分享链接',
+        label: t`common.copy_share`,
         onClick: () => {
           copyToClipboard(`https://music.163.com/#/album?id=${album.id}`)
-          enqueueSnackbar('已复制分享链接到粘贴板', { variant: 'success' })
+          enqueueSnackbar(t`message.copy_share_success`, { variant: 'success' })
         },
       },
     ])
@@ -137,7 +139,7 @@ function Header({ album }: { album: Album | undefined }) {
                   <Typography variant="body2">
                     {album.size}
                   </Typography>
-                  <Typography variant="caption">曲目</Typography>
+                  <Typography variant="caption">{t`main.tracks`}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
                 <div
@@ -145,7 +147,7 @@ function Header({ album }: { album: Album | undefined }) {
                   style={{ minWidth: '96px' }}
                 >
                   <AlbumIcon fontSize='small'/>
-                  <Typography variant="caption">专辑</Typography>
+                  <Typography variant="caption">{t`main.albums`}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
 
@@ -156,7 +158,7 @@ function Header({ album }: { album: Album | undefined }) {
                   <Typography variant="body2">
                     {formatDuring(tracksDt)}
                   </Typography>
-                  <Typography variant="caption">时长</Typography>
+                  <Typography variant="caption">{t`common.duration`}</Typography>
                 </div>
                 <Divider flexItem variant='middle' orientation="vertical"/>
 
@@ -181,7 +183,7 @@ function Header({ album }: { album: Album | undefined }) {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
                 }} onClick={handlePlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
                 </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
@@ -196,14 +198,14 @@ function Header({ album }: { album: Album | undefined }) {
           album?.description && <>
             <div className="flex flex-col gap-1">
               <div className="flex items-center">
-                <Typography variant='body1'>专辑简介</Typography>
+                <Typography variant='body1'>{t`main.album.desc`}</Typography>
                 <IconButton onClick={() => setShowDesc(true)}>
                   <ArrowForwardIcon/>
                 </IconButton>
               </div>
             </div>
             <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-              <DialogTitle variant='body1'>歌单简介</DialogTitle>
+              <DialogTitle variant='body1'>{t`main.album.desc`}</DialogTitle>
               <DialogContent>
                 <Typography variant='caption'>{album['description']}</Typography>
               </DialogContent>

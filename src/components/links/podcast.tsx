@@ -1,8 +1,10 @@
 import { isArray } from 'lodash-es'
 import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Podcast } from '@/types'
 
 export default function PodcastLink({ podcast }: { podcast: Podcast[] | Podcast }) {
+  const { t } = useTranslation()
   let podcasts = []
   if (isArray(podcast))
     podcasts = podcast
@@ -21,7 +23,7 @@ export default function PodcastLink({ podcast }: { podcast: Podcast[] | Podcast 
           </RouterLink>
         }
         else {
-          return <span key={idx}>未知</span>
+          return <span key={idx}>{t`common.unknown`}</span>
         }
       })
     }

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 import PauseIcon from '@mui/icons-material/Pause'
 
+import { useTranslation } from 'react-i18next'
 import Image from '@/components/Image'
 import LoadingButton from '@/components/button/LoadingButton'
 import { PlayIcon } from '@/components/icons/icons'
@@ -19,6 +20,7 @@ export default function ShortCutFM() {
   const { fmTrack, updatePersonalFmList, isCurrentFm, setIsCurrentFm, playing } = usePlayerStore()
   const { player } = usePlayer()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   useEffect(() => {
     updatePersonalFmList()
   }, [])
@@ -90,7 +92,7 @@ export default function ShortCutFM() {
           className="line-clamp-1"
           variant="body2"
         >
-          私人漫游
+          {t`main.discover.fm`}
         </Typography>
         <Typography
           title={''}

@@ -7,6 +7,7 @@ import TodayIcon from '@mui/icons-material/Today'
 import CloudQueueIcon from '@mui/icons-material/CloudQueue'
 import { useTheme } from '@mui/material'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 import ShortCut from './home/shortcut'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import GridRow from '@/components/GridRow'
@@ -27,13 +28,14 @@ function ShortCuts() {
   const theme = useTheme()
   const { favList } = useMyPlaylist()
   const { data: personalRadarPlaylist } = useQueryPersonalRadarPlaylist()
+  const { t } = useTranslation()
 
   const fav = useMemo(() => {
     if (favList) {
       return {
         data: {
           picUrl: favList.coverImgUrl,
-          title: '你喜欢的音乐',
+          title: t`main.discover.you_liked`,
           id: favList.id,
         },
         type: 'playlist',
@@ -51,7 +53,7 @@ function ShortCuts() {
         data: {
           id: personalRadarPlaylist.playlist.id,
           picUrl: personalRadarPlaylist.playlist.coverImgUrl,
-          title: '私人雷达',
+          title: t`main.discover.radar`,
         },
         decoration: {
           color: theme.palette.secondary.main,
@@ -70,7 +72,7 @@ function ShortCuts() {
         data: {
           picUrl:
             'https://is1-ssl.mzstatic.com/image/thumb/Features124/v4/7b/1d/f0/7b1df048-0017-8ac0-98c9-735f14849606/mza_7507996640781423701.png/600x600bb.webp',
-          title: '每日推荐',
+          title: t`main.discover.daily`,
           subTitle: dayjs().format('MM/DD'),
         },
         type: 'daily',
@@ -86,7 +88,7 @@ function ShortCuts() {
         data: {
           picUrl:
             'https://cdn.dribbble.com/userupload/5937173/file/original-f14b5cf31374d9e829baab07bbf571a9.jpg?resize=752x',
-          title: '音乐云盘',
+          title: t`main.disk`,
         },
         type: 'cloud',
         decoration: {
@@ -122,7 +124,7 @@ function Home() {
   const { data: personalizedPlaylists, isLoading: isLoadingPersonalizedPlaylists } = useQueryPersonalizedPlaylists()
   const { data: personalizedRadarPlaylists } = useQueryPersonalizedRadarPlaylists()
   const { data: personalizedPersonalizedNewAlbums } = useQueryPersonalizedNewAlbums()
-
+  const { t } = useTranslation()
   return (
     <PageTransition>
       {
@@ -130,21 +132,21 @@ function Home() {
           ? <HomePageSkeleton />
           : <div className='flex flex-col gap-4 pr-2'>
           <ShortCuts />
-          <Col title="专属推荐">
+          <Col title={t`main.for_you`}>
             <GridRow singleLine rowType={GridType.A}>
               {personalizedPlaylists?.map(data => (
                 <Cover type="playlist" key={data.id} data={data}/>
               ))}
             </GridRow>
           </Col>
-          <Col title="雷达歌单">
+          <Col title={t`main.radar`}>
             <GridRow singleLine rowType={GridType.A}>
               {personalizedRadarPlaylists?.map(data => (
                 <Cover type="playlist" key={data.id} data={data}/>
               ))}
             </GridRow>
           </Col>
-          <Col title="推荐新音乐">
+          <Col title={t`main.discover.recommend_songs`}>
             <GridRow singleLine rowType={GridType.A}>
               {personalizedPersonalizedNewAlbums?.result?.map(data => (
                 <Cover type="album" key={data.id} data={data.song.album}/>

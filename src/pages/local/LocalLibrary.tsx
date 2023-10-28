@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { sampleSize } from 'lodash-es'
 import { ipcRenderer } from 'electron'
+import { useTranslation } from 'react-i18next'
 import { Cover } from './components/Cover'
 import PageTransition from '@/components/PageTransition'
 import MYTabs from '@/components/Tabs'
@@ -69,6 +70,7 @@ function LocalPlaylistPanel() {
 
 function FavCard() {
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [randomAlbums, setRandomAlbums] = useState<any[]>([])
@@ -96,8 +98,12 @@ function FavCard() {
   }}>
     <div className='flex items-center'>
       <div>
-        <Typography variant='h5'>本地音乐</Typography>
-        <Typography variant='caption'>共 {data?.tracks.length} 首, 总时长 {formatDuring(data?.totalDt) }, 总大小 {bytesToSize(data?.totalSize)}</Typography>
+        <Typography variant='h5'>{t`main.local.local_music`}</Typography>
+        <Typography variant='caption'>{t('main.local.track_count', {
+          track_count: data?.tracks.length,
+          track_duration: formatDuring(data?.totalDt),
+          track_size: bytesToSize(data?.totalSize),
+        })}</Typography>
       </div>
     </div>
 
@@ -121,6 +127,7 @@ function FavCard() {
 }
 export default function LocalLibrary() {
   const theme = useTheme()
+  const { t } = useTranslation()
   const [currentTab, setCurrentTab] = useState('tracks')
   const navigate = useNavigate()
   return <PageTransition className='pr-2'>
@@ -130,10 +137,10 @@ export default function LocalLibrary() {
 
       <FavCard />
       <div className='grid grid-cols-1 grid-rows-4 gap-2 col-span-1'>
-        <SwitchCard color={theme.palette.tertiaryContainer.main} title='管理曲库' icon={<SettingsIcon fontSize='small' />} onChange={() => {
+        <SwitchCard color={theme.palette.tertiaryContainer.main} title={t`main.local.manage`} icon={<SettingsIcon fontSize='small' />} onChange={() => {
           navigate('/setting')
         }} />
-        <SwitchCard color={theme.palette.secondaryContainer.main} title='打开目录' icon={<AlbumIcon fontSize='small' />} onClick={() => {
+        <SwitchCard color={theme.palette.secondaryContainer.main} title={t`main.local.open_dir`} icon={<AlbumIcon fontSize='small' />} onClick={() => {
           ipcRenderer.invoke('base/open-path', '~/Downloads/')
         }} />
       </div>
@@ -141,10 +148,10 @@ export default function LocalLibrary() {
     <Box className='h-full flex flex-col pr-2' sx={{ color: theme.palette.onSurface.main }}>
       <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
               tabs={[
-                { value: 'tracks', label: '歌曲' },
-                { value: 'album', label: '专辑' },
-                { value: 'artist', label: '艺术家' },
-                { value: 'playlist', label: '播放列表' },
+                { value: 'tracks', label: t`main.tracks` },
+                { value: 'album', label: t`main.albums` },
+                { value: 'artist', label: t`main.artists` },
+                { value: 'playlist', label: t`main.local.playlist` },
               ]}/>
       <Box className='overflow-y-auto h-full mt-4 hide-scrollbar'>
         {

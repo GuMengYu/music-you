@@ -1,60 +1,65 @@
-import LightModeIcon from '@mui/icons-material/LightMode'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh'
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto'
+import LandscapeIcon from '@mui/icons-material/Landscape'
+import { useTranslation } from 'react-i18next'
 import Group from '@/components/Group'
 import { APPEARANCE, THEME_COLOR, useSettingStore } from '@/store/setting'
 import Col from '@/components/Col'
 
 export default function ThemeSetting() {
   const { appearance, setAppearance, themeColor, setThemeColor } = useSettingStore()
+  const { t } = useTranslation()
   return <div>
-    <Col variant='body2' title='显示模式' className='mb-4'>
+    <Col variant='body2' title={t`common.appearance`} className='mb-4'>
     <Group exclusive items={[{
-      icon: <LightModeIcon fontSize='small'/>,
-      title: '浅色',
+      icon: <BrightnessHighIcon fontSize='small'/>,
+      title: t`common.light`,
       value: APPEARANCE.LIGHT,
     },
     {
-      icon: <LightModeIcon fontSize='small' />,
-      title: '深色',
+      icon: <Brightness4Icon fontSize='small' />,
+      title: t`common.dark`,
       value: APPEARANCE.DARK,
     },
     {
-      icon: <LightModeIcon fontSize='small' />,
-      title: '跟随系统',
+      icon: <BrightnessAutoIcon fontSize='small' />,
+      title: t`common.auto`,
       value: APPEARANCE.SYSTEM,
     },
     ]} value={appearance} onChange={setAppearance}></Group>
     </Col>
-    <Col title='主体色' variant='body2'>
+    <Col title={t`common.theme_color`} variant='body2'>
       <Group exclusive items={[
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.GreenRockyMountains,
-          title: '绿色岩石',
+          title: t`theme.GreenRockyMountains`,
         },
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.PurpleDress,
-          title: '紫色裙摆',
+          title: t`theme.PurpleDress`,
         },
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.OrangeDesert,
-          title: '橘色沙漠',
+          title: t`theme.OrangeDesert`,
         },
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.BlueMountains,
-          title: '蓝色山脉',
+          title: t`theme.BlueMountains`,
         },
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.GreenMountainTop,
-          title: '绿色峰顶',
+          title: t`theme.GreenMountainTop`,
         },
         {
-          icon: <LightModeIcon fontSize='small' />,
+          icon: <LandscapeIcon fontSize='small' />,
           value: THEME_COLOR.RedSandDunes,
-          title: '红色沙丘',
+          title: t`theme.RedSandDunes`,
         },
       ]} value={themeColor} onChange={setThemeColor}></Group>
     </Col>

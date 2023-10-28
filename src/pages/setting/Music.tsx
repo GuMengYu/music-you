@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Col from '@/components/Col'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import SelectMenu from '@/components/SelectMenu'
@@ -9,6 +10,7 @@ import { player } from '@/contexts/player'
 export default function MusicSetting() {
   const { quality, setQuality, dynamicBg, setDynamicBg, setOutputdevice, outputdevice, lyricTrans, setLyricTrans } = useSettingStore()
   const { outputDevices } = useMediaDevices()
+  const { t } = useTranslation()
 
   const outputDevicesOption = useMemo(() => {
     if (outputDevices.length) {
@@ -22,7 +24,7 @@ export default function MusicSetting() {
     else {
       return [
         {
-          title: '无输出设备',
+          title: 'No devices',
           value: null,
         },
       ]
@@ -34,12 +36,12 @@ export default function MusicSetting() {
   }, [])
 
   return <div>
-    <Col className='mb-4' variant='body2' title='输出' subTitle='音频输出设备' more={
+    <Col className='mb-4' variant='body2' title={t`main.setting.device`} subTitle={t`main.setting.device`} more={
       <SelectMenu value={outputdevice} options={outputDevicesOption} onChange={handleOutputDeviceChange} />
     }>
 
     </Col>
-    <Col className='mb-4' variant='body2' title='音频' subTitle='首选媒体音频质量' more={
+    <Col className='mb-4' variant='body2' title='音频' subTitle={t`main.setting.quality`} more={
       <SelectMenu value={quality} options={[
         {
           title: '标准',

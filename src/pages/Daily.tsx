@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import { useTranslation } from 'react-i18next'
 import { getDailyRecommend } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
@@ -18,6 +19,7 @@ function Header({
   const theme = useTheme()
   const [loading, toggleLoading] = useState(false)
   const { replaceQueueAndPlay } = useReplacePlayQueue()
+  const { t } = useTranslation()
   const cover = data.dailySongs[0]?.al.picUrl
 
   function handlePlay() {
@@ -50,10 +52,10 @@ function Header({
           <div className="absolute h-full w-full flex flex-col">
             <div className="flex-1"></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">每日歌曲推荐</Typography>
+              <Typography variant="h4">{t`main.daily.title`}</Typography>
               <div className="flex flex-col">
                 <Typography variant="body1">
-                   根据你的音乐口味生成，每天6:00更新
+                  {t`main.daily.sub`}
                 </Typography>
               </div>
               <div className='flex gap-3'>
@@ -67,7 +69,7 @@ function Header({
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
                 }} onClick={handlePlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
                 </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
@@ -83,6 +85,7 @@ function Header({
   )
 }
 export default function DailyPage() {
+  const { t } = useTranslation()
   const { data, isLoading } = useQuery(['daily', 'tracks'], async () => {
     const { data } = await getDailyRecommend()
     return data
@@ -94,7 +97,7 @@ export default function DailyPage() {
       }
       <Box className='h-4'></Box>
       {
-        <TrackList tracks={data?.dailySongs} trackFrom={{ id: 0, name: '每日推荐', type: 'daily' }} />
+        <TrackList tracks={data?.dailySongs} trackFrom={{ id: 0, name: t`main.discover.daily`, type: 'daily' }} />
       }
     </Box>
   </PageTransition>

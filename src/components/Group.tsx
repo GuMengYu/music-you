@@ -1,5 +1,5 @@
 import { ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { alpha, styled } from '@mui/material/styles'
 import type { ReactNode } from 'react'
 
 interface ItemProp {
@@ -35,7 +35,7 @@ export default function Group(
         'backgroundColor': theme.palette.primary.main,
         'color': theme.palette.onPrimary.main,
         '&:hover': {
-          backgroundColor: `${theme.palette.primary.main}E6`,
+          backgroundColor: alpha(theme.palette.primary.main, 0.9),
         },
       },
       '&:not(:first-of-type)': {

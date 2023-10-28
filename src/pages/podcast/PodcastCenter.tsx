@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { random } from 'lodash-es'
+import { useTranslation } from 'react-i18next'
 import PageTransition from '@/components/PageTransition'
 import { podcastCats, recommendCatAndPodcast, recommendPodcast } from '@/api/podcast'
 import Col from '@/components/Col'
@@ -15,6 +16,7 @@ import ExploreSkeleton from '@/components/skeleton/ExploreSkeleton'
 const randomColor = () => HexColors[random(0, HexColors.length)]
 
 export default function PodcastCenter() {
+  const { t } = useTranslation()
   const { data: podcasts } = useQuery(['podcast', 'recommend'], async () => recommendPodcast())
   const { data: cats, isLoading } = useQuery(['podcast', 'cats'], async () => {
     const { categories } = await podcastCats()
@@ -32,7 +34,7 @@ export default function PodcastCenter() {
       isLoading
         ? <ExploreSkeleton />
         : <Box className='pr-2 flex flex-col gap-4'>
-        <Col title='播客分类' variant='h6'>
+        <Col title={t`main.podcast.cat`} variant='h6'>
           <GridRow>
             {
               cats?.categories?.map((i: any) => {
@@ -43,7 +45,7 @@ export default function PodcastCenter() {
             }
           </GridRow>
         </Col>
-        <Col variant='h6' title='播客推荐'>
+        <Col variant='h6' title={t`main.podcast.recommend`}>
           <GridRow singleLine>
             {
               podcasts?.djRadios?.map((podcast) => {

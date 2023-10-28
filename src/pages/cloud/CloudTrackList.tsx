@@ -7,6 +7,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { formatDuring, sizeOfImage } from '@/util/fn'
 import AlbumLink from '@/components/links/album'
 import Image from '@/components/Image'
@@ -122,6 +123,7 @@ export default function CloudTrackList({ tracks, className }: {
   className?: string
 }) {
   const { openContextMenu } = useContextMenu()
+  const { t } = useTranslation()
   const { playNext } = useAddToPlayQueue()
   const trackFrom: TrackFrom = { id: 0, type: 'cloud', name: '云盘' }
 
@@ -129,7 +131,7 @@ export default function CloudTrackList({ tracks, className }: {
     openContextMenu(e, [
       {
         type: 'item',
-        label: '下一首播放',
+        label: t`common.next_play`,
         onClick: () => {
           playNext(track, trackFrom)
         },
@@ -139,7 +141,7 @@ export default function CloudTrackList({ tracks, className }: {
       },
       {
         type: 'item',
-        label: '下载到本地',
+        label: t`common.download_local`,
         onClick: async () => {
           await downloadMusic(track)
         },

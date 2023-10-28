@@ -10,6 +10,7 @@ import Box from '@mui/material/Box'
 import { maxBy } from 'lodash-es'
 import { useTheme } from '@mui/material/styles'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { useTranslation } from 'react-i18next'
 import { sizeOfImage } from '@/util/fn'
 import Image from '@/components/Image'
 import ArtistLink from '@/components/links/artist'
@@ -30,6 +31,7 @@ function RecordItem({ record, onContextMenu, count }: {
   max: number
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => void
 }) {
+  const { t } = useTranslation()
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
   const { addToQueueAndPlay } = useAddToPlayQueue()
@@ -100,7 +102,7 @@ function RecordItem({ record, onContextMenu, count }: {
         }
 
       </div>
-      <Typography className='w-14 text-center' variant='body2'>{count} 次</Typography>
+      <Typography className='w-14 text-center' variant='body2'>{t('common.count', { count })}</Typography>
       <IconButton sx={{ p: 1.5 }} onClick={e => onContextMenu && onContextMenu(e, record.song)}><MoreVertIcon fontSize='small' /></IconButton>
     </Box>
   </div>
@@ -111,6 +113,7 @@ export default function RecordTrackList({ records, className }: {
   className?: string
 }) {
   const { openContextMenu } = useContextMenu()
+  const { t } = useTranslation()
   const { playNext } = useAddToPlayQueue()
   const theme = useTheme()
   const { getToPlaylistMenuItem } = useTrackOperation()
@@ -122,7 +125,7 @@ export default function RecordTrackList({ records, className }: {
     openContextMenu(e, [
       {
         type: 'item',
-        label: '下一首播放',
+        label: t`common.next_play`,
         onClick: () => {
           playNext(track, trackFrom)
         },
@@ -132,12 +135,12 @@ export default function RecordTrackList({ records, className }: {
       },
       {
         type: 'submenu',
-        label: '添加到歌单',
+        label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
       },
       {
         type: 'item',
-        label: '下载到本地',
+        label: t`common.download_local`,
         onClick: async () => {
           await downloadMusic(track)
         },

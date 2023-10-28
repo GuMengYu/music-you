@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware'
+import { SupportedLanguage } from '@/i18n/i18n'
 
 export enum THEME_COLOR {
   RedSandDunes = 'RedSandDunes',
@@ -37,6 +38,7 @@ interface SettingState {
   appearance: APPEARANCE
   themeColor: THEME_COLOR
   quality: QUALITY_LEVEL
+  locale: SupportedLanguage
   lyricTrans: boolean
   dynamicBg: boolean
   exitMode: ExitMode
@@ -55,6 +57,7 @@ interface SettingAction {
   setAppearance: (appearance: APPEARANCE) => void
   setThemeColor: (themeColor: THEME_COLOR) => void
   setQuality: (quality: QUALITY_LEVEL) => void
+  setLocale: (locale: SettingState['locale']) => void
   setLyricTrans: (enable: SettingState['lyricTrans']) => void
   setDynamicBg: (enable: SettingState['dynamicBg']) => void
   setYoutubeUnlock: (config: SettingState['youtubeUnlock']) => void
@@ -68,6 +71,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     appearance: APPEARANCE.DARK,
     themeColor: THEME_COLOR.GreenRockyMountains,
     quality: QUALITY_LEVEL.HIGHER,
+    locale: 'zh-CN',
     lyricTrans: false,
     dynamicBg: false,
     exitMode: ExitMode.prompt,
@@ -84,6 +88,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     setAppearance: appearance => set({ appearance }),
     setThemeColor: themeColor => set({ themeColor }),
     setQuality: quality => set({ quality }),
+    setLocale: locale => set({ locale }),
     setLyricTrans: lyricTrans => set({ lyricTrans }),
     setDynamicBg: dynamicBg => set({ dynamicBg }),
     setYoutubeUnlock: config => set({ youtubeUnlock: config }),

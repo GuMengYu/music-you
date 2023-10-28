@@ -21,6 +21,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh'
 import { useNavigate } from 'react-router-dom'
 import { ipcRenderer } from 'electron'
+import { useTranslation } from 'react-i18next'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
 import SwitchCard from '@/components/SwitchCard'
@@ -29,6 +30,7 @@ import { APPEARANCE, useSettingStore } from '@/store/setting'
 function AccountExtendFab() {
   const { account } = useUserStore()
   const { toggleProfile } = useAppStore()
+  const { t } = useTranslation()
   const theme = useTheme()
   const avatarUrl = useMemo(() => {
     return account?.profile.avatarUrl
@@ -74,7 +76,9 @@ function AccountExtendFab() {
 
           {vipInfo && (
             <Typography variant="caption" className="line-clamp-1">
-              会员服务将于{formatDate(vipInfo.associator.expireTime)}过期
+              {
+                t('message.vip_expire', { expire_date: formatDate(vipInfo.associator.expireTime) })
+              }
             </Typography>
           )}
         </Box>
@@ -84,8 +88,9 @@ function AccountExtendFab() {
 }
 export default function QuickPanel() {
   const { showQuick: open, toggleQuick } = useAppStore()
-  const { appearance, setAppearance } = useSettingStore()
+  const { setAppearance } = useSettingStore()
   const theme = useTheme()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const isDark = theme.palette.mode === 'dark'
 
@@ -131,7 +136,7 @@ export default function QuickPanel() {
           pl={2}
           pr={0.5}
         >
-          <Typography variant="caption">快捷面板</Typography>
+          <Typography variant="caption">{t`common.shortcut`}</Typography>
           <IconButton size="small" onClick={onClose}>
             <CloseIcon fontSize='small' />
           </IconButton>
@@ -140,8 +145,8 @@ export default function QuickPanel() {
         <Box className='p-3 flex flex-col gap-2'>
           <AccountExtendFab />
           <div className='grid grid-cols-2 gap-2'>
-            <SwitchCard checked={isDark} title='深色模式' subTitle={isDark ? '已开启' : '已关闭'} icon={ isDark ? <Brightness4Icon /> : <BrightnessHighIcon/>} onChange={handleChangeDarkMode} />
-            <SwitchCard title='设置' icon={<SettingsIcon fontSize='small' />} onClick={() => {
+            <SwitchCard checked={isDark} title={t`common.dark_theme`} subTitle={isDark ? t`common.open` : t`common.close`} icon={ isDark ? <Brightness4Icon /> : <BrightnessHighIcon/>} onChange={handleChangeDarkMode} />
+            <SwitchCard title={t`common.setting`} icon={<SettingsIcon fontSize='small' />} onClick={() => {
               onClose()
               navigate('/setting')
             }} />
@@ -150,7 +155,7 @@ export default function QuickPanel() {
               onClose()
               navigate('/wallpaper')
             }} />
-            <SwitchCard title='重启应用' icon={<RestartAltIcon fontSize='small' />} onChange={() => {
+            <SwitchCard title={t`common.relaunch`} icon={<RestartAltIcon fontSize='small' />} onChange={() => {
               appRelaunch()
             }} />
           </div>

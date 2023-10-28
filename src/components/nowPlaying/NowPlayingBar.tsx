@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { Link as RouterLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Control } from '../Control'
 import Image from '@/components/Image'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
@@ -41,6 +42,7 @@ const variants = {
   },
 }
 function NowPlayingBar() {
+  const { t } = useTranslation()
   const { player } = usePlayer()
   const { toggleNowPlaying } = useAppStore()
   const { track, volume, volumeIcon, isProgram } = usePlayerControl()
@@ -66,7 +68,7 @@ function NowPlayingBar() {
   }
   function SubTitle() {
     if (isProgram && track) {
-      return <span><PodcastLink podcast={track.radio as any} /> - [播客节目]</span>
+      return <span><PodcastLink podcast={track.radio as any} /> - [{t`main.podcast.program`}]</span>
     }
     else if (track?.ar) {
       return <Typography className="line-clamp-1" variant="caption">
@@ -74,7 +76,7 @@ function NowPlayingBar() {
       </Typography>
     }
     else {
-      return <span>未知</span>
+      return <span>{t`common.unknown`}</span>
     }
   }
   return (
@@ -178,7 +180,7 @@ function NowPlayingBar() {
           <MinimalButton />
           <PIPPlayerToggle />
           <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={0.5}>
-            <Tooltip title={ volume === 0 ? '取消静音' : '静音' } placement='top'>
+            <Tooltip title={ volume === 0 ? `${t`common.cancel`} ${t`common.mute`}` : t`common.mute` } placement='top'>
             <IconButton onClick={handleMute}>
               { volumeIcon }
             </IconButton>

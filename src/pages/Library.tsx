@@ -8,6 +8,7 @@ import AlbumIcon from '@mui/icons-material/Album'
 import HistoryIcon from '@mui/icons-material/History'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
+import { useTranslation } from 'react-i18next'
 import MYTabs from '@/components/Tabs'
 import PageTransition from '@/components/PageTransition'
 import GridRow from '@/components/GridRow'
@@ -54,16 +55,17 @@ function ArtistPanel() {
   </GridRow>
 }
 function PlaylistPanel() {
+  const { t } = useTranslation()
   const { createdPlaylist, subscribePlaylist } = useMyPlaylist()
   return <div className='flex flex-col gap-4'>
-    <Col title='创建的歌单' variant='body1'>
+    <Col title={t`main.nav.created_list`} variant='body1'>
       <GridRow>
         {
           createdPlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
         }
       </GridRow>
     </Col>
-    <Col title='收藏的歌单' variant='body1'>
+    <Col title={t`main.nav.start_list`} variant='body1'>
       <GridRow>
         {
           subscribePlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))
@@ -91,7 +93,8 @@ function MVPanel() {
 
 function FavCard() {
   const theme = useTheme()
-  const { likes } = useUserStore()
+  const { t } = useTranslation()
+  const { likes, account } = useUserStore()
   const { favList } = useMyPlaylist()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
 
@@ -121,16 +124,10 @@ function FavCard() {
     // border: 'none',
     p: 2,
   }}>
-    <div className='flex items-center'>
-      <div>
-        <Typography variant='h5'>{favList.name}</Typography>
-        <Typography variant='caption'>共 {favList.trackCount} 首, 播放了 {formatNumber(favList.playCount) } 次</Typography>
-      </div>
-      <div>
-
-      </div>
-    </div>
-
+    <div className='flex items-start flex-col'>
+        <Typography variant='h5'>{account.profile?.nickname} {t`main.discover.liked`}</Typography>
+        <Typography variant='caption'>{t('common.list_count', { list_count: favList.trackCount, play_count: formatNumber(favList.playCount) })}</Typography>
+     </div>
     <div className='flex justify-between items-end mt-auto'>
       <Button
         disableElevation
@@ -153,6 +150,7 @@ function FavCard() {
 function Library() {
   const [currentTab, setCurrentTab] = useState('playlist')
   const theme = useTheme()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   return <PageTransition className='pr-2'>
     <div
@@ -161,16 +159,16 @@ function Library() {
 
       <FavCard />
       <div className='grid grid-cols-1 grid-rows-4 gap-2 col-span-1'>
-        <SwitchCard color={theme.palette.tertiaryContainer.main} title='听歌排行' icon={<ThumbUpAltIcon fontSize='small' />} onChange={() => {
+        <SwitchCard color={theme.palette.tertiaryContainer.main} title={t`main.ranking`} icon={<ThumbUpAltIcon fontSize='small' />} onChange={() => {
           navigate('/rank')
         }} />
-        <SwitchCard color={theme.palette.secondaryContainer.main} title='音乐云盘' icon={<AlbumIcon fontSize='small' />} onClick={() => {
+        <SwitchCard color={theme.palette.secondaryContainer.main} title={t`main.disk`} icon={<AlbumIcon fontSize='small' />} onClick={() => {
           navigate('/cloud')
         }} />
-        <SwitchCard color={theme.palette.errorContainer.main} title='最近播放' icon={<HistoryIcon fontSize='small' />} onClick={() => {
+        <SwitchCard color={theme.palette.errorContainer.main} title={t`common.recent`} icon={<HistoryIcon fontSize='small' />} onClick={() => {
           navigate('/recent')
         }} />
-        <SwitchCard color={theme.palette.primaryContainer.main} title='我的播客' icon={<PodcastsIcon fontSize='small' />} onClick={() => {
+        <SwitchCard color={theme.palette.primaryContainer.main} title={t`main.podcast.my`}  icon={<PodcastsIcon fontSize='small' />} onClick={() => {
           navigate('/my_podcast')
         }} />
       </div>
@@ -179,11 +177,11 @@ function Library() {
       <MYTabs value={currentTab} onChange={tabVal => setCurrentTab(tabVal)}
         tabs={[{
           value: 'playlist',
-          label: '歌单',
+          label: t`main.playlists`,
         },
-        { value: 'album', label: '专辑' },
-        { value: 'artist', label: '艺术家' },
-        { value: 'mv', label: '音乐视频' }]}/>
+        { value: 'album', label: t`main.albums` },
+        { value: 'artist', label: t`main.artists` },
+        { value: 'mv', label: t`main.mvs` }]}/>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
         {
           {

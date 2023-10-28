@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { useImmer } from 'use-immer'
+import { useTranslation } from 'react-i18next'
 import PageTransition from '@/components/PageTransition'
 import { cloudDiskMusicList, uploadMusicToCloudDisk } from '@/api/cloud'
 import CloudTrackList from '@/pages/cloud/CloudTrackList'
@@ -28,6 +29,8 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
   const { replaceQueueAndPlay } = useReplacePlayQueue()
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
+  const { t } = useTranslation()
+
   const uploadRef = useRef<HTMLInputElement>()
   const [uploadMusic, setUploadMusic] = useImmer({
     visible: false,
@@ -45,7 +48,7 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
     openContextMenu(e, [
       {
         type: 'item',
-        label: '上传音乐',
+        label: t`main.cloud.upload`,
         onClick: () => {
           handleUploadTrack()
         },
@@ -140,10 +143,10 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
             <div className='flex-1'></div>
 
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">我的音乐云盘</Typography>
+              <Typography variant="h4">{t`main.cloud.my`}</Typography>
               <div className="flex flex-col">
                 <Typography variant="caption">
-                   歌曲永久保存，随时随地多端畅听
+                  {t`main.cloud.desc`}
                 </Typography>
               </div>
               <div className='flex gap-3'>
@@ -157,7 +160,7 @@ function Header({ tracks, reload }: { tracks: Track[]; reload: () => void }) {
                     bgcolor: `${theme.palette.primary.main}38`,
                   },
                 }} onClick={handlePlay}>
-                  <PlayArrowIcon color='primary' className='mr-1' /> Play Now
+                  <PlayArrowIcon color='primary' className='mr-1' /> {t`common.play_all`}
                 </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,

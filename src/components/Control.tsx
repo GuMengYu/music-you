@@ -1,4 +1,5 @@
 import { IconButton, Tooltip } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import PlayToggle from './toggle/PlayToggle'
 import {
   SkipNextIcon,
@@ -7,11 +8,12 @@ import {
 import { usePlayerControl } from '@/hooks/usePlayer'
 
 function Control({ compact }: { compact?: boolean }) {
+  const { t } = useTranslation()
   const { playNext, playPrev, modeIcon, shuffleIcon, shuffle, shuffleToggle, playModeToggle } = usePlayerControl()
   return (
     <div className="flex items-center gap-x-1.5">
       {
-        !compact && <Tooltip title={shuffle ? '取消随机播放' : '启用随机播放'} placement='top'>
+        !compact && <Tooltip title={shuffle ? t`common.un_shuffle` : t`common.shuffle`} placement='top'>
           <IconButton sx={{ p: 1.25 }} onClick={shuffleToggle}>
           {shuffleIcon}
           </IconButton>

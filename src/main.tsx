@@ -5,6 +5,7 @@ import router from './router'
 import 'overlayscrollbars/overlayscrollbars.css'
 import bootstrap from '@/store/bootstrap'
 import { useElectron } from '@/plugins/electron'
+import './i18n/i18n'
 
 bootstrap()
 useElectron()

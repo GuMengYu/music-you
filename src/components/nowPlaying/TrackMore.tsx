@@ -1,12 +1,14 @@
 import { IconButton, Tooltip } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { downloadMusic } from '@/hooks/useDownload'
 
 export default function TrackMore({ track }: { track: Track }) {
+  const { t } = useTranslation()
   const { openContextMenu } = useContextMenu()
   const navigate = useNavigate()
   const { getToPlaylistMenuItem } = useTrackOperation()
@@ -26,7 +28,7 @@ export default function TrackMore({ track }: { track: Track }) {
       //   onClick: () => {},
       // },
       {
-        label: '转至艺人',
+        label: t`common.to_artist`,
         ...(track.ar && track.ar.length > 1
           ? {
               type: 'submenu',
@@ -50,7 +52,7 @@ export default function TrackMore({ track }: { track: Track }) {
 
       {
         type: 'item',
-        label: '转至专辑',
+        label: t`common.to_album`,
         onClick: () => {
           toAlbum(track.al!.id)
         },
@@ -60,7 +62,7 @@ export default function TrackMore({ track }: { track: Track }) {
       },
       {
         type: 'submenu',
-        label: '添加到歌单',
+        label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
       },
       {
@@ -68,14 +70,14 @@ export default function TrackMore({ track }: { track: Track }) {
       },
       {
         type: 'item',
-        label: '下载到本地',
+        label: t`common.download_local`,
         onClick: async (i) => {
           await downloadMusic(track)
         },
       },
     ])
   }
-  return <Tooltip title="更多操作" placement='top'><IconButton
+  return <Tooltip title={t`common.more_op`} placement='top'><IconButton
    onClick={e => openMore(e)}>
     <MoreVertIcon fontSize='small' />
   </IconButton></Tooltip>

@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material/styles'
 import { Card, Typography } from '@mui/material'
 import { useSearchParam } from 'react-use'
+import { useTranslation } from 'react-i18next'
 import { useSearch } from '@/hooks/query/search'
 import PageTransition from '@/components/PageTransition'
 import Col from '@/components/Col'
@@ -13,6 +14,7 @@ import { GridType } from '@/hooks/useResponsiveGrid'
 import SearchSkeleton from '@/components/skeleton/SearchSkeleton'
 
 export default function Search() {
+  const { t } = useTranslation()
   const searchKeyword = useSearchParam('keyword')
   const { data, isLoading } = useSearch(searchKeyword)
   const theme = useTheme()
@@ -24,7 +26,7 @@ export default function Search() {
         <div
           className='grid grid-cols-5 gap-4'
         >
-          <Col title='最佳匹配' variant='subtitle1' className='flex flex-col col-span-2'>
+          <Col title={t`common.search_hot`} variant='subtitle1' className='flex flex-col col-span-2'>
             <Card variant='outlined' sx={{
               flex: 1,
               bgcolor: theme.palette.surfaceVariant.main,
@@ -60,13 +62,13 @@ export default function Search() {
             </Card>
           </Col>
           {
-            data?.result?.songs && <Col title='音乐' variant='subtitle1' className='col-span-3'>
+            data?.result?.songs && <Col title={t`main.tracks`} variant='subtitle1' className='col-span-3'>
                   <TrackList tracks={data?.result?.songs} trackFrom={{ id: searchKeyword, name: '搜索页', type: 'search' }} />
               </Col>
           }
         </div>
         {
-          data?.result?.artists?.length && <Col title='艺人' variant='subtitle1'>
+          data?.result?.artists?.length && <Col title={t`main.artists`} variant='subtitle1'>
                 <GridRow>
                   {
                     data?.result?.artists.map(i => <ArtistCover data={i} key={i.id} />)
@@ -75,7 +77,7 @@ export default function Search() {
             </Col>
         }
         {
-          data?.result?.albums?.length && <Col title='专辑' variant='subtitle1'>
+          data?.result?.albums?.length && <Col title={t`main.albums`} variant='subtitle1'>
                 <GridRow>
                   {
                     data?.result?.albums.map(i => <Cover data={i} key={i.id} type='album' />)
@@ -84,7 +86,7 @@ export default function Search() {
             </Col>
         }
         {
-          data?.result?.playlists?.length && <Col title='歌单' variant='subtitle1'>
+          data?.result?.playlists?.length && <Col title={t`main.playlists`} variant='subtitle1'>
                 <GridRow>
                   {
                     data?.result?.playlists.map(i => <Cover data={i} key={i.id} type='playlist' />)
@@ -93,7 +95,7 @@ export default function Search() {
             </Col>
         }
         {
-          data?.result?.mvs?.length && <Col title='MV' variant='subtitle1'>
+          data?.result?.mvs?.length && <Col title={t`main.mvs`} variant='subtitle1'>
                 <GridRow rowType={GridType.B}>
                   {
                     data?.result?.mvs.map(i => <VideoCover data={i} key={i.id} />)

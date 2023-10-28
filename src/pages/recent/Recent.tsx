@@ -5,6 +5,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
+import { useTranslation } from 'react-i18next'
 import { recent } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
 import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
@@ -24,6 +25,7 @@ export default function Recent() {
     }
   })
   const theme = useTheme()
+  const { t } = useTranslation()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
   const [value, setValue] = useState(0)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -59,7 +61,7 @@ export default function Recent() {
           <div className="absolute h-full w-full flex flex-col">
             <div className='flex-1'></div>
             <div className="flex flex-col mx-3 mb-4 gap-2">
-              <Typography variant="h4">最近播放</Typography>
+              <Typography variant="h4">{t`common.recent`}</Typography>
               <div className="flex flex-col">
                 <Typography variant="caption"></Typography>
               </div>
@@ -71,9 +73,9 @@ export default function Recent() {
     </motion.div>
     <div className='flex flex-col pr-2'>
       <Tabs className='self-start' value={value} onChange={handleChange} aria-label="basic tabs example">
-        <Tab label="歌曲" value={0} />
-        <Tab label="歌单" value={1} />
-        <Tab label="专辑" value={2} />
+        <Tab label={t`main.tracks`} value={0} />
+        <Tab label={t`main.playlists`} value={1} />
+        <Tab label={t`main.albums`} value={2} />
       </Tabs>
       <Box className='overflow-y-auto my-2 h-full hide-scrollbar'>
         <CustomTabPanel value={value} index={0} >
