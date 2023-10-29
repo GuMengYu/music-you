@@ -2,8 +2,9 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "com.musicyoureact.app",
+  "appId": "com.musicyou.app",
   "asar": true,
+  "copyright": 'Copyright © gumengyu 2023', //版权信息
   "directories": {
     "output": "release/${version}"
   },
@@ -12,22 +13,38 @@
     "dist"
   ],
   "mac": {
-    "artifactName": "${productName}_${version}.${ext}",
+    "artifactName": "${productName}-${os}-${version}-${arch}.${ext}",
     "target": [
-      "dmg",
-      "zip"
-    ]
+      {
+        "target":"dmg",
+        "arch": ["x64", "arm64", "universal"]
+      }
+    ],
+    "darkModeSupport": true,
+    "category": "public.app-category.music"
   },
   "win": {
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
+    "publisherName": 'MusicYou',
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb",
+      "rpm",
+      "tar.gz",
+      "snap"
+    ],
+    "category": "Audio;Music"
   },
   "nsis": {
     "oneClick": false,
@@ -38,6 +55,6 @@
   "publish": {
     "provider": "generic",
     "channel": "latest",
-    "url": "https://github.com/electron-vite/electron-vite-react/releases/download/v0.9.9/"
+    "url": "https://github.com/electron-vite/electron-vite-react/releases/download/v2.1.0/"
   }
 }
