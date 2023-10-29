@@ -79,6 +79,6 @@ jobs:
         with:
           name: music-you-linux
           path: |
-            music-you-*.AppImage
-            music-you-*.tar.gz
+            music-you-react*.AppImage
+            music-you-react*.tar.gz
           if-no-files-found: ignore
