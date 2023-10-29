@@ -125,8 +125,8 @@ function FavCard() {
     p: 2,
   }}>
     <div className='flex items-start flex-col'>
-        <Typography variant='h5'>{account.profile?.nickname} {t`main.discover.liked`}</Typography>
-        <Typography variant='caption'>{t('common.list_count', { list_count: favList.trackCount, play_count: formatNumber(favList.playCount) })}</Typography>
+        <Typography variant='h5'>{account?.profile?.nickname} {t`main.discover.liked`}</Typography>
+        <Typography variant='caption'>{t('common.list_count', { list_count: favList?.trackCount, play_count: formatNumber(favList?.playCount) })}</Typography>
      </div>
     <div className='flex justify-between items-end mt-auto'>
       <Button

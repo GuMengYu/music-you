@@ -4,6 +4,7 @@ import { Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useParams } from 'react-router-dom'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import PageTransition from '@/components/PageTransition'
 import GridRow from '@/components/GridRow'
 import { Cover } from '@/components/cover/Cover'
@@ -15,6 +16,7 @@ import VideoCover from '@/components/cover/VideoCover'
 type CollectionType = 'new_album' | 'new_video' | 'leaderboard'
 export default function ListCollection() {
   const theme = useTheme()
+  const { t } = useTranslation()
   const param = useParams<{ type: CollectionType }>()
   const { data } = useQuery(['list-collection', param.type], async () => {
     let collection: any[] = []
@@ -35,15 +37,15 @@ export default function ListCollection() {
   const collection = useMemo(() => {
     return ({
       new_album: {
-        name: '新发行的专辑和单曲',
+        name: t`main.new_releases_album`,
         cover: 'https://cdn.dribbble.com/userupload/5937173/file/original-f14b5cf31374d9e829baab07bbf571a9.jpg?resize=752x',
       },
       new_video: {
-        name: '新发布的音乐视频',
+        name: t`main.new_releases_mv`,
         cover: 'https://cdn.dribbble.com/userupload/6383523/file/original-fdc01c77ebfaa0216cff6bbad12b353f.jpg?resize=752x',
       },
       leaderboard: {
-        name: '歌曲排行榜',
+        name: t`main.leader_board`,
         cover: 'https://cdn.dribbble.com/userupload/3005240/file/original-954788082556fd1aac4f983cce2af921.png',
       },
     })[param.type]

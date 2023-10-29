@@ -66,6 +66,7 @@
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lottie-web": "^5.12.2",
+    "material-ui-confirm": "^3.0.9",
     "music-metadata": "^7.13.4",
     "NeteaseCloudMusicApi": "git+https://github.com/GuMengYu/NeteaseCloudMusicApi.git#music-you",
     "node-fetch": "^2.6.11",

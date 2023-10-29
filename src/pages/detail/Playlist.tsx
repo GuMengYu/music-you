@@ -11,6 +11,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
+import { useConfirm } from 'material-ui-confirm'
 import PageTransition from '@/components/PageTransition'
 import ImageViewer from '@/components/ImageViewer'
 import Col from '@/components/Col'
@@ -44,7 +45,8 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { openContextMenu } = useContextMenu()
-  const { isCreatedPlaylist } = useMyPlaylist()
+  const confirm = useConfirm()
+  const { isCreatedPlaylist, isMyFavList } = useMyPlaylist()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
   const { t } = useTranslation()
 
@@ -69,70 +71,86 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
     }
   }
   async function del() {
-    const { code, message } = await deletePlayList(playlist.id)
-    if (code === 200)
-      enqueueSnackbar('已删除', { variant: 'success' })
-    else
-      enqueueSnackbar(message, { variant: 'error' })
+    confirm({
+      description: t`message.delete_list_alert`,
+      title: t`message.delete_list`,
+      dialogProps: { maxWidth: 'xs' },
+    }).then(async () => {
+      const { code, message } = await deletePlayList(playlist.id)
+      if (code === 200)
+        enqueueSnackbar('已删除', { variant: 'success' })
+      else
+        enqueueSnackbar(message, { variant: 'error' })
+    })
   }
   function handleMore(e: React.MouseEvent<HTMLElement>) {
-    const items = [
-      ...(!isCreatedPlaylist(playlist) && subscribed
-        ? [
-            {
-              type: 'item' as any,
-              label: t`common.remove_from_library`,
-              onClick: () => {
-                subscribe()
-              },
-            },
-          ]
-        : []),
-      ...(!isCreatedPlaylist(playlist) && !subscribed
-        ? [
-            {
-              type: 'item' as any,
-              label: t`common.add_to_library`,
-              onClick: () => {
-                subscribe()
-              },
-            },
-          ]
-        : []),
-      ...(isCreatedPlaylist(playlist)
-        ? [
-            {
-              type: 'item' as any,
-              label: t`main.playlist.edit`,
-              onClick: () => {
-                enqueueSnackbar('待开发...', { variant: 'warning' })
-              },
-            },
-            {
-              type: 'item' as any,
-              label: t`main.playlist.delete`,
-              onClick: () => {
-                del()
-              },
-            },
-            { type: 'divider' as any },
-          ]
-        : []),
-      {
-        type: 'item' as any,
-        label: t`common.check_cover`,
-        onClick: () => {
-          setShowImageView(true)
-        },
+    const items = [{
+      type: 'item' as any,
+      label: t`common.add_to_queue`,
+      onClick: () => {
+        // todo 添加到正在播放列表
+        enqueueSnackbar('开发中')
       },
-      {
-        type: 'item',
-        label: t`common.copy_share`,
-        onClick: () => {
-          copyToClipboard(`https://music.163.com/#/playlist?id=${playlist.id}`)
-          enqueueSnackbar(t`message.copy_share_success`, { variant: 'success' })
-        },
+    },
+    {
+      type: 'divider',
+    },
+    ...(!isCreatedPlaylist(playlist) && subscribed
+      ? [
+          {
+            type: 'item' as any,
+            label: t`common.remove_from_library`,
+            onClick: () => {
+              subscribe()
+            },
+          },
+        ]
+      : []),
+    ...(!isCreatedPlaylist(playlist) && !subscribed && !isMyFavList(playlist.id)
+      ? [
+          {
+            type: 'item' as any,
+            label: t`common.add_to_library`,
+            onClick: () => {
+              subscribe()
+            },
+          },
+        ]
+      : []),
+    ...(isCreatedPlaylist(playlist)
+      ? [
+          {
+            type: 'item' as any,
+            label: t`main.playlist.edit`,
+            onClick: () => {
+              enqueueSnackbar('待开发...', { variant: 'warning' })
+            },
+          },
+          {
+            type: 'item' as any,
+            label: t`main.playlist.delete`,
+            onClick: () => {
+              del()
+            },
+          },
+          { type: 'divider' as any },
+        ]
+      : []),
+    {
+      type: 'item' as any,
+      label: t`common.check_cover`,
+      onClick: () => {
+        setShowImageView(true)
       },
+    },
+    {
+      type: 'item',
+      label: t`common.copy_share`,
+      onClick: () => {
+        copyToClipboard(`https://music.163.com/#/playlist?id=${playlist.id}`)
+        enqueueSnackbar(t`message.copy_share_success`, { variant: 'success' })
+      },
+    },
     ]
     openContextMenu(e, items)
   }
@@ -161,7 +179,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
           {/* /> */}
           {
             playlist?.coverImgUrl
-              && <ImageViewer open={showImageView} src={playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
+              && <ImageViewer open={showImageView} src={cover ?? playlist?.coverImgUrl} onClose={() => setShowImageView(false)}/>
           }
 
           <div className="absolute h-full w-full flex flex-col">

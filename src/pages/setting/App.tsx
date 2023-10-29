@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { ipcRenderer } from 'electron'
 import { useTranslation } from 'react-i18next'
 import Col from '@/components/Col'
@@ -26,7 +26,10 @@ export default function AppSetting() {
     setLocale(locale)
   }
   return <div>
-    <Col className='mb-4' variant='body2' title={t('common.language')} more={
+    <div className='mb-3'>
+      <Typography variant='subtitle1'>{t`common.general`}</Typography>
+    </div>
+    <Col variant='caption' title={t('common.language')} more={
       <SelectMenu value={locale} options={[
         {
           title: '简体中文',
@@ -39,7 +42,7 @@ export default function AppSetting() {
      }>
     </Col>
     {
-      notMacos && <Col className='mb-4' variant='body2' title='关闭窗口' subTitle='点击窗口关闭按钮的行为' more={
+      notMacos && <Col variant='caption' title='关闭窗口' subTitle='点击窗口关闭按钮的行为' more={
         <SelectMenu value={exitMode} options={[
           {
             title: '最小化',
@@ -57,7 +60,7 @@ export default function AppSetting() {
       }>
         </Col>
     }
-    <Col className='mb-4' variant='body2' title='重置应用' subTitle='点击窗口关闭按钮的行为' more={
+    <Col variant='caption' title='重置应用'  more={
       <Button size='small' variant='contained' onClick={resetApp}>重置应用</Button>}>
     </Col>
   </div>

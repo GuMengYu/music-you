@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 import Box from '@mui/material/Box'
 import { Button, IconButton, Typography, useTheme } from '@mui/material'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { useTranslation } from 'react-i18next'
+import { useSnackbar } from 'notistack'
 import { getDailyRecommend } from '@/api/user'
 import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import TrackList from '@/components/TrackList'
 import Image from '@/components/Image'
 import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 function Header({
   data,
@@ -19,6 +21,8 @@ function Header({
   const theme = useTheme()
   const [loading, toggleLoading] = useState(false)
   const { replaceQueueAndPlay } = useReplacePlayQueue()
+  const { openContextMenu } = useContextMenu()
+  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
   const cover = data.dailySongs[0]?.al.picUrl
 
@@ -27,6 +31,24 @@ function Header({
     replaceQueueAndPlay(data.dailySongs, 0, 'daily', '日推')
     toggleLoading(false)
   }
+  const handleMore = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    openContextMenu(e, [{
+      type: 'item' as any,
+      label: t`common.add_to_queue`,
+      onClick: () => {
+        // todo 添加到正在播放列表
+        enqueueSnackbar('开发中')
+      },
+    },
+    {
+      type: 'item' as any,
+      label: t`common.add_all_to_playlist`,
+      onClick: () => {
+        // todo 批量收藏到歌单
+        enqueueSnackbar('开发中')
+      },
+    }])
+  }, [])
 
   return (
     <motion.div
@@ -73,7 +95,9 @@ function Header({
                 </Button>
                 <IconButton size='large' sx={{
                   bgcolor: `${theme.palette.tertiary.main}1f`,
-                }}>
+                }}
+                onClick={handleMore}
+                >
                   <MoreHorizIcon/>
                 </IconButton>
               </div>

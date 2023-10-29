@@ -7,6 +7,7 @@ import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { styled } from '@mui/material/styles'
+import { ConfirmProvider } from 'material-ui-confirm'
 import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
@@ -75,62 +76,64 @@ function App() {
             error: StyledMaterialDesignContent,
           }
         } anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} variant='info' autoHideDuration={2000}>
-          <Box
-            ref={appRef}
-            sx={{
-              bgcolor: theme.palette.surface.main,
-              color: theme.palette.onSurface.main,
-              height: '100vh',
-              width: '100vw',
-              // borderRadius: 0,
-              // borderColor: alpha(theme.palette.primary.main, 0.45),
-              // borderWidth: border ?? 0,
-              // borderStyle: 'solid',
-              transform: 'scale(1)',
-              overflowY: 'hidden',
-              overflowX: 'hidden',
-              boxSizing: 'border-box',
-              display: 'grid',
-              gap: 1,
-              gridTemplateAreas: '"left-nav main" "now-playing-bar now-playing-bar"',
-              gridTemplateRows: '1fr auto',
-              gridTemplateColumns: 'auto 1fr',
-              transition: 'border-width .3s ease',
-            }}
-          >
-            <Header/>
-            <Nav/>
-            <Main onScroll={handleMainScroll}/>
-            <NowPlayingBar/>
-            {/* <NowPlayingBlock/> */}
-            <NowPlayingPage/>
-            <LoginDialog/>
-            <Profile/>
-            <QuickPanel/>
-            <BackToTop show={showBTT} onBackToTop={onBackToTop} />
-            <NowPlayingList />
-            {
-              notMacos && <WindowControl />
-            }
-            <ReactQueryDevtools
-              toggleButtonProps={{
-                style: {
-                  left: 4,
-                  bottom: 90,
-                  height: 42,
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-expect-error
-                  appRegion: 'no-drag',
-                },
+          <ConfirmProvider>
+            <Box
+              ref={appRef}
+              sx={{
+                bgcolor: theme.palette.surface.main,
+                color: theme.palette.onSurface.main,
+                height: '100vh',
+                width: '100vw',
+                // borderRadius: 0,
+                // borderColor: alpha(theme.palette.primary.main, 0.45),
+                // borderWidth: border ?? 0,
+                // borderStyle: 'solid',
+                transform: 'scale(1)',
+                overflowY: 'hidden',
+                overflowX: 'hidden',
+                boxSizing: 'border-box',
+                display: 'grid',
+                gap: 1,
+                gridTemplateAreas: '"left-nav main" "now-playing-bar now-playing-bar"',
+                gridTemplateRows: '1fr auto',
+                gridTemplateColumns: 'auto 1fr',
+                transition: 'border-width .3s ease',
               }}
-              closeButtonProps={{
-                style: {
-                  right: 0,
-                  left: 'auto',
-                },
-              }}
-            />
-          </Box>
+            >
+              <Header/>
+              <Nav/>
+              <Main onScroll={handleMainScroll}/>
+              <NowPlayingBar/>
+              {/* <NowPlayingBlock/> */}
+              <NowPlayingPage/>
+              <LoginDialog/>
+              <Profile/>
+              <QuickPanel/>
+              <BackToTop show={showBTT} onBackToTop={onBackToTop} />
+              <NowPlayingList />
+              {
+                notMacos && <WindowControl />
+              }
+              <ReactQueryDevtools
+                toggleButtonProps={{
+                  style: {
+                    left: 4,
+                    bottom: 90,
+                    height: 42,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-expect-error
+                    appRegion: 'no-drag',
+                  },
+                }}
+                closeButtonProps={{
+                  style: {
+                    right: 0,
+                    left: 'auto',
+                  },
+                }}
+              />
+            </Box>
+          </ConfirmProvider>
         </SnackbarProvider>
       </ThemeProvider>
     </QueryClientProvider>

@@ -182,14 +182,14 @@ function PodcastHeader({ podcast }: { podcast: Podcast }) {
         podcast?.desc && <>
               <div className="flex flex-col gap-1">
                   <div className="flex items-center">
-                      <Typography variant='body1'>播客简介</Typography>
+                      <Typography variant='body1'>{t`main.podcast.desc`}</Typography>
                       <IconButton onClick={() => setShowDesc(true)}>
                           <ArrowForwardIcon/>
                       </IconButton>
                   </div>
               </div>
               <Md3Dialog fullWidth maxWidth='xs' open={showDesc} onClose={() => setShowDesc(false)}>
-                  <DialogTitle variant='body1'>播客简介</DialogTitle>
+                  <DialogTitle variant='body1'>{t`main.podcast.desc`}</DialogTitle>
                   <DialogContent>
                       <Typography variant='caption'>{podcast.desc}</Typography>
                   </DialogContent>
@@ -262,7 +262,6 @@ export default function PodcastDetail() {
           >
           </Virtuoso>
       }
-
     </PageTransition>
 
   )

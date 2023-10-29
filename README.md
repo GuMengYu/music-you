@@ -1,8 +1,8 @@
 # Music You
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582624-4eeb06aa-61d5-4124-8450-f4a435714bd0.png">
-  <img alt="home" src="https://user-images.githubusercontent.com/22021419/230582605-2eebe411-fac5-4a98-8121-872c205dff59.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/278869772-fd6a1e3e-cf01-421f-824a-7abc05ac05b8.png">
+  <img alt="home" src="https://user-images.githubusercontent.com/22021419/278869791-71b97ec0-366d-4eaa-98dd-50c035993f82.png">
 </picture>
 
 <p align="center">
@@ -20,7 +20,7 @@
 ![GitHub stars](https://img.shields.io/badge/React-18.2.0-blue)
 
 
-## 🎨 已有功能
+## 🎨 功能列表
 
 - 手机扫码登录
 - 首页推荐
@@ -30,6 +30,7 @@
 - 浅色模式
 - 歌词
 - 本地音乐播放
+- 云盘音乐
 
 ## 🛫 Quick Setup
 
@@ -54,32 +55,35 @@ npm run electron:build
 ## 部分截图
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/242454954-adf07b24-9839-4d31-803d-327b0fab6829.png">
-  <img alt="home" src="https://user-images.githubusercontent.com/22021419/242454817-8b088583-d27c-413a-9a97-a588640a3d83.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/278869791-71b97ec0-366d-4eaa-98dd-50c035993f82.png">
+  <img alt="home" src="https://user-images.githubusercontent.com/22021419/278869772-fd6a1e3e-cf01-421f-824a-7abc05ac05b8.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582633-f0ba064e-a4b6-4ee8-a538-15e86a298617.png">
-  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/230582617-265dbb83-2d98-4430-a3d7-3881b03a078d.png">
-</picture>
-
-<hr></hr>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582643-2abb7850-850c-433b-8e49-ab9b61623bfd.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230582656-b181dd59-3793-4127-9b9f-f56958613587.png">
+  <img alt="artist" src="https://user-images.githubusercontent.com/22021419/278869788-af5dd2e5-923c-4cc1-a313-395046828af4.png">
 </picture>
 
 <hr></hr>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230582630-80f7c80a-250c-4324-a74e-c333028f3449.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230582611-faa13763-1eb4-45bd-98db-fb63d5581297.png">
+  <img alt="center" src="hhttps://user-images.githubusercontent.com/22021419/278869779-3bf8b5f4-ef93-4a6f-a7e3-483a017cdb4f.png">
+</picture>
+
+<hr></hr>
+
+<picture>
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869777-7480169c-685b-4c51-9a96-8fcb2c12216b.png">
+</picture>
+
+<hr></hr>
+
+
+<picture>
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869783-61650009-b686-4be7-b26e-a1fc6bab3010.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/230708070-42ddfb55-66ce-4436-9be4-13ccca3a1fb8.png">
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/230708070-42ddfb55-66ce-4436-9be4-13ccca3a1fb8.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869787-7891a9b4-9e66-409e-b110-3400b3207096.png">
 </picture>
 
 ## [License](./LICENSE)

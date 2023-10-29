@@ -15,6 +15,7 @@ import {
 } from '@mui/icons-material'
 import { ipcRenderer } from 'electron'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import Md3Dialog from './Md3Dialog'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
@@ -24,6 +25,7 @@ function Profile() {
   const { showProfile: open, toggleProfile } = useAppStore()
   const { account } = useUserStore()
   const theme = useTheme()
+  const { t } = useTranslation()
   const avatarUrl = useMemo(() => {
     return account?.profile.avatarUrl
   }, [account])
@@ -142,9 +144,10 @@ function Profile() {
               borderTopLeftRadius: 30,
               borderBottomLeftRadius: 30,
             }}
+            onClick={handleEdit}
           >
             <EditRounded fontSize='small' />
-            <Typography variant="caption">编辑资料 </Typography>
+            <Typography variant="caption">{t`message.edit_profile`}</Typography>
           </BottomButton>
           <BottomButton
             sx={{
@@ -154,7 +157,7 @@ function Profile() {
             onClick={handleLogout}
           >
             <LogoutIcon fontSize='small' />
-            <Typography variant="caption">退出登录 </Typography>
+            <Typography variant="caption">{t`message.logout`}</Typography>
           </BottomButton>
         </Box>
         <Box display="flex" justifyContent="center" mt={2} gap={1}>
@@ -163,7 +166,7 @@ function Profile() {
             size="small"
             onClick={() => goto('https://github.com/GuMengYu/music-you/blob/dev/README.md#声明')}
           >
-            <Typography variant="caption">免责声明 </Typography>
+            <Typography variant="caption">{t`message.disclaimer`} </Typography>
           </Button>
           <Divider orientation='vertical' flexItem variant='middle' />
           <Button

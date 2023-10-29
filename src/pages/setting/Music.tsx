@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Typography } from '@mui/material'
 import Col from '@/components/Col'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 import SelectMenu from '@/components/SelectMenu'
@@ -36,12 +37,14 @@ export default function MusicSetting() {
   }, [])
 
   return <div>
-    <Col className='mb-4' variant='body2' title={t`main.setting.device`} subTitle={t`main.setting.device`} more={
+    <div className='mb-3'>
+      <Typography variant='subtitle1'>{t`common.quality`}</Typography>
+    </div>
+    <Col variant='caption' title={t`main.setting.device`} more={
       <SelectMenu value={outputdevice} options={outputDevicesOption} onChange={handleOutputDeviceChange} />
     }>
-
     </Col>
-    <Col className='mb-4' variant='body2' title='音频' subTitle={t`main.setting.quality`} more={
+    <Col variant='caption' title={t`main.setting.quality`} more={
       <SelectMenu value={quality} options={[
         {
           title: '标准',
@@ -79,13 +82,13 @@ export default function MusicSetting() {
     }>
 
     </Col>
-    <Col className='mb-4' variant='body2' title='正在播放页动态背景' subTitle='如遇卡顿请关闭' more={
+    <Col variant='caption' title='正在播放页动态背景' more={
       <Switch checked={dynamicBg} onChange={(_, v) => {
         setDynamicBg(v)
       }} />
     }>
     </Col>
-    <Col className='mb-4' variant='body2' title='歌词' subTitle='歌词翻译' more={
+    <Col variant='caption' title='歌词翻译' more={
       <Switch checked={lyricTrans} onChange={(_, v) => {
         setLyricTrans(v)
       }} />

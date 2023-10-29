@@ -135,15 +135,15 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
     onClose()
   }
   const handleContextMenu = useCallback((e: any, track: Track) => {
-    let fromName = `"${track.source.fromName}"`
-    if (track.source.fromType === 'program')
-      fromName = `电台: ${track.source.fromName}`
-    else if (track.source.fromType === 'playlist')
-      fromName = `歌单: ${track.source.fromName}`
-    else if (track.source.fromType === 'album')
-      fromName = `专辑: ${track.source.fromName}`
-    else if (track.source.fromType === 'artist')
-      fromName = `歌手: ${track.source.fromName}`
+    let fromName = `"${track.source?.fromName}"`
+    if (track.source?.fromType === 'program')
+      fromName = `电台: ${track.source?.fromName}`
+    else if (track.source?.fromType === 'playlist')
+      fromName = `歌单: ${track.source?.fromName}`
+    else if (track.source?.fromType === 'album')
+      fromName = `专辑: ${track.source?.fromName}`
+    else if (track.source?.fromType === 'artist')
+      fromName = `歌手: ${track.source?.fromName}`
 
 
 

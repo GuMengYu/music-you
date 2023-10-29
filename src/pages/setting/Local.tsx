@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material'
+import { Button, IconButton, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { dialog } from '@electron/remote'
 import { ipcRenderer } from 'electron'
@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import FolderIcon from '@mui/icons-material/Folder'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocalStore } from '@/store/local'
 import Col from '@/components/Col'
 
@@ -26,6 +27,7 @@ function FolderItem({ folder, onRemove }: { folder: any; onRemove: (id: number) 
 }
 export default function Local() {
   const { autoSync, setAutoSync } = useLocalStore()
+  const { t } = useTranslation()
   const { data: foldersRes, refetch } = useQuery<{
     folders: []
     count: number
@@ -52,19 +54,22 @@ export default function Local() {
     await refetch()
   }, [])
   return <div>
-    <Col title='本地音乐播放' variant='body1'>
-      <Col variant='body2' title='文件夹' more={
-        <Button sx={{ ml: 'auto' }} size='small' onClick={handleAdd}><AddIcon fontSize='small'/>添加文件夹</Button>
-      }>
-        <List sx={{ py: 0 }}>
-          {
-            foldersRes?.folders.map((folder) => {
-              return <FolderItem key={folder['folderId']} folder={folder} onRemove={handleRemove}></FolderItem>
-            })
-          }
-        </List>
-        <Button variant='contained' size='small' onClick={handleSync}><SyncIcon fontSize='small'/>立即刷新</Button>
-      </Col>
+    <div className='mb-3'>
+      <Typography variant='subtitle1'>{t`common.local`}</Typography>
+    </div>
+    <Col variant='caption' title='文件夹' more={
+      <Button sx={{ ml: 'auto' }} size='small' onClick={handleAdd}><AddIcon fontSize='small'/>添加文件夹</Button>
+    }>
+    <List sx={{ py: 0 }}>
+      {
+        foldersRes?.folders.map((folder) => {
+          return <FolderItem key={folder['folderId']} folder={folder} onRemove={handleRemove}></FolderItem>
+        })
+      }
+    </List>
+  </Col>
+    <Col variant='caption' title='刷新'>
+      <Button variant='contained' size='small' onClick={handleSync}><SyncIcon fontSize='small'/>立即刷新</Button>
     </Col>
   </div>
 }

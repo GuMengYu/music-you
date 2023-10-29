@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import ReloadIcon from '@mui/icons-material/QrCode2'
+import { useTranslation } from 'react-i18next'
 import {
   checkQRCodeStatus,
   createQRCode,
@@ -38,6 +39,7 @@ enum QR_STATUS {
 function LoginDialog() {
   const { showLogin: open, toggleLogin } = useAppStore()
   const { refreshAccount, fetchAccount } = useUserStore()
+  const { t } = useTranslation()
   const theme = useTheme()
 
   const [qrStatus, setQrStatus] = useState(QR_STATUS.WAIT)
@@ -66,10 +68,10 @@ function LoginDialog() {
   const qrTips = useMemo(() => {
     return (
       {
-        [QR_STATUS.WAIT]: ['使用“网易云音乐APP”扫码登录', 'accent--text'],
-        [QR_STATUS.SCANNED]: ['扫描成功, 请在手机上确认登录', 'success--text'],
-        [QR_STATUS.AUTHED]: ['授权成功, 稍后会刷新页面', 'success--text'],
-        [QR_STATUS.EXPIRED]: ['二维码已过期, 点击重新生成', 'error--text'],
+        [QR_STATUS.WAIT]: [t`message.qr_status_1`],
+        [QR_STATUS.SCANNED]: [t`message.qr_status_2`],
+        [QR_STATUS.AUTHED]: [t`message.qr_status_3`],
+        [QR_STATUS.EXPIRED]: [t`message.qr_status_4`],
       }[qrStatus] ?? ['', '']
     )
   }, [qrStatus])
@@ -180,9 +182,9 @@ function LoginDialog() {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h6">登录</Typography>
+            <Typography variant="h6">{t`common.sign_in`}</Typography>
             <Typography variant="caption">
-              使用网易云手机App扫码登录应用
+              {t`message.login`}
             </Typography>
           </Box>
           <Card
@@ -227,7 +229,7 @@ function LoginDialog() {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'end' }}>
-          <Button onClick={handleClose}>取消</Button>
+          <Button onClick={handleClose}>{t`common.cancel`}</Button>
         </CardActions>
       </Card>
     </Md3Dialog>

@@ -86,7 +86,9 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
       }
     },
     getFavs() {
-      return (get().playlists.find(playlist => playlist.specialType === specialType.fav.type) ?? {}) as Playlist
+      const { account, playlists } = get()
+      const uid = account.profile.userId
+      return (playlists.find(playlist => uid === playlist.creator.userId && playlist.specialType === specialType.fav.type) ?? {}) as Playlist
     },
   }
 }, {

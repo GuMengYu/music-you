@@ -137,8 +137,7 @@ export function getLikeList() {
 }
 
 export async function getHeartBeatList(id: number) {
-  const userStore = useUserStore()
-  const pid = userStore.favorites.id
+  const favorites = useUserStore().getFavs()
   const res = await request<{
     code: number
     data: Array<{
@@ -149,7 +148,7 @@ export async function getHeartBeatList(id: number) {
   }>('/playmode/intelligence/list', {
     params: {
       id,
-      pid,
+      pid: favorites.id,
     },
   })
   if (res.code === 200)

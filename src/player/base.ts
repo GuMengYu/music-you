@@ -346,7 +346,7 @@ export class Player {
     }
     const track = this.prevTrack()
     if (track && track.id)
-      this.updatePlayerTrack(track.id, true, true, false, track.source.from)
+      this.updatePlayerTrack(track.id, true, true, false, track?.source?.from)
     else
       enqueueSnackbar('往前没有更多可播放的音乐了', { variant: 'info' })
   }

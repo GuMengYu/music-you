@@ -25,7 +25,7 @@ export default function WallhavenSetting() {
     setApiKey(val)
   }, [])
   return <div className='flex flex-col gap-2'>
-    <Col variant='body2' title='wallhaven' more={<Switch checked={proxy.open} onChange={handleOpenChange} />}>
+    <Col variant='subtitle1' title='wallhaven' more={<Switch checked={proxy.open} onChange={handleOpenChange} />}>
       <div className='flex justify-between items-center gap-2 mb-1 mx-2'>
         <Typography variant='caption'>apikey: </Typography><TextField size='small' value={apiKey} onChange={handleApikeyChange} />
       </div>
