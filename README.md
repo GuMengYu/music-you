@@ -1,24 +1,28 @@
-# Music You
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/22021419/278869772-fd6a1e3e-cf01-421f-824a-7abc05ac05b8.png">
   <img alt="home" src="https://user-images.githubusercontent.com/22021419/278869791-71b97ec0-366d-4eaa-98dd-50c035993f82.png">
 </picture>
 
-<p align="center">
-    <a href="https://m3.material.io/" target="_blank"> Material Design 3 (Material You)</a> 风格的音乐播放器, 网易云音乐非官方API NeteaseCloudMusicApi 接口
-</p>
+# Music You
 
-基于 React + [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) + electron, 提供网易云音乐的播放功能。
-[桌面客户端下载](https://github.com/GuMengYu/music-you/releases)
+遵循<a href="https://m3.material.io/" target="_blank"> Material Design 3 (Material You)</a> 设计风格的桌面音乐播放器
 
-旧版 2.0 由vue3构建 见 [v2-stable](https://github.com/GuMengYu/music-you/tree/v2-stable)
+![GitHub license](https://img.shields.io/github/license/gumengyu/music-you)
+![React](https://img.shields.io/badge/Made_With-React_18.2.0-blue)
+![Release](https://img.shields.io/github/v/release/gumengyu/music-you)
+![Downloads](https://img.shields.io/github/downloads/gumengyu/music-you/total)
+[![Build](https://github.com/gumengyu/music-you/actions/workflows/build.yml/badge.svg)](https://github.com/gumengyu/music-you/actions/workflows/build.yml)
 
-![GitHub stars](https://img.shields.io/github/stars/gumengyu/music-you?color=fa6470)
-![GitHub issues](https://img.shields.io/github/issues/gumengyu/music-you?color=d8b22d)
-![GitHub license](https://img.shields.io/github/license/gumengyu/music-you?)
-![GitHub stars](https://img.shields.io/badge/React-18.2.0-blue)
+基于 React + [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) + electron, 提供网易云音乐PC端的各项功能。
+[下载](https://github.com/GuMengYu/music-you/releases)
 
+3.0 是为了学习 React 所迁移开发，界面功能有一定改动，可下载体验。
+
+2.0 由vue3构建 见 [v2-stable](https://github.com/GuMengYu/music-you/tree/v2-stable)
+
+#### 欢迎 star
+
+[![GitHub stars](https://img.shields.io/github/stars/gumengyu/music-you.svg?style=social&label=Star)](https://github.com//gumengyu/music-you) ![GitHub forks](https://img.shields.io/github/forks/gumengyu/music-you.svg?style=social&label=Forks) ![GitHub issue](https://img.shields.io/github/issues/gumengyu/music-you.svg?style=social&label=Issues)
 
 ## 🎨 功能列表
 

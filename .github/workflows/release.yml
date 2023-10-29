@@ -1,4 +1,4 @@
-name: release job
+name: release
 
 on:
   push:
