@@ -5,7 +5,7 @@ import {
 } from '@mui/material'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { isArray } from 'lodash-es'
+import { isArray } from 'lodash'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatNumber, toHttps } from '@/util/fn'
 import Image from '@/components/Image'

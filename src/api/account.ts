@@ -1,4 +1,4 @@
-import { now } from 'lodash-es'
+import { now } from 'lodash'
 
 import { request } from '../util/fetch'
 import type { Account } from '@/types'

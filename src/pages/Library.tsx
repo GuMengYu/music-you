@@ -2,7 +2,7 @@ import { Box, Button, Card, Typography, useTheme } from '@mui/material'
 import { memo, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
-import { sampleSize } from 'lodash-es'
+import { sampleSize } from 'lodash'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import AlbumIcon from '@mui/icons-material/Album'
 import HistoryIcon from '@mui/icons-material/History'

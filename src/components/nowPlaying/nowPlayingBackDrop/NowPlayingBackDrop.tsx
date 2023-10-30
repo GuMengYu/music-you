@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { debounce } from 'lodash-es'
+import { debounce } from 'lodash'
 import { usePlayerStore } from '@/store/player'
 import { generateMUITheme } from '@/plugins/theme'
 import { Vhs } from '@/components/nowPlaying/nowPlayingBackDrop/vhs'

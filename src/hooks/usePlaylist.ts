@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { groupBy } from 'lodash-es'
+import { groupBy } from 'lodash'
 import { useUserStore } from '@/store/user'
 import { specialType } from '@/util/metadata'
 import { Playlist } from '@/types'

@@ -1,4 +1,4 @@
-import { isArray, now } from 'lodash-es'
+import { isArray, now } from 'lodash'
 
 import { getAlbum } from './album'
 import { getArtist } from './artist'

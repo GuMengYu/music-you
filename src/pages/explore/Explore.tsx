@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { random } from 'lodash'
+import { filter, random } from 'lodash'
 import { useNavigate } from 'react-router-dom'
-import { filter } from 'lodash-es'
 import { useTranslation } from 'react-i18next'
 import Col from '@/components/Col'
 import { newAlbums } from '@/api/album'

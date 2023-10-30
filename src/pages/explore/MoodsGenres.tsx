@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { entries, groupBy, random } from 'lodash-es'
+import { entries, groupBy, random } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
 import { getCatList } from '@/api/playlist'

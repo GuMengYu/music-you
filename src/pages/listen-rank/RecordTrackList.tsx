@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import Box from '@mui/material/Box'
-import { maxBy } from 'lodash-es'
+import { maxBy } from 'lodash'
 import { useTheme } from '@mui/material/styles'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useTranslation } from 'react-i18next'

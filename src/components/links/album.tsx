@@ -1,4 +1,4 @@
-import { isArray } from 'lodash-es'
+import { isArray } from 'lodash'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { Album } from '@/types'

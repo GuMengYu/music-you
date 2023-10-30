@@ -1,4 +1,4 @@
-import { now } from 'lodash-es'
+import { now } from 'lodash'
 
 import { useUserStore } from '@/store/user'
 import type { Album, Artist, MV, Playlist, Podcast, Track } from '@/types'

@@ -1,4 +1,4 @@
-import { isArray } from 'lodash-es'
+import { isArray } from 'lodash'
 import { Link as RouterLink } from 'react-router-dom'
 import type { Artist } from '@/types'
 

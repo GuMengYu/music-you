@@ -1,4 +1,4 @@
-import { now } from 'lodash-es'
+import { now } from 'lodash'
 
 import type { Artist, MV } from '@/types'
 import { request } from '@/util/fetch'

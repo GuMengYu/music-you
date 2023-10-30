@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { inRange } from 'lodash-es'
+import { inRange } from 'lodash'
 
 /**
  * 休眠

@@ -75,12 +75,11 @@ export function registerIpcMain(windowManager: WindowManager) {
     const nativeImage = await window.capturePage()
     const buffer = nativeImage.toBitmap()
     const { width, height } = nativeImage.getSize()
-    const result = {
+    return {
       buffer,
       width,
       height,
     }
-    return result
   })
   let cacheSize: number[] = []
   ipcMain.handle('adjustWidth', async () => {
@@ -171,23 +170,22 @@ export function registerIpcMain(windowManager: WindowManager) {
     app.quit()
   })
 
-  ipcMain.handle('reset', () => {
-    return dialog.showMessageBox(window, {
+  ipcMain.handle('reset', async () => {
+    const { response } = await dialog.showMessageBox(window, {
       type: 'info',
       buttons: ['取消', '确定'],
       defaultId: 1,
       title: '重置应用',
       message: '重置应用状态，将会退出登录，所有设置恢复到安装时的状态',
-    }).then(({ response }) => {
-      if (response === 1) {
-        log.info('[main]: app reset')
-        store.clear()
-        return true
-      }
-      else {
-        return false
-      }
     })
+    if (response === 1) {
+      log.info('[main]: app reset')
+      store.clear()
+      return true
+    }
+    else {
+      return false
+    }
   })
 
   ipcMain.handle('reset-direct', () => {

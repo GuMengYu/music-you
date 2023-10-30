@@ -1,4 +1,4 @@
-import { now } from 'lodash-es'
+import { now } from 'lodash'
 
 import type { Podcast, Program } from '@/types'
 import { request } from '@/util/fetch'

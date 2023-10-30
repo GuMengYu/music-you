@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { Howl, Howler } from 'howler'
 
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep } from 'lodash'
 import { enqueueSnackbar } from 'notistack'
 import { end, getTrackDetail, start } from '@/api/music'
 import type { Program, Track, TrackFrom, listType } from '@/types'

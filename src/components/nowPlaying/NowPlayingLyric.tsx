@@ -1,4 +1,4 @@
-import { findIndex } from 'lodash-es'
+import { findIndex } from 'lodash'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { cx } from '@emotion/css'
 import { useTheme } from '@mui/material/styles'
