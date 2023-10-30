@@ -29,10 +29,6 @@
       {
         "target": "nsis",
         "arch": ["x64"]
-      },
-      {
-        "target": "portable",
-        "arch": ["x64"]
       }
     ],
     "publisherName": 'MusicYou',
@@ -42,8 +38,7 @@
       "AppImage",
       "deb",
       "rpm",
-      "tar.gz",
-      "snap"
+      "tar.gz"
     ],
     "category": "Audio;Music"
   },
