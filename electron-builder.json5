@@ -17,7 +17,8 @@
     "target": [
       {
         "target":"dmg",
-        "arch": ["x64", "arm64", "universal"]
+//        "arch": ["x64", "arm64", "universal"] // arm 需要在m1 及以上的设备上打包。
+        "arch": ["x64"]
       }
     ],
     "darkModeSupport": true,
