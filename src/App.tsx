@@ -79,6 +79,7 @@ function App() {
           <ConfirmProvider>
             <Box
               ref={appRef}
+              id='app-container'
               sx={{
                 bgcolor: theme.palette.surface.main,
                 color: theme.palette.onSurface.main,
@@ -163,7 +164,7 @@ function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptions {
   }
 }
 
-function getOpacity(current: number, range = 1, offset = 0) {
+export function getOpacity(current: number, range = 1, offset = 0) {
   // Check if n is greater than t, return 1
   if (offset > range)
     return 1

@@ -9,7 +9,6 @@ import Image from '@/components/Image'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import ArtistLink from '@/components/links/artist'
 import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
-import NowPlayingListToggle from '@/components/toggle/NowPlayingListToggle'
 import { useAppStore } from '@/store/app'
 import PIPPlayerToggle from '@/components/toggle/PIPPlayerToggle'
 import MdSlider from '@/components/Slider'
@@ -20,6 +19,7 @@ import { RESOURCE_TYPE } from '@/util/enum'
 import LikeToggle from '@/components/toggle/likeToggle'
 import MinimalButton from '@/components/button/MinimalButton'
 import { sizeOfImage } from '@/util/fn'
+import NowPlayingListToggleWithTip from '@/components/nowPlaying/NowPlayingListToggleWithTip'
 
 const variants = {
   enter: (direction: number) => {
@@ -187,7 +187,12 @@ function NowPlayingBar() {
             </Tooltip>
             <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='off' onChange={(_, val) => handleVolumeChange(val as number)} />
           </Stack>
-          <NowPlayingListToggle />
+          <NowPlayingListToggleWithTip />
+          {/*<Tooltip title='sss' placement={'left'}>*/}
+          {/*  <div>*/}
+          {/*    <NowPlayingListToggle />*/}
+          {/*  </div>*/}
+          {/*</Tooltip>*/}
           <TrackMore track={track} />
         </div>
       </div>

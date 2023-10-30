@@ -1,5 +1,5 @@
 import { useSnackbar } from 'notistack'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { isEmpty } from 'lodash'
 import { opPlaylist } from '@/api/music'
 import type { Playlist } from '@/types'
@@ -13,30 +13,7 @@ export function useTrackOperation() {
   const { enqueueSnackbar } = useSnackbar()
   const { createdPlaylist } = useMyPlaylist()
 
-  function getToPlaylistMenuItem(trackId: number): ContextMenuItem[] {
-    return createdPlaylist.map((list) => {
-      return {
-        type: 'item',
-        label: list.name,
-        onClick: async () => {
-          addToPlaylist(trackId, list)
-        },
-      }
-    })
-  }
-  async function removeFromPlaylist(trackId: number | number[], playlist: Playlist) {
-    try {
-      const { code, message } = await opPlaylist('del', playlist.id, trackId)
-      if (code === 200)
-        enqueueSnackbar(`已从: ${playlist.name}移除歌曲`, { variant: 'success' })
-      else
-        enqueueSnackbar(message!, { variant: 'warning' })
-    }
-    catch (e) {
-      enqueueSnackbar('从歌单移除失败了', { variant: 'error' })
-    }
-  }
-  async function addToPlaylist(trackId: number | number[], playlist: Playlist) {
+  const addToPlaylist = useCallback(async (trackId: number | number[], playlist: Playlist) => {
     try {
       const { code, message } = await opPlaylist('add', playlist.id, trackId)
       if (code === 200)
@@ -47,7 +24,31 @@ export function useTrackOperation() {
     catch (e) {
       enqueueSnackbar('添加到歌单失败了', { variant: 'error' })
     }
-  }
+  }, [])
+  const getToPlaylistMenuItem = useCallback((trackId: number): ContextMenuItem[] => {
+    return createdPlaylist.map((list) => {
+      return {
+        type: 'item',
+        label: list.name,
+        onClick: async () => {
+          await addToPlaylist(trackId, list)
+        },
+      }
+    })
+  }, [createdPlaylist, addToPlaylist])
+  const removeFromPlaylist = useCallback(async (trackId: number | number[], playlist: Playlist) =>  {
+    try {
+      const { code, message } = await opPlaylist('del', playlist.id, trackId)
+      if (code === 200)
+        enqueueSnackbar(`已从: ${playlist.name}移除歌曲`, { variant: 'success' })
+      else
+        enqueueSnackbar(message!, { variant: 'warning' })
+    }
+    catch (e) {
+      enqueueSnackbar('从歌单移除失败了', { variant: 'error' })
+    }
+  }, [])
+
 
   return { getToPlaylistMenuItem, addToPlaylist, removeFromPlaylist }
 }

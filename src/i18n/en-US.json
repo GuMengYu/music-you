@@ -6,6 +6,8 @@
     "remove_fav_success": "Remove favorite success",
     "add_fav_success": "Add favorite success",
     "add_list_success": "Added to playlist",
+    "add_queue": "Added to Playing list",
+    "already_play": "Started playing",
     "remove_list_success": "Removed from playlist",
     "remove_cloud_success": "Removed from cloud disk",
     "remove_from_library_success": "Removed from library",

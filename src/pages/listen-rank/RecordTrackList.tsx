@@ -69,7 +69,7 @@ function RecordItem({ record, onContextMenu, count }: {
       </div>
       <div className='flex flex-col justify-center'>
         <Typography className='line-clamp-1' variant='body1'>{record.song.name}</Typography>
-        <Typography className='line-clamp-1' variant='caption'>
+        <Typography className='line-clamp-1' variant='caption' component='span'>
           <span>{record.song.ar && <ArtistLink artist={record.song.ar}/>}</span>
           {
             record.song.al && (<span> - <AlbumLink album={record.song.al}/></span>)

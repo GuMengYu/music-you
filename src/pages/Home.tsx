@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import ShortCut from './home/shortcut'
 import { GridType } from '@/hooks/useResponsiveGrid'
 import GridRow from '@/components/GridRow'
-import { Cover } from '@/components/cover/Cover'
+import Cover from '@/components/cover/Cover'
 
 import Col from '@/components/Col'
 import PageTransition from '@/components/PageTransition'

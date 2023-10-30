@@ -12,9 +12,12 @@ import PageTransition from '@/components/PageTransition'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
 import TrackList from '@/components/TrackList'
 import Image from '@/components/Image'
-import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
+import { useAddToPlayQueue, useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
+import i18n from '@/i18n/i18n'
+import { TrackFrom } from '@/types'
 
+const trackFrom = { id: 0, name: i18n.t`main.discover.daily`, type: 'daily' } as TrackFrom
 function Header({
   data,
 }: { data: any }) {
@@ -24,6 +27,7 @@ function Header({
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
+  const { playNext } = useAddToPlayQueue()
   const cover = data.dailySongs[0]?.al.picUrl
 
   function handlePlay() {
@@ -36,8 +40,7 @@ function Header({
       type: 'item' as any,
       label: t`common.add_to_queue`,
       onClick: () => {
-        // todo 添加到正在播放列表
-        enqueueSnackbar('开发中')
+        playNext(data.dailySongs, trackFrom)
       },
     },
     {
@@ -121,7 +124,7 @@ export default function DailyPage() {
       }
       <Box className='h-4'></Box>
       {
-        <TrackList tracks={data?.dailySongs} trackFrom={{ id: 0, name: t`main.discover.daily`, type: 'daily' }} />
+        <TrackList tracks={data?.dailySongs} trackFrom={trackFrom} />
       }
     </Box>
   </PageTransition>

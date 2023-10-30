@@ -12,7 +12,7 @@ import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import Image from '@/components/Image'
 import TrackList from '@/components/TrackList'
 import GridRow from '@/components/GridRow'
-import { Cover } from '@/components/cover/Cover'
+import Cover from '@/components/cover/Cover'
 
 export default function Recent() {
   const { data } = useQuery(['recent'], async () => {

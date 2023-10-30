@@ -5,7 +5,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { sizeOfImage, sleep, toHttps } from '@/util/fn'
@@ -157,4 +157,4 @@ function Cover({ data, subTitle, type, inset }: {
   )
 }
 
-export { Cover }
+export default memo(Cover)

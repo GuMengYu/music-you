@@ -11,7 +11,7 @@ import { getTopPlaylist, getTopPlaylistHighQuality } from '@/api/top'
 import type { Playlist } from '@/types'
 import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
-import { Cover } from '@/components/cover/Cover'
+import Cover from '@/components/cover/Cover'
 
 export default function MoodsGenresDetail() {
   const theme = useTheme()

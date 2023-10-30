@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { groupBy } from 'lodash'
 import { useUserStore } from '@/store/user'
 import { specialType } from '@/util/metadata'
@@ -22,9 +22,9 @@ export function useMyPlaylist() {
     return filteredPlaylist['create']?.find(playlist => playlist.specialType === specialType.fav.type)
   }, [filteredPlaylist])
 
-  const isCreatedPlaylist = (playlist: Playlist) => playlist.creator.userId === account.account.id && playlist.specialType !== specialType.fav.type
-  const isMyPlaylist = (playlistId: number) => filteredPlaylist['create'].some(i => i.id === playlistId)
-  const isMyFavList = (playlistId: number) => favList.id === playlistId
+  const isCreatedPlaylist = useCallback((playlist: Playlist) => playlist.creator.userId === account.account.id && playlist.specialType !== specialType.fav.type, [account])
+  const isMyPlaylist = useCallback((playlistId: number) => filteredPlaylist['create'].some(i => i.id === playlistId), [filteredPlaylist])
+  const isMyFavList = useCallback((playlistId: number) => favList.id === playlistId, [favList])
 
   return {
     isMyPlaylist,

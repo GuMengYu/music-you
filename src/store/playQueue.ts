@@ -21,6 +21,7 @@ export interface PlayQueueAction {
   updatePlayQueue: (id: number, type: listType, name: string, data: Track[]) => void
   clearQueue: () => void
   addToPlayQueue: (track: Track | Program, from?: TrackFrom, afterCurrent?: boolean) => number
+  addToPlayQueueBatch: (tracks: Track[] | Program[], from?: TrackFrom, afterCurrent?: boolean) => number
   removeFromQueue: (trackId: number) => void
   shuffle: () => void
   unShuffle: () => void
@@ -132,6 +133,36 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
 
       }
     },
+    /**
+     * 批量添加到播放队列
+     * @param tracks
+     * @param from
+     * @param afterCurrent
+     */
+    addToPlayQueueBatch(tracks: Track[] | Program[], from?: TrackFrom, afterCurrent?: boolean) {
+      if (from) {
+        tracks.forEach((track) => {
+          mixinTrackSource(track, from)
+        })
+      }
+      const { queue, index } = get()
+      const _tracks = simpleTracks(tracks)
+      const { track: currentTrack } = usePlayerStore.getState()
+      const list = queue.sequence
+      // 过滤
+      const filteredTracks = _tracks.filter(track => !list.some(i => i.id === track.id))
+      if (afterCurrent) {
+        list.splice( index + 1, 0, ...filteredTracks)
+        set(state => ({ queue: { ...state.queue, sequence: list } }))
+        return index + 1
+      }
+      else {
+        list.push(...filteredTracks)
+        set(state => ({ queue: { ...state.queue, sequence: list } }))
+        return list.length - 1 // last track index
+      }
+    },
+
     /*
      * 从队列中删除
      * @param trackId

@@ -1,7 +1,7 @@
 // components
 import { Virtuoso } from 'react-virtuoso'
 import { useNavigate, useParams } from 'react-router-dom'
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCopyToClipboard, useWindowSize } from 'react-use'
 import { useSnackbar } from 'notistack'
 import { Button, DialogContent, DialogTitle, Divider, IconButton, Typography, useTheme } from '@mui/material'
@@ -12,11 +12,12 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useConfirm } from 'material-ui-confirm'
+import { throttle } from 'lodash'
 import PageTransition from '@/components/PageTransition'
 import ImageViewer from '@/components/ImageViewer'
 import Col from '@/components/Col'
 import GridRow from '@/components/GridRow'
-import { Cover } from '@/components/cover/Cover'
+import Cover from '@/components/cover/Cover'
 import TrackItem from '@/components/TrackItem'
 import Md3Dialog from '@/pages/modal/Md3Dialog'
 import PlayListSkeleton from '@/pages/detail/PlayListSkeleton'
@@ -36,6 +37,7 @@ import { Track } from '@/types'
 import { sub } from '@/api/music'
 import { deletePlayList } from '@/api/playlist'
 import { PlayOutlinedIcon } from '@/components/icons/icons'
+import { getOpacity } from '@/App'
 
 const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefined; cover?: string }) => {
   const theme = useTheme()
@@ -48,6 +50,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
   const confirm = useConfirm()
   const { isCreatedPlaylist, isMyFavList } = useMyPlaylist()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
+  const { playNext } = useAddToPlayQueue()
   const { t } = useTranslation()
 
   const [subscribed, setSubscribed] = useState(false)
@@ -83,13 +86,12 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
         enqueueSnackbar(message, { variant: 'error' })
     })
   }
-  function handleMore(e: React.MouseEvent<HTMLElement>) {
+  const handleMore = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const items = [{
       type: 'item' as any,
       label: t`common.add_to_queue`,
       onClick: () => {
-        // todo 添加到正在播放列表
-        enqueueSnackbar('开发中')
+        playNext(playlist.tracks, { id: playlist.id, name: playlist.name, type: 'playlist' })
       },
     },
     {
@@ -153,7 +155,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
     },
     ]
     openContextMenu(e, items)
-  }
+  }, [playlist, subscribed])
   return (
     <div className="flex flex-col">
         <div className="flex justify-between -ml-2 -mr-4 relative" style={{ height: '317px' }}>
@@ -302,6 +304,12 @@ export default function PlaylistPage() {
     addToQueueAndPlay(track, trackFrom)
   }, [trackFrom])
 
+  const toArtist = useCallback((id: number) => {
+    navigate(`/artist/${id}`)
+  }, [])
+  const toAlbum = useCallback((id: number) => {
+    navigate(`/album/${id}`)
+  }, [])
   const handleContextMenu = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => {
     openContextMenu(e, [
       {
@@ -378,12 +386,27 @@ export default function PlaylistPage() {
       useCursorPosition: true,
     })
   }, [data, trackFrom])
-  function toArtist(id: number) {
-    navigate(`/artist/${id}`)
-  }
-  function toAlbum(id: number) {
-    navigate(`/album/${id}`)
-  }
+  const cacheOpacity = useRef(0)
+  const appRef = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    appRef.current = document.getElementById('app-container') as HTMLDivElement
+    return () => {
+      appRef.current && appRef.current.style.setProperty('--top-bar-opacity', '0')
+    }
+  }, [])
+
+  const handleScroll = useCallback(throttle((e: any) => {
+    const scrollTop = e.target.scrollTop
+    const opacity = getOpacity(scrollTop, 36 + 56, 56)
+    if (Number(cacheOpacity.current).toPrecision(2) !== Number(opacity).toPrecision(2)) {
+      requestAnimationFrame(() => {
+        appRef.current && appRef.current.style.setProperty('--top-bar-opacity', `${Number(opacity).toPrecision(2)}`)
+      })
+    }
+    cacheOpacity.current = opacity
+  }, 250, { trailing: true, leading: true }), [appRef])
+  console.log('render')
   return (
     <PageTransition>
       {
@@ -421,6 +444,7 @@ export default function PlaylistPage() {
                 </GridRow>
               </Col>,
           }}
+          onScroll={handleScroll}
         >
         </Virtuoso>
       }

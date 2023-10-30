@@ -6,6 +6,8 @@
     "remove_fav_success": "已从\"喜欢的音乐\"移除",
     "add_fav_success": "已添加至\"喜欢的音乐\"",
     "add_list_success": "已添加到歌单",
+    "add_queue": "已添加到播放列表",
+    "already_play": "已开始播放",
     "remove_list_success": "已从歌单移除",
     "remove_cloud_success": "已从云盘移除",
     "remove_from_library_success": "已从音乐库移除",
