@@ -1,17 +1,15 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import './App.scss'
 import { Box, ThemeProvider, createTheme } from '@mui/material'
-import type { ThemeOptions } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { styled } from '@mui/material/styles'
 import { ConfirmProvider } from 'material-ui-confirm'
-import Themes from './plugins/themes'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
-import { APPEARANCE, THEME_COLOR, useSettingStore } from './store/setting'
+import { APPEARANCE, useSettingStore } from './store/setting'
 import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
@@ -24,6 +22,7 @@ import BackToTop from '@/components/BackToTop'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
+import { getDesignTokens } from '@/hooks/useCreateTheme'
 
 const notMacos = is.windows() || is.linux()
 
@@ -139,29 +138,6 @@ function App() {
       </ThemeProvider>
     </QueryClientProvider>
   )
-}
-
-function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptions {
-  return {
-    typography: {
-      fontFamily: [
-        'Quicksand',
-        'serif',
-        'Roboto',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-    },
-    palette: {
-      mode: isDark ? 'dark' : 'light',
-      ...(isDark
-        ? Themes[color].palette.dark
-        : Themes[color].palette.light),
-    },
-  }
 }
 
 export function getOpacity(current: number, range = 1, offset = 0) {

@@ -25,8 +25,7 @@ export function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptio
     typography: {
       fontFamily: [
         'Quicksand',
-        'serif',
-        'Roboto',
+        'Noto Sans SC',
         'Arial',
         'sans-serif',
         '"Apple Color Emoji"',

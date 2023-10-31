@@ -15,7 +15,6 @@ function getDesignTokens(palette: PaletteOptions): ThemeOptions {
     typography: {
       fontFamily: [
         'Quicksand',
-        'serif',
         'Roboto',
         'Arial',
         'sans-serif',

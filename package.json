@@ -80,6 +80,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/uuid": "^9.0.4",
+    "@types/webfontloader": "^1.6.36",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "@vitejs/plugin-react": "^4.0.4",
@@ -124,6 +125,7 @@
     "vite": "^4.4.9",
     "vite-plugin-electron": "^0.13.0-beta.3",
     "vite-plugin-electron-renderer": "^0.14.5",
+    "webfontloader": "^1.6.28",
     "zustand": "^4.4.1"
   },
   "jest": {
