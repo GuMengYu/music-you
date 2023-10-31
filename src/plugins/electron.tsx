@@ -8,6 +8,7 @@ import router from '@/router'
 
 import is from '@/util/is'
 import { useAppStore } from '@/store/app'
+import { usePlayerStore } from '@/store/player'
 
 export function useElectron() {
   if (is.electron())
@@ -21,7 +22,7 @@ function registerIpcRenderer() {
   // // const showDownloadComplete = once((name) => {
   // //   toast.success(`下载成功 ${name}`)
   // // })
-  // let cacheVolume = 0.8
+  let cacheVolume = 0.8
   ipcRenderer.on('open-route', (_, path) => {
     router.navigate(path)
     // router.push({ name: routeName })
@@ -32,37 +33,32 @@ function registerIpcRenderer() {
   ipcRenderer.on('next', () => {
     player.next()
   })
-  // ipcRenderer.on('prev', () => {
-  //   player.prev()
-  // })
-  // ipcRenderer.on('playOrPause', () => {
-  //   player.togglePlay()
-  //   // playerStore.$state.playing = !playerStore.$state.playing
-  // })
-  // ipcRenderer.on('volumeUp', () => {
-  //   const volume = playerStore.$state.volume
-  //   const tem = volume + 0.05
-  //   if (tem < 1) {
-  //     playerStore.$state.volume = tem
-  //   }
-  // })
-  // ipcRenderer.on('volumeDown', () => {
-  //   const volume = playerStore.$state.volume
-  //   const tem = volume - 0.05
-  //   if (tem >= 0) {
-  //     playerStore.$state.volume = tem
-  //   }
-  // })
-  // ipcRenderer.on('mute', () => {
-  //   if (playerStore.$state.volume === 0) {
-  //     playerStore.$state.volume = cacheVolume
-  //   } else {
-  //     cacheVolume = playerStore.$state.volume
-  //     playerStore.$state.volume = 0
-  //   }
-  // })
+  ipcRenderer.on('prev', () => {
+    player.prev()
+  })
+  ipcRenderer.on('playOrPause', () => {
+    player.togglePlay()
+  })
+  ipcRenderer.on('volumeUp', () => {
+    const volume = usePlayerStore.getState().volume
+    player.setVolume(volume + 0.05)
+  })
+  ipcRenderer.on('volumeDown', () => {
+    const volume = usePlayerStore.getState().volume
+    player.setVolume(volume - 0.05)
+  })
+  ipcRenderer.on('mute', () => {
+    const volume = usePlayerStore.getState().volume
+    if (volume === 0) {
+      player.setVolume(cacheVolume)
+    }
+    else {
+      cacheVolume = player.volume
+      player.setVolume(0)
+    }
+  })
   ipcRenderer.on('search', () => {
-    router.navigate('/search')
+    useAppStore.getState().toggleSearch()
   })
   // ipcRenderer.on('fullscreen', (e, fullscreen) => {
   //   // appStore.$state.showLyricsPage = fullscreen

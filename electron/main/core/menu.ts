@@ -40,13 +40,13 @@ export function createElectronMenu(window: BrowserWindow) {
         { role: 'cut', label: '剪切' },
         { role: 'copy', label: '复制' },
         { role: 'paste', label: '粘贴' },
-        { role: 'delete', label: '删除' },
-        { role: 'selectAll', label: '全选' },
+        // { role: 'delete', label: '删除' },
+        // { role: 'selectAll', label: '全选' },
         {
           label: '搜索',
           accelerator: 'CmdOrCtrl+F',
           click: () => {
-            window.webContents.send('open-route', '/search')
+            window.webContents.send('search')
           },
         },
       ],
@@ -55,7 +55,7 @@ export function createElectronMenu(window: BrowserWindow) {
       label: '播放',
       submenu: [
         {
-          label: '播放|暂停',
+          label: '播放/暂停',
           accelerator: 'Space',
           click: () => {
             window.webContents.send('playOrPause')
@@ -76,14 +76,14 @@ export function createElectronMenu(window: BrowserWindow) {
           },
         },
         {
-          label: '升高音量',
+          label: '音量+',
           accelerator: 'CmdOrCtrl+Up',
           click: () => {
             window.webContents.send('volumeUp')
           },
         },
         {
-          label: '降低音量',
+          label: '音量-',
           accelerator: 'CmdOrCtrl+Down',
           click: () => {
             window.webContents.send('volumeDown')
@@ -94,13 +94,6 @@ export function createElectronMenu(window: BrowserWindow) {
           accelerator: 'CmdOrCtrl+M',
           click: () => {
             window.webContents.send('mute')
-          },
-        },
-        {
-          label: '去搜索',
-          accelerator: 'CmdOrCtrl+F',
-          click: () => {
-            window.webContents.send('search')
           },
         },
       ],

@@ -3,7 +3,7 @@ import { Howl, Howler } from 'howler'
 
 import { cloneDeep } from 'lodash'
 import { enqueueSnackbar } from 'notistack'
-import { end, getTrackDetail, start } from '@/api/music'
+import { end, start } from '@/api/music'
 import type { Program, Track, TrackFrom, listType } from '@/types'
 import { sleep, toHttps } from '@/util/fn'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
@@ -11,6 +11,7 @@ import is from '@/util/is'
 import { playQueueStore } from '@/store/playQueue'
 import { PipLyric } from '@/util/pipLyric'
 import { useSettingStore } from '@/store/setting'
+import { fetchTrack } from '@/api/query/useTrack'
 
 // const messages = {
 //   zhCN: {
@@ -64,6 +65,7 @@ export class Player {
   pipLyric: null | PipLyricInstance
   html5: boolean
   taskbarProgress?: boolean
+  nextLoaded: boolean
   constructor() {
     this.howler = null
     this.pipLyric = null
@@ -80,6 +82,7 @@ export class Player {
     this.playing = playing
     this.isCurrentFm = isCurrentFm
     this.init()
+    this.nextLoaded = false
   }
 
   private init() {
@@ -115,7 +118,7 @@ export class Player {
       if (prevVolume !== volume) {
         this.volume = <number>volume
         this.howler?.volume(<number>volume)
-        // Howler.volume(volume)
+        Howler.volume(<number>volume)
       }
       if (prevIsCurrentFm !== isCurrentFm)
         this.isCurrentFm = <boolean>isCurrentFm
@@ -135,7 +138,7 @@ export class Player {
       return
     usePlayerStore.setState({ loadingTrack: true })
     try {
-      const { track, trackMeta, lyric } = await getTrackDetail(trackId, from)
+      const { track, trackMeta, lyric } = await fetchTrack(trackId, from)
       // restore common mode
       if (!isFm)
         usePlayerStore.setState({ isCurrentFm: false })
@@ -176,6 +179,7 @@ export class Player {
         else {
           this.pause()
         }
+        this.nextLoaded = false
         // if (from === 'online' && cacheLimit) {
         //     // 延迟请求buffer缓存 防止阻塞后面播放的url请求
         //     await sleep(500);
@@ -314,7 +318,7 @@ export class Player {
       this.replay()
       return
     }
-    const track = this.nextTrack()
+    const track = playQueueStore.getState().popNextTrack()
     if (track)
       this.updatePlayerTrack(track.id, true, true, false, track.source?.from)
     else
@@ -344,7 +348,7 @@ export class Player {
       this.replay()
       return
     }
-    const track = this.prevTrack()
+    const track = playQueueStore.getState().popPrevTrack()
     if (track && track.id)
       this.updatePlayerTrack(track.id, true, true, false, track?.source?.from)
     else
@@ -368,10 +372,35 @@ export class Player {
     })
     // this.store.currentTime = current
     this.pipLyric?.updateTime(current)
+    this.onPlaying(current)
+    // if (this.taskbarProgress && this.track?.dt) {
+    //   const p = current / (this.track.dt / 1000)
+    //   const progress = p >= 1 ? 1 : p
+    //   ipcRenderer.invoke('setProgress', progress)
+    // }
+  }
+
+  async onPlaying(current: number) {
     if (this.taskbarProgress && this.track?.dt) {
       const p = current / (this.track.dt / 1000)
       const progress = p >= 1 ? 1 : p
       ipcRenderer.invoke('setProgress', progress)
+    }
+    if (this.track?.dt) {
+      const remaining = this.track.dt / 1000 - current
+      // 剩余30秒，预加载下一首
+      if (remaining < 30 && !this.nextLoaded) {
+        const track = playQueueStore.getState().getNextTrack()
+        console.log('load next track', track)
+
+        if (track)
+          await fetchTrack(track.id, track.source?.from)
+
+        this.nextLoaded = true
+
+      }
+
+
     }
   }
 

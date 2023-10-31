@@ -3,58 +3,17 @@ import { isArray, now } from 'lodash'
 import { getAlbum } from './album'
 import { getArtist } from './artist'
 import { getPlaylistDetail, getPlaylistTrackAll } from './playlist'
-import { getLyricNew, getSongData, getSongUrl, getSongUrlFromUnlockMusic } from './song'
-import { getProgramData, podcastPrograms } from '@/api/podcast'
+import { getSongUrl, getSongUrlFromUnlockMusic } from './song'
+import { podcastPrograms } from '@/api/podcast'
 
 // import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
 // import { useUserStore } from '@/store/user'
-import type { Album, Artist, MV, Playlist, Track, TrackFrom } from '@/types'
+import type { Album, Artist, MV, Playlist, Track } from '@/types'
 import type { RESOURCE_TYPE } from '@/util/enum'
 import { request } from '@/util/fetch'
 
 import { useUserStore } from '@/store/user'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
-import { getLocalTrack } from '@/api/local'
-
-/**
- * 获取歌曲详情，包括歌词、可供播放的url
- * @param id 歌曲id
- * @param from
- */
-export async function getTrackDetail(id: number, from: TrackFrom) {
-  let track: Track | null = null
-  let lyric = null
-
-  if (from?.type === 'local') {
-    const localTrack = await getLocalTrack(id)
-    track = localTrack
-    return {
-      track,
-      trackMeta: {
-        url: localTrack.url as string,
-        br: 0,
-        type: '',
-        encodeType: '',
-        sourceFromUnlockMusic: false,
-        sourceFromLocalMusic: true,
-      },
-    }
-  }
-  // track from program
-  if (from?.type === 'program') {
-    const { program } = await getProgramData(id)
-    track = program as unknown as Track
-  }
-  else {
-    const {
-      songs: [data],
-    } = await getSongData([id])
-    track = data
-    lyric = await getLyricNew(id)
-  }
-  const trackMeta = await getMusicUrl(track)
-  return { track, trackMeta, lyric }
-}
 
 /**
  * 获取歌单播放链接
