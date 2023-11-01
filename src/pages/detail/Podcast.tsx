@@ -23,6 +23,7 @@ import useQueryPodcast from '@/pages/detail/useQueryPodcast'
 import ProgramItem from '@/pages/podcast/ProgramItem'
 import { TrackFrom } from '@/types'
 import { downloadMusic } from '@/hooks/useDownload'
+import useVirtualListScroll from '@/hooks/useVirtualListScroll'
 
 function PodcastHeader({ podcast }: { podcast: Podcast }) {
   const theme = useTheme()
@@ -208,6 +209,8 @@ export default function PodcastDetail() {
   const { height: windowHeight } = useWindowSize()
   const { playNext, addToQueueAndPlay } = useAddToPlayQueue()
   const { openContextMenu } = useContextMenu()
+  const { handleScroll } = useVirtualListScroll()
+
   const trackFrom = useMemo<TrackFrom>(() => ({ type: 'program', id: data?.podcast.id, name: data?.podcast.name }), [data])
 
   const handleTrackPlay = useCallback((program: Program) => {
@@ -244,12 +247,13 @@ export default function PodcastDetail() {
                 height: `${windowHeight - 80}px`,
               }
             }
-            itemContent={(_, program) => {
+            itemContent={(index, program) => {
               return <ProgramItem
                 key={program.id}
                 program={program}
                 onPlay={handleTrackPlay}
                 onContextMenu={handleContextMenu}
+                index={index + 1}
               />
             }}
             data={data?.programs}
@@ -259,6 +263,8 @@ export default function PodcastDetail() {
             components={{
               Header: () => <PodcastHeader podcast={data?.podcast} />,
             }}
+            onScroll={handleScroll}
+
           >
           </Virtuoso>
       }

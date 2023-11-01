@@ -92,7 +92,7 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
             <div className="flex flex-col mx-3 mb-4 gap-3">
               <Typography variant="h4">{data.name}</Typography>
               <div className="flex flex-col gap-1">
-                <Typography variant="subtitle2">
+                <Typography variant="body2">
                   {data.desc}
                 </Typography>
                 <Typography variant="caption">

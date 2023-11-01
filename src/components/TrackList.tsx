@@ -98,8 +98,8 @@ export default function TrackList({ tracks, trackFrom, className }: {
   }
   return <div className={className}>
     {
-      tracks?.length && tracks.map((track) => {
-        return <TrackItem track={track} key={track.id} onPlay={handleTrackPlay} onContextMenu={handleContextMenu} />
+      tracks?.length && tracks.map((track, index) => {
+        return <TrackItem track={track} key={track.id} onPlay={handleTrackPlay} onContextMenu={handleContextMenu} index={index + 1} />
       })
     }
   </div>

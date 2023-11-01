@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { alpha, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -9,18 +9,25 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import { formatDate, formatDuring, formatNumber, sizeOfImage } from '@/util/fn'
 import Image from '@/components/Image'
 import { Program } from '@/types'
+import { usePlayerStore } from '@/store/player'
+import Wave from '@/components/Wave'
 
-export default function ProgramItem({ program, onContextMenu, onPlay }: {
+export default function ProgramItem({ index, program, onContextMenu, onPlay }: {
+  index?: number
   program: Program
   onPlay?: (program: Program) => void
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, program: Program) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
-
+  const { track: current, playing } = usePlayerStore()
+  const isCurrent = useMemo(() => {
+    return current?.id === program.id
+  }, [current, program])
   const theme = useTheme()
   return <Box
     sx={{
       'transition': 'background-color .35s ease',
+      'color': isCurrent ? theme.palette.primary.main : null,
       '&:hover': {
         bgcolor: alpha(theme.palette.surfaceVariant.main, 0.2),
       },
@@ -31,6 +38,9 @@ export default function ProgramItem({ program, onContextMenu, onPlay }: {
     onContextMenu={e => onContextMenu && onContextMenu(e, program)}
   >
     <div className='flex gap-2'>
+      {
+        index && <div className='w-6 flex justify-center items-center'>{ isCurrent ? <Wave animate={playing}/> : `${index}`.padStart(2, '0') }</div>
+      }
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden'>
           <Image src={sizeOfImage(program.coverUrl, 128)}/>
@@ -56,10 +66,10 @@ export default function ProgramItem({ program, onContextMenu, onPlay }: {
       </div>
     </div>
     <div className='grid grid-cols-4'>
-      <Typography className='line-clamp-1' variant='subtitle2'><PlayCircleRounded fontSize='small' /> {formatNumber(program.listenerCount)}</Typography>
-      <Typography className='line-clamp-1' variant='subtitle2'><ThumbUpAltIcon fontSize='small' /> { formatNumber(program.likedCount) }</Typography>
-      <Typography className='line-clamp-1' variant='subtitle2'> {formatDate(program.createTime, 'YYYY-MM-DD') }</Typography>
-      <Typography className='line-clamp-1' variant='subtitle2'> { formatDuring(program.duration) }</Typography>
+      <Typography className='line-clamp-1' variant='body2'><PlayCircleRounded fontSize='small' /> {formatNumber(program.listenerCount)}</Typography>
+      <Typography className='line-clamp-1' variant='body2'><ThumbUpAltIcon fontSize='small' /> { formatNumber(program.likedCount) }</Typography>
+      <Typography className='line-clamp-1' variant='body2'> {formatDate(program.createTime, 'YYYY-MM-DD') }</Typography>
+      <Typography className='line-clamp-1' variant='body2'> { formatDuring(program.duration) }</Typography>
     </div>
   </Box>
 }

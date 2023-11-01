@@ -66,7 +66,7 @@ function NowPlayingBar() {
       player.setVolume(0)
     }
   }
-  function SubTitle() {
+  const subTitle = useMemo(() => {
     if (isProgram && track) {
       return <span><PodcastLink podcast={track.radio as any} /> - [{t`main.podcast.program`}]</span>
     }
@@ -78,7 +78,7 @@ function NowPlayingBar() {
     else {
       return <span>{t`common.unknown`}</span>
     }
-  }
+  }, [isProgram, track])
   return (
     <Box
       component="footer"
@@ -154,13 +154,13 @@ function NowPlayingBar() {
                 </AnimatePresence>
               </Box>
               <div className="flex flex-col justify-center ml-2">
-                <Typography className="line-clamp-1" variant='h6'>
+                <Typography className="line-clamp-1" variant='body2'>
                 {
                   track?.al?.id ? <RouterLink to={`/album/${track.al.id}`}>{track.name}</RouterLink> : track?.name
                 }
                   </Typography>
-                <Typography className="line-clamp-1" variant='caption'>
-                  <SubTitle />
+                <Typography className="line-clamp-1 opacity-90" variant='caption'>
+                  { subTitle }
                 </Typography>
               </div>
               {

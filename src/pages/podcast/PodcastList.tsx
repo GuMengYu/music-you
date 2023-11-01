@@ -35,8 +35,8 @@ function PodcastItem({ podcast }: {
         <Typography className='line-clamp-1' variant='body1'>{podcast.name}</Typography>
       </div>
     </div>
-    <Typography className='line-clamp-1 col-span-1' variant='subtitle2'>by - {podcast.dj.nickname}</Typography>
-    <Typography className='text-right pr-2 col-span-1' variant='subtitle2' >声音 {podcast.programCount}</Typography>
+    <Typography className='line-clamp-1 col-span-1' variant='body2'>by - {podcast.dj.nickname}</Typography>
+    <Typography className='text-right pr-2 col-span-1' variant='body2' >声音 {podcast.programCount}</Typography>
   </Box>
 }
 

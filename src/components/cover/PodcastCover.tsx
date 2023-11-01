@@ -47,7 +47,7 @@ function PodcastCover({ data, subTitle, inset }: {
               inset && (<Box className='flex items-end pr-16 py-4 pl-2' sx={{
                 color: theme.palette.onSurface.main,
               }}>
-                <Typography className="line-clamp-2" variant="subtitle2">
+                <Typography className="line-clamp-2" variant="body2">
                   {data.name}
                 </Typography>
               </Box>)
@@ -57,7 +57,7 @@ function PodcastCover({ data, subTitle, inset }: {
         </Box>
         {
           !inset && <CardContent sx={{ px: 1.5 }}>
-            <Typography className="line-clamp-1" variant="subtitle2">
+            <Typography className="line-clamp-1" variant="body2">
               {data.name}
             </Typography>
             <Typography className="line-clamp-1" variant="body2">

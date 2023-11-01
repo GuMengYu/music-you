@@ -516,7 +516,7 @@ export function mixinTrackSource(track: Track | Program, from: TrackFrom) {
     playlist: `/playlist/${from.id}`,
     artist: `/artist/${from.id}`,
     daily: '/daily',
-    cloud: '/library/cloud',
+    cloud: '/cloud',
     recent: '/recent',
     intelligence: '',
     program: `/podcast/${from.id}`,

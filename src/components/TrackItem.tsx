@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { alpha, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import { css, cx } from '@emotion/css'
@@ -14,19 +14,27 @@ import ArtistLink from '@/components/links/artist'
 import Image from '@/components/Image'
 import { useLikeTrack } from '@/hooks/useLike'
 import { Track } from '@/types'
+import { usePlayerStore } from '@/store/player'
+import Wave from '@/components/Wave'
 
-export default function TrackItem({ track, onPlay, onContextMenu }: {
+export default function TrackItem({ track, onPlay, onContextMenu, index }: {
+  index?: number
   track: Track
   onPlay: (track: Track) => void
   onContextMenu?: (e: React.MouseEvent<HTMLElement, MouseEvent>, track: Track) => void
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
+  const { track: current, playing } = usePlayerStore()
   const theme = useTheme()
   const liked = isLiked(track.id)
+  const isCurrent = useMemo(() => {
+    return current?.id === track.id
+  }, [current, track])
   return <Box
     sx={{
       'transition': 'background-color .35s ease',
+      'color': isCurrent ? theme.palette.primary.main : null,
       '&:hover': {
         bgcolor: alpha(theme.palette.surfaceVariant.main, 0.2),
       },
@@ -38,6 +46,9 @@ export default function TrackItem({ track, onPlay, onContextMenu }: {
     onContextMenu={e => onContextMenu && onContextMenu(e, { ...track, liked })}
   >
     <div className='flex gap-2'>
+      {
+        index !== undefined && <div className='w-6 flex justify-center items-center'>{ isCurrent ? <Wave animate={playing}/> : `${index}`.padStart(2, '0') }</div>
+      }
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden'>
           <Image src={sizeOfImage(track.al?.picUrl, 128)}/>
