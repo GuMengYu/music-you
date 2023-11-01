@@ -23,6 +23,7 @@ import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
 import { getDesignTokens } from '@/hooks/useCreateTheme'
+import { usePlayerStore } from '@/store/player'
 
 const notMacos = is.windows() || is.linux()
 
@@ -38,6 +39,7 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) =>
 }))
 function App() {
   const { theme } = useCreateTheme()
+  const { track } = usePlayerStore()
 
   const cacheOpacity = useRef(0)
   const appRef = useRef<HTMLDivElement>()
@@ -103,7 +105,9 @@ function App() {
               <Header/>
               <Nav/>
               <Main onScroll={handleMainScroll}/>
-              <NowPlayingBar/>
+              {
+                track && <NowPlayingBar/>
+              }
               {/* <NowPlayingBlock/> */}
               <NowPlayingPage/>
               <LoginDialog/>

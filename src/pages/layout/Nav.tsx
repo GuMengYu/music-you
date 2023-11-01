@@ -19,15 +19,13 @@ import PublicIcon from '@mui/icons-material/Public'
 import ComputerIcon from '@mui/icons-material/Computer'
 
 // components
-import { useState } from 'react'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
-import is from 'electron-is'
 import MenuToggle from '@/components/toggle/MenuToggle'
 
 // hooks
 import { useAppStore } from '@/store/app'
 import AggregateExtendButton from '@/components/button/AggregateExtendButton'
-import WindowControl from '@/components/WindowControl'
+import { useUserStore } from '@/store/user'
 
 const drawerWidth = 256
 
@@ -78,18 +76,11 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme()
-  const { rail: open, toggleLogin, showSearch, toggleSearch } = useAppStore()
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [keyword, setKeyword] = useState()
+  const { rail: open } = useAppStore()
+  const { account } = useUserStore()
+  const isLogged = !!account?.account.id
   const { pathname } = useLocation()
   const list = [
-    // {
-    //   icon: <SearchIcon sx={{ height: 20, width: 20 }} />,
-    //   val: 'search',
-    //   title: '搜索',
-    //   to: '/search',
-    //   pathname: ['/search'],
-    // },
     {
       icon: <HomeIcon sx={{ height: 20, width: 20 }} />,
       val: 'home',
@@ -111,13 +102,15 @@ export default function MiniDrawer() {
       to: '/podcast_center',
       pathname: ['/podcast_center'],
     },
-    {
-      icon: <CategoryIcon sx={{ height: 20, width: 20 }} />,
-      val: 'library',
-      title: '资料库',
-      to: '/library',
-      pathname: ['/library'],
-    },
+    ...(isLogged
+      ? [{
+          icon: <CategoryIcon sx={{ height: 20, width: 20 }} />,
+          val: 'library',
+          title: '资料库',
+          to: '/library',
+          pathname: ['/library'],
+        }]
+      : [] ),
     {
       icon: <ComputerIcon sx={{ height: 20, width: 20 }} />,
       val: 'local-library',

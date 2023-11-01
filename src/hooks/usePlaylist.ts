@@ -23,8 +23,8 @@ export function useMyPlaylist() {
   }, [filteredPlaylist])
 
   const isCreatedPlaylist = useCallback((playlist: Playlist) => playlist.creator.userId === account.account.id && playlist.specialType !== specialType.fav.type, [account])
-  const isMyPlaylist = useCallback((playlistId: number) => filteredPlaylist['create'].some(i => i.id === playlistId), [filteredPlaylist])
-  const isMyFavList = useCallback((playlistId: number) => favList.id === playlistId, [favList])
+  const isMyPlaylist = useCallback((playlistId: number) => filteredPlaylist['create']?.some(i => i.id === playlistId), [filteredPlaylist])
+  const isMyFavList = useCallback((playlistId: number) => favList?.id === playlistId, [favList])
 
   return {
     isMyPlaylist,
