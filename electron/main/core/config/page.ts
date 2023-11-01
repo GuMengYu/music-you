@@ -21,7 +21,7 @@ let storeSize: {
 
 } = {
   width: 1099,
-  height: 740,
+  height: 700,
 }
 initWindowSize()
 function initWindowSize() {

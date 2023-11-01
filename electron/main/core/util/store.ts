@@ -19,7 +19,7 @@ export interface StoreType {
 const store = new Store<StoreType>({
   defaults: {
     windowSize: {
-      height: 740,
+      height: 700,
       width: 1099,
     },
     windowPosition: null,

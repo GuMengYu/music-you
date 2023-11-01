@@ -15,7 +15,7 @@ export default function Header() {
       height: 78,
       zIndex: 2,
       gridArea: 'main',
-      pr: 2,
+      pr: 1.5,
       position: 'relative',
     }}
   >

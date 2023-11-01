@@ -1,5 +1,5 @@
 import Modal from '@mui/material/Modal'
-import { Box, IconButton, Typography, useTheme } from '@mui/material'
+import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { css, cx } from '@emotion/css'
 import type { VirtuosoHandle } from 'react-virtuoso'
@@ -10,10 +10,11 @@ import Fade from '@mui/material/Fade'
 import { alpha } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import ClearAllIcon from '@mui/icons-material/ClearAll'
 import { useAppStore } from '@/store/app'
 import { playQueueStore } from '@/store/playQueue'
 import type { Track, TrackSource } from '@/types'
-import { sizeOfImage } from '@/util/fn'
+import { sizeOfImage, sleep } from '@/util/fn'
 import Wave from '@/components/Wave'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import { Track as TrackType } from '@/types'
@@ -276,16 +277,18 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
 
 function NowPlayingList() {
   const { showNowPlayingList, toggleNowPlayingList } = useAppStore()
+  const { clearQueue } = playQueueStore()
   const theme = useTheme()
+  const { t } = useTranslation()
 
   const onClose = useCallback(() => {
     toggleNowPlayingList(false)
   }, [])
-  // useEffect(() => {
-  //   if (showNowPlayingList) {
-  //     console.log('open now playing list')
-  //   }
-  // }, [showNowPlayingList]);
+  const onClear = useCallback(async () => {
+    clearQueue()
+    await sleep(200)
+    toggleNowPlayingList(false)
+  }, [])
   return (
     <Modal open={showNowPlayingList} onClose={onClose} sx={{
       '&:focus-visible': {
@@ -307,10 +310,19 @@ function NowPlayingList() {
         }}>
           <div className='flex flex-col items-center w-1/2 relative'>
             <NowPlayingTrackList onClose={onClose}/>
-            <IconButton onClick={onClose} sx={{
-              mt: 3,
-              bgcolor: `${theme.palette.primary.main}36`,
-            }} size='large'><CloseIcon/></IconButton>
+            <div className='mt-4 relative flex justify-center w-full items-center'>
+              <IconButton onClick={onClose} sx={{
+                bgcolor: alpha(theme.palette.primary.main, 0.35),
+              }} size='large'><CloseIcon/></IconButton>
+              <Tooltip title={t`common.clear_queue`} placement='top'>
+                <IconButton onClick={onClear} sx={{
+                  position: 'absolute',
+                  right: 0,
+                }}><ClearAllIcon/>
+                </IconButton>
+              </Tooltip>
+            </div>
+
           </div>
         </Box>
       </Fade>

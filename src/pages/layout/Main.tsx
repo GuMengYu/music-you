@@ -78,6 +78,7 @@ export default function Main({
           <Box
           sx={{
             minHeight: 'calc(((100vh - 64px) - 90px) - 519px)',
+            pr: inDetail ? 0 : 0.5,
           }}
           >
             <AnimatePresence mode='wait'>

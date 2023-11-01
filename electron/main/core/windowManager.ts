@@ -13,7 +13,7 @@ import type { StoreType } from './util/store'
 import store from './util/store'
 
 export const WindowDefaultSize = {
-  height: 740,
+  height: 700,
   width: 1099,
   minWidth: 144,
   minHeight: 144,
@@ -25,7 +25,7 @@ const defaultBrowserOptions: BrowserWindowConstructorOptions = {
   // show: false,
   frame: !(is.windows() || is.linux()),
   width: 1099,
-  height: 740,
+  height: 700,
   // vibrancy: 'ultra-dark',
   // visualEffectState: 'active',
   // transparent: true,

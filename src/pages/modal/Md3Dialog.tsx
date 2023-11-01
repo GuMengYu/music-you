@@ -1,7 +1,8 @@
 import type { DialogProps } from '@mui/material'
 import { Dialog, styled } from '@mui/material'
+import { memo } from 'react'
 
-export default function Md3Dialog(props: DialogProps) {
+function Md3Dialog(props: DialogProps) {
   const MdDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiPaper-root': {
       borderRadius: 24,
@@ -12,3 +13,5 @@ export default function Md3Dialog(props: DialogProps) {
     {props.children}
   </MdDialog>
 }
+
+export default memo(Md3Dialog)

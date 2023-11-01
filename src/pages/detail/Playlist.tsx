@@ -37,6 +37,7 @@ import { sub } from '@/api/music'
 import { deletePlayList } from '@/api/playlist'
 import { PlayOutlinedIcon } from '@/components/icons/icons'
 import useVirtualListScroll from '@/hooks/useVirtualListScroll'
+import { useUserStore } from '@/store/user'
 
 const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefined; cover?: string }) => {
   const theme = useTheme()
@@ -46,6 +47,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
   const tracksDt = playlist?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { openContextMenu } = useContextMenu()
+  const { refreshPlaylist } = useUserStore()
   const confirm = useConfirm()
   const { isCreatedPlaylist, isMyFavList } = useMyPlaylist()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
@@ -79,10 +81,11 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
       dialogProps: { maxWidth: 'xs' },
     }).then(async () => {
       const { code, message } = await deletePlayList(playlist.id)
-      if (code === 200)
+      if (code === 200) {
         enqueueSnackbar('已删除', { variant: 'success' })
-      else
-        enqueueSnackbar(message, { variant: 'error' })
+        refreshPlaylist()
+      }
+      else {enqueueSnackbar(message, { variant: 'error' })}
     })
   }
   const handleMore = useCallback((e: React.MouseEvent<HTMLElement>) => {

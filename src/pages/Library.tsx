@@ -1,5 +1,13 @@
-import { Box, Button, Card, Typography, useTheme } from '@mui/material'
-import { memo, useEffect, useState } from 'react'
+import {
+  Box,
+  Button,
+  Card, Checkbox, Dialog,
+  IconButton, TextField,
+  Tooltip,
+  Typography,
+  useTheme,
+} from '@mui/material'
+import { memo, useCallback, useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 import { sampleSize } from 'lodash'
@@ -9,6 +17,10 @@ import HistoryIcon from '@mui/icons-material/History'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import { useTranslation } from 'react-i18next'
+import { alpha } from '@mui/material/styles'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
+import { useSnackbar } from 'notistack'
 import MYTabs from '@/components/Tabs'
 import PageTransition from '@/components/PageTransition'
 import GridRow from '@/components/GridRow'
@@ -27,6 +39,7 @@ import { getSongData } from '@/api/song'
 import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { getTrackList } from '@/api/music'
 import Col from '@/components/Col'
+import { createPlaylist } from '@/api/playlist'
 
 const AlbumCovers = memo(({ tracks }: { tracks: Track[] }) => {
   const navigate = useNavigate()
@@ -46,6 +59,104 @@ const AlbumCovers = memo(({ tracks }: { tracks: Track[] }) => {
   )
 })
 
+function CreatePlaylist() {
+  const theme = useTheme()
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const onClose = useCallback(() => {
+    setOpen(false)
+  }, [])
+  return <>
+    <Tooltip title={t`main.playlist.new`} placement='left'>
+    <IconButton
+      sx={{
+        bgcolor: alpha(theme.palette.tertiaryContainer.main, theme.palette.action.activatedOpacity),
+      }}
+      color={'tertiary' as 'primary'}
+      size='small'
+      onClick={() => setOpen(true)}
+    >
+      <AddCircleOutlineOutlinedIcon fontSize='small' />
+    </IconButton>
+    </Tooltip>
+    <CreateDialog open={open} onClose={onClose} />
+  </>
+}
+
+function CreateDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+
+  const theme = useTheme()
+  const { refreshPlaylist } = useUserStore()
+  const { t } = useTranslation()
+  const { enqueueSnackbar } = useSnackbar()
+  const [playlist, setPlaylist] = useState({
+    playlistName: '',
+    playlistPrivate: false,
+  })
+  useEffect(() => {
+    if (!open) {
+      setPlaylist({
+        playlistPrivate: false,
+        playlistName: '',
+      })
+    }
+    return () => {
+      setPlaylist({
+        playlistPrivate: false,
+        playlistName: '',
+      })
+    }
+  }, [open])
+
+  async function createNewPlaylist() {
+    try {
+      await createPlaylist({
+        name: playlist.playlistName,
+        privacy: playlist.playlistPrivate ? 10 : 0,
+      })
+      enqueueSnackbar('创建成功', { variant: 'success' })
+      refreshPlaylist()
+      onClose()
+    }
+    catch (e) {
+      enqueueSnackbar('something_wrong', { variant: 'error' })
+    }
+  }
+  return <Dialog sx={{
+    '& .MuiPaper-root': {
+      borderRadius: 8,
+    },
+  }} open={open} onClose={onClose}>
+    <Box className='pt-5 pb-4 px-2 flex flex-col' sx={{
+      bgcolor: theme.palette.surfaceVariant.main,
+      color: theme.palette.onSurfaceVariant.main,
+      minWidth: 300,
+    }}>
+      <div className='flex flex-col items-center mb-4 gap-1'>
+        <PlaylistAddIcon />
+        <Typography variant='body1'>创建新歌单</Typography>
+      </div>
+
+      <div className='px-3'>
+        <TextField className='w-full' variant='outlined'  label="歌单名" value={playlist.playlistName} onChange={(e: any) => {
+          setPlaylist(state => ({
+            ...state,
+            playlistName: e.target.value,
+          }))
+        }} />
+      </div>
+      <div className='flex items-center'>
+        <Checkbox />
+        <Typography variant='caption'>{'私人歌单'}</Typography>
+      </div>
+      <div className='flex justify-end'>
+        <Button variant='text' onClick={onClose}>取消</Button>
+        <Button variant='text' onClick={createNewPlaylist}>确定</Button>
+      </div>
+    </Box>
+  </Dialog>
+}
+
 function ArtistPanel() {
   const { data } = useUserArtists()
   return <GridRow>
@@ -58,7 +169,7 @@ function PlaylistPanel() {
   const { t } = useTranslation()
   const { createdPlaylist, subscribePlaylist } = useMyPlaylist()
   return <div className='flex flex-col gap-4'>
-    <Col title={t`main.nav.created_list`} variant='body1'>
+    <Col title={t`main.nav.created_list`} variant='body1' more={<CreatePlaylist />}>
       <GridRow>
         {
           createdPlaylist?.map(playlist => (<Cover key={playlist.id} type='playlist' data={playlist} />))

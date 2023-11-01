@@ -200,6 +200,7 @@
     "add_all_to_playlist": "收藏全部",
     "pause": "暂停",
     "delete": "删除",
+    "clear_queue": "清空队列",
     "open_search": "打开搜索",
     "sign_in": "登录",
     "sign_out": "登出",

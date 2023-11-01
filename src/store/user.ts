@@ -15,6 +15,8 @@ interface userState {
 }
 interface userAction {
   refreshAccount: () => void
+  refreshPlaylist: () => void
+  refreshLikes: () => void
   fetchAccount: () => void
   favSong: (id: number, liked: boolean) => Promise<boolean>
   getFavs: () => Playlist
@@ -48,19 +50,26 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
       const uid = get().account?.profile?.userId
       const logged = !!uid
       if (logged) {
-        const [, likesRes, playlistRes] = await Promise.all([
-          this.refreshAccount(),
-          getLikeList(),
-          getUserPlaylist({
-            timestamp: new Date().getTime(),
-            uid,
-          }),
-        ])
-        set({
-          likes: likesRes.ids,
-          playlists: playlistRes.playlist,
-        })
+        this.refreshAccount()
+        this.refreshPlaylist()
+        this.refreshLikes()
       }
+    },
+    async refreshPlaylist() {
+      const uid = get().account?.profile?.userId
+      const { playlist } = await getUserPlaylist({
+        timestamp: new Date().getTime(),
+        uid,
+      })
+      set({
+        playlists: playlist,
+      })
+    },
+    async refreshLikes() {
+      const { ids } = await getLikeList()
+      set({
+        likes: ids,
+      })
     },
     async favSong(id: number, like: boolean) {
       let likes = get().likes

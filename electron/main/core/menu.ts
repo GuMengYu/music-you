@@ -40,8 +40,8 @@ export function createElectronMenu(window: BrowserWindow) {
         { role: 'cut', label: '剪切' },
         { role: 'copy', label: '复制' },
         { role: 'paste', label: '粘贴' },
-        // { role: 'delete', label: '删除' },
-        // { role: 'selectAll', label: '全选' },
+        { role: 'delete', label: '删除' },
+        { role: 'selectAll', label: '全选' },
         {
           label: '搜索',
           accelerator: 'CmdOrCtrl+F',
