@@ -83,7 +83,8 @@
       "name": "Playlist Name",
       "new": "Create Playlist",
       "edit": "Edit Playlist",
-      "delete": "Delete Playlist"
+      "delete": "Delete Playlist",
+      "private": "Private"
     },
     "album": {
       "inner": "Songs",

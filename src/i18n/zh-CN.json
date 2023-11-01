@@ -83,7 +83,8 @@
       "name": "歌单名称",
       "new": "创建歌单",
       "edit": "编辑歌单",
-      "delete": "删除歌单"
+      "delete": "删除歌单",
+      "private": "私人歌单"
     },
     "album": {
       "inner": "专辑内歌曲",

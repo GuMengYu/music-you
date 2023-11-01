@@ -134,11 +134,11 @@ function CreateDialog({ open, onClose }: { open: boolean; onClose: () => void })
     }}>
       <div className='flex flex-col items-center mb-4 gap-1'>
         <PlaylistAddIcon />
-        <Typography variant='body1'>创建新歌单</Typography>
+        <Typography variant='body1'>{t`main.playlist.new`}</Typography>
       </div>
 
       <div className='px-3'>
-        <TextField className='w-full' variant='outlined'  label="歌单名" value={playlist.playlistName} onChange={(e: any) => {
+        <TextField className='w-full' variant='outlined'  label={t`main.playlist.name`} value={playlist.playlistName} onChange={(e: any) => {
           setPlaylist(state => ({
             ...state,
             playlistName: e.target.value,
@@ -147,11 +147,11 @@ function CreateDialog({ open, onClose }: { open: boolean; onClose: () => void })
       </div>
       <div className='flex items-center'>
         <Checkbox />
-        <Typography variant='caption'>{'私人歌单'}</Typography>
+        <Typography variant='caption'>{t`main.playlist.private`}</Typography>
       </div>
       <div className='flex justify-end'>
-        <Button variant='text' onClick={onClose}>取消</Button>
-        <Button variant='text' onClick={createNewPlaylist}>确定</Button>
+        <Button variant='text' onClick={onClose}>{t`common.cancel`}</Button>
+        <Button variant='text' onClick={createNewPlaylist}>{t`common.confirm`}</Button>
       </div>
     </Box>
   </Dialog>
