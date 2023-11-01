@@ -16,6 +16,8 @@ import { useLikeTrack } from '@/hooks/useLike'
 import { Track } from '@/types'
 import { usePlayerStore } from '@/store/player'
 import Wave from '@/components/Wave'
+import { useUserStore } from '@/store/user'
+import useUser from '@/hooks/useUser'
 
 export default function TrackItem({ track, onPlay, onContextMenu, index }: {
   index?: number
@@ -25,20 +27,57 @@ export default function TrackItem({ track, onPlay, onContextMenu, index }: {
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
+  const { account } = useUserStore()
   const { track: current, playing } = usePlayerStore()
   const theme = useTheme()
   const liked = isLiked(track.id)
   const isCurrent = useMemo(() => {
     return current?.id === track.id
   }, [current, track])
+
+  const { logged, isVip } = useUser()
+
+  const available = useMemo(() => {
+    if (track.fee === 1) {
+      if (logged && isVip) {
+        return {
+          enable: true,
+        }
+      }
+      else {
+        return {
+          enable: false,
+          text: 'VIP用户可用',
+        }
+      }
+    }
+    else if (track.fee === 4) {
+      return {
+        text: '付费专辑，先购买',
+        enable: false,
+      }
+    }
+    else if (track.noCopyrightRcmd) {
+      return {
+        text: '无版权',
+        enable: false,
+      }
+    }
+    else {
+      return {
+        enable: true,
+      }
+    }
+  }, [isVip, logged])
   return <Box
     sx={{
       'transition': 'background-color .35s ease',
-      'color': isCurrent ? theme.palette.primary.main : null,
+      'color': isCurrent ? theme.palette.primary.main : (available?.enable ? null : alpha(theme.palette.onSurface.main, 0.4)),
       '&:hover': {
         bgcolor: alpha(theme.palette.surfaceVariant.main, 0.2),
       },
     }}
+    title={available?.enable ? '' : available.text}
     className={
       cx('grid grid-cols-3 gap-4 px-2 h-16 items-center cursor-pointer mb-1 rounded-lg', css`grid-template-columns: 1fr 1fr [last] 140px;`)
     } onMouseEnter={() => setIsHovering(true)}

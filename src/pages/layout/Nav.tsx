@@ -25,7 +25,7 @@ import MenuToggle from '@/components/toggle/MenuToggle'
 // hooks
 import { useAppStore } from '@/store/app'
 import AggregateExtendButton from '@/components/button/AggregateExtendButton'
-import { useUserStore } from '@/store/user'
+import useUser from '@/hooks/useUser'
 
 const drawerWidth = 256
 
@@ -77,8 +77,7 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme()
   const { rail: open } = useAppStore()
-  const { account } = useUserStore()
-  const isLogged = !!account?.account.id
+  const { logged } = useUser()
   const { pathname } = useLocation()
   const list = [
     {
@@ -102,7 +101,7 @@ export default function MiniDrawer() {
       to: '/podcast_center',
       pathname: ['/podcast_center'],
     },
-    ...(isLogged
+    ...(logged
       ? [{
           icon: <CategoryIcon sx={{ height: 20, width: 20 }} />,
           val: 'library',

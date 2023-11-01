@@ -79,6 +79,8 @@ export interface Track {
   }
   liked?: boolean
   mainTrackId?: number
+  fee?: number
+  noCopyrightRcmd?: boolean
 }
 export interface MV {
   artist?: Artist
