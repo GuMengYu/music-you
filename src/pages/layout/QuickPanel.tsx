@@ -20,7 +20,6 @@ import ImageIcon from '@mui/icons-material/Image'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh'
 import { useNavigate } from 'react-router-dom'
-import { ipcRenderer } from 'electron'
 import { useTranslation } from 'react-i18next'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
@@ -100,9 +99,6 @@ export default function QuickPanel() {
   const handleChangeDarkMode = useCallback(() => {
     setAppearance(isDark ? APPEARANCE.LIGHT : APPEARANCE.DARK)
   }, [isDark])
-  function appRelaunch() {
-    ipcRenderer.invoke('relaunch')
-  }
   return (
     <Drawer
       anchor="right"
@@ -154,9 +150,6 @@ export default function QuickPanel() {
             <SwitchCard title='wallpaper' subTitle='gallery' icon={<ImageIcon fontSize='small' />} onChange={() => {
               onClose()
               navigate('/wallpaper')
-            }} />
-            <SwitchCard title={t`common.relaunch`} icon={<RestartAltIcon fontSize='small' />} onChange={() => {
-              appRelaunch()
             }} />
           </div>
         </Box>

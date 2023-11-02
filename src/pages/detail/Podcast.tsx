@@ -22,7 +22,6 @@ import { sub } from '@/api/music'
 import useQueryPodcast from '@/pages/detail/useQueryPodcast'
 import ProgramItem from '@/pages/podcast/ProgramItem'
 import { TrackFrom } from '@/types'
-import { downloadMusic } from '@/hooks/useDownload'
 import useVirtualListScroll from '@/hooks/useVirtualListScroll'
 
 function PodcastHeader({ podcast }: { podcast: Podcast }) {
@@ -223,13 +222,6 @@ export default function PodcastDetail() {
       label: t`common.next_play`,
       onClick: () => {
         playNext(program, trackFrom)
-      },
-    },
-    {
-      type: 'item',
-      label: t`common.download_local`,
-      onClick: async () => {
-        await downloadMusic(program)
       },
     }], {
       useCursorPosition: true,

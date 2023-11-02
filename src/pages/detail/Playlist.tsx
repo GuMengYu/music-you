@@ -26,7 +26,6 @@ import { useQueryPlaylist, useQueryRelatedPlaylist } from '@/pages/detail/useQue
 import { useAddToPlayQueue, useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useMyPlaylist } from '@/hooks/usePlaylist'
-import { downloadMusic } from '@/hooks/useDownload'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 
 // utils and types
@@ -377,13 +376,6 @@ export default function PlaylistPage() {
             },
           }]
         : []),
-      {
-        type: 'item',
-        label: t`common.download_local`,
-        onClick: async (i) => {
-          await downloadMusic(track)
-        },
-      },
     ], {
       useCursorPosition: true,
     })

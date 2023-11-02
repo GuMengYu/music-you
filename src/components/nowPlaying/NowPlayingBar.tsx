@@ -17,7 +17,6 @@ import PodcastLink from '@/components/links/podcast'
 import ResourceThumbToggle from '@/components/toggle/ResourceThumbToggle'
 import { RESOURCE_TYPE } from '@/util/enum'
 import LikeToggle from '@/components/toggle/likeToggle'
-import MinimalButton from '@/components/button/MinimalButton'
 import { sizeOfImage } from '@/util/fn'
 import NowPlayingListToggleWithTip from '@/components/nowPlaying/NowPlayingListToggleWithTip'
 
@@ -177,7 +176,6 @@ function NowPlayingBar() {
           <Control />
         </div>
         <div className="flex flex-1 items-center justify-end gap-1">
-          <MinimalButton />
           <PIPPlayerToggle />
           <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={0.5}>
             <Tooltip title={ volume === 0 ? `${t`common.cancel`} ${t`common.mute`}` : t`common.mute` } placement='top'>

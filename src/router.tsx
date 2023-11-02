@@ -8,15 +8,12 @@ import App from './App'
 
 import Home from './pages/Home'
 import Library from './pages/Library'
-import LocalLibrary from './pages/local/LocalLibrary'
-
 import NotFound from './pages/NotFound'
 import Search from './pages/Search'
 import PlaylistPage from './pages/detail/Playlist'
 import { getPlaylistDetail } from './api/playlist'
 import Playground from '@/pages/Playground'
 import Setting from '@/pages/setting/Setting'
-import LocalAlbumPage from '@/pages/local/components/Album'
 import AlbumPage from '@/pages/detail/Album'
 import ArtistPage from '@/pages/detail/Artist'
 import DailyPage from '@/pages/Daily'
@@ -160,16 +157,6 @@ const router = createBrowserRouter(
           id: 'playground',
           path: '/playground',
           element: <Playground/>,
-        },
-        {
-          id: 'local-library',
-          path: '/local-library',
-          element: <LocalLibrary />,
-        },
-        {
-          id: 'local-album',
-          path: '/local/album/:id?',
-          element: <LocalAlbumPage />,
         },
         {
           id: 'wallpaper',

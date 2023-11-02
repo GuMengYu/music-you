@@ -13,13 +13,11 @@ import {
   EditRounded,
   Logout as LogoutIcon,
 } from '@mui/icons-material'
-import { ipcRenderer } from 'electron'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import Md3Dialog from './Md3Dialog'
 import { useUserStore } from '@/store/user'
 import { useAppStore } from '@/store/app'
-import is from '@/util/is'
 
 function Profile() {
   const { showProfile: open, toggleProfile } = useAppStore()
@@ -48,22 +46,18 @@ function Profile() {
     disableElevation: true,
   }
   const goto = (url: string) => {
-    if (is.electron())
-      ipcRenderer.invoke('open-url', url)
-    else
-      window.open(url, '_blank')
+    window.open(url, '_blank')
+
   }
   function handleClose() {
     toggleProfile(false)
   }
   function handleLogout() {
-    ipcRenderer.invoke('reset-direct')
     localStorage.clear()
     location.reload()
-    // ipcRenderer.invoke('relaunch-direct')
   }
   function handleEdit() {
-    ipcRenderer.invoke('open-url', 'https://music.163.com/#/user/update')
+    window.open('https://music.163.com/#/user/update', '_blank')
   }
   return (
     <Md3Dialog open={open} onClose={handleClose}>

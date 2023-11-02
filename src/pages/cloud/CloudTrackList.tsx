@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Track, TrackFrom } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
-import { downloadMusic } from '@/hooks/useDownload'
 import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
 import TrackItem from '@/components/TrackItem'
 
@@ -27,16 +26,6 @@ export default function CloudTrackList({ tracks, className }: {
         label: t`common.next_play`,
         onClick: () => {
           playNext(track, trackFrom)
-        },
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'item',
-        label: t`common.download_local`,
-        onClick: async () => {
-          await downloadMusic(track)
         },
       },
     ], {

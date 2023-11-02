@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron'
 import { Howl, Howler } from 'howler'
 
 import { cloneDeep } from 'lodash'
@@ -7,7 +6,6 @@ import { end, start } from '@/api/music'
 import type { Program, Track, TrackFrom, listType } from '@/types'
 import { sleep, toHttps } from '@/util/fn'
 import { PLAY_MODE, usePlayerStore } from '@/store/player'
-import is from '@/util/is'
 import { playQueueStore } from '@/store/playQueue'
 import { PipLyric } from '@/util/pipLyric'
 import { useSettingStore } from '@/store/setting'
@@ -92,9 +90,6 @@ export class Player {
     this.initPip()
     if (this.track?.id)
       this.updatePlayerTrack(this.track.id, false, false, false, this.track.source?.from)
-
-    if (is.electron() && is.windows())
-      this.taskbarProgress = true
   }
 
   initPip() {
@@ -376,16 +371,10 @@ export class Player {
     // if (this.taskbarProgress && this.track?.dt) {
     //   const p = current / (this.track.dt / 1000)
     //   const progress = p >= 1 ? 1 : p
-    //   ipcRenderer.invoke('setProgress', progress)
     // }
   }
 
   async onPlaying(current: number) {
-    if (this.taskbarProgress && this.track?.dt) {
-      const p = current / (this.track.dt / 1000)
-      const progress = p >= 1 ? 1 : p
-      ipcRenderer.invoke('setProgress', progress)
-    }
     if (this.track?.dt) {
       const remaining = this.track.dt / 1000 - current
       // 剩余30秒，预加载下一首

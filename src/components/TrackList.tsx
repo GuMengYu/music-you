@@ -6,7 +6,6 @@ import TrackItem from './TrackItem'
 import type { Track, TrackFrom } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
-import { downloadMusic } from '@/hooks/useDownload'
 import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
 
 export default function TrackList({ tracks, trackFrom, className }: {
@@ -77,13 +76,6 @@ export default function TrackList({ tracks, trackFrom, className }: {
         type: 'submenu',
         label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
-      },
-      {
-        type: 'item',
-        label: t`common.download_local`,
-        onClick: async (i) => {
-          await downloadMusic(track)
-        },
       },
     ], {
       useCursorPosition: true,

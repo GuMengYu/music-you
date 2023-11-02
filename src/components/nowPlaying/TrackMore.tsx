@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
-import { downloadMusic } from '@/hooks/useDownload'
 
 export default function TrackMore({ track }: { track: Track }) {
   const { t } = useTranslation()
@@ -64,16 +63,6 @@ export default function TrackMore({ track }: { track: Track }) {
         type: 'submenu',
         label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'item',
-        label: t`common.download_local`,
-        onClick: async (i) => {
-          await downloadMusic(track)
-        },
       },
     ])
   }

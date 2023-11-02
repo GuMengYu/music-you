@@ -2,7 +2,6 @@ import './App.scss'
 import { Box, IconButton, PaletteOptions, ThemeOptions, ThemeProvider, createTheme } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { useNavigate } from 'react-router-dom'
-import { ipcRenderer } from 'electron'
 import { useEffect, useMemo, useState } from 'react'
 import NowPlayingMiniBar from '@/components/nowPlaying/NowPlayingMiniBar'
 import { usePlayerStore } from '@/store/player'
@@ -38,7 +37,6 @@ export default function Minimal() {
   const navigate = useNavigate()
   function back() {
     navigate('/', { replace: true })
-    ipcRenderer.invoke('minimal', false)
   }
 
   useEffect(() => {

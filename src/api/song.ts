@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron'
 
 // import type { QUALITY_LEVEL } from '@/store/setting'
 import { QUALITY_LEVEL, useSettingStore } from '@/store/setting'
@@ -67,15 +66,6 @@ export async function getSongUrlFromUnlockMusic(track: Track) {
       }>('/unlockmusic', { params: { id: track.id, source: unblockNetEaseMusic.source } })
       if (code === 200)
         return data
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  if (youtubeUnlock.open) {
-    try {
-      return await ipcRenderer.invoke('getTrackFromYoutube', track.ar?.[0].name, track.name)
     }
     catch (e) {
       console.log(e)

@@ -20,7 +20,6 @@ import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
 import { Track as TrackType } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
-import { downloadMusic } from '@/hooks/useDownload'
 import { useLikeTrack } from '@/hooks/useLike'
 import { ContextMenuItem } from '@/components/contextMenu/types'
 
@@ -214,13 +213,6 @@ function NowPlayingTrackList({ onClose }: { onClose: () => void }) {
           onClick: () => {
             toAlbum(track.al!.id)
             onClose()
-          },
-        },
-        {
-          type: 'item',
-          label: t`common.download_local`,
-          onClick: async () => {
-            await downloadMusic(track)
           },
         },
       ] as ContextMenuItem[])

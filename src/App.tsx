@@ -12,8 +12,6 @@ import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
 import { client } from './plugins/query'
-import is from './util/is'
-import WindowControl from './components/WindowControl'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
@@ -22,8 +20,6 @@ import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
 import useCreateTheme from '@/hooks/useCreateTheme'
 import { usePlayerStore } from '@/store/player'
-
-const notMacos = is.windows() || is.linux()
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
@@ -113,9 +109,6 @@ function App() {
               <QuickPanel/>
               <BackToTop show={showBTT} onBackToTop={onBackToTop} />
               <NowPlayingList />
-              {
-                notMacos && <WindowControl />
-              }
               <ReactQueryDevtools
                 toggleButtonProps={{
                   style: {

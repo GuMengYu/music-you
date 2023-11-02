@@ -18,7 +18,6 @@ import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { useLikeTrack } from '@/hooks/useLike'
-import { downloadMusic } from '@/hooks/useDownload'
 import { PlayRecord } from '@/api/user'
 import AlbumLink from '@/components/links/album'
 import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
@@ -137,13 +136,6 @@ export default function RecordTrackList({ records, className }: {
         type: 'submenu',
         label: t`common.add_playlist`,
         items: getToPlaylistMenuItem(track.id),
-      },
-      {
-        type: 'item',
-        label: t`common.download_local`,
-        onClick: async () => {
-          await downloadMusic(track)
-        },
       },
     ], {
       useCursorPosition: true,
