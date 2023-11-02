@@ -1,7 +1,6 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import './App.scss'
-import { Box, ThemeProvider, createTheme } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { Box, ThemeProvider } from '@mui/material'
 import { MaterialDesignContent, SnackbarProvider } from 'notistack'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -9,7 +8,6 @@ import { styled } from '@mui/material/styles'
 import { ConfirmProvider } from 'material-ui-confirm'
 import Nav from './pages/layout/Nav'
 import Main from './pages/layout/Main'
-import { APPEARANCE, useSettingStore } from './store/setting'
 import LoginDialog from './pages/modal/Login'
 import Profile from './pages/modal/Profile'
 import QuickPanel from './pages/layout/QuickPanel'
@@ -22,7 +20,7 @@ import BackToTop from '@/components/BackToTop'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
-import { getDesignTokens } from '@/hooks/useCreateTheme'
+import useCreateTheme from '@/hooks/useCreateTheme'
 import { usePlayerStore } from '@/store/player'
 
 const notMacos = is.windows() || is.linux()
@@ -158,22 +156,6 @@ export function getOpacity(current: number, range = 1, offset = 0) {
 
   // Ensure the normalized value is between 0 and 1
   return Math.min(Math.max(opacity, 0), 1)
-}
-
-function useCreateTheme() {
-  const { appearance, themeColor } = useSettingStore()
-
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const darkMode
-    = appearance === APPEARANCE.SYSTEM
-      ? prefersDarkMode
-      : appearance === APPEARANCE.DARK
-  const theme = useMemo(() => {
-    return createTheme(getDesignTokens(darkMode, themeColor))
-  }, [darkMode, themeColor])
-  return {
-    theme,
-  }
 }
 
 export default App

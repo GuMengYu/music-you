@@ -14,7 +14,7 @@
     "add_library_success": "已添加到音乐库",
     "copy_share_success": "已复制分享链接到粘贴板",
     "heartbeat_success": "心动模式智能列表已生成，下一首开始播放",
-    "something_wrong": "出错了, 可能操作过于频繁",
+    "something_wrong": "出错了!",
     "reset_app": "重置应用",
     "visualization": "音乐可视化",
     "playing_page_mode": "正在播放",
@@ -173,7 +173,11 @@
       "lossless": "无损(vip)",
       "navPosition": "左侧 | 顶部",
       "normal_user": "普通用户",
-      "vip_level": "黑胶·壹 | 黑胶·贰 | 黑胶·叁 | 黑胶·肆 | 黑胶·伍 | 黑胶·陆 | 黑胶·柒"
+      "vip_level": "黑胶·壹 | 黑胶·贰 | 黑胶·叁 | 黑胶·肆 | 黑胶·伍 | 黑胶·陆 | 黑胶·柒",
+      "custom_theme": "自定义主题色",
+      "gen_by_image": "上传图片",
+      "gen_by_link": "通过图片链接",
+      "gen_by_code": "通过颜色代码"
     },
     "daily": {
       "title": "每日歌曲推荐",
@@ -312,7 +316,9 @@
     "gen_from_color": "从颜色生成",
     "gen_from_image": "从图片生成",
     "gen_color_value": "颜色值（hex）",
-    "now_playing_list": "正在播放队列"
+    "now_playing_list": "正在播放队列",
+    "image_link": "图片链接",
+    "color_code": "颜色代码"
   },
   "theme": {
     "RedSandDunes": "红色沙丘",

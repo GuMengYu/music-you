@@ -43,7 +43,7 @@ function MenuItem({
           return
 
         const event = e as unknown as MouseEvent
-        item.onClick?.()
+        item.onClick?.(event)
         onClose(event)
       }}
       onMouseOver={() => {

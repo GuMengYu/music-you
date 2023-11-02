@@ -7,6 +7,7 @@ import {
   themeFromSourceColor,
 } from '@material/material-color-utilities'
 
+
 export async function generateMUITheme(
   colorOrImage: string | HTMLImageElement,
   name: string,

@@ -5,7 +5,7 @@ import { APPEARANCE, THEME_COLOR, useSettingStore } from '@/store/setting'
 import Themes from '@/plugins/themes'
 
 export default function useCreateTheme() {
-  const { appearance, themeColor } = useSettingStore()
+  const { appearance, themeColor, customTheme } = useSettingStore()
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const darkMode
@@ -13,31 +13,55 @@ export default function useCreateTheme() {
       ? prefersDarkMode
       : appearance === APPEARANCE.DARK
   const theme = useMemo(() => {
-    return createTheme(getDesignTokens(darkMode, themeColor))
-  }, [darkMode, themeColor])
+    return createTheme(getDesignTokens(darkMode, themeColor, customTheme))
+  }, [darkMode, themeColor, customTheme])
   return {
     theme,
   }
 }
 
-export function getDesignTokens(isDark: boolean, color: THEME_COLOR): ThemeOptions {
-  return {
-    typography: {
-      fontFamily: [
-        'Quicksand',
-        'Noto Sans SC',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
-    },
-    palette: {
-      mode: isDark ? 'dark' : 'light',
-      ...(isDark
-        ? Themes[color].palette.dark
-        : Themes[color].palette.light),
-    },
+const typography = {
+  fontFamily: [
+    'Quicksand',
+    'Noto Sans SC',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(','),
+}
+
+export function getDesignTokens(isDark: boolean, color: THEME_COLOR, customTheme?: any): ThemeOptions {
+  let themeData
+  if (color === THEME_COLOR.Customize && customTheme)
+    themeData = customTheme
+  else
+    themeData = (Themes as Record<THEME_COLOR,  any>)[color]?.palette
+
+  if (themeData) {
+    return {
+      typography,
+      palette: {
+        mode: isDark ? 'dark' : 'light',
+        ...(isDark
+          ? themeData.dark
+          : themeData.light),
+      },
+    }
+
   }
+  else {
+    // fallback
+    return {
+      typography,
+      palette: {
+        mode: isDark ? 'dark' : 'light',
+        ...(isDark
+          ? Themes.PurpleDress.palette.dark
+          : Themes.PurpleDress.palette.light),
+      },
+    }
+  }
+
 }

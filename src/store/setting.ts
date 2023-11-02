@@ -8,7 +8,7 @@ export enum THEME_COLOR {
   GreenMountainTop = 'GreenMountainTop',
   OrangeDesert = 'OrangeDesert',
   BlueMountains = 'BlueMountains',
-  // Customize = 'Customize',
+  Customize = 'Customize',
   PurpleDress = 'PurpleDress',
 }
 
@@ -37,6 +37,7 @@ export enum APPEARANCE {
 interface SettingState {
   appearance: APPEARANCE
   themeColor: THEME_COLOR
+  customTheme: null | Record<'light' | 'dark', Record<string, string>>
   quality: QUALITY_LEVEL
   locale: SupportedLanguage
   lyricTrans: boolean
@@ -56,6 +57,7 @@ interface SettingState {
 interface SettingAction {
   setAppearance: (appearance: APPEARANCE) => void
   setThemeColor: (themeColor: THEME_COLOR) => void
+  setCustomTheme: (customTheme: SettingState['customTheme']) => void
   setQuality: (quality: QUALITY_LEVEL) => void
   setLocale: (locale: SettingState['locale']) => void
   setLyricTrans: (enable: SettingState['lyricTrans']) => void
@@ -70,6 +72,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
   return {
     appearance: APPEARANCE.DARK,
     themeColor: THEME_COLOR.GreenRockyMountains,
+    customTheme: null,
     quality: QUALITY_LEVEL.HIGHER,
     locale: 'zh-CN',
     lyricTrans: false,
@@ -87,6 +90,7 @@ export const useSettingStore = create(subscribeWithSelector(persist<SettingState
     outputdevice: null,
     setAppearance: appearance => set({ appearance }),
     setThemeColor: themeColor => set({ themeColor }),
+    setCustomTheme: customTheme => set({ customTheme }),
     setQuality: quality => set({ quality }),
     setLocale: locale => set({ locale }),
     setLyricTrans: lyricTrans => set({ lyricTrans }),

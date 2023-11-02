@@ -14,7 +14,7 @@
     "add_library_success": "Added to library",
     "copy_share_success": "Shared link copied to pasteboard",
     "heartbeat_success": "The smart list has been generated",
-    "something_wrong": "Oops something wrong, May be the operation is too frequent",
+    "something_wrong": "Oops something wrong",
     "reset_app": "Reset App",
     "visualization": "Music Visualization",
     "playing_page_mode": "Playing Mode",
@@ -173,7 +173,11 @@
       "lossless": "lossless(vip)",
       "navPosition": "Left | Top",
       "normal_user": "Normal User",
-      "vip_level": "Lv.1 | Lv.2 | Lv.3 | Lv.4 | Lv.5 | Lv.6 | Lv.7"
+      "vip_level": "Lv.1 | Lv.2 | Lv.3 | Lv.4 | Lv.5 | Lv.6 | Lv.7",
+      "custom_theme": "Custom theme color",
+      "gen_by_image": "Upload image",
+      "gen_by_link": "Image link",
+      "gen_by_code": "Color Code"
     },
     "daily": {
       "title": "Daily song recommendation",
@@ -312,7 +316,9 @@
     "gen_from_color": "Generated from color",
     "gen_from_image": "Generated from image",
     "gen_color_value": "Color value (hex)",
-    "now_playing_list": "Playing Queue"
+    "now_playing_list": "Playing Queue",
+    "image_link": "Image Link",
+    "color_code": "Color Code"
   },
   "theme": {
     "RedSandDunes": "Red Sand Dunes",

@@ -130,7 +130,7 @@ function CreateDialog({ open, onClose }: { open: boolean; onClose: () => void })
     <Box className='pt-5 pb-4 px-2 flex flex-col' sx={{
       bgcolor: theme.palette.surfaceVariant.main,
       color: theme.palette.onSurfaceVariant.main,
-      minWidth: 300,
+      minWidth: 320,
     }}>
       <div className='flex flex-col items-center mb-4 gap-1'>
         <PlaylistAddIcon />
@@ -146,7 +146,12 @@ function CreateDialog({ open, onClose }: { open: boolean; onClose: () => void })
         }} />
       </div>
       <div className='flex items-center'>
-        <Checkbox />
+        <Checkbox checked={playlist.playlistPrivate} onChange={(_, val) => {
+          setPlaylist(prevState => ({
+            ...prevState,
+            playlistPrivate: val,
+          }))
+        }} />
         <Typography variant='caption'>{t`main.playlist.private`}</Typography>
       </div>
       <div className='flex justify-end'>
