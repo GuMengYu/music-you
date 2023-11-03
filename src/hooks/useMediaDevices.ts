@@ -25,7 +25,9 @@ export default function useMediaDevices() {
       }
     }
     return () => {
-      navigator.mediaDevices.ondevicechange = null
+      if (navigator.mediaDevices)
+        navigator.mediaDevices.ondevicechange = null
+
     }
   }, [])
   return {
