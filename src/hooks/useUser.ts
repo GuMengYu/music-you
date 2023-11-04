@@ -13,6 +13,6 @@ export default function useUser() {
     isVip,
     logged,
     profile: account?.profile,
-    vipInfo: account.vipInfo,
+    vipInfo: account?.vipInfo,
   }
 }
