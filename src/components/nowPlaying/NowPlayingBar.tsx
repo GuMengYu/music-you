@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@mui/material/styles'
 import { Control } from '../Control'
 import Image from '@/components/Image'
 import { usePlayer, usePlayerControl } from '@/hooks/usePlayer'
@@ -20,6 +21,7 @@ import LikeToggle from '@/components/toggle/likeToggle'
 import MinimalButton from '@/components/button/MinimalButton'
 import { sizeOfImage } from '@/util/fn'
 import NowPlayingListToggleWithTip from '@/components/nowPlaying/NowPlayingListToggleWithTip'
+import NowPlayingBarToggle from '@/components/toggle/NowPlayingBarToggle'
 
 const variants = {
   enter: (direction: number) => {
@@ -44,6 +46,7 @@ const variants = {
 function NowPlayingBar() {
   const { t } = useTranslation()
   const { player } = usePlayer()
+  const theme = useTheme()
   const { toggleNowPlaying } = useAppStore()
   const { track, volume, volumeIcon, isProgram } = usePlayerControl()
   const coverUrl = useMemo(() => {
@@ -80,123 +83,136 @@ function NowPlayingBar() {
     }
   }, [isProgram, track])
   return (
-    <Box
-      component="footer"
-      sx={{
-        px: 1,
+    <motion.div
+      style={{
         height: 72,
-        zIndex: 9999,
+        zIndex: theme.zIndex.appBar,
         gridArea: 'now-playing-bar',
       }}
+      initial={{
+        opacity: 0,
+        transform: 'translate3d(10px, 10px, 0)',
+      }}
+      animate={{
+        opacity: 1,
+        transform: 'translate3d(0px, 0px, 0)',
+        transition: {
+          duration: 0.35,
+          ease: [0.34, 1.56, 0.64, 1],
+        },
+      }}
     >
-      <div className="flex w-full h-full relative">
-        <Box
-          sx={{
-            position: 'absolute',
-            top: -10,
-            width: '100%',
-            // margin: '0 2px',
-          }}
-        >
-          <NowPlayingSlider
-
-          />
-        </Box>
-        <div className='flex items-center relative flex-1'>
-          <AnimatePresence initial={false} custom={1}>
-            <motion.div
-              custom={1}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { duration: 0.35, ease: [0.2, 0.0, 0, 1.0] },
-                opacity: { duration: 0.25, ease: [0.2, 0.0, 0, 1.0] },
+    <Box
+      component="footer"
+      className='flex w-full h-full relative'
+      sx={{
+        px: 1,
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -10,
+          width: '100%',
+          // margin: '0 2px',
+        }}
+      >
+        <NowPlayingSlider />
+      </Box>
+      <div className='flex items-center relative flex-1'>
+        <AnimatePresence initial={false} custom={1}>
+          <motion.div
+            custom={1}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { duration: 0.35, ease: [0.2, 0.0, 0, 1.0] },
+              opacity: { duration: 0.25, ease: [0.2, 0.0, 0, 1.0] },
+            }}
+            key={track?.id} // for animation
+            className="flex items-center gap-2 absolute w-full">
+            <Box
+              sx={{
+                height: 56,
+                width: 56,
+                minWidth: 56,
+                minHeight: 56,
+                borderRadius: 3.5,
+                overflow: 'hidden',
+                position: 'relative',
               }}
-              key={track?.id}
-              className="flex items-center gap-2 absolute w-full">
-              <Box
-                sx={{
-                  height: 56,
-                  width: 56,
-                  minWidth: 56,
-                  minHeight: 56,
-                  borderRadius: 3.5,
-                  overflow: 'hidden',
-                  position: 'relative',
-                }}
-                onMouseEnter={ () => setIsHovering(true)}
-                onMouseLeave={ () => setIsHovering(false)}
-              >
-                <Image src={coverUrl} className="absolute"></Image>
-                <AnimatePresence>
-                  {isHovering && (
-                    <motion.div
-                      className='w-full h-full absolute bottom-0 right-0'
-                      initial={{
-                        opacity: 0,
+              onMouseEnter={ () => setIsHovering(true)}
+              onMouseLeave={ () => setIsHovering(false)}
+            >
+              <Image src={coverUrl} className="absolute"></Image>
+              <AnimatePresence>
+                {isHovering && (
+                  <motion.div
+                    className='w-full h-full absolute bottom-0 right-0'
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                  >
+                    <IconButton
+                      sx={{
+                        p: 2,
                       }}
-                      animate={{
-                        opacity: 1,
-                      }}
+                      onClick={() => toggleNowPlaying()}
                     >
-                      <IconButton
-                        sx={{
-                          p: 2,
-                        }}
-                        onClick={() => toggleNowPlaying()}
-                      >
-                        <OpenInFullIcon color={'tertiary' as 'primary'} />
-                      </IconButton>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Box>
-              <div className="flex flex-col justify-center ml-2">
-                <Typography className="line-clamp-1" variant='body2'>
+                      <OpenInFullIcon color={'tertiary' as 'primary'} />
+                    </IconButton>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Box>
+            <div className="flex flex-col justify-center ml-2">
+              <Typography className="line-clamp-1" variant='body2'>
                 {
                   track?.al?.id ? <RouterLink to={`/album/${track.al.id}`}>{track.name}</RouterLink> : track?.name
                 }
-                  </Typography>
-                <Typography className="line-clamp-1 opacity-90" variant='caption'>
-                  { subTitle }
-                </Typography>
-              </div>
-              {
-                isProgram && track
-                  ? <ResourceThumbToggle type={RESOURCE_TYPE.PROGRAM} id={track.id} liked={track.liked} />
-                  : <LikeToggle id={track?.id} />
-              }
+              </Typography>
+              <Typography className="line-clamp-1 opacity-90" variant='caption'>
+                { subTitle }
+              </Typography>
+            </div>
+            {
+              isProgram && track
+                ? <ResourceThumbToggle type={RESOURCE_TYPE.PROGRAM} id={track.id} liked={track.liked} />
+                : <LikeToggle id={track?.id} />
+            }
 
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <div className="flex flex-1 items-center justify-center">
-          <Control />
-        </div>
-        <div className="flex flex-1 items-center justify-end gap-1">
-          <MinimalButton />
-          <PIPPlayerToggle />
-          <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={0.5}>
-            <Tooltip title={ volume === 0 ? `${t`common.cancel`} ${t`common.mute`}` : t`common.mute` } placement='top'>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="flex flex-1 items-center justify-center">
+        <Control />
+      </div>
+      <div className="flex flex-1 items-center justify-end gap-1">
+        <MinimalButton />
+        <PIPPlayerToggle />
+        <Stack direction="row" sx={{ width: 130 }} alignItems="center" spacing={0.5}>
+          <Tooltip title={ volume === 0 ? `${t`common.cancel`} ${t`common.mute`}` : t`common.mute` } placement='top'>
             <IconButton onClick={handleMute}>
               { volumeIcon }
             </IconButton>
-            </Tooltip>
-            <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='off' onChange={(_, val) => handleVolumeChange(val as number)} />
-          </Stack>
-          <NowPlayingListToggleWithTip />
-          {/*<Tooltip title='sss' placement={'left'}>*/}
-          {/*  <div>*/}
-          {/*    <NowPlayingListToggle />*/}
-          {/*  </div>*/}
-          {/*</Tooltip>*/}
-          <TrackMore track={track} />
-        </div>
+          </Tooltip>
+          <MdSlider size='small' aria-label="Volume" step={0.05} min={0} max={1} value={volume} valueLabelDisplay='off' onChange={(_, val) => handleVolumeChange(val as number)} />
+        </Stack>
+        <NowPlayingListToggleWithTip />
+        {/*<Tooltip title='sss' placement={'left'}>*/}
+        {/*   */}
+        {/*  */}
+        {/*</Tooltip>*/}
+        <NowPlayingBarToggle />
+        <TrackMore track={track} />
       </div>
     </Box>
+    </motion.div>
   )
 }
 

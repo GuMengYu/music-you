@@ -65,6 +65,7 @@ export default function Minimal() {
   return (
       <ThemeProvider theme={theme}>
         <Box
+          className='drag-area'
           sx={{ width: '100vw', height: '100vh', overflow: 'hidden' }}
         >
           <NowPlayingMiniBar slot={

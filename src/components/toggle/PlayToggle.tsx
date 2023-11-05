@@ -8,7 +8,7 @@ import { usePlayerStore } from '@/store/player'
 
 const playPath = 'M9.525 18.025q-.5.325-1.012.038T8 17.175V6.825q0-.6.513-.888t1.012.038l8.15 5.175q.45.3.45.85t-.45.85l-8.15 5.175Z'
 const pausePath = 'M16 19q-.825 0-1.413-.588T14 17V7q0-.825.588-1.413T16 5q.825 0 1.413.588T18 7v10q0 .825-.588 1.413T16 19Zm-8 0q-.825 0-1.413-.588T6 17V7q0-.825.588-1.413T8 5q.825 0 1.413.588T10 7v10q0 .825-.588 1.413T8 19Z'
-export default function PlayToggle() {
+export default function PlayToggle({ size }: { size?: 'small' | 'default' }) {
   const theme = useTheme()
   const { playing } = usePlayerStore()
   const { player } = usePlayer()
@@ -25,12 +25,12 @@ export default function PlayToggle() {
       className='no-drag-area'
       onClick={playToggle}
       sx={{
-        'height': 50,
-        'width': 50,
+        'height': size === 'small' ? 42 : 50,
+        'width': size === 'small' ? 42 : 50,
         'p': 0,
         'bgcolor': theme.palette.primaryContainer.main,
         'color': theme.palette.onPrimaryContainer.main,
-        'borderRadius': playing ? '14px' : '50%',
+        'borderRadius': playing ? (size === 'small' ? '12px' : '14px') : '50%',
         'transition': 'background-color, border-radius 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
         '&:hover': {
           bgcolor: alpha(theme.palette.primaryContainer.main, 0.9),
@@ -43,15 +43,6 @@ export default function PlayToggle() {
           <motion.path fill={theme.palette.onPrimaryContainer.main} d={path} />
         </g>
       </svg>
-      {/* { */}
-      {/*  playing ? <PauseIcon color={'primary'} /> : <PlayArrowIcon color='primary' /> */}
-      {/* } */}
-      {/* <LottieIcon */}
-      {/*  height={30} */}
-      {/*  width={30} */}
-      {/*  option={playOptions} */}
-      {/*  animCreated={handleAnimation} */}
-      {/* ></LottieIcon> */}
     </IconButton>
   )
 }
