@@ -20,6 +20,8 @@ import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
 import useCreateTheme from '@/hooks/useCreateTheme'
 import { usePlayerStore } from '@/store/player'
+import NowPlayingBlock from '@/components/nowPlaying/NowPlayingBlock'
+import { useAppStore } from '@/store/app'
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
@@ -34,6 +36,7 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) =>
 function App() {
   const { theme } = useCreateTheme()
   const { track } = usePlayerStore()
+  const { showNowPlayingBar } = useAppStore()
 
   const cacheOpacity = useRef(0)
   const appRef = useRef<HTMLDivElement>()
@@ -100,9 +103,8 @@ function App() {
               <Nav/>
               <Main onScroll={handleMainScroll}/>
               {
-                track && <NowPlayingBar/>
+                track && ( showNowPlayingBar ? <NowPlayingBlock /> : <NowPlayingBar />)
               }
-              {/* <NowPlayingBlock/> */}
               <NowPlayingPage/>
               <LoginDialog/>
               <Profile/>
