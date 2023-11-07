@@ -1,94 +1,94 @@
-import { findIndex } from 'lodash'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { cx } from '@emotion/css'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTheme } from '@mui/material/styles'
-import { Typography } from '@mui/material'
-import { useTrackLyric } from '@/hooks/useTrackOperation'
+import { findIndex, sortBy } from 'lodash'
+import { Lyric, useTrackLyric } from '@/hooks/useTrackOperation'
 import { usePlayerStore } from '@/store/player'
+import LyricItemView from '@/components/nowPlaying/components/LyricItemView'
+import { player } from '@/contexts/player'
 
 export default function NowPlayingLyric({ enable }: { enable: boolean }) {
   const { currentTime, track } = usePlayerStore()
   const theme = useTheme()
 
   const lyricContainer = useRef(null)
+  const [translateY, setTranslateY] = useState(0)
 
-  const [activeIdx, setActiveIdx] = useState(-1)
+  const [activeIndex, setActiveIdx] = useState(-1)
 
   const { lyrics } = useTrackLyric()
+  const [lyricList, setLyricList] = useState<(Lyric & { translateY?: number })[]>([])
 
-  const currentRef = useRef({
-    currentTime,
-    activeIdx,
+  const lyricsRef = useRef({
+    loaded: false,
+    count: 0,
+    height: 0,
+    list: [],
   })
-  // let timer: NodeJS.Timeout
+  useEffect(() => {
+    if (lyrics?.length)
+      setLyricList(lyrics)
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout
-    if (enable) {
-      timer = setInterval(() => {
-        calculate()
-      }, 500)
-    }
-    calculate()
-    return () => {
-      clearInterval(timer)
-    }
-  }, [])
-  useEffect(() => {
-    currentRef.current = { currentTime, activeIdx }
-  }, [currentTime, activeIdx])
+  }, [lyrics])
 
   useLayoutEffect(() => {
-    if (activeIdx >= 0) {
-      const container = lyricContainer.current
-
-      if (container) {
-        const activeEl = container.querySelector('.lyrics .active')
-        if (activeEl) {
-          // scrollIntoView(activeEl, { block: 'center', behavior: 'smooth' })
-          activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' })
-        }
+    if (lyricsRef.current.loaded) {
+      const lys = lyricsRef.current.list
+      const activeIdx = findIndex(lys, (o: Lyric, idx) => {
+        const next = lys[idx + 1]
+        return (next ? currentTime < next.time : true) && currentTime >= o.time
+      })
+      const active = lyricsRef.current.list[activeIdx] as Lyric
+      if (active) {
+        const before = lyricsRef.current.list.slice(0, activeIdx)
+        const offset = before.reduce((p, c) => (p + c.height), 0) - 250
+        setTranslateY(offset)
+        setActiveIdx(activeIdx)
       }
     }
-  }, [activeIdx])
-  function calculate() {
-    const { currentTime, activeIdx } = currentRef.current
-    const current = currentTime - 0.5
-    const prevActiveIdx = activeIdx
-    const _activeIdx = findIndex(lyrics, (o, idx) => {
-      const next = lyrics[idx + 1]
-      return (next ? current < next.time : true) && current >= o.time
-    })
-    // update active lyric
-    if (prevActiveIdx !== _activeIdx)
-      setActiveIdx(_activeIdx)
-  }
-  function isActive(index: number) {
-    return index === activeIdx
-  }
+
+  }, [currentTime])
+
+  const onLoaded = useCallback((lyric: Lyric) => {
+    // reset
+    if (lyricsRef.current.loaded) {
+      lyricsRef.current = {
+        loaded: false,
+        count: 0,
+        height: 0,
+        list: [],
+      }
+    }
+    lyricsRef.current.count++
+    lyricsRef.current.height += lyric.height
+    lyricsRef.current.list.push(lyric)
+    if (lyricsRef.current.count === lyrics.length) {
+      lyricsRef.current.loaded = true
+      lyricsRef.current.list = sortBy(lyricsRef.current.list, (i: Lyric) => i.index)
+      console.log('loaded all', lyricsRef.current)
+    }
+
+  }, [lyrics])
+  const delayTime = useCallback((index: number) => {
+    if (index - activeIndex <= 0)
+      return 0
+    else
+      return (index - activeIndex ) * 20
+
+  }, [activeIndex])
+
+  const onLyricClick = useCallback((idx: number) => {
+    const lyric = lyricsRef.current.list[idx]
+    if (lyric)
+      player.setSeek(lyric.time)
+
+  }, [])
   return <div className="scroll-lyric h-full">
     <ul ref={lyricContainer} className="lyrics">
-      <li>&nbsp;</li>
       {
-        lyrics.map((item, index) => {
-          return <Typography variant={isActive(index) ? 'h5' : 'h6'}
-                             sx={{
-                               mb: 2,
-                             }}
-          key={index}
-          className={
-            cx('mb-4 px-8', isActive(index) ? 'active' : '')
-          }
-        style={{ color: isActive(index) ? theme.palette.primary.main : '' }}
-            dangerouslySetInnerHTML={{
-              __html: item.sentence,
-            }}
-        >{
-          }</Typography>
+        lyricList.map((item, index) => {
+          return <LyricItemView highLight={activeIndex === index} lyric={item} key={item.index} animationDelay={ delayTime(index)} onClick={onLyricClick} onLoaded={onLoaded} translateY={translateY} />
         })
       }
-
-    <li>&nbsp;</li>
   </ul>
 </div>
 }

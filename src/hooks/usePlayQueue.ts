@@ -6,11 +6,12 @@ import { useToolTipStore } from '@/store/tooltip'
 
 export function useReplacePlayQueue() {
   const { player } = usePlayer()
-  const { updatePlayQueue } = playQueueStore()
+  const { updatePlayQueue, setIndex } = playQueueStore()
   const { togglePlayToolTip } = useToolTipStore()
 
   const replaceQueueAndPlay = useCallback((tracks: Track[], id?: number, type?: listType, name?: string) => {
     updatePlayQueue(id, type, name, tracks)
+    setIndex(0)
     player.load()
     togglePlayToolTip(true)
   }, [])

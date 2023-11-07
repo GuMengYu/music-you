@@ -56,6 +56,8 @@ export function useTrackOperation() {
 export interface Lyric {
   sentence: string
   time: number
+  index?: number
+  height?: number
 }
 export function useTrackLyric() {
   const { track } = usePlayerStore()
@@ -65,8 +67,9 @@ export function useTrackLyric() {
     const lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
     const trans = arrayToObject(tlyric?.lyric ? formatLyric(tlyric.lyric) : [], 'time')
     if (!isEmpty(trans) && lyricTrans) {
-      return lyric.map((i) => {
+      return lyric.map((i, index) => {
         return {
+          index,
           sentence: `${i.sentence}${trans[i.time] ? `<br>${trans[i.time].sentence}` : ''}`,
           time: i.time,
         }

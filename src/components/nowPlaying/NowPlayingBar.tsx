@@ -84,7 +84,7 @@ function NowPlayingBar() {
   return (
     <motion.div
       style={{
-        height: 72,
+        height: 68,
         zIndex: theme.zIndex.appBar,
         gridArea: 'now-playing-bar',
       }}
@@ -134,11 +134,11 @@ function NowPlayingBar() {
             className="flex items-center gap-2 absolute w-full">
             <Box
               sx={{
-                height: 56,
-                width: 56,
-                minWidth: 56,
-                minHeight: 56,
-                borderRadius: 3.5,
+                height: 52,
+                width: 52,
+                minWidth: 52,
+                minHeight: 52,
+                borderRadius: 2,
                 overflow: 'hidden',
                 position: 'relative',
               }}

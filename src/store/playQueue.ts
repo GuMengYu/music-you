@@ -39,7 +39,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       states: [],
       tracks: [],
     },
-    index: 0,
+    index: -1,
     // actions
     setIndex: index => set({ index }),
     /**
@@ -57,7 +57,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
       // 精简track, 只在store存储必要的信息
       const tracks = simpleTracks(data)
       set({
-        index: 0,
+        index: -1,
         queue: {
           sequence: [...tracks], // deep copy avoid mutation of sequence and states
           states: [...tracks],
@@ -70,7 +70,7 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
      */
     clearQueue() {
       set({
-        index: 0,
+        index: -1,
         queue: {
           sequence: [],
           states: [],

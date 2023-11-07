@@ -2,6 +2,7 @@ import { IconButton, Tooltip } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@mui/material/styles'
 import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
@@ -11,6 +12,7 @@ export default function TrackMore({ track }: { track: Track }) {
   const { openContextMenu } = useContextMenu()
   const navigate = useNavigate()
   const { getToPlaylistMenuItem } = useTrackOperation()
+  const theme = useTheme()
 
   function toArtist(id: number) {
     navigate(`/artist/${id}`)
@@ -67,6 +69,9 @@ export default function TrackMore({ track }: { track: Track }) {
     ])
   }
   return <Tooltip title={t`common.more_op`} placement='top'><IconButton
+    sx={{
+      color: theme.palette.onSurface.main,
+    }}
    onClick={e => openMore(e)}>
     <MoreVertIcon fontSize='small' />
   </IconButton></Tooltip>

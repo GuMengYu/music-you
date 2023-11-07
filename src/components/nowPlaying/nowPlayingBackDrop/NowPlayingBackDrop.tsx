@@ -80,9 +80,9 @@ export default function NowPlayingPageBackDrop() {
       console.log(e)
     }
   }
-  function updateVhs(colors: Record<string, string>) {
+  function updateVhs(colors: any) {
     const { primary, secondary, tertiary, primaryContainer } = colors
-    vhsRef.current?.update([primary, secondary, tertiary], primaryContainer)
+    vhsRef.current?.update([primary.main, secondary.main, tertiary.main], primaryContainer.main)
   }
 
   async function initPixi() {
@@ -98,8 +98,8 @@ export default function NowPlayingPageBackDrop() {
         brightness: 0.55,
         animate: true,
         autoPlay: playing,
-        colors: [primary, secondary, tertiary],
-        baseColor: primaryContainer,
+        colors: [primary.main, secondary.main, tertiary.main],
+        baseColor: primaryContainer.main,
       })
     }
   }

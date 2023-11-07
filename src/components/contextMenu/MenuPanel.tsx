@@ -31,7 +31,7 @@ const MenuPanel = forwardRef(
       <div
         ref={ref}
         className={cx(
-          'app-region-no-drag fixed select-none',
+          'no-drag-area fixed select-none',
           isSubmenu ? 'submenu z-30 px-1' : 'z-20',
         )}
         style={{ left: position.x, top: position.y, zIndex: theme.zIndex.modal + (isSubmenu ? 2 : 1) }}

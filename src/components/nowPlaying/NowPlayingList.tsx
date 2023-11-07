@@ -288,7 +288,6 @@ function NowPlayingList() {
       },
       '& .MuiModal-backdrop': {
         backdropFilter: 'blur(100px)',
-        borderRadius: '28px',
       },
     }}>
       <Fade in={showNowPlayingList}>

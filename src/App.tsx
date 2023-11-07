@@ -15,13 +15,13 @@ import { client } from './plugins/query'
 import NowPlayingBar from '@/components/nowPlaying/NowPlayingBar'
 import NowPlayingList from '@/components/nowPlaying/NowPlayingList'
 import BackToTop from '@/components/BackToTop'
-import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 import Header from '@/pages/layout/Header'
 import useInForeground from '@/hooks/useInForeground'
 import useCreateTheme from '@/hooks/useCreateTheme'
 import { usePlayerStore } from '@/store/player'
 import NowPlayingBlock from '@/components/nowPlaying/NowPlayingBlock'
 import { useAppStore } from '@/store/app'
+import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
@@ -105,7 +105,7 @@ function App() {
               {
                 track && ( showNowPlayingBar ? <NowPlayingBlock /> : <NowPlayingBar />)
               }
-              <NowPlayingPage/>
+              <NowPlayingPage />
               <LoginDialog/>
               <Profile/>
               <QuickPanel/>
