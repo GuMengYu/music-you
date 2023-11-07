@@ -43,9 +43,9 @@ export default function Minimal() {
 
   useEffect(() => {
     if (track?.al.picUrl) {
-      const imageUrl = track?.al.picUrl
+      let imageUrl = track?.al.picUrl
       if (track?.source?.fromType !== 'local')
-        sizeOfImage(track?.al.picUrl, 256)
+        imageUrl = sizeOfImage(track?.al.picUrl, 128)
 
       const image = new Image()
       image.crossOrigin = 'anonymous'

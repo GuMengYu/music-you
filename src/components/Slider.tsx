@@ -6,21 +6,21 @@ export default function MdSlider(props: SliderProps) {
   const { size, ...rest } = props
   return <Slider
     {...rest}
-    color={'inverseSurface' as 'primary'}
+    color={'primary' as const}
     sx={{
       'height': size === 'small' ? 2 : 3,
       'py': 1,
       'px': 0,
       '&: hover': {
         '& .MuiSlider-track': {
-          bgcolor: theme.palette.primary.main,
-          borderColor: theme.palette.primary.main,
+          bgcolor: theme.palette.tertiary.main,
+          borderColor: theme.palette.tertiary.main,
         },
       },
       '& .MuiSlider-thumb': {
         'cursor': 'pointer',
-        'width': 0,
-        'height': 0,
+        'width': size === 'small' ? 6 : 8,
+        'height': size === 'small' ? 6 : 8,
         'transition': '0.3s cubic-bezier(.47,1.64,.41,.8)',
         'boxShadow': 'none',
         '&:hover': {

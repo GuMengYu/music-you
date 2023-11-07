@@ -19,8 +19,8 @@ export interface StoreType {
 const store = new Store<StoreType>({
   defaults: {
     windowSize: {
-      height: 700,
-      width: 1099,
+      height: 670,
+      width: 1000,
     },
     windowPosition: null,
     youtube: {

@@ -62,7 +62,7 @@ export function formatLyric(lyric = '') {
   return lyric
     .split('\n')
     .filter(i => !!i)
-    ?.map((i) => {
+    ?.map((i, index) => {
       let time = 0
       let sentence = i.match(/](.*)/)?.[1] ?? i
       const reg = /\[\d*:\d*((\.|:)\d*)*\]/g
@@ -91,14 +91,14 @@ export function formatLyric(lyric = '') {
         const mill = timeStr.match(/\.(\d*)]/i)?.[1]
         const millToSec = +(Number(mill ?? 0) / 1000).toFixed(2)
         time = min * 60 + sec + millToSec
-        sentence = sentence || '...'
+        sentence = sentence || '● ● ●'
       }
       else {
         info = toJson(i) as Info
         time = -1
         if (info) {
           const { c } = info
-          sentence = `${c[0]?.tx}${c[1]?.tx}`
+          sentence = `${c[0]?.tx ? c[0].tx : ''}${c[1]?.tx ? c[1].tx : ''}`
         }
         else {
           sentence = ''
@@ -108,6 +108,7 @@ export function formatLyric(lyric = '') {
       return {
         time,
         sentence,
+        index,
       }
     })
 }

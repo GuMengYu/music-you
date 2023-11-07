@@ -39,7 +39,7 @@ export default function ProgramItem({ index, program, onContextMenu, onPlay }: {
   >
     <div className='flex gap-2'>
       {
-        index && <div className='w-6 flex justify-center items-center'>{ isCurrent ? <Wave animate={playing}/> : `${index}`.padStart(2, '0') }</div>
+        index && <div className='w-6 flex flex-shrink-0 justify-center items-center'>{ isCurrent ? <Wave animate={playing}/> : `${index}`.padStart(2, '0') }</div>
       }
       <div className='h-12 w-12 flex-shrink-0 relative'>
         <div className='h-full w-full rounded-xl overflow-hidden'>
