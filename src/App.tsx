@@ -24,6 +24,7 @@ import { usePlayerStore } from '@/store/player'
 import NowPlayingBlock from '@/components/nowPlaying/NowPlayingBlock'
 import { useAppStore } from '@/store/app'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
+import CommentDialog from '@/components/comment/CommentDialog'
 
 const notMacos = is.windows() || is.linux()
 
@@ -115,6 +116,7 @@ function App() {
               <QuickPanel/>
               <BackToTop show={showBTT} onBackToTop={onBackToTop} />
               <NowPlayingList />
+              <CommentDialog />
               {
                 notMacos && <WindowControl />
               }

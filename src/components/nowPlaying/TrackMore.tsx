@@ -7,6 +7,7 @@ import type { Track } from '@/types'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { downloadMusic } from '@/hooks/useDownload'
+import { useCommentStore } from '@/store/comment'
 
 export default function TrackMore({ track }: { track: Track }) {
   const { t } = useTranslation()
@@ -14,6 +15,7 @@ export default function TrackMore({ track }: { track: Track }) {
   const navigate = useNavigate()
   const { getToPlaylistMenuItem } = useTrackOperation()
   const theme = useTheme()
+  const { showComment } = useCommentStore()
 
   function toArtist(id: number) {
     navigate(`/artist/${id}`)
@@ -24,11 +26,13 @@ export default function TrackMore({ track }: { track: Track }) {
   function openMore(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     openContextMenu(e, [
 
-      // {
-      //   type: 'item',
-      //   label: '查看评论',
-      //   onClick: () => {},
-      // },
+      {
+        type: 'item',
+        label: t`common.view_comment`,
+        onClick: () => {
+          showComment(track.id, 'music')
+        },
+      },
       {
         label: t`common.to_artist`,
         ...(track.ar && track.ar.length > 1

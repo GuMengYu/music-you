@@ -8,6 +8,7 @@ import { useContextMenu } from '@/hooks/useContextMenu'
 import { useTrackOperation } from '@/hooks/useTrackOperation'
 import { downloadMusic } from '@/hooks/useDownload'
 import { useAddToPlayQueue } from '@/hooks/usePlayQueue'
+import { useCommentStore } from '@/store/comment'
 
 export default function TrackList({ tracks, trackFrom, className }: {
   tracks?: Track[]
@@ -17,6 +18,7 @@ export default function TrackList({ tracks, trackFrom, className }: {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { openContextMenu } = useContextMenu()
+  const { showComment } = useCommentStore()
   const { getToPlaylistMenuItem, removeFromPlaylist } = useTrackOperation()
   const { addToQueueAndPlay, playNext } = useAddToPlayQueue()
 
@@ -35,11 +37,13 @@ export default function TrackList({ tracks, trackFrom, className }: {
       {
         type: 'divider',
       },
-      // {
-      //   type: 'item',
-      //   label: '查看评论',
-      //   onClick: () => {},
-      // },
+      {
+        type: 'item',
+        label: t`common.view_comment`,
+        onClick: () => {
+          showComment(track.id, 'music')
+        },
+      },
       {
         label: t`common.to_artist`,
         ...(track.ar && track.ar.length > 1

@@ -10,6 +10,7 @@ interface AppState {
   showNowPlaying: boolean
   showNowPlayingBar: boolean
   showNowPlayingList: boolean
+  showComment: boolean
   windowState: WindowState
 }
 interface AppStateAction {
@@ -21,6 +22,7 @@ interface AppStateAction {
   toggleNowPlaying: (val?: boolean) => void
   toggleNowPlayingBar: (val?: boolean) => void
   toggleNowPlayingList: (val?: boolean) => void
+  toggleShowComment: (val?: boolean) => void
 }
 export const useAppStore = create<AppState & AppStateAction>((set) => {
   return {
@@ -32,6 +34,7 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
     showNowPlaying: false,
     showNowPlayingBar: false,
     showNowPlayingList: false,
+    showComment: false,
     windowState: WindowState.NORMAL,
     toggleRail: () => set(state => ({ rail: !state.rail })),
     toggleLogin: val => set((state) => {
@@ -54,6 +57,9 @@ export const useAppStore = create<AppState & AppStateAction>((set) => {
     }),
     toggleNowPlayingList: val => set((state) => {
       return { showNowPlayingList: val !== undefined ? val : !state.showNowPlayingList }
+    }),
+    toggleShowComment: val => set((state) => {
+      return { showComment: val !== undefined ? val : !state.showComment }
     }),
   }
 })

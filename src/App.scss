@@ -12,10 +12,6 @@ body {
   -webkit-app-region: no-drag;
 }
 
-.select-text {
-  user-select: text;
-}
-
 .hide-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
