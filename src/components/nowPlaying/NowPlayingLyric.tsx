@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { useTheme } from '@mui/material/styles'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { findIndex, sortBy } from 'lodash'
+import { useWindowSize } from 'react-use'
 import { Lyric, useTrackLyric } from '@/hooks/useTrackOperation'
 import { usePlayerStore } from '@/store/player'
 import LyricItemView from '@/components/nowPlaying/components/LyricItemView'
@@ -8,13 +8,13 @@ import { player } from '@/contexts/player'
 
 export default function NowPlayingLyric({ enable }: { enable: boolean }) {
   const { currentTime, track } = usePlayerStore()
-  const theme = useTheme()
-
   const lyricContainer = useRef(null)
+  const { height } = useWindowSize()
+  const defaultOffset = useMemo(() => {
+    return height / 2 - 56 - 32
+  }, [height])
   const [translateY, setTranslateY] = useState(0)
-
   const [activeIndex, setActiveIdx] = useState(-1)
-
   const { lyrics } = useTrackLyric()
   const [lyricList, setLyricList] = useState<(Lyric & { translateY?: number })[]>([])
 
@@ -25,9 +25,10 @@ export default function NowPlayingLyric({ enable }: { enable: boolean }) {
     list: [],
   })
   useEffect(() => {
-    if (lyrics?.length)
+    if (lyrics?.length) {
       setLyricList(lyrics)
-
+      setTranslateY(-defaultOffset)
+    }
   }, [lyrics])
 
   useLayoutEffect(() => {
@@ -40,13 +41,13 @@ export default function NowPlayingLyric({ enable }: { enable: boolean }) {
       const active = lyricsRef.current.list[activeIdx] as Lyric
       if (active) {
         const before = lyricsRef.current.list.slice(0, activeIdx)
-        const offset = before.reduce((p, c) => (p + c.height), 0) - 250
+        const offset = before.reduce((p, c) => (p + c.height), 0) - defaultOffset
         setTranslateY(offset)
         setActiveIdx(activeIdx)
       }
     }
 
-  }, [currentTime])
+  }, [currentTime, defaultOffset])
 
   const onLoaded = useCallback((lyric: Lyric) => {
     // reset
@@ -86,7 +87,7 @@ export default function NowPlayingLyric({ enable }: { enable: boolean }) {
     <ul ref={lyricContainer} className="lyrics">
       {
         lyricList.map((item, index) => {
-          return <LyricItemView highLight={activeIndex === index} lyric={item} key={item.index} animationDelay={ delayTime(index)} onClick={onLyricClick} onLoaded={onLoaded} translateY={translateY} />
+          return <LyricItemView highLight={activeIndex === index} played={activeIndex > index} lyric={item} key={item.index} animationDelay={ delayTime(index)} onClick={onLyricClick} onLoaded={onLoaded} translateY={translateY} />
         })
       }
   </ul>

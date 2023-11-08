@@ -2,65 +2,16 @@ import { IconButton } from '@mui/material'
 import { alpha, useTheme } from '@mui/material/styles'
 import SkipPreviousIcon from '@mui/icons-material/SkipPreviousOutlined'
 import SkipNextIcon from '@mui/icons-material/SkipNextOutlined'
-import { useMemo } from 'react'
 import { PauseRoundedIcon, PlayRoundedIcon } from '@/components/icons/icons'
 import { player } from '@/contexts/player'
-import { useSematicBreakPoint } from '@/hooks/useBreakpoint'
 import { usePlayerStore } from '@/store/player'
+import useResponsiveSize from '@/components/nowPlaying/components/useResponsiveSize'
 
 export default function MdControl() {
   const theme = useTheme()
-  const { breakname } = useSematicBreakPoint()
-  const { track, playing } = usePlayerStore()
+  const {  playing } = usePlayerStore()
+  const { responsiveSize } = useResponsiveSize()
 
-  const responsiveSize = useMemo(() => {
-    return {
-      xxs: {
-        button: 48,
-        icon: 24,
-        radius: 20,
-      },
-      xs: {
-        button: 48,
-        icon: 24,
-        radius: 20,
-
-      },
-      sm: {
-        button: 48,
-        icon: 24,
-        radius: 20,
-
-      },
-      md: {
-        button: 48,
-        icon: 24,
-        radius: 20,
-
-      },
-      lg: {
-        button: 64,
-        icon: 30,
-        radius: 24,
-
-      },
-      xl: {
-        button: 64,
-        icon: 30,
-        radius: 24,
-      },
-      xll: {
-        button: 72,
-        icon: 32,
-        radius: 28,
-      },
-      desktop4K: {
-        button: 80,
-        icon: 36,
-        radius: 30,
-      },
-    }[breakname]
-  }, [breakname])
   return  <div className='flex justify-evenly items-center no-drag-area w-full'>
     <IconButton
       onClick={() => player.prev()}

@@ -1,6 +1,7 @@
 import { useSnackbar } from 'notistack'
 import { useCallback, useMemo } from 'react'
 import { isEmpty } from 'lodash'
+import { useTranslation } from 'react-i18next'
 import { opPlaylist } from '@/api/music'
 import type { Playlist } from '@/types'
 import { ContextMenuItem } from '@/components/contextMenu/types'
@@ -60,12 +61,27 @@ export interface Lyric {
   height?: number
 }
 export function useTrackLyric() {
+  const { t } = useTranslation()
   const { track } = usePlayerStore()
   const { lyricTrans } = useSettingStore()
   const lyrics = useMemo<Lyric[]>(() => {
+    if (track?.source?.fromType === 'local') {
+      return [{
+        sentence: t`main.local.local_music_playing`,
+        time: 0,
+        index:0,
+      }]
+    }
     const { tlyric, lrc } = track?.lyric ?? {}
     const lyric = lrc?.lyric ? formatLyric(lrc.lyric) : []
     const trans = arrayToObject(tlyric?.lyric ? formatLyric(tlyric.lyric) : [], 'time')
+    if (!lyric?.length) {
+      return [{
+        sentence: t`common.no_lyric`,
+        time: 0,
+        index:0,
+      }]
+    }
     if (!isEmpty(trans) && lyricTrans) {
       return lyric.map((i, index) => {
         return {

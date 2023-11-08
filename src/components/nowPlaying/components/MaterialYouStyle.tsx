@@ -11,72 +11,13 @@ import { formatDuring } from '@/util/fn'
 import NowPlayingSlider from '@/components/nowPlaying/NowPlayingSlider'
 import NowPlayingLyric from '@/components/nowPlaying/NowPlayingLyric'
 import TrackMore from '@/components/nowPlaying/TrackMore'
-import { useSematicBreakPoint } from '@/hooks/useBreakpoint'
 import MdControl from '@/components/nowPlaying/components/MdControl'
+import useResponsiveSize from '@/components/nowPlaying/components/useResponsiveSize'
 
 const MaterialYouStyle = forwardRef((_, ref)=> {
   const theme = useTheme()
-  const { breakname } = useSematicBreakPoint()
-
+  const { responsiveSize } = useResponsiveSize()
   const { t } = useTranslation()
-  const responsiveSize = useMemo(() => {
-    return {
-      xxs: {
-        button: 48,
-        icon: 24,
-        titleVariant: 'h6',
-        subtitleVariant: 'subtitle2',
-      },
-      xs: {
-        button: 48,
-        icon: 24,
-        titleVariant: 'h6',
-        subtitleVariant: 'subtitle2',
-
-      },
-      sm: {
-        button: 48,
-        icon: 24,
-        titleVariant: 'h6',
-        subtitleVariant: 'subtitle2',
-
-      },
-      md: {
-        button: 48,
-        icon: 24,
-        titleVariant: 'h6',
-        subtitleVariant: 'subtitle2',
-
-      },
-      lg: {
-        button: 64,
-        icon: 30,
-        titleVariant: 'h4',
-        subtitleVariant: 'body1',
-
-      },
-      xl: {
-        button: 64,
-        icon: 30,
-        titleVariant: 'h4',
-        subtitleVariant: 'body1',
-      },
-      xll: {
-        button: 72,
-        icon: 32,
-        titleVariant: 'h4',
-        subtitleVariant: 'body1',
-
-      },
-      desktop4K: {
-        button: 80,
-        icon: 36,
-        titleVariant: 'h3',
-        subtitleVariant: 'h6',
-
-      },
-    }[breakname]
-  }, [breakname])
   const { toggleNowPlaying } = useAppStore()
   const { track, playing, currentTime } = usePlayerStore()
   const coverUrl = useMemo(() => {
@@ -159,7 +100,7 @@ const MaterialYouStyle = forwardRef((_, ref)=> {
             color: theme.palette.onSurface.main,
             maxHeight: 'calc(100vh - 112px)',
             height: 'calc(100vh - 112px)',
-            px: 4,
+            px: responsiveSize.padding,
             maskImage: `linear-gradient(to top, transparent 0px, ${theme.palette.tertiaryContainer.main} 48px)`,
           }}
         >
