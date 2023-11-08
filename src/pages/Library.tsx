@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { memo, useCallback, useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { sampleSize } from 'lodash'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import AlbumIcon from '@mui/icons-material/Album'
@@ -232,7 +232,7 @@ function FavCard() {
     replaceQueueAndPlay(_data.tracks, favList.id, 'playlist', favList.name)
   }
 
-  return <Card className='flex flex-col col-span-3' variant='outlined' sx={{
+  return <Card  className='flex flex-col col-span-3' variant='outlined' sx={{
     flex: 1,
     bgcolor: theme.palette.surfaceVariant.main,
     color: theme.palette.onSurfaceVariant.main,
@@ -241,8 +241,13 @@ function FavCard() {
     p: 2,
   }}>
     <div className='flex items-start flex-col'>
-        <Typography variant='h5'>{account?.profile?.nickname} {t`main.discover.liked`}</Typography>
-        <Typography variant='caption'>{t('common.list_count', { list_count: favList?.trackCount, play_count: formatNumber(favList?.playCount) })}</Typography>
+      <Typography
+        component={Link}
+        to={`/playlist/${favList.id}`}
+        variant='h5'>
+        {account?.profile?.nickname} {t`main.discover.liked`}
+      </Typography>
+      <Typography variant='caption'>{t('common.list_count', { list_count: favList?.trackCount, play_count: formatNumber(favList?.playCount) })}</Typography>
      </div>
     <div className='flex justify-between items-end mt-auto'>
       <Button
