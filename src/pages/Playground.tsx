@@ -1,18 +1,17 @@
-import Box from '@mui/material/Box'
+import { Button } from '@mui/material'
 import PageTransition from '@/components/PageTransition'
-import NowPlayingLyric from '@/components/nowPlaying/NowPlayingLyric'
+import { useCommentStore } from '@/store/comment'
 
 export default function Playground() {
 
+  const { showComment } = useCommentStore()
 
+  function open() {
+    showComment(2829883282, 'playlist')
+  }
 
   return <PageTransition>
-    <Box sx={{
-      maxWidth: 400,
-      maxHeight: 450,
-      overflowY: 'auto',
-    }}>
-    <NowPlayingLyric enable={true} />
-    </Box>
+    {/*<Comment :id="2829883282" type="playlist" />*/}
+    <Button onClick={open}>open</Button>
   </PageTransition>
 }

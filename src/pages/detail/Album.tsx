@@ -24,6 +24,7 @@ import ArtistLink from '@/components/links/artist'
 import { useReplacePlayQueue } from '@/hooks/usePlayQueue'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { sub } from '@/api/music'
+import { useCommentStore } from '@/store/comment'
 
 function Header({ album }: { album: Album | undefined }) {
   const theme = useTheme()
@@ -33,6 +34,7 @@ function Header({ album }: { album: Album | undefined }) {
   const tracksDt = album?.tracks?.reduce((p, c: any) => p + c.dt, 0)
 
   const { replaceQueueAndPlay } = useReplacePlayQueue()
+  const { showComment } = useCommentStore()
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
   const [copied, copyToClipboard] = useCopyToClipboard()
@@ -81,6 +83,13 @@ function Header({ album }: { album: Album | undefined }) {
         label: t`common.check_cover`,
         onClick: () => {
           setShowImageView(true)
+        },
+      },
+      {
+        type: 'item' as any,
+        label: t`common.view_comment`,
+        onClick: () => {
+          showComment(album.id, 'album')
         },
       },
       {

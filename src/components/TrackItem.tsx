@@ -16,7 +16,6 @@ import { useLikeTrack } from '@/hooks/useLike'
 import { Track } from '@/types'
 import { usePlayerStore } from '@/store/player'
 import Wave from '@/components/Wave'
-import { useUserStore } from '@/store/user'
 import useUser from '@/hooks/useUser'
 
 export default function TrackItem({ track, onPlay, onContextMenu, index }: {
@@ -27,7 +26,6 @@ export default function TrackItem({ track, onPlay, onContextMenu, index }: {
 }) {
   const [isHovering, setIsHovering] = useState(false)
   const { isLiked, toggleLike } = useLikeTrack()
-  const { account } = useUserStore()
   const { track: current, playing } = usePlayerStore()
   const theme = useTheme()
   const liked = isLiked(track.id)

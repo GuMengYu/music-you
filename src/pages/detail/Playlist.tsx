@@ -37,6 +37,7 @@ import { deletePlayList } from '@/api/playlist'
 import { PlayOutlinedIcon } from '@/components/icons/icons'
 import useVirtualListScroll from '@/hooks/useVirtualListScroll'
 import { useUserStore } from '@/store/user'
+import { useCommentStore } from '@/store/comment'
 
 const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefined; cover?: string }) => {
   const theme = useTheme()
@@ -47,6 +48,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
 
   const { openContextMenu } = useContextMenu()
   const { refreshPlaylist } = useUserStore()
+  const { showComment } = useCommentStore()
   const confirm = useConfirm()
   const { isCreatedPlaylist, isMyFavList } = useMyPlaylist()
   const { replaceQueueAndPlay } = useReplacePlayQueue()
@@ -139,6 +141,13 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
           { type: 'divider' as any },
         ]
       : []),
+    {
+      type: 'item' as any,
+      label: t`common.view_comment`,
+      onClick: () => {
+        showComment(playlist.id, 'playlist')
+      },
+    },
     {
       type: 'item' as any,
       label: t`common.check_cover`,
@@ -284,6 +293,7 @@ const PlayListHeader = memo(({ playlist, cover }: { playlist: Playlist | undefin
 export default function PlaylistPage() {
   const { t } = useTranslation()
   const params = useParams()
+  const { showComment } = useCommentStore()
   const { isCreatedPlaylist, isMyPlaylist, isMyFavList } = useMyPlaylist()
   const isMyList = useMemo(() => {
     if (params.id)
@@ -323,11 +333,13 @@ export default function PlaylistPage() {
       {
         type: 'divider',
       },
-      // {
-      //   type: 'item',
-      //   label: '查看评论',
-      //   onClick: () => {},
-      // },
+      {
+        type: 'item',
+        label: t`common.view_comment`,
+        onClick: () => {
+          showComment(track.id, 'music')
+        },
+      },
       {
         label: t`common.to_artist`,
         ...(track.ar && track.ar.length > 1

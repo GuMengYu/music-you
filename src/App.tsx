@@ -22,6 +22,7 @@ import { usePlayerStore } from '@/store/player'
 import NowPlayingBlock from '@/components/nowPlaying/NowPlayingBlock'
 import { useAppStore } from '@/store/app'
 import NowPlayingPage from '@/components/nowPlaying/NowPlayingPage'
+import CommentDialog from '@/components/comment/CommentDialog'
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-success': {
@@ -111,6 +112,7 @@ function App() {
               <QuickPanel/>
               <BackToTop show={showBTT} onBackToTop={onBackToTop} />
               <NowPlayingList />
+              <CommentDialog />
               <ReactQueryDevtools
                 toggleButtonProps={{
                   style: {

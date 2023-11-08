@@ -22,6 +22,7 @@ import { getMvUrl } from '@/api/mv'
 import { usePlayer } from '@/hooks/usePlayer'
 import { usePlayerStore } from '@/store/player'
 import { sub } from '@/api/music'
+import { useCommentStore } from '@/store/comment'
 
 function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void }) {
   const theme = useTheme()
@@ -29,6 +30,7 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
 
   const { openContextMenu } = useContextMenu()
   const { enqueueSnackbar } = useSnackbar()
+  const { showComment } = useCommentStore()
 
 
   const [subscribed, setSubscribed] = useState(false)
@@ -64,6 +66,13 @@ function Header({ data, onPlay }: { data: any | undefined; onPlay: () => void })
               },
             },
           ]),
+      {
+        type: 'item' as any,
+        label: t`common.view_comment`,
+        onClick: () => {
+          showComment(data.id, 'mv')
+        },
+      },
     ])
   }
   return (
