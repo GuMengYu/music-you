@@ -63,32 +63,42 @@ npm run electron:build
   <img alt="home" src="https://user-images.githubusercontent.com/22021419/278869772-fd6a1e3e-cf01-421f-824a-7abc05ac05b8.png">
 </picture>
 
+<hr/>
 <picture>
   <img alt="artist" src="https://user-images.githubusercontent.com/22021419/278869788-af5dd2e5-923c-4cc1-a313-395046828af4.png">
 </picture>
 
-<hr></hr>
+<hr/>
 
 <picture>
-  <img alt="center" src="hhttps://user-images.githubusercontent.com/22021419/278869779-3bf8b5f4-ef93-4a6f-a7e3-483a017cdb4f.png">
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869779-3bf8b5f4-ef93-4a6f-a7e3-483a017cdb4f.png">
 </picture>
 
-<hr></hr>
+<hr/>
 
 <picture>
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869777-7480169c-685b-4c51-9a96-8fcb2c12216b.png">
 </picture>
 
-<hr></hr>
+<hr/>
 
 
 <picture>
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869783-61650009-b686-4be7-b26e-a1fc6bab3010.png">
 </picture>
 
+<hr/>
+
 <picture>
   <img alt="center" src="https://user-images.githubusercontent.com/22021419/278869787-7891a9b4-9e66-409e-b110-3400b3207096.png">
 </picture>
+
+<hr/>
+
+<picture>
+  <img alt="center" src="https://user-images.githubusercontent.com/22021419/281259895-9a5c49be-225d-421c-83e5-9d135bd16b8d.png">
+</picture>
+
 
 ## [License](./LICENSE)
 
