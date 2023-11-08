@@ -1,6 +1,6 @@
 {
   "name": "music-you",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "private": true,
   "description": "A NetEaseCloudMusic third-party music player (base on react)",
   "author": "gumengyu<1415515984yuri@gmail.com>",
