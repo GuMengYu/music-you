@@ -3,8 +3,9 @@ import { memo, useLayoutEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box'
 import { alpha, useTheme } from '@mui/material/styles'
 import { Lyric } from '@/hooks/useTrackOperation'
+import useResponsiveSize from '@/components/nowPlaying/components/useResponsiveSize'
 
-function LyricItemView({ highLight, lyric, translateY, onClick, onLoaded, animationDelay, animation }: {
+function LyricItemView({ highLight, lyric, translateY, onClick, onLoaded, animationDelay, animation, played }: {
   highLight?: boolean
   lyric: Lyric
   translateY?: number
@@ -12,10 +13,12 @@ function LyricItemView({ highLight, lyric, translateY, onClick, onLoaded, animat
   animationDelay?: number
   onClick?: (idx: number) => void
   onLoaded?: (lyric: Lyric) => void
+  played?: boolean
 }) {
   const ref = useRef<HTMLDivElement>()
   const [height, setHeight] = useState(0)
   const theme = useTheme()
+  const { responsiveSize } = useResponsiveSize()
 
   useLayoutEffect(() => {
     const info = ref.current.getBoundingClientRect()
@@ -29,10 +32,9 @@ function LyricItemView({ highLight, lyric, translateY, onClick, onLoaded, animat
     current-time={lyric.time}
     current-height={height}
     sx={{
-      'py': 1.5,
-      'px': 1,
+      'p': responsiveSize.lyricPadding,
       'borderRadius': 2,
-      'color': highLight ? theme.palette.onTertiaryContainer.main : 'inherit',
+      'color': highLight ? theme.palette.primary.main : alpha(theme.palette.onTertiaryContainer.main,  played ? 0.5 : 1),
       '&:hover': {
         color:theme.palette.onTertiaryContainer.main,
         bgcolor: alpha(theme.palette.primaryContainer.main, theme.palette.action.focusOpacity),
@@ -47,7 +49,7 @@ function LyricItemView({ highLight, lyric, translateY, onClick, onLoaded, animat
     }}
   >
     <Typography
-      variant='h6'
+      variant={(responsiveSize.titleVariant ?? 'h6') as 'h1'}
       dangerouslySetInnerHTML={{
         __html: lyric.sentence,
       }}

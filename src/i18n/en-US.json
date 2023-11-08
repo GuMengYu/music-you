@@ -188,6 +188,7 @@
       "manage": "Manage Library",
       "playlist": "Playlists",
       "local_music": "Local Music",
+      "local_music_playing": "Local Music",
       "track_count": "Total {{track_count}} songs, total duration  {{track_duration}}, total size {{track_size}}"
     }
   },
@@ -268,7 +269,7 @@
     "close": "closed",
     "hide": "hidden",
     "opened": "displayed",
-    "no_lyric": "No Lyric",
+    "no_lyric": "No lyrics yet",
     "shortcut": "Shortcut Panel",
     "queue": "Queue",
     "queue_next": "Queue Next",

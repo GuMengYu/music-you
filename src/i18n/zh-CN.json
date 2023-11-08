@@ -188,6 +188,7 @@
       "manage": "管理曲库",
       "playlist": "播放列表",
       "local_music": "本地音乐",
+      "local_music_playing": "本地音乐，请欣赏",
       "track_count": "共 {{track_count}} 首, 总时长 {{track_duration}}, 总大小{{track_size}}"
     }
   },
