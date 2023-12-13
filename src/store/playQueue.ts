@@ -27,6 +27,7 @@ export interface PlayQueueAction {
   unShuffle: () => void
   popNextTrack: () => SimpleTrack | Track | null | undefined
   popPrevTrack: () => SimpleTrack | null | undefined
+  getPrevTrack: () => SimpleTrack | null | undefined
   getNextTrack: () => SimpleTrack | null | undefined
   popTrack: () => SimpleTrack | null | undefined
   setIndex: (index: number) => void
@@ -275,6 +276,17 @@ export const playQueueStore = create(persist<PlayQueueState & PlayQueueAction>((
         }
       }
       return queue.sequence[nextIndex]
+    },
+    getPrevTrack() {
+      const { index, queue } = get()
+      // 无效索引或处于第一
+      if (index <= 0) {
+        return null
+      }
+      else {
+        const prevIndex = index - 1
+        return queue.sequence[prevIndex]
+      }
     },
     popPrevTrack() {
       const { index, queue } = get()
