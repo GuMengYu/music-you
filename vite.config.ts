@@ -2,6 +2,8 @@ import { rmSync } from 'node:fs'
 import path from 'node:path'
 import react from '@vitejs/plugin-react'
 import swc from 'unplugin-swc'
+import wasm from 'vite-plugin-wasm'
+import topLevelAwait from "vite-plugin-top-level-await";
 
 // eslint-disable-next-line import/default
 import electron from 'vite-plugin-electron'
@@ -27,6 +29,8 @@ export default defineConfig(({ command, mode }) => {
 
   const plugins: any = [
     react(),
+    wasm(),
+    topLevelAwait(),
   ]
   if (isElectron) {
     plugins.push(electron([
@@ -103,6 +107,9 @@ export default defineConfig(({ command, mode }) => {
     // })(),
     define: {
       __APP_INFO__: JSON.stringify(__APP_INFO__),
+    },
+    build: {
+      target: 'esnext',
     },
     server: {
       host: env.VITE_DEV_SERVER_HOST,
