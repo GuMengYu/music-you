@@ -4,7 +4,7 @@
 {
   "appId": "com.musicyou.app",
   "asar": true,
-  "copyright": 'Copyright © gumengyu 2023', //版权信息
+  "copyright": 'Copyright © gumengyu 2024', //版权信息
   "directories": {
     "output": "release/${version}"
   },

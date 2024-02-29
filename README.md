@@ -32,7 +32,7 @@
 - 音乐播客
 - 日推，私人fm
 - 浅色模式
-- 歌词
+- 歌词,逐词歌词
 - 本地音乐播放
 - 云盘音乐
 
@@ -96,7 +96,7 @@ npm run electron:build
 <hr/>
 
 <picture>
-  <img alt="center" src="https://user-images.githubusercontent.com/22021419/281259895-9a5c49be-225d-421c-83e5-9d135bd16b8d.png">
+  <img alt="center" src="https://private-user-images.githubusercontent.com/22021419/308786561-f8baea91-a81c-4a16-8e87-0465451b0ad2.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDkxNzgzMTksIm5iZiI6MTcwOTE3ODAxOSwicGF0aCI6Ii8yMjAyMTQxOS8zMDg3ODY1NjEtZjhiYWVhOTEtYTgxYy00YTE2LThlODctMDQ2NTQ1MWIwYWQyLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAyMjklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMjI5VDAzNDAxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWZkYmRlYTcwZjMzZTljZTc4N2QxMjAwYzVhZTRiMjhlZTVkM2Q2OTFjMjcyZmFlYmE2NTE5MDg1NDIyODcxNzMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.zU6w4Cl-mjm5qP-0W2_ff7u8W2d8NwH6zovah84pVvA">
 </picture>
 
 
