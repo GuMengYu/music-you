@@ -1,0 +1,15 @@
+/// <reference types="vite-electron-plugin/electron-env" />
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    VSCODE_DEBUG?: 'true'
+    DIST_ELECTRON: string
+    DIST: string
+    /** /dist/ or /public/ */
+    VITE_PUBLIC: string
+  }
+}
+
+declare module 'NeteaseCloudMusicApi' {
+  export function serveNcmApi(options?: { port: number; host: string }): void
+}
