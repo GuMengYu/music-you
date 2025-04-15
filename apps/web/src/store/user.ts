@@ -29,7 +29,7 @@ export const useUserStore = create(persist<userState & userAction>((set, get) =>
     async refreshAccount() {
       const account = await getAccount()
       if (account.account && account.profile) {
-        if (account.profile.vipType === 11) {
+        if ([11, 110].includes(account.profile.vipType)) {
           const vipInfo = await getVipInfo()
           account.vipInfo = vipInfo.data
         }

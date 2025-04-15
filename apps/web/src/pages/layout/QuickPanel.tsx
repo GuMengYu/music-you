@@ -69,7 +69,7 @@ function AccountExtendFab() {
         <Box>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="body1">{account?.profile.nickname}</Typography>
-            <VipBage src={vipInfo?.redVipDynamicIconUrl2} />
+            <VipBage src={vipInfo?.associator.dynamicIconUrl} />
           </Stack>
 
           {vipInfo && (

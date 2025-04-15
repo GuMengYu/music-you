@@ -6,7 +6,7 @@ export default function useUser() {
   const logged = useMemo(() => {
     return !!account?.profile?.userId
   }, [account])
-  const isVip = useMemo(() => account?.profile?.vipType === 11, [account])
+  const isVip = useMemo(() => [11, 110].includes(account?.profile?.vipType), [account])
 
 
   return {
